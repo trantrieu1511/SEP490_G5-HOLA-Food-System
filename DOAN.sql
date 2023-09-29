@@ -1,165 +1,177 @@
-Create Database SEP490
-Use SEP490
+--Create Database SEP490
+--USE [master]
+USE SEP490
 --DROP DATABASE SEP490
-CREATE TABLE Role
+
+CREATE TABLE [Role]
 (
-    RoleID INT PRIMARY KEY,
-    RoleName NVARCHAR(50) NOT NULL
+	roleId INT PRIMARY KEY,
+	roleName NVARCHAR(50) NOT NULL
 )
 
-CREATE TABLE [Users]
+CREATE TABLE [User]
 (
-    UserID INT PRIMARY KEY IDENTITY(1,1),
-    FirstName NVARCHAR(50) NOT NULL,
-    LastName NVARCHAR(50) NOT NULL,
-    BirthDate DATE,
-    RoleID INT NOT null,
-    Email NVARCHAR(100) NOT NULL,
-	 Avatar NVARCHAR(100) NOT NULL,
-    Password NVARCHAR(100) NOT NULL,
-    Gender NVARCHAR(10),
-    [Status] bit ,
-	 CONSTRAINT FK_User_Role FOREIGN KEY (RoleID) REFERENCES Role(RoleID)
+	userId INT PRIMARY KEY IDENTITY(1,1),
+	firstName NVARCHAR(50) NOT NULL,
+	lastName NVARCHAR(50) NOT NULL,
+	gender NVARCHAR(10),
+	birthDate DATE,
+	roleId INT NOT NULL,
+	email NVARCHAR(100) NOT NULL,
+	phoneNumber BIGINT,
+	[password] NVARCHAR(100) NOT NULL,
+	avatar NVARCHAR(100) NOT NULL,
+	shopName NVARCHAR(50) NOT NULL,
+	shopAddress NVARCHAR(MAX) NOT NULL,
+	isOnline bit,
+	walletBalance MONEY, 
+	manageBy INT, --Truong nay the hien rang shipper se thuoc quyen quan ly cua mot shop (seller) nao do
+	CONSTRAINT FK_User_Role FOREIGN KEY (roleId) REFERENCES [Role](roleId),
+	CONSTRAINT FK_User_User FOREIGN KEY (manageBy) REFERENCES [User](userId)
 )
+
 CREATE TABLE [Address]
 ( 
-   [AddressId] INT PRIMARY KEY IDENTITY(1,1),
-    UserID INT,
-	[Address] NVARCHAR(mAX) NOT NULL,
-	[Status] bit,
-   	 CONSTRAINT FK_User_Role11 FOREIGN KEY (UserID) REFERENCES [Users](UserID)
+	[addressId] INT PRIMARY KEY IDENTITY(1,1),
+	userId INT,
+	[addressInfo] NVARCHAR(MAX) NOT NULL,
+	[status] bit,
+	CONSTRAINT FK_User_Role11 FOREIGN KEY (UserId) REFERENCES [User](userId)
 )
+
 CREATE TABLE Category
 (
-    CategoryID INT PRIMARY KEY,
-    Name NVARCHAR(100),
-	[Status] bit ,
+	categoryId INT PRIMARY KEY,
+	[name] NVARCHAR(100),
+	[status] bit
 );
+
 CREATE TABLE Food
 (
-    FoodID INT PRIMARY KEY,
-    Name NVARCHAR(100),
-    Description NVARCHAR(MAX),
-    CategoryID INT,
-	[Status] bit ,
-    CONSTRAINT FK_Food_Category FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID)
+	foodId INT PRIMARY KEY,
+	[name] NVARCHAR(100),
+	[description] NVARCHAR(MAX),
+	categoryId INT,
+	[status] bit,
+	CONSTRAINT FK_Food_Category FOREIGN KEY (categoryId) REFERENCES Category(categoryId)
 );
-Create TABLE FoodImage (
- FoodID INT,
- [Path] NVARCHAR(MAX),
- CONSTRAINT FK_OrderDetail_Order1 FOREIGN KEY (FoodID) REFERENCES Food(FoodID),
+
+CREATE TABLE FoodImage (
+	foodId INT,
+	[path] NVARCHAR(MAX),
+	CONSTRAINT FK_OrderDetail_Order1 FOREIGN KEY (foodId) REFERENCES Food(foodId)
 );
+
 CREATE TABLE Voucher
 (
-    VoucherId INT PRIMARY KEY IDENTITY(1,1),
-    VoucherName NVARCHAR(100),
-    Status NVARCHAR(50),
-    StartDate DATE,
-    EndDate DATE,
-	CONSTRAINT CK_Order_Dates CHECK (StartDate < EndDate),
+	voucherId INT PRIMARY KEY IDENTITY(1,1),
+	voucherName NVARCHAR(100),
+	[status] NVARCHAR(50),
+	effectiveDate DATE,
+	[expireDate] DATE,
+	CONSTRAINT CK_Order_Dates CHECK (effectiveDate < [expireDate])
 );
+
 CREATE TABLE [Order]
 (
-    OrderID INT PRIMARY KEY IDENTITY(1,1),
-    CustomerID INT,
-    OrderDate DATETIME,
-    RequiredDate DATETIME,
-    ShippedDate DATETIME,
-    ShipAddress NVARCHAR(MAX),
-    ShipperID INT,
-	VoucherId int,
-	[Status] bit ,
-    CONSTRAINT FK_Order_User1111 FOREIGN KEY (CustomerID) REFERENCES [Users](UserID),
-    CONSTRAINT FK_Order_Shipper1 FOREIGN KEY (ShipperID) REFERENCES [Users](UserID),
-	CONSTRAINT CK_Voucher_Order1 FOREIGN KEY (VoucherId) REFERENCES [Voucher](VoucherId),
-    CONSTRAINT CK_Order_Dates1111 CHECK (OrderDate < RequiredDate AND OrderDate < ShippedDate),
-    CONSTRAINT CK_Customer_ShipperID1 CHECK (CustomerID!=ShipperID)
+	orderId INT PRIMARY KEY IDENTITY(1,1),
+	customerId INT,
+	orderDate DATETIME,
+	requiredDate DATETIME,
+	shippedDate DATETIME,
+	shipAddress NVARCHAR(MAX),
+	shipperId INT,
+	voucherId int,
+	[status] bit,
+	CONSTRAINT FK_Order_User1111 FOREIGN KEY (customerId) REFERENCES [User](userId),
+	CONSTRAINT FK_Order_Shipper1 FOREIGN KEY (shipperId) REFERENCES [User](userId),
+	CONSTRAINT CK_Voucher_Order1 FOREIGN KEY (voucherId) REFERENCES [Voucher](voucherId),
+	CONSTRAINT CK_Order_Dates1111 CHECK (orderDate < requiredDate AND orderDate < shippedDate),
+	CONSTRAINT CK_Customer_ShipperID1 CHECK (customerId != shipperId)
 );
+
 CREATE TABLE [OrderProgress]
 (
-    OrderProgressId INT PRIMARY KEY IDENTITY(1,1),
-     Note  NVARCHAR(MAX),
-    CreateDate DATETIME,
-    [Image] NVARCHAR(MAX),
-	OrderID INT,
-	[Status] bit,
-	UserId INT,
-    CONSTRAINT FK_Order_User111 FOREIGN KEY (OrderID) REFERENCES [Order](OrderID),
-    CONSTRAINT FK_Order_Shipper1111 FOREIGN KEY (UserId) REFERENCES [Users](UserID),
-
+	orderProgressId INT PRIMARY KEY IDENTITY(1,1),
+	note NVARCHAR(MAX),
+	createDate DATETIME,
+	[image] NVARCHAR(MAX),
+	orderId INT,
+	[status] bit,
+	userId INT,
+	CONSTRAINT FK_Order_User111 FOREIGN KEY (orderId) REFERENCES [Order](orderId),
+	CONSTRAINT FK_Order_Shipper1111 FOREIGN KEY (userId) REFERENCES [User](userId)
 );
 
 CREATE TABLE OrderDetail
 (
-    OrderID INT,
-    FoodID INT,
-    UnitPrice DECIMAL(10, 2),
-    Quantity INT,
-	Primary key(OrderID,FoodID),
-    CONSTRAINT FK_OrderDetail_Order11 FOREIGN KEY (OrderID) REFERENCES [Order](OrderID),
-    CONSTRAINT FK_OrderDetail_Product111 FOREIGN KEY (FoodID) REFERENCES Food(FoodID),
-	[Status] bit ,
+	orderId INT,
+	foodId INT,
+	unitPrice DECIMAL(10, 2),
+	quantity INT,
+	Primary key(orderId, foodId),
+	CONSTRAINT FK_OrderDetail_Order11 FOREIGN KEY (orderId) REFERENCES [Order](orderId),
+	CONSTRAINT FK_OrderDetail_Product111 FOREIGN KEY (foodId) REFERENCES Food(foodId),
+	[status] bit
 );
 
-	CREATE TABLE Feedback
-	(
-		FeedbackId INT PRIMARY KEY IDENTITY(1,1),
-		FoodID INT,
-		UserId INT,
-		FeedbackText NVARCHAR(MAX),
-		CreatedDate DATETIME,
-		 UpdateDate DATETIME,
-		[Status] bit ,
-		CONSTRAINT FK_Feedback_UserId121 FOREIGN KEY (UserId) REFERENCES [Users](UserId),
-			CONSTRAINT CK_Order_Dates11 CHECK (CreatedDate <= UpdateDate ),
-		CONSTRAINT FK_OrderDetail_Product21 FOREIGN KEY (FoodID) REFERENCES Food(FoodID),
-	);
-
-	CREATE TABLE ReplyFeedback(
-		FeedbackId INT PRIMARY KEY IDENTITY(1,1),
-		UserId INT,
-		ReplyText NVARCHAR(MAX),
-		CreatedDate DATETIME,
-		 UpdateDate DATETIME,
-		[Status] bit ,
-		CONSTRAINT FK_Feedback_UserId111112 FOREIGN KEY (UserId) REFERENCES [Users](UserId),
-		CONSTRAINT FK_OrderDetail_Product1121 FOREIGN KEY (FeedbackId) REFERENCES Feedback(FeedbackId),
-	);
-	CREATE TABLE VoteFeedback
-	(
-		FeedbackId INT PRIMARY KEY IDENTITY(1,1),
-		UserId INT,
-    VoteType bit,
-    CreatedDate DATETIME,
-    CONSTRAINT FK_Feedback_UserId13211 FOREIGN KEY (UserId) REFERENCES [Users](UserId),
-	CONSTRAINT FK_Feedback_UserId1321 FOREIGN KEY (FeedbackId) REFERENCES Feedback(FeedbackId),
+CREATE TABLE Feedback
+(
+	feedbackId INT PRIMARY KEY IDENTITY(1,1),
+	foodId INT,
+	userId INT,
+	feedbackMessage NVARCHAR(MAX),
+	createdDate DATETIME,
+	updateDate DATETIME,
+	[status] bit,
+	CONSTRAINT FK_Feedback_UserId121 FOREIGN KEY (userId) REFERENCES [User](userId),
+	CONSTRAINT CK_Order_Dates11 CHECK (createdDate <= updateDate),
+	CONSTRAINT FK_OrderDetail_Product21 FOREIGN KEY (foodId) REFERENCES Food(foodId)
 );
 
+CREATE TABLE FeedbackReply (
+	replyId INT PRIMARY KEY IDENTITY(1,1),
+	feedbackId INT NOT NULL,
+	replyMessage NVARCHAR(MAX),
+	createdDate DATETIME,
+	updateDate DATETIME,
+	[status] bit,
+	CONSTRAINT FK_OrderDetail_Product1121 FOREIGN KEY (feedbackId) REFERENCES Feedback(feedbackId)
+);
+
+CREATE TABLE FeedbackVote
+(
+	voteId INT PRIMARY KEY IDENTITY(1,1),
+	feedbackId INT NOT NULL,
+	isLike bit,
+	createdDate DATETIME,
+	CONSTRAINT FK_Feedback_UserId1321 FOREIGN KEY (feedbackId) REFERENCES Feedback(feedbackId)
+);
 
 CREATE TABLE Post
 (
-    PostId INT PRIMARY KEY IDENTITY(1,1),
-    UserId INT,
-	Content NVARCHAR(MAX),
-    CreatedDate DATETIME,
-     [Status] bit ,
-    CONSTRAINT FK_Feedback_UserId11 FOREIGN KEY (UserId) REFERENCES [Users](UserId),
+	postId INT PRIMARY KEY IDENTITY(1,1),
+	userId INT,
+	postContent NVARCHAR(MAX),
+	createdDate DATETIME,
+	[status] bit,
+	CONSTRAINT FK_Feedback_UserId11 FOREIGN KEY (userId) REFERENCES [User](userId)
+);
 
+CREATE TABLE PostImage (
+	postId INT,
+	[path] NVARCHAR(MAX),
+	CONSTRAINT FK_OrderDetail_Order2221 FOREIGN KEY (postId) REFERENCES Post(postId)
 );
-Create TABLE PostImage (
- PostId INT,
- [Path] NVARCHAR(MAX),
-	 CONSTRAINT FK_OrderDetail_Order2221 FOREIGN KEY (PostId) REFERENCES Post(PostId),
-);
+
 CREATE TABLE Report
 (
-    ReportId INT PRIMARY KEY IDENTITY(1,1),
-	PostId Int,
-    UserId INT,
-	ReportContent NVARCHAR(MAX),
-    CreatedDate DATETIME,
-     [Status] bit ,
-    CONSTRAINT FK_Feedback_UserId321 FOREIGN KEY (UserId) REFERENCES [Users](UserId),
-	 CONSTRAINT FK_Report_UserId12 FOREIGN KEY (PostId) REFERENCES Post(PostId),
-
+	reportId INT PRIMARY KEY IDENTITY(1,1),
+	postId Int,
+	userId INT,
+	reportContent NVARCHAR(MAX),
+	createdDate DATETIME,
+	[status] bit,
+	CONSTRAINT FK_Feedback_UserId321 FOREIGN KEY (userId) REFERENCES [User](userId),
+	CONSTRAINT FK_Report_UserId12 FOREIGN KEY (postId) REFERENCES Post(postId)
 );
