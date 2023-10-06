@@ -1,7 +1,8 @@
---Create Database SEP490
+--Create Database SEP490_HFS
 --USE [master]
-USE SEP490
---DROP DATABASE SEP490
+
+USE SEP490_HFS
+--DROP DATABASE SEP490_HFS
 
 CREATE TABLE [Role]
 (
@@ -165,16 +166,4 @@ CREATE TABLE PostImage (
 	CONSTRAINT FK_OrderDetail_Order2221 FOREIGN KEY (postId) REFERENCES Post(postId)
 );
 
-CREATE TABLE Report
-(
-	reportId INT PRIMARY KEY IDENTITY(1,1),
-	postId INT,
-	userId INT,
-	foodId INT,
-	reportContent NVARCHAR(MAX),
-	createdDate DATETIME,
-	[status] bit,
-	CONSTRAINT FK_Feedback_UserId321 FOREIGN KEY (userId) REFERENCES [User](userId),
-	CONSTRAINT FK_Report_PostId123 FOREIGN KEY (postId) REFERENCES Post(postId),
-	CONSTRAINT FK_Report_FoodId123 FOREIGN KEY (foodId) REFERENCES [food](userId)
-);
+
