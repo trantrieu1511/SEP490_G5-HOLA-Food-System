@@ -1,0 +1,796 @@
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpRequest} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
+import * as API from 'src/app/services/apiURL';
+import {LoadingService} from '../shared-data-services/loading.service';
+
+// @ts-ignore
+import IPService from '/src/assets/config/IPService.json';
+
+@Injectable()
+export class iServiceBase {
+    strIP_Service = '';
+    strIP_GateWay = '';
+    strVersion = '';
+    strProjectName = '';
+
+    constructor(public httpClient: HttpClient, public loadingService: LoadingService) {
+        this.strIP_Service = IPService.APISERVICE;
+        this.strIP_GateWay = IPService.APIGATEWAY;
+        this.strVersion = IPService.Version;
+        this.strProjectName = IPService.PROJECT_NAME;
+
+        // Set IP các service vào localStorage để dùng
+        localStorage.setItem('APISERVICE', this.strIP_Service);
+        localStorage.setItem('APIGATEWAY', this.strIP_GateWay);
+        localStorage.setItem('VERSION', this.strVersion);
+        localStorage.setItem('PROJECT_NAME', this.strProjectName);
+
+    }
+
+    // Lấy Ip cấu hình ở file này
+    async getServiceList() {
+        return IPService;
+    }
+
+    // getServiceList() {
+    //     return this.httpClient.get<any>('assets/config/IPService.json')
+    //         .toPromise()
+    //         .then(res => res.data)
+    //         .then(data => data);
+    // }
+    getOptionsRequest(ignoreLoading?: boolean, responseType?: string) {
+        const options: any = {};
+        if (ignoreLoading != undefined && ignoreLoading) {
+            // this.loadingService.setIgnoreLoading();
+            options.reportProgress = true;
+        }
+        if (responseType != undefined && responseType) {
+            // this.loadingService.setIgnoreLoading();
+            options.responseType = responseType;
+        }
+        return options;
+    }
+
+    async getDataByURLAsync(url : string, api : string, inputData : any, ignoreLoading?: boolean): Promise<any> {
+        try {
+            url = `${url}${api}`;
+            const response = await this.httpClient.post(url, inputData, this.getOptionsRequest(ignoreLoading)).toPromise();
+            document.body.style.cursor = 'default';
+
+            return response;
+        } catch (error) {
+            document.body.style.cursor = 'default';
+            console.log(error);
+            return null;
+        }
+    }
+
+    async getDataAsync(service : any, api : string, ignoreLoading?: boolean): Promise<any> {
+        // Get IP và URL
+        service = await this.getURLService(service);
+
+        if (service == null) {
+            return null;
+        }
+
+        const url = `${service}${api}`;
+        const response = await this.httpClient.get(url, this.getOptionsRequest(ignoreLoading)).toPromise();
+        document.body.style.cursor = 'default';
+
+
+        return response;
+    }
+
+    async getDataAsyncByPostRequest(service : any, api : string, inputData : any, ignoreLoading?: boolean): Promise<any> {
+
+        try {
+            // Get IP và URL
+            service = await this.getURLService(service);
+
+            if (service == null) {
+                return null;
+            }
+
+            const url = `${service}${api}`;
+            const response = await this.httpClient.post(url, inputData, this.getOptionsRequest(ignoreLoading)).toPromise();
+            document.body.style.cursor = 'default';
+
+            return response;
+        } catch (error) {
+            document.body.style.cursor = 'default';
+
+            console.log(error);
+            return null;
+        }
+    }
+
+    async getDataWithParamsAsync(service : any, api : string, Params : any, ignoreLoading?: boolean): Promise<any> {
+
+        // Get IP và URL
+        service = await this.getURLService(service);
+
+        if (service == null) {
+            return null;
+        }
+
+        const url = `${service}${api}`;
+        const response = await this.httpClient.get(url, {params: Params}).pipe(catchError(this.handleError)).toPromise();
+        document.body.style.cursor = 'default';
+
+        return response;
+    }
+
+    public getData(service : any, api : string, ignoreLoading?: boolean): Observable<any> {
+        // try {
+
+        //     // Get IP và URL
+        //     service = this.getURLService(service);
+
+        //     const url = `${service}${api}`;
+        //     document.body.style.cursor = 'default';
+
+        //     return this.httpClient.get(url, this.getOptionsRequest(ignoreLoading)).pipe(catchError(this.handleError));
+        // } catch (error) {
+        //     document.body.style.cursor = 'default';
+
+        //     console.log(error);
+        //     return null;
+        // }
+
+        service = this.getURLService(service);
+        const url = `${service}${api}`;
+        // Return the observable from the HTTP request
+        const request = this.httpClient.get(url, this.getOptionsRequest(ignoreLoading)).pipe(
+            catchError((error) => {
+                console.error(error);
+                // Instead of returning null, emit an error using throwError
+                return throwError(error);
+            })
+        );
+
+        request.subscribe(
+            () => {
+                // Request completed successfully, set cursor to 'default'
+                document.body.style.cursor = 'default';
+            },
+            (error) => {
+                // Request failed, handle error and set cursor to 'default'
+                console.error(error);
+                document.body.style.cursor = 'default';
+            }
+        );
+
+        return request;
+    }
+
+    public downloadFilePDF(service : any, api : string, ignoreLoading?: boolean): Observable<Blob> {
+        // try {
+
+        //     // Get IP và URL
+        //     service = this.getURLService(service);
+
+        //     const url = `${service}${api}`;
+        //     let headers = new HttpHeaders();
+        //     headers = headers.set('Accept', 'application/pdf');
+
+
+        //     return this.httpClient.get(url, {headers, responseType: 'blob'});
+        // } catch (error) {
+        //     document.body.style.cursor = 'default';
+
+        //     console.log(error);
+        //     return null;
+        // }
+
+        // Get IP và URL
+        service = this.getURLService(service);
+        const url = `${service}${api}`;
+
+        // Set headers for PDF download
+        const headers = new HttpHeaders().set('Accept', 'application/pdf');
+
+        // Return the observable for PDF download
+        const request = this.httpClient.get(url, { headers, responseType: 'blob' }).pipe(
+            catchError((error) => {
+                console.error(error);
+                // Instead of returning null, emit an error using throwError
+                return throwError(error);
+            })
+        );
+
+        request.subscribe(
+            () => {
+                // Request completed successfully, set cursor to 'default'
+                document.body.style.cursor = 'default';
+            },
+            (error) => {
+                // Request failed, handle error and set cursor to 'default'
+                console.error(error);
+                document.body.style.cursor = 'default';
+            }
+        );
+
+        return request;
+    }
+
+    public downloadFilePDFPost(service: any, api : string, param : any, ignoreLoading?: boolean): Observable<Blob> {
+        // try {
+
+        //     // Get IP và URL
+        //     service = this.getURLService(service);
+
+        //     const url = `${service}${api}`;
+        //     let headers = new HttpHeaders();
+        //     headers = headers.set('Accept', 'application/pdf');
+
+
+        //     return this.httpClient.post(url, param, {headers, responseType: 'blob'});
+        // } catch (error) {
+        //     document.body.style.cursor = 'default';
+
+        //     console.log(error);
+        //     return null;
+        // }
+
+        // Get IP và URL
+        service = this.getURLService(service);
+        const url = `${service}${api}`;
+
+        // Set headers for PDF download
+        const headers = new HttpHeaders().set('Accept', 'application/pdf');
+
+        // Return the observable for PDF download using POST
+        const request = this.httpClient.post(url, param, { headers, responseType: 'blob' }).pipe(
+            catchError((error) => {
+                console.error(error);
+                // Instead of returning null, emit an error using throwError
+                return throwError(error);
+            })
+        );
+
+        request.subscribe(
+            () => {
+                // Request completed successfully, set cursor to 'default'
+                document.body.style.cursor = 'default';
+            },
+            (error) => {
+                // Request failed, handle error and set cursor to 'default'
+                console.error(error);
+                document.body.style.cursor = 'default';
+            }
+        );
+
+        return request;
+    }
+
+    public downloadFileByType(service : any, api : string, inputData : any, ignoreLoading?: boolean): Observable<Blob> {
+        // try {
+
+        //     // Get IP và URL
+        //     service = this.getURLService(service);
+        //     const url = `${service}${api}`;
+        //     // Set header
+        //     let headers = new HttpHeaders();
+        //     if (inputData.exportType == 'pdf') {
+        //         headers = headers.set('Accept', 'application/pdf');
+        //     } else if (inputData.exportType == 'doc') {
+        //         // headers = headers.set('Accept', 'application/doc');
+        //     } else if (inputData.exportType == 'xls') {
+        //         // headers = headers.set('Accept', 'application/xls');
+        //     } else if (inputData.exportType == 'docx') {
+        //         // headers = headers.set('Accept', 'application/docx');
+        //     } else if (inputData.exportType == 'xls-only') {
+        //         // headers = headers.set('Accept', 'application/xls');
+        //     }
+
+        //     return this.httpClient.post(url, inputData, {headers, responseType: 'blob'});
+        // } catch (error) {
+        //     document.body.style.cursor = 'default';
+
+        //     console.log(error);
+        //     return null;
+        // }
+
+
+        // Get IP và URL
+        service = this.getURLService(service);
+        const url = `${service}${api}`;
+
+        // Set the appropriate header based on exportType
+        let headers = new HttpHeaders();
+        if (inputData.exportType === 'pdf') {
+            headers = headers.set('Accept', 'application/pdf');
+        } else if (inputData.exportType === 'doc') {
+            headers = headers.set('Accept', 'application/msword');
+        } else if (inputData.exportType === 'xls') {
+            headers = headers.set('Accept', 'application/vnd.ms-excel');
+        } else if (inputData.exportType === 'docx') {
+            headers = headers.set('Accept', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        } else if (inputData.exportType === 'xls-only') {
+            headers = headers.set('Accept', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        }
+        // Make the HTTP request and specify responseType as blob
+        const request = this.httpClient.post(url, inputData, { headers, responseType: 'blob' }).pipe(
+            catchError((error) => {
+                console.error(error);
+                // Instead of returning null, emit an error using throwError
+                return throwError(error);
+            })
+        );
+
+        request.subscribe(
+            () => {
+                // Request completed successfully, set cursor to 'default'
+                document.body.style.cursor = 'default';
+            },
+            (error) => {
+                // Request failed, handle error and set cursor to 'default'
+                console.error(error);
+                document.body.style.cursor = 'default';
+            }
+        );
+
+        return request;
+    }
+
+    public getDataByPostRequest(service : any, api : string, inputData : any,
+            ignoreLoading?: boolean): Observable<any> {
+        // try {
+
+        //     // Get IP và URL
+        //     service = this.getURLService(service);
+
+        //     const url = `${service}${api}`;
+        //     document.body.style.cursor = 'default';
+
+        //     return this.httpClient.post(url, inputData, this.getOptionsRequest(ignoreLoading)).pipe(catchError(this.handleError));
+        // } catch (error) {
+        //     document.body.style.cursor = 'default';
+
+        //     console.log(error);
+        //     return null;
+        // }
+
+        // Get IP và URL
+        service = this.getURLService(service);
+        const url = `${service}${api}`;
+
+        // Make the HTTP POST request
+        const request = this.httpClient
+            .post(url, inputData, this.getOptionsRequest(ignoreLoading))
+            .pipe(
+                catchError((error) => {
+                console.error(error);
+                // Instead of returning null, emit an error using throwError
+                return throwError(error);
+                })
+        );
+                
+        request.subscribe(
+            () => {
+                // Request completed successfully, set cursor to 'default'
+                document.body.style.cursor = 'default';
+            },
+            (error) => {
+                // Request failed, handle error and set cursor to 'default'
+                console.error(error);
+                document.body.style.cursor = 'default';
+            }
+        );
+
+        return request;
+    }
+
+    public getDataWithParams(service : any, api : string, Params : any, ignoreLoading?: boolean): Observable<any> {
+        // try {
+
+        //     // Get IP và URL
+        //     service = this.getURLService(service);
+
+        //     const url = `${service}${api}`;
+        //     document.body.style.cursor = 'default';
+
+        //     return this.httpClient.get(url, {params: Params}).pipe(catchError(this.handleError));
+        // } catch (error) {
+        //     document.body.style.cursor = 'default';
+
+        //     console.log(error);
+        //     return null;
+        // }
+
+        // Get IP và URL
+        service = this.getURLService(service);
+        const url = `${service}${api}`;
+
+        // // Convert Params to HttpParams
+        // const httpParams = new HttpParams({ fromObject: Params });
+
+        // Make the HTTP GET request with query parameters
+        const request = this.httpClient
+            .get(url, { params: Params })
+            .pipe(
+                catchError((error) => {
+                console.error(error);
+                // Instead of returning null, emit an error using throwError
+                return throwError(error);
+                })
+            );
+        request.subscribe(
+            () => {
+                // Request completed successfully, set cursor to 'default'
+                document.body.style.cursor = 'default';
+            },
+            (error) => {
+                // Request failed, handle error and set cursor to 'default'
+                console.error(error);
+                document.body.style.cursor = 'default';
+            }
+        );
+
+        return request;
+    }
+
+
+    async postDataAsync(service : any, api : string, inputData : any, ignoreLoading?: boolean, responseType?: string): Promise<any> {
+        try {
+            // Get IP và URL
+            service = await this.getURLService(service);
+
+            if (service == null) {
+                return null;
+            }
+            const url = `${service}${api}`;
+            const response = await this.httpClient.post(url, inputData, this.getOptionsRequest(ignoreLoading, responseType)).toPromise();
+            document.body.style.cursor = 'default';
+
+            return response;
+        } catch (error) {
+            document.body.style.cursor = 'default';
+
+            console.log(error);
+            return null;
+        }
+    }
+
+    public postData(service : any, api : string, inputData : any, ignoreLoading?: boolean): Observable<any> {
+        // try {
+        //     // Get IP và URL
+        //     service = this.getURLService(service);
+
+        //     const url = `${service}${api}`;
+        //     document.body.style.cursor = 'default';
+        //     return this.httpClient.post(url, inputData, this.getOptionsRequest(ignoreLoading)).pipe(catchError(this.handleError));
+        // } catch (error) {
+        //     document.body.style.cursor = 'default';
+
+        //     console.log(error);
+        //     return null;
+        // }
+
+        // Get IP và URL
+        service = this.getURLService(service);
+        const url = `${service}${api}`;
+        document.body.style.cursor = 'default';
+
+        // Make the HTTP POST request with inputData
+        const request = this.httpClient
+            .post(url, inputData, this.getOptionsRequest(ignoreLoading))
+            .pipe(
+                catchError((error) => {
+                console.error(error);
+                // Instead of returning null, emit an error using throwError
+                return throwError(error);
+                })
+            );
+        request.subscribe(
+            () => {
+                // Request completed successfully, set cursor to 'default'
+                document.body.style.cursor = 'default';
+            },
+            (error) => {
+                // Request failed, handle error and set cursor to 'default'
+                console.error(error);
+                document.body.style.cursor = 'default';
+            }
+        );
+
+        return request;
+    }
+
+    public postFormData(service: any, api: string, inputData: any, ignoreLoading?: boolean): Observable<any> {
+        // try {
+        //     // Get IP và URL
+        //     service = this.getURLService(service);
+
+        //     const url = `${service}${api}`;
+        //     document.body.style.cursor = 'default';
+
+        //     return this.httpClient.post(url, inputData, this.getOptionsRequest(ignoreLoading)).pipe(catchError(this.handleError));
+        // } catch (error) {
+        //     document.body.style.cursor = 'default';
+
+        //     console.log(error);
+        //     return null;
+        // }
+
+         // Get IP và URL
+        service = this.getURLService(service);
+        const url = `${service}${api}`;
+
+        // Make the HTTP POST request with inputData
+        const request = this.httpClient
+            .post(url, inputData, this.getOptionsRequest(ignoreLoading))
+            .pipe(
+                catchError((error) => {
+                console.error(error);
+                // Instead of returning null, you can choose to re-throw the error or handle it as needed
+                throw error;
+                })
+            );
+        // Subscribe to the request and set cursor style when completed
+        request.subscribe(
+            () => {
+                // Request completed successfully, set cursor to 'default'
+                document.body.style.cursor = 'default';
+            },
+            (error) => {
+                // Request failed, handle error and set cursor to 'default'
+                console.error(error);
+                document.body.style.cursor = 'default';
+            }
+        );
+
+        return request;
+    }
+
+    public postDataURL(service: any, api: string, inputData: any, ignoreLoading?: boolean): Observable<any> {
+        // try {
+
+        //     // Get IP và URL
+        //     service = this.getURLService(service);
+
+        //     const url = `${service}${api}`;
+        //     document.body.style.cursor = 'default';
+
+        //     return this.httpClient.post(url, inputData, this.getOptionsRequest(ignoreLoading)).pipe(catchError(this.handleError));
+        // } catch (error) {
+        //     document.body.style.cursor = 'default';
+
+        //     console.log(error);
+        //     return null;
+        // }
+
+        // Get IP và URL
+        service = this.getURLService(service);
+        const url = `${service}${api}`;
+
+        // Make the HTTP POST request with inputData
+        const request = this.httpClient
+            .post(url, inputData, this.getOptionsRequest(ignoreLoading))
+            .pipe(catchError(this.handleError));
+        // Subscribe to the request and set cursor style when completed
+        request.subscribe(
+            () => {
+                // Request completed successfully, set cursor to 'default'
+                document.body.style.cursor = 'default';
+            },
+            (error) => {
+                // Request failed, handle error and set cursor to 'default'
+                console.error(error);
+                document.body.style.cursor = 'default';
+            }
+        );
+    
+        return request;
+    }
+
+    async putDataAsync(service: any, api: string, inputData: any, ignoreLoading?: boolean): Promise<any> {
+        try {
+
+            // Get IP và URL
+            service = await this.getURLService(service);
+
+            if (service == null) {
+                return null;
+            }
+
+            const url = `${service}${api}`;
+            const response = await this.httpClient.put(url, inputData, this.getOptionsRequest(ignoreLoading)).toPromise();
+            document.body.style.cursor = 'default';
+            return response;
+        } catch (error) {
+            document.body.style.cursor = 'default';
+            console.log(error);
+            return null;
+        }
+    }
+
+    public putData(service: any, api: string, inputData: any, ignoreLoading?: boolean): Observable<any> {
+        // try {
+        //     // Get IP và URL
+        //     service = this.getURLService(service);
+
+        //     const url = `${service}${api}`;
+        //     document.body.style.cursor = 'default';
+        //     return this.httpClient.put(url, inputData, this.getOptionsRequest(ignoreLoading)).pipe(catchError(this.handleError));
+        // } catch (error) {
+        //     document.body.style.cursor = 'default';
+        //     console.log(error);
+        //     return null;
+        // }
+
+        // Get IP và URL
+        service = this.getURLService(service);
+        const url = `${service}${api}`;
+
+        // Make the HTTP PUT request with inputData
+        const request = this.httpClient
+            .put(url, inputData, this.getOptionsRequest(ignoreLoading))
+            .pipe(catchError(this.handleError));
+        // Subscribe to the request and set cursor style when completed
+        request.subscribe(
+            () => {
+                // Request completed successfully, set cursor to 'default'
+                document.body.style.cursor = 'default';
+            },
+            (error) => {
+                // Request failed, handle error and set cursor to 'default'
+                console.error(error);
+                document.body.style.cursor = 'default';
+            }
+        );
+    
+        return request;
+    }
+
+    async deleteDataAsync(service: any, api: string, ignoreLoading?: boolean): Promise<any> {
+        // Get IP và URL
+        service = await this.getURLService(service);
+
+        if (service == null) {
+            return null;
+        }
+
+        const url = `${service}${api}`;
+        const response = await this.httpClient.delete(url).toPromise();
+        document.body.style.cursor = 'default';
+        return response;
+    }
+
+    public deleteData(service: any, api: string, ignoreLoading?: boolean): Observable<any> {
+        // try {
+        //     // Get IP và URL
+        //     service = this.getURLService(service);
+
+        //     const url = `${service}${api}`;
+        //     document.body.style.cursor = 'default';
+        //     return this.httpClient.delete(url).pipe(catchError(this.handleError));
+        // } catch (error) {
+        //     document.body.style.cursor = 'default';
+        //     console.log(error);
+        //     return null;
+        // }
+        
+        // Get IP và URL
+        service = this.getURLService(service);
+        const url = `${service}${api}`;
+
+        // Make the HTTP DELETE request
+        const request = this.httpClient
+            .delete(url, this.getOptionsRequest(ignoreLoading))
+            .pipe(catchError(this.handleError))
+            ;
+
+        // Subscribe to the request and set cursor style when completed
+        request.subscribe(
+            () => {
+                // Request completed successfully, set cursor to 'default'
+                document.body.style.cursor = 'default';
+            },
+            (error) => {
+                // Request failed, handle error and set cursor to 'default'
+                console.error(error);
+                document.body.style.cursor = 'default';
+            }
+        );
+    
+        return request;
+
+    }
+
+    public uploadAsync(service: any, api: string, inputData: any, ignoreLoading?: boolean) {
+        // Get IP và URL
+        service = this.getURLService(service);
+
+        const url = `${service}${api}`;
+
+
+        return new HttpRequest('POST', url, inputData);
+    }
+
+    // Đoạn này chỉ cần lưu IP của API gateway rồi lần sau lấy ra cộng lại thôi
+    getURLService(phanhe: any) {
+        try {
+
+            switch (phanhe) {
+                case API.PHAN_HE.USER: {
+                    return localStorage.getItem('APISERVICE') + '/users/';
+                }
+                case API.PHAN_HE.ROLE: {
+                    return localStorage.getItem('APISERVICE') + '/roles/';
+                }
+                case API.PHAN_HE.ORDER: {
+                    return localStorage.getItem('APISERVICE') + '/orders/';
+                }
+                case API.PHAN_HE.VOUCHER: {
+                    return localStorage.getItem('APISERVICE') + '/vouchers/';
+                }
+                case API.PHAN_HE.POST: {
+                    return localStorage.getItem('APISERVICE') + '/posts/';
+                }
+                default: {
+                    return '';
+                }
+            }
+        } catch (error) {
+            console.log('Lỗi lấy IP APT Gate way' + error);
+            return null;
+        }
+    }
+
+    protected extractData(res: Response): any {
+        const body = res;
+        return body || {};
+    }
+
+    protected extractDataNoLoading(res: Response): any {
+        const body = res;
+        return body || {};
+    }
+
+    protected extractDataWParams(res: Response): any {
+        const body = res;
+        return body || {};
+    }
+
+    // protected handleError(error: Response | any): any {
+    //     let errMsg;
+    //     if (error instanceof Response) {
+    //         const body = JSON.stringify(error) || '';
+    //         const err = JSON.parse(body).error || '';
+    //         errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    //     } else {
+    //         errMsg = error.message ? error.message : error.toString();
+    //     }
+    //     console.log(errMsg);
+    //     return Observable.throw(errMsg);
+    // }
+
+    protected handleErrorWParams(error: Response | any): any {
+        let errMsg;
+        if (error instanceof Response) {
+            const body = JSON.parse(JSON.stringify(error)) || '';
+            const err = body.error;
+            errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+        } else {
+            errMsg = error.message ? error.message : error.toString();
+        }
+        console.log(errMsg);
+        return Observable.throw(errMsg);
+    }
+
+    handleError(error: HttpErrorResponse) {
+        let errorMessage = 'Unknown error!';
+        if (error.error instanceof ErrorEvent) {
+            // Client-side errors
+            errorMessage = `Error: ${error.error.message}`;
+        } else {
+            // Server-side errors
+            errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+        }
+        window.alert(errorMessage);
+        return throwError(errorMessage);
+    }
+}
