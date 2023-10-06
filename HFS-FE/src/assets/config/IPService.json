@@ -1,0 +1,9 @@
+{
+    "APIGATEWAY": "http://10.0.40.33:4443",
+    "APISERVICE": "http://localhost:5259",
+    "IP_UI": "",
+    "PROJECT_NAME": "Recall",
+    "SocketUri": "http://10.1.4.176:9000",
+    "Version": "10.09.2023",
+    "SiteKey": "6LcHRYUUAAAAAGXkfCKCLYjo-mpwjhWHJJMXRY77"
+}
