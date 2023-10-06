@@ -1,0 +1,41 @@
+<div class="layout-wrapper" [ngClass]="{'p-input-filled': layoutService.app.inputStyle === 'filled', 'p-ripple-disabled': !layoutService.app.ripple,
+        'layout-menu-static': layoutService.isStatic(),
+        'layout-menu-overlay': layoutService.isOverlay(),
+        'layout-menu-horizontal': layoutService.isHorizontal(),
+        'layout-menu-slim': layoutService.isSlim(),
+        'layout-menu-active': layoutService.state.menuActive,
+        'layout-menu-mobile-active': layoutService.state.mobileMenuActive,
+        'layout-topbar-mobile-active': layoutService.state.mobileTopbarActive,
+        'layout-rightmenu-active': layoutService.state.rightMenuActive,
+        'layout-rtl': layoutService.app.isRTL}"
+        
+        [class]="'layout-menu-' + layoutService.app.menuTheme + ' layout-topbar-' + layoutService.app.topbarTheme">
+
+    <app-topbar></app-topbar>
+
+    <!-- <app-rightmenu></app-rightmenu> -->
+
+    <div class="menu-wrapper" (click)="layoutService.onMenuClick($event)">
+        <div class="layout-menu-container">
+            <!--            <app-inline-menu *ngIf="app.inlineMenuPosition=='top' || app.inlineMenuPosition=='both'"-->
+            <!--                             key="top"></app-inline-menu>-->
+            <app-menu></app-menu>
+            <!--            <app-inline-menu-->
+            <!--                *ngIf="app.inlineMenuPosition=='bottom' || app.inlineMenuPosition=='both'"-->
+            <!--                key="bottom"></app-inline-menu>-->
+        </div>
+    </div>
+
+    <div class="layout-main">
+        <!--        <app-breadcrumb></app-breadcrumb>-->
+
+        <div class="layout-content">
+            <router-outlet></router-outlet>
+        </div>
+
+        <app-footer></app-footer>
+    </div>
+
+    <div *ngIf="layoutService.state.mobileMenuActive" class="layout-mask modal-in"></div>
+
+</div>
