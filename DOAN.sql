@@ -14,30 +14,30 @@ CREATE TABLE [User]
 	userId INT PRIMARY KEY IDENTITY(1,1),
 	firstName NVARCHAR(50) NOT NULL,
 	lastName NVARCHAR(50) NOT NULL,
-	gender NVARCHAR(10) NULL,
+	gender NVARCHAR(10),
 	birthDate DATE,
 	roleId INT NOT NULL,
 	email NVARCHAR(100) NOT NULL,
-	phoneNumber BIGINT  NULL,
-	 PasswordSalt VARBINARY(MAX) NOT NULL,
-	  PasswordHash VARBINARY(MAX) NOT NULL,
-	avatar NVARCHAR(100)  NULL,
-	shopName NVARCHAR(50)  NULL,
-	shopAddress NVARCHAR(MAX) NULL,
-	isOnline bit,
-	walletBalance MONEY NULL, 
+	phoneNumber BIGINT,
+	PasswordSalt VARBINARY(MAX) NOT NULL,
+	PasswordHash VARBINARY(MAX) NOT NULL,
+	avatar NVARCHAR(100),
+	shopName NVARCHAR(50),
+	shopAddress NVARCHAR(MAX),
+	isOnline bit default 0 NOT NULL,
+	walletBalance MONEY, 
 	manageBy INT, --Truong nay the hien rang shipper se thuoc quyen quan ly cua mot shop (seller) nao do
 	CONSTRAINT FK_User_Role FOREIGN KEY (roleId) REFERENCES [Role](roleId),
 	CONSTRAINT FK_User_User FOREIGN KEY (manageBy) REFERENCES [User](userId)
 )
 
-CREATE TABLE [Address]
+CREATE TABLE [ShipAddress]
 ( 
 	[addressId] INT PRIMARY KEY IDENTITY(1,1),
-	userId INT,
+	userId INT NOT NULL,
 	[addressInfo] NVARCHAR(MAX) NOT NULL,
-	[status] bit,
-	CONSTRAINT FK_User_Role11 FOREIGN KEY (UserId) REFERENCES [User](userId)
+	[isDefaultAddress] bit,
+	CONSTRAINT FK_ShipAddress_User FOREIGN KEY (UserId) REFERENCES [User](userId)
 )
 
 CREATE TABLE Category
@@ -152,9 +152,9 @@ CREATE TABLE FeedbackVote
 CREATE TABLE Post
 (
 	postId INT PRIMARY KEY IDENTITY(1,1),
-	userId INT,
+	userId INT NOT NULL,
 	postContent NVARCHAR(MAX),
-	createdDate DATETIME,
+	createdDate DATETIME default GETDATE(),
 	[status] bit,
 	CONSTRAINT FK_Feedback_UserId11 FOREIGN KEY (userId) REFERENCES [User](userId)
 );
@@ -168,11 +168,13 @@ CREATE TABLE PostImage (
 CREATE TABLE Report
 (
 	reportId INT PRIMARY KEY IDENTITY(1,1),
-	postId Int,
+	postId INT,
 	userId INT,
+	foodId INT,
 	reportContent NVARCHAR(MAX),
 	createdDate DATETIME,
 	[status] bit,
 	CONSTRAINT FK_Feedback_UserId321 FOREIGN KEY (userId) REFERENCES [User](userId),
-	CONSTRAINT FK_Report_UserId12 FOREIGN KEY (postId) REFERENCES Post(postId)
+	CONSTRAINT FK_Report_PostId123 FOREIGN KEY (postId) REFERENCES Post(postId),
+	CONSTRAINT FK_Report_FoodId123 FOREIGN KEY (foodId) REFERENCES [food](userId)
 );

@@ -7,4 +7,8 @@
     <RootNamespace>HFS_BE</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
 </Project>

@@ -19,16 +19,28 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./modules/customer-routing-module/customer-routing-module.module').then(m => m.CustomerRoutingModuleModule),
+        loadChildren: () => import('./modules/customer-routing-module/customer-routing.module').then(m => m.CustomerRoutingModule),
       }
     ]
   },
   {
-    path: 'manage', component: AppManageLayoutComponent,
+    path: 'HFSBusiness', component: AppManageLayoutComponent,
     children: [
       {
-        path: '',
+        path: 'manage',
         loadChildren: () => import('./modules/manage-routing-module/manage-routing-module.module').then(m => m.ManageRoutingModuleModule),
+      },
+      {
+        path: 'shipper',
+        loadChildren: () => import('./modules/shipper-routing-module/shipper-routing.module').then(m => m.ShipperRoutingModule),
+      },
+      {
+        path: 'seller',
+        loadChildren: () => import('./modules/seller-routing-module/seller-routing.module').then(m => m.SellerRoutingModule),
+      },
+      {
+        path: 'admin',
+        loadChildren: () => import('./modules/admin-routing-module/admin-routing.module').then(m => m.AdminRoutingModule),
       }
     ]
   }
