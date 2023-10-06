@@ -1,0 +1,17 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = HFS_BE
+build_property.RootNamespace = HFS_BE
+build_property.ProjectDir = E:\DoAn_HOLAFoodSystem\OfficialProgram\SEP490_G5-HOLA-Food-System\HFS-BE\HFS-BE\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = E:\DoAn_HOLAFoodSystem\OfficialProgram\SEP490_G5-HOLA-Food-System\HFS-BE\HFS-BE
+build_property._RazorSourceGeneratorDebug = 
