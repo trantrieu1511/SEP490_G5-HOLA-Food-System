@@ -13,5 +13,11 @@ namespace HFS_BE.Base
             return (T)Activator.CreateInstance(typeof(T), context);
         }
 
+        //public BaseOutputDto Output(bool success)
+        //{
+        //    BaseOutputDto outputDto = new BaseOutputDto();
+        //    outputDto.Success = success;
+        //    return outputDto;
+        //}
     }
 }

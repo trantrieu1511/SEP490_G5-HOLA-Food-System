@@ -13,18 +13,19 @@ namespace HFS_BE.Controllers.ViewShop
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputDto"></param>
+        /// <returns></returns>
         [HttpPost("search")]
-        public IActionResult Create(SearchShopInputControllerDto inputDto)
+        public IActionResult Create(SearchShopBusinessLogicInputDto inputDto)
         {
             try
             {
-                SearchShopBusiness business = this.GetBusiness<SearchShopBusiness>();
-                SearchShopInputDto input = new SearchShopInputDto()
-                {
-                    Name = inputDto.Name,
-                };
+                SearchShopBusinessLogic business = this.GetBusinessLogic<SearchShopBusinessLogic>();
 
-                return Ok(business.SearchShop(input));
+                return Ok(business.SearchShop(inputDto));
             }
             catch (Exception ex)
             {

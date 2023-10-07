@@ -1,13 +1,20 @@
-﻿using HFS_BE.Models;
+﻿using HFS_BE.Base;
+using HFS_BE.Models;
 
 namespace HFS_BE.DAO.UserDAO
 {
-    public class CreateUserDto
+    /// <summary>
+    /// 
+    /// </summary>
+    public class CreateUserDto : BaseInputDto
     {
 
     }
 
-    public class SearchShopInputDto
+    /// <summary>
+    /// 
+    /// </summary>
+    public class SearchShopInputDto : BaseInputDto
     {
         public string name { get; set; }
     }

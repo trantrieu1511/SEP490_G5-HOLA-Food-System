@@ -1,20 +1,27 @@
 ﻿using HFS_BE.Base;
 using HFS_BE.DAO.UserDAO;
 using HFS_BE.Models;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace HFS_BE.Business.ViewShop
 {
-    public class SearchShopBusiness : BaseBusinessLogic
+    public class SearchShopBusinessLogic : BaseBusinessLogic
     {
-        public SearchShopBusiness(SEP490_HFSContext context) : base(context)
+        public SearchShopBusinessLogic(SEP490_HFSContext context) : base(context)
         {
 
         }
 
-        public SearchShopOututDto SearchShop(SearchShopInputDto inputDto)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputDto"></param>
+        /// <returns></returns>
+        public SearchShopOututDto SearchShop(SearchShopBusinessLogicInputDto inputDto)
         {
+
             UserDAO dao = this.CreateDao<UserDAO>(); 
-            DAO.UserDAO.SearchShopInputDto input = new DAO.UserDAO.SearchShopInputDto();
+            SearchShopInputDto input = new SearchShopInputDto();
             input.name = inputDto.Name;
             var output = dao.SearchShop(input);
             var outputDto = new SearchShopOututDto();

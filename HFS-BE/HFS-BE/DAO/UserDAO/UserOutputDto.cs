@@ -1,8 +1,12 @@
-﻿using HFS_BE.Models;
+﻿using HFS_BE.Base;
+using HFS_BE.Models;
 
 namespace HFS_BE.DAO.UserDAO
 {
-    public class UserSearchDto
+    /// <summary>
+    /// 
+    /// </summary>
+    public class UserSearchDto : BaseOutputDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -10,12 +14,18 @@ namespace HFS_BE.DAO.UserDAO
         public string Email { get; set; }
     }
 
-    public class UserDto
+    /// <summary>
+    /// 
+    /// </summary>
+    public class UserDto : BaseOutputDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class SearchShopOututDto
     {
         public List<UserDto> ListUser { get; set; } = new List<UserDto>();

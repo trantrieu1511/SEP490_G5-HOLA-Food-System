@@ -5,7 +5,7 @@ namespace HFS_BE.Controllers.ViewShop
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ViewShopController : ControllerBase
+    public class DisplayShopController : ControllerBase
     {
     }
 }

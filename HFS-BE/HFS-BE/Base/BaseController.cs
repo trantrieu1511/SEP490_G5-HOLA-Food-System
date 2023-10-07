@@ -13,7 +13,7 @@ namespace HFS_BE.Base
             this.context = context;
         }
 
-        public T GetBusiness<T>() where T : BaseBusinessLogic
+        public T GetBusinessLogic<T>() where T : BaseBusinessLogic
         {
             return (T)Activator.CreateInstance(typeof(T), context);
         }

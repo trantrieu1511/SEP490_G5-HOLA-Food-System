@@ -13,6 +13,11 @@ namespace HFS_BE.DAO.UserDAO
         // dung` auto mapper => convert dto => object.
         // create : convert CreateUserto => User
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputDto"></param>
+        /// <returns></returns>
         public SearchShopOututDto SearchShop(SearchShopInputDto inputDto)
         {
             var output = this.context.Foods.Where(x => x.Name.Equals(inputDto.name));
