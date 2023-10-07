@@ -8,13 +8,14 @@ import {iServiceBase} from './functions/iServiceBase';
 import {LoadingComponent} from './components/loading-component/loading.component';
 import {OpenPagePopupComponent} from './components/open-page-popup/open-page-popup.component';
 
+
 @NgModule({
   imports: [
       ComponentModule,
       FormsModule,
       CommonModule,
       ReactiveFormsModule,
-      StyleClassModule
+      StyleClassModule,
   ],
   providers: [
       iServiceBase,

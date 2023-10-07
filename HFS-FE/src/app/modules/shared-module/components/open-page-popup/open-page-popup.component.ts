@@ -3,9 +3,10 @@ import {
     ComponentFactoryResolver,
     Input,
     OnInit,
-    ReflectiveInjector,
+    Injector,
     ViewChild,
-    ViewContainerRef
+    ViewContainerRef,
+    StaticProvider
 } from '@angular/core';
 
 @Component({
@@ -36,15 +37,23 @@ export class OpenPagePopupComponent implements OnInit {
             }
             console.log('vao componentData');
 // Inputs need to be in the following format to be resolved properly
-            const inputProviders = Object.keys(data.inputs).map((inputName) => ({
+            // const inputProviders = Object.keys(data.inputs).map((inputName) => ({
+            //     provide: inputName,
+            //     useValue: data.inputs[inputName]
+            // }));
+            const inputProviders: StaticProvider[] = Object.keys(data.inputs).map((inputName): StaticProvider => ({
                 provide: inputName,
                 useValue: data.inputs[inputName]
             }));
-            const resolvedInputs = ReflectiveInjector.resolve(inputProviders);
 
+            //const resolvedInputs = ReflectiveInjector.resolve(inputProviders);
+            const resolvedInputs = Injector.create({providers: inputProviders});
 // We create an injector out of the data we want to pass down and this components injector
-            const injector = ReflectiveInjector.fromResolvedProviders(resolvedInputs, this.target.parentInjector);
-
+            //const injector = ReflectiveInjector.fromResolvedProviders(resolvedInputs, this.target.parentInjector);
+            const injector = Injector.create({
+                providers: inputProviders,
+                parent: this.target.parentInjector
+            });
 // We create a factory out of the component we want to create
             const factory = this.componentFactoryResolver.resolveComponentFactory(data.component);
 

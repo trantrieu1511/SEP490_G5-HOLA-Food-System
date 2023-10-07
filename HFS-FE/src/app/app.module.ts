@@ -24,7 +24,7 @@ import { AppFooterComponent } from './app-systems/app-footer/app.footer.componen
 import { AppMenuComponent } from './app-systems/app-menu/app-menu.component';
 import { AppMenuitemComponent } from './app-systems/app-menuitem/app.menuitem.component';
 import { AppCustomerLayoutModule } from './layout/customer/app.customer.module';
-
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/compiler';
 
 @NgModule({
   declarations: [
@@ -45,7 +45,7 @@ import { AppCustomerLayoutModule } from './layout/customer/app.customer.module';
     ComponentModule,
     SharedModule,
     AutoCompleteModule,
-    AppCustomerLayoutModule
+    AppCustomerLayoutModule,
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
@@ -54,6 +54,6 @@ import { AppCustomerLayoutModule } from './layout/customer/app.customer.module';
         {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
         ShareData, CacheData,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

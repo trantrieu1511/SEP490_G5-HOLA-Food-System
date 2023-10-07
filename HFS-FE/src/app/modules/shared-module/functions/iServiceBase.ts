@@ -5,6 +5,7 @@ import {catchError} from 'rxjs/operators';
 import * as API from 'src/app/services/apiURL';
 import {LoadingService} from '../shared-data-services/loading.service';
 
+
 // @ts-ignore
 import IPService from '/src/assets/config/IPService.json';
 
@@ -778,7 +779,7 @@ export class iServiceBase {
             errMsg = error.message ? error.message : error.toString();
         }
         console.log(errMsg);
-        return Observable.throw(errMsg);
+        return throwError(errMsg);
     }
 
     handleError(error: HttpErrorResponse) {

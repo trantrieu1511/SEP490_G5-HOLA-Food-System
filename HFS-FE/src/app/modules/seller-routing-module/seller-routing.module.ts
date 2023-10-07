@@ -3,16 +3,21 @@ import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/c
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { SharedModule } from '../shared-module/shared-module.module';
+import { OrderManagementComponent } from './components/order-management/order-management.component';
+import { ComponentModule } from '../components-module/component.modules';
 
 const routes: Routes = [
-  
+  {path: 'order-management', component: OrderManagementComponent},
 ]
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    OrderManagementComponent
+  ],
   imports: [
     CommonModule,
     SharedModule,
+    ComponentModule,
     RouterModule.forChild(routes),
   ],
   exports: [
@@ -21,7 +26,6 @@ const routes: Routes = [
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
-  entryComponents: [],
   bootstrap: [AppComponent]
 })
 export class SellerRoutingModule { }
