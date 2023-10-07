@@ -2,7 +2,7 @@
 using HFS_BE.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace HFS_BE.Business.ViewShop
+namespace HFS_BE.BusinessLogic.Homepage
 {
     /// <summary>
     /// 

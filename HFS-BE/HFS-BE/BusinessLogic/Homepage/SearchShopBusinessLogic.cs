@@ -1,15 +1,15 @@
-﻿using HFS_BE.Base;
+﻿using AutoMapper;
+using HFS_BE.Base;
 using HFS_BE.DAO.UserDAO;
 using HFS_BE.Models;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace HFS_BE.Business.ViewShop
+namespace HFS_BE.BusinessLogic.Homepage
 {
     public class SearchShopBusinessLogic : BaseBusinessLogic
     {
-        public SearchShopBusinessLogic(SEP490_HFSContext context) : base(context)
+        public SearchShopBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
         {
-
         }
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace HFS_BE.Business.ViewShop
         public SearchShopOututDto SearchShop(SearchShopBusinessLogicInputDto inputDto)
         {
 
-            UserDAO dao = this.CreateDao<UserDAO>(); 
+            ShopDAO dao = this.CreateDao<ShopDAO>(); 
             SearchShopInputDto input = new SearchShopInputDto();
             input.name = inputDto.Name;
             var output = dao.SearchShop(input);

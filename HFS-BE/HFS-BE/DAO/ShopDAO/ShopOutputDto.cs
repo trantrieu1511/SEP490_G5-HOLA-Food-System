@@ -17,7 +17,7 @@ namespace HFS_BE.DAO.UserDAO
     /// <summary>
     /// 
     /// </summary>
-    public class UserDto : BaseOutputDto
+    public class UserDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -26,8 +26,27 @@ namespace HFS_BE.DAO.UserDAO
     /// <summary>
     /// 
     /// </summary>
-    public class SearchShopOututDto
+    public class SearchShopOututDto : BaseOutputDto
     {
         public List<UserDto> ListUser { get; set; } = new List<UserDto>();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ShopDto
+    {
+        public int UserId { get; set; }
+        public string ShopName { get; set; }
+        public string ShopAddress { get; set; }
+        public string Avatar { get; set; }
+    }
+
+    /// <summary>
+    /// Output of DisplayShop.
+    /// </summary>
+    public class DisplayShopOutputDto : BaseOutputDto
+    {
+        public List<ShopDto> ListShop { get; set; }
     }
 }
