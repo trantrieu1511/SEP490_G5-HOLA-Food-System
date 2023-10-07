@@ -1,4 +1,4 @@
-﻿namespace HFS_BE.Validation
+﻿namespace HFS_BE.Ultis
 {
     public class ValidationErrorDto
     {
