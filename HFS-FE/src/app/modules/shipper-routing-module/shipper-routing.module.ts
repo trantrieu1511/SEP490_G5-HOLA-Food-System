@@ -3,6 +3,7 @@ import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/c
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared-module/shared-module.module';
 import { AppComponent } from 'src/app/app.component';
+import { ComponentModule } from '../components-module/component.modules';
 
 const routes: Routes = [
   
@@ -13,6 +14,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
+    ComponentModule,
     RouterModule.forChild(routes),
   ],
   exports: [
@@ -21,7 +23,6 @@ const routes: Routes = [
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
-  entryComponents: [],
   bootstrap: [AppComponent]
 })
 export class ShipperRoutingModule { }

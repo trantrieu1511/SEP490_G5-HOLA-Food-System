@@ -11,6 +11,7 @@ import * as API from "../../../../services/apiURL";
 import {
     ConfirmationService,
     LazyLoadEvent,
+    MenuItem,
     MessageService,
     SelectItem,
     TreeNode
@@ -29,6 +30,7 @@ export class QuanTriPhanQuyenComponent extends iComponentBase implements OnInit 
     lstNhomRole: any[] = [];
     roleModel: AppRole = new AppRole();
     loading: boolean;
+
 
     @ViewChild('dt') table: Table;
 
@@ -49,6 +51,7 @@ export class QuanTriPhanQuyenComponent extends iComponentBase implements OnInit 
 
     ngOnInit() {
         this.getAllRole();
+        
     }
 
     onInitListNhomPhanQuyen() {
