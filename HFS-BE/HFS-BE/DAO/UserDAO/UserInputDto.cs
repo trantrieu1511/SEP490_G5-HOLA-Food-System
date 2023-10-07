@@ -1,4 +1,6 @@
-﻿namespace HFS_BE.DAO.UserDAO
+﻿using HFS_BE.Models;
+
+namespace HFS_BE.DAO.UserDAO
 {
     public class CreateUserDto
     {

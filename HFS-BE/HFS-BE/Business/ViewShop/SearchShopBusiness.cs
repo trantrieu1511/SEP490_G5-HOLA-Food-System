@@ -1,12 +1,19 @@
-﻿using HFS_BE.DAO.UserDAO;
+﻿using HFS_BE.Base;
+using HFS_BE.DAO.UserDAO;
+using HFS_BE.Models;
 
 namespace HFS_BE.Business.ViewShop
 {
-    public class SearchShopBusiness
+    public class SearchShopBusiness : BaseBusinessLogic
     {
+        public SearchShopBusiness(SEP490_HFSContext context) : base(context)
+        {
+
+        }
+
         public SearchShopOututDto SearchShop(SearchShopInputDto inputDto)
         {
-            UserDAO dao = new UserDAO();
+            UserDAO dao = this.CreateDao<UserDAO>(); 
             DAO.UserDAO.SearchShopInputDto input = new DAO.UserDAO.SearchShopInputDto();
             input.name = inputDto.Name;
             var output = dao.SearchShop(input);

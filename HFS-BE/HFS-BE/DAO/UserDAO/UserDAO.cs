@@ -1,17 +1,21 @@
-﻿using HFS_BE.Models;
+﻿using HFS_BE.Base;
+using HFS_BE.Models;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace HFS_BE.DAO.UserDAO
 {
-    public class UserDAO
+    public class UserDAO : BaseDao
     {
+        public UserDAO(SEP490_HFSContext context) : base(context)
+        {
+        }
+
         // dung` auto mapper => convert dto => object.
         // create : convert CreateUserto => User
 
         public SearchShopOututDto SearchShop(SearchShopInputDto inputDto)
         {
-            SEP490_HFSContext context= new SEP490_HFSContext();
-            var output = context.Foods.Where(x => x.Name.Equals(inputDto.name));
+            var output = this.context.Foods.Where(x => x.Name.Equals(inputDto.name));
             var outputDto = new SearchShopOututDto();
 
             foreach (var item in output)
