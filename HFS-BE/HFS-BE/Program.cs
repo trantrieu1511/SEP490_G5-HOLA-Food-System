@@ -1,6 +1,8 @@
 using AutoMapper;
+using HFS_BE;
 using HFS_BE.Automapper;
 using HFS_BE.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +12,9 @@ builder.Services.AddDbContext<SEP490_HFSContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("MyCnn"));
 });
-
+builder.Services.AddScoped<ValidationFilterAttribute>();
+builder.Services.Configure<ApiBehaviorOptions>(options
+    => options.SuppressModelStateInvalidFilter = true);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

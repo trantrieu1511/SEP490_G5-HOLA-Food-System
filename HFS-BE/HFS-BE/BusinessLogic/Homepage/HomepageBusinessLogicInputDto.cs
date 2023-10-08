@@ -11,6 +11,10 @@ namespace HFS_BE.BusinessLogic.Homepage
     {
         [Required(ErrorMessage = "Name is required")] // back-end validate
         public string? Name { get; set; }
+        [Required(ErrorMessage = "Name2 is required")] // back-end validate
+        [EmailAddress(ErrorMessage = "Email")]
+        public string? name2 { get; set; }
+
     }
 
     public class DisplayShopInputDto : BaseInputDto
