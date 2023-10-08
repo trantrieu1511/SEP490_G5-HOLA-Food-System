@@ -1,3 +1,5 @@
+using AutoMapper;
+using HFS_BE.Automapper;
 using HFS_BE.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +20,15 @@ builder.Services.AddControllers().AddJsonOptions(option =>
 {
     option.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
 });
+
+// add automapper
+var mappingConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new MapperProfile());
+});
+
+IMapper mapper = mappingConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 
 var app = builder.Build();
