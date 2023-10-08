@@ -13,16 +13,14 @@ namespace HFS_BE.Base
             this.mapper = mapper;
         }
 
-        public BaseOutputDto Output(bool success)
+        public T Output<T>(bool success) where T : BaseOutputDto, new()
         {
-            var output = new BaseOutputDto()
+            return new T
             {
-                Errors = null,
                 Message = success ? "Success" : "Fail",
                 Success = success,
+                Errors = null
             };
-
-            return output;
         }
     }
 }

@@ -59,14 +59,13 @@ namespace HFS_BE.DAO.UserDAO
 
                 });
 
-                DisplayShopOutputDto outputDto = this.Output(Constants.ResultCdSuccess).Create<DisplayShopOutputDto>();
+                DisplayShopOutputDto outputDto = this.Output<DisplayShopOutputDto>(Constants.ResultCdSuccess);
                 outputDto.ListShop = mapper.Map<List<User>, List<ShopDto>>(output);
-
                 return outputDto;
             }
             catch (Exception ex)
             {
-                return this.Output(Constants.ResultCdFail).Create<DisplayShopOutputDto>();
+                return this.Output<DisplayShopOutputDto>(Constants.ResultCdFail);
             }
         }
     }
