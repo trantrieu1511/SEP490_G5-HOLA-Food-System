@@ -21,6 +21,13 @@ export class AppManageLayoutComponent implements AfterViewInit, OnInit, OnDestro
 
       const cssFilePaths = ['assets/theme/indigo/theme-light.css', 
         'assets/layout/css/layout-light.css'];
+
+      // Xóa các liên kết CSS hiện có trong document.head
+      const existingLinks = document.head.querySelectorAll('link[rel="stylesheet"]');
+      existingLinks.forEach((link: HTMLLinkElement) => {
+          document.head.removeChild(link);
+      });
+      
       cssFilePaths.forEach(link => {
         const cssLink = this.renderer.createElement('link');
         this.renderer.setAttribute(cssLink, 'rel', 'stylesheet');

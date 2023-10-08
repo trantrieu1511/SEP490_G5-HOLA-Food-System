@@ -380,8 +380,9 @@ a {
    }
     .layout-topbar .layout-topbar-logo {
         width: auto;
-        order: 2;
+        order: 1;
    }
+
     .layout-topbar .layout-menu-button {
         margin-left: 0;
         order: 1;
@@ -389,7 +390,7 @@ a {
     .layout-topbar .layout-topbar-menu-button {
         display: inline-flex;
         margin-left: 0;
-        order: 3;
+        order: 2;
    }
     .layout-topbar .layout-topbar-menu {
         margin-left: 0;

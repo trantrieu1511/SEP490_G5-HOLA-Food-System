@@ -848,6 +848,10 @@
     }
     .layout-topbar .layout-topbar-left .layout-topbar-mobile-button {
       display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: auto;
+      transition: background-color var(--transition-duration);
     }
     .layout-topbar .layout-topbar-right {
       display: none;

@@ -5,6 +5,7 @@ import { AppComponent } from 'src/app/app.component';
 import { SharedModule } from '../shared-module/shared-module.module';
 import { OrderManagementComponent } from './components/order-management/order-management.component';
 import { ComponentModule } from '../components-module/component.modules';
+import { SwitchCasesDirective } from './services/switch-case.directive';
 
 const routes: Routes = [
   {path: 'order-management', component: OrderManagementComponent},
@@ -12,7 +13,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    OrderManagementComponent
+    OrderManagementComponent,
+    SwitchCasesDirective
   ],
   imports: [
     CommonModule,
