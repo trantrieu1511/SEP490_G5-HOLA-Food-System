@@ -9,7 +9,7 @@
             <p-table #dt [value]="lstAppRole" [(selection)]="selectedRoles" dataKey="id"
                      styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
                      [showCurrentPageReport]="true"
-                     [paginator]="lstAppRole.length > 10" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
+                     [paginator]="lstAppRole.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
                      currentPageReportTemplate="Hiển thị từ {first} đến {last} trong tổng {totalRecords} phân quyền"
                      [globalFilterFields]="['roleId','roleName']" responsiveLayout="scroll"
                      [loading]="loading"

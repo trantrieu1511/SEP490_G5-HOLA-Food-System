@@ -117,6 +117,12 @@ export class AppCustomerLayoutComponent implements OnDestroy, OnInit {
   ngOnInit(): void {    
     const cssFilePaths = ['assets/theme/lara-light-indigo/theme.css', 
         'assets/layout/customer/layout.css'];
+    // Xóa các liên kết CSS hiện có trong document.head
+    const existingLinks = document.head.querySelectorAll('link[rel="stylesheet"]');
+    existingLinks.forEach((link: HTMLLinkElement) => {
+        document.head.removeChild(link);
+    });
+
     cssFilePaths.forEach(link => {
         const cssLink = this.renderer.createElement('link');
         this.renderer.setAttribute(cssLink, 'rel', 'stylesheet');
