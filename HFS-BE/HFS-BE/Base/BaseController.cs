@@ -22,15 +22,14 @@ namespace HFS_BE.Base
             return (T)Activator.CreateInstance(typeof(T), context, mapper);
         }
 
-        public BaseOutputDto Output(bool success)
+        public T Output<T>(bool success) where T : BaseOutputDto, new()
         {
-            var output = new BaseOutputDto()
+            return new T
             {
-                Errors = null,
                 Message = success ? "Success" : "Fail",
                 Success = success,
+                Errors = null
             };
-            return output;
         }
     }
 }
