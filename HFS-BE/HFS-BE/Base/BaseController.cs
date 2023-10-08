@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HFS_BE.Base
 {
+    [ApiController]
     public class BaseController : ControllerBase
     {
         private readonly SEP490_HFSContext context;

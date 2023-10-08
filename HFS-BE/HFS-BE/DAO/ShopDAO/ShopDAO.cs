@@ -61,7 +61,6 @@ namespace HFS_BE.DAO.UserDAO
 
                 DisplayShopOutputDto outputDto = this.Output<DisplayShopOutputDto>(Constants.ResultCdSuccess);
                 outputDto.ListShop = mapper.Map<List<User>, List<ShopDto>>(output);
-
                 return outputDto;
             }
             catch (Exception ex)
