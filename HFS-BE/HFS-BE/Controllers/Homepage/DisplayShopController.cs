@@ -21,13 +21,13 @@ namespace HFS_BE.Controllers.Homepage
         /// <param name="inputDto"></param>
         /// <returns></returns>
         [HttpPost("home/displayshop")]
-        public DisplayShopOutputDto Create()
+        public DisplayShopOutputDto Create(DisplayShopInputDto inputDto)
         {
             try
             {
                 var business = this.GetBusinessLogic<DisplayShopBusinessLogic>();
 
-                return business.DisplayShop();
+                return business.DisplayShop(inputDto);
             }
             catch (Exception ex)
             {

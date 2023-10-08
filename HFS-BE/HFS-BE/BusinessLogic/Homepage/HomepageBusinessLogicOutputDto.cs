@@ -36,5 +36,6 @@ namespace HFS_BE.BusinessLogic.Homepage
     public class DisplayShopOutputDto : BaseOutputDto
     {
         public List<ShopDto> ListShop { get; set; }
+        public int total { get; set; }
     }
 }
