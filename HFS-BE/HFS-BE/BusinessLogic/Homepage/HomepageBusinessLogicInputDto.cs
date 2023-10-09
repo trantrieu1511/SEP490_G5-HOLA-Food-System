@@ -16,10 +16,4 @@ namespace HFS_BE.BusinessLogic.Homepage
         public string? name2 { get; set; }
 
     }
-
-    public class DisplayShopInputDto : BaseInputDto
-    {
-        public int pageSize { get; set; }
-        public int pageNum { get; set; }
-    }
 }

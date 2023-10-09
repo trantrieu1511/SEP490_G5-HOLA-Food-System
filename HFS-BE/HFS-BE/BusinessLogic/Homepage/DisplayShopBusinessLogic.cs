@@ -15,15 +15,13 @@ namespace HFS_BE.BusinessLogic.Homepage
         /// 
         /// </summary>
         /// <returns></returns>
-        public DisplayShopOutputDto DisplayShop(DisplayShopInputDto inputDto)
+        public DisplayShopOutputDto DisplayShop(BaseInputDto inputDto)
         {
             try
             {
                 var dao = this.CreateDao<ShopDAO>();
-                DAO.UserDAO.DisplayShopOutputDto daooutput = dao.DisplayShop();
+                DAO.UserDAO.DisplayShopOutputDto daooutput = dao.DisplayShop(inputDto);
                 var output = mapper.Map<DAO.UserDAO.DisplayShopOutputDto, DisplayShopOutputDto>(daooutput);
-                int a = (inputDto.pageNum - 1) * inputDto.pageSize;
-                output.ListShop = output.ListShop.Skip(a).Take(inputDto.pageSize).ToList();
                 return output;
             }
             catch (Exception)
