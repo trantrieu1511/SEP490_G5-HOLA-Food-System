@@ -12,14 +12,14 @@ namespace HFS_BE
             if (!context.ModelState.IsValid)
             {
                 // valid 2
-                var validationErrors = new Dictionary<string, List<string>>();
+                //var validationErrors = new Dictionary<string, List<string>>();
 
-                foreach (var key in context.ModelState.Keys)
-                {
-                    var errors2 = context.ModelState[key].Errors.Select(error => error.ErrorMessage).ToList();
-                    validationErrors[key] = errors2;
-                }
-
+                //foreach (var key in context.ModelState.Keys)
+                //{
+                //    var errors2 = context.ModelState[key].Errors.Select(error => error.ErrorMessage).ToList();
+                //    validationErrors[key] = errors2;
+                //}
+                var a = new UnprocessableEntityObjectResult(context.ModelState);
                 // valid 1:
                 var errors = context.ModelState
                 .Select(x => new ValidationErrorDto
@@ -28,14 +28,18 @@ namespace HFS_BE
                     Messages = x.Value.Errors.Select(e => e.ErrorMessage).ToList()
                 })
                 .ToList();
-
+                 
                 // return
                 var result = new BaseOutputDto
                 {
+                    StatusCode = (int)System.Net.HttpStatusCode.UnprocessableEntity,
                     Success = false,
-                    Errors = new List<string> { "One or more validation errors occurred." },
-                    ValidationErrors1 = errors,
-                    ValdationErros2 = validationErrors
+                    Message = "One or more validation errors occurred.",
+                    Errors = new ErrorsMessage()
+                    {
+                        ValidationErrors = errors,
+                    },
+                    //ValdationErros2 = validationErrors
                 };
 
                 context.Result = new UnprocessableEntityObjectResult(result);

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HFS_BE.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace HFS_BE.Base
@@ -32,6 +33,12 @@ namespace HFS_BE.Base
                 Success = success,
                 Errors = null
             };
+        }
+
+        [NonAction]
+        public string GetAccessRight()
+        {
+            return "user";
         }
     }
 }
