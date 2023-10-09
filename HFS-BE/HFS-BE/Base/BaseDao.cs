@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Models;
+using HFS_BE.Ultis;
 
 namespace HFS_BE.Base
 {
@@ -21,6 +22,21 @@ namespace HFS_BE.Base
                 Success = success,
                 Errors = null
             };
+        }
+
+        public T Output<T>(bool success, string content) where T : BaseOutputDto, new()
+        {
+            return new T
+            {
+                Message = success ? "Success" : content,
+                Success = success,
+                Errors = null
+            };
+        }
+
+        public List<T> Paginate<T>(List<T> sourceList, PaginationDto pagination)
+        {
+            return sourceList.Skip((pagination.pageNumber - 1) * pagination.pageSize).Take(pagination.pageSize).ToList();
         }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using HFS_BE.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace HFS_BE.Base
 {
     [ApiController]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public class BaseController : ControllerBase
     {
         private readonly SEP490_HFSContext context;
@@ -31,6 +33,12 @@ namespace HFS_BE.Base
                 Success = success,
                 Errors = null
             };
+        }
+
+        [NonAction]
+        public string GetAccessRight()
+        {
+            return "user";
         }
     }
 }

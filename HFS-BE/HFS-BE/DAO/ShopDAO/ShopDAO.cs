@@ -45,7 +45,7 @@ namespace HFS_BE.DAO.UserDAO
         /// </summary>
         /// <param name="inputDto"></param>
         /// <returns>List of shop</returns>
-        public DisplayShopOutputDto DisplayShop()
+        public DisplayShopOutputDto DisplayShop(BaseInputDto inputDto)
         {
             try
             {
@@ -60,6 +60,7 @@ namespace HFS_BE.DAO.UserDAO
                 });
 
                 DisplayShopOutputDto outputDto = this.Output<DisplayShopOutputDto>(Constants.ResultCdSuccess);
+                output = this.Paginate(output, inputDto.Pagination);
                 outputDto.ListShop = mapper.Map<List<User>, List<ShopDto>>(output);
                 return outputDto;
             }

@@ -3,6 +3,6 @@
     public class ValidationErrorDto
     {
         public string Field { get; set; }
-        public string Message { get; set; }
+        public List<string> Messages { get; set; }
     }
 }
