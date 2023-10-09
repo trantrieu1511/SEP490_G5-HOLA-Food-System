@@ -26,6 +26,8 @@ import { AppMenuitemComponent } from './app-systems/app-menuitem/app.menuitem.co
 import { AppCustomerLayoutModule } from './layout/customer/app.customer.module';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/compiler';
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +36,8 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/compiler';
     AppTopBarComponent,
     AppFooterComponent,
     AppMenuComponent,
-    AppMenuitemComponent,
+    AppMenuitemComponent
+
     
   ],
   imports: [
