@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Google.Apis.Auth;
 using HFS_BE.Base;
 using HFS_BE.Models;
 using HFS_BE.Ultis;
@@ -104,6 +105,53 @@ namespace HFS_BE.DAO.AuthDAO
 				{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
 			}
+		}
+
+		public async Task<AuthOutputDto>? LoginWithGoogleAsync(string credential)
+		{
+			var conf = new ConfigurationBuilder()
+				.SetBasePath(Directory.GetCurrentDirectory())
+				.AddJsonFile("appsettings.json", true, true)
+				.Build();
+
+			var output = new AuthOutputDto();
+			var settings = new GoogleJsonWebSignature.ValidationSettings()
+			{
+				Audience = new List<string> { (conf["ApplicationSettings:GoogleClientId"]) }
+			};
+
+			var payload = await GoogleJsonWebSignature.ValidateAsync(credential, settings);
+
+			var user = context.Users.Where(x => x.Email == payload.Email).FirstOrDefault();
+
+			if (user == null)
+			{
+				var user1 = new User { Email = payload.Email, RoleId = 1, FirstName = payload.Name, LastName = payload.Name, Gender = "Male" };
+
+				using (HMACSHA512? hmac = new HMACSHA512())
+				{
+					user1.PasswordSalt = hmac.Key;
+					user1.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(payload.Email));
+				}
+				try
+				{
+					context.Users.Add(user1);
+					context.SaveChanges();
+					output.Token = GenerateSecurityToken(user1).token;
+					return output;
+				}
+				catch (Exception ex)
+				{
+					return this.Output<AuthOutputDto>(Constants.ResultCdFail);
+				}
+			}
+
+			else
+			{
+				return output;
+			}
+
+			
 		}
 
 	}
