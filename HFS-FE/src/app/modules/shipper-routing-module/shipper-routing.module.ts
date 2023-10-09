@@ -4,13 +4,20 @@ import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared-module/shared-module.module';
 import { AppComponent } from 'src/app/app.component';
 import { ComponentModule } from '../components-module/component.modules';
+import { ShipperComponent } from './components/shipper-order-management/shipper.component';
+import { ShipperHistoryManagementComponent } from './components/shipper-history-management/shipper-history-management.component';
+
 
 const routes: Routes = [
-  
+  {path: 'order', component: ShipperComponent},
+  {path: 'history', component: ShipperHistoryManagementComponent},
 ]
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    ShipperComponent,
+    ShipperHistoryManagementComponent
+  ],
   imports: [
     CommonModule,
     SharedModule,
