@@ -32,7 +32,6 @@ namespace HFS_BE
                 // return
                 var result = new BaseOutputDto
                 {
-                    StatusCode = (int)System.Net.HttpStatusCode.UnprocessableEntity,
                     Success = false,
                     Message = "One or more validation errors occurred.",
                     Errors = new ErrorsMessage()
