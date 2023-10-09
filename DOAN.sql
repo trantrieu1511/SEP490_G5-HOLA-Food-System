@@ -59,6 +59,7 @@ CREATE TABLE Food
 );
 
 CREATE TABLE FoodImage (
+	imageId int PRIMARY KEY identity(1,1),
 	foodId INT,
 	[path] NVARCHAR(MAX),
 	CONSTRAINT FK_OrderDetail_Order1 FOREIGN KEY (foodId) REFERENCES Food(foodId)
@@ -161,9 +162,60 @@ CREATE TABLE Post
 );
 
 CREATE TABLE PostImage (
+	imageId int PRIMARY KEY identity(1,1),
 	postId INT,
 	[path] NVARCHAR(MAX),
 	CONSTRAINT FK_OrderDetail_Order2221 FOREIGN KEY (postId) REFERENCES Post(postId)
 );
 
+CREATE TABLE NotificationType (
+	id int PRIMARY KEY identity(1,1),
+	[name] NVARCHAR(MAX)
+);
 
+CREATE TABLE [Notification] (
+	id int PRIMARY KEY identity(1,1),
+	typeId int NOT NULL,
+	[content] NVARCHAR(MAX) NOT NULL,
+	createDate DATETIME default GETDATE() NOT NULL,
+	CONSTRAINT FK_Notification_NotificationType FOREIGN KEY (typeId) REFERENCES NotificationType(id)
+);
+
+CREATE TABLE [ShoppingCart] (
+	id int PRIMARY KEY identity(1,1),
+	userId int NOT NULL,
+	CONSTRAINT FK_ShoppingCart_User FOREIGN KEY (userId) REFERENCES [User](userId)
+);
+
+CREATE TABLE [CartItem] (
+	foodId int NOT NULL,
+	cartId int NOT NULL,
+	amount int NOT NULL,
+	PRIMARY KEY (foodId, cartId),
+	CONSTRAINT FK_CartItem_Food FOREIGN KEY (foodId) REFERENCES [Food](foodId),
+	CONSTRAINT FK_CartItem_ShoppingCart FOREIGN KEY (cartId) REFERENCES [ShoppingCart](id)
+);
+
+CREATE TABLE [PostReport] (
+	postId int NOT NULL,
+	userId int NOT NULL,
+	reportContent NVARCHAR(MAX) NOT NULL,
+	createDate DATETIME default GETDATE() NOT NULL,
+	updateDate DATETIME default GETDATE() NOT NULL,
+	isDone bit default 0 NOT NULL,
+	PRIMARY KEY (postId, userId),
+	CONSTRAINT FK_PostReport_Post FOREIGN KEY (postId) REFERENCES [Post](postId),
+	CONSTRAINT FK_PostReport_User FOREIGN KEY (userId) REFERENCES [User](userId)
+);
+
+CREATE TABLE [MenuReport] (
+	foodId int NOT NULL,
+	userId int NOT NULL,
+	reportContent NVARCHAR(MAX) NOT NULL,
+	createDate DATETIME default GETDATE() NOT NULL,
+	updateDate DATETIME default GETDATE() NOT NULL,
+	isDone bit default 0 NOT NULL,
+	PRIMARY KEY (foodId, userId),
+	CONSTRAINT FK_MenuReport_Food FOREIGN KEY (foodId) REFERENCES [Food](foodId),
+	CONSTRAINT FK_MenuReport_User FOREIGN KEY (userId) REFERENCES [User](userId)
+);
