@@ -1,27 +1,28 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Auth;
-using HFS_BE.BusinessLogic.Homepage;
 using HFS_BE.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.Auth
 {
-	public class LoginController : BaseController
+
+	public class LoginGoogleController : BaseController
 	{
-		public LoginController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+		public LoginGoogleController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
 		{
 		}
 
-		[HttpPost("home/login")]
-		public LoginOutputDto Login(LoginInPutDto inputDto)
+		[HttpPost("home/logingoogle")]
+		public async Task<LoginOutputDto> Login(string inputDto)
 		{
 			try
-			{
+			{ 
 				var business = this.GetBusinessLogic<AuthBusinessLogic>();
 
-				return business.Login(inputDto);
+				return await business.LoginGoogle(inputDto);
 			}
 			catch (Exception ex)
 			{

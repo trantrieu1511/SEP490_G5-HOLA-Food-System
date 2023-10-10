@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.Auth
 {
-
 	public class RegisterController : BaseController
 	{
 		public RegisterController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
 		{
 		}
+
 		[HttpPost("home/register")]
 		public BaseOutputDto Login(RegisterInputDto inputDto)
 		{

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Homepage;
-using HFS_BE.DAO.AuthDAO;
-using HFS_BE.DAO.UserDAO;
+using HFS_BE.Dao.AuthDao;
+using HFS_BE.Dao.ShopDao;
 using HFS_BE.Models;
 
 namespace HFS_BE.BusinessLogic.Auth
@@ -16,10 +16,10 @@ namespace HFS_BE.BusinessLogic.Auth
 		{
 			try
 			{
-				var dao = this.CreateDao<AuthDAO>();
-				var daoinput = mapper.Map<LoginInPutDto, AuthInputDto>(inputDto);
-				var daooutput = dao.Login(daoinput);
-				var output = mapper.Map<AuthOutputDto, LoginOutputDto>(daooutput);
+				var Dao = this.CreateDao<AuthDao>();
+				var daoinput = mapper.Map<LoginInPutDto, AuthDaoInputDto>(inputDto);
+				var daooutput = Dao.Login(daoinput);
+				var output = mapper.Map<AuthDaoOutputDto, LoginOutputDto>(daooutput);
 
 				return output;
 			}
@@ -28,6 +28,26 @@ namespace HFS_BE.BusinessLogic.Auth
 				throw;
 			}
 		}
-	
+
+		public async Task<LoginOutputDto> LoginGoogle(string inputDto)
+		{
+			try
+			{
+				var dao = this.CreateDao<AuthDao>();
+				
+				var daooutput =await dao.LoginWithGoogleAsync(inputDto);
+				
+					var output = mapper.Map<AuthDaoOutputDto, LoginOutputDto>(daooutput);
+				
+				// output = mapper.Map<AuthOutputDto, LoginOutputDto>(daooutput);
+
+				return output;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
 	}
 }

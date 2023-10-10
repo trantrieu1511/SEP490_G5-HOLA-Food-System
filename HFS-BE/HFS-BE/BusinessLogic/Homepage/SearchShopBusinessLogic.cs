@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
-using HFS_BE.DAO.UserDAO;
+using HFS_BE.Dao.ShopDao;
 using HFS_BE.Models;
 using Microsoft.AspNetCore.Components.Forms;
 
@@ -12,18 +12,13 @@ namespace HFS_BE.BusinessLogic.Homepage
         {
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="inputDto"></param>
-        /// <returns></returns>
         public SearchShopOututDto SearchShop(SearchShopBusinessLogicInputDto inputDto)
         {
 
-            ShopDAO dao = this.CreateDao<ShopDAO>(); 
+            ShopDao Dao = this.CreateDao<ShopDao>(); 
             SearchShopInputDto input = new SearchShopInputDto();
             input.name = inputDto.Name;
-            var output = dao.SearchShop(input);
+            var output = Dao.SearchShop(input);
             var outputDto = new SearchShopOututDto();
             foreach (var item in output.ListUser)
             {
