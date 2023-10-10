@@ -1,4 +1,4 @@
-﻿namespace HFS_BE.Ultis
+﻿namespace HFS_BE.Utils
 {
     public class PaginationDto
     {

@@ -3,7 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Post;
 using HFS_BE.Dao.PostDao;
 using HFS_BE.Models;
-using HFS_BE.Ultis;
+using HFS_BE.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
