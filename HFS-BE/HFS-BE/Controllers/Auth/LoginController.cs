@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.Auth
 {
-	
-	
 	public class LoginController : BaseController
 	{
 		public LoginController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)

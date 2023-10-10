@@ -1,11 +1,8 @@
 ﻿using HFS_BE.Base;
 using HFS_BE.Models;
 
-namespace HFS_BE.DAO.UserDAO
+namespace HFS_BE.Dao.ShopDao
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class UserSearchDto : BaseOutputDto
     {
         public int Id { get; set; }
@@ -14,26 +11,17 @@ namespace HFS_BE.DAO.UserDAO
         public string Email { get; set; }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public class UserDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public class SearchShopOututDto : BaseOutputDto
     {
         public List<UserDto> ListUser { get; set; } = new List<UserDto>();
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public class ShopDto
     {
         public int UserId { get; set; }
@@ -42,9 +30,6 @@ namespace HFS_BE.DAO.UserDAO
         public string Avatar { get; set; }
     }
 
-    /// <summary>
-    /// Output of DisplayShop.
-    /// </summary>
     public class DisplayShopOutputDto : BaseOutputDto
     {
         public List<ShopDto> ListShop { get; set; }

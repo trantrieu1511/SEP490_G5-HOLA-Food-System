@@ -2,26 +2,17 @@
 
 namespace HFS_BE.BusinessLogic.Homepage
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class UserDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public class SearchShopOututDto
     {
         public List<UserDto> ListUser { get; set; } = new List<UserDto>();
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public class ShopDto
     {
         public int UserId { get; set; }

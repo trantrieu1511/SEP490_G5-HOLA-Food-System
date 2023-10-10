@@ -15,12 +15,6 @@ namespace HFS_BE.Controllers.Homepage
 
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="inputDto"></param>
-        /// <returns></returns>
         [Authorize]
         [HttpPost("home/displayshop")]
         public DisplayShopOutputDto Create(BaseInputDto inputDto)

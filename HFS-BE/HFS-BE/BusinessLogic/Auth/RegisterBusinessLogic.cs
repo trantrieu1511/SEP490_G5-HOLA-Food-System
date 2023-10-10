@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
-using HFS_BE.DAO.AuthDAO;
+using HFS_BE.Dao.AuthDao;
 using HFS_BE.Models;
 
 namespace HFS_BE.BusinessLogic.Auth
@@ -14,9 +14,9 @@ namespace HFS_BE.BusinessLogic.Auth
 		{
 			try
 			{
-				var dao = this.CreateDao<AuthDAO>();
+				var Dao = this.CreateDao<AuthDao>();
 				var daoinput = mapper.Map<RegisterInputDto,RegisterDto>(inputDto);
-				var daooutput = dao.Register(daoinput);
+				var daooutput = Dao.Register(daoinput);
 			
 
 				return daooutput;

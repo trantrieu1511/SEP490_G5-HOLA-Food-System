@@ -11,28 +11,28 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace HFS_BE.DAO.AuthDAO
+namespace HFS_BE.Dao.AuthDao
 {
-	public class AuthDAO : BaseDao
+	public class AuthDao : BaseDao
 	{
-		public AuthDAO(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+		public AuthDao(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
 		{
 		}
 
-		public AuthOutputDto Login(AuthInputDto input)
+		public AuthDaoOutputDto Login(AuthDaoInputDto input)
 		{
-            var output = new AuthOutputDto();
+            var output = new AuthDaoOutputDto();
 			var user = context.Users.Where(s=>s.Email==input.Email).FirstOrDefault();
 			if (user == null)
 			{
-				 return this.Output<AuthOutputDto>(Constants.ResultCdFail, "Username Or Password Was Invalid");
+				 return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Username Or Password Was Invalid");
 			}
 		
 			var match = CheckPassword(input.Password, (User)user);
 
 			if (!match)
 			{
-				 return this.Output<AuthOutputDto>(Constants.ResultCdFail, "Username Or Password Was Invalid");
+				 return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Username Or Password Was Invalid");
 			}
 			output.Token = GenerateSecurityToken((User)user).token;
 			return output;
