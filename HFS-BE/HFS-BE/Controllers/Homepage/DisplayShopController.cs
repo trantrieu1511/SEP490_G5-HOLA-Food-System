@@ -2,6 +2,7 @@
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Homepage;
 using HFS_BE.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace HFS_BE.Controllers.Homepage
         /// </summary>
         /// <param name="inputDto"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpPost("home/displayshop")]
         public DisplayShopOutputDto Create(BaseInputDto inputDto)
         {

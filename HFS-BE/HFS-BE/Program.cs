@@ -54,7 +54,7 @@ builder.Services.AddSwaggerGen(options =>
 
 ConfigurationManager configuration = builder.Configuration;
 builder.Configuration.GetSection("ApplicationSettings");
-
+builder.Services.AddAuthorization();
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
@@ -90,6 +90,7 @@ builder.Services.AddAuthentication(x =>
     };
 
 });
+
 
 // add automapper
 var mappingConfig = new MapperConfiguration(mc =>
