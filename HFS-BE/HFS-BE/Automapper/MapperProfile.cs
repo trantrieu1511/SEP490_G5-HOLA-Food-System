@@ -41,8 +41,6 @@ namespace HFS_BE.Automapper
         {
             CreateMap<Post, Dao.PostDao.PostOutputDto>();
             CreateMap<List<Post>, Dao.PostDao.PostOutputDto>();
-            CreateMap<Dao.PostDao.PostOutputDto, BusinessLogic.Post.PostOutputDto>();       
-            CreateMap<Dao.PostDao.ListPostOutputDto, BusinessLogic.Post.ListPostOutputDto>();
         }
     }
 }

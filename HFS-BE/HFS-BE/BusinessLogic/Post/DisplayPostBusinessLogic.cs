@@ -17,8 +17,7 @@ namespace HFS_BE.BusinessLogic.Post
             {
                 var Dao = this.CreateDao<PostDao>();
                 Dao.PostDao.ListPostOutputDto daoOutput = Dao.AllPosts();
-                var output = mapper.Map<Dao.PostDao.ListPostOutputDto, ListPostOutputDto>(daoOutput);
-                return output;
+                return daoOutput;
             }
             catch (Exception)
             {

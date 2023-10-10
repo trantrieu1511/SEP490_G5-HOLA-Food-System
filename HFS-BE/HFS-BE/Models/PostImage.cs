@@ -8,6 +8,5 @@ namespace HFS_BE.Models
         public int? PostId { get; set; }
         public string? Path { get; set; }
 
-        public virtual Post? Post { get; set; }
     }
 }

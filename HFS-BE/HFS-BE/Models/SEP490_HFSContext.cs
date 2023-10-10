@@ -305,11 +305,11 @@ namespace HFS_BE.Models
 
                 entity.Property(e => e.UserId).HasColumnName("userId");
 
-                entity.HasOne(d => d.User)
+                /*entity.HasOne(d => d.User)
                     .WithMany(p => p.Posts)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Feedback_UserId11");
+                    .HasConstraintName("FK_Feedback_UserId11");*/
             });
 
             modelBuilder.Entity<PostImage>(entity =>
@@ -322,10 +322,10 @@ namespace HFS_BE.Models
 
                 entity.Property(e => e.PostId).HasColumnName("postId");
 
-                entity.HasOne(d => d.Post)
+                /*entity.HasOne(d => d.Post)
                     .WithMany()
                     .HasForeignKey(d => d.PostId)
-                    .HasConstraintName("FK_OrderDetail_Order2221");
+                    .HasConstraintName("FK_OrderDetail_Order2221");*/
             });
 
             modelBuilder.Entity<Role>(entity =>

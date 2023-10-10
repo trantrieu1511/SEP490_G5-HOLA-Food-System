@@ -12,15 +12,26 @@ namespace HFS_BE.Dao.PostDao
         {
         }
 
-        public ListPostOutputDto AllPosts() {
+        public ListPostOutputDto AllPosts()
+        {
             try
             {
-                List<Post> data = context.Posts
-                    .ToList();
+                var data = (from post in context.Posts
+                            join user in context.Users
+                            on post.UserId equals user.UserId
+                            select new PostOutputDto
+                            {
+                                PostId = post.PostId,
+                                UserId = post.UserId,
+                                UserFirstName = user.FirstName,
+                                PostContent = post.PostContent,
+                                Status = post.Status,
+                                CreatedDate = post.CreatedDate,
+                                postImages = context.PostImages.Where(pi => pi.PostId == post.PostId).ToList()
+                            }).ToList();
                 var output = this.Output<ListPostOutputDto>(Constants.ResultCdSuccess);
-                output.Posts = mapper.Map<List<Post>, List<PostOutputDto>>(data);
+                output.Posts = data;
                 return output;
-                
             }
             catch (Exception e)
             {
