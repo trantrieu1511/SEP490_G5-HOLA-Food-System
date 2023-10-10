@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.Homepage
 {
-    public class DisplayShopController : BaseController
+	[Authorize]
+	public class DisplayShopController : BaseController
     {
         public DisplayShopController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
         {
@@ -17,7 +18,8 @@ namespace HFS_BE.Controllers.Homepage
 
         [Authorize]
         [HttpPost("home/displayshop")]
-        public DisplayShopOutputDto Create(BaseInputDto inputDto)
+		
+		public DisplayShopOutputDto Create(BaseInputDto inputDto)
         {
             try
             {

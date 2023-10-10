@@ -28,6 +28,26 @@ namespace HFS_BE.BusinessLogic.Auth
 				throw;
 			}
 		}
-	
+
+		public async Task<LoginOutputDto> LoginGoogle(string inputDto)
+		{
+			try
+			{
+				var dao = this.CreateDao<AuthDAO>();
+				
+				var daooutput =await dao.LoginWithGoogleAsync(inputDto);
+				
+					var output = mapper.Map<AuthOutputDto, LoginOutputDto>(daooutput);
+				
+				// output = mapper.Map<AuthOutputDto, LoginOutputDto>(daooutput);
+
+				return output;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
 	}
 }
