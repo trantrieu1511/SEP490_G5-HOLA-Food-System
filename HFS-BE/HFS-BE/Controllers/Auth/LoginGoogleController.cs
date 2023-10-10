@@ -14,8 +14,8 @@ namespace HFS_BE.Controllers.Auth
 		public LoginGoogleController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
 		{
 		}
+
 		[HttpPost("home/logingoogle")]
-		
 		public async Task<LoginOutputDto> Login(string inputDto)
 		{
 			try

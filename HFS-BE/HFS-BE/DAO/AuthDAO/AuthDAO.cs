@@ -129,14 +129,14 @@ namespace HFS_BE.Dao.AuthDao
 			}
 		}
 
-		public async Task<AuthOutputDto>? LoginWithGoogleAsync(string credential)
+		public async Task<AuthDaoOutputDto>? LoginWithGoogleAsync(string credential)
 		{
 			var conf = new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory())
 				.AddJsonFile("appsettings.json", true, true)
 				.Build();
 
-			var output = new AuthOutputDto();
+			var output = new AuthDaoOutputDto();
 			var settings = new GoogleJsonWebSignature.ValidationSettings()
 			{
 				Audience = new List<string> { (conf["ApplicationSettings:GoogleClientId"]) }
@@ -165,7 +165,7 @@ namespace HFS_BE.Dao.AuthDao
 				}
 				catch (Exception ex)
 				{
-					return this.Output<AuthOutputDto>(Constants.ResultCdFail);
+					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail);
 				}
 			}
 
