@@ -49,11 +49,11 @@ namespace HFS_BE.DAO.UserDAO
         {
             try
             {
-                var output = this.context.Users.Where(x => x.RoleId == 2).ToList();
+                var output = this.context.Users.Where(x => x.RoleId == 1).ToList();
                 output.Add(new User
                 {
                     UserId = 2,
-                    ShopName = "Duoc Shop",
+                    ShopName = "duoc",
                     ShopAddress = "Hoa lac",
                     Avatar = "Avarta1",
 
