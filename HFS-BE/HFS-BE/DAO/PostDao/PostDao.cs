@@ -16,7 +16,6 @@ namespace HFS_BE.Dao.PostDao
             try
             {
                 List<Post> data = context.Posts
-                    .Include(pi => pi.PostImages)
                     .ToList();
                 var output = this.Output<ListPostOutputDto>(Constants.ResultCdSuccess);
                 output.Posts = mapper.Map<List<Post>, List<PostOutputDto>>(data);

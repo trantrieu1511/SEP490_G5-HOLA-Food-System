@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
-using HFS_BE.DAO.UserDAO;
+using HFS_BE.Dao.ShopDao;
 using HFS_BE.Models;
 
 namespace HFS_BE.BusinessLogic.Homepage
@@ -19,9 +19,9 @@ namespace HFS_BE.BusinessLogic.Homepage
         {
             try
             {
-                var dao = this.CreateDao<ShopDAO>();
-                DAO.UserDAO.DisplayShopOutputDto daooutput = dao.DisplayShop(inputDto);
-                var output = mapper.Map<DAO.UserDAO.DisplayShopOutputDto, DisplayShopOutputDto>(daooutput);
+                var Dao = this.CreateDao<ShopDAO>();
+                Dao.ShopDao.DisplayShopOutputDto daooutput = Dao.DisplayShop(inputDto);
+                var output = mapper.Map<Dao.ShopDao.DisplayShopOutputDto, DisplayShopOutputDto>(daooutput);
                 return output;
             }
             catch (Exception)

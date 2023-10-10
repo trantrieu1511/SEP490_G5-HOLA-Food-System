@@ -6,7 +6,7 @@ using HFS_BE.Automapper;
 using AutoMapper;
 using HFS_BE.Ultis;
 
-namespace HFS_BE.DAO.UserDAO
+namespace HFS_BE.Dao.ShopDao
 {
     public class ShopDAO : BaseDao
     {

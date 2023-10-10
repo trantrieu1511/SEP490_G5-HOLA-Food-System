@@ -1,6 +1,6 @@
 ﻿using HFS_BE.Base;
 
-namespace HFS_BE.DAO.AuthDAO
+namespace HFS_BE.Dao.AuthDao
 {
 	public class AuthOutputDto:BaseOutputDto
 	{

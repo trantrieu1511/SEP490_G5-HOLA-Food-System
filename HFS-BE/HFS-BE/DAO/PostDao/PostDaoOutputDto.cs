@@ -10,7 +10,6 @@ namespace HFS_BE.Dao.PostDao
         public string? PostContent { get; set; }
         public DateTime? CreatedDate { get; set; }
         public bool? Status { get; set; }
-
     }
 
     public class ListPostOutputDto : BaseOutputDto

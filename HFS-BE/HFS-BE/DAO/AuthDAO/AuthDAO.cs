@@ -11,11 +11,11 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace HFS_BE.DAO.AuthDAO
+namespace HFS_BE.Dao.AuthDao
 {
-	public class AuthDAO : BaseDao
+	public class AuthDao : BaseDao
 	{
-		public AuthDAO(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+		public AuthDao(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
 		{
 		}
 

@@ -30,8 +30,8 @@ namespace HFS_BE.Automapper
 
         public void Auth()
         {
-            CreateMap<LoginInPutDto, DAO.AuthDAO.AuthInputDto>();
-            CreateMap<RegisterDto, DAO.AuthDAO.RegisterDto>();
+            CreateMap<LoginInPutDto, Dao.AuthDao.AuthInputDto>();
+            CreateMap<RegisterDto, Dao.AuthDao.RegisterDto>();
             CreateMap<AuthOutputDto, LoginOutputDto>();
             CreateMap<RegisterInputDto, RegisterDto>();
             //CreateMap<DisplayShopOutputDto, BusinessLogic.Homepage.DisplayShopOutputDto>();
@@ -40,9 +40,8 @@ namespace HFS_BE.Automapper
         public void Post()
         {
             CreateMap<Post, Dao.PostDao.PostOutputDto>();
-            CreateMap<List<Post>, Dao.PostDao.ListPostOutputDto>();
-            CreateMap<List<Dao.PostDao.PostOutputDto>, List<BusinessLogic.Post.PostOutputDto>>();
-            CreateMap<Dao.PostDao.PostOutputDto, BusinessLogic.Post.PostOutputDto>();
+            CreateMap<List<Post>, Dao.PostDao.PostOutputDto>();
+            CreateMap<Dao.PostDao.PostOutputDto, BusinessLogic.Post.PostOutputDto>();       
             CreateMap<Dao.PostDao.ListPostOutputDto, BusinessLogic.Post.ListPostOutputDto>();
         }
     }

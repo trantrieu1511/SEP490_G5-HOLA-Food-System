@@ -1,7 +1,7 @@
 ﻿using HFS_BE.Base;
 using System.ComponentModel.DataAnnotations;
 
-namespace HFS_BE.DAO.AuthDAO
+namespace HFS_BE.Dao.AuthDao
 {
 	public class AuthInputDto : BaseInputDto
 	{
