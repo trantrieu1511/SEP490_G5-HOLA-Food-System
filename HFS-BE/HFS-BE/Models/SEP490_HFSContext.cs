@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -40,6 +40,11 @@ namespace HFS_BE.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=localhost;database=SEP490_HFS;Integrated security=true;TrustServerCertificate=true;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -47,7 +52,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<CartItem>(entity =>
             {
                 entity.HasKey(e => new { e.FoodId, e.CartId })
-                    .HasName("PK__CartItem__E3FF5A02532684FF");
+                    .HasName("PK__CartItem__E3FF5A02085EF15C");
 
                 entity.ToTable("CartItem");
 
@@ -121,7 +126,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FeedbackReply>(entity =>
             {
                 entity.HasKey(e => e.ReplyId)
-                    .HasName("PK__Feedback__36BBF688A4DAB1D1");
+                    .HasName("PK__Feedback__36BBF6881610E001");
 
                 entity.ToTable("FeedbackReply");
 
@@ -151,7 +156,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FeedbackVote>(entity =>
             {
                 entity.HasKey(e => e.VoteId)
-                    .HasName("PK__Feedback__78F0B9F3E02EAB5F");
+                    .HasName("PK__Feedback__78F0B9F3B5724259");
 
                 entity.ToTable("FeedbackVote");
 
@@ -199,7 +204,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FoodImage>(entity =>
             {
                 entity.HasKey(e => e.ImageId)
-                    .HasName("PK__FoodImag__336E9B5538CACBAA");
+                    .HasName("PK__FoodImag__336E9B55A890BD11");
 
                 entity.ToTable("FoodImage");
 
@@ -218,7 +223,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<MenuReport>(entity =>
             {
                 entity.HasKey(e => new { e.FoodId, e.UserId })
-                    .HasName("PK__MenuRepo__9B534BF68C2299F0");
+                    .HasName("PK__MenuRepo__9B534BF60A5D3A8F");
 
                 entity.ToTable("MenuReport");
 
@@ -330,7 +335,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<OrderDetail>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.FoodId })
-                    .HasName("PK__OrderDet__8F779DFE7BB28B55");
+                    .HasName("PK__OrderDet__8F779DFEBF429B11");
 
                 entity.ToTable("OrderDetail");
 
@@ -417,7 +422,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<PostImage>(entity =>
             {
                 entity.HasKey(e => e.ImageId)
-                    .HasName("PK__PostImag__336E9B551CE7D59A");
+                    .HasName("PK__PostImag__336E9B55C377EB3B");
 
                 entity.ToTable("PostImage");
 
@@ -436,7 +441,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<PostReport>(entity =>
             {
                 entity.HasKey(e => new { e.PostId, e.UserId })
-                    .HasName("PK__PostRepo__31B5D2558104148B");
+                    .HasName("PK__PostRepo__31B5D255411AAB24");
 
                 entity.ToTable("PostReport");
 
@@ -487,7 +492,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<ShipAddress>(entity =>
             {
                 entity.HasKey(e => e.AddressId)
-                    .HasName("PK__ShipAddr__26A111AD2BA85655");
+                    .HasName("PK__ShipAddr__26A111ADBAD53849");
 
                 entity.ToTable("ShipAddress");
 
