@@ -3,7 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Menu;
 using HFS_BE.Dao.FoodDao;
 using HFS_BE.Models;
-using HFS_BE.Ultis;
+using HFS_BE.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.ShopDetail
