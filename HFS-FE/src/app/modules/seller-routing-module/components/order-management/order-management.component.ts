@@ -46,7 +46,7 @@ export class OrderManagementComponent implements OnInit, AfterViewInit {
         category: 'Accessories',
         quantity: 24,
         inventoryStatus: 'INSTOCK',
-        rating: 5,
+        rating: 4,
         orders: [
             {
                 id: '1000-0',
