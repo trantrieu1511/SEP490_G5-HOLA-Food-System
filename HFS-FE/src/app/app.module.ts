@@ -36,7 +36,7 @@ import { JwtModule } from '@auth0/angular-jwt';
     AppTopBarComponent,
     AppFooterComponent,
     AppMenuComponent,
-    AppMenuitemComponent    
+    AppMenuitemComponent,
     
   ],
   imports: [

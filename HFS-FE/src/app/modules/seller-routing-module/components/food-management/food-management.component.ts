@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
 import {AppBreadcrumbService} from "../../../../app-systems/app-breadcrumb/app.breadcrumb.service";
-import {Post, PostImage} from "../../models/post.model";
+import {Food, FoodImage, Category} from "../../models/food.model";
 import {
     iComponentBase,
     iServiceBase, mType,
@@ -19,25 +19,29 @@ import {
 import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
 
 @Component({
-  selector: 'app-post-management',
-  templateUrl: './post-management.component.html',
-  styleUrls: ['./post-management.component.scss']
+  selector: 'app-food-management',
+  templateUrl: './food-management.component.html',
+  styleUrls: ['./food-management.component.scss']
 })
-export class PostManagementComponent extends iComponentBase implements OnInit {
+export class FoodManagementComponent extends iComponentBase implements OnInit{
   
-  lstPost: Post[] = [];
+  lstFood: Food[] = [];
   // selectedPosts: Post[] = [];
-  displayDialogEditAddPost: boolean = false;
+  displayDialogEditAddFood: boolean = false;
   headerDialog: string = '';
-  postModel: Post = new Post();
+  foodModel: Food = new Food();
   loading: boolean;
   uploadedFiles: File[] = [];
 
   contentDialog: string;
-  visibleContentDialog: boolean = false;
+  visibleDescriptionDialog: boolean = false;
 
-  postImageDialog: Post = new Post();
+  foodImageDialog: Food = new Food();
   visibleImageDialog: boolean = false;
+
+  lstCategory: Category[] = [];
+
+  selectedCategory: Category = new Category();
 
 
   @ViewChild('dt') table: Table;
@@ -48,6 +52,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
               private confirmationService: ConfirmationService,
               private iServiceBase: iServiceBase,) {
       super(messageService, breadcrumbService);
+      this.getAllCategory();
   }
 
   ngOnInit() {
@@ -55,8 +60,29 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
     
   }
 
+  async getAllCategory(){
+    // try {
+    //     this.loading = true;
+
+    //     let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.GET_ALL_ROLE);
+
+    //     if (response && response.length) {
+    //         this.lstCategory = response;
+    //     }
+    //     this.loading = false;
+    // } catch (e) {
+    //     console.log(e);
+    //     this.loading = false;
+    // }
+
+    this.lstCategory = [
+        {name: 'Food', categoryId: 1},
+        {name: 'Drink', categoryId: 2}
+    ];
+  }
+
   async getAllPost() {
-      this.lstPost = [];
+      this.lstFood = [];
       this.uploadedFiles = [];
       // try {
       //     this.loading = true;
@@ -72,28 +98,37 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       //     this.loading = false;
       // }
 
-      this.lstPost = [
+      this.lstFood = [
         {
-          postId: 1,
-          postContent: "abcaisefdojueiwf",
-          createdDate: "12/12/2293",
+          foodId: 1,
+          name: "gà",
+          description: "abcaisefdojueiwf",
+          categoryId: 1,
+          categoryName: "Food",
+          rating: 4,
           status: "Display",
           images: []
         },
         {
-          postId: 2,
-          postContent: "12412432131231231231231231",
-          createdDate: "12/12/2293",
+          foodId: 2,
+          name: "gà chiên",
+          description: "abcaisefdojueiwf",
+          categoryId: 1,
+          categoryName: "Food",
+          rating: 5,
           status: "Display",
           images: []
         },
         {
-          postId: 3,
-          postContent: "124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsd124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdafaf",
-          createdDate: "12/12/2203",
+          foodId: 3,
+          name: "coca",
+          description: "124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsd124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdafaf",
+          categoryId: 2,
+          categoryName: "Drink",
+          rating: 0,
           status: "Hide",
           images: [
-            new PostImage(1,3,"bamboo-watch.jpg")
+            new FoodImage(1,3,"bamboo-watch.jpg")
           ]
         },
       ];
@@ -101,8 +136,8 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
 
   }
 
-  bindingDataPostModel(): Post {
-      let result = new Post();
+  bindingDataFoodModel(): Food {
+      let result = new Food();
       // if (this.shareData && this.shareData.userInfo) {
         
       //     if (this.roleModel.id && this.roleModel.id > 0) {
@@ -133,34 +168,40 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       return result;
   }
 
-  onCreatePost() {
-      this.headerDialog = 'Add New Post';
+  onCreateFood() {
+      this.headerDialog = 'Add New Food';
 
       this.uploadedFiles = [];
       
-      this.postModel = new Post();
+      this.foodModel = new Food();
 
-      this.displayDialogEditAddPost = true;
+      this.selectedCategory = new Category();
+
+      this.displayDialogEditAddFood = true;
   }
 
-  onUpdatePost(post: Post) {
-      this.headerDialog = `Edit Post ID: ${post.postId}`;
+  onUpdateFood(food: Food) {
+      this.headerDialog = `Edit Food ID: ${food.foodId}`;
 
-      this.postModel = post;
+      this.foodModel = food;
+
+      this.selectedCategory = new Category();
+      this.selectedCategory.categoryId = food.categoryId;
+      this.selectedCategory.name = food.categoryName;
 
       //this.uploadedFiles = post.images;
 
-      this.displayDialogEditAddPost = true;
+      this.displayDialogEditAddFood = true;
   }
 
-  onHidePost(post: Post, event) {
+  onHideFood(food: Food, event) {
       this.confirmationService.confirm({
           target: event.target,
-          message: `Are you sure to Hide this post id: ${post.postId} ?`,
+          message: `Are you sure to Hide this food id: ${food.foodId} ?`,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
               //confirm action
-              this.deletePost(post);
+              this.deleteFood(food);
           },
           reject: () => {
               //reject action
@@ -169,14 +210,14 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
   }
 
   
-  onDisplayPost(post: Post, event) {
+  onDisplayFood(food: Food, event) {
     this.confirmationService.confirm({
         target: event.target,
-        message: `Are you sure to Display this post id: ${post.postId} ?`,
+        message: `Are you sure to Display this food id: ${food.foodId} ?`,
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
             //confirm action
-            this.deletePost(post);
+            this.deleteFood(food);
         },
         reject: () => {
             //reject action
@@ -184,26 +225,29 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
     });
   }
 
-  onSavePost() {
-    console.log(this.uploadedFiles);
-    let postEnity = this.bindingDataPostModel();
+  onSaveFood() {
+    console.log(this.foodModel);
+    this.foodModel.categoryId = this.selectedCategory.categoryId;
+    this.foodModel.name = this.selectedCategory.name;
 
-    if (this.validatePostModel()) {
-        if (postEnity && postEnity.postId && postEnity.postId > 0) {
-            this.updatePost(postEnity);
+    let foodEnity = this.bindingDataFoodModel();
+
+    if (this.validateFoodModel()) {
+        if (foodEnity && foodEnity.foodId && foodEnity.foodId > 0) {
+            this.updateFood(foodEnity);
         } else {
-            this.createPost(postEnity);
+            this.createFood(foodEnity);
         }
     }
   }
 
-  onCancelPost() {
-      this.postModel = new Post();
+  onCancelFood() {
+      this.foodModel = new Food();
 
-      this.displayDialogEditAddPost = false;
+      this.displayDialogEditAddFood = false;
   }
 
-  validatePostModel(): boolean {
+  validateFoodModel(): boolean {
       // if (!this.roleModel.roleKey || this.roleModel.roleKey == '') {
       //     this.showMessage(mType.warn, "Thông báo", "Mã phân quyền không được để trống. Vui lòng nhập!", 'notify');
       //     return false;
@@ -222,9 +266,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       return true;
   }
 
-  async createPost(postEnity: Post) {
+  async createFood(foodEnity) {
       try {
-          let param = postEnity;
+          let param = foodEnity;
 
           // let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.INSERT_APP_ROLE, param, true);
 
@@ -246,9 +290,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       }
   }
 
-  async updatePost(postEnity: Post) {
+  async updateFood(foodEnity) {
       try {
-          let param = postEnity;
+          let param = foodEnity;
 
           // let response = await this.iServiceBase.putDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.UPDATE_APP_ROLE, param, true);
 
@@ -270,9 +314,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       }
   }
 
-  async deletePost(postEnity: Post) {
+  async deleteFood(foodEnity: Food) {
       try {
-          let param = postEnity.postId;
+          let param = foodEnity.foodId;
 
           // let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.DELETE_APP_ROLE, param, true);
 
@@ -290,9 +334,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       }
   }
 
-  viewContentDetail(post: Post){
-    this.contentDialog = post.postContent;
-    this.visibleContentDialog = true;
+  viewContentDetail(food: Food){
+    this.contentDialog = food.description;
+    this.visibleDescriptionDialog = true;
   }
 
   getSeverity(status: string) {
@@ -329,9 +373,8 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
     console.log("uploadFiles", this.uploadedFiles);
   }
 
-  onDisplayImagesDialog(post: Post, event: any){
-    this.postImageDialog = post;
+  onDisplayImagesDialog(food: Food, event: any){
+    this.foodImageDialog = food;
     this.visibleImageDialog = true;
   }
-
 }

@@ -1,14 +1,14 @@
 <div class="grid table-demo">
     <div class="col-12">
         <div class="card">
-            <h5>Post Management</h5>
+            <h5>Food Management</h5>
 
-            <p-table #dt [value]="lstPost" dataKey="id"
+            <p-table #dt [value]="lstFood" dataKey="id"
                      styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
                      [showCurrentPageReport]="true"
-                     [paginator]="lstPost.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
-                     currentPageReportTemplate="Total: {totalRecords} posts"
-                     [globalFilterFields]="['postContent']" responsiveLayout="scroll"
+                     [paginator]="lstFood.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
+                     currentPageReportTemplate="Total: {totalRecords} foods"
+                     [globalFilterFields]="['foodName']" responsiveLayout="scroll"
                      [loading]="loading"
             >
                 <ng-template pTemplate="caption">
@@ -18,14 +18,14 @@
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text"  #textInput 
                                        (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                       placeholder="Search Post by content"/>
+                                       placeholder="Search Food by name"/>
                             </span>
                         </div>
 
                         <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
                             <div class="flex align-items-center justify-content-center">
                                 <button pButton type="button" label="Add new" icon="pi pi-plus"
-                                        (click)="onCreatePost()"
+                                        (click)="onCreateFood()"
                                         style="width: auto;"></button>
                             </div>
                         </div>
@@ -36,28 +36,42 @@
                         <!-- <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                         </th> -->
-                        <th pSortableColumn="postId">
+                        <th pSortableColumn="foodId">
                             <div class="flex justify-content-between align-items-center">
                                 ID
-                                <p-sortIcon field="postId"></p-sortIcon>
-                                <p-columnFilter type="text" field="postId" display="menu"
+                                <p-sortIcon field="foodId"></p-sortIcon>
+                                <p-columnFilter type="text" field="foodId" display="menu"
                                                 class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
-                        <th pSortableColumn="postContent">
+                        <th pSortableColumn="category">
                             <div class="flex justify-content-between align-items-center">
-                                Post Content
-                                <p-sortIcon field="postContent"></p-sortIcon>
-                                <p-columnFilter type="text" field="postContent" display="menu"
+                                Category Name
+                                <p-sortIcon field="category"></p-sortIcon>
+                                <p-columnFilter type="text" field="category" display="menu"
                                                 class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
-                        <th pSortableColumn="createdDate">
+                        <th pSortableColumn="foodName">
                             <div class="flex justify-content-between align-items-center">
-                                Created Date
-                                <p-sortIcon field="createdDate"></p-sortIcon>
-                                <p-columnFilter type="text" field="createdDate" display="menu"
+                                Food Name
+                                <p-sortIcon field="foodName"></p-sortIcon>
+                                <p-columnFilter type="text" field="foodName" display="menu"
                                                 class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="foodDescription">
+                            <div class="flex justify-content-between align-items-center">
+                                Food Description
+                                <p-sortIcon field="foodDescription"></p-sortIcon>
+                                <p-columnFilter type="text" field="foodDescription" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="foodRating">
+                            <div class="flex justify-content-between align-items-center">
+                                Rating
+                                <p-sortIcon field="foodRating"></p-sortIcon>
                             </div>
                         </th>
                         <th>
@@ -81,52 +95,60 @@
                         </th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-post>
+                <ng-template pTemplate="body" let-food>
                     <tr class="p-selectable-row">
                         <!-- <td>
                             <p-tableCheckbox [value]="post"></p-tableCheckbox>
                         </td> -->
                         <td>
                             <span class="p-column-title">ID</span>
-                            <span class="post-id">{{post.postId}}</span>
-                        </td>
-                        <td >
-                            <span class="p-column-title">Post Content</span>
-                            <p class="post-content" (click)="viewContentDetail(post)">{{post.postContent}}</p>
+                            <span class="post-id">{{food.foodId}}</span>
                         </td>
                         <td>
-                            <span class="p-column-title">Created Date</span>
-                            {{post.createdDate}}
+                            <span class="p-column-title">Category</span>
+                            {{food.categoryName}}
+                        </td>
+                        <td >
+                            <span class="p-column-title">Name</span>
+                            {{food.name}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Description</span>
+                            <span class="post-content" (click)="viewContentDetail(food)">{{food.description}}</span>
+                        </td>
+                        <td>
+                            <span class="p-column-title">Rating</span>
+                            <p-rating [ngModel]="food.rating" [readonly]="true" [cancel]="false"></p-rating>
                         </td>
                         <td>
                             <span class="p-column-title">Image</span>
-                            <ng-container *ngIf="post.images.length !== 0; else noneImage" >
+                            <ng-container *ngIf="food.images.length !== 0; else noneImage" >
                                 <button pButton pRipple icon="pi pi-images"
-                                        (click)="onDisplayImagesDialog(post, $event)"
+                                        (click)="onDisplayImagesDialog(food, $event)"
                                         class="p-button-rounded p-button-text p-button-raised"></button>
                             </ng-container>
                             <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
                         </td>
                         <td>
                             <span class="p-column-title">Status</span>
-                            <p-tag [value]="post.status" [severity]="getSeverity(post.status)"></p-tag>
+                            <p-tag [value]="food.status" [severity]="getSeverity(food.status)"></p-tag>
                         </td>
                         <td style="text-align: center">
                             <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
                                 <div class="flex align-items-center justify-content-center">
                                     <button pButton pRipple icon="pi pi-pencil"
-                                            (click)="onUpdatePost(post)"
+                                            (click)="onUpdateFood(food)"
                                             class="p-button-rounded p-mr-2"></button>
                                 </div>
-                                <div *ngIf="post.status === 'Display'; else statusHide" class="flex align-items-center justify-content-center">
+                                <div *ngIf="food.status === 'Display'; else statusHide" class="flex align-items-center justify-content-center">
                                     <button pButton pRipple icon="pi pi-eye-slash"
-                                            (click)="onHidePost(post, $event)"
+                                            (click)="onHideFood(food, $event)"
                                             class="p-button-rounded p-button-danger"></button>
                                 </div>
                                 <ng-template #statusHide>
                                     <div class="flex align-items-center justify-content-center">
                                         <button pButton pRipple icon="pi pi-eye"
-                                                (click)="onDisplayPost(post, $event)"
+                                                (click)="onDisplayFood(food, $event)"
                                                 class="p-button-rounded p-button-danger"></button>
                                     </div>
                                 </ng-template>
@@ -136,7 +158,7 @@
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="8">No post yet.</td>
+                        <td colspan="8">No food yet.</td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -144,7 +166,7 @@
     </div>
 </div>
 
-<p-dialog [header]="headerDialog" [(visible)]="displayDialogEditAddPost"
+<p-dialog [header]="headerDialog" [(visible)]="displayDialogEditAddFood"
           [breakpoints]="{'960px': '75vw'}"
           [style]="{width: '50vw'}"
           [draggable]="false" [resizable]="false" [maximizable]="true">
@@ -153,23 +175,57 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Post information</b>
+                        <b>Food information</b>
                     </div>
                 </p-divider>
                 <div class="grid">
-                    <ng-template [ngIf]="postModel.postId > 0">
-                        <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+                    <ng-container *ngIf="foodModel.foodId > 0; else editModel">
+                        <div class="col-12 mb-2 lg:col-3 mb-lg-0">
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
-                                <input type="text" class="w-full" [(ngModel)]="postModel.postId"
+                                <input type="text" class="w-full" [(ngModel)]="foodModel.foodId"
                                        [disabled]="true" pInputText/>
                                 <label>ID*</label>
+                            </span>
+                        </div>
+                        <div class="col-12 mb-2 lg:col-5 mb-lg-0">
+                            <span class="p-input-icon-left p-float-label" style="width: 100%">
+                                <input type="text" class="w-full" [(ngModel)]="foodModel.name"
+                                        pInputText/>
+                                <label>Name*</label>
+                            </span>
+                        </div>
+                        <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+                            <span class="p-float-label">
+                                <p-dropdown [options]="lstCategory" [(ngModel)]="selectedCategory"
+                                            [showClear]="true"
+                                            [autoDisplayFirst]="false"
+                                            optionLabel="name"
+                                            ></p-dropdown>
+                                <label>Category*</label>
+                            </span>
+                        </div>
+                    </ng-container>
+                    <ng-template #editModel>
+                        <div class="col-12 mb-2 lg:col-8 mb-lg-0">
+                            <span class="p-input-icon-left p-float-label" style="width: 100%">
+                                <input type="text" class="w-full" [(ngModel)]="foodModel.name"
+                                        pInputText/>
+                                <label>Name*</label>
+                            </span>
+                        </div>
+                        <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+                            <span class="p-float-label">
+                                <p-dropdown [options]="lstCategory" [(ngModel)]="foodModel.categoryId"
+                                            [showClear]="true"
+                                            [autoDisplayFirst]="false"></p-dropdown>
+                                <label>Category*</label>
                             </span>
                         </div>
                     </ng-template>
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
                         <span class="p-input-icon-left p-float-label" style="width: 100%" >
-                            <textarea class="w-full" rows="10" cols="60" pInputTextarea [(ngModel)]="postModel.postContent"></textarea>
-                            <label>Post Content*</label>
+                            <textarea class="w-full" rows="10" cols="60" pInputTextarea [(ngModel)]="foodModel.description"></textarea>
+                            <label>Food Description*</label>
                         </span>
                     </div>
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
@@ -177,7 +233,7 @@
 					    <span class="p-input-icon-left p-float-label" style="width: 100%">
                             <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
                                 <ng-template pTemplate="content">
-                                    <ul *ngIf="postModel.images.length">
+                                    <ul *ngIf="foodModel.images.length">
                                     </ul>
                                 </ng-template>
                             </p-fileUpload> -->
@@ -207,25 +263,26 @@
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
                 <button pButton type="button" label="Save" icon="pi pi-save"
-                        (click)="onSavePost()"
+                        (click)="onSaveFood()"
                         style="width: 100%;"></button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
                 <button pButton type="button" label="Cancel" icon="pi pi-times"
-                        (click)="onCancelPost()" class="p-button-danger"
+                        (click)="onCancelFood()" class="p-button-danger"
                         style="width: 100%;"></button>
             </div>
         </div>
     </ng-template>
 </p-dialog>
-<p-dialog header="View Post Content" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true">
+<p-dialog header="View Food Description" [(visible)]="visibleDescriptionDialog" [style]="{width: '50vw'}" [maximizable]="true">
     <p class="dialog-content-detail">
         {{contentDialog}}
     </p>
 </p-dialog>
 
+
 <p-dialog header="List Image" [(visible)]="visibleImageDialog" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
-    <p-table [value]="postImageDialog.images" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+    <p-table [value]="foodImageDialog.images" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
@@ -234,10 +291,10 @@
                 <th>Size</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-postImage>
+        <ng-template pTemplate="body" let-foodImage>
             <tr >
-                <td>{{postImage.imageId}}</td>
-                <td><img src="https://primefaces.org/cdn/primeng/images/demo/product/{{ postImage.image }}"[alt]="postImage.imageId" class="dialogimages_image w-10rem shadow-2"/></td>
+                <td>{{foodImage.imageId}}</td>
+                <td><img src="https://primefaces.org/cdn/primeng/images/demo/product/{{ foodImage.image }}"[alt]="foodImage.imageId" class="dialogimages_image w-10rem shadow-2"/></td>
 
             </tr>
         </ng-template>
@@ -248,4 +305,4 @@
 
 <p-confirmPopup></p-confirmPopup>
 
-<p-confirmDialog key="uhidePost" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-confirmDialog key="uhideFood" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog>
