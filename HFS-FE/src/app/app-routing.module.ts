@@ -2,6 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppCustomerLayoutComponent } from './layout/customer/app.customer.component';
 import { AppManageLayoutComponent } from './layout/manage/app.manage.component';
+import {AppNotfoundComponent} from './pages/app.notfound.component';
+import {AppErrorComponent} from './pages/app.error.component';
+import {AppAccessdeniedComponent} from './pages/app.accessdenied.component';
+import {authGuard} from "./services/Guard/auth.guard"
+
 
 const routes: Routes = [
   // {
@@ -36,6 +41,8 @@ const routes: Routes = [
       },
       {
         path: 'seller',
+        canActivate: [authGuard],
+        data: { requiredRole: 'Seller' },
         loadChildren: () => import('./modules/seller-routing-module/seller-routing.module').then(m => m.SellerRoutingModule),
       },
       {
@@ -43,7 +50,11 @@ const routes: Routes = [
         loadChildren: () => import('./modules/admin-routing-module/admin-routing.module').then(m => m.AdminRoutingModule),
       }
     ]
-  }
+  },
+  {path: 'error', component: AppErrorComponent},
+  {path: 'accessdeny', component: AppAccessdeniedComponent},
+  {path: 'notfound', component: AppNotfoundComponent},
+  {path: '**', redirectTo: '/notfound'},
 ];
 
 @NgModule({

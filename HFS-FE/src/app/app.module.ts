@@ -26,6 +26,10 @@ import { AppMenuitemComponent } from './app-systems/app-menuitem/app.menuitem.co
 import { AppCustomerLayoutModule } from './layout/customer/app.customer.module';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/compiler';
 import { JwtModule } from '@auth0/angular-jwt';
+import { AppNotfoundComponent } from './pages/app.notfound.component';
+import { AppErrorComponent } from './pages/app.error.component';
+import { AppAccessdeniedComponent } from './pages/app.accessdenied.component';
+import { JwtService } from './services/app.jwt.service';
 
 
 @NgModule({
@@ -37,6 +41,9 @@ import { JwtModule } from '@auth0/angular-jwt';
     AppFooterComponent,
     AppMenuComponent,
     AppMenuitemComponent,
+    AppNotfoundComponent,
+    AppErrorComponent,
+    AppAccessdeniedComponent,
     
   ],
   imports: [
@@ -58,11 +65,12 @@ import { JwtModule } from '@auth0/angular-jwt';
   ],
   
   providers: [
+    JwtService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
-        MenuService, AppBreadcrumbService, DatePipe,
-        {provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true},
-        {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
-        ShareData, CacheData,
+    MenuService, AppBreadcrumbService, DatePipe,
+    {provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    ShareData, CacheData,
   ],
   bootstrap: [AppComponent],
 })

@@ -1,7 +1,7 @@
 export class Post {
     postId: number;
     postContent: string;
-    createdDate: any;
+    createdDate: string;
     status: string;
     images: PostImage[];
 }
