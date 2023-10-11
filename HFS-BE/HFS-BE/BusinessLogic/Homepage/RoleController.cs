@@ -246,8 +246,8 @@ namespace HFS_BE.Controllers.Homepage
 		{
 			try
 			{
-				string from = "project.teamfpt@gmail.com";
-				string pass = "dmwr ruhj nmca uxfo";
+				string from = "holafoodfpt@gmail.com";
+				string pass = "wqsq fqmv iwhu ablr";
 				MailMessage mail = new MailMessage();
 				SmtpClient smtp = new SmtpClient("smtp.gmail.com");
 				Random r = new Random();
