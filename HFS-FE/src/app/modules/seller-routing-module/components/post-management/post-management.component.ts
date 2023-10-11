@@ -296,6 +296,8 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
           case 'Display':
             return 'success';
           case 'Hide':
+            return 'warning';
+          case 'Ban':
             return 'danger';
           default:
             return 'error';
