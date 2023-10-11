@@ -42,7 +42,7 @@ namespace HFS_BE.Dao.PostDao
                         PostContent = p.PostContent,
                         CreatedDate = p.CreatedDate,
                         Status = p.Status,
-                        postImages = p.PostImages.ToList()
+                        PostImages = p.PostImages.ToList()
                     }).ToList();
 
                 var output = this.Output<ListPostOutputDto>(Constants.ResultCdSuccess);
