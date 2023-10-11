@@ -15,6 +15,7 @@ namespace HFS_BE.Automapper
             Homepage();
             Auth();
             Post();
+            Food();
         }
 
         /// <summary>
@@ -41,6 +42,13 @@ namespace HFS_BE.Automapper
         {
             CreateMap<Post, Dao.PostDao.PostOutputDto>();
             CreateMap<List<Post>, Dao.PostDao.PostOutputDto>();
+        }
+
+        public void Food()
+        {
+            CreateMap<Food, Dao.FoodDao.FoodOutputDto>()
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
+            CreateMap<FoodImage, Dao.FoodDao.FoodImageDto>();
         }
     }
 }

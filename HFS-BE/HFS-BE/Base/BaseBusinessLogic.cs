@@ -7,6 +7,7 @@ namespace HFS_BE.Base
     {
         private readonly SEP490_HFSContext context;
         public readonly IMapper mapper;
+
         public BaseBusinessLogic(SEP490_HFSContext context, IMapper mapper) {
             this.context = context;
             this.mapper = mapper;

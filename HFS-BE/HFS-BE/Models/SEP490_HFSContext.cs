@@ -40,6 +40,11 @@ namespace HFS_BE.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=localhost;database=SEP490_HFS;Integrated security=true;TrustServerCertificate=true;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -47,7 +52,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<CartItem>(entity =>
             {
                 entity.HasKey(e => new { e.FoodId, e.CartId })
-                    .HasName("PK__CartItem__E3FF5A02085EF15C");
+                    .HasName("PK__CartItem__E3FF5A02F6E20135");
 
                 entity.ToTable("CartItem");
 
@@ -121,7 +126,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FeedbackReply>(entity =>
             {
                 entity.HasKey(e => e.ReplyId)
-                    .HasName("PK__Feedback__36BBF6881610E001");
+                    .HasName("PK__Feedback__36BBF688EC49CF32");
 
                 entity.ToTable("FeedbackReply");
 
@@ -151,7 +156,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FeedbackVote>(entity =>
             {
                 entity.HasKey(e => e.VoteId)
-                    .HasName("PK__Feedback__78F0B9F3B5724259");
+                    .HasName("PK__Feedback__78F0B9F3E02BF94B");
 
                 entity.ToTable("FeedbackVote");
 
@@ -194,12 +199,17 @@ namespace HFS_BE.Models
                     .WithMany(p => p.Foods)
                     .HasForeignKey(d => d.CategoryId)
                     .HasConstraintName("FK_Food_Category");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Foods)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK__Food__UserId__4316F928");
             });
 
             modelBuilder.Entity<FoodImage>(entity =>
             {
                 entity.HasKey(e => e.ImageId)
-                    .HasName("PK__FoodImag__336E9B55A890BD11");
+                    .HasName("PK__FoodImag__336E9B5596E684F5");
 
                 entity.ToTable("FoodImage");
 
@@ -218,7 +228,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<MenuReport>(entity =>
             {
                 entity.HasKey(e => new { e.FoodId, e.UserId })
-                    .HasName("PK__MenuRepo__9B534BF60A5D3A8F");
+                    .HasName("PK__MenuRepo__9B534BF67EB1EE27");
 
                 entity.ToTable("MenuReport");
 
@@ -330,7 +340,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<OrderDetail>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.FoodId })
-                    .HasName("PK__OrderDet__8F779DFEBF429B11");
+                    .HasName("PK__OrderDet__8F779DFED9341016");
 
                 entity.ToTable("OrderDetail");
 
@@ -417,7 +427,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<PostImage>(entity =>
             {
                 entity.HasKey(e => e.ImageId)
-                    .HasName("PK__PostImag__336E9B55C377EB3B");
+                    .HasName("PK__PostImag__336E9B556A9625D5");
 
                 entity.ToTable("PostImage");
 
@@ -436,7 +446,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<PostReport>(entity =>
             {
                 entity.HasKey(e => new { e.PostId, e.UserId })
-                    .HasName("PK__PostRepo__31B5D255411AAB24");
+                    .HasName("PK__PostRepo__31B5D25511953595");
 
                 entity.ToTable("PostReport");
 
@@ -487,7 +497,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<ShipAddress>(entity =>
             {
                 entity.HasKey(e => e.AddressId)
-                    .HasName("PK__ShipAddr__26A111ADBAD53849");
+                    .HasName("PK__ShipAddr__26A111AD63F3E993");
 
                 entity.ToTable("ShipAddress");
 

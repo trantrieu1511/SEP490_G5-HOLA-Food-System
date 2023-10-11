@@ -8,6 +8,7 @@ namespace HFS_BE.Models
         public User()
         {
             Feedbacks = new HashSet<Feedback>();
+            Foods = new HashSet<Food>();
             InverseManageByNavigation = new HashSet<User>();
             MenuReports = new HashSet<MenuReport>();
             OrderCustomers = new HashSet<Order>();
@@ -39,6 +40,7 @@ namespace HFS_BE.Models
         public virtual User? ManageByNavigation { get; set; }
         public virtual Role Role { get; set; } = null!;
         public virtual ICollection<Feedback> Feedbacks { get; set; }
+        public virtual ICollection<Food> Foods { get; set; }
         public virtual ICollection<User> InverseManageByNavigation { get; set; }
         public virtual ICollection<MenuReport> MenuReports { get; set; }
         public virtual ICollection<Order> OrderCustomers { get; set; }
