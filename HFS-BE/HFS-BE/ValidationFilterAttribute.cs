@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using HFS_BE.Base;
-using HFS_BE.Ultis;
+using HFS_BE.Utils;
 
 namespace HFS_BE
 {
@@ -32,7 +32,6 @@ namespace HFS_BE
                 // return
                 var result = new BaseOutputDto
                 {
-                    StatusCode = (int)System.Net.HttpStatusCode.UnprocessableEntity,
                     Success = false,
                     Message = "One or more validation errors occurred.",
                     Errors = new ErrorsMessage()

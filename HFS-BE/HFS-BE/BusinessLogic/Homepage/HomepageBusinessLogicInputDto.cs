@@ -4,9 +4,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HFS_BE.BusinessLogic.Homepage
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class SearchShopBusinessLogicInputDto : BaseInputDto
     {
         [Required(ErrorMessage = "Name is required")] // back-end validate

@@ -7,18 +7,26 @@ namespace HFS_BE.Models
     {
         public Food()
         {
+            CartItems = new HashSet<CartItem>();
             Feedbacks = new HashSet<Feedback>();
+            FoodImages = new HashSet<FoodImage>();
+            MenuReports = new HashSet<MenuReport>();
             OrderDetails = new HashSet<OrderDetail>();
         }
 
         public int FoodId { get; set; }
+        public int? UserId { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public int? CategoryId { get; set; }
         public bool? Status { get; set; }
 
         public virtual Category? Category { get; set; }
+        public virtual User? User { get; set; }
+        public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
+        public virtual ICollection<FoodImage> FoodImages { get; set; }
+        public virtual ICollection<MenuReport> MenuReports { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

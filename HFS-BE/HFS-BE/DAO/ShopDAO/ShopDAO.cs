@@ -4,22 +4,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using HFS_BE.Automapper;
 using AutoMapper;
-using HFS_BE.Ultis;
+using HFS_BE.Utils;
 
-namespace HFS_BE.DAO.UserDAO
+namespace HFS_BE.Dao.ShopDao
 {
-    public class ShopDAO : BaseDao
+    public class ShopDao : BaseDao
     {
-        public ShopDAO(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public ShopDao(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
         {
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="inputDto"></param>
-        /// <returns></returns>
         public SearchShopOututDto SearchShop(SearchShopInputDto inputDto)
         {
             var output = this.context.Foods.Where(x => x.Name.Equals(inputDto.name));
@@ -39,28 +34,14 @@ namespace HFS_BE.DAO.UserDAO
         }
 
 
-
-        /// <summary>
-        /// Display shop.
-        /// </summary>
-        /// <param name="inputDto"></param>
-        /// <returns>List of shop</returns>
         public DisplayShopOutputDto DisplayShop(BaseInputDto inputDto)
         {
             try
             {
                 var output = this.context.Users.Where(x => x.RoleId == 2).ToList();
-                output.Add(new User
-                {
-                    UserId = 2,
-                    ShopName = "Duoc Shop",
-                    ShopAddress = "Hoa lac",
-                    Avatar = "Avarta1",
-
-                });
 
                 DisplayShopOutputDto outputDto = this.Output<DisplayShopOutputDto>(Constants.ResultCdSuccess);
-                output = this.Paginate(output, inputDto.Pagination);
+                //output = this.Paginate(output, inputDto.Pagination);
                 outputDto.ListShop = mapper.Map<List<User>, List<ShopDto>>(output);
                 return outputDto;
             }

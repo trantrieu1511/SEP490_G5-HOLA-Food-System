@@ -16,29 +16,65 @@ namespace HFS_BE.Models
         {
         }
 
+        public virtual DbSet<CartItem> CartItems { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Feedback> Feedbacks { get; set; } = null!;
         public virtual DbSet<FeedbackReply> FeedbackReplies { get; set; } = null!;
         public virtual DbSet<FeedbackVote> FeedbackVotes { get; set; } = null!;
         public virtual DbSet<Food> Foods { get; set; } = null!;
         public virtual DbSet<FoodImage> FoodImages { get; set; } = null!;
+        public virtual DbSet<MenuReport> MenuReports { get; set; } = null!;
+        public virtual DbSet<Notification> Notifications { get; set; } = null!;
+        public virtual DbSet<NotificationType> NotificationTypes { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
         public virtual DbSet<OrderProgress> OrderProgresses { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
         public virtual DbSet<PostImage> PostImages { get; set; } = null!;
+        public virtual DbSet<PostReport> PostReports { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<ShipAddress> ShipAddresses { get; set; } = null!;
+        public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Voucher> Vouchers { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=localhost;database=SEP490_HFS;Integrated security=true;TrustServerCertificate=true;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<CartItem>(entity =>
+            {
+                entity.HasKey(e => new { e.FoodId, e.CartId })
+                    .HasName("PK__CartItem__E3FF5A02F6E20135");
+
+                entity.ToTable("CartItem");
+
+                entity.Property(e => e.FoodId).HasColumnName("foodId");
+
+                entity.Property(e => e.CartId).HasColumnName("cartId");
+
+                entity.Property(e => e.Amount).HasColumnName("amount");
+
+                entity.HasOne(d => d.Cart)
+                    .WithMany(p => p.CartItems)
+                    .HasForeignKey(d => d.CartId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CartItem_ShoppingCart");
+
+                entity.HasOne(d => d.Food)
+                    .WithMany(p => p.CartItems)
+                    .HasForeignKey(d => d.FoodId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CartItem_Food");
+            });
+
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.ToTable("Category");
@@ -90,7 +126,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FeedbackReply>(entity =>
             {
                 entity.HasKey(e => e.ReplyId)
-                    .HasName("PK__Feedback__36BBF68811BCD300");
+                    .HasName("PK__Feedback__36BBF688EC49CF32");
 
                 entity.ToTable("FeedbackReply");
 
@@ -120,7 +156,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FeedbackVote>(entity =>
             {
                 entity.HasKey(e => e.VoteId)
-                    .HasName("PK__Feedback__78F0B9F30D46FB2D");
+                    .HasName("PK__Feedback__78F0B9F3E02BF94B");
 
                 entity.ToTable("FeedbackVote");
 
@@ -163,22 +199,98 @@ namespace HFS_BE.Models
                     .WithMany(p => p.Foods)
                     .HasForeignKey(d => d.CategoryId)
                     .HasConstraintName("FK_Food_Category");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Foods)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK__Food__UserId__4316F928");
             });
 
             modelBuilder.Entity<FoodImage>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.ImageId)
+                    .HasName("PK__FoodImag__336E9B5596E684F5");
 
                 entity.ToTable("FoodImage");
+
+                entity.Property(e => e.ImageId).HasColumnName("imageId");
 
                 entity.Property(e => e.FoodId).HasColumnName("foodId");
 
                 entity.Property(e => e.Path).HasColumnName("path");
 
                 entity.HasOne(d => d.Food)
-                    .WithMany()
+                    .WithMany(p => p.FoodImages)
                     .HasForeignKey(d => d.FoodId)
                     .HasConstraintName("FK_OrderDetail_Order1");
+            });
+
+            modelBuilder.Entity<MenuReport>(entity =>
+            {
+                entity.HasKey(e => new { e.FoodId, e.UserId })
+                    .HasName("PK__MenuRepo__9B534BF67EB1EE27");
+
+                entity.ToTable("MenuReport");
+
+                entity.Property(e => e.FoodId).HasColumnName("foodId");
+
+                entity.Property(e => e.UserId).HasColumnName("userId");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("createDate")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.IsDone).HasColumnName("isDone");
+
+                entity.Property(e => e.ReportContent).HasColumnName("reportContent");
+
+                entity.Property(e => e.UpdateDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("updateDate")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.HasOne(d => d.Food)
+                    .WithMany(p => p.MenuReports)
+                    .HasForeignKey(d => d.FoodId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MenuReport_Food");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.MenuReports)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MenuReport_User");
+            });
+
+            modelBuilder.Entity<Notification>(entity =>
+            {
+                entity.ToTable("Notification");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Content).HasColumnName("content");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("createDate");
+
+                entity.Property(e => e.TypeId).HasColumnName("typeId");
+
+                entity.HasOne(d => d.Type)
+                    .WithMany(p => p.Notifications)
+                    .HasForeignKey(d => d.TypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Notification_NotificationType");
+            });
+
+            modelBuilder.Entity<NotificationType>(entity =>
+            {
+                entity.ToTable("NotificationType");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Name).HasColumnName("name");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -228,7 +340,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<OrderDetail>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.FoodId })
-                    .HasName("PK__OrderDet__8F779DFEC2F26F64");
+                    .HasName("PK__OrderDet__8F779DFED9341016");
 
                 entity.ToTable("OrderDetail");
 
@@ -314,18 +426,59 @@ namespace HFS_BE.Models
 
             modelBuilder.Entity<PostImage>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.ImageId)
+                    .HasName("PK__PostImag__336E9B556A9625D5");
 
                 entity.ToTable("PostImage");
+
+                entity.Property(e => e.ImageId).HasColumnName("imageId");
 
                 entity.Property(e => e.Path).HasColumnName("path");
 
                 entity.Property(e => e.PostId).HasColumnName("postId");
 
                 entity.HasOne(d => d.Post)
-                    .WithMany()
+                    .WithMany(p => p.PostImages)
                     .HasForeignKey(d => d.PostId)
                     .HasConstraintName("FK_OrderDetail_Order2221");
+            });
+
+            modelBuilder.Entity<PostReport>(entity =>
+            {
+                entity.HasKey(e => new { e.PostId, e.UserId })
+                    .HasName("PK__PostRepo__31B5D25511953595");
+
+                entity.ToTable("PostReport");
+
+                entity.Property(e => e.PostId).HasColumnName("postId");
+
+                entity.Property(e => e.UserId).HasColumnName("userId");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("createDate")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.IsDone).HasColumnName("isDone");
+
+                entity.Property(e => e.ReportContent).HasColumnName("reportContent");
+
+                entity.Property(e => e.UpdateDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("updateDate")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.HasOne(d => d.Post)
+                    .WithMany(p => p.PostReports)
+                    .HasForeignKey(d => d.PostId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PostReport_Post");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.PostReports)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PostReport_User");
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -344,7 +497,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<ShipAddress>(entity =>
             {
                 entity.HasKey(e => e.AddressId)
-                    .HasName("PK__ShipAddr__26A111AD28A4DD26");
+                    .HasName("PK__ShipAddr__26A111AD63F3E993");
 
                 entity.ToTable("ShipAddress");
 
@@ -361,6 +514,21 @@ namespace HFS_BE.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ShipAddress_User");
+            });
+
+            modelBuilder.Entity<ShoppingCart>(entity =>
+            {
+                entity.ToTable("ShoppingCart");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.UserId).HasColumnName("userId");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.ShoppingCarts)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ShoppingCart_User");
             });
 
             modelBuilder.Entity<User>(entity =>

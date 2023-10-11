@@ -731,6 +731,9 @@ export class iServiceBase {
                 case API.PHAN_HE.POST: {
                     return localStorage.getItem('APISERVICE') + '/posts/';
                 }
+                case API.PHAN_HE.TEST: {
+                    return localStorage.getItem('APISERVICE') + '/home/';
+                }
                 default: {
                     return '';
                 }

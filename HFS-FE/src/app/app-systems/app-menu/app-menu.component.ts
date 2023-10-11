@@ -1,4 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import {
+    iComponentBase,
+    iServiceBase, mType,
+    ShareData
+} from 'src/app/modules/shared-module/shared-module';
+import * as API from "../../services/apiURL";
+
 
 @Component({
   selector: 'app-menu',
@@ -13,7 +21,10 @@ export class AppMenuComponent implements OnInit {
 
   model: any[];
 
-  constructor() {
+  constructor(
+    private iServiceBase: iServiceBase,
+    private jwtHelper: JwtHelperService
+  ) {
     this.model = [];
   }
 
@@ -23,16 +34,17 @@ export class AppMenuComponent implements OnInit {
     // each role has own model : 
     // model được hiểu là menu bên trái nha
 
-
+  
+    this.getRole();
 
     this.model = [
             {
                 label: 'Favorites', icon: 'pi pi-fw pi-home',
                 items: [
                     {
-                        label: 'Dashboard Sales',
+                        label: 'Order Management',
                         icon: 'pi pi-fw pi-home',
-                        routerLink: ['/'],
+                        routerLink: ['/HFSBusiness/seller/order-management'],
                         badge: '4',
                         badgeClass: 'p-badge-info'
                     },
@@ -249,6 +261,29 @@ export class AppMenuComponent implements OnInit {
                 ]
             }
         ];
+  }
+
+  async getRole(){
+    
+    
+    var param = {
+        email: "string@gmail.com",
+        password: "123"
+    }
+
+    var res = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.TEST, API.API_TEST.SIGNIN, param);
+    console.log("res", res);
+    sessionStorage.setItem("token", res.token);
+
+    var token = await this.jwtHelper.tokenGetter();
+    const decodedToken = this.jwtHelper.decodeToken(token);
+    console.log("token", decodedToken);
+
+    const name = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+    const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+
+    console.log('Name:', name);
+    console.log('Role:', role);
   }
 
 }
