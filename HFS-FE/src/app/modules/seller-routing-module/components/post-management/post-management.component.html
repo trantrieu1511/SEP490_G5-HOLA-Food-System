@@ -99,12 +99,13 @@
                             {{post.createdDate}}
                         </td>
                         <td>
-                            <div *ngIf="post.images.length !== 0; else noneImage" class="flex align-items-center justify-content-center">
+                            <span class="p-column-title">Image</span>
+                            <ng-container *ngIf="post.images.length !== 0; else noneImage" >
                                 <button pButton pRipple icon="pi pi-images"
                                         (click)="onDisplayImagesDialog(post, $event)"
                                         class="p-button-rounded p-button-text p-button-raised"></button>
-                            </div>
-                            <ng-template #noneImage ><p class="no-image">No Image</p></ng-template>
+                            </ng-container>
+                            <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
                         </td>
                         <td>
                             <span class="p-column-title">Status</span>
@@ -236,7 +237,7 @@
         <ng-template pTemplate="body" let-postImageDialog>
             <tr >
                 <td>{{postImageDialog.imageId}}</td>
-                <td><img src="https://primefaces.org/cdn/primeng/images/demo/product/{{ postImageDialog.image }}"[alt]="postImageDialog.image" class="w-10rem shadow-2"/></td>
+                <td><img src="https://primefaces.org/cdn/primeng/images/demo/product/{{ postImageDialog.image }}"[alt]="postImageDialog.image" class="dialogimages_image w-10rem shadow-2"/></td>
 
             </tr>
         </ng-template>
