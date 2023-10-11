@@ -23,18 +23,18 @@ namespace HFS_BE.Dao.AuthDao
 
 		public AuthDaoOutputDto Login(AuthDaoInputDto input)
 		{
-            var output = new AuthDaoOutputDto();
-			var user = context.Users.Where(s=>s.Email==input.Email).FirstOrDefault();
+			var output = new AuthDaoOutputDto();
+			var user = context.Users.Where(s => s.Email == input.Email).FirstOrDefault();
 			if (user == null)
 			{
-				 return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Username Or Password Was Invalid");
+				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Username Or Password Was Invalid");
 			}
-		
+
 			var match = CheckPassword(input.Password, (User)user);
 
 			if (!match)
 			{
-				 return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Username Or Password Was Invalid");
+				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Username Or Password Was Invalid");
 			}
 			JwtSecurityToken token = GenerateSecurityToken((User)user);
 			output.Token = new JwtSecurityTokenHandler().WriteToken(token);
