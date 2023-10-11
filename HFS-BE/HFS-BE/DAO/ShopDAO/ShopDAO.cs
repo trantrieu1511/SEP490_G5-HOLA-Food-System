@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using HFS_BE.Automapper;
 using AutoMapper;
-using HFS_BE.Ultis;
+using HFS_BE.Utils;
 
 namespace HFS_BE.Dao.ShopDao
 {
