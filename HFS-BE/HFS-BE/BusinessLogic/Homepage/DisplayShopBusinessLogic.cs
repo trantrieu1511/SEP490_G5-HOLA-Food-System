@@ -11,7 +11,6 @@ namespace HFS_BE.BusinessLogic.Homepage
         {
         }
 
-
         public DisplayShopOutputDto DisplayShop(BaseInputDto inputDto)
         {
             try

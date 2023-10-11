@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using HFS_BE.Automapper;
 using AutoMapper;
-using HFS_BE.Ultis;
+using HFS_BE.Utils;
 
 namespace HFS_BE.Dao.ShopDao
 {
@@ -38,18 +38,10 @@ namespace HFS_BE.Dao.ShopDao
         {
             try
             {
-                var output = this.context.Users.Where(x => x.RoleId == 1).ToList();
-                output.Add(new User
-                {
-                    UserId = 2,
-                    ShopName = "duoc",
-                    ShopAddress = "Hoa lac",
-                    Avatar = "Avarta1",
-
-                });
+                var output = this.context.Users.Where(x => x.RoleId == 2).ToList();
 
                 DisplayShopOutputDto outputDto = this.Output<DisplayShopOutputDto>(Constants.ResultCdSuccess);
-                output = this.Paginate(output, inputDto.Pagination);
+                //output = this.Paginate(output, inputDto.Pagination);
                 outputDto.ListShop = mapper.Map<List<User>, List<ShopDto>>(output);
                 return outputDto;
             }

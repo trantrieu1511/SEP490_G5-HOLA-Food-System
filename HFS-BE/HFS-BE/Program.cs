@@ -52,6 +52,16 @@ builder.Services.AddSwaggerGen(options =>
                 });
 });
 
+builder.Services.AddCors(act =>
+{
+    act.AddPolicy("_MainPolicy", options =>
+    {
+        options.AllowAnyHeader();
+        options.AllowAnyMethod();
+        options.AllowAnyOrigin();
+    });
+});
+
 ConfigurationManager configuration = builder.Configuration;
 builder.Configuration.GetSection("ApplicationSettings");
 builder.Services.AddAuthorization();
@@ -100,6 +110,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors("_MainPolicy");
+
 app.MapControllers();
 
 app.Run();

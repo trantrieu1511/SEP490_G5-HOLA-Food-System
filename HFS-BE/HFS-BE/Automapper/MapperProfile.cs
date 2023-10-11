@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HFS_BE.BusinessLogic.Auth;
 using HFS_BE.Dao.AuthDao;
+using HFS_BE.Dao.PostDao;
 using HFS_BE.Dao.ShopDao;
 using HFS_BE.Models;
 using Microsoft.AspNetCore.Components.Forms;
@@ -13,6 +14,8 @@ namespace HFS_BE.Automapper
         {
             Homepage();
             Auth();
+            Post();
+            Food();
         }
 
         /// <summary>
@@ -33,6 +36,19 @@ namespace HFS_BE.Automapper
             CreateMap<AuthDaoOutputDto, LoginOutputDto>();
             CreateMap<RegisterInputDto, RegisterDto>();
             //CreateMap<DisplayShopOutputDto, BusinessLogic.Homepage.DisplayShopOutputDto>();
+        }
+
+        public void Post()
+        {
+            CreateMap<Post, Dao.PostDao.PostOutputDto>();
+            CreateMap<List<Post>, Dao.PostDao.PostOutputDto>();
+        }
+
+        public void Food()
+        {
+            CreateMap<Food, Dao.FoodDao.FoodOutputDto>()
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
+            CreateMap<FoodImage, Dao.FoodDao.FoodImageDto>();
         }
     }
 }

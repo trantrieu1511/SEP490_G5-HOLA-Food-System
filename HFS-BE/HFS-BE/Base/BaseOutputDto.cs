@@ -1,4 +1,4 @@
-﻿using HFS_BE.Ultis;
+﻿using HFS_BE.Utils;
 using System.Text.Json.Serialization;
 
 namespace HFS_BE.Base

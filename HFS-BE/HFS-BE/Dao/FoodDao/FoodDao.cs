@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.Models;
-
+using HFS_BE.Utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace HFS_BE.Dao.FoodDao
 {
@@ -11,9 +12,25 @@ namespace HFS_BE.Dao.FoodDao
         {
         }
 
-        public DisplayFoodOutputDto AllFood()
+        public FoodShopDaoOutputDto FoodByShop(FoodByShopDaoInputDto inputDto)
         {
-            return null;
+            try
+            {
+                var data = this.context.Foods
+                    .Include(x => x.FoodImages)
+                    .Include(x => x.Category)
+                    .Where(x => x.User.UserId == inputDto.ShopId)
+                    .Select(x => mapper.Map<Food, FoodOutputDto>(x))
+                    .ToList();
+
+                var output = this.Output<FoodShopDaoOutputDto>(Constants.ResultCdSuccess);
+                output.ListFood = data;
+                return output;
+            }
+            catch (Exception)
+            {
+                return this.Output<FoodShopDaoOutputDto>(Constants.ResultCdFail);
+            }
         }
     }
 }

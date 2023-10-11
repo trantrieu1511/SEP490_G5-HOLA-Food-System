@@ -6,6 +6,11 @@ export class PHAN_HE {
     public static ORDER = "Order";
     public static VOUCHER = "Voucher";
     public static POST = "Post";
+    public static TEST = "Test";
+}
+
+export class API_TEST{
+    public static SIGNIN = "login";
 }
 
 // Service User

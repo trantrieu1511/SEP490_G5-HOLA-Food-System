@@ -2,7 +2,7 @@
 using Google.Apis.Auth;
 using HFS_BE.Base;
 using HFS_BE.Models;
-using HFS_BE.Ultis;
+using HFS_BE.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Win32;
@@ -23,18 +23,18 @@ namespace HFS_BE.Dao.AuthDao
 
 		public AuthDaoOutputDto Login(AuthDaoInputDto input)
 		{
-            var output = new AuthDaoOutputDto();
-			var user = context.Users.Where(s=>s.Email==input.Email).FirstOrDefault();
+			var output = new AuthDaoOutputDto();
+			var user = context.Users.Where(s => s.Email == input.Email).FirstOrDefault();
 			if (user == null)
 			{
-				 return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Username Or Password Was Invalid");
+				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Username Or Password Was Invalid");
 			}
-		
+
 			var match = CheckPassword(input.Password, (User)user);
 
 			if (!match)
 			{
-				 return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Username Or Password Was Invalid");
+				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Username Or Password Was Invalid");
 			}
 			JwtSecurityToken token = GenerateSecurityToken((User)user);
 			output.Token = new JwtSecurityTokenHandler().WriteToken(token);
@@ -91,8 +91,9 @@ namespace HFS_BE.Dao.AuthDao
 
 			var authClaims = new List<Claim>
 			{
-					new Claim(ClaimTypes.Email, acc.Email),
+				new Claim(ClaimTypes.Email, acc.Email),
 				new Claim(ClaimTypes.Role, role),
+				new Claim(ClaimTypes.Name, acc.FirstName + acc.LastName)
 			};
 
 			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(conf["JWT:Secret"]));

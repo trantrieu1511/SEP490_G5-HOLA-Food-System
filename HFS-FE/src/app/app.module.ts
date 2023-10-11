@@ -25,7 +25,7 @@ import { AppMenuComponent } from './app-systems/app-menu/app-menu.component';
 import { AppMenuitemComponent } from './app-systems/app-menuitem/app.menuitem.component';
 import { AppCustomerLayoutModule } from './layout/customer/app.customer.module';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/compiler';
-
+import { JwtModule } from '@auth0/angular-jwt';
 
 
 @NgModule({
@@ -36,8 +36,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/compiler';
     AppTopBarComponent,
     AppFooterComponent,
     AppMenuComponent,
-    AppMenuitemComponent
-
+    AppMenuitemComponent    
     
   ],
   imports: [
@@ -49,7 +48,15 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/compiler';
     SharedModule,
     AutoCompleteModule,
     AppCustomerLayoutModule,
+    
+    JwtModule.forRoot({
+      config: {
+        tokenGetter:  () => sessionStorage.getItem('token')
+      }
+    })
+    
   ],
+  
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
         MenuService, AppBreadcrumbService, DatePipe,

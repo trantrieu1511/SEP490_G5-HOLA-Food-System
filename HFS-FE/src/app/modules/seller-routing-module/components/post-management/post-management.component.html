@@ -1,0 +1,251 @@
+<div class="grid table-demo">
+    <div class="col-12">
+        <div class="card">
+            <h5>Post Management</h5>
+
+            <p-table #dt [value]="lstPost" dataKey="id"
+                     styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
+                     [showCurrentPageReport]="true"
+                     [paginator]="lstPost.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
+                     currentPageReportTemplate="Total: {totalRecords} posts"
+                     [globalFilterFields]="['postContent']" responsiveLayout="scroll"
+                     [loading]="loading"
+            >
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-row align-items-center flex-wrap justify-content-between ">
+                        <div class="flex-1">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text"  #textInput 
+                                       (input)="dt.filterGlobal(textInput.value, 'contains')"
+                                       placeholder="Search Post by content"/>
+                            </span>
+                        </div>
+
+                        <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
+                            <div class="flex align-items-center justify-content-center">
+                                <button pButton type="button" label="Add new" icon="pi pi-plus"
+                                        (click)="onCreatePost()"
+                                        style="width: auto;"></button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th> -->
+                        <th pSortableColumn="postId">
+                            <div class="flex justify-content-between align-items-center">
+                                ID
+                                <p-sortIcon field="postId"></p-sortIcon>
+                                <p-columnFilter type="text" field="postId" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="postContent">
+                            <div class="flex justify-content-between align-items-center">
+                                Post Content
+                                <p-sortIcon field="postContent"></p-sortIcon>
+                                <p-columnFilter type="text" field="postContent" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="createdDate">
+                            <div class="flex justify-content-between align-items-center">
+                                Created Date
+                                <p-sortIcon field="createdDate"></p-sortIcon>
+                                <p-columnFilter type="text" field="createdDate" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="flex justify-content-between align-items-center">
+                                Images
+                            </div>
+                        </th>
+                        <th pSortableColumn="status">
+                            <div class="flex justify-content-between align-items-center">
+                                Status
+                                <p-sortIcon field="status"></p-sortIcon>
+                                <p-columnFilter type="text" field="status" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width: 8rem">
+                            <div 
+                                 class="flex justify-content-between align-items-center">
+                                Action
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-post>
+                    <tr class="p-selectable-row">
+                        <!-- <td>
+                            <p-tableCheckbox [value]="post"></p-tableCheckbox>
+                        </td> -->
+                        <td>
+                            <span class="p-column-title">ID</span>
+                            <p class="post-id">{{post.postId}}</p>
+                        </td>
+                        <td >
+                            <span class="p-column-title">Post Content</span>
+                            <p class="post-content" (click)="viewContentDetail(post)">{{post.postContent}}</p>
+                        </td>
+                        <td>
+                            <span class="p-column-title">Created Date</span>
+                            {{post.createdDate}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Image</span>
+                            <ng-container *ngIf="post.images.length !== 0; else noneImage" >
+                                <button pButton pRipple icon="pi pi-images"
+                                        (click)="onDisplayImagesDialog(post, $event)"
+                                        class="p-button-rounded p-button-text p-button-raised"></button>
+                            </ng-container>
+                            <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+                        </td>
+                        <td>
+                            <span class="p-column-title">Status</span>
+                            <p-tag [value]="post.status" [severity]="getSeverity(post.status)"></p-tag>
+                        </td>
+                        <td style="text-align: center">
+                            <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+                                <div class="flex align-items-center justify-content-center">
+                                    <button pButton pRipple icon="pi pi-pencil"
+                                            (click)="onUpdatePost(post)"
+                                            class="p-button-rounded p-mr-2"></button>
+                                </div>
+                                <div *ngIf="post.status === 'Display'; else statusHide" class="flex align-items-center justify-content-center">
+                                    <button pButton pRipple icon="pi pi-eye-slash"
+                                            (click)="onHidePost(post, $event)"
+                                            class="p-button-rounded p-button-danger"></button>
+                                </div>
+                                <ng-template #statusHide>
+                                    <div class="flex align-items-center justify-content-center">
+                                        <button pButton pRipple icon="pi pi-eye"
+                                                (click)="onDisplayPost(post, $event)"
+                                                class="p-button-rounded p-button-danger"></button>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">No post yet.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-dialog [header]="headerDialog" [(visible)]="displayDialogEditAddPost"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '50vw'}"
+          [draggable]="false" [resizable]="false" [maximizable]="true">
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <b>Post information</b>
+                    </div>
+                </p-divider>
+                <div class="grid">
+                    <ng-template [ngIf]="postModel.postId > 0">
+                        <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+                            <span class="p-input-icon-left p-float-label" style="width: 100%">
+                                <input type="text" class="w-full" [(ngModel)]="postModel.postId"
+                                       [disabled]="true" pInputText/>
+                                <label>ID*</label>
+                            </span>
+                        </div>
+                    </ng-template>
+                    <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+                        <span class="p-input-icon-left p-float-label" style="width: 100%" >
+                            <textarea class="w-full" rows="10" cols="60" pInputTextarea [(ngModel)]="postModel.postContent"></textarea>
+                            <label>Post Content*</label>
+                        </span>
+                    </div>
+                    <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+                        <label>Images</label>
+					    <span class="p-input-icon-left p-float-label" style="width: 100%">
+                            <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
+                                <ng-template pTemplate="content">
+                                    <ul *ngIf="postModel.images.length">
+                                    </ul>
+                                </ng-template>
+                            </p-fileUpload> -->
+                                <p-fileUpload class=" w-full" 
+                                    (onSelect)="handleFileSelection($event)" 
+                                    (onRemove)="handleFileRemoval($event)"
+                                    (onClear)="handleAllFilesClear($event)"
+                                    [multiple]="true" accept="image/*" [maxFileSize]="1000000" 
+                                    [showUploadButton]="false" >
+                                    <ng-template pTemplate="content">
+                                        <!-- <ul *ngIf="uploadedFiles.length > 0">
+                                            <li *ngFor="let file of uploadedFiles">{{ file.name }}</li>
+                                        </ul> -->
+                                    </ng-template>
+                                </p-fileUpload>
+                            
+                            
+					    </span>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-center flex-wrap" style="text-align: center">
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Save" icon="pi pi-save"
+                        (click)="onSavePost()"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                        (click)="onCancelPost()" class="p-button-danger"
+                        style="width: 100%;"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+<p-dialog header="View ContentPost" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true">
+    <p class="dialog-content-detail">
+        {{contentDialog}}
+    </p>
+</p-dialog>
+
+<p-dialog header="List Image" [(visible)]="visibleImageDialog" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+    <p-table [value]="postImageDialog.images" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Size</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-postImageDialog>
+            <tr >
+                <td>{{postImageDialog.imageId}}</td>
+                <td><img src="https://primefaces.org/cdn/primeng/images/demo/product/{{ postImageDialog.image }}"[alt]="postImageDialog.image" class="dialogimages_image w-10rem shadow-2"/></td>
+
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>
+
+<p-confirmPopup></p-confirmPopup>
+
+<p-confirmDialog key="uhidePost" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog>

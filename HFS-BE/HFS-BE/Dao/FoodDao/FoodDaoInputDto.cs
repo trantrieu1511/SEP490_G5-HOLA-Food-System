@@ -1,6 +1,9 @@
-﻿namespace HFS_BE.Dao.FoodDao
+﻿using HFS_BE.Base;
+
+namespace HFS_BE.Dao.FoodDao
 {
-    public class FoodDaoInputDto
+    public class FoodByShopDaoInputDto : BaseInputDto
     {
+        public int? ShopId { get; set; }
     }
 }

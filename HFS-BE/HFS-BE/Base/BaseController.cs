@@ -3,6 +3,7 @@ using HFS_BE.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace HFS_BE.Base
 {
@@ -38,7 +39,9 @@ namespace HFS_BE.Base
         [NonAction]
         public string GetAccessRight()
         {
-            return "user";
+            ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
+            var a = identity.FindFirst(ClaimTypes.Role)?.Value;
+            return a.ToString();
         }
     }
 }
