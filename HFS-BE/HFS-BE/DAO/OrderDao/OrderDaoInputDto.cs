@@ -1,7 +1,10 @@
-﻿namespace HFS_BE.Dao.OrderDao
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace HFS_BE.Dao.OrderDao
 {
     public class OrderByShipperDaoInputDto
     {
-        public int ShipperId { get; set; }
+        [Required(ErrorMessage = "Shipper required!")]
+        public int? ShipperId { get; set; }
     }
 }
