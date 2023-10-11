@@ -8,7 +8,7 @@
                      [showCurrentPageReport]="true"
                      [paginator]="lstFood.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
                      currentPageReportTemplate="Total: {totalRecords} foods"
-                     [globalFilterFields]="['foodName']" responsiveLayout="scroll"
+                     [globalFilterFields]="['name']" responsiveLayout="scroll"
                      [loading]="loading"
             >
                 <ng-template pTemplate="caption">
@@ -40,38 +40,40 @@
                             <div class="flex justify-content-between align-items-center">
                                 ID
                                 <p-sortIcon field="foodId"></p-sortIcon>
-                                <p-columnFilter type="text" field="foodId" display="menu"
+                                <p-columnFilter type="numeric" field="foodId" display="menu"
                                                 class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
-                        <th pSortableColumn="category">
+                        <th pSortableColumn="categoryName">
                             <div class="flex justify-content-between align-items-center">
                                 Category Name
-                                <p-sortIcon field="category"></p-sortIcon>
-                                <p-columnFilter type="text" field="category" display="menu"
+                                <p-sortIcon field="categoryName"></p-sortIcon>
+                                <p-columnFilter type="text" field="categoryName" display="menu"
                                                 class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
-                        <th pSortableColumn="foodName">
+                        <th pSortableColumn="name">
                             <div class="flex justify-content-between align-items-center">
                                 Food Name
-                                <p-sortIcon field="foodName"></p-sortIcon>
-                                <p-columnFilter type="text" field="foodName" display="menu"
+                                <p-sortIcon field="name"></p-sortIcon>
+                                <p-columnFilter type="text" field="name" display="menu"
                                                 class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
-                        <th pSortableColumn="foodDescription">
+                        <th pSortableColumn="description">
                             <div class="flex justify-content-between align-items-center">
                                 Food Description
-                                <p-sortIcon field="foodDescription"></p-sortIcon>
-                                <p-columnFilter type="text" field="foodDescription" display="menu"
+                                <p-sortIcon field="description"></p-sortIcon>
+                                <p-columnFilter type="text" field="description" display="menu"
                                                 class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
-                        <th pSortableColumn="foodRating">
+                        <th pSortableColumn="rating">
                             <div class="flex justify-content-between align-items-center">
                                 Rating
-                                <p-sortIcon field="foodRating"></p-sortIcon>
+                                <p-sortIcon field="rating"></p-sortIcon>
+                                <p-columnFilter type="numeric" field="rating" display="menu"
+                                                class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
                         <th>
