@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using HFS_BE.BusinessLogic.Auth;
+using HFS_BE.BusinessLogic.Cart;
 using HFS_BE.Dao.AuthDao;
 using HFS_BE.Dao.PostDao;
 using HFS_BE.Dao.ShopDao;
+using HFS_BE.DAO.CartDao;
 using HFS_BE.Models;
 using Microsoft.AspNetCore.Components.Forms;
 
@@ -25,9 +27,9 @@ namespace HFS_BE.Automapper
         public void Homepage()
         {
             CreateMap<User, ShopDto>();
-            CreateMap<List<User>, DisplayShopOutputDto>();
+            CreateMap<List<User>, DisplayShopDaoOutputDto>();
             CreateMap<ShopDto, BusinessLogic.Homepage.ShopDto>();
-            CreateMap<DisplayShopOutputDto, BusinessLogic.Homepage.DisplayShopOutputDto>();
+            CreateMap<DisplayShopDaoOutputDto, BusinessLogic.Homepage.DisplayShopOutputDto>();
         }
 
         public void Auth()
@@ -56,6 +58,27 @@ namespace HFS_BE.Automapper
             CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>();
             CreateMap<OrderDetail, Dao.OrderDao.OrderDetailDto>()
                 .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name));
+
+        }
+
+        public void Shop()
+        {
+            CreateMap<User, GetShopDetailDaoOutputDto>()
+                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.UserId));            
+        }
+
+        public void Cart()
+        {
+            CreateMap<CartItem, CartItemOutputDto>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Food.Name))
+                .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => src.Food.FoodImages))
+                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.Food.UserId))
+                .ForMember(dest => dest.ShopName, opt => opt.MapFrom(src => src.Food.User.ShopName));
+            CreateMap<FoodImage, FoodImageDto>();
+            CreateMap<AddCartItemInputDto, CartItem>();
+
+            CreateMap<CartItemOutputDto, CartItemDto>()
+                .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => src.foodImages.FirstOrDefault()));
 
         }
     }

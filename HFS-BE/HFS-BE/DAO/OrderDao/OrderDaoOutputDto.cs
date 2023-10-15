@@ -31,4 +31,9 @@ namespace HFS_BE.Dao.OrderDao
         public int? Quantity { get; set; }
         public bool? Status { get; set; }
     }
+
+    public class CheckOutOrderDaoOutputDto : BaseOutputDto
+    {
+        public int? OrderId { get; set; }
+    }
 }

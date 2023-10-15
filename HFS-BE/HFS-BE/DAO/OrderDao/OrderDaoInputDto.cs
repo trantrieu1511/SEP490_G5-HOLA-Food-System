@@ -7,4 +7,15 @@ namespace HFS_BE.Dao.OrderDao
         [Required(ErrorMessage = "Shipper required!")]
         public int? ShipperId { get; set; }
     }
+
+    public class CartItemDaoInputDto
+    {
+        public int FoodId { get; set; }
+        public int Amount { get; set; }
+    }
+
+    public class CheckOutOrderDaoInputDto
+    {
+        public List<CartItemDaoInputDto> Items { get; set; }
+    }
 }

@@ -17,6 +17,7 @@ namespace HFS_BE.Models
         public int FoodId { get; set; }
         public int? UserId { get; set; }
         public string? Name { get; set; }
+        public decimal? UnitPrice { get; set; }
         public string? Description { get; set; }
         public int? CategoryId { get; set; }
         public bool? Status { get; set; }

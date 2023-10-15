@@ -23,7 +23,7 @@ namespace HFS_BE.Controllers.OrderShipper
             {
                 var busi = this.GetBusinessLogic<OrderShipperBusinessLogic>();
                 var role = this.GetAccessRight();
-                if(role != "4")
+                if(role != 4)
                 {
                     return this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdFail);
                 }

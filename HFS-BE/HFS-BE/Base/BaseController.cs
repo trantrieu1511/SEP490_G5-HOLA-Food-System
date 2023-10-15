@@ -36,12 +36,22 @@ namespace HFS_BE.Base
             };
         }
 
+        public T Output<T>(bool success, string content) where T : BaseOutputDto, new()
+        {
+            return new T
+            {
+                Message = success ? "Success" : content,
+                Success = success,
+                Errors = null
+            };
+        }
+
         [NonAction]
-        public string GetAccessRight()
+        public int GetAccessRight()
         {
             ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
             var a = identity.FindFirst(ClaimTypes.Role)?.Value;
-            return a.ToString();
+            return Convert.ToInt16(a);
         }
     }
 }
