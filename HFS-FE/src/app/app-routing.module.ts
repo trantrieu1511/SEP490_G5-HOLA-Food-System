@@ -5,8 +5,7 @@ import { AppManageLayoutComponent } from './layout/manage/app.manage.component';
 import {AppNotfoundComponent} from './pages/app.notfound.component';
 import {AppErrorComponent} from './pages/app.error.component';
 import {AppAccessdeniedComponent} from './pages/app.accessdenied.component';
-import {authGuard} from "./services/Guard/auth.guard"
-
+import {authGuard} from "./services/Guard/auth.guard";
 
 const routes: Routes = [
   // {
@@ -41,8 +40,8 @@ const routes: Routes = [
       },
       {
         path: 'seller',
-        canActivate: [authGuard],
-        data: { requiredRole: 'Seller' },
+        // canActivate: [authGuard],
+        // data: { requiredRole: 'Seller' },
         loadChildren: () => import('./modules/seller-routing-module/seller-routing.module').then(m => m.SellerRoutingModule),
       },
       {
