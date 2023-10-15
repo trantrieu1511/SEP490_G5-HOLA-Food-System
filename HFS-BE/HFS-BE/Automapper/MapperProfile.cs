@@ -76,7 +76,7 @@ namespace HFS_BE.Automapper
             CreateMap<OrderProgressDaoInputDto, OrderProgress>();
             CreateMap<Order, OrderHistoryDetailDtoOutput>();
             CreateMap<OrderProgress, OrderProgressDaoOutputDto>();
-
+        }
         public void Shop()
         {
             CreateMap<User, GetShopDetailDaoOutputDto>()
