@@ -15,7 +15,7 @@ namespace HFS_BE.Controllers.Cart
         {
         }
 
-        [HttpPost("addtocart")]
+        [HttpPost("cart/addtocart")]
         public BaseOutputDto AddCartItem(AddCartItemInputDto inputDto)
         {
             try

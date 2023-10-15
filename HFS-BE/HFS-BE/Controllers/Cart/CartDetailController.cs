@@ -15,7 +15,7 @@ namespace HFS_BE.Controllers.Cart
         {
         }
 
-        [HttpPost("cartdetail")]
+        [HttpPost("cart/cartdetail")]
         public CartDetailBusinessLogicOutputDto GetCartDetail(GetCartItemDaoInputDto inputDto)
         {
             try

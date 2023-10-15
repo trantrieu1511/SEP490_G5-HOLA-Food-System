@@ -14,7 +14,7 @@ namespace HFS_BE.Controllers.ShopDetail
         {
         }
 
-        [HttpPost("shopdetail")]
+        [HttpPost("shopdetail/shopinfor")]
         public GetShopDetailDaoOutputDto GetShopInfor(GetShopDetailDaoInputDto inputDto)
         {
             try

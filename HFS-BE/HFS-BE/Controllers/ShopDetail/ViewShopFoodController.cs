@@ -14,7 +14,8 @@ namespace HFS_BE.Controllers.ShopDetail
         {
         }
 
-        [HttpPost("shopdetail")]
+        [HttpPost]
+        [Route("shopdetail/foods")]
         public FoodShopDaoOutputDto DisplayFood(FoodByShopDaoInputDto inputDto)
         {
             try

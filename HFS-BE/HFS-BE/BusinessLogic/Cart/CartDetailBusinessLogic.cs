@@ -24,12 +24,12 @@ namespace HFS_BE.BusinessLogic.Cart
                 {
                     if (!output.ListShop.Select(x => x.ShopId).Contains(item.ShopId))
                     {
-                        List<CartItemOutputDto> listitem = daoOutput.ListItem.Where(x => x.ShopId == item.ShopId).ToList();
+                        List<DAO.CartDao.CartItemOutputDto> listitem = daoOutput.ListItem.Where(x => x.ShopId == item.ShopId).ToList();
                         ListShopItemDto shopitem = new ListShopItemDto()
                         {
                             ShopId = item.ShopId,
                             ShopName = item.ShopName,
-                            ListItem = mapper.Map<List<CartItemOutputDto>, List<CartItemDto>>(listitem),
+                            ListItem = mapper.Map<List<DAO.CartDao.CartItemOutputDto>, List<CartItemDto>>(listitem),
                         };
                     }
                 }

@@ -19,6 +19,7 @@ namespace HFS_BE.Automapper
             Post();
             Food();
             Order();
+            Cart();
         }
 
         /// <summary>
@@ -69,17 +70,16 @@ namespace HFS_BE.Automapper
 
         public void Cart()
         {
-            CreateMap<CartItem, CartItemOutputDto>()
+            CreateMap<FoodImage, DAO.CartDao.FoodImagesDto>();
+            CreateMap<CartItem, DAO.CartDao.CartItemOutputDto>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Food.Name))
                 .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => src.Food.FoodImages))
                 .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.Food.UserId))
-                .ForMember(dest => dest.ShopName, opt => opt.MapFrom(src => src.Food.User.ShopName));
-            CreateMap<FoodImage, FoodImageDto>();
+                .ForMember(dest => dest.ShopName, opt => opt.MapFrom(src => src.Food.User.ShopName));          
             CreateMap<AddCartItemInputDto, CartItem>();
 
             CreateMap<CartItemOutputDto, CartItemDto>()
                 .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => src.foodImages.FirstOrDefault()));
-
         }
     }
 }

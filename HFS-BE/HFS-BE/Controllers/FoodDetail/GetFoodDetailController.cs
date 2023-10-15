@@ -14,7 +14,8 @@ namespace HFS_BE.Controllers.FoodDetail
         {
         }
 
-        [HttpPost("fooddetail")]
+        [HttpPost]
+        [Route("fooddetail")]
         public FoodOutputDto GetFoodDetail(GetFoodDetailDaoInputDto inputDto)
         {
             try

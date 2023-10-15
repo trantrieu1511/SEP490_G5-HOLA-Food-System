@@ -4,7 +4,7 @@ namespace HFS_BE.DAO.CartDao
 {
     public class GetCartItemDaoOutputDto : BaseOutputDto
     {
-        public List<CartItemOutputDto> ListItem { get; set; } = new List<CartItemOutputDto>();
+        public List<CartItemOutputDto> ListItem { get; set; }
     }
 
 
@@ -17,10 +17,10 @@ namespace HFS_BE.DAO.CartDao
         public int Amount { get; set; }
         public decimal UnitPrice { get; set; }
         public string? Name { get; set; }
-        public List<FoodImageDto> foodImages { get; set; }
+        public List<FoodImagesDto> foodImages { get; set; }
     }
 
-    public class FoodImageDto
+    public class FoodImagesDto
     {
         public int ImageId { get; set; }
         public string Path { get; set; }

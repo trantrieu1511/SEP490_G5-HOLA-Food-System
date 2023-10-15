@@ -20,12 +20,14 @@ namespace HFS_BE.Base
             this.mapper = mapper;
         }
 
+        [NonAction]
         public T GetBusinessLogic<T>() where T : BaseBusinessLogic
         {
 
             return (T)Activator.CreateInstance(typeof(T), context, mapper);
         }
 
+        [NonAction]
         public T Output<T>(bool success) where T : BaseOutputDto, new()
         {
             return new T
@@ -36,6 +38,7 @@ namespace HFS_BE.Base
             };
         }
 
+        [NonAction]
         public T Output<T>(bool success, string content) where T : BaseOutputDto, new()
         {
             return new T
