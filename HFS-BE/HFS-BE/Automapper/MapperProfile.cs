@@ -19,6 +19,7 @@ namespace HFS_BE.Automapper
             Food();
             Order();
             OrderProgress();
+            OrderHistory();
         }
 
         /// <summary>
