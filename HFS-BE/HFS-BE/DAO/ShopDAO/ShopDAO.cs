@@ -15,39 +15,42 @@ namespace HFS_BE.Dao.ShopDao
         }
 
 
-        public SearchShopOututDto SearchShop(SearchShopInputDto inputDto)
-        {
-            var output = this.context.Foods.Where(x => x.Name.Equals(inputDto.name));
-            var outputDto = new SearchShopOututDto();
-
-            foreach (var item in output)
-            {
-                var user = new UserDto()
-                {
-                    Id = item.FoodId,
-                    Name = item.Name,
-                };
-                outputDto.ListUser.Add(user);
-            }
-
-            return outputDto;
-        }
-
-
-        public DisplayShopOutputDto DisplayShop(BaseInputDto inputDto)
+        public DisplayShopDaoOutputDto DisplayShop(BaseInputDto inputDto)
         {
             try
             {
                 var output = this.context.Users.Where(x => x.RoleId == 2).ToList();
 
-                DisplayShopOutputDto outputDto = this.Output<DisplayShopOutputDto>(Constants.ResultCdSuccess);
+                DisplayShopDaoOutputDto outputDto = this.Output<DisplayShopDaoOutputDto>(Constants.ResultCdSuccess);
                 //output = this.Paginate(output, inputDto.Pagination);
                 outputDto.ListShop = mapper.Map<List<User>, List<ShopDto>>(output);
                 return outputDto;
             }
             catch (Exception ex)
             {
-                return this.Output<DisplayShopOutputDto>(Constants.ResultCdFail);
+                return this.Output<DisplayShopDaoOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public GetShopDetailDaoOutputDto GetShopDetail(GetShopDetailDaoInputDto inputDto)
+        {
+            try
+            {
+                var output = this.context.Users
+                    .Where(x => x.UserId == inputDto.ShopId)
+                    .FirstOrDefault();
+
+                var outputDto = this.Output<GetShopDetailDaoOutputDto>(Constants.ResultCdSuccess);
+                if (output != null)
+                {
+                    outputDto = mapper.Map<User, GetShopDetailDaoOutputDto>(output);
+                }
+                
+                return outputDto;
+            }
+            catch (Exception ex)
+            {
+                return this.Output<GetShopDetailDaoOutputDto>(Constants.ResultCdFail);
             }
         }
     }

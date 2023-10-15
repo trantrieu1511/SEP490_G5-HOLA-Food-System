@@ -16,8 +16,8 @@ namespace HFS_BE.BusinessLogic.Homepage
             try
             {
                 var Dao = this.CreateDao<ShopDao>();
-                Dao.ShopDao.DisplayShopOutputDto daooutput = Dao.DisplayShop(inputDto);
-                var output = mapper.Map<Dao.ShopDao.DisplayShopOutputDto, DisplayShopOutputDto>(daooutput);
+                Dao.ShopDao.DisplayShopDaoOutputDto daooutput = Dao.DisplayShop(inputDto);
+                var output = mapper.Map<Dao.ShopDao.DisplayShopDaoOutputDto, DisplayShopOutputDto>(daooutput);
                 return output;
             }
             catch (Exception)

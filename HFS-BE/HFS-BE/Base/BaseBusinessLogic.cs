@@ -26,5 +26,15 @@ namespace HFS_BE.Base
                 Errors = null
             };
         }
+
+        public T Output<T>(bool success, string content) where T : BaseOutputDto, new()
+        {
+            return new T
+            {
+                Message = success ? "Success" : content,
+                Success = success,
+                Errors = null
+            };
+        }
     }
 }

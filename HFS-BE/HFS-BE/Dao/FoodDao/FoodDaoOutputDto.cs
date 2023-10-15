@@ -3,7 +3,7 @@ using HFS_BE.Models;
 
 namespace HFS_BE.Dao.FoodDao
 {
-    public class FoodOutputDto
+    public class FoodOutputDto : BaseOutputDto
     {
         public int FoodId { get; set; }
         public string? Name { get; set; }

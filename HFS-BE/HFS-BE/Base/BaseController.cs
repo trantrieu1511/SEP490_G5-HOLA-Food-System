@@ -20,12 +20,14 @@ namespace HFS_BE.Base
             this.mapper = mapper;
         }
 
+        [NonAction]
         public T GetBusinessLogic<T>() where T : BaseBusinessLogic
         {
 
             return (T)Activator.CreateInstance(typeof(T), context, mapper);
         }
 
+        [NonAction]
         public T Output<T>(bool success) where T : BaseOutputDto, new()
         {
             return new T
@@ -37,11 +39,22 @@ namespace HFS_BE.Base
         }
 
         [NonAction]
-        public string GetAccessRight()
+        public T Output<T>(bool success, string content) where T : BaseOutputDto, new()
+        {
+            return new T
+            {
+                Message = success ? "Success" : content,
+                Success = success,
+                Errors = null
+            };
+        }
+
+        [NonAction]
+        public int GetAccessRight()
         {
             ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
             var a = identity.FindFirst(ClaimTypes.Role)?.Value;
-            return a.ToString();
+            return Convert.ToInt16(a);
         }
     }
 }

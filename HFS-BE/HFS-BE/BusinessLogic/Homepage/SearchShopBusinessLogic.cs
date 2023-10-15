@@ -12,23 +12,23 @@ namespace HFS_BE.BusinessLogic.Homepage
         {
         }
 
-        public SearchShopOututDto SearchShop(SearchShopBusinessLogicInputDto inputDto)
-        {
+        //public SearchShopOututDto SearchShop(SearchShopBusinessLogicInputDto inputDto)
+        //{
 
-            ShopDao Dao = this.CreateDao<ShopDao>(); 
-            SearchShopInputDto input = new SearchShopInputDto();
-            input.name = inputDto.Name;
-            var output = Dao.SearchShop(input);
-            var outputDto = new SearchShopOututDto();
-            foreach (var item in output.ListUser)
-            {
-                UserDto user = new UserDto();
-                user.Id = item.Id;
-                user.Name = item.Name;
-                outputDto.ListUser.Add(user);
-            }
+        //    ShopDao Dao = this.CreateDao<ShopDao>(); 
+        //    SearchShopInputDto input = new SearchShopInputDto();
+        //    input.name = inputDto.Name;
+        //    var output = Dao.SearchShop(input);
+        //    var outputDto = new SearchShopOututDto();
+        //    foreach (var item in output.ListUser)
+        //    {
+        //        UserDto user = new UserDto();
+        //        user.Id = item.Id;
+        //        user.Name = item.Name;
+        //        outputDto.ListUser.Add(user);
+        //    }
 
-            return outputDto;
-        }
+        //    return outputDto;
+        //}
     }
 }

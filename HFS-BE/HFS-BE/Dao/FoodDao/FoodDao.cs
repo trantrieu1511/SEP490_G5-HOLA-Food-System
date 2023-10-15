@@ -32,5 +32,24 @@ namespace HFS_BE.Dao.FoodDao
                 return this.Output<FoodShopDaoOutputDto>(Constants.ResultCdFail);
             }
         }
+
+        public FoodOutputDto GetFoodDetail(GetFoodDetailDaoInputDto inputDto)
+        {
+            try
+            {
+                var data = this.context.Foods
+                    .Include(x => x.FoodImages)
+                    .Include(x => x.Category)
+                    .Where(x => x.FoodId == inputDto.FoodId)
+                    .FirstOrDefault();
+
+                var output = this.Output<FoodOutputDto>(Constants.ResultCdSuccess);
+                return output = mapper.Map<Food, FoodOutputDto>(data);
+            }
+            catch (Exception)
+            {
+                return this.Output<FoodOutputDto>(Constants.ResultCdFail);
+            }
+        }
     }
 }

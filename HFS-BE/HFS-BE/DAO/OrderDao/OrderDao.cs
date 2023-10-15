@@ -67,5 +67,16 @@ namespace HFS_BE.Dao.OrderDao
                 return this.Output<OrderOnHistoryDaoOutputDto>(Constants.ResultCdFail);
             }
         }
+        public CheckOutOrderDaoOutputDto CheckOutOrder(CheckOutOrderDaoInputDto inputDto)
+        {
+            try
+            {
+                return null;
+            }
+            catch (Exception)
+            {
+                return this.Output<CheckOutOrderDaoOutputDto>(Constants.ResultCdFail);
+            }
+        }
     }
 }
