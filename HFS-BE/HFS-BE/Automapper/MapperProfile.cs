@@ -3,6 +3,7 @@ using HFS_BE.BusinessLogic.Auth;
 using HFS_BE.Dao.AuthDao;
 using HFS_BE.Dao.PostDao;
 using HFS_BE.Dao.ShopDao;
+using HFS_BE.DAO.OrderDao;
 using HFS_BE.Models;
 using Microsoft.AspNetCore.Components.Forms;
 
@@ -17,6 +18,7 @@ namespace HFS_BE.Automapper
             Post();
             Food();
             Order();
+            OrderProgress();
         }
 
         /// <summary>
@@ -57,6 +59,19 @@ namespace HFS_BE.Automapper
             CreateMap<OrderDetail, Dao.OrderDao.OrderDetailDto>()
                 .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name));
 
+        }
+        public void OrderHistory()
+        {
+            CreateMap<Order, Dao.OrderDao.OrderHistoryOutputDto>();
+            CreateMap<OrderDetail, Dao.OrderDao.OrderDetailDto>()
+                .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name));
+
+        }
+        public void OrderProgress()
+        {
+            CreateMap<OrderProgressDaoInputDto, OrderProgress>();
+            CreateMap<Order, OrderHistoryDetailDtoOutput>();
+            CreateMap<OrderProgress, OrderProgressDaoOutputDto>();
         }
     }
 }
