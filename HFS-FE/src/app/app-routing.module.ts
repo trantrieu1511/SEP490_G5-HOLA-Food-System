@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppCustomerLayoutComponent } from './layout/customer/app.customer.component';
 import { AppManageLayoutComponent } from './layout/manage/app.manage.component';
-import {AppNotfoundComponent} from './pages/app.notfound.component';
-import {AppErrorComponent} from './pages/app.error.component';
-import {AppAccessdeniedComponent} from './pages/app.accessdenied.component';
+import { AppNotfoundComponent } from './pages/app.notfound.component';
+import { AppErrorComponent } from './pages/app.error.component';
+import { AppAccessdeniedComponent } from './pages/app.accessdenied.component';
 import {authGuard} from "./services/Guard/auth.guard";
 
 const routes: Routes = [
@@ -47,6 +47,10 @@ const routes: Routes = [
       {
         path: 'admin',
         loadChildren: () => import('./modules/admin-routing-module/admin-routing.module').then(m => m.AdminRoutingModule),
+      },
+      {
+        path: 'postmoderator',
+        loadChildren: () => import('./modules/postmoderator-routing-module/postmoderator-routing-module.module').then(m => m.PostmoderatorRoutingModule),
       }
     ]
   },
