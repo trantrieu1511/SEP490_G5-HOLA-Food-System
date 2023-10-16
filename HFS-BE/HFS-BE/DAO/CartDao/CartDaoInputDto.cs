@@ -11,4 +11,11 @@
         public int FoodId { get; set; }
         public int Amount { get; set; }
     }
+
+    public class DeleteCartItemInputDto
+    {
+        public int CartId { get; set; }
+        public int FoodId { get; set; }
+        public int? Amount { get; set; }
+    }
 }

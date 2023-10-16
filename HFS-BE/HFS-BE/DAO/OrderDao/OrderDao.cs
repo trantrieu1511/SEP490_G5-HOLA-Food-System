@@ -70,11 +70,22 @@ namespace HFS_BE.Dao.OrderDao
         {
             try
             {
-                return null;
+                var order = mapper.Map<CheckOutOrderDaoInputDto, Order>(inputDto);
+                foreach (var item in order.OrderDetails)
+                {
+                    item.UnitPrice = this.context.Foods.Where(x => x.FoodId == item.FoodId).FirstOrDefault().UnitPrice;
+                }
+
+                context.Add(order);
+                context.SaveChanges();
+
+                var output = this.Output<CheckOutOrderDaoOutputDto>(Constants.ResultCdSuccess);
+                output.OrderId = order.OrderId;
+                return output;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return this.Output<CheckOutOrderDaoOutputDto>(Constants.ResultCdFail);
+                return this.Output<CheckOutOrderDaoOutputDto>(Constants.ResultCdFail, e.Message);
             }
         }
     }

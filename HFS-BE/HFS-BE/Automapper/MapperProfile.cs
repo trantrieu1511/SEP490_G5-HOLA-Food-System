@@ -64,6 +64,16 @@ namespace HFS_BE.Automapper
             CreateMap<OrderDetail, Dao.OrderDao.OrderDetailDto>()
                 .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name));
 
+            // checkout order
+            CreateMap<CheckOutOrderDaoInputDto, Order>()
+                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.Items))
+                .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => DateTime.Now));
+            CreateMap<CartItemDaoInputDto, OrderDetail>()
+                .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Amount));
+            CreateMap<ListShopItemDto, CheckOutOrderDaoInputDto>()
+                .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.ListItem));
+            CreateMap<CartItemDto, CartItemDaoInputDto>();
+
         }
         public void OrderHistory()
         {

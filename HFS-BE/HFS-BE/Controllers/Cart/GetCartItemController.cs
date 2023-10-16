@@ -4,6 +4,7 @@ using HFS_BE.BusinessLogic.Cart;
 using HFS_BE.DAO.CartDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.Cart
@@ -16,10 +17,12 @@ namespace HFS_BE.Controllers.Cart
 
         [HttpPost]
         [Route("getcartitem")]
+        [Authorize(Roles = "3")]
         public GetCartItemDaoOutputDto GetCartItem(GetCartItemDaoInputDto inputDto)
         {
             try
             {
+                inputDto.CartId = this.GetUserInfor().UserId;
                 var role = this.GetAccessRight();
                 if (role != 3)
                 {

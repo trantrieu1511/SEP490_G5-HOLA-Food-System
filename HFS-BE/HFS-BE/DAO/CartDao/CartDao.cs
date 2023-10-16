@@ -65,5 +65,34 @@ namespace HFS_BE.DAO.CartDao
                 return this.Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
+
+        public BaseOutputDto DeleteCartItem(DeleteCartItemInputDto inputDto)
+        {
+            try
+            {
+                var data = this.context.CartItems
+                    .Where(x => x.CartId == inputDto.CartId && x.FoodId == inputDto.FoodId)
+                    .FirstOrDefault();
+
+                if (data != null && inputDto.Amount != null)
+                {
+                    data.Amount -= inputDto.Amount.Value;
+                    context.Update(data);
+                    context.SaveChanges();
+                }
+                else if (data != null)
+                {
+                    context.Remove(data);
+                    context.SaveChanges();
+                }
+               
+                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+            }
+            catch (Exception)
+            {
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
     }
 }
