@@ -30,6 +30,8 @@ import { AppNotfoundComponent } from './pages/app.notfound.component';
 import { AppErrorComponent } from './pages/app.error.component';
 import { AppAccessdeniedComponent } from './pages/app.accessdenied.component';
 import { JwtService } from './services/app.jwt.service';
+import { LoginComponent } from './login/login.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -44,7 +46,8 @@ import { JwtService } from './services/app.jwt.service';
     AppNotfoundComponent,
     AppErrorComponent,
     AppAccessdeniedComponent,
-    
+    LoginComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -55,15 +58,16 @@ import { JwtService } from './services/app.jwt.service';
     SharedModule,
     AutoCompleteModule,
     AppCustomerLayoutModule,
-    
+    ReactiveFormsModule,
+    FormsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter:  () => sessionStorage.getItem('token')
       }
     })
-    
+
   ],
-  
+
   providers: [
     JwtService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
