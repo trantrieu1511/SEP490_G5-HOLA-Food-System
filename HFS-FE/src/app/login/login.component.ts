@@ -78,11 +78,30 @@ async onSubmit() {
 
 
         this.user = JSON.parse(userData);
-        if(this.user.role==3){
-          this.router.navigateByUrl('/');
-        }else{
-          this.router.navigateByUrl('/HFSBusiness/seller');
+        switch(this.user.role){
+                  case 1:
+                    this.router.navigateByUrl('/HFSBusiness/admin');
+                    break;
+                    case 2:
+                      this.router.navigateByUrl('/HFSBusiness/seller');
+                      break;
+                      case 3:
+                      this.router.navigateByUrl('/');
+                      break;
+
+                      case 4:
+                        this.router.navigateByUrl('/HFSBusiness/shipper');
+                        break;
+                        case 5:
+                          this.router.navigateByUrl('/HFSBusiness/PostModerator');
+                          break;
+
+                          case 6:
+                          this.router.navigateByUrl('/HFSBusiness/MenuModerator');
+                          break;
+                          default:this.router.navigateByUrl('/');
         }
+
 
       }, error=>{
         console.log(error);

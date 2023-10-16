@@ -5,12 +5,12 @@ import { RoleNames } from '../../utils/roleName';
 
 
 export const authGuard:  CanActivateFn = async (route, state) => {
-  
+
   const router = inject(Router);
   const jwtService = inject(JwtService);
-
-  var token = await jwtService.getToken();
-  
+  var token=  sessionStorage.getItem("JWT")
+  //var token = await jwtService.getToken();
+debugger;
   if(token == null){
     router.navigate(['/login']);
     return false;
@@ -27,8 +27,8 @@ export const authGuard:  CanActivateFn = async (route, state) => {
 
   if (roleName === requiredRole) {
     return true; // user has access
-  } else {    
-    router.navigate(['/accessdeny']); 
+  } else {
+    router.navigate(['/accessdeny']);
     return false;
   }
 };

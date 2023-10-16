@@ -33,20 +33,24 @@ const routes: Routes = [
     children: [
       {
         path: 'manage',
+
         loadChildren: () => import('./modules/manage-routing-module/manage-routing-module.module').then(m => m.ManageRoutingModuleModule),
       },
       {
         path: 'shipper',
+
         loadChildren: () => import('./modules/shipper-routing-module/shipper-routing.module').then(m => m.ShipperRoutingModule),
       },
       {
         path: 'seller',
-        // canActivate: [authGuard],
-        // data: { requiredRole: 'Seller' },
+        canActivate: [authGuard],
+        data: { requiredRole: 'Seller' },
         loadChildren: () => import('./modules/seller-routing-module/seller-routing.module').then(m => m.SellerRoutingModule),
       },
       {
         path: 'admin',
+        canActivate: [authGuard],
+        data: { requiredRole: 'Admin' },
         loadChildren: () => import('./modules/admin-routing-module/admin-routing.module').then(m => m.AdminRoutingModule),
       },
       {
