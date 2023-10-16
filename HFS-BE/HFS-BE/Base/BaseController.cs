@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Models;
+using HFS_BE.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -55,6 +56,20 @@ namespace HFS_BE.Base
             ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
             var a = identity.FindFirst(ClaimTypes.Role)?.Value;
             return Convert.ToInt16(a);
+        }
+
+
+        [NonAction]
+        public UserDto? GetUserInfor()
+        {
+            if (User.Identity is ClaimsIdentity identity)
+            {
+                var email = identity.FindFirst(ClaimTypes.Email)?.Value;
+                var roleId = identity.FindFirst(ClaimTypes.Role)?.Value;
+                var name = identity.FindFirst(ClaimTypes.Name)?.Value;
+                return new UserDto { Email = email, RoleId = Convert.ToInt16(roleId), Name = name };
+            }
+            return null;
         }
     }
 }
