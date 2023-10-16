@@ -4,7 +4,7 @@ using HFS_BE.Dao.OrderDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 
-namespace HFS_BE.DAO.OrderDao
+namespace HFS_BE.DAO.OrderProgressDao
 {
     public class OrderProgressDao : BaseDao
     {
@@ -16,18 +16,18 @@ namespace HFS_BE.DAO.OrderDao
             try
             {
                 var order = mapper.Map<OrderProgressDaoInputDto, OrderProgress>(inputDto);
-                
+
                 context.OrderProgresses.Add(order);
                 context.SaveChanges();
-                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
             catch (Exception)
             {
 
-                return this.Output<BaseOutputDto> (Constants.ResultCdFail);
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
 
-     
+
     }
 }

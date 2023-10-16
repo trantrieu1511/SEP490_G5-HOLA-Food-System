@@ -4,10 +4,11 @@ using HFS_BE.BusinessLogic.Cart;
 using HFS_BE.Dao.AuthDao;
 using HFS_BE.Dao.PostDao;
 using HFS_BE.Dao.ShopDao;
-using HFS_BE.DAO.OrderDao;
 using HFS_BE.DAO.CartDao;
 using HFS_BE.Models;
 using Microsoft.AspNetCore.Components.Forms;
+using HFS_BE.DAO.OrderProgressDao;
+using HFS_BE.Dao.OrderDao;
 
 namespace HFS_BE.Automapper
 {
@@ -66,7 +67,7 @@ namespace HFS_BE.Automapper
         }
         public void OrderHistory()
         {
-            CreateMap<Order, Dao.OrderDao.OrderHistoryOutputDto>();
+            CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>();
             CreateMap<OrderDetail, Dao.OrderDao.OrderDetailDto>()
                 .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name));
 

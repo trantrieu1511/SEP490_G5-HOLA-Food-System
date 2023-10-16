@@ -1,4 +1,4 @@
-﻿namespace HFS_BE.DAO.OrderDao
+﻿namespace HFS_BE.DAO.OrderProgressDao
 {
     public class OrderProgressDaoOutputDto
     {
