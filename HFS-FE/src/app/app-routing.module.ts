@@ -6,6 +6,7 @@ import { AppNotfoundComponent } from './pages/app.notfound.component';
 import { AppErrorComponent } from './pages/app.error.component';
 import { AppAccessdeniedComponent } from './pages/app.accessdenied.component';
 import {authGuard} from "./services/Guard/auth.guard";
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   // {
@@ -13,11 +14,11 @@ const routes: Routes = [
   //   redirectTo: '/login',
   //   pathMatch: 'full'
   // },
-  // {
-  //     path: 'login',
-  //     component: LoginComponent
-  // }
-  // ,
+  {
+      path: 'login',
+      component: LoginComponent
+  }
+  ,
   {
     path: '', component: AppCustomerLayoutComponent,
     children: [

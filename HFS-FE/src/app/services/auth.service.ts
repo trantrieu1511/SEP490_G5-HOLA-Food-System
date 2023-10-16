@@ -4,62 +4,54 @@ import { Observable } from 'rxjs/internal/Observable';
 
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { environment } from 'src/environments/environment';
+import { Tokens } from '../login/models/token';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private loginStatus = new BehaviorSubject<boolean>(this.loggedIn())
-  private username = new BehaviorSubject<string>(localStorage.getItem('username')!)
+user:User;
   private path = environment.apiUrl
   constructor(private httpClient: HttpClient) { }
 
-  public signOutExternal = () => {
-      localStorage.removeItem("token");
-      console.log("token deleted")
-  }
+  login(model: any){
+    return this.httpClient.post(this.path+'home/login', model).pipe(
+      map((res:Tokens)=>{
+        const token = res;
+        debugger;
+        if(token){
+          this.setCurrentUser(token);
 
-  LoginWithGoogle(credentials: string): Observable<any> {
+        }
+      })
+    )
+  }
+  setCurrentUser(token: Tokens){
     debugger;
-    const header = new HttpHeaders().set('Content-type', 'application/json');
-    return this.httpClient.post(this.path + "LoginWithGoogle", JSON.stringify(credentials), { headers: header, withCredentials: true });
-  }
-  LoginWithFacebook(credentials: string): Observable<any> {
-    const header = new HttpHeaders().set('Content-type', 'application/json');
-    return this.httpClient.post("https://localhost:7016/api/Ok/" + "LoginWithFacebook", JSON.stringify(credentials), { headers: header, withCredentials: true });
-  }
-  login(loginModel:any): Observable<any> {
-    debugger;
-    const header = new HttpHeaders().set('Content-type', 'application/json');
-console.log(header);
-    return this.httpClient.post(this.path + 'Login', JSON.stringify(loginModel), { headers: header, withCredentials: true })
-
-  }
-
-  getClient(): Observable<any> {
-    const header = new HttpHeaders().set('Content-type', 'application/json');
-    return this.httpClient.get(this.path + "GetColorList", { headers: header, withCredentials: true });
-  }
-
-
-
-  saveUsername(username:string) {
-    localStorage.setItem('username', username)
-  }
-
-  loggedIn(): boolean {
-    if (localStorage.getItem('token')) {
-      return true;
+    if(token){
+      const data = this.getDecodedToken(token.token);//copy token to jwt.io see .role
+      this.user = {
+        email: data['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
+        role: +data['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
+        name: data['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
+        userId: data['userId'],
+        exp: +data['exp']
+      };
+     console.log(this.user)
+      // Save user data to localStorage
+      localStorage.setItem('user', JSON.stringify(this.user));
+      sessionStorage.setItem("JWT",token.token);
     }
-    return false;
   }
-
-  setLoginStatus(val:any) {
-    this.loginStatus.next(val)
+  getDecodedToken(token: string) {
+    return JSON.parse(atob(token.split('.')[1]));
   }
-
-  setUsername(val:any) {
-    this.username.next(val)
-  }
-
+}
+export interface User {
+  email: string;
+  role: number;
+  name: string;
+  userId: string;
+  exp: number;
 }

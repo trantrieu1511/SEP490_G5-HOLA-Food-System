@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CredentialResponse } from 'google-one-tap';
 import { environment } from '../../environments/environment';
-import { AuthService } from '../services/auth.service';
+import { AuthService, User } from '../services/auth.service';
 
 declare const FB: any;
 
@@ -13,6 +13,7 @@ declare const FB: any;
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements  OnInit{
+  user:User;
  form:FormGroup;
 private client_Id=environment.clientId;
  constructor(private router: Router,
@@ -24,8 +25,8 @@ private client_Id=environment.clientId;
 
  FormFirst(){
   this.form = new FormGroup({
-    userName: new FormControl('', Validators.email),
-    password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(12)])
+    email: new FormControl('', Validators.email),
+    password: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(12)])
   })
 }
  ngOnInit(): void {
@@ -52,15 +53,15 @@ private client_Id=environment.clientId;
 }
 async handleCredentialResponse(response: CredentialResponse) {
   debugger;
-  await this.service.LoginWithGoogle(response.credential).subscribe(
-    (x:any) => {
-      this._ngZone.run(() => {
-        this.router.navigate(['/logout']);
-      })},
-    (error:any) => {
-        console.log(error);
-      }
-    );
+  // await this.service.LoginWithGoogle(response.credential).subscribe(
+  //   (x:any) => {
+  //     this._ngZone.run(() => {
+  //       this.router.navigate(['/logout']);
+  //     })},
+  //   (error:any) => {
+  //       console.log(error);
+  //     }
+  //   );
 }
 
 
@@ -68,8 +69,26 @@ async handleCredentialResponse(response: CredentialResponse) {
 async onSubmit() {
   //this.formSubmitAttempt = false;
   if (this.form.valid) {
+
     try {
-    console.log("ok");
+      debugger;
+      this.service.login(this.form.value).subscribe(res=>{
+        //this.toastr.success('Login success');
+        const userData = localStorage.getItem('user');
+
+
+        this.user = JSON.parse(userData);
+        if(this.user.role==3){
+          this.router.navigateByUrl('/');
+        }else{
+          this.router.navigateByUrl('/HFSBusiness/seller');
+        }
+
+      }, error=>{
+        console.log(error);
+
+      })
+
     } catch (err) {
 
     }
@@ -79,19 +98,19 @@ async onSubmit() {
 }
 
 
-async login() {
-  FB.login(async (result:any) => {
-    debugger;
-      await this.service.LoginWithFacebook(result.authResponse.accessToken).subscribe(
-        (x:any) => {
-          this._ngZone.run(() => {
-            this.router.navigate(['/logout']);
-          })},
-        (error:any) => {
-            console.log(error);
-          }
-        );
-  }, { scope: 'email' });
+// async login() {
+//   FB.login(async (result:any) => {
+//     debugger;
+//       await this.service.LoginWithFacebook(result.authResponse.accessToken).subscribe(
+//         (x:any) => {
+//           this._ngZone.run(() => {
+//             this.router.navigate(['/logout']);
+//           })},
+//         (error:any) => {
+//             console.log(error);
+//           }
+//         );
+//   }, { scope: 'email' });
 
-}
+// }
 }

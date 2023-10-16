@@ -3,8 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  apiUrl: "https://localhost:7016/",
   clientId: "737110996158-747oghg2rqifouoldnkonnp2vfp174qh.apps.googleusercontent.com",
-  apiUrl:"",
+
+  appId: "751308310067999",
   production: false
 };
 
