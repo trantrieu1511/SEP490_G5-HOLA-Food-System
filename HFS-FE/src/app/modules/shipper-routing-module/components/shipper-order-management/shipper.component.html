@@ -7,7 +7,7 @@
                     {{item.label}}
                 </ng-template>
             </p-tabMenu>
-            <p-table styleClass="p-datatable-orders" [value]="products" 
+            <p-table styleClass="p-datatable-orders" [value]="lstOrderOfShipper" 
                 dataKey="name" [tableStyle]="{ 'min-width': '60rem' }" [rows]="10"
                 [paginator]="true" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
                 responsiveLayout="scroll"
@@ -20,23 +20,29 @@
                             <th style="width: 5rem"></th>
                             <th pSortableColumn="name">ID <p-sortIcon field="name"></p-sortIcon></th>
                             <th>Image</th>
-                            <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>                            
+                            <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th> 
+                            <th pSortableColumn="adress">Address <p-sortIcon field="price"></p-sortIcon></th>                            
                             <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
                             
                             <ng-container [ngSwitch]="activeItem.id">
-                                <ng-container *jrSwitchCases="['0', '1', '4']"><th>Action</th></ng-container>
-                                <ng-container *jrSwitchCases="['5', '6']"><th>Reason</th></ng-container>
+                                <ng-container *jrSwitchCases="['0', '1']"><th>Action</th></ng-container>                               
                                 <ng-container *ngSwitchDefault></ng-container>
-                            </ng-container>
+                            </ng-container> 
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-product let-expanded="expanded">
-                        <!-- <tr>
+                    <ng-template pTemplate="body" let-order let-expanded="expanded">
+                        <tr>
                             <td>
-                                <button type="button" pButton pRipple [pRowToggler]="product" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                                <button type="button" pButton pRipple [pRowToggler]="order" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
                             </td>
-                            <td>{{ product.name }}</td>
-                            <td><img [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" [alt]="product.name" width="50" class="shadow-4" /></td>
+                            <td>{{ order.orderId }}</td>
+                            <td></td>
+                            <td>{{ order.total}} $</td>
+                            <td>{{order.shipAddress}}</td>
+                            <td>
+                                <button pButton pRipple label="Start Shipping" class="p-button-success"></button>
+                            </td>
+                            <!-- <td><img [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" [alt]="product.name" width="50" class="shadow-4" /></td>
                             <td>{{ product.price | currency: 'USD' }}</td>
                             <td>{{ product.category }}</td>
                             <td><p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating></td>
@@ -89,34 +95,34 @@
                                     </td>
                                 </ng-container>
                                 <ng-container *ngSwitchDefault></ng-container>
-                            </ng-container>
-                        </tr> -->
+                            </ng-container> -->
+                        </tr>
                     </ng-template>
-                    <ng-template pTemplate="rowexpansion" let-product>
+                    <ng-template pTemplate="rowexpansion" let-order>
                         <tr>
                             <td colspan="7">
                                 <div class="p-3">
-                                    <!-- <p-table [value]="product.orders" dataKey="id">
+                                     <p-table [value]="order.orderDetails" dataKey="id">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th pSortableColumn="id">Id <p-sortIcon field="price"></p-sortIcon></th>
-                                                <th pSortableColumn="customer">Customer <p-sortIcon field="customer"></p-sortIcon></th>
-                                                <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
-                                                <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon></th>
-                                                <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+                                                <th pSortableColumn="foodId">Id <p-sortIcon field="foodId"></p-sortIcon></th>
+                                                <th pSortableColumn="image">Image <p-sortIcon field=""></p-sortIcon></th>
+                                                <th pSortableColumn="foodName">FoodName <p-sortIcon field="foodName"></p-sortIcon></th>
+                                                <th pSortableColumn="unitPrice">UnitPrice <p-sortIcon field="unitPrice"></p-sortIcon></th>
+                                                <th pSortableColumn="quantity">Quantity <p-sortIcon field="quantity"></p-sortIcon></th>
+                                                
                                                 <th style="width: 4rem"></th>
                                             </tr>
                                         </ng-template>
-                                        <ng-template pTemplate="body" let-order>
+                                        <ng-template pTemplate="body" let-orderDetail>
                                             <tr>
-                                                <td>{{ order.id }}</td>
-                                                <td>{{ order.customer }}</td>
-                                                <td>{{ order.id }}</td>
-                                                <td>{{ order.amount | currency: 'USD' }}</td>
-                                                <td>
-                                                    <p-tag [value]="order.status" [severity]="getStatusSeverity(order.status)"></p-tag>
-                                                </td>
-                                                <td><p-button type="button" icon="pi pi-plus"></p-button></td>
+                                                <td>{{ orderDetail.foodId }}</td>
+                                                <td></td>
+                                                <td>{{ orderDetail.foodName }}</td>
+                                                <td>{{ orderDetail.unitPrice }}$</td>
+                                                <td>{{ orderDetail.quantity}}</td>
+                                                
+                                                
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="emptymessage">
@@ -124,7 +130,7 @@
                                                 <td colspan="6">There are no order for this product yet.</td>
                                             </tr>
                                         </ng-template>
-                                    </p-table> -->
+                                    </p-table> 
                                 </div>
                             </td>
                         </tr>
