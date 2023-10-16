@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.Dao.OrderDao;
-using HFS_BE.DAO.OrderDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
-using HFS_BE.DAO.OrderDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -56,7 +55,7 @@ namespace HFS_BE.Dao.OrderDao
             {
                 var data = this.context.Orders.Include(x => x.OrderDetails).ThenInclude(x => x.Food)
                     .Where(x => x.ShipperId == inputDto.ShipperId && x.Status == inputDto.Status)
-                    .Select(x => mapper.Map<Order, OrderHistoryOutputDto>(x));
+                    .Select(x => mapper.Map<Order, OrderDaoOutputDto>(x));
                 var output = this.Output<OrderOnHistoryDaoOutputDto>(Constants.ResultCdSuccess);
                 output.OrderList = data.ToList();
                 return output;

@@ -1,8 +1,8 @@
 ﻿using HFS_BE.Base;
 
-namespace HFS_BE.DAO.OrderDao
+namespace HFS_BE.DAO.OrderProgressDao
 {
-    public class OrderProgressDaoInputDto:BaseInputDto
+    public class OrderProgressDaoInputDto : BaseInputDto
     {
         public string? Note { get; set; }
         public DateTime? CreateDate { get; set; }
