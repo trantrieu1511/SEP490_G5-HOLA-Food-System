@@ -18,17 +18,18 @@ namespace HFS_BE.Controllers.OrderShipper
         {
         }
         [HttpPost("shipper/order")]
-        [Authorize(Roles ="4")]
+        //[Authorize(Roles ="4")]
         public OrderByShipperDaoOutputDto GetAll(OrderByShipperDaoInputDto inputDto)
         {
             try
             {
+                inputDto.ShipperId = 1;
                 var busi = this.GetBusinessLogic<OrderShipperBusinessLogic>();
                 var role = this.GetAccessRight();
-                if(role != 4)
-                {
-                    return this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdFail);
-                }
+                //if(role != 4)
+                //{
+                //    return this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdFail);
+                //}
                 return busi.ListOrderShipper(inputDto);
             }
             catch (Exception)
@@ -36,6 +37,7 @@ namespace HFS_BE.Controllers.OrderShipper
                 return this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdFail);
             }
         }
+
         [HttpPost("shipper/orderprogress")]
         //[Authorize(Roles = "4")]
         public BaseOutputDto Get(OrderProgressDaoInputDto inputDto)

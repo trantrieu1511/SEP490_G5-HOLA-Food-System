@@ -15,6 +15,7 @@ import {
     SelectItem,
     TreeNode
 } from "primeng/api";
+import { OrderDaoOutputDto } from "../../models/order-of-shipper.model";
 
 @Component({
   selector: 'app-shipper',
@@ -22,7 +23,7 @@ import {
   styleUrls: ['./shipper.component.scss']
 })
 
-export class ShipperComponent implements OnInit {
+export class ShipperComponent extends iComponentBase implements OnInit {
     items: MenuItem[] | undefined;
   
     activeItem: MenuItem | undefined;
@@ -35,7 +36,16 @@ export class ShipperComponent implements OnInit {
   
     showCurrentPageReport: boolean;
   
-    constructor(private elementRef: ElementRef, private renderer: Renderer2) { }
+    lstOrderOfShipper: OrderDaoOutputDto[];
+
+
+
+
+    constructor(private elementRef: ElementRef, private renderer: Renderer2,public messageService: MessageService,
+        private confirmationService: ConfirmationService,
+        private iServiceBase: iServiceBase,) {
+        super(messageService);
+    }
   
     ngOnInit(): void {
       this.items = [
@@ -47,34 +57,57 @@ export class ShipperComponent implements OnInit {
   
   
       this.showCurrentPageReport = true;
-    //   this.products = [{
-    //       id: '1000',
-    //       code: 'f230fh0g3',
-    //       name: 'Bamboo Watch',
-    //       description: 'Product Description',
-    //       image: 'bamboo-watch.jpg',
-    //       price: 65,
-    //       category: 'Accessories',
-    //       quantity: 24,
-    //       inventoryStatus: 'INSTOCK',
-    //       rating: 4,
-    //       orders: [
-    //           {
-    //               id: '1000-0',
-    //               productCode: 'f230fh0g3',
-    //               date: '2020-09-13',
-    //               amount: 65,
-    //               quantity: 1,
-    //               customer: 'David James',
-    //               status: 'PENDING'
-    //           },
-    //       ]
-    //   },];
+
+      this.getAllOrder();
+      
+      
     }
+
     onChangeTab(activeTab: MenuItem){
         this.activeItem = activeTab;        
         console.log(this.activeItem.id);
       }
+
+    async getAllOrder() {
+      this.lstOrderOfShipper = [];
+      try {
+        this.loading = true;
+
+        const param = {
+            "shipperId": 1
+        };
+
+        let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.SHIPPER, API.API_SHIPPER.GET_All, param);
+        if (response && response.message === "Success") {
+            this.lstOrderOfShipper = response.orderList;
+            this.calculatorTotalOrder();
+        }
+          
+        this.loading = false;
+      } catch (e) {
+        console.log(e);
+        this.loading = false;
+      }
+    }
+
+    calculatorTotalOrder(){
+      if(this.lstOrderOfShipper.length > 0){
+        this.lstOrderOfShipper.forEach( value => {
+          let amount = 0;
+
+          if(value.orderDetails.length == 1) {
+            value.total = value.orderDetails[0].unitPrice * value.orderDetails[0].quantity;
+            return;
+          }
+
+          value.orderDetails.forEach( value => {
+            amount += value.unitPrice * value.quantity;
+          });
+
+          value.total = amount;
+        });
+      }
+    }
 }
 
 
