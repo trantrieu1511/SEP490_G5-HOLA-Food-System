@@ -7,6 +7,11 @@ export class PHAN_HE {
     public static VOUCHER = "Voucher";
     public static POST = "Post";
     public static TEST = "Test";
+    public static POSTMODERATORMANAGEPOST = "manage";
+}
+
+export class API_POSTMODERATOR{
+    public static GETPOST = "viewposts";
 }
 
 export class API_TEST{
