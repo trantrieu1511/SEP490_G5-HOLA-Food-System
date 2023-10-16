@@ -18,7 +18,7 @@ namespace HFS_BE.Controllers.OrderShipper
         {
         }
         [HttpPost("shipper/order")]
-        //[Authorize(Roles ="4")]
+        [Authorize(Roles ="4")]
         public OrderByShipperDaoOutputDto GetAll(OrderByShipperDaoInputDto inputDto)
         {
             try
