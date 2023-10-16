@@ -38,7 +38,8 @@ const routes: Routes = [
       },
       {
         path: 'shipper',
-
+        canActivate: [authGuard],
+        data: { requiredRole: 'Shipper' },
         loadChildren: () => import('./modules/shipper-routing-module/shipper-routing.module').then(m => m.ShipperRoutingModule),
       },
       {
