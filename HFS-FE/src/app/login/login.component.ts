@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { AfterViewInit, Component, NgZone, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CredentialResponse } from 'google-one-tap';
@@ -12,16 +12,21 @@ declare const FB: any;
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements  OnInit{
+export class LoginComponent implements  OnInit,AfterViewInit{
   user:User;
  form:FormGroup;
 private client_Id=environment.clientId;
  constructor(private router: Router,
   private _ngZone: NgZone,
-  private service: AuthService
+  private service: AuthService,
+ // private cdr: ChangeDetectorRef
 ){
 
  }
+  ngAfterViewInit(): void {
+    // this.loadGoogleLibrary();
+    // this.cdr.detectChanges();
+  }
 
  FormFirst(){
   this.form = new FormGroup({
@@ -32,36 +37,40 @@ private client_Id=environment.clientId;
  ngOnInit(): void {
   this.FormFirst();
 
+  this.loadGoogleLibrary();
+}
+
+loadGoogleLibrary() {
+// @ts-ignore
+window.onGoogleLibraryLoad = () => {
   // @ts-ignore
-  window.onGoogleLibraryLoad = () => {
-    // @ts-ignore
-    google.accounts.id.initialize({
-      client_id: this.client_Id,
-      callback: this.handleCredentialResponse.bind(this),
-      auto_select: false,
-      cancel_on_tap_outside: true
-    });
-    // @ts-ignore
-    google.accounts.id.renderButton(
-    // @ts-ignore
-    document.getElementById("buttonDiv"),
-      { theme: "outline", size: "large", width: 100 }
-    );
-    // @ts-ignore
-    google.accounts.id.prompt((notification: PromptMomentNotification) => {});
-  };
+  google.accounts.id.initialize({
+    client_id: this.client_Id,
+    callback: this.handleCredentialResponse.bind(this),
+    auto_select: false,
+    cancel_on_tap_outside: true
+  });
+  // @ts-ignore
+  google.accounts.id.renderButton(
+  // @ts-ignore
+  document.getElementById("buttonDiv"),
+    { theme: "outline", size: "large", width: 100 }
+  );
+  // @ts-ignore
+  google.accounts.id.prompt((notification: PromptMomentNotification) => {});
+};
 }
 async handleCredentialResponse(response: CredentialResponse) {
   debugger;
-  // await this.service.LoginWithGoogle(response.credential).subscribe(
-  //   (x:any) => {
-  //     this._ngZone.run(() => {
-  //       this.router.navigate(['/logout']);
-  //     })},
-  //   (error:any) => {
-  //       console.log(error);
-  //     }
-  //   );
+  await this.service.logingoogle(response.credential).subscribe(
+    (x:any) => {
+      this._ngZone.run(() => {
+        this.router.navigateByUrl('/');
+      })},
+    (error:any) => {
+        console.log(error);
+      }
+    );
 }
 
 

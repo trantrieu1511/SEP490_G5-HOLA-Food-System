@@ -32,6 +32,7 @@ import { AppAccessdeniedComponent } from './pages/app.accessdenied.component';
 import { JwtService } from './services/app.jwt.service';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChatComponent } from './modules/chat/chat.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppErrorComponent,
     AppAccessdeniedComponent,
     LoginComponent,
+    ChatComponent,
 
   ],
   imports: [

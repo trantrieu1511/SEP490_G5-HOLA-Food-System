@@ -7,6 +7,7 @@ import { AppErrorComponent } from './pages/app.error.component';
 import { AppAccessdeniedComponent } from './pages/app.accessdenied.component';
 import {authGuard} from "./services/Guard/auth.guard";
 import { LoginComponent } from './login/login.component';
+import { ChatComponent } from './modules/chat/chat.component';
 
 const routes: Routes = [
   // {
@@ -19,6 +20,11 @@ const routes: Routes = [
       component: LoginComponent
   }
   ,
+  {
+    path: 'chat',
+    component: ChatComponent
+}
+,
   {
     path: '', component: AppCustomerLayoutComponent,
     children: [
