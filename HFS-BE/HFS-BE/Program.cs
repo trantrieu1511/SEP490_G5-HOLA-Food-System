@@ -56,10 +56,11 @@ builder.Services.AddCors(act =>
 {
     act.AddPolicy("_MainPolicy", options =>
     {
-        options.AllowAnyHeader();
-        options.AllowAnyMethod();
-        options.AllowAnyOrigin();
-    });
+		options.AllowAnyHeader();
+		options.AllowAnyMethod();
+		options.WithOrigins("http://localhost:4200"); // Ch? ??nh ngu?n g?c c? th?
+		options.AllowCredentials(); // Cho phép ch? ?? credentials
+	});
 });
 
 ConfigurationManager configuration = builder.Configuration;

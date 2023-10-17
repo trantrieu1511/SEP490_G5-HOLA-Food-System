@@ -16,7 +16,7 @@ namespace HFS_BE.Controllers.Auth
 		}
 
 		[HttpPost("home/logingoogle")]
-		public async Task<LoginOutputDto> Login(string inputDto)
+		public async Task<LoginOutputDto> Login([FromBody]string inputDto)
 		{
 			try
 			{ 
