@@ -26,6 +26,13 @@ import { AppMenuitemComponent } from './app-systems/app-menuitem/app.menuitem.co
 import { AppCustomerLayoutModule } from './layout/customer/app.customer.module';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/compiler';
 import { JwtModule } from '@auth0/angular-jwt';
+import { AppNotfoundComponent } from './pages/app.notfound.component';
+import { AppErrorComponent } from './pages/app.error.component';
+import { AppAccessdeniedComponent } from './pages/app.accessdenied.component';
+import { JwtService } from './services/app.jwt.service';
+import { LoginComponent } from './login/login.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChatComponent } from './modules/chat/chat.component';
 
 
 @NgModule({
@@ -36,8 +43,13 @@ import { JwtModule } from '@auth0/angular-jwt';
     AppTopBarComponent,
     AppFooterComponent,
     AppMenuComponent,
-    AppMenuitemComponent    
-    
+    AppMenuitemComponent,
+    AppNotfoundComponent,
+    AppErrorComponent,
+    AppAccessdeniedComponent,
+    LoginComponent,
+    ChatComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -48,21 +60,23 @@ import { JwtModule } from '@auth0/angular-jwt';
     SharedModule,
     AutoCompleteModule,
     AppCustomerLayoutModule,
-    
+    ReactiveFormsModule,
+    FormsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter:  () => sessionStorage.getItem('token')
       }
     })
-    
+
   ],
-  
+
   providers: [
+    JwtService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
-        MenuService, AppBreadcrumbService, DatePipe,
-        {provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true},
-        {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
-        ShareData, CacheData,
+    MenuService, AppBreadcrumbService, DatePipe,
+    {provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    ShareData, CacheData,
   ],
   bootstrap: [AppComponent],
 })

@@ -95,7 +95,8 @@ namespace HFS_BE.Dao.AuthDao
 				new Claim(ClaimTypes.Role, role),
 				new Claim(ClaimTypes.Name, acc.FirstName + acc.LastName),
 				new Claim("userId", acc.UserId.ToString())
-			};
+		
+            };
 
 			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(conf["JWT:Secret"]));
 

@@ -3,7 +3,7 @@ using HFS_BE.Models;
 
 namespace HFS_BE.Dao.PostDao
 {
-    public class PostOutputDto
+    public class PostOutputDto 
     {
         public int PostId { get; set; }
         public int UserId { get; set; }
@@ -12,7 +12,7 @@ namespace HFS_BE.Dao.PostDao
         public DateTime? CreatedDate { get; set; }
         public bool? Status { get; set; }
 
-        public List<PostImage> postImages { get; set; }
+        public List<PostImage> PostImages { get; set; }
     }
 
     public class ListPostOutputDto : BaseOutputDto

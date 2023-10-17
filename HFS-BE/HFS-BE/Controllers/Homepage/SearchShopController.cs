@@ -19,19 +19,19 @@ namespace HFS_BE.Controllers.Homepage
         /// </summary>
         /// <param name="inputDto"></param>
         /// <returns></returns>
-        [HttpPost("search")]
-        public IActionResult Create(SearchShopBusinessLogicInputDto inputDto)
-        {
-            try
-            {
-                SearchShopBusinessLogic business = this.GetBusinessLogic<SearchShopBusinessLogic>();
+        //[HttpPost("search")]
+        //public IActionResult Create(SearchShopBusinessLogicInputDto inputDto)
+        //{
+        //    try
+        //    {
+        //        SearchShopBusinessLogic business = this.GetBusinessLogic<SearchShopBusinessLogic>();
 
-                return Ok(business.SearchShop(inputDto));
-            }
-            catch (Exception ex)
-            {
-                return NotFound();
-            }
-        }
+        //        return Ok(business.SearchShop(inputDto));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return NotFound();
+        //    }
+        //}
     }
 }

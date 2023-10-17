@@ -13,6 +13,7 @@ namespace HFS_BE.Models
 
         public int OrderId { get; set; }
         public int? CustomerId { get; set; }
+        public int? ShopId { get; set; }
         public DateTime? OrderDate { get; set; }
         public DateTime? RequiredDate { get; set; }
         public DateTime? ShippedDate { get; set; }
@@ -23,6 +24,7 @@ namespace HFS_BE.Models
 
         public virtual User? Customer { get; set; }
         public virtual User? Shipper { get; set; }
+        public virtual User? Shop { get; set; }
         public virtual Voucher? Voucher { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<OrderProgress> OrderProgresses { get; set; }

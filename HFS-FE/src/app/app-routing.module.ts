@@ -2,6 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppCustomerLayoutComponent } from './layout/customer/app.customer.component';
 import { AppManageLayoutComponent } from './layout/manage/app.manage.component';
+import { AppNotfoundComponent } from './pages/app.notfound.component';
+import { AppErrorComponent } from './pages/app.error.component';
+import { AppAccessdeniedComponent } from './pages/app.accessdenied.component';
+import {authGuard} from "./services/Guard/auth.guard";
+import { LoginComponent } from './login/login.component';
+import { ChatComponent } from './modules/chat/chat.component';
 
 const routes: Routes = [
   // {
@@ -9,11 +15,16 @@ const routes: Routes = [
   //   redirectTo: '/login',
   //   pathMatch: 'full'
   // },
-  // {
-  //     path: 'login',
-  //     component: LoginComponent
-  // }
-  // ,
+  {
+      path: 'login',
+      component: LoginComponent
+  }
+  ,
+  {
+    path: 'chat',
+    component: ChatComponent
+}
+,
   {
     path: '', component: AppCustomerLayoutComponent,
     children: [
@@ -28,22 +39,37 @@ const routes: Routes = [
     children: [
       {
         path: 'manage',
+
         loadChildren: () => import('./modules/manage-routing-module/manage-routing-module.module').then(m => m.ManageRoutingModuleModule),
       },
       {
         path: 'shipper',
+        canActivate: [authGuard],
+        data: { requiredRole: 'Shipper' },
         loadChildren: () => import('./modules/shipper-routing-module/shipper-routing.module').then(m => m.ShipperRoutingModule),
       },
       {
         path: 'seller',
+        canActivate: [authGuard],
+        data: { requiredRole: 'Seller' },
         loadChildren: () => import('./modules/seller-routing-module/seller-routing.module').then(m => m.SellerRoutingModule),
       },
       {
         path: 'admin',
+        canActivate: [authGuard],
+        data: { requiredRole: 'Admin' },
         loadChildren: () => import('./modules/admin-routing-module/admin-routing.module').then(m => m.AdminRoutingModule),
+      },
+      {
+        path: 'postmoderator',
+        loadChildren: () => import('./modules/postmoderator-routing-module/postmoderator-routing-module.module').then(m => m.PostmoderatorRoutingModule),
       }
     ]
-  }
+  },
+  {path: 'error', component: AppErrorComponent},
+  {path: 'accessdeny', component: AppAccessdeniedComponent},
+  {path: 'notfound', component: AppNotfoundComponent},
+  {path: '**', redirectTo: '/notfound'},
 ];
 
 @NgModule({

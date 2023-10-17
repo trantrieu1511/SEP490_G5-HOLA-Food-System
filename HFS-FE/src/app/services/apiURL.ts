@@ -7,6 +7,13 @@ export class PHAN_HE {
     public static VOUCHER = "Voucher";
     public static POST = "Post";
     public static TEST = "Test";
+    public static POSTMODERATORMANAGEPOST = "manage";
+    public static SHIPPER = "Shipper";
+}
+
+export class API_POSTMODERATOR{
+    public static GETPOST = "viewposts";
+    
 }
 
 export class API_TEST{
@@ -28,6 +35,10 @@ export class API_ROLE {
 // Service Danh Mục
 export class API_ORDER {
     public static GET_DVI_QLY = "getDviqly";
+}
+
+export class API_SHIPPER {
+    public static GET_All = "order";
 }
 
 // Service QTHT

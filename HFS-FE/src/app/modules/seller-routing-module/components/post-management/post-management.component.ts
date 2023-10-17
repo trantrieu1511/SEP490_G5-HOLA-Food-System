@@ -57,6 +57,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
 
   async getAllPost() {
       this.lstPost = [];
+      this.uploadedFiles = [];
       // try {
       //     this.loading = true;
 
@@ -135,6 +136,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
   onCreatePost() {
       this.headerDialog = 'Add New Post';
 
+      this.uploadedFiles = [];
       
       this.postModel = new Post();
 
@@ -145,6 +147,8 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       this.headerDialog = `Edit Post ID: ${post.postId}`;
 
       this.postModel = post;
+
+      //this.uploadedFiles = post.images;
 
       this.displayDialogEditAddPost = true;
   }
@@ -218,9 +222,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       return true;
   }
 
-  async createPost(roleEnity) {
+  async createPost(postEnity: Post) {
       try {
-          let param = roleEnity;
+          let param = postEnity;
 
           // let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.INSERT_APP_ROLE, param, true);
 
@@ -242,9 +246,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       }
   }
 
-  async updatePost(roleEnity) {
+  async updatePost(postEnity: Post) {
       try {
-          let param = roleEnity;
+          let param = postEnity;
 
           // let response = await this.iServiceBase.putDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.UPDATE_APP_ROLE, param, true);
 
@@ -266,9 +270,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       }
   }
 
-  async deletePost(roleEnity) {
+  async deletePost(postEnity: Post) {
       try {
-          let param = roleEnity.id;
+          let param = postEnity.postId;
 
           // let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.DELETE_APP_ROLE, param, true);
 
