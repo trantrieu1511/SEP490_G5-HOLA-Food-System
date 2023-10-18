@@ -19,7 +19,7 @@ namespace HFS_BE.Controllers.OrderShipper
         }
         [HttpPost("shipper/order")]
         
-        public OrderByShipperDaoOutputDto GetAll(OrderByShipperDaoInputDto inputDto)
+        public OrderByShipperDaoOutputDto GetAllOrder(OrderByShipperDaoInputDto inputDto)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace HFS_BE.Controllers.OrderShipper
 
         [HttpPost("shipper/history/detail")]
         //[Authorize(Roles = "4")]
-        public BaseOutputDto GetHistory(int orderId)
+        public BaseOutputDto GetHistoryDetail(int orderId)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace HFS_BE.Controllers.OrderShipper
 
         [HttpPost("shipper/history")]
         //[Authorize(Roles = "4")]
-        public OrderOnHistoryDaoOutputDto GetAll(OrderHistoryInputDto inputDto)
+        public OrderOnHistoryDaoOutputDto GetAllOrderHistory(OrderHistoryInputDto inputDto)
         {
             try
             {
