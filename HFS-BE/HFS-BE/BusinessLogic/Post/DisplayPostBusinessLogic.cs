@@ -26,5 +26,7 @@ namespace HFS_BE.BusinessLogic.Post
                 return this.Output<ListPostOutputDto>(Constants.ResultCdFail);
             }
         }
+
+
     }
 }

@@ -51,7 +51,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<CartItem>(entity =>
             {
                 entity.HasKey(e => new { e.FoodId, e.CartId })
-                    .HasName("PK__CartItem__E3FF5A02032515A6");
+                    .HasName("PK__CartItem__E3FF5A02E2623210");
 
                 entity.ToTable("CartItem");
 
@@ -65,7 +65,7 @@ namespace HFS_BE.Models
                     .WithMany(p => p.CartItems)
                     .HasForeignKey(d => d.CartId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__CartItem__cartId__398D8EEE");
+                    .HasConstraintName("FK__CartItem__cartId__267ABA7A");
 
                 entity.HasOne(d => d.Food)
                     .WithMany(p => p.CartItems)
@@ -125,7 +125,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FeedbackReply>(entity =>
             {
                 entity.HasKey(e => e.ReplyId)
-                    .HasName("PK__Feedback__36BBF688567C50AB");
+                    .HasName("PK__Feedback__36BBF688D9FE8793");
 
                 entity.ToTable("FeedbackReply");
 
@@ -155,7 +155,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FeedbackVote>(entity =>
             {
                 entity.HasKey(e => e.VoteId)
-                    .HasName("PK__Feedback__78F0B9F3B2E985D5");
+                    .HasName("PK__Feedback__78F0B9F36B7BFB36");
 
                 entity.ToTable("FeedbackVote");
 
@@ -206,13 +206,13 @@ namespace HFS_BE.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Foods)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Food__UserId__440B1D61");
+                    .HasConstraintName("FK__Food__UserId__30F848ED");
             });
 
             modelBuilder.Entity<FoodImage>(entity =>
             {
                 entity.HasKey(e => e.ImageId)
-                    .HasName("PK__FoodImag__336E9B554D83A33D");
+                    .HasName("PK__FoodImag__336E9B55A45B2CCD");
 
                 entity.ToTable("FoodImage");
 
@@ -231,7 +231,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<MenuReport>(entity =>
             {
                 entity.HasKey(e => new { e.FoodId, e.UserId })
-                    .HasName("PK__MenuRepo__9B534BF6D96EFE1F");
+                    .HasName("PK__MenuRepo__9B534BF6EC4B1558");
 
                 entity.ToTable("MenuReport");
 
@@ -339,7 +339,7 @@ namespace HFS_BE.Models
                 entity.HasOne(d => d.Shop)
                     .WithMany(p => p.OrderShops)
                     .HasForeignKey(d => d.ShopId)
-                    .HasConstraintName("FK__Order__shopId__4E88ABD4");
+                    .HasConstraintName("FK__Order__shopId__3B75D760");
 
                 entity.HasOne(d => d.Voucher)
                     .WithMany(p => p.Orders)
@@ -350,7 +350,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<OrderDetail>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.FoodId })
-                    .HasName("PK__OrderDet__8F779DFEDFC5BAD2");
+                    .HasName("PK__OrderDet__8F779DFE7A3699B3");
 
                 entity.ToTable("OrderDetail");
 
@@ -437,7 +437,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<PostImage>(entity =>
             {
                 entity.HasKey(e => e.ImageId)
-                    .HasName("PK__PostImag__336E9B550EA1760A");
+                    .HasName("PK__PostImag__336E9B551FB7F99F");
 
                 entity.ToTable("PostImage");
 
@@ -456,7 +456,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<PostReport>(entity =>
             {
                 entity.HasKey(e => new { e.PostId, e.UserId })
-                    .HasName("PK__PostRepo__31B5D25538BE30C9");
+                    .HasName("PK__PostRepo__31B5D2555423BDDE");
 
                 entity.ToTable("PostReport");
 
@@ -507,7 +507,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<ShipAddress>(entity =>
             {
                 entity.HasKey(e => e.AddressId)
-                    .HasName("PK__ShipAddr__26A111AD464C8C90");
+                    .HasName("PK__ShipAddr__26A111ADA9C51284");
 
                 entity.ToTable("ShipAddress");
 
@@ -600,9 +600,7 @@ namespace HFS_BE.Models
                     .HasColumnType("date")
                     .HasColumnName("expireDate");
 
-                entity.Property(e => e.Status)
-                    .HasMaxLength(50)
-                    .HasColumnName("status");
+                entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.Property(e => e.VoucherName)
                     .HasMaxLength(100)

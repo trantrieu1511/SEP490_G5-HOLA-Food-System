@@ -27,7 +27,7 @@ namespace HFS_BE.Dao.OrderDao
     public class OrderHistoryInputDto
     {
         public int? ShipperId { get; set; }
-        public bool Status { get; set; }
+        public byte Status { get; set; }
     }
 
     public class OrderStatusInputDto

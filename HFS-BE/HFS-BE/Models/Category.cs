@@ -12,7 +12,7 @@ namespace HFS_BE.Models
 
         public int CategoryId { get; set; }
         public string? Name { get; set; }
-        public bool? Status { get; set; }
+        public byte? Status { get; set; }
 
         public virtual ICollection<Food> Foods { get; set; }
     }
