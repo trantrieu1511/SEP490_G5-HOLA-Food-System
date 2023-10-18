@@ -67,7 +67,7 @@ namespace HFS_BE.Base
                 var email = identity.FindFirst(ClaimTypes.Email)?.Value;
                 var roleId = identity.FindFirst(ClaimTypes.Role)?.Value;
                 var name = identity.FindFirst(ClaimTypes.Name)?.Value;
-                var userid = identity.FindFirst("userId");
+                var userid = identity.FindFirst("userId")?.Value;
                 return new UserDto { Email = email, RoleId = Convert.ToInt16(roleId), Name = name , UserId = Convert.ToUInt16(userid)};
             }
             return null;

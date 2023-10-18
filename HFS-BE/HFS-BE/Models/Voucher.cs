@@ -12,7 +12,7 @@ namespace HFS_BE.Models
 
         public int VoucherId { get; set; }
         public string? VoucherName { get; set; }
-        public string? Status { get; set; }
+        public byte? Status { get; set; }
         public DateTime? EffectiveDate { get; set; }
         public DateTime? ExpireDate { get; set; }
 
