@@ -16,7 +16,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
             try
             {
                 var dao = this.CreateDao<OrderDao>();
-                return dao.OrderByShipper(inputDto);
+                return dao.OrderOfShipper(inputDto);
             }
             catch (Exception)
             {
