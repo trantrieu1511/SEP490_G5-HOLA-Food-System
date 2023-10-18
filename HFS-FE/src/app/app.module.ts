@@ -48,7 +48,7 @@ import { ChatComponent } from './modules/chat/chat.component';
     AppErrorComponent,
     AppAccessdeniedComponent,
     LoginComponent,
-    ChatComponent,
+    ChatComponent
 
   ],
   imports: [

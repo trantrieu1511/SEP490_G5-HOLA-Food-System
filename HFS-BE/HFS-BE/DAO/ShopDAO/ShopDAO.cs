@@ -15,7 +15,7 @@ namespace HFS_BE.Dao.ShopDao
         }
 
 
-        public DisplayShopDaoOutputDto DisplayShop(BaseInputDto inputDto)
+        public DisplayShopDaoOutputDto DisplayShop()
         {
             try
             {

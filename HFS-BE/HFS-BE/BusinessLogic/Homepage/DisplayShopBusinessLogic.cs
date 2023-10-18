@@ -11,12 +11,12 @@ namespace HFS_BE.BusinessLogic.Homepage
         {
         }
 
-        public DisplayShopOutputDto DisplayShop(BaseInputDto inputDto)
+        public DisplayShopOutputDto DisplayShop()
         {
             try
             {
                 var Dao = this.CreateDao<ShopDao>();
-                Dao.ShopDao.DisplayShopDaoOutputDto daooutput = Dao.DisplayShop(inputDto);
+                Dao.ShopDao.DisplayShopDaoOutputDto daooutput = Dao.DisplayShop();
                 var output = mapper.Map<Dao.ShopDao.DisplayShopDaoOutputDto, DisplayShopOutputDto>(daooutput);
                 return output;
             }
