@@ -1,19 +1,15 @@
-<div class="chat-container">
-  <div class="user-list">
+<div class="chat-container p-d-flex">
+  <div class="user-list p-d-flex p-flex-column">
     <ul>
       <li *ngFor="let user of users" (click)="selectUser(user)" [class.selected]="selectedUser === user">
         {{ user }}
       </li>
     </ul>
   </div>
-  <div class="chat-messages">
-    <div *ngFor="let message of messages" class="message">
-      <span class="message-sender">{{ message.sender }}:</span>
+  <div class="chat-messages p-d-flex p-flex-column">
+    <div *ngFor="let message of messages" class="message p-mb-2">
+      <span class="message-sender p-font-weight-bold">{{ message.sender }}:</span>
       <span class="message-content">{{ message.content }}</span>
     </div>
-  </div>
-  <div class="chat-input">
-    <input [(ngModel)]="newMessage" placeholder="Type your message..." />
-    <button (click)="sendMessage()">Send</button>
   </div>
 </div>
