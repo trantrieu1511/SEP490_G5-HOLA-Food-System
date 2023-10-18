@@ -40,7 +40,7 @@
                             <td>{{ order.total}} $</td>
                             <td>{{order.shipAddress}}</td>
                             <td>
-                                <button pButton pRipple label="Start Shipping" class="p-button-success"></button>
+                                <button pButton pRipple label="Start Shipping" class="p-button-success" (click)="onUpdateOrder(order)"></button>
                             </td>
                             <!-- <td><img [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" [alt]="product.name" width="50" class="shadow-4" /></td>
                             <td>{{ product.price | currency: 'USD' }}</td>
