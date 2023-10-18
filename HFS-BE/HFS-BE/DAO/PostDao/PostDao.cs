@@ -12,7 +12,7 @@ namespace HFS_BE.Dao.PostDao
         {
         }
 
-        public ListPostOutputDto AllPosts()
+        public ListPostOutputDto ListAllPosts()
         {
             try
             {

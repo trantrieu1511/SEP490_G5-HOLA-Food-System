@@ -9,6 +9,7 @@ using HFS_BE.Models;
 using Microsoft.AspNetCore.Components.Forms;
 using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.Dao.OrderDao;
+using HFS_BE.DAO.UserDao;
 
 namespace HFS_BE.Automapper
 {
@@ -24,6 +25,7 @@ namespace HFS_BE.Automapper
             OrderProgress();
             OrderHistory();
             Cart();
+            UserProfile();
         }
 
         /// <summary>
@@ -106,6 +108,11 @@ namespace HFS_BE.Automapper
 
             CreateMap<CartItemOutputDto, CartItemDto>()
                 .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => src.foodImages.FirstOrDefault()));
+        }
+
+        private void UserProfile()
+        {
+            CreateMap<User, UserProfileOutputDto>();
         }
     }
 }
