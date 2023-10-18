@@ -20,7 +20,7 @@ namespace HFS_BE.Models
         public string? ShipAddress { get; set; }
         public int? ShipperId { get; set; }
         public int? VoucherId { get; set; }
-        public bool? Status { get; set; }
+        public byte? Status { get; set; }
 
         public virtual User? Customer { get; set; }
         public virtual User? Shipper { get; set; }

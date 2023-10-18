@@ -2,6 +2,7 @@
 using HFS_BE.Base;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using HFS_BE.Utils.Enum;
 using Microsoft.EntityFrameworkCore;
 
 namespace HFS_BE.Dao.PostDao
@@ -41,7 +42,7 @@ namespace HFS_BE.Dao.PostDao
                         UserFirstName = p.User.FirstName,
                         PostContent = p.PostContent,
                         CreatedDate = p.CreatedDate,
-                        Status = p.Status,
+                        //Status = p.Status,
                         PostImages = p.PostImages.ToList()
                     }).ToList();
 
@@ -54,6 +55,105 @@ namespace HFS_BE.Dao.PostDao
             {
 
                 return this.Output<ListPostOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public ListPostOutputSellerDto GetAllPostSeller(UserDto userDto)
+        {
+            try
+            {
+                List<PostOutputSellerDto> postsModel = context.Posts
+                                        .Include(p => p.PostImages)
+                                        .Select(p => new PostOutputSellerDto
+                                        {
+                                            PostId = p.PostId,
+                                            CreatedDate = p.CreatedDate.Value.ToString("MM/dd/yyyy"),
+                                            PostContent = p.PostContent,
+                                            Status = PostStatus.GetPostStatusString(p.Status),
+                                            Images = p.PostImages.ToList()
+                                        })
+                                        .ToList();
+                var output = this.Output<ListPostOutputSellerDto>(Constants.ResultCdSuccess);
+                output.Posts = postsModel;
+                return output;
+            }
+            catch (Exception e)
+            {
+                return this.Output<ListPostOutputSellerDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public BaseOutputDto AddNewPost(PostCreateInputDto postDto)
+        {
+            try
+            {
+                // Add post
+                Post post = new Post
+                {
+                    CreatedDate = DateTime.Now,
+                    PostContent = postDto.PostContent,
+                    Status = 0,
+                    UserId = postDto.UserDto.UserId,
+                };
+                context.Add(post);
+                context.SaveChanges();
+
+                foreach(var img in postDto.Images)
+                {
+                    context.Add(new PostImage
+                    {
+                        PostId = post.PostId,
+                        Path = img
+                    });
+                    context.SaveChanges();
+                }
+                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception e)
+            {
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public BaseOutputDto DisplayHidePost(PostDisplayHideInputDto input)
+        {
+            try
+            {
+                // Add post
+                var post = context.Posts.FirstOrDefault(x => x.PostId == input.PostId);
+                if (post == null)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, $"PostId: {input.PostId} not exist!");
+                }
+
+                if(post.Status == 3)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, 
+                        $"PostId: {input.PostId} has been banned and cannot be changed!");
+                }
+
+                if (post.Status == 0)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail,
+                        $"PostId: {input.PostId} is pending acceptance and cannot be changed!");
+                }
+
+                if (input.Type)
+                {
+                    // set status Display
+                    post.Status = 1;
+                    context.SaveChanges();
+                    return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+                }
+                //set status Hide
+                post.Status = 2;
+                context.SaveChanges();
+
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception e)
+            {
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
     }

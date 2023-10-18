@@ -17,7 +17,7 @@ namespace HFS_BE.Models
         public string? FeedbackMessage { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdateDate { get; set; }
-        public bool? Status { get; set; }
+        public byte? Status { get; set; }
 
         public virtual Food? Food { get; set; }
         public virtual User? User { get; set; }
