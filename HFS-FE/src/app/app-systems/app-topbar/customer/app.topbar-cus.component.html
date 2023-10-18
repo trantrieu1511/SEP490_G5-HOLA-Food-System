@@ -1,7 +1,7 @@
 <div class="layout-topbar">
     <a class="layout-topbar-logo" routerLink="">
-        <img src="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo">
-        <span>Hola Food System</span>
+        <img src="assets/image/Logo.png" alt="logo">
+        <!-- <span>Hola Food System</span> -->
     </a>
 
     <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
@@ -13,7 +13,7 @@
             <i class="pi pi-bell"></i>
             <span>Notification</span>
         </button>
-        <button class="p-link layout-topbar-button">
+        <button class="p-link layout-topbar-button" (click)="onCartDetail()">
             <i class="pi pi-shopping-cart"></i>
             <span>Shopping cart</span>
         </button>

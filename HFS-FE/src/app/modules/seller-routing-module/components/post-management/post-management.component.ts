@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
 import {AppBreadcrumbService} from "../../../../app-systems/app-breadcrumb/app.breadcrumb.service";
-import {Post, PostImage} from "../../models/post.model";
+import {Post, PostDisplayHideInputDto, PostImage, PostImageBase64, PostInput} from "../../models/post.model";
 import {
     iComponentBase,
     iServiceBase, mType,
@@ -31,6 +31,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
   headerDialog: string = '';
   postModel: Post = new Post();
   loading: boolean;
+
   uploadedFiles: File[] = [];
 
   contentDialog: string;
@@ -52,85 +53,64 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
 
   ngOnInit() {
     this.getAllPost();
+
+    // Convert CustomFile[] to File[]
+    // this.uploadedFiles = this.fileList.map(customFile => {
+    //   const blob = new Blob([], { type: 'application/octet-stream' });
+    //   const file = new File([blob], customFile.name, { type: 'image/*' });
     
+    //   Object.defineProperty(file, 'imageBase64', {
+    //     value: customFile.imageBase64,
+    //     writable: false,
+    //     enumerable: true,
+    //     configurable: true,
+    //   });
+    
+    //   return file;
+    // });
+
+    console.log(this.uploadedFiles);
   }
 
   async getAllPost() {
       this.lstPost = [];
       this.uploadedFiles = [];
-      // try {
-      //     this.loading = true;
+      try {
+          this.loading = true;
 
-      //     let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.GET_ALL_ROLE);
+          let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.POST, API.API_POST.GET_POST_SELLER);
 
-      //     if (response && response.length) {
-      //         this.lstAppRole = response;
-      //     }
-      //     this.loading = false;
-      // } catch (e) {
-      //     console.log(e);
-      //     this.loading = false;
-      // }
-
-      this.lstPost = [
-        {
-          postId: 1,
-          postContent: "abcaisefdojueiwf",
-          createdDate: "12/12/2293",
-          status: "Display",
-          images: []
-        },
-        {
-          postId: 2,
-          postContent: "12412432131231231231231231",
-          createdDate: "12/12/2293",
-          status: "Display",
-          images: []
-        },
-        {
-          postId: 3,
-          postContent: "124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsd124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdafaf",
-          createdDate: "12/12/2203",
-          status: "Hide",
-          images: [
-            new PostImage(1,3,"bamboo-watch.jpg")
-          ]
-        },
-      ];
-
+          if (response && response.message === "Success") {
+            this.lstPost = response.posts;
+            //console.log(this.lstPost);
+          }
+          this.loading = false;
+      } catch (e) {
+          console.log(e);
+          this.loading = false;
+      }
 
   }
 
-  bindingDataPostModel(): Post {
-      let result = new Post();
-      // if (this.shareData && this.shareData.userInfo) {
-        
-      //     if (this.roleModel.id && this.roleModel.id > 0) {
-      //         //Update
-      //         result.id = this.roleModel.id;
-      //         result.roleId = this.roleModel.roleId;
-      //         result.roleKey = this.roleModel.roleKey;
-      //         result.roleName = this.roleModel.roleName;
-      //         result.roleDescribe = this.roleModel.roleDescribe;
-      //         result.active = this.roleModel.active;
-      //         result.lastModifiedBy = this.shareData.userInfo.userName;
-      //         result.lastModifiedDate = new Date();
-      //         result.createdBy = this.roleModel.createdBy;
-      //         result.createdDate = this.roleModel.createdDate;
+  bindingDataPostModel(): PostInput {
 
-      //     } else {
-      //         //Insert
-      //         result.roleId = this.roleModel.roleId;
-      //         result.roleKey = this.roleModel.roleKey;
-      //         result.roleName = this.roleModel.roleName;
-      //         result.roleDescribe = this.roleModel.roleDescribe;
-      //         result.active = this.roleModel.active;
-      //         result.createdBy = this.shareData.userInfo.userName;
-      //         result.createdDate = new Date();
-      //     }
-      // }
+    let postInput = new PostInput();
 
-      return result;
+    if (this.postModel.postId && this.postModel.postId > 0) {
+      //Update
+      postInput.postId = this.postModel.postId;
+      postInput.postContent = this.postModel.postContent;
+      postInput.createdDate = this.postModel.createdDate;
+      postInput.images = this.uploadedFiles;
+      postInput.imagesBase64 = this.postModel.imagesBase64;
+    } else {
+        //Insert
+        postInput.postContent = this.postModel.postContent;
+        postInput.createdDate = new Date().toDateString();
+        postInput.images = this.uploadedFiles;
+    }
+
+    return postInput;
   }
 
   onCreatePost() {
@@ -140,15 +120,18 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       
       this.postModel = new Post();
 
+      this.uploadedFiles = [];
+
       this.displayDialogEditAddPost = true;
   }
 
   onUpdatePost(post: Post) {
       this.headerDialog = `Edit Post ID: ${post.postId}`;
 
-      this.postModel = post;
+      this.postModel = Object.assign({}, post);;
 
       //this.uploadedFiles = post.images;
+      this.uploadedFiles = [];
 
       this.displayDialogEditAddPost = true;
   }
@@ -160,7 +143,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
               //confirm action
-              this.deletePost(post);
+              this.deletePost(post, false);
           },
           reject: () => {
               //reject action
@@ -176,7 +159,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
             //confirm action
-            this.deletePost(post);
+            this.deletePost(post, true);
         },
         reject: () => {
             //reject action
@@ -185,7 +168,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
   }
 
   onSavePost() {
-    console.log(this.uploadedFiles);
+    //console.log(this.uploadedFiles);
     let postEnity = this.bindingDataPostModel();
 
     if (this.validatePostModel()) {
@@ -222,31 +205,39 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       return true;
   }
 
-  async createPost(postEnity: Post) {
-      try {
-          let param = postEnity;
+  async createPost(postEnity: PostInput) {
+    try {
+      //let param = postEnity;
+      const param = new FormData();
+      param.append('postContent', postEnity.postContent);
 
-          // let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.INSERT_APP_ROLE, param, true);
+      this.uploadedFiles.forEach(file => {
+        param.append('images', file, file.name);
+      });
 
-          // if (response && response.success) {
-          //     this.showMessage(mType.success, "Thông báo", "Thêm mới phân quyền thành công!", 'notify');
+      //console.log(param);
+      const response = await this.iServiceBase
+        .postDataAsync(API.PHAN_HE.POST, API.API_POST.ADD_POST_SELLER, param, true);
+      if(response && response.message === "Success"){
+        this.showMessage(mType.success, "Notification", "New post added successfully", 'notify');
 
-          //     this.displayDialogCreateRole = false;
+        this.displayDialogEditAddPost = false;
 
-          //     //lấy lại danh sách All Role
-          //     this.getAllRole();
+        //lấy lại danh sách All Role
+        this.getAllPost();
 
-          //     //Clear Role model đã tạo
-          //     this.roleModel = new AppRole();
-          // } else {
-          //     this.showMessage(mType.error, "Thông báo", "Thêm mới phân quyền không thành công. Vui lòng xem lại!", 'notify');
-          // }
-      } catch (e) {
-          console.log(e);
-      }
+        //Clear Role model đã tạo
+        this.postModel = new Post();
+        //clear file upload too =))
+        this.uploadedFiles = [];
+      } 
+    } catch (e) {
+      console.log(e);
+      this.showMessage(mType.error, "Notification", "Adding new post failed", 'notify');
+    }
   }
 
-  async updatePost(postEnity: Post) {
+  async updatePost(postEnity: PostInput) {
       try {
           let param = postEnity;
 
@@ -270,24 +261,32 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       }
   }
 
-  async deletePost(postEnity: Post) {
-      try {
-          let param = postEnity.postId;
+  async deletePost(postEnity: Post, type: boolean) {
+    // type = true => Display
+    // false => Hide
 
-          // let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.DELETE_APP_ROLE, param, true);
+    const message = type ? "Displayed" : "Hidden";
 
-          // if (response && response.success) {
-          //     this.showMessage(mType.success, "Thông báo", "Xóa phân quyền thành công!", 'notify');
+    try {
+      let param : PostDisplayHideInputDto = new PostDisplayHideInputDto();
+      param.postId = postEnity.postId;
+      param.type = type;
 
-          //     //lấy lại danh sách All Role
-          //     this.getAllRole();
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POST, API.API_POST.DISPLAY_HIDE_SELLER, param, true);
 
-          // } else {
-          //     this.showMessage(mType.error, "Thông báo", "Xóa phân quyền không thành công. Vui lòng xem lại!", 'notify');
-          // }
-      } catch (e) {
-          console.log(e);
+      if (response && response.success) {
+        this.showMessage(mType.success, "Notification",  `${message} postId: ${postEnity.postId} successfully`, 'notify');
+
+        //lấy lại danh sách All 
+        this.getAllPost();
+
+      } else {
+        console.log(response);
+        this.showMessage(mType.error, "Notification", response.message, 'notify');
       }
+    } catch (e) {
+        console.log(e);
+    }
   }
 
   viewContentDetail(post: Post){
@@ -297,10 +296,12 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
 
   getSeverity(status: string) {
       switch (status) {
+          case 'NotApproved':
+            return 'warning';
           case 'Display':
             return 'success';
-          case 'Hide':
-            return 'warning';
+          case 'Hidden':
+            return 'secondary';
           case 'Ban':
             return 'danger';
           default:
@@ -309,24 +310,54 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
   }
 
   handleFileSelection(event :  FileSelectEvent) {
-    console.log("select", event);
+    //console.log("select", event);
     
     this.uploadedFiles = event.currentFiles;
-    console.log("uploadFiles", this.uploadedFiles);
+
+
+    // const files = event.currentFiles as File[];
+    
+    // // Process each file
+    // for (const file of files) {
+    //   const customFile: CustomFile = {
+    //     imageBase64: '', // Placeholder for base64 data
+    //     name: file.name,
+    //     size: this.formatSize(file.size)
+    //   };
+
+    //   this.fileList.push(customFile);
+
+    //   // Read file as base64
+    //   const reader = new FileReader();
+    //   reader.onloadend = () => {
+    //     customFile.imageBase64 = reader.result as string;
+    //   };
+    //   reader.readAsDataURL(file);
+    // }
+
+
+    // console.log("currentfile", event.currentFiles);
+    // console.log("customfile", this.fileList);
+  }
+
+  formatSize(size: number): string {
+    // Format file size as needed
+    // Example: Convert bytes to KB
+    return (size / 1024).toFixed(2) + ' KB';
   }
 
   handleFileRemoval(event :  FileRemoveEvent){
-    console.log("remove", event.file.name);
+    //console.log("remove", event.file.name);
 
     this.uploadedFiles = this.uploadedFiles.filter(f => f.name !== event.file.name);
-    console.log("uploadFiles", this.uploadedFiles);
+    //console.log("uploadFiles", this.uploadedFiles);
   }
 
   handleAllFilesClear(event :  Event){
-    console.log("clear", event);
+    //console.log("clear", event);
 
     this.uploadedFiles = [];
-    console.log("uploadFiles", this.uploadedFiles);
+    //console.log("uploadFiles", this.uploadedFiles);
   }
 
   onDisplayImagesDialog(post: Post, event: any){

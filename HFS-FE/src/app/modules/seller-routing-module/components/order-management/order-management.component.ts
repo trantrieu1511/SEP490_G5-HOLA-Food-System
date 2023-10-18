@@ -76,6 +76,7 @@ export class OrderManagementComponent implements OnInit, AfterViewInit {
     console.log(this.activeItem.id);
   }
 
+  
   getSeverity(status: string) {
     switch (status) {
         case 'INSTOCK':

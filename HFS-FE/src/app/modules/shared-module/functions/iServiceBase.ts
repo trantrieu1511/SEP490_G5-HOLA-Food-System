@@ -676,6 +676,7 @@ export class iServiceBase {
         
         // Get IP và URL
         service = this.getURLService(service);
+       
         const url = `${service}${api}`;
 
         // Make the HTTP DELETE request
@@ -739,6 +740,16 @@ export class iServiceBase {
                 }
                 case API.PHAN_HE.SHIPPER: {
                     return localStorage.getItem('APISERVICE') + '/shipper/';
+                }
+                
+                case API.PHAN_HE.HOME: {
+                    return localStorage.getItem('APISERVICE') + '/home/';
+                }
+                case API.PHAN_HE.SHOP_DETAIL: {
+                    return localStorage.getItem('APISERVICE') + '/shopdetail/';
+                }
+                case API.PHAN_HE.CART: {
+                    return localStorage.getItem('APISERVICE') + '/cart/';
                 }
                 default: {
                     return '';

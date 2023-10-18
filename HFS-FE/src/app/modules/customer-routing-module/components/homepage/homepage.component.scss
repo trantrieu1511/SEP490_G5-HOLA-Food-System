@@ -1,0 +1,165 @@
+:host ::ng-deep {
+    .cards {
+        --spacing: 30px;
+        --columns: 4;
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: calc(var(--spacing) * -1);
+        width: 80%;
+        margin: 0 auto;
+    }
+    
+    /* màn hình lớn set trước */
+    @media screen and (max-width: 1023px){
+        .cards {
+            --spacing: 20px;
+            --columns: 3;	
+        }
+    }	
+    
+    @media screen and (max-width: 767px){
+        .cards {
+            --spacing: 15px;
+            --columns: 1;	
+        }
+    }
+    
+    .card {
+        border-radius: 20px;
+        overflow: hidden;
+        background-color: white;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        width: calc(calc(100% / var(--columns)) - var(--spacing));
+        margin-left: var(--spacing);
+        margin-bottom: var(--spacing);
+
+        &:hover{
+            cursor: pointer;
+        }
+    }
+    
+    .card-image {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+    .card-top {
+        padding: 25px;
+    }
+    
+    .card-title {
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 25px;
+    
+        /* tránh từ/câu - quá dài/quá lớn làm vỡ giao diện */
+        /*word-break: break-all;*/
+        display: -webkit-box;
+        /* lấy 3 dòng */
+        -webkit-line-clamp: 3;
+        -webkit-box-orient:  vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-word; 
+    }
+    
+    .card-user {
+        display: flex;
+        align-items: center;
+    }
+    
+    .card-user-avatar {
+        height: 40px;
+        width: 40px;
+        border-radius: 100rem;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+    
+    .card-user-info{
+        padding-left: 10px;
+        flex-grow: 1;
+    }
+    
+    .card-user-top {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2px;
+    }
+    
+    .card-user-name {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 1;
+    }
+    .card-user-top ion-icon{
+        color: #20e3b2;
+        font-size: 17px;
+        margin-left: 4px;
+    }
+    .card-user-game {
+        color: #999;
+        font-weight: 300;
+        font-size: 13px;
+    }
+    .card-bottom{
+        padding: 25px;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: space-between ;
+        align-items: center;
+    }
+    
+    .card-live {
+        color: white;
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+        padding: 7px 14px;
+        background-color: #ff6651;
+        border-radius: 10px;
+    }
+    
+    .card-live span {
+        margin-left: 10px;
+    }
+    
+    .card-watching {
+        font-size: 13px;
+        color: #999;
+        font-weight: 300;
+    }
+    
+    
+    /* căn đều giữa các card nếu dữ liệu nhiều */
+    
+    .card {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .card-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-grow: 1;
+    }
+    
+    .card-top {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        
+        /* card-bottom cố định -> grow để chiếm hết phần còn lại */
+        flex-grow: 1;
+    }
+    
+    .card-bottom {
+         /*tương tự justify space between để đẩy */
+        /*margin-top: auto;*/
+    
+        /* để size cố định phụ trợ cho card-top */
+        flex-shrink: 0; 
+    }
+}
