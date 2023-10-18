@@ -26,7 +26,9 @@ import { User } from "src/app/services/auth.service";
 
 export class ShipperComponent extends iComponentBase implements OnInit {
     items: MenuItem[] | undefined;
+
     user: User;
+
     activeItem: MenuItem | undefined;
   
     products: any[] = [];
@@ -67,7 +69,20 @@ export class ShipperComponent extends iComponentBase implements OnInit {
     onChangeTab(activeTab: MenuItem){
         this.activeItem = activeTab;        
         console.log(this.activeItem.id);
+        this.getAllOrder();
       }
+
+    async onUpdateOrder(order:OrderDaoOutputDto){
+      const param = {
+        "OrderId": order.orderId,
+        "Status" : 3,
+    };
+      let response =  await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.SHIPPER, API.API_SHIPPER.CHANGE_STATUS,param);
+      if (response && response.message === "Success") {
+        this.lstOrderOfShipper = response.orderList;
+        this.calculatorTotalOrder();
+    }
+    }
 
     async getAllOrder() {
       this.lstOrderOfShipper = [];
@@ -77,6 +92,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
         this.user = JSON.parse(userData);
         const param = {
             "shipperId": this.user.userId,
+            "Status" : this.activeItem.id == "0" ? 2 : 3,
         };
 
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.SHIPPER, API.API_SHIPPER.GET_All, param);
