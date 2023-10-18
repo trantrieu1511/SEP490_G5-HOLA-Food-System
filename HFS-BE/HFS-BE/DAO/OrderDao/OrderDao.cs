@@ -16,7 +16,7 @@ namespace HFS_BE.Dao.OrderDao
             try
             {
                 var data = this.context.Orders.Include(x => x.OrderDetails).ThenInclude(x => x.Food)
-                    .Where(x => x.ShipperId == inputDto.ShipperId)
+                    .Where(x => x.ShipperId == inputDto.ShipperId && x.Status == inputDto.Status)
                     .Select(x => mapper.Map<Order, OrderDaoOutputDto>(x));
                 var output = this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdSuccess);
                 output.OrderList = data.ToList();
@@ -86,6 +86,29 @@ namespace HFS_BE.Dao.OrderDao
             catch (Exception e)
             {
                 return this.Output<CheckOutOrderDaoOutputDto>(Constants.ResultCdFail, e.Message);
+            }
+        }
+
+        public BaseOutputDto ChangeStatusOrderShipper(OrderStatusInputDto inputDto)
+        {
+            try
+            {
+                var data = this.context.Orders
+                    .Where(x => x.OrderId == inputDto.OrderId).FirstOrDefault();
+                if(data == null)
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                }    
+                data.Status= inputDto.Status;
+                context.Orders.Update(data);
+                context.SaveChanges();
+                
+                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess); 
+            }
+            catch (Exception)
+            {
+
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
     }

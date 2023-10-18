@@ -9,6 +9,10 @@ using HFS_BE.Models;
 using Microsoft.AspNetCore.Components.Forms;
 using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.Dao.OrderDao;
+using HFS_BE.DAO.UserDao;
+using HFS_BE.BusinessLogic.Post;
+using HFS_BE.Utils.IOFile;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Automapper
 {
@@ -24,6 +28,8 @@ namespace HFS_BE.Automapper
             OrderProgress();
             OrderHistory();
             Cart();
+            UserProfile();
+            File();
         }
 
         /// <summary>
@@ -50,6 +56,16 @@ namespace HFS_BE.Automapper
         {
             CreateMap<Post, Dao.PostDao.PostOutputDto>();
             CreateMap<List<Post>, Dao.PostDao.PostOutputDto>();
+
+            //seller
+            //input
+            CreateMap<Dao.PostDao.PostOutputSellerDto, BusinessLogic.Post.PostOutputSellerDto>();
+            CreateMap<BusinessLogic.Post.PostCreateInputDto, Dao.PostDao.PostCreateInputDto>();
+            CreateMap<Controllers.ManagePost.PostCreateInputDto, BusinessLogic.Post.PostCreateInputDto>();
+            //output
+            CreateMap<Dao.PostDao.PostOutputSellerDto, BusinessLogic.Post.PostOutputSellerDto>();
+            CreateMap<Dao.PostDao.ListPostOutputSellerDto, BusinessLogic.Post.ListPostOutputSellerDto>();
+
         }
 
         public void Food()
@@ -107,6 +123,16 @@ namespace HFS_BE.Automapper
 
             CreateMap<CartItemOutputDto, CartItemDto>()
                 .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => src.foodImages.FirstOrDefault()));
+        }
+
+        public void UserProfile()
+        {
+            CreateMap<User, UserProfileOutputDto>();
+        }
+        
+        public void File()
+        {
+            CreateMap<ImageFileConvert.ImageOutputDto, PostImageOutputSellerDto>();
         }
     }
 }

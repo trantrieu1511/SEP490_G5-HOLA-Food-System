@@ -15,7 +15,7 @@ namespace HFS_BE.Models
         public int UserId { get; set; }
         public string? PostContent { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public bool? Status { get; set; }
+        public byte? Status { get; set; }
 
         public virtual User User { get; set; } = null!;
         public virtual ICollection<PostImage> PostImages { get; set; }

@@ -65,8 +65,9 @@ export class API_VOUCHER {
 }
 
 export class API_POST{
-    public static LOGIN = "Identity";
-    public static GET_ALL_LOGIN = "Account";
+    public static ADD_POST_SELLER = "addPostSeller";
+    public static GET_POST_SELLER = "getPostSeller";
+    public static DISPLAY_HIDE_SELLER = "displayHideSeller";
 }
 
 export class API_HOME{

@@ -37,5 +37,19 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                 return this.Output<OrderHistoryDetailDtoOutput>(Constants.ResultCdFail);
             }
         }
+
+        public BaseOutputDto ChangeStatus(OrderStatusInputDto inputDto)
+        {
+            try
+            {
+                var dao = this.CreateDao<OrderDao>();
+                return dao.ChangeStatusOrderShipper(inputDto);
+            }
+            catch (Exception)
+            {
+
+                return this.Output<OrderHistoryDetailDtoOutput>(Constants.ResultCdFail);
+            }
+        }
     }
 }
