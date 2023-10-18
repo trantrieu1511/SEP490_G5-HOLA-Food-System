@@ -16,6 +16,7 @@ import {
     TreeNode
 } from "primeng/api";
 import { OrderDaoOutputDto } from "../../models/order-of-shipper.model";
+import { User } from "src/app/services/auth.service";
 
 @Component({
   selector: 'app-shipper',
@@ -25,7 +26,7 @@ import { OrderDaoOutputDto } from "../../models/order-of-shipper.model";
 
 export class ShipperComponent extends iComponentBase implements OnInit {
     items: MenuItem[] | undefined;
-  
+    user: User;
     activeItem: MenuItem | undefined;
   
     products: any[] = [];
@@ -72,9 +73,10 @@ export class ShipperComponent extends iComponentBase implements OnInit {
       this.lstOrderOfShipper = [];
       try {
         this.loading = true;
-
+        const userData = localStorage.getItem('user');
+        this.user = JSON.parse(userData);
         const param = {
-            "shipperId": 1
+            "shipperId": this.user.userId,
         };
 
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.SHIPPER, API.API_SHIPPER.GET_All, param);

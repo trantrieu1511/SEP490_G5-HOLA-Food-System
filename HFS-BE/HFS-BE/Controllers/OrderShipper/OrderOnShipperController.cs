@@ -11,19 +11,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.OrderShipper
 {
-
+    [Authorize(Roles = "4")]
     public class OrderOnShipperController : BaseController
     {
         public OrderOnShipperController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
         {
         }
         [HttpPost("shipper/order")]
-        [Authorize(Roles ="4")]
+        
         public OrderByShipperDaoOutputDto GetAll(OrderByShipperDaoInputDto inputDto)
         {
             try
             {
-                inputDto.ShipperId = 1;
+                
                 var busi = this.GetBusinessLogic<OrderShipperBusinessLogic>();
                 var role = this.GetAccessRight();
                 //if(role != 4)
@@ -73,7 +73,7 @@ namespace HFS_BE.Controllers.OrderShipper
         }
 
         [HttpPost("shipper/history")]
-        [Authorize(Roles = "4")]
+        //[Authorize(Roles = "4")]
         public OrderOnHistoryDaoOutputDto GetAll(OrderHistoryInputDto inputDto)
         {
             try
@@ -86,6 +86,23 @@ namespace HFS_BE.Controllers.OrderShipper
             catch (Exception)
             {
                 return this.Output<OrderOnHistoryDaoOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        [HttpPost("shipper/order/shipping")]
+        //[Authorize(Roles = "4")]
+        public BaseOutputDto ChangeStatus(OrderStatusInputDto inputDto)
+        {
+            try
+            {
+                var busi = this.GetBusinessLogic<OrderShipperBusinessLogic>();
+                
+
+                return busi.ChangeStatus(inputDto);
+            }
+            catch (Exception)
+            {
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
     }
