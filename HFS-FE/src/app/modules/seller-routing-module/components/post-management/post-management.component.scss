@@ -63,6 +63,14 @@
             width: auto;
         }
     }
+
+    .dialogimages_image{
+        span{
+            img{
+                width: 10rem !important;
+            }
+        }
+    }
 }
 
 .customer-badge {
@@ -247,7 +255,12 @@
         }
 
         .dialogimages_image{
-            width: 5rem !important;
+
+            span{
+                img{
+                    width: 5rem !important;
+                }
+            }
         }
     }
 

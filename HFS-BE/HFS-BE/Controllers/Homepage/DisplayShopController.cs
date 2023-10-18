@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.Homepage
 {
-	[Authorize]
 	public class DisplayShopController : BaseController
     {
         public DisplayShopController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
@@ -16,16 +15,16 @@ namespace HFS_BE.Controllers.Homepage
 
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost("home/displayshop")]
 		
-		public DisplayShopOutputDto Create(BaseInputDto inputDto)
+		public DisplayShopOutputDto Create()
         {
             try
             {
                 var business = this.GetBusinessLogic<DisplayShopBusinessLogic>();
                 var user = this.GetAccessRight();
-                return business.DisplayShop(inputDto);
+                return business.DisplayShop();
             }
             catch (Exception ex)
             {

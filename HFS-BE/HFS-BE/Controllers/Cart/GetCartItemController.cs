@@ -16,12 +16,13 @@ namespace HFS_BE.Controllers.Cart
         }
 
         [HttpPost]
-        [Route("getcartitem")]
+        [Route("cart/getcartitem")]
         [Authorize(Roles = "3")]
-        public GetCartItemDaoOutputDto GetCartItem(GetCartItemDaoInputDto inputDto)
+        public GetCartItemDaoOutputDto GetCartItem()
         {
             try
             {
+                var inputDto = new GetCartItemDaoInputDto();
                 inputDto.CartId = this.GetUserInfor().UserId;
                 var role = this.GetAccessRight();
                 if (role != 3)

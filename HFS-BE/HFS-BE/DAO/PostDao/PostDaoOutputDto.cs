@@ -19,6 +19,22 @@ namespace HFS_BE.Dao.PostDao
     {
         public List<PostOutputDto> Posts { get; set; }
     }
-    
 
+
+    public class PostOutputSellerDto
+    {
+        public int PostId { get; set; }
+        public string? PostContent { get; set; }
+
+        public string? CreatedDate { get; set; }
+
+        public string? Status { get; set; }
+
+        public List<PostImage>? Images { get; set; }
+    }
+
+    public class ListPostOutputSellerDto : BaseOutputDto
+    {
+        public List<PostOutputSellerDto> Posts { get; set; }
+    }
 }

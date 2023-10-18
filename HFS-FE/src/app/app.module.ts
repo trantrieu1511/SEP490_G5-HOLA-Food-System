@@ -54,6 +54,7 @@ import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
     RegisterComponent,
     ConfirmemailComponent,
 
+
   ],
   imports: [
     BrowserModule,

@@ -16,7 +16,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
             try
             {
                 var dao = this.CreateDao<OrderDao>();
-                return dao.OrderByShipper(inputDto);
+                return dao.OrderOfShipper(inputDto);
             }
             catch (Exception)
             {
@@ -30,6 +30,20 @@ namespace HFS_BE.BusinessLogic.OrderShipper
             {
                 var dao = this.CreateDao<OrderDao>();
                 return dao.OrderHistoryDetail(orderId);
+            }
+            catch (Exception)
+            {
+
+                return this.Output<OrderHistoryDetailDtoOutput>(Constants.ResultCdFail);
+            }
+        }
+
+        public BaseOutputDto ChangeStatus(OrderStatusInputDto inputDto)
+        {
+            try
+            {
+                var dao = this.CreateDao<OrderDao>();
+                return dao.ChangeStatusOrderShipper(inputDto);
             }
             catch (Exception)
             {

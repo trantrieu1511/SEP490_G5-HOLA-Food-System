@@ -1,0 +1,25 @@
+<div class="cards" >
+    <div *ngFor="let shop of lstShop" class="card"  (click)="onShopDetail(shop)" >
+        <!-- routerLink="/details/{{element.id}}" -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
+        alt="" class="card-image"
+        >
+        <div class="card-content">
+            <div class="card-top">
+                <!-- <h3 class="card-title">2020 World Champs Gaming Warzone</h3> -->
+                <div class="card-user">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
+                    alt="" class="card-user-avatar"
+                    >
+                    <div class="card-user-info">
+                        <div class="card-user-top">
+                            <h4 class="card-user-name">{{shop.shopName}}</h4>
+                        </div>
+                        <div class="card-user-game">{{shop.shopAddress}}</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

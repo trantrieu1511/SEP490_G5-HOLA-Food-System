@@ -51,6 +51,7 @@ namespace HFS_BE.DAO.CartDao
                     data.Amount += inputDto.Amount;
                     context.Update(data);
                     context.SaveChanges();
+                    return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
                 }
 
                 var cartitem = mapper.Map<AddCartItemInputDto, CartItem>(inputDto);

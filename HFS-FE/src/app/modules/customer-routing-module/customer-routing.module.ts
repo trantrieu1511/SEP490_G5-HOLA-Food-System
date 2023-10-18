@@ -5,14 +5,29 @@ import { SharedModule } from '../shared-module/shared-module.module';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {AppComponent} from '../../app.component';
 import { ComponentModule } from '../components-module/component.modules';
+import { HomepageComponent } from './components/homepage/homepage.component';
+import { FooddetailComponent } from './components/fooddetail/fooddetail.component';
+import { CartdetailComponent } from './components/cartdetail/cartdetail.component';
+import { ShopdetailComponent } from './components/shopdetail/shopdetail.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 
 const routes: Routes = [
-  
+  {path: "", component: HomepageComponent},
+  {path: "shopdetail", component: ShopdetailComponent},
+  {path: "fooddetail", component: FooddetailComponent},
+  {path: "cartdetail", component: CartdetailComponent},
+  {path: "checkout", component : CheckoutComponent}
 ]
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    HomepageComponent,
+    FooddetailComponent,
+    CartdetailComponent,
+    ShopdetailComponent,
+    CheckoutComponent
+  ],
   imports: [
     CommonModule,
     SharedModule,
