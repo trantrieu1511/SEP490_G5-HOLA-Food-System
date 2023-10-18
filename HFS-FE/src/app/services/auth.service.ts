@@ -43,6 +43,21 @@ user:User;
       })
     )
   }
+  loginfacebook(credentials: string): Observable<any>{
+    debugger;
+    const header = new HttpHeaders().set('Content-type', 'application/json');
+    return this.httpClient.post("https://localhost:7016/api/Ok/" + "LoginWithFacebook", JSON.stringify(credentials),{ headers: header, withCredentials: true }).pipe(
+
+      map((res:Tokens)=>{
+        const token = res;
+        debugger;
+        if(token){
+          this.setCurrentUser(token);
+
+        }
+      })
+    )
+  }
   setCurrentUser(token: Tokens){
     debugger;
     if(token){

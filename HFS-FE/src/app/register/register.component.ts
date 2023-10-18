@@ -1,18 +1,17 @@
 import { AfterViewInit, Component, NgZone, OnInit, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { CredentialResponse } from 'google-one-tap';
-import { environment } from '../../environments/environment';
+import { DividerModule } from 'primeng/divider';
+import { environment } from 'src/environments/environment';
 import { AuthService, User } from '../services/auth.service';
-
-declare const FB: any;
-
+import { Router } from '@angular/router';
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss']
 })
-export class LoginComponent implements  OnInit,AfterViewInit{
+export class RegisterComponent implements OnInit,AfterViewInit {
+
   user:User;
  form:FormGroup;
 private client_Id=environment.clientId;
@@ -150,19 +149,5 @@ async onSubmit() {
 }
 
 
-async loginfb() {
-  FB.login(async (result:any) => {
-    debugger;
-      await this.service.loginfacebook(result.authResponse.accessToken).subscribe(
-        (x:any) => {
-          this._ngZone.run(() => {
-            this.router.navigate(['/logout']);
-          })},
-        (error:any) => {
-            console.log(error);
-          }
-        );
-  }, { scope: 'email' });
 
-}
 }

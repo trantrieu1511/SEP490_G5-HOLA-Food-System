@@ -11,7 +11,7 @@ namespace HFS_BE.Dao.OrderDao
         public OrderDao(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
         {
         }
-        public OrderByShipperDaoOutputDto OrderByShipper(OrderByShipperDaoInputDto inputDto)
+        public OrderByShipperDaoOutputDto OrderOfShipper(OrderByShipperDaoInputDto inputDto)
         {
             try
             {
