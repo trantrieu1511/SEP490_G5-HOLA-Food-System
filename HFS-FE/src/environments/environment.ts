@@ -6,7 +6,7 @@ export const environment = {
   apiUrl: "https://localhost:7016/",
   clientId: "737110996158-747oghg2rqifouoldnkonnp2vfp174qh.apps.googleusercontent.com",
 
-  appId: "751308310067999",
+  appId: "297572859708452",
   production: false
 };
 

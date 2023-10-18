@@ -8,6 +8,8 @@ import { AppAccessdeniedComponent } from './pages/app.accessdenied.component';
 import {authGuard} from "./services/Guard/auth.guard";
 import { LoginComponent } from './login/login.component';
 import { ChatComponent } from './modules/chat/chat.component';
+import { RegisterComponent } from './register/register.component';
+import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
 
 const routes: Routes = [
   // {
@@ -20,6 +22,16 @@ const routes: Routes = [
       component: LoginComponent
   }
   ,
+  {
+    path: 'confirm',
+    component: ConfirmemailComponent
+}
+,
+  {
+    path: 'register',
+    component: RegisterComponent
+}
+,
   {
     path: 'chat',
     component: ChatComponent
