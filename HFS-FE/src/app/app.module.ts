@@ -33,6 +33,8 @@ import { JwtService } from './services/app.jwt.service';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatComponent } from './modules/chat/chat.component';
+import { RegisterComponent } from './register/register.component';
+import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
 
 
 @NgModule({
@@ -49,6 +51,8 @@ import { ChatComponent } from './modules/chat/chat.component';
     AppAccessdeniedComponent,
     LoginComponent,
     ChatComponent,
+    RegisterComponent,
+    ConfirmemailComponent,
 
   ],
   imports: [

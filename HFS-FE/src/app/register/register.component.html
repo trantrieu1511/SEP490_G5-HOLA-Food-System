@@ -1,0 +1,58 @@
+<div>
+  <div class="flex align-items-center	justify-content-center	min-h-screen">
+    <div class="surface-card p-4 shadow-2 border-round w-full lg:w-5">
+        <div class="text-center mb-5">
+            <!-- <img src="assets/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3"> -->
+            <div class="text-900 text-3xl font-medium mb-3">Welcome FU Food</div>
+
+            <div class="text-900 text-3xl font-medium mb-3">Register</div>
+        </div>
+
+        <div>
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <label for="firtname" class="block text-900 font-medium mb-2">FirtName</label>
+            <input id="firtname" type="text"  placeholder="FirtName" pInputText class="w-full mb-3">
+            <label for="lastname" class="block text-900 font-medium mb-2">LastName</label>
+            <input id="firtname" type="text"  placeholder="LastName" pInputText class="w-full mb-3">
+            <label for="email1" class="block text-900 font-medium mb-2">Email</label>
+            <input id="email1" type="text"  placeholder="Email address" formControlName="email" pInputText class="w-full mb-3">
+                  <div *ngIf="form.get('email')!.hasError('email')" class="invalid-feedback">Incorrect Email format!</div>
+            <label for="password1" class="block text-900 font-medium mb-2">Password</label>
+            <input id="password1" type="password"  placeholder="Password" formControlName="password" pInputText class="w-full mb-3">
+            <div *ngIf="form.get('password')!.hasError('minlength')" class="invalid-feedback">Password minimum 3!</div>
+            <label for="password2" class="block text-900 font-medium mb-2">Confirm Password</label>
+            <input id="password2" type="password"  placeholder="Password" formControlName="confpassword" pInputText class="w-full mb-3">
+            <div *ngIf="form.get('password')!.hasError('minlength')" class="invalid-feedback">Password minimum 3!</div>
+            <label for="gender" class="block text-900 font-medium mb-2">Gender</label>
+            <div class="flex align-items-center justify-content-between mb-3 md:w-5">
+              <div class="flex align-items-center">
+                <input type="radio"  formControlName="gender" name="gender" value="male"  inputId="ingredient">
+                <label for="ingredient" class="ml-2">Male</label>
+            </div>
+
+            <div class="flex align-items-center">
+              <input type="radio" formControlName="gender" name="gender" value="female"  inputId="ingredient">
+                <label for="ingredient" class="ml-2">Female</label>
+            </div>
+
+            </div>
+            <label for="gender" class="block text-900 font-medium mb-2">Date of birth</label>
+            <div class="flex align-items-center justify-content-between mb-3 md:w-5">
+              <div class="flex align-items-center">
+                <input type="date" name="dob" inputId="ingredient">
+
+            </div>
+
+
+            </div>
+            <button type="submit" pButton pRipple label="Sign Up" icon="pi pi-user" styleClass="p-button-success w-10rem" class="w-full" ></button>
+
+
+          </form>
+        </div>
+
+    </div>
+</div>
+
+<p-toast [baseZIndex]='99999' key="app-login"></p-toast>
+
