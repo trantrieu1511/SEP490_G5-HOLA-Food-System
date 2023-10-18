@@ -9,6 +9,9 @@ export class PHAN_HE {
     public static TEST = "Test";
     public static POSTMODERATORMANAGEPOST = "manage";
     public static SHIPPER = "Shipper";
+    public static HOME = "Home"
+    public static SHOP_DETAIL = "shopDetail"
+    public static CART = "cart"
 }
 
 export class API_POSTMODERATOR{
@@ -66,3 +69,15 @@ export class API_POST{
     public static GET_ALL_LOGIN = "Account";
 }
 
+export class API_HOME{
+    public static DISPLAY_SHOP = "displayshop";
+}
+
+export class API_SHOP_DETAIL{
+    public static DISPLAY_MENU = "foods";
+}
+
+export class API_CART{
+    public static ADDTOCART = "addtocart"
+    public static CART_DETAIL = "getcartitem"
+}
