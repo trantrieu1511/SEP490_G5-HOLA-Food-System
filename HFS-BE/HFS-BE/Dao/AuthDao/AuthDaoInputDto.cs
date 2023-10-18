@@ -19,5 +19,6 @@ namespace HFS_BE.Dao.AuthDao
         public int RoleId { get; set; }
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
+
     }
 }

@@ -2,6 +2,7 @@ using AutoMapper;
 using HFS_BE;
 using HFS_BE.Automapper;
 using HFS_BE.Models;
+using HFS_BE.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -51,7 +52,7 @@ builder.Services.AddSwaggerGen(options =>
                     }
                 });
 });
-
+builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddCors(act =>
 {
     act.AddPolicy("_MainPolicy", options =>

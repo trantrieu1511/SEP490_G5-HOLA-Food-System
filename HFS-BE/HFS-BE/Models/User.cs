@@ -37,6 +37,7 @@ namespace HFS_BE.Models
         public bool IsOnline { get; set; }
         public decimal? WalletBalance { get; set; }
         public int? ManageBy { get; set; }
+        public bool ConfirmEmail { get; set; }
 
         public virtual User? ManageByNavigation { get; set; }
         public virtual Role Role { get; set; } = null!;
