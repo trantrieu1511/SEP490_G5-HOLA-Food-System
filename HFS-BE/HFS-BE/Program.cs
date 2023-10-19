@@ -2,6 +2,7 @@ using AutoMapper;
 using HFS_BE;
 using HFS_BE.Automapper;
 using HFS_BE.Models;
+using HFS_BE.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -51,15 +52,16 @@ builder.Services.AddSwaggerGen(options =>
                     }
                 });
 });
-
+builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddCors(act =>
 {
     act.AddPolicy("_MainPolicy", options =>
     {
-        options.AllowAnyHeader();
-        options.AllowAnyMethod();
-        options.AllowAnyOrigin();
-    });
+		options.AllowAnyHeader();
+		options.AllowAnyMethod();
+		options.WithOrigins("http://localhost:4200"); // Ch? ??nh ngu?n g?c c? th?
+		options.AllowCredentials(); // Cho phép ch? ?? credentials
+	});
 });
 
 ConfigurationManager configuration = builder.Configuration;

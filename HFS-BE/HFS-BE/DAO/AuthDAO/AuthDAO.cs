@@ -94,7 +94,8 @@ namespace HFS_BE.Dao.AuthDao
 				new Claim(ClaimTypes.Email, acc.Email),
 				new Claim(ClaimTypes.Role, role),
 				new Claim(ClaimTypes.Name, acc.FirstName + acc.LastName),
-                new Claim("userId", acc.UserId.ToString())
+				new Claim("userId", acc.UserId.ToString())
+		
             };
 
 			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(conf["JWT:Secret"]));
@@ -110,7 +111,7 @@ namespace HFS_BE.Dao.AuthDao
 
 		public BaseOutputDto Register(RegisterDto model)
 		{
-			var user = new User { Email = model.Email, RoleId = model.RoleId, BirthDate = model.BirthDate, FirstName = model.FirstName, LastName = model.LastName, Gender = "Male" };
+			var user = new User { Email = model.Email, RoleId = 3, BirthDate = model.BirthDate, FirstName = model.FirstName, LastName = model.LastName, Gender = model.Gender,ConfirmEmail=false };
 
 
 			using (HMACSHA256? hmac = new HMACSHA256())
@@ -148,9 +149,17 @@ namespace HFS_BE.Dao.AuthDao
 
 			var user = context.Users.Where(x => x.Email == payload.Email).FirstOrDefault();
 
-			if (user == null)
+			if (user != null)
 			{
-				var user1 = new User { Email = payload.Email, RoleId = 1, FirstName = payload.Name, LastName = payload.Name, Gender = "Male" };
+				JwtSecurityToken token = GenerateSecurityToken((User)user);
+				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+				return output;
+			}
+
+			else
+			{
+				string[] FullName = payload.Name.Split(" ");
+				var user1 = new User { Email = payload.Email, RoleId = 3, FirstName = FullName[0] , LastName = FullName[1], Gender = "Null" };
 
 				using (HMACSHA256? hmac = new HMACSHA256())
 				{
@@ -159,9 +168,9 @@ namespace HFS_BE.Dao.AuthDao
 				}
 				try
 				{
-					context.Users.Add(user1);
-					context.SaveChanges();
-					JwtSecurityToken token = GenerateSecurityToken((User)user);
+					await context.Users.AddAsync(user1);
+					context.SaveChangesAsync();
+					JwtSecurityToken token = GenerateSecurityToken((User)user1);
 					output.Token = new JwtSecurityTokenHandler().WriteToken(token);
 					return output;
 				}
@@ -170,13 +179,8 @@ namespace HFS_BE.Dao.AuthDao
 					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail);
 				}
 			}
+			return output;
 
-			else
-			{
-				return output;
-			}
-
-			
 		}
 
 	}
