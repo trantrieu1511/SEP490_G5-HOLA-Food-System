@@ -101,7 +101,7 @@ namespace HFS_BE.Dao.AuthDao
 
 			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddDays(1),
+					expires: DateTime.Now.AddMinutes(1),
 					claims: authClaims,
 					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)); ;
 
