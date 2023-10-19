@@ -218,15 +218,16 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       //console.log(param);
       const response = await this.iServiceBase
         .postDataAsync(API.PHAN_HE.POST, API.API_POST.ADD_POST_SELLER, param, true);
-      if(response && response.message === "Success"){
+      
+        if(response && response.message === "Success"){
         this.showMessage(mType.success, "Notification", "New post added successfully", 'notify');
 
         this.displayDialogEditAddPost = false;
 
-        //lấy lại danh sách All Role
+        //lấy lại danh sách All 
         this.getAllPost();
 
-        //Clear Role model đã tạo
+        //Clear model đã tạo
         this.postModel = new Post();
         //clear file upload too =))
         this.uploadedFiles = [];

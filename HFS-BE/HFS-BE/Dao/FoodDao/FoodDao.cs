@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
+using HFS_BE.Dao.PostDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ namespace HFS_BE.Dao.FoodDao
                 var data = this.context.Foods
                     .Include(x => x.FoodImages)
                     .Include(x => x.Category)
-                    .Where(x => x.User.UserId == inputDto.ShopId)
+                    .Where(x => x.ShopId == inputDto.ShopId)
                     .Select(x => mapper.Map<Food, FoodOutputDto>(x))
                     .ToList();
 
@@ -49,6 +50,41 @@ namespace HFS_BE.Dao.FoodDao
             catch (Exception)
             {
                 return this.Output<FoodOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public BaseOutputDto AddNewFood(FoodCreateInputDto inputDto)
+        {
+            try
+            {
+
+                // Add food
+                Food food = new Food
+                {
+                    ShopId = inputDto.UserDto.UserId,
+                    Name = inputDto.Name,
+                    UnitPrice = inputDto.UnitPrice,
+                    Description = inputDto.Description,
+                    CategoryId = inputDto.CategoryId,
+                    Status = 0
+                };
+                context.Add(food);
+                context.SaveChanges();
+
+                foreach (var img in inputDto.Images)
+                {
+                    context.Add(new FoodImage
+                    {
+                        FoodId = food.FoodId,
+                        Path = img
+                    });
+                    context.SaveChanges();
+                }
+                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception e)
+            {
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
     }
