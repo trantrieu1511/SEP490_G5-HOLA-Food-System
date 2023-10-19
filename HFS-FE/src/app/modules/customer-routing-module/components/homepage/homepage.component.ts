@@ -27,7 +27,7 @@ export class HomepageComponent  extends iComponentBase implements OnInit {
   @ViewChild('dt') table: Table;
 
   loading: boolean;
-  lstShop: Shop[];
+  lstShop: any[];
 
   constructor(private shareData: ShareData,
               public messageService: MessageService,
@@ -50,9 +50,9 @@ export class HomepageComponent  extends iComponentBase implements OnInit {
         this.loading = true;
 
         let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.HOME, API.API_HOME.DISPLAY_SHOP, null);
+        console.log(response)
         if (response && response.message === "Success") {
-            this.lstShop = response.listShop;
-            
+            this.lstShop = response.listShop;          
         }
         this.loading = false;
     } catch (e) {

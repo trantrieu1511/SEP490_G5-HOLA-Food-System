@@ -11,5 +11,6 @@ export class CartItem{
     unitPrice : number
     totalPrice: number
     name : string
+    selected: boolean = false
     foodImages : FoodImage[]
 }

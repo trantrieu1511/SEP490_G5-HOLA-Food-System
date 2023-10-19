@@ -1,6 +1,6 @@
 <div class="card">
     <h5>Cart Detail</h5>
-    <p-table [value]="items" [paginator]="true" [rows]="10" responsiveLayout="scroll">
+    <p-table [value]="items" [paginator]="true" [rows]="1" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
                 <th>Image</th>
@@ -22,9 +22,10 @@
                 <td style="width: 18%; min-width: 8rem;">{{product.totalPrice | currency:'USD'}}</td>
                 <td style="width: 10%;">
                     <!-- <button pButton pRipple type="button" icon="pi pi-search" class="p-button p-component p-button-text p-button-icon-only"></button> -->
-                    <input type="checkbox"/>
+                    <input type="checkbox" [checked]="product.selected" (change)="onSelectFood(product.foodId, product.amount)"/>
                 </td>
             </tr>
-        </ng-template>
+        </ng-template>      
     </p-table>
+    <button pButton pRipple label="Checkout" (click)="onCheckOut()"></button>
 </div>

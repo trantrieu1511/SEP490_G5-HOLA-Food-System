@@ -24,7 +24,8 @@ namespace HFS_BE.Controllers.Homepage
             {
                 var business = this.GetBusinessLogic<DisplayShopBusinessLogic>();
                 var user = this.GetAccessRight();
-                return business.DisplayShop();
+                var output = business.DisplayShop();
+                return output;
             }
             catch (Exception ex)
             {
