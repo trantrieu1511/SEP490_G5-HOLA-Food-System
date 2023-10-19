@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
 import {AppBreadcrumbService} from "../../../../app-systems/app-breadcrumb/app.breadcrumb.service";
-import {Food, FoodImage, Category} from "../../models/food.model";
+import {Food, FoodImage, Category, FoodInput} from "../../models/food.model";
 import {
     iComponentBase,
     iServiceBase, mType,
@@ -56,7 +56,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
   }
 
   ngOnInit() {
-    this.getAllPost();
+    this.getAllFood();
     
   }
 
@@ -81,7 +81,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
     ];
   }
 
-  async getAllPost() {
+  async getAllFood() {
       this.lstFood = [];
       this.uploadedFiles = [];
       // try {
@@ -98,73 +98,33 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
       //     this.loading = false;
       // }
 
-      this.lstFood = [
-        {
-          foodId: 1,
-          name: "gà",
-          description: "abcaisefdojueiwf",
-          categoryId: 1,
-          categoryName: "Food",
-          rating: 4,
-          status: "Display",
-          images: []
-        },
-        {
-          foodId: 2,
-          name: "gà chiên",
-          description: "abcaisefdojueiwf",
-          categoryId: 1,
-          categoryName: "Food",
-          rating: 5,
-          status: "Display",
-          images: []
-        },
-        {
-          foodId: 3,
-          name: "coca",
-          description: "124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsd124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdafaf",
-          categoryId: 2,
-          categoryName: "Drink",
-          rating: 0,
-          status: "Hide",
-          images: [
-            new FoodImage(1,3,"bamboo-watch.jpg")
-          ]
-        },
-      ];
-
 
   }
 
-  bindingDataFoodModel(): Food {
-      let result = new Food();
-      // if (this.shareData && this.shareData.userInfo) {
-        
-      //     if (this.roleModel.id && this.roleModel.id > 0) {
-      //         //Update
-      //         result.id = this.roleModel.id;
-      //         result.roleId = this.roleModel.roleId;
-      //         result.roleKey = this.roleModel.roleKey;
-      //         result.roleName = this.roleModel.roleName;
-      //         result.roleDescribe = this.roleModel.roleDescribe;
-      //         result.active = this.roleModel.active;
-      //         result.lastModifiedBy = this.shareData.userInfo.userName;
-      //         result.lastModifiedDate = new Date();
-      //         result.createdBy = this.roleModel.createdBy;
-      //         result.createdDate = this.roleModel.createdDate;
+  bindingDataFoodModel(): FoodInput {
+      let result = new FoodInput();
+      
+      if (this.foodModel.foodId && this.foodModel.foodId > 0) {
+        // //Update
+        // result.id = this.roleModel.id;
+        // result.roleId = this.roleModel.roleId;
+        // result.roleKey = this.roleModel.roleKey;
+        // result.roleName = this.roleModel.roleName;
+        // result.roleDescribe = this.roleModel.roleDescribe;
+        // result.active = this.roleModel.active;
+        // result.lastModifiedBy = this.shareData.userInfo.userName;
+        // result.lastModifiedDate = new Date();
+        // result.createdBy = this.roleModel.createdBy;
+        // result.createdDate = this.roleModel.createdDate;
 
-      //     } else {
-      //         //Insert
-      //         result.roleId = this.roleModel.roleId;
-      //         result.roleKey = this.roleModel.roleKey;
-      //         result.roleName = this.roleModel.roleName;
-      //         result.roleDescribe = this.roleModel.roleDescribe;
-      //         result.active = this.roleModel.active;
-      //         result.createdBy = this.shareData.userInfo.userName;
-      //         result.createdDate = new Date();
-      //     }
-      // }
-
+      } else {
+          //Insert
+          result.name = this.foodModel.name;
+          result.unitPrice = this.foodModel.unitPrice;
+          result.description = this.foodModel.description;
+          result.categoryId = this.foodModel.categoryId;
+      }
+    
       return result;
   }
 
@@ -226,17 +186,17 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
   }
 
   onSaveFood() {
-    console.log(this.foodModel);
+    //console.log(this.foodModel);
     this.foodModel.categoryId = this.selectedCategory.categoryId;
     this.foodModel.name = this.selectedCategory.name;
 
-    let foodEnity = this.bindingDataFoodModel();
+    let foodEntity = this.bindingDataFoodModel();
 
     if (this.validateFoodModel()) {
-        if (foodEnity && foodEnity.foodId && foodEnity.foodId > 0) {
-            this.updateFood(foodEnity);
+        if (foodEntity && foodEntity.foodId && foodEntity.foodId > 0) {
+            this.updateFood(foodEntity);
         } else {
-            this.createFood(foodEnity);
+            this.createFood(foodEntity);
         }
     }
   }
@@ -266,25 +226,36 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
       return true;
   }
 
-  async createFood(foodEnity) {
+  async createFood(foodEnity: FoodInput) {
       try {
-          let param = foodEnity;
+        const param = new FormData();
 
-          // let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.INSERT_APP_ROLE, param, true);
+        this.uploadedFiles.forEach(file => {
+          param.append('images', file, file.name);
+        });
 
-          // if (response && response.success) {
-          //     this.showMessage(mType.success, "Thông báo", "Thêm mới phân quyền thành công!", 'notify');
+        Object.keys(foodEnity).forEach(function(key) {
+          param.append(key, foodEnity[key]);
+        });
+        console.log(foodEnity);
+        console.log(param);
 
-          //     this.displayDialogCreateRole = false;
+        const response = await this.iServiceBase
+          .postDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.ADD_FOOD, param, true);
+      
+        if(response && response.message === "Success"){
+          this.showMessage(mType.success, "Notification", "New food added successfully", 'notify');
 
-          //     //lấy lại danh sách All Role
-          //     this.getAllRole();
+          this.displayDialogEditAddFood = false;
 
-          //     //Clear Role model đã tạo
-          //     this.roleModel = new AppRole();
-          // } else {
-          //     this.showMessage(mType.error, "Thông báo", "Thêm mới phân quyền không thành công. Vui lòng xem lại!", 'notify');
-          // }
+          //lấy lại danh sách All 
+          this.getAllFood();
+
+          //Clear model đã tạo
+          this.foodModel = new Food();
+          //clear file upload too =))
+          this.uploadedFiles = [];
+        } 
       } catch (e) {
           console.log(e);
       }
@@ -340,37 +311,39 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
   }
 
   getSeverity(status: string) {
-      switch (status) {
-          case 'Display':
-            return 'success';
-          case 'Hide':
-            return 'warning';
-          case 'Ban':
-            return 'danger';
-          default:
-            return 'error';
-      }
+    switch (status) {
+      case 'NotApproved':
+        return 'warning';
+      case 'Display':
+        return 'success';
+      case 'Hidden':
+        return 'secondary';
+      case 'Ban':
+        return 'danger';
+      default:
+        return 'error';
+    }
   }
 
   handleFileSelection(event :  FileSelectEvent) {
-    console.log("select", event);
+    //console.log("select", event);
     
     this.uploadedFiles = event.currentFiles;
-    console.log("uploadFiles", this.uploadedFiles);
+    //console.log("uploadFiles", this.uploadedFiles);
   }
 
   handleFileRemoval(event :  FileRemoveEvent){
-    console.log("remove", event.file.name);
+    //console.log("remove", event.file.name);
 
     this.uploadedFiles = this.uploadedFiles.filter(f => f.name !== event.file.name);
-    console.log("uploadFiles", this.uploadedFiles);
+    //console.log("uploadFiles", this.uploadedFiles);
   }
 
   handleAllFilesClear(event :  Event){
-    console.log("clear", event);
+    //console.log("clear", event);
 
     this.uploadedFiles = [];
-    console.log("uploadFiles", this.uploadedFiles);
+    //console.log("uploadFiles", this.uploadedFiles);
   }
 
   onDisplayImagesDialog(food: Food, event: any){
