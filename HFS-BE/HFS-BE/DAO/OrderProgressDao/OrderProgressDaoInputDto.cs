@@ -8,7 +8,7 @@ namespace HFS_BE.DAO.OrderProgressDao
         public DateTime? CreateDate { get; set; }
         public string? Image { get; set; }
         public int? OrderId { get; set; }
-        public bool? Status { get; set; }
+        public byte? Status { get; set; }
         public int? UserId { get; set; }
     }
 }
