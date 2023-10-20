@@ -69,8 +69,9 @@ export class API_VOUCHER {
 
 export class API_POST{
     public static ADD_POST_SELLER = "addPostSeller";
-    public static GET_POST_SELLER = "getPostSeller";
-    public static DISPLAY_HIDE_SELLER = "displayHideSeller";
+    public static UPDATE_POST = "updatePost";
+    public static GET_POST_SELLER = "getPostsSeller";
+    public static ENABLE_DISABLE_SELLER = "enableDisableSeller";
 }
 
 export class API_HOME{
@@ -88,6 +89,7 @@ export class API_CART{
 
 export class API_FOOD{
     public static ADD_FOOD = "addNewFood";
-    public static GET_FOOD_SELLER = "getFoodSeller";
-    public static DISPLAY_HIDE_ = "displayHideSeller";
+    public static UPDATE_FOOD = "updateFood";
+    public static GET_FOOD_SELLER = "getFoodsSeller";
+    public static ENABLE_DISABLE = "enableDisable";     
 }

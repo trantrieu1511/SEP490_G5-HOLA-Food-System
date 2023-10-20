@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { AppCustomerTopBarComponent } from 'src/app/app-systems/app-topbar/customer/app.topbar-cus.component';
 import { AppCustomerLayoutComponent } from './app.customer.component';
 import { AppCustomerFooterComponent } from 'src/app/app-systems/app-footer/customer/app.footer-cus.component';
+import { ComponentModule } from 'src/app/modules/components-module/component.modules';
 
 @NgModule({
     declarations: [
@@ -21,6 +22,7 @@ import { AppCustomerFooterComponent } from 'src/app/app-systems/app-footer/custo
         AppCustomerLayoutComponent,
     ],
     imports: [
+        ComponentModule,
         BrowserModule,
         FormsModule,
         HttpClientModule,

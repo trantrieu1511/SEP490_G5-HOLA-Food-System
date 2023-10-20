@@ -1,3 +1,6 @@
+import { Injectable } from '@angular/core';
+
+@Injectable()
 export class iFunction {
     storage: any = localStorage;
 
@@ -50,5 +53,20 @@ export class iFunction {
         if (el) {
             (<any>el).select();
         }
+    }
+
+    convertImageBase64toFile(base64: string, fileName: string) : File{
+        // Base64 to byte          
+        const byteCharacters = atob(base64);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        // byte -> blob
+        //const blob = new Blob([byteArray]);
+        const blob = new Blob([byteArray], { type: 'image/*' });
+        //blob -> file
+        return new File([blob], fileName, { type: blob.type, lastModified: Date.now() });
     }
 }

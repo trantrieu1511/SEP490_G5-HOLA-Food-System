@@ -6,8 +6,9 @@ using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
-namespace HFS_BE.Controllers.Food
+namespace HFS_BE.Controllers.ManageFood
 {
 
     public class AddNewFoodController : BaseController
@@ -17,6 +18,7 @@ namespace HFS_BE.Controllers.Food
         }
 
         [HttpPost("foods/addNewFood")]
+
         public BaseOutputDto AddNewPost([FromForm] FoodCreateInputDto input)
         {
             try

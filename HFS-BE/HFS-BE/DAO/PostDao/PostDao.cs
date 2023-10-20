@@ -65,12 +65,13 @@ namespace HFS_BE.Dao.PostDao
             {
                 List<PostOutputSellerDto> postsModel = context.Posts
                                         .Include(p => p.PostImages)
+                                        .Where(p => p.ShopId == userDto.UserId)
                                         .Select(p => new PostOutputSellerDto
                                         {
                                             PostId = p.PostId,
                                             CreatedDate = p.CreatedDate.Value.ToString("MM/dd/yyyy"),
                                             PostContent = p.PostContent,
-                                            Status = PostStatus.GetPostStatusString(p.Status),
+                                            Status = PostMenuStatus.GetStatusString(p.Status),
                                             Images = p.PostImages.ToList()
                                         })
                                         .ToList();
@@ -95,7 +96,7 @@ namespace HFS_BE.Dao.PostDao
                     CreatedDate = DateTime.Now,
                     PostContent = postDto.PostContent,
                     Status = 0,
-                    ShopId = postDto.UserDto.UserId,
+                    ShopId = postDto.UserDto.UserId
                 };
                 context.Add(post);
                 context.SaveChanges();
@@ -117,7 +118,7 @@ namespace HFS_BE.Dao.PostDao
             }
         }
 
-        public BaseOutputDto DisplayHidePost(PostDisplayHideInputDto input)
+        public BaseOutputDto EnableDisablePost(PostEnableDisableInputDto input)
         {
             try
             {
@@ -127,13 +128,13 @@ namespace HFS_BE.Dao.PostDao
                 {
                     return Output<BaseOutputDto>(Constants.ResultCdFail, $"PostId: {input.PostId} not exist!");
                 }
-
-                if(post.Status == 3)
+                // check status Ban 
+                if (post.Status == 3)
                 {
                     return Output<BaseOutputDto>(Constants.ResultCdFail, 
                         $"PostId: {input.PostId} has been banned and cannot be changed!");
                 }
-
+                // check status Not Approved
                 if (post.Status == 0)
                 {
                     return Output<BaseOutputDto>(Constants.ResultCdFail,

@@ -13,7 +13,9 @@ using HFS_BE.DAO.UserDao;
 using HFS_BE.BusinessLogic.Post;
 using HFS_BE.Utils.IOFile;
 using Microsoft.AspNetCore.Mvc;
-using HFS_BE.Controllers.Food;
+using HFS_BE.Controllers.ManageFood;
+using HFS_BE.BusinessLogic.Food;
+using HFS_BE.Dao.FoodDao;
 using HFS_BE.DAO.OrderProgressDao;
 
 namespace HFS_BE.Automapper
@@ -78,9 +80,14 @@ namespace HFS_BE.Automapper
 
             //seller
             //input
+            CreateMap<Controllers.ManageFood.FoodCreateInputDto, BusinessLogic.Food.FoodCreateInputDto>();
             CreateMap<BusinessLogic.Food.FoodCreateInputDto, Dao.FoodDao.FoodCreateInputDto>();
-            CreateMap<FoodCreateInputDto, BusinessLogic.Food.FoodCreateInputDto> ();
+            CreateMap<Dao.FoodDao.FoodCreateInputDto, BusinessLogic.Food.FoodCreateInputDto> ();
+            CreateMap<BusinessLogic.Food.FoodUpdateInputDto, Dao.FoodDao.FoodUpdateInforInputDto>();
+            CreateMap<Controllers.ManageFood.FoodUpdateInputDto, BusinessLogic.Food.FoodUpdateInputDto>();
             //output
+            CreateMap<Dao.FoodDao.FoodOutputSellerDto, BusinessLogic.Food.FoodOutputSellerDto>();
+            CreateMap<Dao.FoodDao.ListFoodOutputSellerDto, BusinessLogic.Food.ListFoodOutputSellerDto>();
 
         }
         public void Order()
@@ -146,6 +153,7 @@ namespace HFS_BE.Automapper
         public void File()
         {
             CreateMap<ImageFileConvert.ImageOutputDto, PostImageOutputSellerDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, FoodImageOutputSellerDto>();
         }
     }
 }

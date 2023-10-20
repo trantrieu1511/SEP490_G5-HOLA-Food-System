@@ -15,7 +15,7 @@ namespace HFS_BE.Controllers.ManagePost
         {
         }
 
-        [HttpGet("posts/getPostSeller")]
+        [HttpGet("posts/getPostsSeller")]
         public ListPostOutputSellerDto Get()
         {
             try
