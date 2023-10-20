@@ -14,7 +14,7 @@ namespace HFS_BE.Dao.OrderDao
         public string? ShipAddress { get; set; }
         public int? ShipperId { get; set; }
         public int? VoucherId { get; set; }
-        public bool? Status { get; set; }
+        public byte? Status { get; set; }
 
         public List<OrderDetailDto> OrderDetails { get; set; }
         
@@ -31,7 +31,7 @@ namespace HFS_BE.Dao.OrderDao
         public string FoodName { get; set; }
         public decimal? UnitPrice { get; set; }
         public int? Quantity { get; set; }
-        public bool? Status { get; set; }
+        public byte? Status { get; set; }
     }
 
     public class CheckOutOrderDaoOutputDto : BaseOutputDto
@@ -53,7 +53,7 @@ namespace HFS_BE.Dao.OrderDao
         public string? ShipAddress { get; set; }
         public int? ShipperId { get; set; }
         public int? VoucherId { get; set; }
-        public bool? Status { get; set; }
+        public byte? Status { get; set; }
 
         public List<OrderDetailDto> OrderDetails { get; set; }
         public List<OrderProgressDaoOutputDto> OrderProgresses { get; set; }

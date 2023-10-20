@@ -44,6 +44,7 @@ export class API_ORDER {
 export class API_SHIPPER {
     public static GET_All = "order";
     public static CHANGE_STATUS = "order/shipping";
+    public static CONFIRM = "orderprogress";
 }
 
 // Service QTHT

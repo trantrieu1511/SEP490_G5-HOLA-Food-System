@@ -5,15 +5,18 @@ import { DividerModule } from 'primeng/divider';
 import { environment } from 'src/environments/environment';
 import { AuthService, User } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { DateOfBirthValidator, PasswordLengthValidator, PasswordMatch, PasswordNumberValidator, PasswordUpperValidator } from '../login/Restricted-login.directive';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit,AfterViewInit {
-
+  isFirstnameTouched = false;
+  isLastnameTouched = false;
   user:User;
- form:FormGroup;
+  formregister:FormGroup;
+  date;
 private client_Id=environment.clientId;
  constructor(private router: Router,
   public renderer: Renderer2,
@@ -26,22 +29,32 @@ private client_Id=environment.clientId;
   ngAfterViewInit(): void {
     // this.loadGoogleLibrary();
     // this.cdr.detectChanges();
-    const script1 = this.renderer.createElement('script');
-        script1.src = `https://accounts.google.com/gsi/client`;
-        script1.async = `true`;
-        script1.defer = `true`;
-    this.renderer.appendChild(document.body, script1);
+
   }
 
  FormFirst(){
-  this.form = new FormGroup({
+  const passwordControl = new FormControl('', [
+    Validators.required,
+    PasswordLengthValidator(),
+    PasswordUpperValidator(),
+    PasswordNumberValidator()
+  ]);
+  this.formregister = new FormGroup({
+    firstname: new FormControl('', [Validators.required]),
+    lastname: new FormControl('', [Validators.required]),
     email: new FormControl('', Validators.email),
-    password: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(12)])
-  })
+    password:passwordControl,
+    confpassword: new FormControl('', [
+      Validators.required,
+      PasswordMatch(passwordControl)
+    ]),
+    gender: new FormControl('', Validators.required),
+    dob:new FormControl('',DateOfBirthValidator())
+  });
 }
  ngOnInit(): void {
   this.FormFirst();
-  this.loadGoogleLibrary();
+
 
   const cssFilePaths = ['assets/theme/indigo/theme-light.css',
         'assets/layout/css/layout-light.css'];
@@ -60,92 +73,21 @@ private client_Id=environment.clientId;
     this.renderer.appendChild(document.head, cssLink);
   });
 }
-
-loadGoogleLibrary() {
-// @ts-ignore
-  window.onGoogleLibraryLoad = () => {
-    console.log(document.getElementById("buttonDiv"));
-    // @ts-ignore
-    google.accounts.id.initialize({
-      client_id: this.client_Id,
-      callback: this.handleCredentialResponse.bind(this),
-      auto_select: false,
-      cancel_on_tap_outside: true
-    });
-    // @ts-ignore
-
-    google.accounts.id.renderButton(
-    // @ts-ignore
-      document.getElementById("buttonDiv"),
-      { theme: "outline", size: "large", width: 100 }
-    );
-    // @ts-ignore
-    google.accounts.id.prompt((notification: PromptMomentNotification) => {});
-  };
+showFirstnameError() {
+  const firstnameControl = this.formregister.get('firstname');
+  if (firstnameControl.value === '' && firstnameControl.touched) {
+    console.log('Firstname is required!');
+  }
 }
-async handleCredentialResponse(response: CredentialResponse) {
-  debugger;
-  await this.service.logingoogle(response.credential).subscribe(
-    (x:any) => {
-      this._ngZone.run(() => {
-        this.router.navigateByUrl('/');
-      })},
-    (error:any) => {
-        console.log(error);
-      }
-    );
+showLastnameError() {
+  const lastnameControl = this.formregister.get('lastname');
+  if (lastnameControl.value === '' && lastnameControl.touched) {
+    console.log('Lastname is required!');
+  }
 }
-
-
-
 async onSubmit() {
   //this.formSubmitAttempt = false;
-  if (this.form.valid) {
 
-    try {
-      debugger;
-      this.service.login(this.form.value).subscribe(res=>{
-        //this.toastr.success('Login success');
-        const userData = localStorage.getItem('user');
-
-
-        this.user = JSON.parse(userData);
-        switch(this.user.role){
-                  case 1:
-                    this.router.navigateByUrl('/HFSBusiness/admin');
-                    break;
-                    case 2:
-                      this.router.navigateByUrl('/HFSBusiness/seller');
-                      break;
-                      case 3:
-                      this.router.navigateByUrl('/');
-                      break;
-
-                      case 4:
-                        this.router.navigateByUrl('/HFSBusiness/shipper');
-                        break;
-                        case 5:
-                          this.router.navigateByUrl('/HFSBusiness/PostModerator');
-                          break;
-
-                          case 6:
-                          this.router.navigateByUrl('/HFSBusiness/MenuModerator');
-                          break;
-                          default:this.router.navigateByUrl('/');
-        }
-
-
-      }, error=>{
-        console.log(error);
-
-      })
-
-    } catch (err) {
-
-    }
-  } else {
-    //this.formSubmitAttempt = true;
-  }
 }
 
 

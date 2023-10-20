@@ -44,6 +44,7 @@ export class CartdetailComponent extends iComponentBase implements OnInit{
         this.getCartItem();
       }
 
+      // get cart item
       async getCartItem(){
         try {
           this.loading = true;
@@ -63,9 +64,25 @@ export class CartdetailComponent extends iComponentBase implements OnInit{
       }
       }
 
+      // tính total price
       calculate(){
         this.items.forEach(element => {
                 element.totalPrice = element.unitPrice * element.amount
               });
+      }
+
+      // thêm food vào danh sách check out
+      onSelectFood(foodId : number, amount : number){
+      let item = this.items.filter(item => item.foodId === foodId)
+       if (item.length > 0){
+        item.forEach(x => {
+          x.selected = !x.selected
+        })
+       }
+      }
+
+      onCheckOut(){
+        this.dataService.setData(this.items.filter(x => x.selected === true))
+        this.router.navigate(['/checkout']);
       }
 }

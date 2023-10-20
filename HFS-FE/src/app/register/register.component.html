@@ -2,50 +2,48 @@
   <div class="flex align-items-center	justify-content-center	min-h-screen">
     <div class="surface-card p-4 shadow-2 border-round w-full lg:w-5">
         <div class="text-center mb-5">
-            <!-- <img src="assets/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3"> -->
-            <div class="text-900 text-3xl font-medium mb-3">Welcome FU Food</div>
+          <img src="assets/image/Logo.png" alt="Image" height="50" class="mb-3">
+            <!-- <div class="text-900 text-3xl font-medium mb-3">Welcome FU Food</div> -->
 
             <div class="text-900 text-3xl font-medium mb-3">Register</div>
         </div>
 
         <div>
-          <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <label for="firtname" class="block text-900 font-medium mb-2">FirtName</label>
-            <input id="firtname" type="text"  placeholder="FirtName" pInputText class="w-full mb-3">
-            <label for="lastname" class="block text-900 font-medium mb-2">LastName</label>
-            <input id="firtname" type="text"  placeholder="LastName" pInputText class="w-full mb-3">
+          <form [formGroup]="formregister" (ngSubmit)="onSubmit()">
+            <label for="firstname" class="block text-900 font-medium mb-2">FirstName</label>
+            <input id="firstname" formControlName="firstname" type="text"placeholder="FirstName" pInputText class="w-full mb-3"(focus)="isFirstnameTouched = true" (blur)="showFirstnameError()">
+            <div *ngIf="isFirstnameTouched && formregister.get('firstname').errors?.required" class="invalid-feedback">Firstname is required!</div>
+            <label for="lastname"  class="block text-900 font-medium mb-2">LastName</label>
+            <input id="lastname" type="text" formControlName="lastname" placeholder="LastName" pInputText class="w-full mb-3" (focus)="isLastnameTouched = true" (blur)="showLastnameError()">
+            <div *ngIf="isLastnameTouched && formregister.get('lastname').errors?.required" class="invalid-feedback">LastName is required!</div>
             <label for="email1" class="block text-900 font-medium mb-2">Email</label>
             <input id="email1" type="text"  placeholder="Email address" formControlName="email" pInputText class="w-full mb-3">
-                  <div *ngIf="form.get('email')!.hasError('email')" class="invalid-feedback">Incorrect Email format!</div>
+            <div *ngIf="formregister.get('email')!.hasError('email')" class="invalid-feedback">Incorrect Email format!</div>
             <label for="password1" class="block text-900 font-medium mb-2">Password</label>
             <input id="password1" type="password"  placeholder="Password" formControlName="password" pInputText class="w-full mb-3">
-            <div *ngIf="form.get('password')!.hasError('minlength')" class="invalid-feedback">Password minimum 3!</div>
+            <div *ngIf="formregister.get('password')!.hasError('invalidPasswordLength')" class="invalid-feedback">Password minimum 8!</div>
+            <div *ngIf="formregister.get('password')!.hasError('missingUppercaseLetter')" class="invalid-feedback">Password contains at least 1 uppercase character!</div>
+            <div *ngIf="formregister.get('password')!.hasError('missingNumber')" class="invalid-feedback">Password contains at least 1 number character!</div>
             <label for="password2" class="block text-900 font-medium mb-2">Confirm Password</label>
-            <input id="password2" type="password"  placeholder="Password" formControlName="confpassword" pInputText class="w-full mb-3">
-            <div *ngIf="form.get('password')!.hasError('minlength')" class="invalid-feedback">Password minimum 3!</div>
-            <label for="gender" class="block text-900 font-medium mb-2">Gender</label>
-            <div class="flex align-items-center justify-content-between mb-3 md:w-5">
-              <div class="flex align-items-center">
-                <input type="radio"  formControlName="gender" name="gender" value="male"  inputId="ingredient">
-                <label for="ingredient" class="ml-2">Male</label>
-            </div>
+            <input id="password2" type="password"  placeholder="Confirm Password" formControlName="confpassword" pInputText class="w-full mb-3">
+            <div *ngIf="formregister.get('confpassword')!.hasError('passwordMismatch')" class="invalid-feedback">Does not match Password</div>
+            <label for="gender">Gender:</label>
+            <input type="radio" formControlName="gender" name="gender" checked value="male" [id]="'gender' + 'male'" />
+            <label [for]="'gender' + 'male'">Male</label>
+            <input type="radio" formControlName="gender" name="gender" value="female" [id]="'gender' + 'female'" />
+            <label [for]="'gender' + 'female'">Female</label>
 
-            <div class="flex align-items-center">
-              <input type="radio" formControlName="gender" name="gender" value="female"  inputId="ingredient">
-                <label for="ingredient" class="ml-2">Female</label>
-            </div>
 
-            </div>
             <label for="gender" class="block text-900 font-medium mb-2">Date of birth</label>
             <div class="flex align-items-center justify-content-between mb-3 md:w-5">
               <div class="flex align-items-center">
-                <input type="date" name="dob" inputId="ingredient">
+                <p-calendar type="date" name="dob" formControlName="dob" [showIcon]="true" dateFormat="dd/m/yy" class="w-full" ></p-calendar>
+            </div>
+            <div *ngIf="formregister.get('dob')!.hasError('ageRestriction')" class="invalid-feedback">You must be over 18 years old to use the system!</div>
 
             </div>
 
-
-            </div>
-            <button type="submit" pButton pRipple label="Sign Up" icon="pi pi-user" styleClass="p-button-success w-10rem" class="w-full" ></button>
+            <button type="submit" pButton pRipple label="Sign Up" icon="pi pi-user-plus" class="w-full p-button-success"></button>
 
 
           </form>
