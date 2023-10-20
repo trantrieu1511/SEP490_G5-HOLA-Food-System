@@ -179,8 +179,9 @@ namespace HFS_BE.Controllers.Homepage
 		}
 
 		[HttpPost("confirmation")]
-		public async Task<IActionResult> ConfirmationEmail([FromBody] string userId, string code)
+		public async Task<IActionResult> ConfirmationEmail([FromBody] string code)
 		{
+			string userId = "1";
 			bool check = ValidateConfirmationCode(code, out userId);
 			if (check == true)
 			{
@@ -211,7 +212,7 @@ namespace HFS_BE.Controllers.Homepage
 		}
 		private bool ValidateConfirmationCode(string confirmationCode, out string userId)
 		{
-			userId = null;
+			 userId = null;
 
 			var tokenHandler = new JwtSecurityTokenHandler();
 			var key = Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]);
@@ -228,8 +229,18 @@ namespace HFS_BE.Controllers.Homepage
 				}, out SecurityToken validatedToken);
 
 				var jwtToken = (JwtSecurityToken)validatedToken;
-				userId = jwtToken.Claims.First(c => c.Type == "userId").Value;
-
+				string email = jwtToken.Claims.First(c => c.Type == "userId").Value;
+				using(var context=new SEP490_HFSContext())
+				{
+					var data = context.Users.Where(s => s.Email == email).FirstOrDefault();
+					if (data != null)
+					{
+						return false;
+					}
+					data.ConfirmEmail = true;
+					context.Users.Update(data);
+					context.SaveChanges();
+				}
 				return true;
 			}
 			catch

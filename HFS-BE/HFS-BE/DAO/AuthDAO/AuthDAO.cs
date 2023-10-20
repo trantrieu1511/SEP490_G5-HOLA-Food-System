@@ -6,6 +6,7 @@ using HFS_BE.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Win32;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -102,7 +103,7 @@ namespace HFS_BE.Dao.AuthDao
 
 			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddDays(1),
+					expires: DateTime.Now.AddMinutes(1),
 					claims: authClaims,
 					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)); ;
 
@@ -111,7 +112,32 @@ namespace HFS_BE.Dao.AuthDao
 
 		public BaseOutputDto Register(RegisterDto model)
 		{
-			var user = new User { Email = model.Email, RoleId = 3, BirthDate = model.BirthDate, FirstName = model.FirstName, LastName = model.LastName, Gender = model.Gender,ConfirmEmail=false };
+			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
+			var validationResults = new List<ValidationResult>();
+			bool isValid = Validator.TryValidateObject(model, validationContext, validationResults, validateAllProperties: true);
+
+			if (!isValid)
+			{
+				string err = "";
+			   foreach(var item in validationResults)
+				{
+					err += item.ToString() + " ";
+				}
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail , err);
+			}
+
+			// Dữ liệu hợp lệ, tiếp tục xử lý đăng ký
+			var user = new User
+			{
+				Email = model.Email,
+				RoleId = model.RoleId,
+				BirthDate = model.BirthDate,
+				FirstName = model.FirstName,
+				LastName = model.LastName,
+				Gender = model.Gender,
+				ConfirmEmail = false
+			};
+		
 
 
 			using (HMACSHA256? hmac = new HMACSHA256())
