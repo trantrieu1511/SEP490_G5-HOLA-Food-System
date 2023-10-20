@@ -24,6 +24,13 @@ namespace HFS_BE.BusinessLogic.Post
                     RoleId = 1,
                     UserId = 1,
                 };
+
+                if (String.IsNullOrEmpty(inputDto.PostContent))
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail,
+                        $"PostContent cannot be changed!");
+                }
+
                 // save file to server -> return list file name
                 List<string> fileNames = ReadSaveImage.SaveImages(inputDto.Images, inputDto.UserDto, 0);
 

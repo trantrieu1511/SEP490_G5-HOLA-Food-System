@@ -12,6 +12,7 @@ export class PHAN_HE {
     public static HOME = "Home"
     public static SHOP_DETAIL = "shopDetail"
     public static CART = "cart"
+    public static FOOD = "Food"
 }
 
 export class API_POSTMODERATOR{
@@ -82,4 +83,10 @@ export class API_SHOP_DETAIL{
 export class API_CART{
     public static ADDTOCART = "addtocart"
     public static CART_DETAIL = "getcartitem"
+}
+
+export class API_FOOD{
+    public static ADD_FOOD = "addNewFood";
+    public static GET_FOOD_SELLER = "getFoodSeller";
+    public static DISPLAY_HIDE_ = "displayHideSeller";
 }

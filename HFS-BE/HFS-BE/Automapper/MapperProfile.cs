@@ -13,6 +13,7 @@ using HFS_BE.DAO.UserDao;
 using HFS_BE.BusinessLogic.Post;
 using HFS_BE.Utils.IOFile;
 using Microsoft.AspNetCore.Mvc;
+using HFS_BE.Controllers.Food;
 
 namespace HFS_BE.Automapper
 {
@@ -73,6 +74,13 @@ namespace HFS_BE.Automapper
             CreateMap<Food, Dao.FoodDao.FoodOutputDto>()
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
             CreateMap<FoodImage, Dao.FoodDao.FoodImageDto>();
+
+            //seller
+            //input
+            CreateMap<BusinessLogic.Food.FoodCreateInputDto, Dao.FoodDao.FoodCreateInputDto>();
+            CreateMap<FoodCreateInputDto, BusinessLogic.Food.FoodCreateInputDto> ();
+            //output
+
         }
         public void Order()
         {
@@ -116,8 +124,8 @@ namespace HFS_BE.Automapper
             CreateMap<CartItem, DAO.CartDao.CartItemOutputDto>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Food.Name))
                 .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => src.Food.FoodImages))
-                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.Food.UserId))
-                .ForMember(dest => dest.ShopName, opt => opt.MapFrom(src => src.Food.User.ShopName))
+                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.Food.ShopId))
+                .ForMember(dest => dest.ShopName, opt => opt.MapFrom(src => src.Food.Shop.ShopName))
                 .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.Food.UnitPrice));
             CreateMap<AddCartItemInputDto, CartItem>();
 

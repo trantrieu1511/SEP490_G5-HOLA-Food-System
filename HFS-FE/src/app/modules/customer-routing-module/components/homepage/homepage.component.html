@@ -1,23 +1,51 @@
-<div class="cards" >
-    <div *ngFor="let shop of lstShop" class="card"  (click)="onShopDetail(shop)" >
-        <!-- routerLink="/details/{{element.id}}" -->
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
-        alt="" class="card-image"
-        >
-        <div class="card-content">
-            <div class="card-top">
-                <!-- <h3 class="card-title">2020 World Champs Gaming Warzone</h3> -->
-                <div class="card-user">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
-                    alt="" class="card-user-avatar"
-                    >
-                    <div class="card-user-info">
-                        <div class="card-user-top">
-                            <h4 class="card-user-name">{{shop.shopName}}</h4>
-                        </div>
-                        <div class="card-user-game">{{shop.shopAddress}}</div>
-                    </div>
 
+<div class="grid p-fluid" style="width: 80%; margin: 0 auto">
+    <div class="col-12">
+        <div class="card">
+            <h5>Hot food</h5>
+        <p-carousel [value]="" [numVisible]="3" [numScroll]="3" [circular]="false" [responsiveOptions]="">
+            <ng-template let-product pTemplate="item">
+                    <div class="border-round m-2 text-center p-2" style="border: 1px solid var(--surface-d)">
+                        <div class="my-5">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg" [alt]="product.name" class="shadow-4" width="50%"/>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">{{product.name}}</h5>
+                            <h6 class="mt-0 mb-3">${{product.price}}</h6>
+                            <span [class]="'product-badge status-'+product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
+                            <div class="my-5">
+                                <button pButton pRipple icon="pi pi-search" class="mr-2 p-button-rounded"></button>
+                                <button pButton pRipple icon="pi pi-star-fill" class="mr-2 p-button-rounded p-button-success"></button>
+                                <button pButton pRipple icon="pi pi-cog" class="p-button-rounded p-button-info"></button>
+                            </div>
+                        </div>
+                    </div>
+            </ng-template>
+        </p-carousel>
+        </div>
+    </div>
+
+    <div class="cards" style="padding-top: 50px;">
+        <div *ngFor="let shop of lstShop" class="card"  (click)="onShopDetail(shop)" >
+            <!-- routerLink="/details/{{element.id}}" -->
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
+            alt="" class="card-image"
+            >
+            <div class="card-content">
+                <div class="card-top">
+                    <!-- <h3 class="card-title">2020 World Champs Gaming Warzone</h3> -->
+                    <div class="card-user">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
+                        alt="" class="card-user-avatar"
+                        >
+                        <div class="card-user-info">
+                            <div class="card-user-top">
+                                <h4 class="card-user-name">{{shop.shopName}}</h4>
+                            </div>
+                            <div class="card-user-game">{{shop.shopAddress}}</div>
+                        </div>
+    
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,6 +1,7 @@
 export class Food{
   foodId: number;
   name: string;
+  unitPrice: string;
   description: string;
   categoryName: string;
   categoryId: number;
@@ -26,4 +27,26 @@ export class FoodImage{
   imageId: number;
   foodId: number;
   image: string;
+}
+
+
+
+export interface FoodImageBase64 {
+  imageId: number;
+  imageBase64: string;
+  name: string;
+}
+
+export class FoodInput{
+  foodId: number;
+  name: string;
+  unitPrice: string;
+  description: string;
+  categoryId: number;
+  imagesBase64: FoodImageBase64[];
+}
+
+export class FoodDisplayHideInputDto{
+  foodId: number;
+  type: boolean;
 }
