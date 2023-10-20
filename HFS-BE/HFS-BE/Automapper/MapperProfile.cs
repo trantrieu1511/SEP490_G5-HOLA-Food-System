@@ -14,6 +14,7 @@ using HFS_BE.BusinessLogic.Post;
 using HFS_BE.Utils.IOFile;
 using Microsoft.AspNetCore.Mvc;
 using HFS_BE.Controllers.Food;
+using HFS_BE.DAO.OrderProgressDao;
 
 namespace HFS_BE.Automapper
 {
@@ -111,6 +112,10 @@ namespace HFS_BE.Automapper
             CreateMap<OrderProgressDaoInputDto, OrderProgress>();
             CreateMap<Order, OrderHistoryDetailDtoOutput>();
             CreateMap<OrderProgress, OrderProgressDaoOutputDto>();
+
+            CreateMap<Controllers.OrderShipper.OrderProgressControllerInputDto, BusinessLogic.OrderShipper.OrderProgressBusinessLogicInputDto>();
+            CreateMap<BusinessLogic.OrderShipper.OrderProgressBusinessLogicInputDto,DAO.OrderProgressDao.OrderProgressDaoInputDto>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserDto.UserId));
         }
         public void Shop()
         {

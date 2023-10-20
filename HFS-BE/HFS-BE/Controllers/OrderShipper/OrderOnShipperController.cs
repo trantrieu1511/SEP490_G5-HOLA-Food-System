@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.OrderShipper
 {
-    //[Authorize(Roles = "4")]
+    [Authorize(Roles = "4")]
     public class OrderOnShipperController : BaseController
     {
         public OrderOnShipperController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
@@ -40,14 +40,16 @@ namespace HFS_BE.Controllers.OrderShipper
 
         [HttpPost("shipper/orderprogress")]
         //[Authorize(Roles = "4")]
-        public BaseOutputDto Get(OrderProgressDaoInputDto inputDto)
+        public BaseOutputDto CreateOrderProgress([FromForm] OrderProgressControllerInputDto inputDto)
         {
             try
             {
                 var busi = this.GetBusinessLogic<OrderProgressBusinessLogic>();
-            //    var role = this.GetAccessRight();
-               
-                return busi.CreateOrderProgress(inputDto);
+                //    var role = this.GetAccessRight();
+                var inputBL = mapper.Map<Controllers.OrderShipper.OrderProgressControllerInputDto,
+                    BusinessLogic.OrderShipper.OrderProgressBusinessLogicInputDto>(inputDto);
+                inputBL.UserDto = this.GetUserInfor();
+                return busi.CreateOrderProgress(inputBL);
             }
             catch (Exception)
             {
