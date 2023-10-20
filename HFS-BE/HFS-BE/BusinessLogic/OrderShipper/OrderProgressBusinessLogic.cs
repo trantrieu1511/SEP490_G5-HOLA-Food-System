@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
+using HFS_BE.Controllers.OrderShipper;
 using HFS_BE.Dao.OrderDao;
 using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using HFS_BE.Utils.IOFile;
 
 namespace HFS_BE.BusinessLogic.OrderShipper
 {
@@ -12,14 +14,15 @@ namespace HFS_BE.BusinessLogic.OrderShipper
         public OrderProgressBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
         {
         }
-        public BaseOutputDto CreateOrderProgress(OrderProgressDaoInputDto inputDto)
+        public BaseOutputDto CreateOrderProgress(OrderProgressBusinessLogicInputDto inputDto)
         {
             try
             {
+                string fileNames = ReadSaveImage.SaveImagesOrderProgress(inputDto.Image, inputDto.UserDto, 2);
                 var dao = this.CreateDao<OrderProgressDao>();
-
-
-                BaseOutputDto baseOutputDto = dao.CreateOrderProgress(inputDto);
+                var inputMapper = mapper.Map<OrderProgressBusinessLogicInputDto, DAO.OrderProgressDao.OrderProgressDaoInputDto>(inputDto);
+                inputMapper.Image = fileNames;
+                BaseOutputDto baseOutputDto = dao.CreateOrderProgress(inputMapper);
                 return baseOutputDto;
                 
                
