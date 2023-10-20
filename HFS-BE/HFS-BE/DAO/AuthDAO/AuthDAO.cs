@@ -111,7 +111,7 @@ namespace HFS_BE.Dao.AuthDao
 
 		public BaseOutputDto Register(RegisterDto model)
 		{
-			var user = new User { Email = model.Email, RoleId = 3, BirthDate = model.BirthDate, FirstName = model.FirstName, LastName = model.LastName, Gender = model.Gender,ConfirmEmail=false };
+			var user = new User { Email = model.Email, RoleId = model.RoleId, BirthDate = model.BirthDate, FirstName = model.FirstName, LastName = model.LastName, Gender = model.Gender,ConfirmEmail=false };
 
 
 			using (HMACSHA256? hmac = new HMACSHA256())
