@@ -30,12 +30,12 @@ export class AppMenuComponent implements OnInit {
 
   ngOnInit(): void {
     // check role here
-    // switch case and put data for model 
-    // each role has own model : 
+    // switch case and put data for model
+    // each role has own model :
     // model được hiểu là menu bên trái nha
 
-  
-    this.getRole();
+
+    //this.getRole();
 
     this.model = [
             {
@@ -263,27 +263,27 @@ export class AppMenuComponent implements OnInit {
         ];
   }
 
-  async getRole(){
-    
-    
-    var param = {
-        email: "string@gmail.com",
-        password: "123"
-    }
+  // async getRole(){
 
-    var res = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.TEST, API.API_TEST.SIGNIN, param);
-    console.log("res", res);
-    sessionStorage.setItem("token", res.token);
 
-    var token = await this.jwtHelper.tokenGetter();
-    const decodedToken = this.jwtHelper.decodeToken(token);
-    console.log("token", decodedToken);
+  //   var param = {
+  //       email: "string@gmail.com",
+  //       password: "123"
+  //   }
 
-    const name = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
-    const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+  //   var res = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.TEST, API.API_TEST.SIGNIN, param);
+  //   console.log("res", res);
+  //   sessionStorage.setItem("token", res.token);
 
-    console.log('Name:', name);
-    console.log('Role:', role);
-  }
+  //   var token = await this.jwtHelper.tokenGetter();
+  //   const decodedToken = this.jwtHelper.decodeToken(token);
+  //   console.log("token", decodedToken);
+
+  //   const name = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+  //   const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+
+  //   console.log('Name:', name);
+  //   console.log('Role:', role);
+  // }
 
 }

@@ -1,0 +1,79 @@
+.invalid-feedback {
+
+  color: #dc3545;
+}
+
+.surface-card {
+  border-radius: 10px;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+/* Định dạng các phần tử trong form */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+.invalid-feedback {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+/* Định dạng nút "Sign Up" */
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.button-container button {
+  width: 10rem;
+}
+
+/* Định dạng các phần tử chung */
+.text-center {
+  text-align: center;
+}
+
+.text-900 {
+  font-weight: 900;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+/* Hiệu ứng đổ bóng */
+.shadow-2 {
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+.custom-calendar .ui-datepicker-trigger {
+  color: green;
+}
