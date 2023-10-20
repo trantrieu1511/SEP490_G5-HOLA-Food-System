@@ -17,6 +17,9 @@ import {
 } from "primeng/api";
 import { OrderDaoOutputDto } from "../../models/order-of-shipper.model";
 import { User } from "src/app/services/auth.service";
+import { OrderProgress } from "../../models/order-progress-shipper.model";
+import { Post } from "src/app/modules/seller-routing-module/models/post.model";
+import { FileRemoveEvent, FileSelectEvent } from "primeng/fileupload";
 
 @Component({
   selector: 'app-shipper',
@@ -26,7 +29,15 @@ import { User } from "src/app/services/auth.service";
 
 export class ShipperComponent extends iComponentBase implements OnInit {
     items: MenuItem[] | undefined;
+
+    displayDialogConfirm: boolean = false;
+
+    headerDialog: string = '';
+
+    postModel: Post = new Post();
+    
     user: User;
+
     activeItem: MenuItem | undefined;
   
     products: any[] = [];
@@ -39,8 +50,21 @@ export class ShipperComponent extends iComponentBase implements OnInit {
   
     lstOrderOfShipper: OrderDaoOutputDto[];
 
+    selectedOrderId : number;
 
+    note : string;
 
+    confirmModel: OrderProgress = new OrderProgress();
+    
+    selectedtype:number;
+
+    uploadedFiles: File[] = [];
+
+    contentDialog: string;
+    visibleContentDialog: boolean = false;
+
+    postImageDialog: OrderProgress = new OrderProgress();
+    visibleImageDialog: boolean = false;
 
     constructor(private elementRef: ElementRef, private renderer: Renderer2,public messageService: MessageService,
         private confirmationService: ConfirmationService,
@@ -67,7 +91,20 @@ export class ShipperComponent extends iComponentBase implements OnInit {
     onChangeTab(activeTab: MenuItem){
         this.activeItem = activeTab;        
         console.log(this.activeItem.id);
+        this.getAllOrder();
       }
+
+    async onUpdateOrder(order:OrderDaoOutputDto){
+      const param = {
+        "OrderId": order.orderId,
+        "Status" : 3,
+    };
+      let response =  await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.SHIPPER, API.API_SHIPPER.CHANGE_STATUS,param);
+      if (response && response.message === "Success") {
+        this.lstOrderOfShipper = response.orderList;
+        this.calculatorTotalOrder();
+    }
+    }
 
     async getAllOrder() {
       this.lstOrderOfShipper = [];
@@ -77,6 +114,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
         this.user = JSON.parse(userData);
         const param = {
             "shipperId": this.user.userId,
+            "Status" : this.activeItem.id == "0" ? 2 : 3,
         };
 
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.SHIPPER, API.API_SHIPPER.GET_All, param);
@@ -91,7 +129,68 @@ export class ShipperComponent extends iComponentBase implements OnInit {
         this.loading = false;
       }
     }
+    Complete(orderId : number,type:number){
+  
+        this.headerDialog = 'Confirm';        
 
+        this.selectedOrderId = orderId;
+        this.selectedtype = type;
+        this.note = "";
+
+        this.uploadedFiles = [];
+  
+        this.displayDialogConfirm = true;
+    
+    }
+    InComplete(orderId : number,type:number){
+  
+      this.headerDialog = 'Confirm';        
+
+      this.selectedOrderId = orderId;
+      this.selectedtype = type;
+      this.note = "";
+
+      this.uploadedFiles = [];
+
+      this.displayDialogConfirm = true;
+  
+  }
+    onCancel(){
+      this.displayDialogConfirm = false;
+    }
+    async Save(){
+      try {
+        //let param = postEnity;
+        const param = new FormData();
+        param.append('orderId', this.selectedOrderId.toString());
+        param.append('note', this.note);
+        param.append('type',this.selectedtype == 0?"true":"false");
+        this.uploadedFiles.forEach(file => {
+          param.append('image', file, file.name);
+        });
+  
+        //console.log(param);
+        const response = await this.iServiceBase
+          .postDataAsync(API.PHAN_HE.SHIPPER, API.API_SHIPPER.CONFIRM, param);
+        
+          if(response && response.message === "Success"){
+          this.showMessage(mType.success, "Notification", "Confirm successfully", 'notify');
+  
+          this.displayDialogConfirm = false;
+  
+          //lấy lại danh sách All 
+          this.getAllOrder();
+  
+          //Clear model đã tạo
+          
+          //clear file upload too =))
+          this.uploadedFiles = [];
+        } 
+      } catch (e) {
+        console.log(e);
+        this.showMessage(mType.error, "Notification", "Confirm failed", 'notify');
+      }
+    }
     calculatorTotalOrder(){
       if(this.lstOrderOfShipper.length > 0){
         this.lstOrderOfShipper.forEach( value => {
@@ -110,6 +209,33 @@ export class ShipperComponent extends iComponentBase implements OnInit {
         });
       }
     }
+    handleFileSelection(event :  FileSelectEvent) {
+      
+      this.uploadedFiles = event.currentFiles;
+  
+    }
+  
+    formatSize(size: number): string {
+      // Format file size as needed
+      // Example: Convert bytes to KB
+      return (size / 1024).toFixed(2) + ' KB';
+    }
+  
+    handleFileRemoval(event :  FileRemoveEvent){
+      //console.log("remove", event.file.name);
+  
+      this.uploadedFiles = this.uploadedFiles.filter(f => f.name !== event.file.name);
+      //console.log("uploadFiles", this.uploadedFiles);
+    }
+  
+    handleAllFilesClear(event :  Event){
+      //console.log("clear", event);
+  
+      this.uploadedFiles = [];
+      //console.log("uploadFiles", this.uploadedFiles);
+    }
+  
+    
 }
 
 

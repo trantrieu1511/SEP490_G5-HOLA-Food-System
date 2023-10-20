@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.Dao.OrderDao;
+using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 
@@ -15,8 +16,20 @@ namespace HFS_BE.DAO.OrderProgressDao
         {
             try
             {
-                var order = mapper.Map<OrderProgressDaoInputDto, OrderProgress>(inputDto);
+                var data = context.Orders.FirstOrDefault(x => x.OrderId == inputDto.OrderId);
 
+                inputDto.CreateDate = DateTime.Now;
+                if(inputDto.Type)
+                {
+                    data.Status = 4;
+                    inputDto.Status = 4;
+                }
+                else
+                {
+                    data.Status = 5;
+                    inputDto.Status = 5;
+                }
+                var order = mapper.Map<OrderProgressDaoInputDto, OrderProgress>(inputDto);
                 context.OrderProgresses.Add(order);
                 context.SaveChanges();
                 return Output<BaseOutputDto>(Constants.ResultCdSuccess);

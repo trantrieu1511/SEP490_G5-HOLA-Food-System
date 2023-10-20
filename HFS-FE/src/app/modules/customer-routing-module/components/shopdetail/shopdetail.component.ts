@@ -37,6 +37,7 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private route: ActivatedRoute,
+    private router: Router,
     private dataService: DataService
   ){
     super(messageService);
@@ -106,6 +107,10 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
       if (response && response.message === "Success") {
         console.log(response)
           this.showMessage(mType.success, "", "Add to cart success!", 'notify');      
+      }
+      else{
+        this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');
+        this.router.navigate(['/login']);
       }
 
       this.loading = false;

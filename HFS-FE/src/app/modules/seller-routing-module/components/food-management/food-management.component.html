@@ -182,48 +182,49 @@
                 </p-divider>
                 <div class="grid">
                     <ng-container *ngIf="foodModel.foodId > 0; else editModel">
-                        <div class="col-12 mb-2 lg:col-3 mb-lg-0">
+                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
                                 <input type="text" class="w-full" [(ngModel)]="foodModel.foodId"
                                        [disabled]="true" pInputText/>
                                 <label>ID*</label>
                             </span>
                         </div>
-                        <div class="col-12 mb-2 lg:col-5 mb-lg-0">
+                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
                                 <input type="text" class="w-full" [(ngModel)]="foodModel.name"
                                         pInputText/>
                                 <label>Name*</label>
-                            </span>
-                        </div>
-                        <div class="col-12 mb-2 lg:col-4 mb-lg-0">
-                            <span class="p-float-label">
-                                <p-dropdown [options]="lstCategory" [(ngModel)]="selectedCategory"
-                                            [showClear]="true"
-                                            [autoDisplayFirst]="false"
-                                            optionLabel="name"
-                                            ></p-dropdown>
-                                <label>Category*</label>
                             </span>
                         </div>
                     </ng-container>
                     <ng-template #editModel>
-                        <div class="col-12 mb-2 lg:col-8 mb-lg-0">
+                        <div class="col-12 mb-2 lg:col-12 mb-lg-0">
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
                                 <input type="text" class="w-full" [(ngModel)]="foodModel.name"
                                         pInputText/>
                                 <label>Name*</label>
                             </span>
                         </div>
-                        <div class="col-12 mb-2 lg:col-4 mb-lg-0">
-                            <span class="p-float-label">
-                                <p-dropdown [options]="lstCategory" [(ngModel)]="foodModel.categoryId"
-                                            [showClear]="true"
-                                            [autoDisplayFirst]="false"></p-dropdown>
-                                <label>Category*</label>
-                            </span>
-                        </div>
                     </ng-template>
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-input-icon-left p-float-label" style="width: 100%">
+                            <input type="number" step="1" min="0"  class="w-full" [(ngModel)]="foodModel.unitPrice"
+                                    pInputText/>
+                            <label>UnitPrice*</label>
+                        </span>
+                    </div>
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-float-label">
+                            <p-dropdown [options]="lstCategory" [(ngModel)]="selectedCategory"
+                                        [showClear]="true"
+                                        [autoDisplayFirst]="false"
+                                        optionLabel="name"
+                                        ></p-dropdown>
+                            <label>Category*</label>
+                        </span>
+                    </div>
+
+
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
                         <span class="p-input-icon-left p-float-label" style="width: 100%" >
                             <textarea class="w-full" rows="10" cols="60" pInputTextarea [(ngModel)]="foodModel.description"></textarea>
@@ -239,18 +240,20 @@
                                     </ul>
                                 </ng-template>
                             </p-fileUpload> -->
-                                <p-fileUpload class=" w-full" 
-                                    (onSelect)="handleFileSelection($event)" 
-                                    (onRemove)="handleFileRemoval($event)"
-                                    (onClear)="handleAllFilesClear($event)"
-                                    [multiple]="true" accept="image/*" [maxFileSize]="1000000" 
-                                    [showUploadButton]="false" >
-                                    <ng-template pTemplate="content">
-                                        <!-- <ul *ngIf="uploadedFiles.length > 0">
-                                            <li *ngFor="let file of uploadedFiles">{{ file.name }}</li>
-                                        </ul> -->
-                                    </ng-template>
-                                </p-fileUpload>
+                            <p-fileUpload class=" w-full" 
+                                [files]="uploadedFiles"
+                                [customUpload]="true"
+                                (onSelect)="handleFileSelection($event)" 
+                                (onRemove)="handleFileRemoval($event)"
+                                (onClear)="handleAllFilesClear($event)"
+                                [multiple]="true" accept="image/*" [maxFileSize]="1000000" 
+                                [showUploadButton]="false" >
+                                <ng-template pTemplate="content">
+                                    <!-- <ul *ngIf="uploadedFiles.length > 0">
+                                        <li *ngFor="let file of uploadedFiles">{{ file.name }}</li>
+                                    </ul> -->
+                                </ng-template>
+                            </p-fileUpload>
                             
                             
 					    </span>

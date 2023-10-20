@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using HFS_BE.Dao.AuthDao;
+using HFS_BE.Dao.PostDao;
 using HFS_BE.Models;
-using Mailjet.Client;
-using Mailjet.Client.Resources;
+using HFS_BE.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Mail;
@@ -27,12 +26,15 @@ namespace HFS_BE.Controllers.Homepage
 
 		IConfiguration _configuration;
 		private const string MailgunApiBaseUrl = "https://api.mailgun.net/v3/";
-		private const string Sercet = "9e72bbde8bdf0ef145bc1fdb95ff5845";
-		private const string ApiKey = "426b426ae3a1120f6f5cdc60e879aafc";
+		private readonly IPhotoService _photoService;
+		private const string MailgunDomain = "sandbox38179487b9c441e69a66b0ecb5364d85.mailgun.org";
+		private const string MailgunApiKey = "c050ad11536d134d879a655d65baae5d-5465e583-034be4a6";
+		private const string SecretKey = "YOUR_SECRET_KEY";
 
-		public RoleController(IConfiguration configuration)
+		public RoleController(IConfiguration configuration, IPhotoService photoService)
 		{
 			_configuration = configuration;
+			_photoService = photoService;
 		}
 		[HttpGet]
 		[Authorize]
@@ -62,7 +64,7 @@ namespace HFS_BE.Controllers.Homepage
 			using (SEP490_HFSContext context = new SEP490_HFSContext())
 			{
 				//Include(s => s.Customers)
-				HFS_BE.Models.User acc = context.Users.FirstOrDefault(u => u.Email == request.Email);
+				User acc = context.Users.FirstOrDefault(u => u.Email == request.Email);
 				if (acc == null)
 				{
 					return Unauthorized("Username or Password incorrect!");
@@ -84,7 +86,7 @@ namespace HFS_BE.Controllers.Homepage
 
 		}
 
-		private bool CheckPassword(string password, HFS_BE.Models.User user)
+		private bool CheckPassword(string password, User user)
 		{
 			bool result;
 
@@ -99,7 +101,7 @@ namespace HFS_BE.Controllers.Homepage
 
 
 
-		private JwtSecurityToken GenerateSecurityToken(HFS_BE.Models.User acc)
+		private JwtSecurityToken GenerateSecurityToken(User acc)
 		{
 			string role = acc.RoleId.ToString();
 
@@ -119,11 +121,21 @@ namespace HFS_BE.Controllers.Homepage
 
 			return token;
 		}
-		[HttpPost("confirmation")]
+		[HttpPost("Sendconfirmation")]
 		public async Task<IActionResult> SendConfirmationEmail([FromBody] string toEmail)
 		{
+			string userid = "";
 			string confirmationCode = GenerateConfirmationCode(toEmail);
+			//using (SEP490_HFSContext context = new SEP490_HFSContext())
+			//{
+			//	var user = context.Users.Where(s => s.Email.ToLower().Equals(toEmail.ToLower())).FirstOrDefault();
 
+			//	if (user == null)
+			//	{
+			//		return BadRequest();
+			//	}
+			//	userid = user.UserId.ToString();
+			//}
 
 			string subject = "Xác nhận thay đổi trạng thái";
 			string message = $"Vui lòng nhấp vào liên kết sau để xác nhận thay đổi trạng thái: {GetConfirmationLink("1", confirmationCode)}";
@@ -139,6 +151,47 @@ namespace HFS_BE.Controllers.Homepage
 				return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
 			}
 		}
+		[HttpPost("postanh")]
+		public async Task<IActionResult> PostAnh(int postid, List<IFormFile> files)
+		{
+			using (var context = new SEP490_HFSContext())
+			{
+				foreach (var file in files)
+				{
+					var result = await _photoService.AddPhotoAsync(file);
+					if (result.Error != null)
+						return BadRequest(result.Error.Message);
+
+					var img = new PostImage
+					{
+						Path = result.SecureUrl.AbsoluteUri,
+						PublicId=result.PublicId,
+						PostId = postid
+					};
+
+					context.PostImages.Add(img);
+				}
+
+				context.SaveChanges();
+			}
+
+			return Ok();
+		}
+
+		[HttpPost("confirmation")]
+		public async Task<IActionResult> ConfirmationEmail([FromBody] string userId, string code)
+		{
+			bool check = ValidateConfirmationCode(code, out userId);
+			if (check == true)
+			{
+				return Ok("DA CONFIMATION THANH CONG");
+			}
+			else
+			{
+				return Ok("KHONG THANH CONG");
+			}
+		}
+
 		private string GenerateConfirmationCode(string userId)//tạo ra mã đễ 
 		{
 			var tokenHandler = new JwtSecurityTokenHandler();
@@ -184,21 +237,50 @@ namespace HFS_BE.Controllers.Homepage
 				return false;
 			}
 		}
+		[HttpGet("hihi")]
+		public IActionResult ValidateConfirmationCode1(string confirmationCode)
+		{
+			string userId = null;
+
+			var tokenHandler = new JwtSecurityTokenHandler();
+			var key = Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]);
+
+			try
+			{
+				tokenHandler.ValidateToken(confirmationCode, new TokenValidationParameters
+				{
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(key),
+					ValidateIssuer = false,
+					ValidateAudience = false,
+					ClockSkew = TimeSpan.Zero
+				}, out SecurityToken validatedToken);
+
+				var jwtToken = (JwtSecurityToken)validatedToken;
+				userId = jwtToken.Claims.First(c => c.Type == "userId").Value;
+
+				return Ok(userId);
+			}
+			catch
+			{
+				return BadRequest();
+			}
+		}
 		public class TokenResponse
 		{
 			public string AccessToken { get; set; }
-			public HFS_BE.Models.User User { get; set; }
+			public User User { get; set; }
 		}
 
 		private string GetConfirmationLink(string userId, string confirmationCode)
 		{
-			string baseUrl = "https://example.com/confirm";
-			var query = new Dictionary<string, string>
-		{
-			{ "userId", userId },
-			{ "code", confirmationCode }
-		};
-			var confirmationLink = QueryHelpers.AddQueryString(baseUrl, query);
+			string baseUrl = "http://localhost:4200/#/confirm";
+			//	var query = new Dictionary<string, string>
+			//{
+			//	{ "userId", userId },
+			//	{ "code", confirmationCode }
+			//};
+			var confirmationLink = baseUrl + "?userId=" + userId + "&code=" + confirmationCode;
 			return confirmationLink;
 		}
 
@@ -206,43 +288,27 @@ namespace HFS_BE.Controllers.Homepage
 		private async Task SendEmail(string toEmail, string subject, string message)
 		{
 			var httpClient = new HttpClient();
+			httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
+				Convert.ToBase64String(Encoding.ASCII.GetBytes($"api:{MailgunApiKey}")));
 
-			var apiKey = "426b426ae3a1120f6f5cdc60e879aafc";
-			var apiSecret = "9e72bbde8bdf0ef145bc1fdb95ff5845";
-			var client = new MailjetClient("426b426ae3a1120f6f5cdc60e879aafc", "9e72bbde8bdf0ef145bc1fdb95ff5845");
-			var request = new MailjetRequest
+			var content = new FormUrlEncodedContent(new[]
 			{
-				Resource = Send.Resource,
-			}
-			.Property(Send.Messages, new JArray {
-	new JObject {
-		{"FromEmail ", new JObject {
-			{"Email", "lunguyen2k18@gmail.com"},
-			{"Name", "lu nguyen"}
-		}},
-		{"To", new JArray {
-			new JObject {
-				{"Email", toEmail},
-				{"Name", "lu2"}
-			}
-		}},
-		{"Subject", "Your email subject"},
-		{"TextPart", "Your email content"}
-	}
-			});
+			new KeyValuePair<string, string>("from", "lunguyen2k18@gmail.com"),
+			new KeyValuePair<string, string>("to", toEmail),
+			new KeyValuePair<string, string>("subject", subject),
+			new KeyValuePair<string, string>("text", message)
+		});
 
-			var response = await client.PostAsync(request);
-			if (response.IsSuccessStatusCode)
+			var response = await httpClient.PostAsync($"{MailgunApiBaseUrl}{MailgunDomain}/messages", content);
+
+			if (!response.IsSuccessStatusCode)
 			{
-				throw new Exception("thanh cong.");
-			}
-			else
-			{
-				throw new Exception(response.Content.ToString());
+				throw new Exception("Failed to send email.");
 			}
 		}
+
 		[HttpPost("okdi")]
-		public async Task<IActionResult> SendMail(string toEmail ,string content)
+		public async Task<IActionResult> SendMail(string toEmail, string content)
 		{
 			try
 			{
@@ -262,12 +328,14 @@ namespace HFS_BE.Controllers.Homepage
 				smtp.Credentials = new NetworkCredential(from, pass);
 				await smtp.SendMailAsync(mail);
 				return Ok();
-			}catch(Exception ex)
+			}
+			catch (Exception ex)
 			{
 				return BadRequest();
 			}
-			
+
 		}
+
 	}
 }
 

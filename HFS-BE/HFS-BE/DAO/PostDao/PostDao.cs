@@ -4,6 +4,7 @@ using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace HFS_BE.Dao.PostDao
 {
@@ -33,13 +34,13 @@ namespace HFS_BE.Dao.PostDao
                                 postImages = context.PostImages.Where(pi => pi.PostId == post.PostId).ToList()
                             }).ToList();*/
                 List<PostOutputDto> data = context.Posts
-                    .Include(p => p.User)
+                    .Include(p => p.Shop)
                     .Include(p => p.PostImages)
                     .Select(p => new PostOutputDto
                     {
                         PostId = p.PostId,
-                        UserId = p.UserId,
-                        UserFirstName = p.User.FirstName,
+                        UserId = p.ShopId,
+                        UserFirstName = p.Shop.FirstName,
                         PostContent = p.PostContent,
                         CreatedDate = p.CreatedDate,
                         //Status = p.Status,
@@ -87,13 +88,14 @@ namespace HFS_BE.Dao.PostDao
         {
             try
             {
+                
                 // Add post
                 Post post = new Post
                 {
                     CreatedDate = DateTime.Now,
                     PostContent = postDto.PostContent,
                     Status = 0,
-                    UserId = postDto.UserDto.UserId,
+                    ShopId = postDto.UserDto.UserId,
                 };
                 context.Add(post);
                 context.SaveChanges();
