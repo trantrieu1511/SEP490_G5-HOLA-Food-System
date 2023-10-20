@@ -25,4 +25,23 @@ namespace HFS_BE.Dao.FoodDao
     {
         public List<FoodOutputDto> ListFood { get; set; }
     }
+
+
+    public class FoodOutputSellerDto : BaseOutputDto
+    {
+        public int FoodId { get; set; }
+        public string? Name { get; set; }
+        public decimal? UnitPrice { get; set; }
+        public string? Description { get; set; }
+        public int? CategoryId { get; set; }
+        public string? CategoryName { get; set; }
+        public List<FoodImage> Images { get; set; }
+        public string? Status { get; set; }
+    }
+
+    public class ListFoodOutputSellerDto : BaseOutputDto
+    {
+        public List<FoodOutputSellerDto> Foods { get; set; }
+    }
+
 }

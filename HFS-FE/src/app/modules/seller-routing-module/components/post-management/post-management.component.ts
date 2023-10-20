@@ -172,11 +172,13 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
     let postEnity = this.bindingDataPostModel();
 
     if (this.validatePostModel()) {
-        if (postEnity && postEnity.postId && postEnity.postId > 0) {
-            this.updatePost(postEnity);
-        } else {
-            this.createPost(postEnity);
-        }
+      document.body.style.cursor = 'wait';
+
+      if (postEnity && postEnity.postId && postEnity.postId > 0) {
+          this.updatePost(postEnity);
+      } else {
+          this.createPost(postEnity);
+      }
     }
   }
 
@@ -273,7 +275,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       param.postId = postEnity.postId;
       param.type = type;
 
-      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POST, API.API_POST.DISPLAY_HIDE_SELLER, param, true);
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POST, API.API_POST.ENABLE_DISABLE_SELLER, param, true);
 
       if (response && response.success) {
         this.showMessage(mType.success, "Notification",  `${message} postId: ${postEnity.postId} successfully`, 'notify');
@@ -283,7 +285,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
 
       } else {
         console.log(response);
-        this.showMessage(mType.error, "Notification", response.message, 'notify');
+        this.showMessage(mType.warn, "Notification", response.message, 'notify');
       }
     } catch (e) {
         console.log(e);
@@ -366,4 +368,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
     this.visibleImageDialog = true;
   }
 
+  onHideDialogEditAdd(){
+    this.uploadedFiles = [];
+  }
 }

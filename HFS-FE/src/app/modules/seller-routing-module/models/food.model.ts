@@ -5,9 +5,9 @@ export class Food{
   description: string;
   categoryName: string;
   categoryId: number;
-  images: FoodImage[];
   status: string;
   rating: number;
+  imagesBase64: FoodImageBase64[];
 }
 
 export class Category{
@@ -15,26 +15,11 @@ export class Category{
   name: string;
 }
 
-
-export class FoodImage{
-
-  constructor(imageId: number, foodId: number, image: string) {
-    this.imageId = imageId;
-    this.foodId = foodId;
-    this.image = image;
-  }
-
-  imageId: number;
-  foodId: number;
-  image: string;
-}
-
-
-
 export interface FoodImageBase64 {
   imageId: number;
   imageBase64: string;
   name: string;
+  size: string;
 }
 
 export class FoodInput{
