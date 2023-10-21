@@ -1,6 +1,6 @@
 ﻿using HFS_BE.Utils;
 
-namespace HFS_BE.BusinessLogic.Food
+namespace HFS_BE.BusinessLogic.ManageFood
 {
     public class FoodCreateInputDto
     {

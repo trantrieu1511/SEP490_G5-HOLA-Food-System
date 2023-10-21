@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
+using HFS_BE.Dao.FoodDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
@@ -156,6 +157,29 @@ namespace HFS_BE.Dao.PostDao
             }
             catch (Exception e)
             {
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public BaseOutputDto UpdatePost(PostUpdateInputDto input)
+        {
+            try
+            {
+                var postModel = context.Posts.FirstOrDefault(
+                        f => f.PostId == input.PostId
+                    );
+                if (postModel == null)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, $"PostId: {input.PostId} not exist!");
+
+                postModel.PostContent = input.PostContent;
+
+                context.SaveChanges();
+
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception e)
+            {
+                //log error
                 return Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }

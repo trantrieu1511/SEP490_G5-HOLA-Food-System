@@ -143,7 +143,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
     this.headerDialog = `Edit Food ID: ${food.foodId}`;
     //this.f_upload.files = [];
     this.uploadedFiles = [];
-    this.foodModel = food;
+    this.foodModel = Object.assign({}, food);
 
     this.selectedCategory = new Category();
     this.selectedCategory.categoryId = food.categoryId;
@@ -245,8 +245,6 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
         Object.keys(foodEnity).forEach(function(key) {
           param.append(key, foodEnity[key]);
         });
-        //console.log(foodEnity);
-        //console.log(param);
 
         const response = await this.iServiceBase
           .postDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.ADD_FOOD, param, true);

@@ -5,7 +5,7 @@ using HFS_BE.Dao.PostDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 
-namespace HFS_BE.BusinessLogic.Food
+namespace HFS_BE.BusinessLogic.ManageFood
 {
     public class EnableDisableFoodBusinessLogic : BaseBusinessLogic
     {

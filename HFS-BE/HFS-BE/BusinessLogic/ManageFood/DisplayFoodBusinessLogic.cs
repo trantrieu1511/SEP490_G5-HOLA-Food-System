@@ -2,13 +2,13 @@
 using CloudinaryDotNet.Actions;
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Homepage;
-using HFS_BE.BusinessLogic.Post;
+using HFS_BE.BusinessLogic.ManagePost;
 using HFS_BE.Dao.FoodDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.IOFile;
 
-namespace HFS_BE.BusinessLogic.Food
+namespace HFS_BE.BusinessLogic.ManageFood
 {
     public class DisplayFoodBusinessLogic : BaseBusinessLogic
     {
