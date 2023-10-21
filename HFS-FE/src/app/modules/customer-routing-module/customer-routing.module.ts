@@ -10,6 +10,7 @@ import { FooddetailComponent } from './components/fooddetail/fooddetail.componen
 import { CartdetailComponent } from './components/cartdetail/cartdetail.component';
 import { ShopdetailComponent } from './components/shopdetail/shopdetail.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { ManageprofileComponent } from './components/manageprofile/manageprofile.component';
 
 
 const routes: Routes = [
@@ -26,7 +27,8 @@ const routes: Routes = [
     FooddetailComponent,
     CartdetailComponent,
     ShopdetailComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    ManageprofileComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +37,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [
-    
+    ManageprofileComponent
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy}

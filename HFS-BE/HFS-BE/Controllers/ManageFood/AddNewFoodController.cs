@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
-using HFS_BE.BusinessLogic.Food;
-using HFS_BE.BusinessLogic.Post;
+using HFS_BE.BusinessLogic.ManageFood;
+using HFS_BE.BusinessLogic.ManagePost;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
-namespace HFS_BE.Controllers.Food
+namespace HFS_BE.Controllers.ManageFood
 {
 
     public class AddNewFoodController : BaseController
@@ -17,6 +18,7 @@ namespace HFS_BE.Controllers.Food
         }
 
         [HttpPost("foods/addNewFood")]
+
         public BaseOutputDto AddNewPost([FromForm] FoodCreateInputDto input)
         {
             try
@@ -24,7 +26,7 @@ namespace HFS_BE.Controllers.Food
 
                 var business = this.GetBusinessLogic<AddNewFoodBusinessLogic>();
 
-                var inputBL = mapper.Map<FoodCreateInputDto, BusinessLogic.Food.FoodCreateInputDto>(input);
+                var inputBL = mapper.Map<FoodCreateInputDto, BusinessLogic.ManageFood.FoodCreateInputDto>(input);
 
                 inputBL.UserDto = this.GetUserInfor();
 

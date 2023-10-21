@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
-using HFS_BE.BusinessLogic.Post;
-using HFS_BE.Dao.PostDao;
+using HFS_BE.BusinessLogic.ManagePost;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Http;
@@ -16,17 +15,18 @@ namespace HFS_BE.Controllers.ManagePost
         {
         }
 
-        [HttpGet("manage/viewposts")]
-        public ListPostOutputDto Get()
+        [HttpGet("posts/getPostsSeller")]
+        public ListPostOutputSellerDto Get()
         {
             try
             {
                 var business = this.GetBusinessLogic<DisplayPostBusinessLogic>();
-                return business.ListPosts();
+
+                return business.ListPosts(this.GetUserInfor());
             }
             catch (Exception)
             {
-                return this.Output<ListPostOutputDto>(Constants.ResultCdFail);
+                return this.Output<ListPostOutputSellerDto>(Constants.ResultCdFail);
             }
         }
     }

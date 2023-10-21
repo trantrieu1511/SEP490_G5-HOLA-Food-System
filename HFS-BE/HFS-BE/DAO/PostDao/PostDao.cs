@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
+using HFS_BE.Dao.FoodDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
@@ -65,12 +66,13 @@ namespace HFS_BE.Dao.PostDao
             {
                 List<PostOutputSellerDto> postsModel = context.Posts
                                         .Include(p => p.PostImages)
+                                        .Where(p => p.ShopId == userDto.UserId)
                                         .Select(p => new PostOutputSellerDto
                                         {
                                             PostId = p.PostId,
                                             CreatedDate = p.CreatedDate.Value.ToString("MM/dd/yyyy"),
                                             PostContent = p.PostContent,
-                                            Status = PostStatus.GetPostStatusString(p.Status),
+                                            Status = PostMenuStatus.GetStatusString(p.Status),
                                             Images = p.PostImages.ToList()
                                         })
                                         .ToList();
@@ -95,7 +97,7 @@ namespace HFS_BE.Dao.PostDao
                     CreatedDate = DateTime.Now,
                     PostContent = postDto.PostContent,
                     Status = 0,
-                    ShopId = postDto.UserDto.UserId,
+                    ShopId = postDto.UserDto.UserId
                 };
                 context.Add(post);
                 context.SaveChanges();
@@ -117,7 +119,7 @@ namespace HFS_BE.Dao.PostDao
             }
         }
 
-        public BaseOutputDto DisplayHidePost(PostDisplayHideInputDto input)
+        public BaseOutputDto EnableDisablePost(PostEnableDisableInputDto input)
         {
             try
             {
@@ -127,13 +129,13 @@ namespace HFS_BE.Dao.PostDao
                 {
                     return Output<BaseOutputDto>(Constants.ResultCdFail, $"PostId: {input.PostId} not exist!");
                 }
-
-                if(post.Status == 3)
+                // check status Ban 
+                if (post.Status == 3)
                 {
                     return Output<BaseOutputDto>(Constants.ResultCdFail, 
                         $"PostId: {input.PostId} has been banned and cannot be changed!");
                 }
-
+                // check status Not Approved
                 if (post.Status == 0)
                 {
                     return Output<BaseOutputDto>(Constants.ResultCdFail,
@@ -155,6 +157,29 @@ namespace HFS_BE.Dao.PostDao
             }
             catch (Exception e)
             {
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public BaseOutputDto UpdatePost(PostUpdateInputDto input)
+        {
+            try
+            {
+                var postModel = context.Posts.FirstOrDefault(
+                        f => f.PostId == input.PostId
+                    );
+                if (postModel == null)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, $"PostId: {input.PostId} not exist!");
+
+                postModel.PostContent = input.PostContent;
+
+                context.SaveChanges();
+
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception e)
+            {
+                //log error
                 return Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }

@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { ChatComponent } from './modules/chat/chat.component';
 import { RegisterComponent } from './register/register.component';
 import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
+import { ManageprofileComponent } from './modules/customer-routing-module/components/manageprofile/manageprofile.component';
 
 const routes: Routes = [
   // {
@@ -37,6 +38,11 @@ const routes: Routes = [
     component: ChatComponent
 }
 ,
+  {
+    path: 'profile',
+    component: ManageprofileComponent
+  },
+
   {
     path: '', component: AppCustomerLayoutComponent,
     children: [
