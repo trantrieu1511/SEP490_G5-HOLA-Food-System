@@ -12,7 +12,7 @@ namespace HFS_BE.BusinessLogic.Profile
         {
         }
 
-        public UserProfileOutputDto GetProfile(GetUserProfileInputDto inputDto) {
+        public UserProfileOutputDao GetProfile(GetUserProfileInputDto inputDto) {
             try
             {
                 var dao = CreateDao<UserDao>();
@@ -20,7 +20,7 @@ namespace HFS_BE.BusinessLogic.Profile
             }
             catch (Exception)
             {
-                return Output<UserProfileOutputDto>(Constants.ResultCdFail);
+                return Output<UserProfileOutputDao>(Constants.ResultCdFail);
             }
         }
     }
