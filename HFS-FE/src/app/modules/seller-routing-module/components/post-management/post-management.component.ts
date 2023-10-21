@@ -5,7 +5,7 @@ import {Post, PostDisplayHideInputDto, PostImage, PostImageBase64, PostInput} fr
 import {
     iComponentBase,
     iServiceBase, mType,
-    ShareData
+    ShareData, iFunction
 } from 'src/app/modules/shared-module/shared-module';
 import * as API from "../../../../services/apiURL";
 import {
@@ -47,7 +47,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
               private shareData: ShareData,
               public messageService: MessageService,
               private confirmationService: ConfirmationService,
-              private iServiceBase: iServiceBase,) {
+              private iServiceBase: iServiceBase,
+              private iFunction: iFunction
+              ) {
       super(messageService, breadcrumbService);
   }
 
@@ -100,13 +102,10 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       //Update
       postInput.postId = this.postModel.postId;
       postInput.postContent = this.postModel.postContent;
-      postInput.createdDate = this.postModel.createdDate;
       postInput.images = this.uploadedFiles;
-      postInput.imagesBase64 = this.postModel.imagesBase64;
     } else {
         //Insert
         postInput.postContent = this.postModel.postContent;
-        postInput.createdDate = new Date().toDateString();
         postInput.images = this.uploadedFiles;
     }
 
@@ -128,10 +127,16 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
   onUpdatePost(post: Post) {
       this.headerDialog = `Edit Post ID: ${post.postId}`;
 
-      this.postModel = Object.assign({}, post);;
+      this.postModel = Object.assign({}, post);
 
       //this.uploadedFiles = post.images;
       this.uploadedFiles = [];
+
+      post.imagesBase64.forEach(image => {
+        var fileimage = this.iFunction.convertImageBase64toFile(image.imageBase64, image.name);
+        this.uploadedFiles.push(fileimage);
+        //this.f_upload.files.push(fileimage);
+      });
 
       this.displayDialogEditAddPost = true;
   }
@@ -172,11 +177,13 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
     let postEnity = this.bindingDataPostModel();
 
     if (this.validatePostModel()) {
-        if (postEnity && postEnity.postId && postEnity.postId > 0) {
-            this.updatePost(postEnity);
-        } else {
-            this.createPost(postEnity);
-        }
+      document.body.style.cursor = 'wait';
+
+      if (postEnity && postEnity.postId && postEnity.postId > 0) {
+          this.updatePost(postEnity);
+      } else {
+          this.createPost(postEnity);
+      }
     }
   }
 
@@ -218,15 +225,16 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       //console.log(param);
       const response = await this.iServiceBase
         .postDataAsync(API.PHAN_HE.POST, API.API_POST.ADD_POST_SELLER, param, true);
+      
       if(response && response.message === "Success"){
         this.showMessage(mType.success, "Notification", "New post added successfully", 'notify');
 
         this.displayDialogEditAddPost = false;
 
-        //lấy lại danh sách All Role
+        //lấy lại danh sách All 
         this.getAllPost();
 
-        //Clear Role model đã tạo
+        //Clear model đã tạo
         this.postModel = new Post();
         //clear file upload too =))
         this.uploadedFiles = [];
@@ -238,27 +246,36 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
   }
 
   async updatePost(postEnity: PostInput) {
-      try {
-          let param = postEnity;
+    try {
+      const param = new FormData();
+      param.append('postContent', postEnity.postContent);
+      param.append('postId', postEnity.postId.toString());
 
-          // let response = await this.iServiceBase.putDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.UPDATE_APP_ROLE, param, true);
+      this.uploadedFiles.forEach(file => {
+        param.append('images', file, file.name);
+      });
 
-          // if (response && response.success) {
-          //     this.showMessage(mType.success, "Thông báo", "Cập nhật phân quyền thành công!", 'notify');
+      let response = await this.iServiceBase
+        .putDataAsync(API.PHAN_HE.POST, API.API_POST.UPDATE_POST, param, true);
 
-          //     this.displayDialogCreateRole = false;
+      if (response && response.success) {
+        this.showMessage(mType.success, "Notification", "New post updated successfully", 'notify');
 
-          //     //lấy lại danh sách All Role
-          //     this.getAllRole();
+        this.displayDialogEditAddPost = false;
 
-          //     //Clear Role model đã tạo
-          //     this.roleModel = new AppRole();
-          // } else {
-          //     this.showMessage(mType.error, "Thông báo", "Cập nhật phân quyền không thành công. Vui lòng xem lại!", 'notify');
-          // }
-      } catch (e) {
-          console.log(e);
+        //lấy lại danh sách All 
+        this.getAllPost();
+
+        //Clear model đã tạo
+        this.postModel = new Post();
+        //clear file upload too =))
+        this.uploadedFiles = [];
+      } else {
+        this.showMessage(mType.warn, "Notification", "New post updated failed", 'notify');
       }
+    } catch (e) {
+        console.log(e);
+    }
   }
 
   async deletePost(postEnity: Post, type: boolean) {
@@ -272,7 +289,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       param.postId = postEnity.postId;
       param.type = type;
 
-      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POST, API.API_POST.DISPLAY_HIDE_SELLER, param, true);
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POST, API.API_POST.ENABLE_DISABLE_SELLER, param, true);
 
       if (response && response.success) {
         this.showMessage(mType.success, "Notification",  `${message} postId: ${postEnity.postId} successfully`, 'notify');
@@ -282,7 +299,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
 
       } else {
         console.log(response);
-        this.showMessage(mType.error, "Notification", response.message, 'notify');
+        this.showMessage(mType.warn, "Notification", response.message, 'notify');
       }
     } catch (e) {
         console.log(e);
@@ -365,4 +382,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
     this.visibleImageDialog = true;
   }
 
+  onHideDialogEditAdd(){
+    this.uploadedFiles = [];
+  }
 }

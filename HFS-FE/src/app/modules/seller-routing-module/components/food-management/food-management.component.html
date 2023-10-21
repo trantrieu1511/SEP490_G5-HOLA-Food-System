@@ -68,6 +68,14 @@
                                                 class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
+                        <th pSortableColumn="unitPrice">
+                            <div class="flex justify-content-between align-items-center">
+                                UnitPrice
+                                <p-sortIcon field="unitPrice"></p-sortIcon>
+                                <p-columnFilter type="text" field="unitPrice" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
                         <th pSortableColumn="rating">
                             <div class="flex justify-content-between align-items-center">
                                 Rating
@@ -118,13 +126,18 @@
                             <span class="p-column-title">Description</span>
                             <span class="post-content" (click)="viewContentDetail(food)">{{food.description}}</span>
                         </td>
+                        <td >
+                            <span class="p-column-title">UnitPrice</span>
+                            {{food.unitPrice}}
+                        </td>
                         <td>
                             <span class="p-column-title">Rating</span>
                             <p-rating [ngModel]="food.rating" [readonly]="true" [cancel]="false"></p-rating>
+                            
                         </td>
                         <td>
                             <span class="p-column-title">Image</span>
-                            <ng-container *ngIf="food.images.length !== 0; else noneImage" >
+                            <ng-container *ngIf="food.imagesBase64.length !== 0; else noneImage" >
                                 <button pButton pRipple icon="pi pi-images"
                                         (click)="onDisplayImagesDialog(food, $event)"
                                         class="p-button-rounded p-button-text p-button-raised"></button>
@@ -142,18 +155,20 @@
                                             (click)="onUpdateFood(food)"
                                             class="p-button-rounded p-mr-2"></button>
                                 </div>
-                                <div *ngIf="food.status === 'Display'; else statusHide" class="flex align-items-center justify-content-center">
-                                    <button pButton pRipple icon="pi pi-eye-slash"
-                                            (click)="onHideFood(food, $event)"
-                                            class="p-button-rounded p-button-danger"></button>
-                                </div>
-                                <ng-template #statusHide>
-                                    <div class="flex align-items-center justify-content-center">
-                                        <button pButton pRipple icon="pi pi-eye"
-                                                (click)="onDisplayFood(food, $event)"
+                                <ng-container *ngIf="food.status !== 'Ban' && food.status !== 'NotApproved'">
+                                    <div *ngIf="food.status === 'Display'; else statusHide" class="flex align-items-center justify-content-center">
+                                        <button pButton pRipple icon="pi pi-eye-slash"
+                                                (click)="onHideFood(food, $event)"
                                                 class="p-button-rounded p-button-danger"></button>
                                     </div>
-                                </ng-template>
+                                    <ng-template #statusHide>
+                                        <div class="flex align-items-center justify-content-center">
+                                            <button pButton pRipple icon="pi pi-eye"
+                                                    (click)="onDisplayFood(food, $event)"
+                                                    class="p-button-rounded p-button-danger"></button>
+                                        </div>
+                                    </ng-template>
+                                </ng-container>
                             </div>
                         </td>
                     </tr>
@@ -171,7 +186,9 @@
 <p-dialog [header]="headerDialog" [(visible)]="displayDialogEditAddFood"
           [breakpoints]="{'960px': '75vw'}"
           [style]="{width: '50vw'}"
-          [draggable]="false" [resizable]="false" [maximizable]="true">
+          [draggable]="false" [resizable]="false" [maximizable]="true"
+          (onHide)="onHideDialogEditAdd()"
+          >
     <div class="grid p-fluid">
         <div class="col-12 md:col-12">
             <div class="card">
@@ -182,48 +199,49 @@
                 </p-divider>
                 <div class="grid">
                     <ng-container *ngIf="foodModel.foodId > 0; else editModel">
-                        <div class="col-12 mb-2 lg:col-3 mb-lg-0">
+                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
                                 <input type="text" class="w-full" [(ngModel)]="foodModel.foodId"
                                        [disabled]="true" pInputText/>
                                 <label>ID*</label>
                             </span>
                         </div>
-                        <div class="col-12 mb-2 lg:col-5 mb-lg-0">
+                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
                                 <input type="text" class="w-full" [(ngModel)]="foodModel.name"
                                         pInputText/>
                                 <label>Name*</label>
-                            </span>
-                        </div>
-                        <div class="col-12 mb-2 lg:col-4 mb-lg-0">
-                            <span class="p-float-label">
-                                <p-dropdown [options]="lstCategory" [(ngModel)]="selectedCategory"
-                                            [showClear]="true"
-                                            [autoDisplayFirst]="false"
-                                            optionLabel="name"
-                                            ></p-dropdown>
-                                <label>Category*</label>
                             </span>
                         </div>
                     </ng-container>
                     <ng-template #editModel>
-                        <div class="col-12 mb-2 lg:col-8 mb-lg-0">
+                        <div class="col-12 mb-2 lg:col-12 mb-lg-0">
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
                                 <input type="text" class="w-full" [(ngModel)]="foodModel.name"
                                         pInputText/>
                                 <label>Name*</label>
                             </span>
                         </div>
-                        <div class="col-12 mb-2 lg:col-4 mb-lg-0">
-                            <span class="p-float-label">
-                                <p-dropdown [options]="lstCategory" [(ngModel)]="foodModel.categoryId"
-                                            [showClear]="true"
-                                            [autoDisplayFirst]="false"></p-dropdown>
-                                <label>Category*</label>
-                            </span>
-                        </div>
                     </ng-template>
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-input-icon-left p-float-label" style="width: 100%">
+                            <input type="number" step="5000" min="0"  class="w-full" [(ngModel)]="foodModel.unitPrice"
+                                    pInputText/>
+                            <label>UnitPrice*</label>
+                        </span>
+                    </div>
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-float-label">
+                            <p-dropdown [options]="lstCategory" [(ngModel)]="selectedCategory"
+                                        [showClear]="true"
+                                        [autoDisplayFirst]="false"
+                                        optionLabel="name"
+                                        ></p-dropdown>
+                            <label>Category*</label>
+                        </span>
+                    </div>
+
+
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
                         <span class="p-input-icon-left p-float-label" style="width: 100%" >
                             <textarea class="w-full" rows="10" cols="60" pInputTextarea [(ngModel)]="foodModel.description"></textarea>
@@ -239,18 +257,21 @@
                                     </ul>
                                 </ng-template>
                             </p-fileUpload> -->
-                                <p-fileUpload class=" w-full" 
-                                    (onSelect)="handleFileSelection($event)" 
-                                    (onRemove)="handleFileRemoval($event)"
-                                    (onClear)="handleAllFilesClear($event)"
-                                    [multiple]="true" accept="image/*" [maxFileSize]="1000000" 
-                                    [showUploadButton]="false" >
-                                    <ng-template pTemplate="content">
-                                        <!-- <ul *ngIf="uploadedFiles.length > 0">
-                                            <li *ngFor="let file of uploadedFiles">{{ file.name }}</li>
-                                        </ul> -->
-                                    </ng-template>
-                                </p-fileUpload>
+                            <p-fileUpload class=" w-full" 
+                                #fileUploader
+                                [files]="uploadedFiles"
+                                [customUpload]="true"
+                                (onSelect)="handleFileSelection($event)" 
+                                (onRemove)="handleFileRemoval($event)"
+                                (onClear)="handleAllFilesClear($event)"
+                                [multiple]="true" accept="image/*" [maxFileSize]="1000000" 
+                                [showUploadButton]="false" >
+                                <ng-template pTemplate="content">
+                                    <!-- <ul *ngIf="uploadedFiles.length > 0">
+                                        <li *ngFor="let file of uploadedFiles">{{ file.name }}</li>
+                                    </ul> -->
+                                </ng-template>
+                            </p-fileUpload>
                             
                             
 					    </span>
@@ -276,15 +297,26 @@
         </div>
     </ng-template>
 </p-dialog>
-<p-dialog header="View Food Description" [(visible)]="visibleDescriptionDialog" [style]="{width: '50vw'}" [maximizable]="true">
+<p-dialog header="View Food Description" 
+    [(visible)]="visibleDescriptionDialog" 
+    [style]="{width: '50vw'}" 
+    [draggable]="false" [resizable]="false" [maximizable]="true"
+    >
     <p class="dialog-content-detail">
         {{contentDialog}}
     </p>
 </p-dialog>
 
 
-<p-dialog header="List Image" [(visible)]="visibleImageDialog" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
-    <p-table [value]="foodImageDialog.images" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+<p-dialog header="List Image" 
+    [(visible)]="visibleImageDialog" 
+    [breakpoints]="{ '960px': '75vw' }" 
+    [style]="{ width: '50vw' }" 
+    [draggable]="false" 
+    [resizable]="false"
+    [maximizable]="true"
+    >
+    <p-table [value]="foodImageDialog.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
@@ -296,7 +328,11 @@
         <ng-template pTemplate="body" let-foodImage>
             <tr >
                 <td>{{foodImage.imageId}}</td>
-                <td><img src="https://primefaces.org/cdn/primeng/images/demo/product/{{ foodImage.image }}"[alt]="foodImage.imageId" class="dialogimages_image w-10rem shadow-2"/></td>
+                <td><p-image src="data:image/gif;base64,{{foodImage.imageBase64}}" [preview]="true"
+                    [alt]="foodImage.imageId" class="dialogimages_image w-10rem shadow-2"
+                    ></p-image></td>
+                <td>{{foodImage.name}}</td>
+                <td>{{foodImage.size}} KB</td>
 
             </tr>
         </ng-template>

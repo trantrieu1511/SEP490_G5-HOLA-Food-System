@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
 import {AppBreadcrumbService} from "../../../../app-systems/app-breadcrumb/app.breadcrumb.service";
-import {Food, FoodImage, Category} from "../../models/food.model";
+import {Food, Category, FoodInput, FoodDisplayHideInputDto} from "../../models/food.model";
 import {
     iComponentBase,
     iServiceBase, mType,
-    ShareData
+    ShareData,
+    iFunction
 } from 'src/app/modules/shared-module/shared-module';
 import * as API from "../../../../services/apiURL";
 import {
@@ -16,7 +17,7 @@ import {
     SelectItem,
     TreeNode
 } from "primeng/api";
-import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
+import { FileRemoveEvent, FileSelectEvent, FileUpload } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-food-management',
@@ -45,19 +46,22 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
 
 
   @ViewChild('dt') table: Table;
+  //@ViewChild('fileUploader') f_upload: FileUpload;
 
   constructor(public breadcrumbService: AppBreadcrumbService,
               private shareData: ShareData,
               public messageService: MessageService,
               private confirmationService: ConfirmationService,
-              private iServiceBase: iServiceBase,) {
+              private iServiceBase: iServiceBase,
+              private iFunction: iFunction
+              ) {
       super(messageService, breadcrumbService);
-      this.getAllCategory();
+      
   }
 
   ngOnInit() {
-    this.getAllPost();
-    
+    this.getAllFood();
+    this.getAllCategory();
   }
 
   async getAllCategory(){
@@ -81,90 +85,45 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
     ];
   }
 
-  async getAllPost() {
-      this.lstFood = [];
-      this.uploadedFiles = [];
-      // try {
-      //     this.loading = true;
+  async getAllFood() {
+    this.lstFood = [];
+    this.uploadedFiles = [];
+    try {
+        this.loading = true;
 
-      //     let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.GET_ALL_ROLE);
+        let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.GET_FOOD_SELLER);
 
-      //     if (response && response.length) {
-      //         this.lstAppRole = response;
-      //     }
-      //     this.loading = false;
-      // } catch (e) {
-      //     console.log(e);
-      //     this.loading = false;
-      // }
-
-      this.lstFood = [
-        {
-          foodId: 1,
-          name: "gà",
-          description: "abcaisefdojueiwf",
-          categoryId: 1,
-          categoryName: "Food",
-          rating: 4,
-          status: "Display",
-          images: []
-        },
-        {
-          foodId: 2,
-          name: "gà chiên",
-          description: "abcaisefdojueiwf",
-          categoryId: 1,
-          categoryName: "Food",
-          rating: 5,
-          status: "Display",
-          images: []
-        },
-        {
-          foodId: 3,
-          name: "coca",
-          description: "124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsd124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdaf124124fwfscsdefwefewcsdceds32131231231231231231fasefsfsfasfesfasf32rf2w3f23f23f23f23qf23qfw23f23wfwefsdafaf",
-          categoryId: 2,
-          categoryName: "Drink",
-          rating: 0,
-          status: "Hide",
-          images: [
-            new FoodImage(1,3,"bamboo-watch.jpg")
-          ]
-        },
-      ];
+        if (response && response.message === "Success") {
+            this.lstFood = response.foods;
+        }
+        this.loading = false;
+    } catch (e) {
+        console.log(e);
+        this.loading = false;
+    }
 
 
   }
 
-  bindingDataFoodModel(): Food {
-      let result = new Food();
-      // if (this.shareData && this.shareData.userInfo) {
-        
-      //     if (this.roleModel.id && this.roleModel.id > 0) {
-      //         //Update
-      //         result.id = this.roleModel.id;
-      //         result.roleId = this.roleModel.roleId;
-      //         result.roleKey = this.roleModel.roleKey;
-      //         result.roleName = this.roleModel.roleName;
-      //         result.roleDescribe = this.roleModel.roleDescribe;
-      //         result.active = this.roleModel.active;
-      //         result.lastModifiedBy = this.shareData.userInfo.userName;
-      //         result.lastModifiedDate = new Date();
-      //         result.createdBy = this.roleModel.createdBy;
-      //         result.createdDate = this.roleModel.createdDate;
+  bindingDataFoodModel(): FoodInput {
+      let result = new FoodInput();
+      
+      if (this.foodModel.foodId && this.foodModel.foodId > 0) {
+        // //Update
+        result.foodId = this.foodModel.foodId;
+        result.name = this.foodModel.name;
+        result.unitPrice = this.foodModel.unitPrice;
+        result.description = this.foodModel.description;
+        result.categoryId = this.foodModel.categoryId;
 
-      //     } else {
-      //         //Insert
-      //         result.roleId = this.roleModel.roleId;
-      //         result.roleKey = this.roleModel.roleKey;
-      //         result.roleName = this.roleModel.roleName;
-      //         result.roleDescribe = this.roleModel.roleDescribe;
-      //         result.active = this.roleModel.active;
-      //         result.createdBy = this.shareData.userInfo.userName;
-      //         result.createdDate = new Date();
-      //     }
-      // }
-
+      } else {
+        //Insert
+        result.name = this.foodModel.name;
+        result.unitPrice = this.foodModel.unitPrice;
+        result.description = this.foodModel.description;
+        result.categoryId = this.foodModel.categoryId;
+      }
+    
       return result;
   }
 
@@ -181,63 +140,72 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
   }
 
   onUpdateFood(food: Food) {
-      this.headerDialog = `Edit Food ID: ${food.foodId}`;
+    this.headerDialog = `Edit Food ID: ${food.foodId}`;
+    //this.f_upload.files = [];
+    this.uploadedFiles = [];
+    this.foodModel = Object.assign({}, food);
 
-      this.foodModel = food;
+    this.selectedCategory = new Category();
+    this.selectedCategory.categoryId = food.categoryId;
+    this.selectedCategory.name = food.categoryName;
 
-      this.selectedCategory = new Category();
-      this.selectedCategory.categoryId = food.categoryId;
-      this.selectedCategory.name = food.categoryName;
+    food.imagesBase64.forEach(image => {
+      var fileimage = this.iFunction.convertImageBase64toFile(image.imageBase64, image.name);
+      this.uploadedFiles.push(fileimage);
+      //this.f_upload.files.push(fileimage);
+    });
 
-      //this.uploadedFiles = post.images;
+    //console.log('prime',this.f_upload);
 
-      this.displayDialogEditAddFood = true;
+    //this.uploadedFiles = post.images;
+
+    this.displayDialogEditAddFood = true;
   }
 
   onHideFood(food: Food, event) {
-      this.confirmationService.confirm({
-          target: event.target,
-          message: `Are you sure to Hide this food id: ${food.foodId} ?`,
-          icon: 'pi pi-exclamation-triangle',
-          accept: () => {
-              //confirm action
-              this.deleteFood(food);
-          },
-          reject: () => {
-              //reject action
-          }
-      });
+    this.confirmationService.confirm({
+      target: event.target,
+      message: `Are you sure to Hide this food id: ${food.foodId} ?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //confirm action
+        this.deleteFood(food, false);
+      },
+      reject: () => {
+        //reject action
+      }
+    });
   }
 
   
   onDisplayFood(food: Food, event) {
     this.confirmationService.confirm({
-        target: event.target,
-        message: `Are you sure to Display this food id: ${food.foodId} ?`,
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-            //confirm action
-            this.deleteFood(food);
-        },
-        reject: () => {
-            //reject action
-        }
+      target: event.target,
+      message: `Are you sure to Display this food id: ${food.foodId} ?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //confirm action
+        this.deleteFood(food, true);
+      },
+      reject: () => {
+        //reject action
+      }
     });
   }
 
   onSaveFood() {
-    console.log(this.foodModel);
+    //console.log(this.foodModel);
     this.foodModel.categoryId = this.selectedCategory.categoryId;
-    this.foodModel.name = this.selectedCategory.name;
-
-    let foodEnity = this.bindingDataFoodModel();
+    document.body.style.cursor = 'wait';
+    let foodEntity = this.bindingDataFoodModel();
 
     if (this.validateFoodModel()) {
-        if (foodEnity && foodEnity.foodId && foodEnity.foodId > 0) {
-            this.updateFood(foodEnity);
-        } else {
-            this.createFood(foodEnity);
-        }
+      document.body.style.cursor = 'wait';
+      if (foodEntity && foodEntity.foodId && foodEntity.foodId > 0) {
+          this.updateFood(foodEntity);
+      } else {
+          this.createFood(foodEntity);
+      }
     }
   }
 
@@ -266,25 +234,34 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
       return true;
   }
 
-  async createFood(foodEnity) {
+  async createFood(foodEnity: FoodInput) {
       try {
-          let param = foodEnity;
+        const param = new FormData();
 
-          // let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.INSERT_APP_ROLE, param, true);
+        this.uploadedFiles.forEach(file => {
+          param.append('images', file, file.name);
+        });
 
-          // if (response && response.success) {
-          //     this.showMessage(mType.success, "Thông báo", "Thêm mới phân quyền thành công!", 'notify');
+        Object.keys(foodEnity).forEach(function(key) {
+          param.append(key, foodEnity[key]);
+        });
 
-          //     this.displayDialogCreateRole = false;
+        const response = await this.iServiceBase
+          .postDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.ADD_FOOD, param, true);
+      
+        if(response && response.message === "Success"){
+          this.showMessage(mType.success, "Notification", "New food added successfully", 'notify');
 
-          //     //lấy lại danh sách All Role
-          //     this.getAllRole();
+          this.displayDialogEditAddFood = false;
 
-          //     //Clear Role model đã tạo
-          //     this.roleModel = new AppRole();
-          // } else {
-          //     this.showMessage(mType.error, "Thông báo", "Thêm mới phân quyền không thành công. Vui lòng xem lại!", 'notify');
-          // }
+          //lấy lại danh sách All 
+          this.getAllFood();
+
+          //Clear model đã tạo
+          this.foodModel = new Food();
+          //clear file upload too =))
+          this.uploadedFiles = [];
+        } 
       } catch (e) {
           console.log(e);
       }
@@ -292,46 +269,65 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
 
   async updateFood(foodEnity) {
       try {
-          let param = foodEnity;
+        const param = new FormData();
 
-          // let response = await this.iServiceBase.putDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.UPDATE_APP_ROLE, param, true);
+        this.uploadedFiles.forEach(file => {
+          param.append('images', file, file.name);
+        });
 
-          // if (response && response.success) {
-          //     this.showMessage(mType.success, "Thông báo", "Cập nhật phân quyền thành công!", 'notify');
+        Object.keys(foodEnity).forEach(function(key) {
+          param.append(key, foodEnity[key]);
+        });
 
-          //     this.displayDialogCreateRole = false;
+        let response = await this.iServiceBase
+            .putDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.UPDATE_FOOD, param, true);
 
-          //     //lấy lại danh sách All Role
-          //     this.getAllRole();
+        if (response && response.success) {
+          this.showMessage(mType.success, "Notification"
+            , "New food updated successfully", 'notify');
 
-          //     //Clear Role model đã tạo
-          //     this.roleModel = new AppRole();
-          // } else {
-          //     this.showMessage(mType.error, "Thông báo", "Cập nhật phân quyền không thành công. Vui lòng xem lại!", 'notify');
-          // }
+          this.displayDialogEditAddFood = false;
+
+          //lấy lại danh sách All 
+          this.getAllFood();
+
+          //Clear model đã tạo
+          this.foodModel = new Food();
+          //clear file upload too =))
+          this.uploadedFiles = [];
+        } else {
+          this.showMessage(mType.error, "Notification"
+            , "New food updated failed", 'notify');
+        }
       } catch (e) {
           console.log(e);
       }
   }
 
-  async deleteFood(foodEnity: Food) {
-      try {
-          let param = foodEnity.foodId;
+  async deleteFood(foodEnity: Food, type: boolean) {
+    // type = true => Display
+    // false => Hide
 
-          // let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.DELETE_APP_ROLE, param, true);
+    const message = type ? "Displayed" : "Hidden";
+    try {
+      let param = new FoodDisplayHideInputDto();
+      param.foodId = foodEnity.foodId;
+      param.type = type;
 
-          // if (response && response.success) {
-          //     this.showMessage(mType.success, "Thông báo", "Xóa phân quyền thành công!", 'notify');
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.ENABLE_DISABLE, param, true);
 
-          //     //lấy lại danh sách All Role
-          //     this.getAllRole();
+      if (response && response.success) {
+        this.showMessage(mType.success, "Notification", `${message} foodId: ${foodEnity.foodId} successfully`, 'notify');
 
-          // } else {
-          //     this.showMessage(mType.error, "Thông báo", "Xóa phân quyền không thành công. Vui lòng xem lại!", 'notify');
-          // }
-      } catch (e) {
-          console.log(e);
+        //lấy lại danh sách All Role
+        this.getAllFood();
+
+      } else {
+        this.showMessage(mType.warn, "Notification", response.message, 'notify');
       }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   viewContentDetail(food: Food){
@@ -340,41 +336,49 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
   }
 
   getSeverity(status: string) {
-      switch (status) {
-          case 'Display':
-            return 'success';
-          case 'Hide':
-            return 'warning';
-          case 'Ban':
-            return 'danger';
-          default:
-            return 'error';
-      }
+    switch (status) {
+      case 'NotApproved':
+        return 'warning';
+      case 'Display':
+        return 'success';
+      case 'Hidden':
+        return 'secondary';
+      case 'Ban':
+        return 'danger';
+      default:
+        return 'error';
+    }
   }
 
   handleFileSelection(event :  FileSelectEvent) {
-    console.log("select", event);
+    //console.log("select", event);
     
     this.uploadedFiles = event.currentFiles;
-    console.log("uploadFiles", this.uploadedFiles);
+
+    //console.log('primeSelect',this.f_upload);
+    //console.log("uploadFiles", this.uploadedFiles);
   }
 
   handleFileRemoval(event :  FileRemoveEvent){
-    console.log("remove", event.file.name);
+    //console.log("remove", event.file.name);
 
     this.uploadedFiles = this.uploadedFiles.filter(f => f.name !== event.file.name);
-    console.log("uploadFiles", this.uploadedFiles);
+    //console.log("uploadFiles", this.uploadedFiles);
   }
 
   handleAllFilesClear(event :  Event){
-    console.log("clear", event);
+    //console.log("clear", event);
 
     this.uploadedFiles = [];
-    console.log("uploadFiles", this.uploadedFiles);
+    //console.log("uploadFiles", this.uploadedFiles);
   }
 
   onDisplayImagesDialog(food: Food, event: any){
     this.foodImageDialog = food;
     this.visibleImageDialog = true;
+  }
+
+  onHideDialogEditAdd(){
+    this.uploadedFiles = [];
   }
 }

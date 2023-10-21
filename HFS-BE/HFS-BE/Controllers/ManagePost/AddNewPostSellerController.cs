@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
-using HFS_BE.BusinessLogic.Post;
+using HFS_BE.BusinessLogic.ManagePost;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +29,7 @@ namespace HFS_BE.Controllers.ManagePost
 
                 var business = this.GetBusinessLogic<AddNewPostBusinessLogic>();
 
-                BusinessLogic.Post.PostCreateInputDto inputBL = new BusinessLogic.Post.PostCreateInputDto
+                BusinessLogic.ManagePost.PostCreateInputDto inputBL = new BusinessLogic.ManagePost.PostCreateInputDto
                 {
                     Images = images,
                     PostContent = postContent,

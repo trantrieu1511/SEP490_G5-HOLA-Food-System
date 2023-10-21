@@ -24,6 +24,7 @@ namespace HFS_BE.Dao.PostDao
     public class PostOutputSellerDto
     {
         public int PostId { get; set; }
+        public int? ShopId { get; set; }
         public string? PostContent { get; set; }
 
         public string? CreatedDate { get; set; }

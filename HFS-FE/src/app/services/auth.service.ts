@@ -43,16 +43,32 @@ user:User;
       })
     )
   }
-  loginfacebook(credentials: string): Observable<any>{
+  loginfacebook(tokenconfirm: string): Observable<any>{
     debugger;
     const header = new HttpHeaders().set('Content-type', 'application/json');
-    return this.httpClient.post("https://localhost:7016/api/Ok/" + "LoginWithFacebook", JSON.stringify(credentials),{ headers: header, withCredentials: true }).pipe(
+    return this.httpClient.post("https://localhost:7016/api/Ok/" + "LoginWithFacebook", JSON.stringify(tokenconfirm),{ headers: header, withCredentials: true }).pipe(
 
       map((res:Tokens)=>{
         const token = res;
         debugger;
         if(token){
           this.setCurrentUser(token);
+
+        }
+      })
+    )
+  }
+
+  confirm(tokenconfirm: string): Observable<any>{
+    debugger;
+    const header = new HttpHeaders().set('Content-type', 'application/json');
+    return this.httpClient.post("https://localhost:7016/api/Role/" + "confirmation", JSON.stringify(tokenconfirm),{ headers: header, withCredentials: true }).pipe(
+
+      map((res:Tokens)=>{
+        const token = res;
+        debugger;
+        if(token){
+          console.log("ok");
 
         }
       })
@@ -73,12 +89,27 @@ user:User;
       // Save user data to localStorage
       localStorage.setItem('user', JSON.stringify(this.user));
       sessionStorage.setItem("JWT",token.token);
+      sessionStorage.setItem("role",this.user.role.toString());
+      sessionStorage.setItem("timetoken",this.user.exp.toString());
     }
   }
   getDecodedToken(token: string) {
     return JSON.parse(atob(token.split('.')[1]));
   }
+
+  isTokenExpired(token: string): boolean {
+  const timetoken=this.user.exp;
+    const currentTime = Date.now() / 1000; // Đổi sang giây
+
+    // Kiểm tra thời gian hết hạn của token
+    if (timetoken && timetoken < currentTime) {
+      return true; // Token đã hết hạn
+    }
+
+    return false; // Token còn hiệu lực
+  }
 }
+
 export interface User {
   email: string;
   role: number;

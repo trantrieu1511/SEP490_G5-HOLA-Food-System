@@ -2,13 +2,14 @@
 
 namespace HFS_BE.DAO.OrderProgressDao
 {
-    public class OrderProgressDaoInputDto : BaseInputDto
+    public class OrderProgressDaoInputDto 
     {
         public string? Note { get; set; }
+        public bool Type { get; set; }
         public DateTime? CreateDate { get; set; }
         public string? Image { get; set; }
         public int? OrderId { get; set; }
-        public bool? Status { get; set; }
+        public byte? Status { get; set; }
         public int? UserId { get; set; }
     }
 }

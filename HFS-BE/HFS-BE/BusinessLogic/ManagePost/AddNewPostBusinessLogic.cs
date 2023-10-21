@@ -4,8 +4,9 @@ using HFS_BE.Dao.PostDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.IOFile;
+using System.Collections.Generic;
 
-namespace HFS_BE.BusinessLogic.Post
+namespace HFS_BE.BusinessLogic.ManagePost
 {
     public class AddNewPostBusinessLogic : BaseBusinessLogic
     {
@@ -21,11 +22,20 @@ namespace HFS_BE.BusinessLogic.Post
                 {
                     Email = "test@gmail.com",
                     Name = "testSeller",
-                    RoleId = 1,
+                    RoleId = 2,
                     UserId = 1,
                 };
+
+                if (String.IsNullOrEmpty(inputDto.PostContent))
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail,
+                        $"PostContent cannot be changed!");
+                }
+
                 // save file to server -> return list file name
-                List<string> fileNames = ReadSaveImage.SaveImages(inputDto.Images, inputDto.UserDto, 0);
+                var fileNames = new List<string>();
+                if (inputDto.Images != null && inputDto.Images.Count > 0)
+                    fileNames = ReadSaveImage.SaveImages(inputDto.Images, inputDto.UserDto, 0);
 
                 var Dao = this.CreateDao<PostDao>();
                 var inputMapper = mapper.Map<PostCreateInputDto, Dao.PostDao.PostCreateInputDto>(inputDto);

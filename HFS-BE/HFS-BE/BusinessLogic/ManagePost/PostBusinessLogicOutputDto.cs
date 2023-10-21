@@ -1,7 +1,7 @@
 ﻿using HFS_BE.Base;
 using HFS_BE.Models;
 
-namespace HFS_BE.BusinessLogic.Post
+namespace HFS_BE.BusinessLogic.ManagePost
 {
     /*public class PostOutputDto
     {
@@ -23,6 +23,7 @@ namespace HFS_BE.BusinessLogic.Post
     public class PostOutputSellerDto
     {
         public int PostId { get; set; }
+        public int? ShopId { get; set; }
         public string? PostContent { get; set; }
 
         public string? CreatedDate { get; set; }

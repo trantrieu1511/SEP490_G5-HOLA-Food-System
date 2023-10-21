@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CredentialResponse } from 'google-one-tap';
 import { environment } from '../../environments/environment';
 import { AuthService, User } from '../services/auth.service';
+import { PasswordLengthValidator, PasswordNumberValidator, PasswordUpperValidator } from './Restricted-login.directive';
 
 declare const FB: any;
 
@@ -37,7 +38,7 @@ private client_Id=environment.clientId;
  FormFirst(){
   this.form = new FormGroup({
     email: new FormControl('', Validators.email),
-    password: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(12)])
+    password: new FormControl('', [Validators.required, Validators.minLength(3), PasswordLengthValidator(),PasswordUpperValidator(),PasswordNumberValidator()])
   })
 }
  ngOnInit(): void {
