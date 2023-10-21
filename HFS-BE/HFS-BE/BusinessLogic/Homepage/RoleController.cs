@@ -26,11 +26,10 @@ namespace HFS_BE.Controllers.Homepage
 
 		IConfiguration _configuration;
 		private const string MailgunApiBaseUrl = "https://api.mailgun.net/v3/";
-		private readonly IPhotoService _photoService;
 		private const string MailgunDomain = "sandbox38179487b9c441e69a66b0ecb5364d85.mailgun.org";
 		private const string MailgunApiKey = "c050ad11536d134d879a655d65baae5d-5465e583-034be4a6";
 		private const string SecretKey = "YOUR_SECRET_KEY";
-
+		private readonly IPhotoService _photoService;
 		public RoleController(IConfiguration configuration, IPhotoService photoService)
 		{
 			_configuration = configuration;

@@ -9,6 +9,7 @@ using Microsoft.Win32;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Principal;
@@ -18,6 +19,9 @@ namespace HFS_BE.Dao.AuthDao
 {
 	public class AuthDao : BaseDao
 	{
+		private const string MailgunApiBaseUrl = "https://api.mailgun.net/v3/";
+		private const string MailgunDomain = "sandbox38179487b9c441e69a66b0ecb5364d85.mailgun.org";
+		private const string MailgunApiKey = "c050ad11536d134d879a655d65baae5d-5465e583-034be4a6";
 		public AuthDao(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
 		{
 		}
@@ -28,14 +32,14 @@ namespace HFS_BE.Dao.AuthDao
 			var user = context.Users.Where(s => s.Email == input.Email).FirstOrDefault();
 			if (user == null)
 			{
-				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Username Or Password Was Invalid");
+				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
 			}
 
 			var match = CheckPassword(input.Password, (User)user);
 
 			if (!match)
 			{
-				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Username Or Password Was Invalid");
+				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
 			}
 			JwtSecurityToken token = GenerateSecurityToken((User)user);
 			output.Token = new JwtSecurityTokenHandler().WriteToken(token);
@@ -96,14 +100,14 @@ namespace HFS_BE.Dao.AuthDao
 				new Claim(ClaimTypes.Role, role),
 				new Claim(ClaimTypes.Name, acc.FirstName + acc.LastName),
 				new Claim("userId", acc.UserId.ToString())
-		
-            };
+
+			};
 
 			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(conf["JWT:Secret"]));
 
 			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddMinutes(1),
+					expires: DateTime.Now.AddHours(1),
 					claims: authClaims,
 					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)); ;
 
@@ -119,14 +123,17 @@ namespace HFS_BE.Dao.AuthDao
 			if (!isValid)
 			{
 				string err = "";
-			   foreach(var item in validationResults)
+				foreach (var item in validationResults)
 				{
 					err += item.ToString() + " ";
 				}
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail , err);
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
 			}
-
-			// Dữ liệu hợp lệ, tiếp tục xử lý đăng ký
+			var data = context.Users.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			if (data != null)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail,"Email đã sử dụng");
+			}
 			var user = new User
 			{
 				Email = model.Email,
@@ -137,7 +144,7 @@ namespace HFS_BE.Dao.AuthDao
 				Gender = model.Gender,
 				ConfirmEmail = false
 			};
-		
+
 
 
 			using (HMACSHA256? hmac = new HMACSHA256())
@@ -147,17 +154,128 @@ namespace HFS_BE.Dao.AuthDao
 			}
 
 			try
-				{
-					context.Users.Add(user);
-					context.SaveChanges();
+			{
+				context.Users.Add(user);
+				context.SaveChanges();
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}
-				catch (Exception ex)
+			catch (Exception ex)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+			}
+		}
+		public BaseOutputDto ForgotPassword(ForgotPasswordInputDto model)
+		{
+			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
+			var validationResults = new List<ValidationResult>();
+			bool isValid = Validator.TryValidateObject(model, validationContext, validationResults, validateAllProperties: true);
+
+			if (!isValid)
+			{
+				string err = "";
+				foreach (var item in validationResults)
 				{
+					err += item.ToString() + " ";
+				}
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
+			}
+
+
+
+			try
+			{
+
+				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+			}
+			catch (Exception ex)
+			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
 			}
 		}
 
+		public async Task<BaseOutputDto> SendForgotPasswordtoEmailAsync(ForgotPasswordInputDto model)
+		{
+			string userid = "";
+			string confirmationCode = GenerateConfirmationCode(model.Email);
+			//using (SEP490_HFSContext context = new SEP490_HFSContext())
+			//{
+			//	var user = context.Users.Where(s => s.Email.ToLower().Equals(toEmail.ToLower())).FirstOrDefault();
+
+			//	if (user == null)
+			//	{
+			//		return BadRequest();
+			//	}
+			//	userid = user.UserId.ToString();
+			//}
+
+			string subject = "Xác nhận thay đổi trạng thái";
+			string message = $"Vui lòng nhấp vào liên kết sau để xác nhận thay đổi trạng thái: {GetForgotPasswordLink("1", confirmationCode)}";
+
+			try
+			{
+				await SendEmail(model.Email, subject, message);
+				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+			}
+			catch (Exception ex)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+			}
+
+		}
+		private async Task SendEmail(string toEmail, string subject, string message)
+		{
+			var httpClient = new HttpClient();
+			httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
+				Convert.ToBase64String(Encoding.ASCII.GetBytes($"api:{MailgunApiKey}")));
+
+			var content = new FormUrlEncodedContent(new[]
+			{
+			new KeyValuePair<string, string>("from", "lunguyen2k18@gmail.com"),
+			new KeyValuePair<string, string>("to", toEmail),
+			new KeyValuePair<string, string>("subject", subject),
+			new KeyValuePair<string, string>("text", message)
+		});
+
+			var response = await httpClient.PostAsync($"{MailgunApiBaseUrl}{MailgunDomain}/messages", content);
+
+			if (!response.IsSuccessStatusCode)
+			{
+				throw new Exception("Failed to send email.");
+			}
+		}
+		private string GetForgotPasswordLink(string userId, string confirmationCode)
+		{
+			string baseUrl = "http://localhost:4200/#/forgot";
+			//	var query = new Dictionary<string, string>
+			//{
+			//	{ "userId", userId },
+			//	{ "code", confirmationCode }
+			//};
+			var confirmationLink = baseUrl + "?userId=" + userId + "&code=" + confirmationCode;
+			return confirmationLink;
+		}
+		private string GenerateConfirmationCode(string userId)//tạo ra mã đễ 
+
+		{
+			var conf = new ConfigurationBuilder()
+		.SetBasePath(Directory.GetCurrentDirectory())
+			.AddJsonFile("appsettings.json", true, true)
+			.Build();
+			var tokenHandler = new JwtSecurityTokenHandler();
+			var key = Encoding.UTF8.GetBytes(conf["JWT:Secret"]);
+
+			var tokenDescriptor = new SecurityTokenDescriptor
+			{
+				Subject = new ClaimsIdentity(new[] { new Claim("userId", userId) }),
+				Expires = DateTime.UtcNow.AddMinutes(10),
+				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+			};
+
+			var token = tokenHandler.CreateToken(tokenDescriptor);
+			var confirmationCode = tokenHandler.WriteToken(token);
+
+			return confirmationCode;
+		}
 		public async Task<AuthDaoOutputDto>? LoginWithGoogleAsync(string credential)
 		{
 			var conf = new ConfigurationBuilder()
@@ -205,7 +323,7 @@ namespace HFS_BE.Dao.AuthDao
 					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail);
 				}
 			}
-			return output;
+			
 
 		}
 

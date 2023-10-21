@@ -6,9 +6,14 @@ namespace HFS_BE.Dao.AuthDao
 {
     public class AuthDaoInputDto : BaseInputDto
     {
-        public string Email { get; set; }
 
-        public string Password { get; set; }
+		[Required(ErrorMessage = "Email is required")]
+		[EmailAddress(ErrorMessage = "Invalid email address")]
+		public string Email { get; set; }
+
+		[Required(ErrorMessage = "Password is required")]
+		[StringLength(20, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 20 characters")]
+		public string Password { get; set; }
     }
 
     public class RegisterDto
@@ -35,8 +40,16 @@ namespace HFS_BE.Dao.AuthDao
 		public string Email { get; set; } = null!;
 
 		[Required(ErrorMessage = "Password is required")]
-		[StringLength(12, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 12 characters")]
+		[StringLength(20, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 20 characters")]
 		public string Password { get; set; } = null!;
 
 	}
+	public class ForgotPasswordInputDto:BaseInputDto
+	{ 
+		[Required(ErrorMessage = "Email is required")]
+		[EmailAddress(ErrorMessage = "Invalid email address")]
+		public string Email { get; set; }
+
+	}
+
 }
