@@ -33,14 +33,16 @@
             <input type="radio" formControlName="gender" name="gender" value="female" [id]="'gender' + 'female'" />
             <label [for]="'gender' + 'female'">Female</label>
 
-
             <label for="gender" class="block text-900 font-medium mb-2">Date of birth</label>
             <div class="flex align-items-center justify-content-between mb-3 md:w-5">
               <div class="flex align-items-center">
-                <p-calendar type="date" name="dob" formControlName="dob" [showIcon]="true" dateFormat="dd/m/yy" class="w-full" ></p-calendar>
+                <p-calendar type="date" name="dob" [showIcon]="true" dateFormat="dd/m/yy" class="w-full" ></p-calendar>
             </div>
-            <div *ngIf="formregister.get('dob')!.hasError('ageRestriction')" class="invalid-feedback">You must be over 18 years old to use the system!</div>
 
+            <div *ngIf="formregister.get('password')!.hasError('missingNumber')" class="invalid-feedback">Password contains at least 1 number character!</div>
+            </div>
+            <div class="flex align-items-center justify-content-between mb-3 md:w-5">
+              <p-dropdown [options]="role" [(ngModel)]="selectedRole" formControlName="role" optionLabel="name"></p-dropdown>
             </div>
 
             <button type="submit" pButton pRipple label="Sign Up" icon="pi pi-user-plus" class="w-full p-button-success"></button>

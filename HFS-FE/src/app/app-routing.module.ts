@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { ChatComponent } from './modules/chat/chat.component';
 import { RegisterComponent } from './register/register.component';
 import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
+import { ManageprofileComponent } from './modules/customer-routing-module/components/manageprofile/manageprofile.component';
 
 const routes: Routes = [
   // {
@@ -38,6 +39,11 @@ const routes: Routes = [
 }
 ,
   {
+    path: 'profile',
+    component: ManageprofileComponent
+  },
+
+  {
     path: '', component: AppCustomerLayoutComponent,
     children: [
       {
@@ -51,7 +57,8 @@ const routes: Routes = [
     children: [
       {
         path: 'manage',
-
+        canActivate: [authGuard],
+        data: { requiredRole: 'Admin' },
         loadChildren: () => import('./modules/manage-routing-module/manage-routing-module.module').then(m => m.ManageRoutingModuleModule),
       },
       {
@@ -81,7 +88,7 @@ const routes: Routes = [
   {path: 'error', component: AppErrorComponent},
   {path: 'accessdeny', component: AppAccessdeniedComponent},
   {path: 'notfound', component: AppNotfoundComponent},
-  {path: '**', redirectTo: '/notfound'},
+ // {path: '**', redirectTo: '/notfound'},
 ];
 
 @NgModule({

@@ -15,6 +15,7 @@ export class PHAN_HE {
     public static FOOD = "Food"
 }
 
+
 export class API_POSTMODERATOR{
     public static GETPOST = "viewposts";
     
@@ -29,6 +30,7 @@ export class API_USER {
     public static SIGNIN = "signin";
     public static GET_INFO_CURRENT_USER = "getInfoCurrentUser";
     public static REGISTER = "register";
+    public static GETPROFILE = "profile";
 }
 
 // Service Role

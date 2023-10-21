@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="HFS_BE.Base.BaseController">
+    <Position X="1.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAIAAAAAAAIAAAAAIAAABAACAAAAAAAAAA=</HashCode>
+      <FileName>Base\BaseController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.Base.BaseDao">
+    <Position X="10.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAIAAAAAAAIAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Base\BaseDao.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.BusinessLogic.Auth.AuthBusinessLogic">
+    <Position X="7.75" Y="4" Width="2" />
+    <InheritanceLine Type="HFS_BE.Base.BaseBusinessLogic" FixedFromPoint="true">
+      <Path>
+        <Point X="4" Y="4.75" />
+        <Point X="4" Y="4.656" />
+        <Point X="3.156" Y="4.656" />
+        <Point X="3.156" Y="6.976" />
+        <Point X="8.75" Y="6.976" />
+        <Point X="8.75" Y="5.617" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>BusinessLogic\Auth\AuthBusinessLogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.Base.BaseBusinessLogic">
+    <Position X="3.25" Y="4.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAIAAAAAAAIAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Base\BaseBusinessLogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.Controllers.Auth.LoginController">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Controllers\Auth\LoginController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.Dao.AuthDao.AuthDao">
+    <Position X="8.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAIAAABAAAAAAAQAIAAAAA=</HashCode>
+      <FileName>DAO\AuthDAO\AuthDAO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.Utils.Constants">
+    <Position X="6.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\Constants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.BusinessLogic.Auth.RegisterBusinessLogic">
+    <Position X="0.75" Y="4.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BusinessLogic\Auth\RegisterBusinessLogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.Controllers.Auth.RegisterController">
+    <Position X="5.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Controllers\Auth\RegisterController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.BusinessLogic.Auth.ResetPasswordBusinessLogic">
+    <Position X="5.5" Y="1.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BusinessLogic\Auth\ResetPasswordBusinessLogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.Controllers.Auth.ResetPasswordController">
+    <Position X="1" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Auth\ResetPasswordController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

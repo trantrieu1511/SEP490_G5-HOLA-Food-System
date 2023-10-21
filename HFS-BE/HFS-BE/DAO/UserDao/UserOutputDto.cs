@@ -2,7 +2,7 @@
 
 namespace HFS_BE.DAO.UserDao
 {
-    public class UserProfileOutputDto: BaseOutputDto
+    public class UserProfileOutputDto : BaseOutputDto
     {
         public int UserId { get; set; }
         public string FirstName { get; set; } = null!;
@@ -18,5 +18,10 @@ namespace HFS_BE.DAO.UserDao
         public bool IsOnline { get; set; }
         public decimal? WalletBalance { get; set; }
         public int? ManageBy { get; set; }
+    }
+
+    public class UserProfileOutputDao : BaseOutputDto
+    {
+        public UserProfileOutputDto? data { get; set;}
     }
 }
