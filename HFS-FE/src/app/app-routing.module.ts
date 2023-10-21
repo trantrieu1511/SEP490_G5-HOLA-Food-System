@@ -51,7 +51,8 @@ const routes: Routes = [
     children: [
       {
         path: 'manage',
-
+        canActivate: [authGuard],
+        data: { requiredRole: 'Admin' },
         loadChildren: () => import('./modules/manage-routing-module/manage-routing-module.module').then(m => m.ManageRoutingModuleModule),
       },
       {
@@ -81,7 +82,7 @@ const routes: Routes = [
   {path: 'error', component: AppErrorComponent},
   {path: 'accessdeny', component: AppAccessdeniedComponent},
   {path: 'notfound', component: AppNotfoundComponent},
-  {path: '**', redirectTo: '/notfound'},
+ // {path: '**', redirectTo: '/notfound'},
 ];
 
 @NgModule({

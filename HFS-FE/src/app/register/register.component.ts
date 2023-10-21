@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { AuthService, User } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { DateOfBirthValidator, PasswordLengthValidator, PasswordMatch, PasswordNumberValidator, PasswordUpperValidator } from '../login/Restricted-login.directive';
+import { RowToggler } from 'primeng/table';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -17,6 +18,11 @@ export class RegisterComponent implements OnInit,AfterViewInit {
   user:User;
   formregister:FormGroup;
   date;
+  role: Role[];
+
+  selectedRole: Role;
+
+
 private client_Id=environment.clientId;
  constructor(private router: Router,
   public renderer: Renderer2,
@@ -48,13 +54,23 @@ private client_Id=environment.clientId;
       Validators.required,
       PasswordMatch(passwordControl)
     ]),
-    gender: new FormControl('', Validators.required),
+    gender: new FormControl('male', Validators.required),
     dob:new FormControl('',DateOfBirthValidator())
   });
 }
+
+
+
+
  ngOnInit(): void {
   this.FormFirst();
 
+  this.role = [
+    {name: 'Customer', id: '3'},
+    {name: 'Seller', id: '2'},
+    {name: 'Shipper', id: '4'}
+
+  ];
 
   const cssFilePaths = ['assets/theme/indigo/theme-light.css',
         'assets/layout/css/layout-light.css'];
@@ -86,10 +102,25 @@ showLastnameError() {
   }
 }
 async onSubmit() {
-  //this.formSubmitAttempt = false;
+  if (this.formregister.valid) {
 
+    try {
+      debugger;
+      this.service.register(this.formregister.value).subscribe(res=>{
+
+
+      })
+    }catch (err) {
+
+    }
+}
 }
 
 
 
 }
+interface Role {
+  name: string,
+  id: string
+}
+

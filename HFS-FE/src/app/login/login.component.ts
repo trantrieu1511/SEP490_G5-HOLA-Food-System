@@ -5,6 +5,7 @@ import { CredentialResponse } from 'google-one-tap';
 import { environment } from '../../environments/environment';
 import { AuthService, User } from '../services/auth.service';
 import { PasswordLengthValidator, PasswordNumberValidator, PasswordUpperValidator } from './Restricted-login.directive';
+import { Subscription } from 'rxjs';
 
 declare const FB: any;
 
@@ -13,9 +14,12 @@ declare const FB: any;
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements  OnInit,AfterViewInit{
+export class LoginComponent implements  OnInit,AfterViewInit {
   user:User;
  form:FormGroup;
+ error: string;
+
+
 private client_Id=environment.clientId;
  constructor(private router: Router,
   public renderer: Renderer2,
@@ -42,9 +46,14 @@ private client_Id=environment.clientId;
   })
 }
  ngOnInit(): void {
+  this.service.error$.subscribe(error => {
+    this.error = error;})
   this.FormFirst();
   this.loadGoogleLibrary();
+  this.service.user$.subscribe(user => {
+    this.user = user;
 
+  });
   const cssFilePaths = ['assets/theme/indigo/theme-light.css',
         'assets/layout/css/layout-light.css'];
 
@@ -61,6 +70,7 @@ private client_Id=environment.clientId;
     this.renderer.setAttribute(cssLink, 'href', link);
     this.renderer.appendChild(document.head, cssLink);
   });
+
 }
 
 loadGoogleLibrary() {
@@ -90,7 +100,30 @@ async handleCredentialResponse(response: CredentialResponse) {
   await this.service.logingoogle(response.credential).subscribe(
     (x:any) => {
       this._ngZone.run(() => {
-        this.router.navigateByUrl('/');
+        switch(this.user.role){
+          case 1:
+            this.router.navigateByUrl('/HFSBusiness/admin');
+            break;
+            case 2:
+              this.router.navigateByUrl('/HFSBusiness/seller');
+              break;
+              case 3:
+              this.router.navigateByUrl('/');
+              break;
+
+              case 4:
+                this.router.navigateByUrl('/HFSBusiness/shipper');
+                break;
+                case 5:
+                  this.router.navigateByUrl('/HFSBusiness/PostModerator');
+                  break;
+
+                  case 6:
+                  this.router.navigateByUrl('/HFSBusiness/MenuModerator');
+                  break;
+
+                  default: this.router.navigateByUrl('/');
+}
       })},
     (error:any) => {
         console.log(error);
@@ -108,10 +141,8 @@ async onSubmit() {
       debugger;
       this.service.login(this.form.value).subscribe(res=>{
         //this.toastr.success('Login success');
-        const userData = localStorage.getItem('user');
-
-
-        this.user = JSON.parse(userData);
+        // const userData = localStorage.getItem('user');
+        // this.user = JSON.parse(userData);
         switch(this.user.role){
                   case 1:
                     this.router.navigateByUrl('/HFSBusiness/admin');
@@ -133,13 +164,18 @@ async onSubmit() {
                           case 6:
                           this.router.navigateByUrl('/HFSBusiness/MenuModerator');
                           break;
-                          default:this.router.navigateByUrl('/');
+
+                          default: this.router.navigateByUrl('/');
         }
 
 
       }, error=>{
         console.log(error);
-
+        if (error.status === 401) {
+          this.error = 'Email hoặc mật khẩu không chính xác.';
+        } else {
+          this.error= 'Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.';
+        }
       })
 
     } catch (err) {
