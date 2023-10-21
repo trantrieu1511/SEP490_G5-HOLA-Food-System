@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
-using HFS_BE.BusinessLogic.Food;
-using HFS_BE.BusinessLogic.Post;
+using HFS_BE.BusinessLogic.ManageFood;
+using HFS_BE.BusinessLogic.ManagePost;
 using HFS_BE.Dao.FoodDao;
 using HFS_BE.Dao.PostDao;
 using HFS_BE.Models;

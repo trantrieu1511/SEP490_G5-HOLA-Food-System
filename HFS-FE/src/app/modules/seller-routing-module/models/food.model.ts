@@ -1,18 +1,18 @@
 export class Food{
-  foodId: number;
-  name: string;
-  unitPrice: string;
-  description: string;
-  categoryName: string;
-  categoryId: number;
-  status: string;
-  rating: number;
-  imagesBase64: FoodImageBase64[];
+  foodId: number = null;
+  name: string = null;
+  unitPrice: string = null;
+  description: string = null;
+  categoryName: string = null;
+  categoryId: number = null;
+  status: string = null;
+  rating: number = null;
+  imagesBase64: FoodImageBase64[] = null;
 }
 
 export class Category{
-  categoryId: number;
-  name: string;
+  categoryId: number = null;
+  name: string = null;
 }
 
 export interface FoodImageBase64 {
@@ -23,12 +23,11 @@ export interface FoodImageBase64 {
 }
 
 export class FoodInput{
-  foodId: number;
-  name: string;
-  unitPrice: string;
-  description: string;
-  categoryId: number;
-  imagesBase64: FoodImageBase64[];
+  foodId: number = null;
+  name: string = null;
+  unitPrice: string = null;
+  description: string = null;
+  categoryId: number = null;
 }
 
 export class FoodDisplayHideInputDto{

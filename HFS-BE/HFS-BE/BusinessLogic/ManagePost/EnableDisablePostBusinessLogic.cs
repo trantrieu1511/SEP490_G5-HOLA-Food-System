@@ -4,7 +4,7 @@ using HFS_BE.Dao.PostDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 
-namespace HFS_BE.BusinessLogic.Post
+namespace HFS_BE.BusinessLogic.ManagePost
 {
     public class EnableDisablePostBusinessLogic : BaseBusinessLogic
     {

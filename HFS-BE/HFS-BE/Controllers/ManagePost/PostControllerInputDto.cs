@@ -1,13 +1,10 @@
 ﻿namespace HFS_BE.Controllers.ManagePost
 {
-    public class PostCreateInputDto
+    public class PostUpdateInputDto
     {
         public int PostId { get; set; }
         public string? PostContent { get; set; }
-        public string? CreatedDate { get; set; }
-        public string? Status { get; set; }
         public List<IFormFile>? Images { get; set; }
-        public List<PostImageBase64>? ImagesBase64 { get; set; }
     }
 
     public class ImageInput

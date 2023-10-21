@@ -6,7 +6,7 @@ using HFS_BE.Utils;
 using HFS_BE.Utils.IOFile;
 using System.Collections.Generic;
 
-namespace HFS_BE.BusinessLogic.Post
+namespace HFS_BE.BusinessLogic.ManagePost
 {
     public class AddNewPostBusinessLogic : BaseBusinessLogic
     {

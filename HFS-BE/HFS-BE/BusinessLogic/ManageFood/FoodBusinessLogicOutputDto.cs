@@ -1,7 +1,7 @@
 ﻿using HFS_BE.Base;
 using HFS_BE.Models;
 
-namespace HFS_BE.BusinessLogic.Food
+namespace HFS_BE.BusinessLogic.ManageFood
 {
 
 
@@ -22,6 +22,7 @@ namespace HFS_BE.BusinessLogic.Food
         public int ImageId { get; set; }
         public string? ImageBase64 { get; set; }
         public string? Name { get; set; }
+        public string? Size { get; set; }
     }
 
     public class ListFoodOutputSellerDto : BaseOutputDto

@@ -1,21 +1,22 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.Dao.FoodDao;
+using HFS_BE.Dao.PostDao;
 using HFS_BE.DAO.FoodImageDao;
+using HFS_BE.DAO.PostImageDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.IOFile;
-using Microsoft.AspNetCore.Components.Forms;
 
-namespace HFS_BE.BusinessLogic.Food
+namespace HFS_BE.BusinessLogic.ManagePost
 {
-    public class UpdateFoodBusinessLogic : BaseBusinessLogic
+    public class UpdatePostBusinessLogic : BaseBusinessLogic
     {
-        public UpdateFoodBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public UpdatePostBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
         {
         }
 
-        public BaseOutputDto UpdateFood(FoodUpdateInputDto inputDto)
+        public BaseOutputDto UpdatePost(PostUpdateInputDto inputDto)
         {
             try
             {
@@ -27,17 +28,17 @@ namespace HFS_BE.BusinessLogic.Food
                     UserId = 1,
                 };
 
-                var foodDao = CreateDao<FoodDao>();
-                var output = foodDao.UpdateFood(
-                        mapper.Map<FoodUpdateInputDto, FoodUpdateInforInputDto>(inputDto)
+                var postDao = CreateDao<PostDao>();
+                var output = postDao.UpdatePost(
+                        mapper.Map<PostUpdateInputDto, Dao.PostDao.PostUpdateInputDto>(inputDto)
                     );
                 // update fail return 
                 if (!output.Success)
                     return output;
                 // ** check file list iamge
-                // * get list image by foodId
-                var fImageDao = CreateDao<FoodImageDao>();
-                var listImagesModel = fImageDao.GetAllImageByFoodId(inputDto.FoodId);
+                // * get list image by postId
+                var pImageDao = CreateDao<PostImageDao>();
+                var listImagesModel = pImageDao.GetAllImageByPostId(inputDto.PostId);
 
                 // if img FE request && image in DB =  empty -> no change -> finish
                 if ((inputDto.Images == null || inputDto.Images.Count <= 0) && listImagesModel == null)
@@ -49,19 +50,19 @@ namespace HFS_BE.BusinessLogic.Food
                 {
                     foreach (var img in listImagesModel)
                     {
-                        img.FoodId = null;
-                        fImageDao.UpdateImageInfor(img);
+                        img.PostId = null;
+                        pImageDao.UpdateImageInfor(img);
                     }
                     return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
                 }
                 // if img FE request > 0 && image in DB < 0   -> Add new -> finish
                 if ((inputDto.Images != null && inputDto.Images.Count > 0) && listImagesModel == null)
                 {
-                    SaveAndAddImage(inputDto.Images, inputDto.UserDto, inputDto.FoodId);
+                    SaveAndAddImage(inputDto.Images, inputDto.UserDto, inputDto.PostId);
                     return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
                 }
 
-                if(inputDto.Images != null && listImagesModel != null)
+                if (inputDto.Images != null && listImagesModel != null)
                 {
                     // * check what image
                     // if: new (Add new)
@@ -77,8 +78,8 @@ namespace HFS_BE.BusinessLogic.Food
                     // - update foodId -> NULL
                     foreach (var img in removeImages)
                     {
-                        img.FoodId = null;
-                        fImageDao.UpdateImageInfor(img);
+                        img.PostId = null;
+                        pImageDao.UpdateImageInfor(img);
                     }
 
                     // -- new (Add new)
@@ -89,10 +90,10 @@ namespace HFS_BE.BusinessLogic.Food
                     ).ToList();
 
                     // - Save to image and Add new FoodImg
-                    SaveAndAddImage(newImages, inputDto.UserDto, inputDto.FoodId);
+                    SaveAndAddImage(newImages, inputDto.UserDto, inputDto.PostId);
                 }
 
-                
+
                 /*List<string> fileNames = ReadSaveImage.SaveImages(newImages, inputDto.UserDto, 1);
                 // - 
                 foreach (var img in fileNames)
@@ -116,17 +117,17 @@ namespace HFS_BE.BusinessLogic.Food
             }
         }
 
-        private void SaveAndAddImage(IReadOnlyList<IFormFile> newImages, UserDto user, int foodId)
+        private void SaveAndAddImage(IReadOnlyList<IFormFile> newImages, UserDto user, int postId)
         {
-            var fImageDao = CreateDao<FoodImageDao>();
+            var fImageDao = CreateDao<PostImageDao>();
             // - Save to image
-            List<string> fileNames = ReadSaveImage.SaveImages(newImages, user, 1);
+            List<string> fileNames = ReadSaveImage.SaveImages(newImages, user, 0);
             // - Add new FoodImg
             foreach (var img in fileNames)
             {
-                var foodImgModel = new FoodImage
+                var foodImgModel = new PostImage
                 {
-                    FoodId = foodId,
+                    PostId = postId,
                     Path = img
                 };
 

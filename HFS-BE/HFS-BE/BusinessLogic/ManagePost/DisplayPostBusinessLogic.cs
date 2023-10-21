@@ -5,11 +5,11 @@ using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.IOFile;
 
-namespace HFS_BE.BusinessLogic.Post
+namespace HFS_BE.BusinessLogic.ManagePost
 {
-    public class DisplayPostSellerBusinessLogic : BaseBusinessLogic
+    public class DisplayPostBusinessLogic : BaseBusinessLogic
     {
-        public DisplayPostSellerBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public DisplayPostBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
         {
         }
 
@@ -28,8 +28,10 @@ namespace HFS_BE.BusinessLogic.Post
                 var Dao = this.CreateDao<PostDao>();
                 Dao.PostDao.ListPostOutputSellerDto daoOutput = Dao.GetAllPostSeller(userDto);
                 var output = mapper.Map<Dao.PostDao.ListPostOutputSellerDto, ListPostOutputSellerDto>(daoOutput);
-
-                foreach(var post in daoOutput.Posts)
+                // post moderator thì gọi method dao khác select thêm shopID nx 
+                // output thêm trường shopId r -> xài dùng output ListPostOutputSellerDto
+                // thiêm truòng j trả về thì thềm vào ListPostOutputSellerDto ở BL, Dao
+                foreach (var post in daoOutput.Posts)
                 {
                     if(post.Images == null ||post.Images.Count < 1) 
                         continue;
