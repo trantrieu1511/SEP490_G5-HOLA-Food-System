@@ -22,7 +22,7 @@ export class LoadingModuleComponent implements OnInit {
         document.body.style.cursor = value ? 'wait' : 'default';
     }
 
-    Loaded() {
+    loaded() {
         this._isLoading = false;
         document.body.style.cursor = 'default';
     }

@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
-import {AppBreadcrumbService} from "../../../../app-systems/app-breadcrumb/app.breadcrumb.service";
 import {
     iComponentBase,
     iServiceBase, mType,
@@ -9,14 +8,9 @@ import {
 import * as API from "../../../../services/apiURL";
 import {
     ConfirmationService,
-    LazyLoadEvent,
-    MenuItem,
     MessageService,
-    SelectItem,
-    TreeNode
 } from "primeng/api";
 import { Shipper } from '../../models/shipper.model';
-import { JwtHelperService } from '@auth0/angular-jwt';
 
 
 @Component({
@@ -36,18 +30,12 @@ export class ShipperComponent extends iComponentBase implements OnInit{
 
   @ViewChild('dt') table: Table;
 
-  constructor(public breadcrumbService: AppBreadcrumbService,
+  constructor(
               private shareData: ShareData,
               public messageService: MessageService,
               private confirmationService: ConfirmationService,
-              private iServiceBase: iServiceBase,
-              private jwtHelper: JwtHelperService) {
-      super(messageService, breadcrumbService);
-
-      this.breadcrumbService.setItems([
-          {label: 'Quản trị hệ thống'},
-          {label: 'Quản trị phân quyền', routerLink: ['/Home/QTriHThong/QuanTriPhanQuyen']}
-      ]);
+              private iServiceBase: iServiceBase) {
+      super(messageService);
 
   }
 

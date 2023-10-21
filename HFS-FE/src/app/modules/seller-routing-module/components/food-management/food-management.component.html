@@ -198,55 +198,88 @@
                     </div>
                 </p-divider>
                 <div class="grid">
-                    <ng-container *ngIf="foodModel.foodId > 0; else editModel">
+                    <ng-container *ngIf="foodModel.foodId > 0; else addModel">
                         <div class="col-12 mb-2 lg:col-6 mb-lg-0">
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
                                 <input type="text" class="w-full" [(ngModel)]="foodModel.foodId"
-                                       [disabled]="true" pInputText/>
+                                       [disabled]="true" pInputText
+                                       [class.ng-invalid] = "!foodValidation.isFoodIdValid"
+                                        [class.ng-dirty] = "!foodValidation.isFoodIdValid"
+                                       />
                                 <label>ID*</label>
                             </span>
+                            <small [style.display]="foodValidation.isFoodIdValid ? 'none !important' : 'block !important'" 
+                            id="username2-help" class="p-error block">{{foodValidation.foodIdMessage}}</small>
                         </div>
                         <div class="col-12 mb-2 lg:col-6 mb-lg-0">
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
                                 <input type="text" class="w-full" [(ngModel)]="foodModel.name"
-                                        pInputText/>
+                                        pInputText
+                                        [class.ng-invalid] = "!foodValidation.isNameValid"
+                                        [class.ng-dirty] = "!foodValidation.isNameValid"
+                                        />
                                 <label>Name*</label>
                             </span>
+                            <small [style.display]="foodValidation.isNameValid ? 'none !important' : 'block !important'" 
+                            id="username2-help" class="p-error block">{{foodValidation.nameMessage}}</small>
                         </div>
                     </ng-container>
-                    <ng-template #editModel>
+                    <ng-template #addModel>
                         <div class="col-12 mb-2 lg:col-12 mb-lg-0">
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
-                                <input type="text" class="w-full" [(ngModel)]="foodModel.name"
-                                        pInputText/>
+                                <input type="text" 
+                                        class="w-full" 
+                                        [(ngModel)]="foodModel.name"
+                                        pInputText
+                                        [class.ng-invalid] = "!foodValidation.isNameValid"
+                                        [class.ng-dirty] = "!foodValidation.isNameValid"
+                                        />
                                 <label>Name*</label>
                             </span>
+                            <small [style.display]="foodValidation.isNameValid ? 'none !important' : 'block !important'" 
+                            id="username2-help" class="p-error block">{{foodValidation.nameMessage}}</small>
                         </div>
                     </ng-template>
                     <div class="col-12 mb-2 lg:col-6 mb-lg-0">
                         <span class="p-input-icon-left p-float-label" style="width: 100%">
                             <input type="number" step="5000" min="0"  class="w-full" [(ngModel)]="foodModel.unitPrice"
-                                    pInputText/>
+                                    pInputText
+                                    [class.ng-invalid] = "!foodValidation.isUnitPriceValid"
+                                    [class.ng-dirty] = "!foodValidation.isUnitPriceValid"
+                                    />
                             <label>UnitPrice*</label>
                         </span>
+                        <small [style.display]="foodValidation.isUnitPriceValid ? 'none !important' : 'block !important'" 
+                            id="username2-help" class="p-error block">{{foodValidation.unitPriceMessage}}</small>
                     </div>
                     <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-                        <span class="p-float-label">
+                        <span class="p-input-icon-left p-float-label">
                             <p-dropdown [options]="lstCategory" [(ngModel)]="selectedCategory"
                                         [showClear]="true"
                                         [autoDisplayFirst]="false"
                                         optionLabel="name"
+                                        [class.ng-invalid] = "!foodValidation.isCategoryIdValid"
+                                        [class.ng-dirty] = "!foodValidation.isCategoryIdValid"
                                         ></p-dropdown>
                             <label>Category*</label>
                         </span>
+                        <small [style.display]="foodValidation.isCategoryIdValid ? 'none !important' : 'block !important'" 
+                            id="username2-help" class="p-error block">{{foodValidation.categoryIdMessage}}</small>
                     </div>
 
 
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
                         <span class="p-input-icon-left p-float-label" style="width: 100%" >
-                            <textarea class="w-full" rows="10" cols="60" pInputTextarea [(ngModel)]="foodModel.description"></textarea>
+                            <textarea class="w-full" rows="10" cols="60" 
+                                pInputTextarea 
+                                [(ngModel)]="foodModel.description"
+                                [class.ng-invalid] = "!foodValidation.isDescriptionValid"
+                                [class.ng-dirty] = "!foodValidation.isDescriptionValid"
+                                ></textarea>
                             <label>Food Description*</label>
                         </span>
+                        <small [style.display]="foodValidation.isDescriptionValid ? 'none !important' : 'block !important'" 
+                            id="username2-help" class="p-error block">{{foodValidation.descriptionMessage}}</small>
                     </div>
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
                         <label>Images</label>
@@ -344,3 +377,5 @@
 <p-confirmPopup></p-confirmPopup>
 
 <p-confirmDialog key="uhideFood" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<cmis-loading></cmis-loading>

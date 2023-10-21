@@ -9,6 +9,7 @@ import { SwitchCasesDirective } from './services/switch-case.directive';
 import { ShipperComponent } from './components/shipper-management/shipper.component';
 import { PostManagementComponent } from './components/post-management/post-management.component';
 import { FoodManagementComponent } from './components/food-management/food-management.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {path: 'order-management', component: OrderManagementComponent},
