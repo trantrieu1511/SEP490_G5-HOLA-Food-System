@@ -91,6 +91,7 @@ user:User;
       sessionStorage.setItem("JWT",token.token);
       sessionStorage.setItem("role",this.user.role.toString());
       sessionStorage.setItem("timetoken",this.user.exp.toString());
+      sessionStorage.setItem("userId",this.user.userId.toString());
     }
   }
   getDecodedToken(token: string) {
