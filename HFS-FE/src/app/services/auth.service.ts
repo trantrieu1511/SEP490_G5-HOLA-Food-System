@@ -19,9 +19,11 @@ user$: Observable<User> = this.userSubject.asObservable();
 private errorSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 private errorregisterSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 private showSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+private showforgotSubject: BehaviorSubject<number> = new BehaviorSubject<number>(null);
 error$: Observable<string> = this.errorSubject.asObservable();
 errorregister$: Observable<string> = this.errorregisterSubject.asObservable();
 showregister$: Observable<boolean> = this.showSubject.asObservable();
+showforgot$: Observable<number> = this.showforgotSubject.asObservable();
   private path = environment.apiUrl
   constructor(private httpClient: HttpClient) { }
 
@@ -105,6 +107,58 @@ showregister$: Observable<boolean> = this.showSubject.asObservable();
       })
     )
   }
+
+  sendforgot(model: any){
+    debugger;
+   // https://localhost:7016/home/sendforgot
+    return this.httpClient.post(this.path+ "home/sendforgot",model ).pipe(
+      map((res:Tokens)=>{
+        const token = res;
+        debugger;
+        if(token.success){
+          this.showforgotSubject.next(0);
+
+        }else{
+          this.errorSubject.next('Email này không có trong hệ thống');
+          this.showforgotSubject.next(1);
+        }
+      })
+    )
+  }
+  confirmforgot(model: any){
+    debugger;
+   // https://localhost:7016/home/confirmforgot
+    return this.httpClient.post("https://localhost:7016/home/confirmforgot",model ).pipe(
+      map((res:Register)=>{
+        const ok = res;
+        debugger;
+        if(ok.success){
+          this.showforgotSubject.next(2);
+
+        }else{
+          this.errorSubject.next('Email này không có trong hệ thống');
+          this.showforgotSubject.next(1);
+        }
+      })
+    )
+  }
+  changeforgot(model: any){
+    debugger;
+   // https://localhost:7016/home/confirmforgot
+    return this.httpClient.post(this.path+"home/changepassword",model ).pipe(
+      map((res:Register)=>{
+        const ok = res;
+        debugger;
+        if(ok.success){
+          this.showforgotSubject.next(3);
+
+        }else{
+          this.errorSubject.next('Email này không có trong hệ thống');
+          this.showforgotSubject.next(1);
+        }
+      })
+    )
+  }
   setCurrentUser(token: Tokens){
     debugger;
     if(token){
@@ -133,6 +187,13 @@ showregister$: Observable<boolean> = this.showSubject.asObservable();
 
 }
 
+export interface User {
+  email: string;
+  role: number;
+  name: string;
+  userId: string;
+  exp: number;
+}
 export interface User {
   email: string;
   role: number;

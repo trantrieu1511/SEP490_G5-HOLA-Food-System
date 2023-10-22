@@ -16,7 +16,7 @@ import {
     TreeNode
 } from "primeng/api";
 import { OrderDaoOutputDto } from "../../models/order-of-shipper.model";
-import { User } from "src/app/services/auth.service";
+import { AuthService, User } from "src/app/services/auth.service";
 import { OrderProgress } from "../../models/order-progress-shipper.model";
 import { Post } from "src/app/modules/seller-routing-module/models/post.model";
 import { FileRemoveEvent, FileSelectEvent } from "primeng/fileupload";
@@ -68,7 +68,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
 
     constructor(private elementRef: ElementRef, private renderer: Renderer2,public messageService: MessageService,
         private confirmationService: ConfirmationService,
-        private iServiceBase: iServiceBase,) {
+        private iServiceBase: iServiceBase,private authService: AuthService) {
         super(messageService);
     }
   
@@ -110,8 +110,11 @@ export class ShipperComponent extends iComponentBase implements OnInit {
       this.lstOrderOfShipper = [];
       try {
         this.loading = true;
-        const userData = localStorage.getItem('user');
-        this.user = JSON.parse(userData);
+        this.authService.user$.subscribe(user => {
+          this.user = user;
+      
+        });
+        
         const param = {
             "shipperId": this.user.userId,
             "Status" : this.activeItem.id == "0" ? 2 : 3,
