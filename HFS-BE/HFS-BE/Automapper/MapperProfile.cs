@@ -148,7 +148,7 @@ namespace HFS_BE.Automapper
 
         public void UserProfile()
         {
-            CreateMap<User, UserProfileOutputDto>();
+            CreateMap<User, UserProfile>();
         }
         
         public void File()

@@ -16,7 +16,7 @@ namespace HFS_BE.Controllers.Profile
         }
 
         [HttpPost("users/profile")]
-        public UserProfileOutputDao Post(GetUserProfileInputDto inputDto) {
+        public UserProfileOutputDto Post(GetUserProfileInputDto inputDto) {
             try
             {
                 var business = GetBusinessLogic<DisplayProfileBusinessLogic>();
@@ -24,7 +24,7 @@ namespace HFS_BE.Controllers.Profile
             }
             catch (Exception)
             {
-                return Output<UserProfileOutputDao>(Constants.ResultCdFail);
+                return Output<UserProfileOutputDto>(Constants.ResultCdFail);
             }
         }
     }

@@ -39,4 +39,7 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
     onCartDetail(){
         this.router.navigate(['/cartdetail']);
     }
+    viewProfile(){
+        this.router.navigate(['/profile']);
+    }
 }

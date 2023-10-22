@@ -23,6 +23,7 @@ import { Profile } from '../../models/profile';
 
 export class ManageprofileComponent extends iComponentBase implements OnInit {
   profile: Profile;
+  visible = false;
 
   constructor(
     private shareData: ShareData,
@@ -43,11 +44,15 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     this.GetProfileInfo();
   }
 
+  showDialog(){
+    this.visible = true;
+  }
+
   async GetProfileInfo() {
     try {
       const params = {
-        // userId: sessionStorage.getItem("userId")
-        userId: 1
+        userId: sessionStorage.getItem("userId")
+        // userId: 1
       }
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_USER.GETPROFILE, params);
 

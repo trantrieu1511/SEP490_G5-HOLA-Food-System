@@ -16,20 +16,20 @@ namespace HFS_BE.DAO.UserDao
         /// </summary>
         /// <param name="inputDto">The input of the user</param>
         /// <returns>UserProfileOutputDto, which is used for displaying on the user's screen</returns>
-        public UserProfileOutputDao GetUserProfileById(GetUserProfileInputDto inputDto)
+        public UserProfileOutputDto GetUserProfileById(GetUserProfileInputDto inputDto)
         {
             try
             {
                 var data = context.Users.SingleOrDefault(up => up.UserId == inputDto.UserId);
-                var datmapper = mapper.Map<User, UserProfileOutputDto>(data);
+                var datamapper = mapper.Map<User, UserProfile>(data);
 
-                var output = Output<UserProfileOutputDao>(Constants.ResultCdSuccess);
-                output.data = datmapper;
+                var output = Output<UserProfileOutputDto>(Constants.ResultCdSuccess);
+                output.data = datamapper;
                 return output;
             }
             catch (Exception)
             {
-                return Output<UserProfileOutputDao>(Constants.ResultCdFail);
+                return Output<UserProfileOutputDto>(Constants.ResultCdFail);
             }
         }
     }

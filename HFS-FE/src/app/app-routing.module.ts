@@ -5,7 +5,7 @@ import { AppManageLayoutComponent } from './layout/manage/app.manage.component';
 import { AppNotfoundComponent } from './pages/app.notfound.component';
 import { AppErrorComponent } from './pages/app.error.component';
 import { AppAccessdeniedComponent } from './pages/app.accessdenied.component';
-import {authGuard} from "./services/Guard/auth.guard";
+import { authGuard } from "./services/Guard/auth.guard";
 import { LoginComponent } from './login/login.component';
 import { ChatComponent } from './modules/chat/chat.component';
 import { RegisterComponent } from './register/register.component';
@@ -19,29 +19,29 @@ const routes: Routes = [
   //   pathMatch: 'full'
   // },
   {
-      path: 'login',
-      component: LoginComponent
+    path: 'login',
+    component: LoginComponent
   }
   ,
   {
     path: 'confirm',
     component: ConfirmemailComponent
-}
-,
+  }
+  ,
   {
     path: 'register',
     component: RegisterComponent
-}
-,
+  }
+  ,
   {
     path: 'chat',
     component: ChatComponent
-}
-,
-  {
-    path: 'profile',
-    component: ManageprofileComponent
-  },
+  }
+  ,
+  // {
+  //   path: 'profile',
+  //   component: ManageprofileComponent
+  // },
 
   {
     path: '', component: AppCustomerLayoutComponent,
@@ -85,14 +85,14 @@ const routes: Routes = [
       }
     ]
   },
-  {path: 'error', component: AppErrorComponent},
-  {path: 'accessdeny', component: AppAccessdeniedComponent},
-  {path: 'notfound', component: AppNotfoundComponent},
- // {path: '**', redirectTo: '/notfound'},
+  { path: 'error', component: AppErrorComponent },
+  { path: 'accessdeny', component: AppAccessdeniedComponent },
+  { path: 'notfound', component: AppNotfoundComponent },
+  // {path: '**', redirectTo: '/notfound'},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled', useHash: true})],
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled', useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

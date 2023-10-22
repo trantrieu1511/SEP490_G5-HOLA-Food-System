@@ -36,7 +36,6 @@ import { ChatComponent } from './modules/chat/chat.component';
 import { RegisterComponent } from './register/register.component';
 import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,8 +51,7 @@ import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
     LoginComponent,
     ChatComponent,
     RegisterComponent,
-    ConfirmemailComponent,
-
+    ConfirmemailComponent
 
   ],
   imports: [

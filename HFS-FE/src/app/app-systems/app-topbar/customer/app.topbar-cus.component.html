@@ -17,13 +17,65 @@
             <i class="pi pi-shopping-cart"></i>
             <span>Shopping cart</span>
         </button>
-        <button class="p-link layout-topbar-button">
+        <button class="p-link layout-topbar-button" (click)="viewProfile()">
             <i class="pi pi-user"></i>
             <span>Profile</span>
         </button>
+        <!-- <ul class="layout-topbar-items">
+            <li class="layout-topbar-item">
+                <a class="layout-topbar-action flex flex-row justify-content-center align-items-center px-2 rounded-circle"
+                   (click)="layoutService.onTopbarItemClick($event, 'profile')" pRipple>
+                    <img src="../../../assets/demo/images/avatar/amyelsner.png" alt="avatar"
+                         style="width: 32px; height: 32px;">
+                </a>
+
+                <ul class="layout-topbar-action-panel shadow-6"
+                    [@topbarActionPanelAnimation]="'visible'"
+                    *ngIf="layoutService.state.activeTopbarItem === 'profile'">
+                    <li class="layout-topbar-action-item">
+                        <a class="flex flex-row align-items-center" pRipple>
+                            <i class="pi pi-cog"
+                               [ngClass]=""></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="layout-topbar-action-item">
+                        <a class="flex flex-row align-items-center" pRipple>
+                            <i class="pi pi-file-o"
+                               [ngClass]=""></i>
+                            <span>Terms of Usage</span>
+                        </a>
+                    </li>
+                    <li class="layout-topbar-action-item">
+                        <a class="flex flex-row align-items-center" pRipple>
+                            <i class="pi pi-compass"
+                               [ngClass]=""></i>
+                            <span>Support</span>
+                        </a>
+                    </li>
+                    <li class="layout-topbar-action-item">
+                        <a class="flex flex-row align-items-center"
+                           pRipple>
+                            <i class="pi pi-power-off"
+                               [ngClass]=""></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            
+        </ul> -->
         <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
             <i class="pi pi-cog"></i>
             <span>Settings</span>
+        </button>
+        <button class="p-link layout-topbar-button" [routerLink]="">
+            <i class="pi pi-sign-in"></i>
+            <span>SignIn</span>
+        </button>
+        <button class="p-link layout-topbar-button" [routerLink]="">
+            <i class="pi pi-sign-out"></i>
+            <span>Logout</span>
         </button>
        
     </div>
