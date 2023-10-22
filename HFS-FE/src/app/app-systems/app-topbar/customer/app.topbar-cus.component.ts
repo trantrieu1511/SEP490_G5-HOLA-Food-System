@@ -15,7 +15,8 @@ import { AppComponent } from 'src/app/app.component';
 
 @Component({
     selector: 'app-customer-topbar',
-    templateUrl: './app.topbar-cus.component.html'
+    templateUrl: './app.topbar-cus.component.html',
+    styleUrls: ['./app.topbar-cus.component.scss'],
 })
 export class AppCustomerTopBarComponent extends iComponentBase implements OnInit {  
     constructor(public layoutService: CustomerLayoutService,
