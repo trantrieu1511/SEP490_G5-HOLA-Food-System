@@ -8,14 +8,14 @@
             <div class="text-900 text-3xl font-medium mb-3">Register</div>
         </div>
 
-        <div>
+        <div *ngIf="showForm">
           <form [formGroup]="formregister" (ngSubmit)="onSubmit()">
             <label for="firstname" class="block text-900 font-medium mb-2">FirstName</label>
-            <input id="firstname" formControlName="firstname" type="text"placeholder="FirstName" pInputText class="w-full mb-3"(focus)="isFirstnameTouched = true" (blur)="showFirstnameError()">
-            <div *ngIf="isFirstnameTouched && formregister.get('firstname').errors?.required" class="invalid-feedback">Firstname is required!</div>
+            <input id="firstname" formControlName="firstName" type="text"placeholder="FirstName" pInputText class="w-full mb-3"(focus)="isFirstnameTouched = true" (blur)="showFirstnameError()">
+            <div *ngIf="isFirstnameTouched && formregister.get('firstName').errors?.required" class="invalid-feedback">Firstname is required!</div>
             <label for="lastname"  class="block text-900 font-medium mb-2">LastName</label>
-            <input id="lastname" type="text" formControlName="lastname" placeholder="LastName" pInputText class="w-full mb-3" (focus)="isLastnameTouched = true" (blur)="showLastnameError()">
-            <div *ngIf="isLastnameTouched && formregister.get('lastname').errors?.required" class="invalid-feedback">LastName is required!</div>
+            <input id="lastname" type="text" formControlName="lastName" placeholder="LastName" pInputText class="w-full mb-3" (focus)="isLastnameTouched = true" (blur)="showLastnameError()">
+            <div *ngIf="isLastnameTouched && formregister.get('lastName').errors?.required" class="invalid-feedback">LastName is required!</div>
             <label for="email1" class="block text-900 font-medium mb-2">Email</label>
             <input id="email1" type="text"  placeholder="Email address" formControlName="email" pInputText class="w-full mb-3">
             <div *ngIf="formregister.get('email')!.hasError('email')" class="invalid-feedback">Incorrect Email format!</div>
@@ -25,8 +25,8 @@
             <div *ngIf="formregister.get('password')!.hasError('missingUppercaseLetter')" class="invalid-feedback">Password contains at least 1 uppercase character!</div>
             <div *ngIf="formregister.get('password')!.hasError('missingNumber')" class="invalid-feedback">Password contains at least 1 number character!</div>
             <label for="password2" class="block text-900 font-medium mb-2">Confirm Password</label>
-            <input id="password2" type="password"  placeholder="Confirm Password" formControlName="confpassword" pInputText class="w-full mb-3">
-            <div *ngIf="formregister.get('confpassword')!.hasError('passwordMismatch')" class="invalid-feedback">Does not match Password</div>
+            <input id="password2" type="password"  placeholder="Confirm Password" formControlName="confirmPassword" pInputText class="w-full mb-3">
+            <div *ngIf="formregister.get('confirmPassword')!.hasError('passwordMismatch')" class="invalid-feedback">Does not match Password</div>
             <label for="gender">Gender:</label>
             <input type="radio" formControlName="gender" name="gender" checked value="male" [id]="'gender' + 'male'" />
             <label [for]="'gender' + 'male'">Male</label>
@@ -36,19 +36,24 @@
             <label for="gender" class="block text-900 font-medium mb-2">Date of birth</label>
             <div class="flex align-items-center justify-content-between mb-3 md:w-5">
               <div class="flex align-items-center">
-                <p-calendar type="date" name="dob" [showIcon]="true" dateFormat="dd/m/yy" class="w-full" ></p-calendar>
+                <p-calendar type="date" name="birthDate" [showIcon]="true" formControlName="birthDate" dateFormat="dd/m/yy" class="w-full" ></p-calendar>
             </div>
 
-            <div *ngIf="formregister.get('password')!.hasError('missingNumber')" class="invalid-feedback">Password contains at least 1 number character!</div>
+            <div *ngIf="formregister.get('birthDate')!.hasError('ageRestriction')" class="invalid-feedback">Only users over 18 years old can use the system!</div>
             </div>
             <div class="flex align-items-center justify-content-between mb-3 md:w-5">
-              <p-dropdown [options]="role" [(ngModel)]="selectedRole" formControlName="role" optionLabel="name"></p-dropdown>
+              <select formControlName="roleId" name="role" [(ngModel)]="selectedRole">
+                <option *ngFor="let role of roles"  [value]="role.id">{{ role.name }}</option>
+              </select>
             </div>
-
+            <div *ngIf="errorregister" class="invalid-feedback">{{ errorregister }}</div>
             <button type="submit" pButton pRipple label="Sign Up" icon="pi pi-user-plus" class="w-full p-button-success"></button>
 
 
           </form>
+        </div>
+        <div *ngIf="!showForm">
+          <p>Đăng ký thành công!</p>
         </div>
 
     </div>

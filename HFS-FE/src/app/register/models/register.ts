@@ -5,7 +5,7 @@ export interface Register {
   password:string;
   email:string;
   dob:Date;
-  roleId:3;
+  roleId:number;
 
 }
 export interface Register {
