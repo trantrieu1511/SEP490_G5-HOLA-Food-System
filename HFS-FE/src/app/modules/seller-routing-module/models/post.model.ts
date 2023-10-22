@@ -30,10 +30,12 @@ export interface PostImageBase64 {
 export class PostInput{
   postId: number;
   postContent: string;
-  createdDate: string;
-  status: string;
   images: File[];
-  imagesBase64: PostImageBase64[];
+}
+
+export class PostInputValidation{
+  isPostContentValid: boolean = true;
+  postContentMessage: string;
 }
 
 export class PostDisplayHideInputDto{

@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
 import {AppBreadcrumbService} from "../../../../app-systems/app-breadcrumb/app.breadcrumb.service";
-import {Post, PostDisplayHideInputDto, PostImage, PostImageBase64, PostInput} from "../../models/post.model";
+import {Post, PostDisplayHideInputDto, PostInput, PostInputValidation} from "../../models/post.model";
 import {
     iComponentBase,
     iServiceBase, mType,
@@ -39,6 +39,8 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
 
   postImageDialog: Post = new Post();
   visibleImageDialog: boolean = false;
+
+  inputValidation : PostInputValidation = new PostInputValidation();
 
 
   @ViewChild('dt') table: Table;
@@ -194,22 +196,19 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
   }
 
   validatePostModel(): boolean {
+    this.inputValidation = new PostInputValidation();
+    var check = true;
       // if (!this.roleModel.roleKey || this.roleModel.roleKey == '') {
       //     this.showMessage(mType.warn, "Thông báo", "Mã phân quyền không được để trống. Vui lòng nhập!", 'notify');
       //     return false;
       // }
+    if(!this.postModel.postContent || this.postModel.postContent == ''){
+      this.inputValidation.isPostContentValid = false;
+      this.inputValidation.postContentMessage = "Please enter a post content";
+      check = false;
+    }
 
-      // if (!this.roleModel.roleName || this.roleModel.roleName == '') {
-      //     this.showMessage(mType.warn, "Thông báo", "Tên phân quyền không được để trống. Vui lòng nhập!", 'notify');
-      //     return false;
-      // }
-
-      // if (!this.roleModel.roleId || this.roleModel.roleId == '') {
-      //     this.showMessage(mType.warn, "Thông báo", "Mã nhóm phân quyền không được để trống. Vui lòng chọn!", 'notify');
-      //     return false;
-      // }
-
-      return true;
+    return true;
   }
 
   async createPost(postEnity: PostInput) {

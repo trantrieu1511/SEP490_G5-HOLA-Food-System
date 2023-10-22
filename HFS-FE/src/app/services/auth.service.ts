@@ -6,17 +6,45 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { environment } from 'src/environments/environment';
 import { Tokens } from '../login/models/token';
 import { map } from 'rxjs';
+import { Register } from '../register/models/register';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  loginErrorMessage: string = '';
 user:User;
+private userSubject: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+user$: Observable<User> = this.userSubject.asObservable();
+private errorSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+private errorregisterSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+private showSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+error$: Observable<string> = this.errorSubject.asObservable();
+errorregister$: Observable<string> = this.errorregisterSubject.asObservable();
+showregister$: Observable<boolean> = this.showSubject.asObservable();
   private path = environment.apiUrl
   constructor(private httpClient: HttpClient) { }
 
   login(model: any){
     return this.httpClient.post(this.path+'home/login', model).pipe(
+      map((res:Tokens)=>{
+        const token = res;
+        if(token.success){
+          this.setCurrentUser(token);
+
+        }else{
+          this.errorSubject.next('Email hoặc mật khẩu không chính xác');
+
+        }
+      })
+    )
+  }
+
+  logingoogle(credentials: string): Observable<any>{
+
+    const header = new HttpHeaders().set('Content-type', 'application/json');
+    return this.httpClient.post(this.path+'home/logingoogle', JSON.stringify(credentials),{ headers: header, withCredentials: true }).pipe(
+
       map((res:Tokens)=>{
         const token = res;
         debugger;
@@ -27,18 +55,21 @@ user:User;
       })
     )
   }
-
-  logingoogle(credentials: string): Observable<any>{
+  register(model: any){
     debugger;
-    const header = new HttpHeaders().set('Content-type', 'application/json');
-    return this.httpClient.post(this.path+'home/logingoogle', JSON.stringify(credentials),{ headers: header, withCredentials: true }).pipe(
 
-      map((res:Tokens)=>{
-        const token = res;
+    return this.httpClient.post(this.path+'home/register', model).pipe(
+
+      map((res:Register)=>{
+        const register = res;
         debugger;
-        if(token){
-          this.setCurrentUser(token);
+        if(register.success){
+         console.log("tao tài khoản thành công");
 
+         this.showSubject.next(false);
+        }else{
+          this.errorregisterSubject.next(register.message.toString());
+          this.showSubject.next(true);
         }
       })
     )
@@ -86,28 +117,20 @@ user:User;
         exp: +data['exp']
       };
      console.log(this.user)
-      // Save user data to localStorage
-      localStorage.setItem('user', JSON.stringify(this.user));
+
+      this.userSubject.next(this.user);
+
       sessionStorage.setItem("JWT",token.token);
       sessionStorage.setItem("role",this.user.role.toString());
       sessionStorage.setItem("timetoken",this.user.exp.toString());
+      sessionStorage.setItem("userId",this.user.userId.toString());
     }
   }
   getDecodedToken(token: string) {
     return JSON.parse(atob(token.split('.')[1]));
   }
 
-  isTokenExpired(token: string): boolean {
-  const timetoken=this.user.exp;
-    const currentTime = Date.now() / 1000; // Đổi sang giây
 
-    // Kiểm tra thời gian hết hạn của token
-    if (timetoken && timetoken < currentTime) {
-      return true; // Token đã hết hạn
-    }
-
-    return false; // Token còn hiệu lực
-  }
 }
 
 export interface User {
