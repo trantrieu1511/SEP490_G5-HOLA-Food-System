@@ -36,6 +36,7 @@ import { ChatComponent } from './modules/chat/chat.component';
 import { RegisterComponent } from './register/register.component';
 import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
 import { LoadingComponent } from './modules/shared-module/components/loading-component/loading.component';
+import { ForgotComponent } from './forgot/forgot.component';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { LoadingComponent } from './modules/shared-module/components/loading-com
     ChatComponent,
     RegisterComponent,
     ConfirmemailComponent,
+    ForgotComponent,
 
 
   ],

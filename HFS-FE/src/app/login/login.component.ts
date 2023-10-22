@@ -18,7 +18,7 @@ export class LoginComponent implements  OnInit,AfterViewInit {
   user:User;
  form:FormGroup;
  error: string;
-
+ showLoginForm: boolean = true;
 
 private client_Id=environment.clientId;
  constructor(private router: Router,
