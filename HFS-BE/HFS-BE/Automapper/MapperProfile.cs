@@ -17,6 +17,7 @@ using HFS_BE.Controllers.ManageFood;
 using HFS_BE.BusinessLogic.ManageFood;
 using HFS_BE.Dao.FoodDao;
 using HFS_BE.DAO.OrderProgressDao;
+using HFS_BE.DAO.CategoryDao;
 
 namespace HFS_BE.Automapper
 {
@@ -34,6 +35,7 @@ namespace HFS_BE.Automapper
             Cart();
             UserProfile();
             File();
+            Category();
         }
 
         /// <summary>
@@ -155,6 +157,12 @@ namespace HFS_BE.Automapper
         {
             CreateMap<ImageFileConvert.ImageOutputDto, PostImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, FoodImageOutputSellerDto>();
+        }
+       
+        public void Category()
+        {
+            CreateMap<CategoryDaoInputDto, Category>();
+            CreateMap<Category, CategoryDaoOutputDto>();
         }
     }
 }

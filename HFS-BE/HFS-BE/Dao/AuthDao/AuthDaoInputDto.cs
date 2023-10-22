@@ -42,7 +42,8 @@ namespace HFS_BE.Dao.AuthDao
 		[Required(ErrorMessage = "Password is required")]
 		[StringLength(20, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 20 characters")]
 		public string Password { get; set; } = null!;
-
+		
+		public string ConfirmPassword { get; set; } = null!;
 	}
 	public class ForgotPasswordInputDto:BaseInputDto
 	{ 
