@@ -420,7 +420,16 @@ namespace HFS_BE.Dao.AuthDao
 			else
 			{
 				string[] FullName = payload.Name.Split(" ");
-				var user1 = new HFS_BE.Models.User { Email = payload.Email, RoleId = 3, FirstName = FullName[0] , LastName = FullName[1], Gender = "Null" };
+				var user1 = new HFS_BE.Models.User { Email = payload.Email, RoleId = 3, FirstName = FullName[0], LastName = FullName[1], Gender = "Null" };
+				if (FullName.Length == 3)
+				{
+					 user1 = new HFS_BE.Models.User { Email = payload.Email, RoleId = 3, FirstName = FullName[0], LastName = FullName[1] + FullName[2] , Gender = "Null" };
+
+				}
+				
+					
+				
+				
 
 				using (HMACSHA256? hmac = new HMACSHA256())
 				{
