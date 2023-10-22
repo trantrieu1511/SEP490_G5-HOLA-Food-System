@@ -3,6 +3,7 @@ using Google.Apis.Auth;
 using HFS_BE.Base;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Win32;
@@ -35,18 +36,18 @@ namespace HFS_BE.Dao.AuthDao
 				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
 			}
 
-			var match = CheckPassword(input.Password, (User)user);
+			var match = CheckPassword(input.Password, (HFS_BE.Models.User)user);
 
 			if (!match)
 			{
 				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
 			}
-			JwtSecurityToken token = GenerateSecurityToken((User)user);
+			JwtSecurityToken token = GenerateSecurityToken((HFS_BE.Models.User)user);
 			output.Token = new JwtSecurityTokenHandler().WriteToken(token);
 			return output;
 
 		}
-		private bool CheckPassword(string password, User user)
+		private bool CheckPassword(string password, HFS_BE.Models.User user)
 		{
 			bool result;
 
@@ -86,7 +87,7 @@ namespace HFS_BE.Dao.AuthDao
 		//	return new { token = encrypterToken, username = user.Email };
 		//}
 
-		private JwtSecurityToken GenerateSecurityToken(User acc)
+		private JwtSecurityToken GenerateSecurityToken(HFS_BE.Models.User acc)
 		{
 			var conf = new ConfigurationBuilder()
 			.SetBasePath(Directory.GetCurrentDirectory())
@@ -134,7 +135,7 @@ namespace HFS_BE.Dao.AuthDao
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail,"Email đã sử dụng");
 			}
-			var user = new User
+			var user = new HFS_BE.Models.User
 			{
 				Email = model.Email,
 				RoleId = model.RoleId,
@@ -267,7 +268,7 @@ namespace HFS_BE.Dao.AuthDao
 			var tokenDescriptor = new SecurityTokenDescriptor
 			{
 				Subject = new ClaimsIdentity(new[] { new Claim("userId", userId) }),
-				Expires = DateTime.UtcNow.AddMinutes(10),
+				Expires = DateTime.UtcNow.AddDays(1),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
 			};
 
@@ -276,6 +277,122 @@ namespace HFS_BE.Dao.AuthDao
 
 			return confirmationCode;
 		}
+		private string ValidateConfirmationCode(string confirmationCode)
+		{
+			
+			var conf = new ConfigurationBuilder()
+		.SetBasePath(Directory.GetCurrentDirectory())
+			.AddJsonFile("appsettings.json", true, true)
+			.Build();
+			var tokenHandler = new JwtSecurityTokenHandler();
+			var key = Encoding.UTF8.GetBytes(conf["JWT:Secret"]);
+
+			try
+			{
+				tokenHandler.ValidateToken(confirmationCode, new TokenValidationParameters
+				{
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(key),
+					ValidateIssuer = false,
+					ValidateAudience = false,
+					ClockSkew = TimeSpan.Zero
+				}, out SecurityToken validatedToken);
+
+				var jwtToken = (JwtSecurityToken)validatedToken;
+				string email = jwtToken.Claims.First(c => c.Type == "userId").Value;
+				using (var context = new SEP490_HFSContext())
+				{
+					var data = context.Users.Where(s => s.Email == email).FirstOrDefault();
+					if (data == null)
+					{
+						return null;
+					}
+				
+				}
+				return email;
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
+		public BaseOutputDto ValidateConfirmationCode(ConfirmForgotPasswordInputDto model)
+		{
+			
+			var conf = new ConfigurationBuilder()
+		.SetBasePath(Directory.GetCurrentDirectory())
+			.AddJsonFile("appsettings.json", true, true)
+			.Build();
+			var tokenHandler = new JwtSecurityTokenHandler();
+			var key = Encoding.UTF8.GetBytes(conf["JWT:Secret"]);
+
+			try
+			{
+				tokenHandler.ValidateToken(model.confirm, new TokenValidationParameters
+				{
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(key),
+					ValidateIssuer = false,
+					ValidateAudience = false,
+					ClockSkew = TimeSpan.Zero
+				}, out SecurityToken validatedToken);
+
+				var jwtToken = (JwtSecurityToken)validatedToken;
+				string email = jwtToken.Claims.First(c => c.Type == "userId").Value;
+				
+					var data = context.Users.Where(s => s.Email == email).FirstOrDefault();
+					if (data == null)
+					{
+					return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+				}
+
+
+				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+			}
+			catch
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+			}
+		}
+		public BaseOutputDto ChangePassword (ChangeForgotPasswordInputDto change)
+		{
+
+			var conf = new ConfigurationBuilder()
+		.SetBasePath(Directory.GetCurrentDirectory())
+			.AddJsonFile("appsettings.json", true, true)
+			.Build();
+			
+
+			try
+			{
+				string email = ValidateConfirmationCode(change.confirm);
+				if (email == null)
+				{
+					return this.Output<BaseOutputDto>(Constants.ResultCdFail,"Het hạn token changepassword");
+				}
+				var data = context.Users.Where(s => s.Email == email).FirstOrDefault();
+				if (change.Password != change.ConfirmPassword)
+				{
+					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "password và confirm password khác nhau");
+				}
+				using (HMACSHA256? hmac = new HMACSHA256())
+				{
+					data.PasswordSalt = hmac.Key;
+					data.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(change.Password));
+				}
+				context.Users.Update(data);
+				context.SaveChanges(); 
+
+				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+			}
+			catch
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+			}
+			
+		}
+
 		public async Task<AuthDaoOutputDto>? LoginWithGoogleAsync(string credential)
 		{
 			var conf = new ConfigurationBuilder()
@@ -295,7 +412,7 @@ namespace HFS_BE.Dao.AuthDao
 
 			if (user != null)
 			{
-				JwtSecurityToken token = GenerateSecurityToken((User)user);
+				JwtSecurityToken token = GenerateSecurityToken((HFS_BE.Models.User)user);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
 				return output;
 			}
@@ -303,7 +420,16 @@ namespace HFS_BE.Dao.AuthDao
 			else
 			{
 				string[] FullName = payload.Name.Split(" ");
-				var user1 = new User { Email = payload.Email, RoleId = 3, FirstName = FullName[0] , LastName = FullName[1], Gender = "Null" };
+				var user1 = new HFS_BE.Models.User { Email = payload.Email, RoleId = 3, FirstName = FullName[0], LastName = FullName[1], Gender = "Null" };
+				if (FullName.Length == 3)
+				{
+					 user1 = new HFS_BE.Models.User { Email = payload.Email, RoleId = 3, FirstName = FullName[0], LastName = FullName[1] + FullName[2] , Gender = "Null" };
+
+				}
+				
+					
+				
+				
 
 				using (HMACSHA256? hmac = new HMACSHA256())
 				{
@@ -314,7 +440,7 @@ namespace HFS_BE.Dao.AuthDao
 				{
 					await context.Users.AddAsync(user1);
 					context.SaveChangesAsync();
-					JwtSecurityToken token = GenerateSecurityToken((User)user1);
+					JwtSecurityToken token = GenerateSecurityToken((HFS_BE.Models.User)user1);
 					output.Token = new JwtSecurityTokenHandler().WriteToken(token);
 					return output;
 				}

@@ -18,4 +18,11 @@
         public int FoodId { get; set; }
         public int? Amount { get; set; }
     }
+
+    public class UpdateAmoutCartItemDaoInputDto
+    {
+        public int CartId { get; set; }
+        public int FoodId { get; set; }
+        public int? Amount { get; set; }
+    }
 }

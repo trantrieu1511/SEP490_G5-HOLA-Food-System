@@ -7,16 +7,14 @@ import {
 import * as API from "../../../../services/apiURL";
 import {
     ConfirmationService,
-    LazyLoadEvent,
-    MenuItem,
     MessageService,
     SelectItem,
-    TreeNode
 } from "primeng/api";
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { MenuInput } from '../../models/menuInput.model';
 import { AddToCart } from '../../models/addToCart.model';
+import { DataView } from 'primeng/dataview';
 
 
 @Component({
@@ -41,12 +39,6 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
     private dataService: DataService
   ){
     super(messageService);
-    // this.route.queryParams.subscribe(params => {
-    //   const myData = params['shopInfor'];
-    //   console.log(myData.shopName);
-    //   // Sử dụng myData tại đây
-    // });
-	
   }
 
 
@@ -61,9 +53,14 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
 		this.getMenu(this.menuInput)
     });
 
+    this.sortOptions = [
+      { label: 'Price High to Low', value: '!unitPrice' },
+      { label: 'Price Low to High', value: 'unitPrice' }
+  ];
+
   }
 
-  onSortChange(event) {
+  onSortChange(event: any) {
     const value = event.value;
 
     if (value.indexOf('!') === 0) {
@@ -73,7 +70,7 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
         this.sortOrder = 1;
         this.sortField = value;
     }
-  }
+}
 
   async getMenu(menuInput : MenuInput){
     try {
@@ -93,9 +90,8 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
   }
 
   onFilter(dv: DataView, event: Event) {
-    // dv.fil
-    // dv.fil((event.target as HTMLInputElement).value);
-  }
+    dv.filter((event.target as HTMLInputElement).value);
+}
 
   async onAddToCart(foodId : number){
     try {

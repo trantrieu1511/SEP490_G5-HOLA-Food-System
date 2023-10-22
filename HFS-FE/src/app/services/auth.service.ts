@@ -17,7 +17,13 @@ user:User;
 private userSubject: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 user$: Observable<User> = this.userSubject.asObservable();
 private errorSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+private errorregisterSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+private showSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+private showforgotSubject: BehaviorSubject<number> = new BehaviorSubject<number>(null);
 error$: Observable<string> = this.errorSubject.asObservable();
+errorregister$: Observable<string> = this.errorregisterSubject.asObservable();
+showregister$: Observable<boolean> = this.showSubject.asObservable();
+showforgot$: Observable<number> = this.showforgotSubject.asObservable();
   private path = environment.apiUrl
   constructor(private httpClient: HttpClient) { }
 
@@ -25,7 +31,6 @@ error$: Observable<string> = this.errorSubject.asObservable();
     return this.httpClient.post(this.path+'home/login', model).pipe(
       map((res:Tokens)=>{
         const token = res;
-        debugger;
         if(token.success){
           this.setCurrentUser(token);
 
@@ -38,7 +43,7 @@ error$: Observable<string> = this.errorSubject.asObservable();
   }
 
   logingoogle(credentials: string): Observable<any>{
-    debugger;
+
     const header = new HttpHeaders().set('Content-type', 'application/json');
     return this.httpClient.post(this.path+'home/logingoogle', JSON.stringify(credentials),{ headers: header, withCredentials: true }).pipe(
 
@@ -63,6 +68,10 @@ error$: Observable<string> = this.errorSubject.asObservable();
         if(register.success){
          console.log("tao tài khoản thành công");
 
+         this.showSubject.next(false);
+        }else{
+          this.errorregisterSubject.next(register.message.toString());
+          this.showSubject.next(true);
         }
       })
     )
@@ -98,6 +107,58 @@ error$: Observable<string> = this.errorSubject.asObservable();
       })
     )
   }
+
+  sendforgot(model: any){
+    debugger;
+   // https://localhost:7016/home/sendforgot
+    return this.httpClient.post(this.path+ "home/sendforgot",model ).pipe(
+      map((res:Tokens)=>{
+        const token = res;
+        debugger;
+        if(token.success){
+          this.showforgotSubject.next(0);
+
+        }else{
+          this.errorSubject.next('Email này không có trong hệ thống');
+          this.showforgotSubject.next(1);
+        }
+      })
+    )
+  }
+  confirmforgot(model: any){
+    debugger;
+   // https://localhost:7016/home/confirmforgot
+    return this.httpClient.post("https://localhost:7016/home/confirmforgot",model ).pipe(
+      map((res:Register)=>{
+        const ok = res;
+        debugger;
+        if(ok.success){
+          this.showforgotSubject.next(2);
+
+        }else{
+          this.errorSubject.next('Email này không có trong hệ thống');
+          this.showforgotSubject.next(1);
+        }
+      })
+    )
+  }
+  changeforgot(model: any){
+    debugger;
+   // https://localhost:7016/home/confirmforgot
+    return this.httpClient.post(this.path+"home/changepassword",model ).pipe(
+      map((res:Register)=>{
+        const ok = res;
+        debugger;
+        if(ok.success){
+          this.showforgotSubject.next(3);
+
+        }else{
+          this.errorSubject.next('Email này không có trong hệ thống');
+          this.showforgotSubject.next(1);
+        }
+      })
+    )
+  }
   setCurrentUser(token: Tokens){
     debugger;
     if(token){
@@ -110,7 +171,7 @@ error$: Observable<string> = this.errorSubject.asObservable();
         exp: +data['exp']
       };
      console.log(this.user)
-      // Save user data to localStorage
+
       this.userSubject.next(this.user);
 
       sessionStorage.setItem("JWT",token.token);
@@ -126,6 +187,13 @@ error$: Observable<string> = this.errorSubject.asObservable();
 
 }
 
+export interface User {
+  email: string;
+  role: number;
+  name: string;
+  userId: string;
+  exp: number;
+}
 export interface User {
   email: string;
   role: number;

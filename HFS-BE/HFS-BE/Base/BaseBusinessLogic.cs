@@ -31,7 +31,7 @@ namespace HFS_BE.Base
         {
             return new T
             {
-                Message = success ? "Success" : content,
+                Message = content,
                 Success = success,
                 Errors = null
             };

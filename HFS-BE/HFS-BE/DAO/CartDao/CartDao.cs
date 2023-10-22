@@ -21,6 +21,7 @@ namespace HFS_BE.DAO.CartDao
                     .ThenInclude(x => x.Shop)
                     .Include(x => x.Food)
                     .ThenInclude(x => x.FoodImages)
+                    .Where(x => x.CartId == inputDto.CartId)
                     .Select(x => mapper.Map<CartItem, CartItemOutputDto>(x));
 
                 var output = this.Output<GetCartItemDaoOutputDto>(Constants.ResultCdSuccess);
@@ -89,6 +90,27 @@ namespace HFS_BE.DAO.CartDao
                
                 return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 
+            }
+            catch (Exception)
+            {
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public BaseOutputDto UpdateAmoutCartItem(UpdateAmoutCartItemDaoInputDto inputDto)
+        {
+            try
+            {
+                var cartitem = this.context.CartItems.FirstOrDefault(x => x.CartId == inputDto.CartId && x.FoodId == inputDto.FoodId);
+
+                if (cartitem != null)
+                {
+                    cartitem.Amount = inputDto.Amount.Value;
+                }
+
+                context.Update(cartitem);
+                context.SaveChanges();
+                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
             catch (Exception)
             {

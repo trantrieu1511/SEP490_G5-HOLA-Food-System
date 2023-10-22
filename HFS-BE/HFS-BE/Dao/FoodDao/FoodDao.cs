@@ -193,5 +193,10 @@ namespace HFS_BE.Dao.FoodDao
                 return Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
+
+        public Food GetFoodById(GetFoodByFoodIdDaoInputDto inputDto)
+        {
+            return context.Foods.FirstOrDefault(x => x.FoodId == inputDto.FoodId);
+        }
     }
 }
