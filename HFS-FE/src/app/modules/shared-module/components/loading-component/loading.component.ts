@@ -9,7 +9,7 @@ import {LoadingService} from "../../shared-data-services/loading.service";
 })
 export class LoadingComponent {
 
-    @Input() isLoading: boolean = true;
+    @Input() isLoading: boolean = false;
     @Output() onTimeout: EventEmitter<any> = new EventEmitter<any>();
     @Input('timeout') timeout: any;
 

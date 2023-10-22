@@ -17,6 +17,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { CartItem } from '../../models/CartItem.model';
 import { CheckboxModule } from 'primeng/checkbox';
+import { AddToCart } from '../../models/addToCart.model';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-cartdetail',
@@ -28,6 +30,8 @@ export class CartdetailComponent extends iComponentBase implements OnInit{
 
   loading: boolean;
   items : CartItem[]
+  isSelectAll : boolean = false
+  totalprice : number = 0
   constructor(
     private shareData: ShareData,
     public messageService: MessageService,
@@ -66,8 +70,10 @@ export class CartdetailComponent extends iComponentBase implements OnInit{
 
       // tính total price
       calculate(){
+        this.totalprice = 0;
         this.items.forEach(element => {
                 element.totalPrice = element.unitPrice * element.amount
+                this.totalprice += element.selected ? element.totalPrice : 0
               });
       }
 
@@ -79,10 +85,91 @@ export class CartdetailComponent extends iComponentBase implements OnInit{
           x.selected = !x.selected
         })
        }
+       this.isSelectAll = false
+
+       this.calculate();
       }
 
       onCheckOut(){
-        this.dataService.setData(this.items.filter(x => x.selected === true))
-        this.router.navigate(['/checkout']);
+        if (this.totalprice != 0){
+          this.dataService.setData(this.items.filter(x => x.selected === true))
+          this.router.navigate(['/checkout']);
+        }
+        else{
+          this.showMessage(mType.warn, "", "Please select an item!", 'notify');
+        }
+      }
+
+      async onChangeAmount(foodId : number, amount: number){
+        try {
+          this.loading = true;
+          let updateItem = new AddToCart();
+          updateItem.foodId = foodId;
+          updateItem.amount = amount;
+
+          let item = this.items.filter(x => x.foodId === foodId)
+          if (item.length > 0){
+            item.forEach(x => {
+              x.amount = amount;
+            })
+          }
+
+          this.calculate();
+
+          let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.UPDATE_AMOUNT, updateItem);
+          if (response && response.message === "Success") {
+              console.log("abc")
+          }
+          else{
+            this.router.navigate(['/login']);
+          }
+    
+          this.loading = false;
+      } catch (e) {
+          console.log(e);
+          this.loading = false;
+      }
+      }
+
+      onSelectAll(event : any){
+        this.isSelectAll = event.target.checked;
+        console.log(this.isSelectAll)
+        if (this.isSelectAll === true){
+          this.items.forEach(x =>{
+            x.selected = true
+          })
+        }
+        else{
+          this.items.forEach(x =>{
+            x.selected = false
+          })
+        }
+
+        this.calculate()
+      }
+
+      async onDeleteCartItem(foodId : number){
+        try {
+          this.loading = true;
+          let deleteitem = new AddToCart();
+          deleteitem.foodId = foodId;
+          const index = this.items.findIndex(item => item.foodId === foodId);
+          if (index !== -1) {
+            this.items.splice(index, 1);
+          }
+          this.calculate()
+ 
+          let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.DELETE_ITEM, deleteitem);
+          if (response && response.message === "Success") {
+          }
+          else{
+            this.router.navigate(['/login']);
+          }
+    
+          this.loading = false;
+      } catch (e) {
+          console.log(e);
+          this.loading = false;
+      }
       }
 }

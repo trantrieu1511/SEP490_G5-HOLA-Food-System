@@ -25,5 +25,36 @@ namespace HFS_BE.BusinessLogic.Auth
 				throw;
 			}
 		}
+
+		public BaseOutputDto ConfirmForgotPassword(ConfirmForgotPasswordInputDto inputDto)
+		{
+			try
+			{
+				var Dao = this.CreateDao<AuthDao>();
+
+				var daooutput =  Dao.ValidateConfirmationCode(inputDto);
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+		public BaseOutputDto ChangeForgotPassword(ChangeForgotPasswordInputDto inputDto)
+		{
+			try
+			{
+				var Dao = this.CreateDao<AuthDao>();
+
+				var daooutput = Dao.ChangePassword(inputDto);
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
 	}
 }

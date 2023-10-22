@@ -35,6 +35,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatComponent } from './modules/chat/chat.component';
 import { RegisterComponent } from './register/register.component';
 import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
+import { LoadingComponent } from './modules/shared-module/components/loading-component/loading.component';
+import { ForgotComponent } from './forgot/forgot.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
     LoginComponent,
     ChatComponent,
     RegisterComponent,
-    ConfirmemailComponent
+    ConfirmemailComponent,
+    ForgotComponent,
+
 
   ],
   imports: [

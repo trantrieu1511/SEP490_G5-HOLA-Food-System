@@ -11,6 +11,7 @@ import { ChatComponent } from './modules/chat/chat.component';
 import { RegisterComponent } from './register/register.component';
 import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
 import { ManageprofileComponent } from './modules/customer-routing-module/components/manageprofile/manageprofile.component';
+import { ForgotComponent } from './forgot/forgot.component';
 
 const routes: Routes = [
   // {
@@ -26,6 +27,11 @@ const routes: Routes = [
   {
     path: 'confirm',
     component: ConfirmemailComponent
+  }
+  ,
+  {
+    path: 'forgot',
+    component: ForgotComponent
   }
   ,
   {

@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
 import {AppBreadcrumbService} from "../../../../app-systems/app-breadcrumb/app.breadcrumb.service";
-import {Food, Category, FoodInput, FoodDisplayHideInputDto} from "../../models/food.model";
+import {Food, Category, FoodInput, FoodDisplayHideInputDto, FoodInputValidation} from "../../models/food.model";
 import {
     iComponentBase,
     iServiceBase, mType,
@@ -18,6 +18,7 @@ import {
     TreeNode
 } from "primeng/api";
 import { FileRemoveEvent, FileSelectEvent, FileUpload } from 'primeng/fileupload';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 
 @Component({
   selector: 'app-food-management',
@@ -44,24 +45,35 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
 
   selectedCategory: Category = new Category();
 
-
   @ViewChild('dt') table: Table;
-  //@ViewChild('fileUploader') f_upload: FileUpload;
+
+  foodForm: FormGroup;
+
+  foodValidation : FoodInputValidation = new FoodInputValidation();
 
   constructor(public breadcrumbService: AppBreadcrumbService,
               private shareData: ShareData,
               public messageService: MessageService,
               private confirmationService: ConfirmationService,
               private iServiceBase: iServiceBase,
-              private iFunction: iFunction
+              private iFunction: iFunction,
+              private fb: FormBuilder
               ) {
-      super(messageService, breadcrumbService);
-      
+    super(messageService, breadcrumbService);
+    this.foodForm = this.fb.group({
+      foodId: ['', Validators.required],
+      name: ['', Validators.required],
+      unitPrice: ['', Validators.required],
+      description: ['', Validators.required],
+      categoryId: ['', Validators.required]
+    });
   }
+
 
   ngOnInit() {
     this.getAllFood();
     this.getAllCategory();
+    console.log(this.foodValidation);
   }
 
   async getAllCategory(){
@@ -134,7 +146,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
       
       this.foodModel = new Food();
 
-      this.selectedCategory = new Category();
+      this.selectedCategory = null;
 
       this.displayDialogEditAddFood = true;
   }
@@ -196,7 +208,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
   onSaveFood() {
     //console.log(this.foodModel);
     this.foodModel.categoryId = this.selectedCategory.categoryId;
-    document.body.style.cursor = 'wait';
+    
     let foodEntity = this.bindingDataFoodModel();
 
     if (this.validateFoodModel()) {
@@ -220,18 +232,40 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
       //     this.showMessage(mType.warn, "Thông báo", "Mã phân quyền không được để trống. Vui lòng nhập!", 'notify');
       //     return false;
       // }
+      var check = true;
+      this.foodValidation = new FoodInputValidation();
+      if(!this.foodModel.name || this.foodModel.name == ''){
+        this.foodValidation.isNameValid = false;
+        this.foodValidation.nameMessage = "Food name can not empty";
+        check = false;
+      }
 
-      // if (!this.roleModel.roleName || this.roleModel.roleName == '') {
-      //     this.showMessage(mType.warn, "Thông báo", "Tên phân quyền không được để trống. Vui lòng nhập!", 'notify');
-      //     return false;
-      // }
+      if(!this.foodModel.unitPrice || this.foodModel.unitPrice == ''){
+        this.foodValidation.isUnitPriceValid = false;
+        this.foodValidation.unitPriceMessage = "UnitPrice can not empty";
+        check = false;
+      }
 
-      // if (!this.roleModel.roleId || this.roleModel.roleId == '') {
-      //     this.showMessage(mType.warn, "Thông báo", "Mã nhóm phân quyền không được để trống. Vui lòng chọn!", 'notify');
-      //     return false;
-      // }
+      if(parseInt(this.foodModel.unitPrice) < 0){
+        this.foodValidation.isUnitPriceValid = false;
+        this.foodValidation.unitPriceMessage = "UnitPrice must be >= 0";
+        check = false;
+      }
 
-      return true;
+      if(!this.foodModel.description || this.foodModel.description == ''){
+        this.foodValidation.isDescriptionValid = false;
+        this.foodValidation.descriptionMessage = "Description can not empty";
+        check = false;
+      }
+      
+      if(!this.foodModel.categoryId || this.foodModel.categoryId < 1 ){
+        this.foodValidation.isCategoryIdValid = false;
+        this.foodValidation.categoryIdMessage = "Category must be choose";
+        check = false;
+      }
+      
+
+      return check;
   }
 
   async createFood(foodEnity: FoodInput) {

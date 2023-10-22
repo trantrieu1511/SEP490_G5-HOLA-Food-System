@@ -14,7 +14,7 @@ namespace HFS_BE.Controllers.Cart
         {
         }
 
-        [HttpPost("cart/checkout")]
+        [HttpPost("checkout/createorder")]
         [Authorize(Roles = "3")]
         public BaseOutputDto CheckOutCart(CheckOutCartInputDto inputDto)
         {

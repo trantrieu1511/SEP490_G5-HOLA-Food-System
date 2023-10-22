@@ -30,6 +30,19 @@ export class FoodInput{
   categoryId: number = null;
 }
 
+export class FoodInputValidation{
+  isFoodIdValid: boolean = true;
+  foodIdMessage: string = null;
+  isNameValid: boolean = true;
+  nameMessage: string = null;
+  isUnitPriceValid: boolean = true;
+  unitPriceMessage: string = null;
+  isDescriptionValid: boolean = true;
+  descriptionMessage: string = null;
+  isCategoryIdValid: boolean = true;
+  categoryIdMessage: string = null;
+}
+
 export class FoodDisplayHideInputDto{
   foodId: number;
   type: boolean;

@@ -28,5 +28,33 @@ namespace HFS_BE.Controllers.Auth
 				throw;
 			}
 		}
+		[HttpPost("home/confirmforgot")]
+		public BaseOutputDto ConfirmForgot(ConfirmForgotPasswordInputDto inputDto)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ForgotPasswordBusinessLogic>();
+
+				return  business.ConfirmForgotPassword(inputDto);
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+		[HttpPost("home/changepassword")]
+		public BaseOutputDto ChangeForgot(ChangeForgotPasswordInputDto inputDto)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ForgotPasswordBusinessLogic>();
+
+				return business.ChangeForgotPassword(inputDto);
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
 	}
 }

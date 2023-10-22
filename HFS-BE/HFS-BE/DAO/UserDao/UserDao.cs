@@ -2,6 +2,7 @@
 using HFS_BE.Base;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace HFS_BE.DAO.UserDao
 {
@@ -30,6 +31,26 @@ namespace HFS_BE.DAO.UserDao
             catch (Exception)
             {
                 return Output<UserProfileOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public GetOrderInfoOutputDto GetUserInfo(GetOrderInfoInputDto inputDto)
+        {
+            try
+            {
+                var user = this.context.Users.Include(x => x.ShipAddresses).FirstOrDefault(x => x.UserId == inputDto.UserId);
+                var output = this.Output<GetOrderInfoOutputDto>(Constants.ResultCdSuccess);
+                if (user != null)
+                {
+                    output.Balance = user.WalletBalance == null ? 0 : user.WalletBalance.Value;
+                    output.Address = user.ShipAddresses.FirstOrDefault() == null ? "" : user.ShipAddresses.FirstOrDefault().AddressInfo;
+                }
+
+                return output;
+            }
+            catch (Exception)
+            {
+                return this.Output<GetOrderInfoOutputDto>(Constants.ResultCdFail);
             }
         }
     }

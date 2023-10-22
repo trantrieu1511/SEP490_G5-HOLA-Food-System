@@ -17,6 +17,7 @@ using HFS_BE.Controllers.ManageFood;
 using HFS_BE.BusinessLogic.ManageFood;
 using HFS_BE.Dao.FoodDao;
 using HFS_BE.DAO.OrderProgressDao;
+using HFS_BE.DAO.CategoryDao;
 
 namespace HFS_BE.Automapper
 {
@@ -34,6 +35,7 @@ namespace HFS_BE.Automapper
             Cart();
             UserProfile();
             File();
+            Category();
         }
 
         /// <summary>
@@ -103,9 +105,10 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => DateTime.Now));
             CreateMap<CartItemDaoInputDto, OrderDetail>()
                 .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Amount));
-            CreateMap<ListShopItemDto, CheckOutOrderDaoInputDto>()
-                .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.ListItem));
+            CreateMap<ListShopItemInputDto, CheckOutOrderDaoInputDto>()
+                .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.CartItems));
             CreateMap<CartItemDto, CartItemDaoInputDto>();
+            CreateMap<CartItemInputDto, CartItemDaoInputDto>();
 
         }
         public void OrderHistory()
@@ -124,6 +127,10 @@ namespace HFS_BE.Automapper
             CreateMap<Controllers.OrderShipper.OrderProgressControllerInputDto, BusinessLogic.OrderShipper.OrderProgressBusinessLogicInputDto>();
             CreateMap<BusinessLogic.OrderShipper.OrderProgressBusinessLogicInputDto,DAO.OrderProgressDao.OrderProgressDaoInputDto>()
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserDto.UserId));
+
+
+            // check-out customer
+            CreateMap<OrderCreateDaoInputDto, OrderProgress>();
         }
         public void Shop()
         {
@@ -155,6 +162,12 @@ namespace HFS_BE.Automapper
         {
             CreateMap<ImageFileConvert.ImageOutputDto, PostImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, FoodImageOutputSellerDto>();
+        }
+       
+        public void Category()
+        {
+            CreateMap<CategoryDaoInputDto, Category>();
+            CreateMap<Category, CategoryDaoOutputDto>();
         }
     }
 }

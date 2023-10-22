@@ -172,9 +172,16 @@
                     </ng-template>
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
                         <span class="p-input-icon-left p-float-label" style="width: 100%" >
-                            <textarea class="w-full" rows="10" cols="60" pInputTextarea [(ngModel)]="postModel.postContent"></textarea>
+                            <textarea class="w-full" rows="10" cols="60" 
+                                pInputTextarea 
+                                [(ngModel)]="postModel.postContent"
+                                [class.ng-invalid] = "!inputValidation.isPostContentValid"
+                                [class.ng-dirty] = "!inputValidation.isPostContentValid"    
+                            ></textarea>
                             <label>Post Content*</label>
                         </span>
+                        <small [style.display]="inputValidation.isPostContentValid ? 'none !important' : 'block !important'" 
+                            id="username2-help" class="p-error block">{{inputValidation.postContentMessage}}</small>
                     </div>
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
                         <label>Images</label>

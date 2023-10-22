@@ -12,4 +12,13 @@ namespace HFS_BE.DAO.OrderProgressDao
         public byte? Status { get; set; }
         public int? UserId { get; set; }
     }
+
+    public class OrderCreateDaoInputDto
+    {
+        public string? Note { get; set; }
+        public DateTime? CreateDate { get; set; }
+        public int? OrderId { get; set; }
+        public byte? Status { get; set; }
+        public int? UserId { get; set; }
+    }
 }

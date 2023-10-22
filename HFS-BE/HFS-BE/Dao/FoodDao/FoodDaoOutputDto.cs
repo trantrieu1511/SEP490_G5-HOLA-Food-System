@@ -43,5 +43,4 @@ namespace HFS_BE.Dao.FoodDao
     {
         public List<FoodOutputSellerDto> Foods { get; set; }
     }
-
 }

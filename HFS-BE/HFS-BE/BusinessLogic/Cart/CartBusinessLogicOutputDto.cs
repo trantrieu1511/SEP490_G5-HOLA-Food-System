@@ -16,9 +16,9 @@ namespace HFS_BE.BusinessLogic.Cart
 
     public class CartItemDto
     {
-        public int FoodId { get; set; }
-        public int Amount { get; set; }
-        public decimal UnitPrice { get; set; }
+        public int? FoodId { get; set; }
+        public int? Amount { get; set; }
+        public decimal? UnitPrice { get; set; }
         public string? Name { get; set; }
         public string foodImages { get; set; }
     }

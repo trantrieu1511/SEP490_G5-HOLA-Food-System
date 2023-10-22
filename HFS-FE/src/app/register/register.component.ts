@@ -7,6 +7,7 @@ import { AuthService, User } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { DateOfBirthValidator, PasswordLengthValidator, PasswordMatch, PasswordNumberValidator, PasswordUpperValidator } from '../login/Restricted-login.directive';
 import { RowToggler } from 'primeng/table';
+import { Register } from './models/register';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -18,10 +19,10 @@ export class RegisterComponent implements OnInit,AfterViewInit {
   user:User;
   formregister:FormGroup;
   date;
-  role: Role[];
-
-  selectedRole: Role;
-
+  roles: Role[];
+  showForm: boolean = true;
+  errorregister: string;
+  selectedRole: number = 3;
 
 private client_Id=environment.clientId;
  constructor(private router: Router,
@@ -46,29 +47,34 @@ private client_Id=environment.clientId;
     PasswordNumberValidator()
   ]);
   this.formregister = new FormGroup({
-    firstname: new FormControl('', [Validators.required]),
-    lastname: new FormControl('', [Validators.required]),
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
     email: new FormControl('', Validators.email),
     password:passwordControl,
-    confpassword: new FormControl('', [
+    confirmPassword: new FormControl('', [
       Validators.required,
       PasswordMatch(passwordControl)
     ]),
     gender: new FormControl('male', Validators.required),
-    dob:new FormControl('',DateOfBirthValidator())
+    birthDate:new FormControl('',DateOfBirthValidator()),
+    roleId:new FormControl('',[Validators.required])
   });
 }
 
-
+7
+// Gán giá trị cho biến registerData
+registerData: Register;
 
 
  ngOnInit(): void {
   this.FormFirst();
+  this.service.errorregister$.subscribe(errorregister => {
+    this.errorregister = errorregister;})
 
-  this.role = [
-    {name: 'Customer', id: '3'},
-    {name: 'Seller', id: '2'},
-    {name: 'Shipper', id: '4'}
+  this.roles = [
+    {name: 'Customer', id: 3},
+    {name: 'Seller', id: 2},
+    {name: 'Shipper', id: 4}
 
   ];
 
@@ -104,11 +110,14 @@ showLastnameError() {
 async onSubmit() {
   if (this.formregister.valid) {
 
+
+
+    console.log(this.formregister.value);
     try {
       debugger;
       this.service.register(this.formregister.value).subscribe(res=>{
-
-
+        this.service.showregister$.subscribe(showregister => {
+          this.showForm = showregister;})
       })
     }catch (err) {
 
@@ -121,6 +130,6 @@ async onSubmit() {
 }
 interface Role {
   name: string,
-  id: string
+  id: number
 }
 
