@@ -41,6 +41,20 @@ namespace HFS_BE.DAO.OrderProgressDao
             }
         }
 
+        public BaseOutputDto CreateOrderProgressCustomer(OrderCreateDaoInputDto inputDto)
+        {
+            try
+            {
+                var order = mapper.Map<OrderCreateDaoInputDto, OrderProgress>(inputDto);
+                context.OrderProgresses.Add(order);
+                context.SaveChanges();
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
 
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
     }
 }

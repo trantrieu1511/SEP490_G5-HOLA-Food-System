@@ -24,4 +24,10 @@ namespace HFS_BE.DAO.UserDao
     {
         public UserProfileOutputDto? data { get; set;}
     }
+    public class GetOrderInfoOutputDto : BaseOutputDto
+    {
+        public decimal? Balance { get; set; }
+        public string? Address { get; set; }
+    }
+
 }

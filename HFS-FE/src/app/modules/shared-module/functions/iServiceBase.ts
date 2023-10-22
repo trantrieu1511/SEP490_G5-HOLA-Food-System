@@ -754,6 +754,9 @@ export class iServiceBase {
                 case API.PHAN_HE.FOOD: {
                     return localStorage.getItem('APISERVICE') + '/foods/';
                 }
+                case API.PHAN_HE.CHECKOUT: {
+                    return localStorage.getItem('APISERVICE') + '/checkout/';
+                }
                 default: {
                     return '';
                 }

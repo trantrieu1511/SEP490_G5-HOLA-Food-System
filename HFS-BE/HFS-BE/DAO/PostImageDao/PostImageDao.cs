@@ -43,6 +43,11 @@ namespace HFS_BE.DAO.PostImageDao
             }
         }
 
+        /// <summary>
+        /// Create new image of post.
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns>BaseOutput</returns>
         public BaseOutputDto AddNewImage(PostImage image)
         {
             try

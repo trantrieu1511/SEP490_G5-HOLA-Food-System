@@ -7,8 +7,10 @@ namespace HFS_BE.BusinessLogic.Cart
         public int? CustomerId { get; set; }
         public string? ShipAddress { get; set; }
         public int? VoucherId { get; set; }
-        public string Note { get; set; }
-        public List<ListShopItemDto> ListShop { get; set; } = new List<ListShopItemDto>();
+        public string? Note { get; set; }
+        public string? Phone { get; set; }
+        public string? PaymentMethod { get; set; }
+        public List<ListShopItemInputDto> ListShop { get; set; } = new List<ListShopItemInputDto>();
     }
 
     public class ListShopItemInputDto
