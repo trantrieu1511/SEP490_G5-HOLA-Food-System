@@ -13,6 +13,7 @@ export class PHAN_HE {
     public static SHOP_DETAIL = "shopDetail"
     public static CART = "cart"
     public static FOOD = "Food"
+    public static CHECKOUT = "checkout"
 }
 
 
@@ -87,6 +88,8 @@ export class API_SHOP_DETAIL{
 export class API_CART{
     public static ADDTOCART = "addtocart"
     public static CART_DETAIL = "getcartitem"
+    public static UPDATE_AMOUNT = "updateamount"
+    public static DELETE_ITEM = "deleteitem"
 }
 
 export class API_FOOD{
@@ -94,4 +97,8 @@ export class API_FOOD{
     public static UPDATE_FOOD = "updateFood";
     public static GET_FOOD_SELLER = "getFoodsSeller";
     public static ENABLE_DISABLE = "enableDisable";     
+}
+
+export class API_CHECKOUT{
+    public static CREATE_ORDER = "createorder"; 
 }

@@ -37,4 +37,9 @@ namespace HFS_BE.Dao.FoodDao
         public string? Description { get; set; }
         public int CategoryId { get; set; }
     }
+
+    public class GetFoodByFoodIdDaoInputDto
+    {
+        public int? FoodId { get; set; }
+    }
 }
