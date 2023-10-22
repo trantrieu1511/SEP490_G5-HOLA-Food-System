@@ -53,4 +53,21 @@ namespace HFS_BE.Dao.AuthDao
 
 	}
 
+	public class ConfirmForgotPasswordInputDto : BaseInputDto
+	{
+		public string confirm { get; set; }
+		public string UserId { get; set; }
+	}
+
+	public class ChangeForgotPasswordInputDto : BaseInputDto
+	{
+		[Required(ErrorMessage = "Confirm is required")]
+		public string confirm { get; set; }
+		[Required(ErrorMessage = "Password is required")]
+		[StringLength(20, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 20 characters")]
+		public string Password { get; set; }
+		[Required(ErrorMessage = "ConfirmPassword is required")]
+		public string ConfirmPassword { get; set; }
+	}
+
 }
