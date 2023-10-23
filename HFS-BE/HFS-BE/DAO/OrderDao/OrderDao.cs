@@ -15,8 +15,9 @@ namespace HFS_BE.Dao.OrderDao
         {
             try
             {
+                // where lấy bên progress 
                 var data = this.context.Orders.Include(x => x.OrderDetails).ThenInclude(x => x.Food)
-                    .Where(x => x.ShipperId == inputDto.ShipperId && x.Status == inputDto.Status)
+                    //.Where(x => x.ShipperId == inputDto.ShipperId && x.Status == inputDto.Status)
                     .Select(x => mapper.Map<Order, OrderDaoOutputDto>(x));
                 var output = this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdSuccess);
                 output.OrderList = data.ToList();
@@ -53,8 +54,9 @@ namespace HFS_BE.Dao.OrderDao
         {
             try
             {
+                // where bên orderprogress
                 var data = this.context.Orders.Include(x => x.OrderDetails).ThenInclude(x => x.Food)
-                    .Where(x => x.ShipperId == inputDto.ShipperId && x.Status == inputDto.Status)
+                    //.Where(x => x.ShipperId == inputDto.ShipperId && x.Status == inputDto.Status)
                     .Select(x => mapper.Map<Order, OrderDaoOutputDto>(x));
                 var output = this.Output<OrderOnHistoryDaoOutputDto>(Constants.ResultCdSuccess);
                 output.OrderList = data.ToList();
@@ -93,13 +95,14 @@ namespace HFS_BE.Dao.OrderDao
         {
             try
             {
+                //change bên order progress nghe
                 var data = this.context.Orders
                     .Where(x => x.OrderId == inputDto.OrderId).FirstOrDefault();
                 if(data == null)
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail);
                 }    
-                data.Status= inputDto.Status;
+                //data.Status= inputDto.Status;
                 context.Orders.Update(data);
                 context.SaveChanges();
                 
