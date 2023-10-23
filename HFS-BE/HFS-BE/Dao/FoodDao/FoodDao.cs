@@ -102,6 +102,7 @@ namespace HFS_BE.Dao.FoodDao
                 List<FoodOutputSellerDto> foodsModel = context.Foods
                                         .Include(p => p.FoodImages)
                                         .Include(p => p.Category)
+                                        .Include(p => p.Feedbacks)
                                         .Where(p => p.ShopId == userDto.UserId)
                                         .Select(p => new FoodOutputSellerDto
                                         {
@@ -112,7 +113,8 @@ namespace HFS_BE.Dao.FoodDao
                                             CategoryId = p.CategoryId,
                                             CategoryName = p.Category.Name,
                                             Status = PostMenuStatus.GetStatusString(p.Status),
-                                            Images = p.FoodImages.ToList()
+                                            Images = p.FoodImages.ToList(),
+                                            Feedbacks = p.Feedbacks.ToList(),
                                         })
                                         .ToList();
                 var output = this.Output<ListFoodOutputSellerDto>(Constants.ResultCdSuccess);

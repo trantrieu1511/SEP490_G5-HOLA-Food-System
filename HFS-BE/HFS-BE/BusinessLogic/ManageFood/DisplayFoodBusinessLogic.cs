@@ -56,6 +56,11 @@ namespace HFS_BE.BusinessLogic.ManageFood
                         // add to ouput list
                         outputBL.Foods[index].ImagesBase64.Add(imageMapper);
                     }
+
+                    // calculate rating
+                    var rating = RatingCalculation.CalculateFoodStar(food.Feedbacks);
+                    // add rating to ouput list
+                    outputBL.Foods[index].Rating = rating;
                 }
 
                 return outputBL;

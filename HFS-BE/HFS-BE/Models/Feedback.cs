@@ -15,6 +15,7 @@ namespace HFS_BE.Models
         public int? FoodId { get; set; }
         public int? UserId { get; set; }
         public string? FeedbackMessage { get; set; }
+        public byte? Star { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdateDate { get; set; }
         public byte? Status { get; set; }

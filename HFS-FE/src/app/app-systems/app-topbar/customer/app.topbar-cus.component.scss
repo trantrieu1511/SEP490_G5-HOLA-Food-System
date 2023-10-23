@@ -1,0 +1,118 @@
+:host ::ng-deep {
+    .layout-topbar-items {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        text-decoration: none;
+        list-style-type: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        height: 100%;
+
+        .layout-topbar-item {
+            position: relative;;
+            
+            .layout-topbar-action{
+                user-select: none;
+                padding: 0 0.8rem;
+                margin: 0 0.4rem;
+                border-radius: 4px;
+                height: 3.2rem;
+                min-width: 3.2rem;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+            }
+        
+            .layout-topbar-action-panel {
+                position: absolute;
+                top: 4rem;
+                right: 0;
+                z-index: 1000;
+                min-width: 25rem;
+                padding: 1rem 0;
+                transform-origin: top;
+
+                margin: 0;
+                border: 0;
+                outline: 0;
+                text-decoration: none;
+                list-style-type: none;
+
+                background-color: #ffffff;
+                color: #212121;
+                
+                .layout-topbar-action-item {
+                    cursor: pointer;
+                    padding: 1rem;
+                }
+            }
+        }
+    }
+
+    .fs-large{
+        font-size: 1.5rem !important;
+    }
+    .layout-topbar-logo-mobile{
+        display: flex;
+        padding: 0 2rem;
+        height: 4rem;
+        align-items: center;
+        .layout-topbar-logo{
+            justify-content: center;
+            width: 17rem;
+            height: 100%;
+
+            img{
+                margin-top: 0.5rem;
+                height: 5rem;
+            }
+        }
+
+        .layout-topbar-menu-button{
+            margin-left: auto;
+    
+        }
+    }
+
+    .p-badge-dot{
+        min-width: .5rem !important;
+        height: .5rem !important;
+    }
+
+    
+    @media screen and (max-width: 991px) {
+        .layout-topbar {
+            height: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .layout-topbar-logo-mobile{
+            width: 100%;
+        }
+
+        .layout-topbar-items {
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .layout-topbar-menu{
+            padding: 0 2rem !important;
+            width: 100%;
+            height: 4rem;
+        }
+
+        .layout-topbar-action-panel {
+            position: fixed !important;
+            top: 8rem !important;
+            left: 1em;
+            right: 1em !important;
+        }
+    }
+
+    
+}
