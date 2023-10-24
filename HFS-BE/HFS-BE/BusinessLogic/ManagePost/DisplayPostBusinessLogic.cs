@@ -40,7 +40,7 @@ namespace HFS_BE.BusinessLogic.ManagePost
                     foreach (var img in post.Images)
                     {
                         // convert to base64
-                        var imageInfor = ImageFileConvert.ConvertFileToBase64(userDto, img.Path, 0);
+                        var imageInfor = ImageFileConvert.ConvertFileToBase64(userDto.UserId, img.Path, 0);
                         if (imageInfor == null) 
                             continue;
 

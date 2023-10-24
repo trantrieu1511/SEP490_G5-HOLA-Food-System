@@ -22,16 +22,17 @@ namespace HFS_BE.Dao.OrderDao
 
     public class OrderByShipperDaoOutputDto : BaseOutputDto
     {
-        public List<OrderDaoOutputDto> OrderList { get; set; }
+        public List<OrderDaoOutputDto> Orders { get; set; }
     }
     public class OrderDetailDto
     {
         public int OrderId { get; set; }
         public int FoodId { get; set; }
+        public int ShopId { get; set; }
         public string FoodName { get; set; }
         public decimal? UnitPrice { get; set; }
         public int? Quantity { get; set; }
-        public byte? Status { get; set; }
+        public string Image { get; set; }
     }
 
     public class CheckOutOrderDaoOutputDto : BaseOutputDto

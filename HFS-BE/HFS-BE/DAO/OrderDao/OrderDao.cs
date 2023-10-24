@@ -15,13 +15,31 @@ namespace HFS_BE.Dao.OrderDao
         {
             try
             {
+                var status = inputDto.Status ? 2 : 3;
                 // where lấy bên progress 
-                var data = this.context.Orders.Include(x => x.OrderDetails).ThenInclude(x => x.Food)
-                    //.Where(x => x.ShipperId == inputDto.ShipperId && x.Status == inputDto.Status)
-                    .Select(x => mapper.Map<Order, OrderDaoOutputDto>(x));
-                var output = this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdSuccess);
-                output.OrderList = data.ToList();
-                return output;
+                var data = this.context.Orders
+                    .Include(x => x.OrderDetails).ThenInclude(x => x.Food).ThenInclude(f => f.FoodImages)
+                    .Include(x => x.OrderProgresses)
+                    .Where(x => x.ShipperId == inputDto.ShipperId && x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == status)
+                    //.Select(x => mapper.Map<Order, OrderDaoOutputDto>(x))
+                    .ToList();
+                var output = mapper.Map<List<Order>, List<OrderDaoOutputDto>>(data);
+                foreach (var item in data ) 
+                { 
+                    var indexOder = data.IndexOf(item);
+                    foreach(var detail in item.OrderDetails)
+                    {
+                        var indexDetail = item.OrderDetails.ToList().IndexOf(detail);
+                        var image = detail.Food.FoodImages.AsQueryable().First().Path;
+                        output[indexOder].OrderDetails[indexDetail].Image = image;
+                        output[indexOder].OrderDetails[indexDetail].FoodName = detail.Food.Name;
+                        output[indexOder].OrderDetails[indexDetail].ShopId = (int)detail.Food.ShopId;
+                    }
+                }
+                var output1 = this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdSuccess);
+                output1.Orders = output;
+                return output1;
+
             }
             catch (Exception)
             {
@@ -91,28 +109,6 @@ namespace HFS_BE.Dao.OrderDao
             }
         }
 
-        public BaseOutputDto ChangeStatusOrderShipper(OrderStatusInputDto inputDto)
-        {
-            try
-            {
-                //change bên order progress nghe
-                var data = this.context.Orders
-                    .Where(x => x.OrderId == inputDto.OrderId).FirstOrDefault();
-                if(data == null)
-                {
-                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
-                }    
-                //data.Status= inputDto.Status;
-                context.Orders.Update(data);
-                context.SaveChanges();
-                
-                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess); 
-            }
-            catch (Exception)
-            {
-
-                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
-            }
-        }
+        
     }
 }

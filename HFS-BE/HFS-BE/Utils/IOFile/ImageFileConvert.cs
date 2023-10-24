@@ -9,10 +9,10 @@
             public string? Size { get; set; }
         }
 
-        public static ImageOutputDto? ConvertFileToBase64(UserDto user,string fileName, int type)
+        public static ImageOutputDto? ConvertFileToBase64(int userId,string fileName, int type)
         {
             string path = $"Resources\\Images\\" +
-                            $"{user.UserId}\\" +
+                            $"{userId}\\" +
                             $"{GetFolderNameTypeImage(type)}\\"
                             + fileName;
             // Đường dẫn cơ sở cho việc lưu hình ảnh

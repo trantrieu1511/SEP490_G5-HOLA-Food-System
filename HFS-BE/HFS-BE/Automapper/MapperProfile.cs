@@ -95,9 +95,15 @@ namespace HFS_BE.Automapper
         }
         public void Order()
         {
+            CreateMap<List<Order>, OrderDaoOutputDto>();
             CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>();
             CreateMap<OrderDetail, Dao.OrderDao.OrderDetailDto>()
-                .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name));
+                .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name))
+                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.Food.ShopId))
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Food.FoodImages.AsQueryable().First().Path));
+            CreateMap<Dao.OrderDao.OrderDetailDto, BusinessLogic.OrderShipper.OrderDetailBLDto>();
+            CreateMap<Dao.OrderDao.OrderDaoOutputDto, BusinessLogic.OrderShipper.OrderBLOutputDto>();
+            CreateMap<Dao.OrderDao.OrderByShipperDaoOutputDto, BusinessLogic.OrderShipper.OrderByShipperBLOutputDto>();
 
             // checkout order
             CreateMap<CheckOutOrderDaoInputDto, Order>()
@@ -162,6 +168,7 @@ namespace HFS_BE.Automapper
         {
             CreateMap<ImageFileConvert.ImageOutputDto, PostImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, FoodImageOutputSellerDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, BusinessLogic.OrderShipper.ImageFoodOutputDto>();
         }
        
         public void Category()
