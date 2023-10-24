@@ -47,7 +47,7 @@ namespace HFS_BE.BusinessLogic.ManageFood
                     foreach (var img in food.Images)
                     {
                         // convert to base64
-                        var imageInfor = ImageFileConvert.ConvertFileToBase64(userDto, img.Path, 1);
+                        var imageInfor = ImageFileConvert.ConvertFileToBase64(userDto.UserId, img.Path, 1);
                         if (imageInfor == null)
                             continue;
                         var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, FoodImageOutputSellerDto>(imageInfor);

@@ -19,11 +19,11 @@ namespace HFS_BE.Controllers.OrderShipper
         }
         [HttpPost("shipper/order")]
         
-        public OrderByShipperDaoOutputDto GetAllOrder(OrderByShipperDaoInputDto inputDto)
+        public OrderByShipperBLOutputDto GetAllOrder(OrderByShipperDaoInputDto inputDto)
         {
             try
             {
-                
+
                 var busi = this.GetBusinessLogic<OrderShipperBusinessLogic>();
                 var role = this.GetAccessRight();
                 //if(role != 4)
@@ -31,10 +31,12 @@ namespace HFS_BE.Controllers.OrderShipper
                 //    return this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdFail);
                 //}
                 return busi.ListOrderShipper(inputDto);
+
+                
             }
             catch (Exception)
             {
-                return this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdFail);
+                return this.Output<OrderByShipperBLOutputDto>(Constants.ResultCdFail);
             }
         }
 
@@ -53,7 +55,7 @@ namespace HFS_BE.Controllers.OrderShipper
             }
             catch (Exception)
             {
-                return this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdFail);
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
 
@@ -70,7 +72,7 @@ namespace HFS_BE.Controllers.OrderShipper
             }
             catch (Exception)
             {
-                return this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdFail);
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
 
@@ -89,23 +91,6 @@ namespace HFS_BE.Controllers.OrderShipper
             {
                 return this.Output<OrderOnHistoryDaoOutputDto>(Constants.ResultCdFail);
             }
-        }
-
-        [HttpPost("shipper/order/shipping")]
-        //[Authorize(Roles = "4")]
-        public BaseOutputDto ChangeStatus(OrderStatusInputDto inputDto)
-        {
-            try
-            {
-                var busi = this.GetBusinessLogic<OrderShipperBusinessLogic>();
-                
-
-                return busi.ChangeStatus(inputDto);
-            }
-            catch (Exception)
-            {
-                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
-            }
-        }
+        }       
     }
 }
