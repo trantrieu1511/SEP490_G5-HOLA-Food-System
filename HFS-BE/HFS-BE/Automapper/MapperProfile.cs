@@ -18,6 +18,7 @@ using HFS_BE.BusinessLogic.ManageFood;
 using HFS_BE.Dao.FoodDao;
 using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.DAO.CategoryDao;
+using HFS_BE.BusinessLogic.OrderShipper;
 
 namespace HFS_BE.Automapper
 {
@@ -104,6 +105,8 @@ namespace HFS_BE.Automapper
             CreateMap<Dao.OrderDao.OrderDetailDto, BusinessLogic.OrderShipper.OrderDetailBLDto>();
             CreateMap<Dao.OrderDao.OrderDaoOutputDto, BusinessLogic.OrderShipper.OrderBLOutputDto>();
             CreateMap<Dao.OrderDao.OrderByShipperDaoOutputDto, BusinessLogic.OrderShipper.OrderByShipperBLOutputDto>();
+            CreateMap<Dao.OrderDao.OrderHistoryDaoOutputDto, OrderByShipperBLOutputDto>();
+
 
             // checkout order
             CreateMap<CheckOutOrderDaoInputDto, Order>()

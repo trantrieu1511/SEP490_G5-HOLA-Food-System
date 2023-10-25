@@ -13,7 +13,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
         public string? ShipAddress { get; set; }
         public int? ShipperId { get; set; }
         public int? VoucherId { get; set; }
-        public byte? Status { get; set; }
+        public string? Status { get; set; }
 
         public List<OrderDetailBLDto> OrderDetails { get; set; }
 
