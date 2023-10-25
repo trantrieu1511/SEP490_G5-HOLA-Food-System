@@ -36,5 +36,18 @@ namespace HFS_BE.Base
                 Errors = null
             };
         }
+
+        public T Output<T>(bool success, string content, ICollection<string> errors) where T : BaseOutputDto, new()
+        {
+            return new T
+            {
+                Message = content,
+                Success = success,
+                Errors = new ErrorsMessage
+                {
+                    SystemErrors = errors
+                }
+            };
+        }
     }
 }

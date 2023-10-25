@@ -23,13 +23,13 @@ namespace HFS_BE.Controllers.ManageFood
         //[MinLength(1, ErrorMessage = "CategoryId can not empty")]
         [RequiredIfNotNull(ErrorMessage = "Field is required.")]
         public int? categoryId { get; set; }
-        public IReadOnlyList<IFormFile>? Images { get; set; }
+        public IReadOnlyList<IFormFile> Images { get; set; }
 
     }
 
     public class FoodUpdateInputDto
     {
-        public int FoodId { get; set; }
+        public int? FoodId { get; set; }
         //[MinLength(1, ErrorMessage = "Name can not empty")]
         public string? Name { get; set; }
 
@@ -41,8 +41,8 @@ namespace HFS_BE.Controllers.ManageFood
         public string? Description { get; set; }
 
         //[MinLength(1, ErrorMessage = "CategoryId can not empty")]
-        public int CategoryId { get; set; }
-        public IReadOnlyList<IFormFile>? Images { get; set; }
+        public int? CategoryId { get; set; }
+        public IReadOnlyList<IFormFile> Images { get; set; }
 
     }
 }

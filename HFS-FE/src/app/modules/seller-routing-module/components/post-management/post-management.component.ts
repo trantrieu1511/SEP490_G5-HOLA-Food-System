@@ -237,7 +237,11 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
         this.postModel = new Post();
         //clear file upload too =))
         this.uploadedFiles = [];
-      } 
+      }else{
+        var messageError = this.iServiceBase.formatMessageError(response);
+          console.log(messageError);
+          this.showMessage(mType.error, response.message, messageError, 'notify');
+      }
     } catch (e) {
       console.log(e);
       this.showMessage(mType.error, "Notification", "Adding new post failed", 'notify');
@@ -270,7 +274,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
         //clear file upload too =))
         this.uploadedFiles = [];
       } else {
-        this.showMessage(mType.warn, "Notification", "New post updated failed", 'notify');
+        var messageError = this.iServiceBase.formatMessageError(response);
+          console.log(messageError);
+          this.showMessage(mType.error, response.message, messageError, 'notify');
       }
     } catch (e) {
         console.log(e);
@@ -297,8 +303,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
         this.getAllPost();
 
       } else {
-        console.log(response);
-        this.showMessage(mType.warn, "Notification", response.message, 'notify');
+        var messageError = this.iServiceBase.formatMessageError(response);
+          console.log(messageError);
+          this.showMessage(mType.error, response.message, messageError, 'notify');
       }
     } catch (e) {
         console.log(e);

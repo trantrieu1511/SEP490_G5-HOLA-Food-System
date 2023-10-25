@@ -73,7 +73,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
   ngOnInit() {
     this.getAllFood();
     this.getAllCategory();
-    console.log(this.foodValidation);
+    //console.log(this.foodValidation);
   }
 
   async getAllCategory(){
@@ -269,7 +269,6 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
   }
 
   async createFood(foodEnity: FoodInput) {
-      try {
         const param = new FormData();
 
         this.uploadedFiles.forEach(file => {
@@ -279,11 +278,10 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
         Object.keys(foodEnity).forEach(function(key) {
           param.append(key, foodEnity[key]);
         });
-
         const response = await this.iServiceBase
           .postDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.ADD_FOOD, param, true);
-      
-        if(response && response.message === "Success"){
+        //console.log(response);
+        if(response && response.success === "Success"){
           this.showMessage(mType.success, "Notification", "New food added successfully", 'notify');
 
           this.displayDialogEditAddFood = false;
@@ -295,10 +293,11 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
           this.foodModel = new Food();
           //clear file upload too =))
           this.uploadedFiles = [];
-        } 
-      } catch (e) {
-          console.log(e);
-      }
+        }else{
+          var messageError = this.iServiceBase.formatMessageError(response);
+          console.log(messageError);
+          this.showMessage(mType.error, response.message, messageError, 'notify');
+        }
   }
 
   async updateFood(foodEnity) {
@@ -330,8 +329,8 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
           //clear file upload too =))
           this.uploadedFiles = [];
         } else {
-          this.showMessage(mType.error, "Notification"
-            , "New food updated failed", 'notify');
+          var messageError = this.iServiceBase.formatMessageError(response)
+          this.showMessage(mType.error, response.message, messageError, 'notify');
         }
       } catch (e) {
           console.log(e);
@@ -357,7 +356,9 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
         this.getAllFood();
 
       } else {
-        this.showMessage(mType.warn, "Notification", response.message, 'notify');
+        var messageError = this.iServiceBase.formatMessageError(response);
+          console.log(messageError);
+          this.showMessage(mType.error, response.message, messageError, 'notify');
       }
     } catch (e) {
       console.log(e);

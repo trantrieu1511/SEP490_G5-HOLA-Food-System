@@ -28,5 +28,10 @@ namespace HFS_BE.DAO.CategoryDao
                 return this.Output<CreateCategoryOutputDto>(Constants.ResultCdFail);
             }
         }
+
+        public Category? GetCategoryById(int id)
+        {
+            return context.Categories.FirstOrDefault(x => x.CategoryId == id); 
+        }
     }
 }

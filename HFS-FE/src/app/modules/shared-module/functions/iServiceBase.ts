@@ -1,7 +1,7 @@
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpRequest} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable, throwError} from 'rxjs';
-import {catchError} from 'rxjs/operators';
+import {Observable, throwError, firstValueFrom, lastValueFrom} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 import * as API from 'src/app/services/apiURL';
 import {LoadingService} from '../shared-data-services/loading.service';
 
@@ -16,7 +16,9 @@ export class iServiceBase {
     strVersion = '';
     strProjectName = '';
 
-    constructor(public httpClient: HttpClient, public loadingService: LoadingService) {
+    constructor(public httpClient: HttpClient
+        , public loadingService: LoadingService
+        ) {
         this.strIP_Service = IPService.APISERVICE;
         this.strIP_GateWay = IPService.APIGATEWAY;
         this.strVersion = IPService.Version;
@@ -99,11 +101,11 @@ export class iServiceBase {
             document.body.style.cursor = 'default';
 
             return response;
-        } catch (error) {
+        } catch (errorResponse) {
             document.body.style.cursor = 'default';
 
-            console.log(error);
-            return null;
+            //console.log(error);
+            return errorResponse.error;
         }
     }
 
@@ -434,7 +436,8 @@ export class iServiceBase {
     }
 
 
-    async postDataAsync(service : any, api : string, inputData : any, ignoreLoading?: boolean, responseType?: string): Promise<any> {
+    async postDataAsync(service : any, api : string, inputData : any,
+            ignoreLoading?: boolean, responseType?: string): Promise<any> {
         try {
             // Get IP và URL
             service = await this.getURLService(service);
@@ -443,15 +446,14 @@ export class iServiceBase {
                 return null;
             }
             const url = `${service}${api}`;
-            const response = await this.httpClient.post(url, inputData, this.getOptionsRequest(ignoreLoading, responseType)).toPromise();
+            
+            const request = await firstValueFrom(this.httpClient.post(url, inputData, this.getOptionsRequest(ignoreLoading, responseType)))
             document.body.style.cursor = 'default';
-
-            return response;
-        } catch (error) {
+            return request;
+        } catch (errorResponse) {
             document.body.style.cursor = 'default';
-
-            console.log(error);
-            return null;
+            console.log(errorResponse);
+            return errorResponse.error;
         }
     }
 
@@ -524,24 +526,29 @@ export class iServiceBase {
         const request = this.httpClient
             .post(url, inputData, this.getOptionsRequest(ignoreLoading))
             .pipe(
+                map(res => {
+                    document.body.style.cursor = 'default';
+                    return res;
+                }),
                 catchError((error) => {
-                console.error(error);
-                // Instead of returning null, you can choose to re-throw the error or handle it as needed
-                throw error;
+                    console.error(error);
+                    document.body.style.cursor = 'default';
+                    // Instead of returning null, you can choose to re-throw the error or handle it as needed
+                    throw error;
                 })
             );
-        // Subscribe to the request and set cursor style when completed
-        request.subscribe(
-            () => {
-                // Request completed successfully, set cursor to 'default'
-                document.body.style.cursor = 'default';
-            },
-            (error) => {
-                // Request failed, handle error and set cursor to 'default'
-                console.error(error);
-                document.body.style.cursor = 'default';
-            }
-        );
+        // // Subscribe to the request and set cursor style when completed
+        // request.subscribe(
+        //     () => {
+        //         // Request completed successfully, set cursor to 'default'
+        //         document.body.style.cursor = 'default';
+        //     },
+        //     (error) => {
+        //         // Request failed, handle error and set cursor to 'default'
+        //         console.error(error);
+        //         document.body.style.cursor = 'default';
+        //     }
+        // );
 
         return request;
     }
@@ -598,13 +605,13 @@ export class iServiceBase {
             }
 
             const url = `${service}${api}`;
-            const response = await this.httpClient.put(url, inputData, this.getOptionsRequest(ignoreLoading)).toPromise();
+            const response = await firstValueFrom(this.httpClient.put(url, inputData, this.getOptionsRequest(ignoreLoading)));
             document.body.style.cursor = 'default';
             return response;
-        } catch (error) {
+        } catch (errorResponse) {
             document.body.style.cursor = 'default';
-            console.log(error);
-            return null;
+            //console.log(errorResponse);
+            return errorResponse.error;
         }
     }
 
@@ -648,16 +655,21 @@ export class iServiceBase {
 
     async deleteDataAsync(service: any, api: string, ignoreLoading?: boolean): Promise<any> {
         // Get IP và URL
-        service = await this.getURLService(service);
+        try {
+            service = await this.getURLService(service);
 
-        if (service == null) {
-            return null;
+            if (service == null) {
+                return null;
+            }
+
+            const url = `${service}${api}`;
+            const response = await firstValueFrom(this.httpClient.delete(url));
+            document.body.style.cursor = 'default';
+            return response;
+        } catch (errorResponse) {
+            document.body.style.cursor = 'default';
+            return errorResponse.error;
         }
-
-        const url = `${service}${api}`;
-        const response = await this.httpClient.delete(url).toPromise();
-        document.body.style.cursor = 'default';
-        return response;
     }
 
     public deleteData(service: any, api: string, ignoreLoading?: boolean): Observable<any> {
@@ -819,5 +831,26 @@ export class iServiceBase {
         }
         window.alert(errorMessage);
         return throwError(errorMessage);
+    }
+
+    formatMessageError(response: any): string{
+        var message = "";
+        if(response.errors.validationErrors && response.errors.validationErrors.length > 0){
+            const validationErrors = response.errors.validationErrors;
+            validationErrors.forEach(element => {
+                message += element.field + "\n";
+                element.messages.forEach((mess, index) => {
+                    message += "\t" + mess + "\n";
+                });
+            });
+        }
+
+        if(response.errors.systemErrors && response.errors.systemErrors.length > 0){
+            const systemErrors = response.errors.systemErrors;
+            systemErrors.forEach(mess => {
+                message += mess + "\n";
+            });
+        }
+        return message.trim();
     }
 }

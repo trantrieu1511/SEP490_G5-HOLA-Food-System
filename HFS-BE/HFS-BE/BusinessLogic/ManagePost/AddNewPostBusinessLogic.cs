@@ -28,18 +28,26 @@ namespace HFS_BE.BusinessLogic.ManagePost
 
                 if (String.IsNullOrEmpty(inputDto.PostContent))
                 {
-                    return Output<BaseOutputDto>(Constants.ResultCdFail,
-                        $"PostContent cannot be changed!");
+                    var errors = new List<string>();
+                    errors.Add("PostContent cannot be empty!");
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", errors);
+                    
                 }
+
+                var Dao = this.CreateDao<PostDao>();
+                var inputMapper = mapper.Map<PostCreateInputDto, Dao.PostDao.PostCreateInputDto>(inputDto);
 
                 // save file to server -> return list file name
                 var fileNames = new List<string>();
                 if (inputDto.Images != null && inputDto.Images.Count > 0)
+                {
                     fileNames = ReadSaveImage.SaveImages(inputDto.Images, inputDto.UserDto, 0);
-
-                var Dao = this.CreateDao<PostDao>();
-                var inputMapper = mapper.Map<PostCreateInputDto, Dao.PostDao.PostCreateInputDto>(inputDto);
-                inputMapper.Images = fileNames;
+                    inputMapper.Images = fileNames;
+                }
+                else
+                {
+                    inputMapper.Images = null;
+                }
 
                 var output = Dao.AddNewPost(inputMapper);
                 return output;

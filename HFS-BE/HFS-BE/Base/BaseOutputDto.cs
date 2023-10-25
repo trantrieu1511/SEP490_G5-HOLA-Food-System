@@ -13,7 +13,7 @@ namespace HFS_BE.Base
 
     public class ErrorsMessage
     {
-        public List<ValidationErrorDto>? ValidationErrors { get; set; } = null;
-        public List<string>? SystemErrors { get; set; } = null;
+        public ICollection<ValidationErrorDto>? ValidationErrors { get; set; } = null;
+        public ICollection<string>? SystemErrors { get; set; } = null;
     }
 }

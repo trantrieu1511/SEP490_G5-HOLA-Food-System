@@ -102,14 +102,17 @@ namespace HFS_BE.Dao.PostDao
                 context.Add(post);
                 context.SaveChanges();
 
-                foreach(var img in postDto.Images)
+                if(postDto.Images != null)
                 {
-                    context.Add(new PostImage
+                    foreach (var img in postDto.Images)
                     {
-                        PostId = post.PostId,
-                        Path = img
-                    });
-                    context.SaveChanges();
+                        context.Add(new PostImage
+                        {
+                            PostId = post.PostId,
+                            Path = img
+                        });
+                        context.SaveChanges();
+                    }
                 }
                 return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
@@ -123,24 +126,8 @@ namespace HFS_BE.Dao.PostDao
         {
             try
             {
-                // Add post
+                // Get post
                 var post = context.Posts.FirstOrDefault(x => x.PostId == input.PostId);
-                if (post == null)
-                {
-                    return Output<BaseOutputDto>(Constants.ResultCdFail, $"PostId: {input.PostId} not exist!");
-                }
-                // check status Ban 
-                if (post.Status == 3)
-                {
-                    return Output<BaseOutputDto>(Constants.ResultCdFail, 
-                        $"PostId: {input.PostId} has been banned and cannot be changed!");
-                }
-                // check status Not Approved
-                if (post.Status == 0)
-                {
-                    return Output<BaseOutputDto>(Constants.ResultCdFail,
-                        $"PostId: {input.PostId} is pending acceptance and cannot be changed!");
-                }
 
                 if (input.Type)
                 {
@@ -182,6 +169,11 @@ namespace HFS_BE.Dao.PostDao
                 //log error
                 return Output<BaseOutputDto>(Constants.ResultCdFail);
             }
+        }
+
+        public Post? GetPostById(int postId)
+        {
+            return context.Posts.FirstOrDefault(x => x.PostId == postId);
         }
     }
 }
