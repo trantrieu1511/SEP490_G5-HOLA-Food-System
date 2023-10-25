@@ -74,7 +74,7 @@ import { ForgotComponent } from './forgot/forgot.component';
       config: {
         tokenGetter:  () => sessionStorage.getItem('token')
       }
-    })
+    }),
 
   ],
 

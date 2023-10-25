@@ -59,12 +59,6 @@ namespace HFS_BE.Dao.FoodDao
         { 
             try
             {
-                var cate = context.Categories.FirstOrDefault(x => x.CategoryId == inputDto.CategoryId);
-                if (cate == null)
-                {
-                    return Output<BaseOutputDto>(Constants.ResultCdFail, $"CategoryId: {inputDto.CategoryId} is not exist!");
-                }
-
                 // Add food
                 Food food = new Food
                 {
@@ -127,6 +121,11 @@ namespace HFS_BE.Dao.FoodDao
             }
         }
 
+        public Food? GetFoodById(int foodId)
+        {
+            return context.Foods.FirstOrDefault(x => x.FoodId == foodId);
+        }
+
 
         public BaseOutputDto EnableDisableFood(FoodEnableDisableInputDto input)
         {
@@ -134,22 +133,6 @@ namespace HFS_BE.Dao.FoodDao
             {
                 // Add food
                 var food = context.Foods.FirstOrDefault(x => x.FoodId == input.FoodId);
-                if (food == null)
-                {
-                    return Output<BaseOutputDto>(Constants.ResultCdFail, $"FoodId: {input.FoodId} not exist!");
-                }
-                // check status Ban 
-                if (food.Status == 3)
-                {
-                    return Output<BaseOutputDto>(Constants.ResultCdFail,
-                        $"FoodId: {input.FoodId} has been banned and cannot be changed!");
-                }
-                // check status Not Approved
-                if (food.Status == 0)
-                {
-                    return Output<BaseOutputDto>(Constants.ResultCdFail,
-                        $"FoodId: {input.FoodId} is pending acceptance and cannot be changed!");
-                }
 
                 if (input.Type)
                 {

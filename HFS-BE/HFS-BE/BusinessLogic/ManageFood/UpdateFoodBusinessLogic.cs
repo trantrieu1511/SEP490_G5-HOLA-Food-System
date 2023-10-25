@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.Dao.FoodDao;
+using HFS_BE.DAO.CategoryDao;
 using HFS_BE.DAO.FoodImageDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
@@ -26,6 +27,15 @@ namespace HFS_BE.BusinessLogic.ManageFood
                     RoleId = 2,
                     UserId = 1,
                 };
+
+                var daoCate = CreateDao<CategoryDao>();
+                var cate = daoCate.GetCategoryById(inputDto.CategoryId);
+                if (cate == null)
+                {
+                    var errors = new List<string>();
+                    errors.Add("CategoryId: " + inputDto.CategoryId + " is not exist!");
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", errors);
+                }
 
                 var foodDao = CreateDao<FoodDao>();
                 var output = foodDao.UpdateFood(

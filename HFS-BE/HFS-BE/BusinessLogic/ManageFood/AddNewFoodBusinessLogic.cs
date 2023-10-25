@@ -2,6 +2,7 @@
 using HFS_BE.Base;
 using HFS_BE.Dao.FoodDao;
 using HFS_BE.Dao.PostDao;
+using HFS_BE.DAO.CategoryDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.IOFile;
@@ -19,6 +20,15 @@ namespace HFS_BE.BusinessLogic.ManageFood
         {
             try
             {
+                var daoCate = CreateDao<CategoryDao>();
+                var cate = daoCate.GetCategoryById(inputDto.CategoryId);
+                if (cate == null)
+                {
+                    var errors = new List<string>();
+                    errors.Add("CategoryId: " + inputDto.CategoryId + " is not exist!");
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed" , errors);
+                }
+
                 inputDto.UserDto = new UserDto
                 {
                     Email = "test@gmail.com",

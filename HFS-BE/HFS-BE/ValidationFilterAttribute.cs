@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using HFS_BE.Base;
 using HFS_BE.Utils;
+using System.Threading.Tasks.Dataflow;
 
 namespace HFS_BE
 {
@@ -27,8 +28,10 @@ namespace HFS_BE
                     Field = x.Key,
                     Messages = x.Value.Errors.Select(e => e.ErrorMessage).ToList()
                 })
+                .Where(x => x.Messages.Count > 0)
                 .ToList();
-                 
+
+
                 // return
                 var result = new BaseOutputDto
                 {
@@ -40,7 +43,7 @@ namespace HFS_BE
                     },
                     //ValdationErros2 = validationErrors
                 };
-
+                
                 context.Result = new UnprocessableEntityObjectResult(result);
             }
         }

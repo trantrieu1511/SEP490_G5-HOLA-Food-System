@@ -16,8 +16,33 @@ namespace HFS_BE.BusinessLogic.ManagePost
         {
             try
             {
-                var Dao = this.CreateDao<PostDao>();
-                var output = Dao.EnableDisablePost(input);
+                var dao = this.CreateDao<PostDao>();
+                var post = dao.GetPostById(input.PostId);
+                var errors = new List<string>();
+                if (post == null)
+                {
+                    errors.Add($"PostId: {input.PostId} not exist!");
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Enable/Disable Failed", errors);
+                    //return Output<BaseOutputDto>(Constants.ResultCdFail, $"PostId: {input.PostId} not exist!");
+                }
+                // check status Ban 
+                if (post.Status == 3)
+                {
+                    errors.Add($"PostId: {input.PostId} has been banned and cannot be changed!");
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Enable/Disable Failed", errors);
+                    /*return Output<BaseOutputDto>(Constants.ResultCdFail,
+                        $"PostId: {input.PostId} has been banned and cannot be changed!");*/
+                }
+                // check status Not Approved
+                if (post.Status == 0)
+                {
+                    errors.Add($"PostId: {input.PostId} is pending acceptance and cannot be changed!");
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Enable/Disable Failed", errors);
+                    /*return Output<BaseOutputDto>(Constants.ResultCdFail,
+                        $"PostId: {input.PostId} is pending acceptance and cannot be changed!");*/
+                }
+
+                var output = dao.EnableDisablePost(input);
 
                 return output;
             }
