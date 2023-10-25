@@ -3,6 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.Dao.OrderDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using HFS_BE.Utils.IOFile;
 
 namespace HFS_BE.BusinessLogic.OrderShipper
 {
@@ -11,18 +12,36 @@ namespace HFS_BE.BusinessLogic.OrderShipper
         public OrderHistoryBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
         {
         }
-        public OrderOnHistoryDaoOutputDto ListOrder(OrderHistoryInputDto inputDto)
+        public OrderByShipperBLOutputDto ListOrderHistory(OrderByShipperDaoInputDto inputDto)
         {
             try
             {
                 var dao = this.CreateDao<OrderDao>();
-                
-                return dao.OrderHistory(inputDto);
+
+                var output = dao.OrderHistory(inputDto);
+                var ouputMapper = mapper.Map<Dao.OrderDao.OrderHistoryDaoOutputDto, OrderByShipperBLOutputDto>(output);
+
+                foreach (var order in output.Orders)
+                {
+                    var indexOrder = output.Orders.IndexOf(order);
+                    foreach (var detail in order.OrderDetails)
+                    {
+                        var imageInfor = ImageFileConvert.ConvertFileToBase64(detail.ShopId, detail.Image, 1);
+                        if (imageInfor == null)
+                            continue;
+                        var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, ImageFoodOutputDto>(imageInfor);
+                        var indexDetail = order.OrderDetails.IndexOf(detail);
+                        ouputMapper.Orders[indexOrder].OrderDetails[indexDetail].ImageBase64 = imageMapper;
+
+                    }
+                }
+
+                return ouputMapper;
             }
             catch (Exception)
             {
 
-                return this.Output<OrderOnHistoryDaoOutputDto>(Constants.ResultCdFail);
+                return this.Output<OrderByShipperBLOutputDto>(Constants.ResultCdFail);
             }
         }
     }
