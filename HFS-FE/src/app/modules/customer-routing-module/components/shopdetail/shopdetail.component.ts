@@ -107,7 +107,7 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
       else{
         this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');
         this.router.navigate(['/login']);
-      }
+      } 
 
       this.loading = false;
   } catch (e) {
