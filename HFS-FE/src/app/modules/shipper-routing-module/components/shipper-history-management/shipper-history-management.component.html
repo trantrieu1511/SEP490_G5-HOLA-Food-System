@@ -1,8 +1,91 @@
 <div class="grid table-demo">
     <div class="col-12">
         <div class="card">
-            <h5>History</h5>
-            
+            <h5>All Order History</h5>
+            <p-table styleClass="p-datatable-orders" [value]="lstOrderHistory" 
+                dataKey="name" [tableStyle]="{ 'min-width': '60rem' }" [rows]="10"
+                [paginator]="true" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
+                responsiveLayout="scroll"
+                [loading]="loading"
+                currentPageReportTemplate="Total {totalRecords} order on this status"
+                [showCurrentPageReport]="showCurrentPageReport"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>
+                            
+                            <th  pSortableColumn="orderId">ID <p-sortIcon field="orderId"></p-sortIcon></th>
+                            <th  pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
+                            <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th> 
+                            <th pSortableColumn="address">Address <p-sortIcon field="address"></p-sortIcon></th>  
+                            <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>                            
+                            <th style="text-align: center" >Action</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-order let-expanded="expanded">
+                        <tr>
+                            
+                            <td>{{order.orderId}}</td>
+                            <td>{{order.orderDate}}</td>
+                            <td>{{order.total}} $</td>
+                            <td>{{order.shipAddress}}</td>
+                            <td>{{order.status}}</td>
+                            <ng-container >
+                                <td style="text-align: center">
+                                    <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+                                        <div class="flex align-items-center justify-content-center">
+                                            <button pButton pRipple
+                                            (click)="Detail(order.orderId)"
+                                                    class="p-button-rounded p-mr-2 p-button-outlined">Detail
+                                                </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </ng-container>
+                           
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8">There are no order on this status yet.</td>
+                        </tr>
+                    </ng-template>
+            </p-table>
         </div>
     </div>
 </div>
+<p-dialog [header]="headerDialog" [(visible)]="displayDialogConfirm"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '50vw'}"
+          [draggable]="false" [resizable]="false" [maximizable]="true" >
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <b>Detail</b>
+                    </div>
+                </p-divider>
+                <p-table [tableStyle]="{ 'min-width': '50rem' }">
+                    <ng-template  pTemplate="header" >
+                        <tr>
+                            <th>ID</th>
+                            <th>Image</th>
+                            <th>FoodName</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-orderDetails>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</p-dialog>

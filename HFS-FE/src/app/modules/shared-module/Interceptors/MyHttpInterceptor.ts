@@ -22,10 +22,11 @@ export class MyHttpInterceptor implements HttpInterceptor {
             catchError((err: any) => {
                     if (err.status === 401) {
                         console.log(401);
-                        return throwError(err);
+                        return throwError(() => err);
                     } else {
-                        const error = err.error.message || err.statusText;
-                        return throwError(error);
+                        //console.log("interceptor", err.error);
+                        //const error = err.error.message || err.statusText;
+                        return throwError(() => err);
                     }
                 },
             ),

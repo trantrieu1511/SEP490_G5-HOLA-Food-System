@@ -28,6 +28,13 @@ namespace HFS_BE.BusinessLogic.ManagePost
                     UserId = 1,
                 };
 
+                if (String.IsNullOrEmpty(inputDto.PostContent))
+                {
+                    var errors = new List<string>();
+                    errors.Add("PostContent cannot be empty!");
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", errors);
+                }
+
                 var postDao = CreateDao<PostDao>();
                 var output = postDao.UpdatePost(
                         mapper.Map<PostUpdateInputDto, Dao.PostDao.PostUpdateInputDto>(inputDto)

@@ -36,7 +36,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
 
     postModel: Post = new Post();
     
-    user: User;
+    userId : string ;
 
     activeItem: MenuItem | undefined;
   
@@ -95,10 +95,11 @@ export class ShipperComponent extends iComponentBase implements OnInit {
       }
 
     async onUpdateOrder(order:OrderDaoOutputDto){
-      const param = {
-        "OrderId": order.orderId,
-        "Status" : 3,
-    };
+      this.userId = sessionStorage.getItem('userId');
+      const param = new FormData();
+      param.append('orderId', order.orderId.toString());
+      param.append('status', "3");
+      param.append('notes', "dang ship nha");
       let response =  await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.SHIPPER, API.API_SHIPPER.CHANGE_STATUS,param);
       if (response && response.message === "Success") {
         this.lstOrderOfShipper = response.orderList;
@@ -110,19 +111,18 @@ export class ShipperComponent extends iComponentBase implements OnInit {
       this.lstOrderOfShipper = [];
       try {
         this.loading = true;
-        this.authService.user$.subscribe(user => {
-          this.user = user;
-      
-        });
-        
+        this.userId = sessionStorage.getItem('userId');  
+
         const param = {
-            "shipperId": this.user.userId,
-            "Status" : this.activeItem.id == "0" ? 2 : 3,
+            "shipperId":parseInt(this.userId),
+            
+            "Status" : this.activeItem.id == "0" ? true : false,
         };
 
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.SHIPPER, API.API_SHIPPER.GET_All, param);
         if (response && response.message === "Success") {
-            this.lstOrderOfShipper = response.orderList;
+            this.lstOrderOfShipper = response.orders;
+            console.log(response);
             this.calculatorTotalOrder();
         }
           
@@ -167,14 +167,14 @@ export class ShipperComponent extends iComponentBase implements OnInit {
         const param = new FormData();
         param.append('orderId', this.selectedOrderId.toString());
         param.append('note', this.note);
-        param.append('type',this.selectedtype == 0?"true":"false");
+        param.append('status',this.selectedtype == 0? "4" : "5");
         this.uploadedFiles.forEach(file => {
           param.append('image', file, file.name);
         });
   
         //console.log(param);
         const response = await this.iServiceBase
-          .postDataAsync(API.PHAN_HE.SHIPPER, API.API_SHIPPER.CONFIRM, param);
+          .postDataAsync(API.PHAN_HE.SHIPPER, API.API_SHIPPER.CHANGE_STATUS, param);
         
           if(response && response.message === "Success"){
           this.showMessage(mType.success, "Notification", "Confirm successfully", 'notify');

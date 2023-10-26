@@ -18,7 +18,12 @@ namespace HFS_BE.BusinessLogic.OrderShipper
         {
             try
             {
-                string fileNames = ReadSaveImage.SaveImagesOrderProgress(inputDto.Image, inputDto.UserDto, 2);
+                string fileNames = null;
+                if (inputDto.Image != null)
+                {
+                    fileNames = ReadSaveImage.SaveImagesOrderProgress(inputDto.Image, inputDto.UserDto, 2);
+                   
+                }
                 var dao = this.CreateDao<OrderProgressDao>();
                 var inputMapper = mapper.Map<OrderProgressBusinessLogicInputDto, DAO.OrderProgressDao.OrderProgressDaoInputDto>(inputDto);
                 inputMapper.Image = fileNames;

@@ -16,19 +16,19 @@ namespace HFS_BE.DAO.OrderProgressDao
         {
             try
             {
+                //get orderprogress by inputDto.orderId
+                var data = this.context.OrderProgresses.Where(x=>x.OrderId == inputDto.OrderId).ToList();
+                if(data.Where(x=>x.Status == inputDto.Status) != null)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail);
+                }
+                // check trong list trả về có status = inputDto.status ko
+                // có -> return ....
+                // ko làm tiếp bên dưới
+
                 //var data = context.Orders.FirstOrDefault(x => x.OrderId == inputDto.OrderId);
 
-                inputDto.CreateDate = DateTime.Now;
-                if(inputDto.Type)
-                {
-                    //data.Status = 4;
-                    inputDto.Status = 4;
-                }
-                else
-                {
-                    //data.Status = 5;
-                    inputDto.Status = 5;
-                }
+                inputDto.CreateDate = DateTime.Now; 
                 var order = mapper.Map<OrderProgressDaoInputDto, OrderProgress>(inputDto);
                 context.OrderProgresses.Add(order);
                 context.SaveChanges();

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.OrderShipper
 {
-    [Authorize(Roles = "4")]
+    //[Authorize(Roles = "4")]
     public class OrderOnShipperController : BaseController
     {
         public OrderOnShipperController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
@@ -19,11 +19,11 @@ namespace HFS_BE.Controllers.OrderShipper
         }
         [HttpPost("shipper/order")]
         
-        public OrderByShipperDaoOutputDto GetAllOrder(OrderByShipperDaoInputDto inputDto)
+        public OrderByShipperBLOutputDto GetAllOrder(OrderByShipperDaoInputDto inputDto)
         {
             try
             {
-                
+
                 var busi = this.GetBusinessLogic<OrderShipperBusinessLogic>();
                 var role = this.GetAccessRight();
                 //if(role != 4)
@@ -31,10 +31,12 @@ namespace HFS_BE.Controllers.OrderShipper
                 //    return this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdFail);
                 //}
                 return busi.ListOrderShipper(inputDto);
+
+                
             }
             catch (Exception)
             {
-                return this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdFail);
+                return this.Output<OrderByShipperBLOutputDto>(Constants.ResultCdFail);
             }
         }
 
@@ -53,7 +55,7 @@ namespace HFS_BE.Controllers.OrderShipper
             }
             catch (Exception)
             {
-                return this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdFail);
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
 
@@ -70,42 +72,25 @@ namespace HFS_BE.Controllers.OrderShipper
             }
             catch (Exception)
             {
-                return this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdFail);
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
 
         [HttpPost("shipper/history")]
         //[Authorize(Roles = "4")]
-        public OrderOnHistoryDaoOutputDto GetAllOrderHistory(OrderHistoryInputDto inputDto)
+        public OrderByShipperBLOutputDto GetAllOrderHistory(OrderByShipperDaoInputDto inputDto)
         {
             try
             {
                 var busi = this.GetBusinessLogic<OrderHistoryBusinessLogic>();
                 var role = this.GetAccessRight();
                 
-                return busi.ListOrder(inputDto);
+                return busi.ListOrderHistory(inputDto);
             }
             catch (Exception)
             {
-                return this.Output<OrderOnHistoryDaoOutputDto>(Constants.ResultCdFail);
+                return this.Output<OrderByShipperBLOutputDto>(Constants.ResultCdFail);
             }
-        }
-
-        [HttpPost("shipper/order/shipping")]
-        //[Authorize(Roles = "4")]
-        public BaseOutputDto ChangeStatus(OrderStatusInputDto inputDto)
-        {
-            try
-            {
-                var busi = this.GetBusinessLogic<OrderShipperBusinessLogic>();
-                
-
-                return busi.ChangeStatus(inputDto);
-            }
-            catch (Exception)
-            {
-                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
-            }
-        }
+        }       
     }
 }
