@@ -165,6 +165,7 @@ namespace HFS_BE.Automapper
         public void UserProfile()
         {
             CreateMap<User, UserProfile>();
+                //.ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => DateOnly.FromDateTime(Convert.ToDateTime(src.BirthDate))));
         }
         
         public void File()

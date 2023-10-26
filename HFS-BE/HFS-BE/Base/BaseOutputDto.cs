@@ -3,6 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace HFS_BE.Base
 {
+    /// <summary>
+    /// The base output use for response body of an API
+    /// </summary>
     public class BaseOutputDto
     {
         public string? Message { get; set; } = null;

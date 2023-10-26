@@ -32,6 +32,7 @@ export class API_USER {
     public static GET_INFO_CURRENT_USER = "getInfoCurrentUser";
     public static REGISTER = "register";
     public static GETPROFILE = "profile";
+    public static EDITPROFILE = "editprofile";
 }
 
 // Service Role
