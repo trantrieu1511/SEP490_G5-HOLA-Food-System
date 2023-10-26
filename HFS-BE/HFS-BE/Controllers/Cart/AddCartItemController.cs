@@ -27,7 +27,7 @@ namespace HFS_BE.Controllers.Cart
                 var busi = this.GetBusinessLogic<AddCartItemBusinessLogic>();
                 if (role != 3)
                 {
-                    return this.Output<GetCartItemDaoOutputDto>(Constants.ResultCdSuccess, "You are not customer.");
+                    return this.Output<GetCartItemDaoOutputDto>(Constants.ResultCdFail, "You are not customer.");
                 }
 
                 return busi.AddCartItem(inputDto);

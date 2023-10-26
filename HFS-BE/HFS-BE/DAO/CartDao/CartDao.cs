@@ -43,13 +43,18 @@ namespace HFS_BE.DAO.CartDao
         {
             try
             {
+                var food = this.context.Foods.FirstOrDefault(x => x.FoodId == inputDto.FoodId);
+                if (food != null)
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Food is not exsit in HFS.");
+                }
                 var data = this.context.CartItems
                     .Where(x => x.CartId == inputDto.CartId && x.FoodId == inputDto.FoodId)
                     .FirstOrDefault();
 
                 if (data != null)
                 {
-                    data.Amount += inputDto.Amount;
+                    data.Amount += inputDto.Amount.Value;
                     context.Update(data);
                     context.SaveChanges();
                     return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);

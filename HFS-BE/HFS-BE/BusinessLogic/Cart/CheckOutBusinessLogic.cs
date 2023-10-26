@@ -30,19 +30,36 @@ namespace HFS_BE.BusinessLogic.Cart
                     UserId = inputDto.CustomerId.Value,
                 });
 
+                if (!inputDto.PaymentMethod.Equals("default") && !inputDto.PaymentMethod.Equals("cod"))
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Your payment method invalid!");
+                }
+
                 inputDto.ShipAddress = inputDto.ShipAddress.Equals("default") ? user.Address : inputDto.ShipAddress;
+                if(inputDto.ListShop.Count == 0)
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Your ListShop is empty!");
+                }
 
                 decimal totalPrice = 0;
                 foreach (var item in inputDto.ListShop)
                 {
+                    if (item.CartItems.Count == 0)
+                    {
+                        return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Your CartItems of ShopId " + item.ShopId + " is empty!");
+                    }
                     foreach (var food in item.CartItems)
                     {
                         var foodInfo = foodDao.GetFoodById(new GetFoodByFoodIdDaoInputDto
                         {
                             FoodId = food.FoodId,
                         });
+                        if (foodInfo != null)
+                        {
+                            return this.Output<BaseOutputDto>(Constants.ResultCdFail, "FoodId not exsit!");
+                        }
 
-                        totalPrice += food.Amount * foodInfo.UnitPrice.Value;
+                        totalPrice += food.Amount.Value * foodInfo.UnitPrice.Value;
                     }
                 }
 
@@ -89,7 +106,7 @@ namespace HFS_BE.BusinessLogic.Cart
                     {
                         DeleteCartItemInputDto iteminput = new DeleteCartItemInputDto()
                         {
-                            FoodId = cartitem.FoodId,
+                            FoodId = cartitem.FoodId.Value,
                             CartId = inputDto.CustomerId.Value,
                         };
 
