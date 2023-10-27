@@ -44,7 +44,7 @@ namespace HFS_BE.DAO.CartDao
             try
             {
                 var food = this.context.Foods.FirstOrDefault(x => x.FoodId == inputDto.FoodId);
-                if (food != null)
+                if (food == null)
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Food is not exsit in HFS.");
                 }
