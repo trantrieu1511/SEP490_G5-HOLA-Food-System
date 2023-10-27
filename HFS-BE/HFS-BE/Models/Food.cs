@@ -15,7 +15,7 @@ namespace HFS_BE.Models
         }
 
         public int FoodId { get; set; }
-        public int? ShopId { get; set; }
+        public string SellerId { get; set; } = null!;
         public string? Name { get; set; }
         public decimal? UnitPrice { get; set; }
         public string? Description { get; set; }
@@ -23,7 +23,7 @@ namespace HFS_BE.Models
         public byte? Status { get; set; }
 
         public virtual Category? Category { get; set; }
-        public virtual User? Shop { get; set; }
+        public virtual Seller Seller { get; set; } = null!;
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual ICollection<FoodImage> FoodImages { get; set; }

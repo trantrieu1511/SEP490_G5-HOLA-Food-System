@@ -12,20 +12,19 @@ namespace HFS_BE.Models
         }
 
         public int OrderId { get; set; }
-        public int? CustomerId { get; set; }
-        public int? ShopId { get; set; }
+        public string? CustomerId { get; set; }
+        public string? SellerId { get; set; }
         public DateTime? OrderDate { get; set; }
         public DateTime? RequiredDate { get; set; }
         public DateTime? ShippedDate { get; set; }
         public string? ShipAddress { get; set; }
-        public int? ShipperId { get; set; }
+        public string? ShipperId { get; set; }
         public int? VoucherId { get; set; }
-        public byte PaymentMethod { get; set; }
-        public bool Status { get; set; }
+        public byte? Status { get; set; }
 
-        public virtual User? Customer { get; set; }
-        public virtual User? Shipper { get; set; }
-        public virtual User? Shop { get; set; }
+        public virtual Customer? Customer { get; set; }
+        public virtual Seller? Seller { get; set; }
+        public virtual Shipper? Shipper { get; set; }
         public virtual Voucher? Voucher { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<OrderProgress> OrderProgresses { get; set; }
