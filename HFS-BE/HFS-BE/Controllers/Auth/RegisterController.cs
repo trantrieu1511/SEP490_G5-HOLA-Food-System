@@ -9,7 +9,7 @@ namespace HFS_BE.Controllers.Auth
 {
 	public class RegisterController : BaseController
 	{
-		public RegisterController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+		public RegisterController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
 		{
 		}
 

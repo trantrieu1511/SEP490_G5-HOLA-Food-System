@@ -11,7 +11,7 @@ namespace HFS_BE.Controllers.ManagePost
 {
     public class UpdatePostController : BaseController
     {
-        public UpdatePostController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public UpdatePostController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

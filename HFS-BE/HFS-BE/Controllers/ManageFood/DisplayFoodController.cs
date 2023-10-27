@@ -11,7 +11,7 @@ namespace HFS_BE.Controllers.ManageFood
 {
     public class DisplayFoodController : BaseController
     {
-        public DisplayFoodController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public DisplayFoodController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

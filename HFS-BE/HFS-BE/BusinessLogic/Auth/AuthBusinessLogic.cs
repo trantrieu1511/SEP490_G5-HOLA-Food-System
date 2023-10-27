@@ -9,7 +9,7 @@ namespace HFS_BE.BusinessLogic.Auth
 {
 	public class AuthBusinessLogic : BaseBusinessLogic
 	{
-		public AuthBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+		public AuthBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
 		{
 		}
 		public LoginOutputDto Login(LoginInPutDto inputDto)

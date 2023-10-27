@@ -11,7 +11,7 @@ namespace HFS_BE.Controllers.Auth
 	
 	public class ForgotPasswordController : BaseController
 	{
-		public ForgotPasswordController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+		public ForgotPasswordController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
 		{
 		}
 		[HttpPost("home/sendforgot")]

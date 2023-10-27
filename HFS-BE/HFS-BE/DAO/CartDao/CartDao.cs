@@ -8,7 +8,7 @@ namespace HFS_BE.DAO.CartDao
 {
     public class CartDao : BaseDao
     {
-        public CartDao(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public CartDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

@@ -11,7 +11,7 @@ namespace HFS_BE.Controllers.Auth
 
 	public class LoginGoogleController : BaseController
 	{
-		public LoginGoogleController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+		public LoginGoogleController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
 		{
 		}
 

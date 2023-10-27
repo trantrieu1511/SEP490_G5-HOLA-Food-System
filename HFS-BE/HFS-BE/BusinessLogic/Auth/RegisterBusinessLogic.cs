@@ -7,7 +7,7 @@ namespace HFS_BE.BusinessLogic.Auth
 {
 	public class RegisterBusinessLogic : BaseBusinessLogic
 	{
-		public RegisterBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+		public RegisterBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
 		{
 		}
 		public BaseOutputDto Register(RegisterInputDto inputDto)

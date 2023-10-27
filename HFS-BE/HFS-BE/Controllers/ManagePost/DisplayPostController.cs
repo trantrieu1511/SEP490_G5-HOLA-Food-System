@@ -11,7 +11,7 @@ namespace HFS_BE.Controllers.ManagePost
 
     public class DisplayPostController : BaseController
     {
-        public DisplayPostController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public DisplayPostController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

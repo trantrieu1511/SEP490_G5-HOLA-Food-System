@@ -12,7 +12,7 @@ namespace HFS_BE.Controllers.Cart
 {
     public class AddCartItemController : BaseController
     {
-        public AddCartItemController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public AddCartItemController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

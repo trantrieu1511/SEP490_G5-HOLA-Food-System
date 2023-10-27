@@ -8,7 +8,7 @@ namespace HFS_BE.BusinessLogic.Profile
 {
     public class EditProfileBusinessLogic : BaseBusinessLogic
     {
-        public EditProfileBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public EditProfileBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

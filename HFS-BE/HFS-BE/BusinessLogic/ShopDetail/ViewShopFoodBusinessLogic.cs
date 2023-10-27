@@ -8,7 +8,7 @@ namespace HFS_BE.BusinessLogic.Menu
 {
     public class ViewShopFoodBusinessLogic : BaseBusinessLogic
     {
-        public ViewShopFoodBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public ViewShopFoodBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

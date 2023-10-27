@@ -12,7 +12,7 @@ namespace HFS_BE.BusinessLogic.ManageFood
 {
     public class AddNewFoodBusinessLogic : BaseBusinessLogic 
     {
-        public AddNewFoodBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public AddNewFoodBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

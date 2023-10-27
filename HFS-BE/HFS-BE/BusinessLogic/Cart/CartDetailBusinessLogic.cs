@@ -8,7 +8,7 @@ namespace HFS_BE.BusinessLogic.Cart
 {
     public class CartDetailBusinessLogic : BaseBusinessLogic
     {
-        public CartDetailBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public CartDetailBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

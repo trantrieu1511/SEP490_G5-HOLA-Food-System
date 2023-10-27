@@ -11,7 +11,7 @@ namespace HFS_BE.Controllers.Profile
 {
     public class EditProfileController : BaseController
     {
-        public EditProfileController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public EditProfileController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

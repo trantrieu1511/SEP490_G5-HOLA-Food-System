@@ -41,7 +41,7 @@ namespace HFS_BE.Controllers.Homepage
 		{
 			try
 			{
-				using (SEP490_HFSContext context = new SEP490_HFSContext())
+				using (SEP490_HFS_2Context context = new SEP490_HFS_2Context())
 				{
 					var data = context.Roles.ToList();
 					if (data == null)
@@ -60,7 +60,7 @@ namespace HFS_BE.Controllers.Homepage
 		[HttpPost]
 		public IActionResult RequiredToken(AuthDaoInputDto request)
 		{
-			using (SEP490_HFSContext context = new SEP490_HFSContext())
+			using (SEP490_HFS_2Context context = new SEP490_HFS_2Context())
 			{
 				//Include(s => s.Customers)
 				User acc = context.Users.FirstOrDefault(u => u.Email == request.Email);
@@ -125,7 +125,7 @@ namespace HFS_BE.Controllers.Homepage
 		{
 			string userid = "";
 			string confirmationCode = GenerateConfirmationCode(toEmail);
-			//using (SEP490_HFSContext context = new SEP490_HFSContext())
+			//using (SEP490_HFS_2Context context = new SEP490_HFS_2Context())
 			//{
 			//	var user = context.Users.Where(s => s.Email.ToLower().Equals(toEmail.ToLower())).FirstOrDefault();
 
@@ -153,7 +153,7 @@ namespace HFS_BE.Controllers.Homepage
 		[HttpPost("postanh")]
 		public async Task<IActionResult> PostAnh(int postid, List<IFormFile> files)
 		{
-			using (var context = new SEP490_HFSContext())
+			using (var context = new SEP490_HFS_2Context())
 			{
 				foreach (var file in files)
 				{
@@ -229,7 +229,7 @@ namespace HFS_BE.Controllers.Homepage
 
 				var jwtToken = (JwtSecurityToken)validatedToken;
 				string email = jwtToken.Claims.First(c => c.Type == "userId").Value;
-				using(var context=new SEP490_HFSContext())
+				using(var context=new SEP490_HFS_2Context())
 				{
 					var data = context.Users.Where(s => s.Email == email).FirstOrDefault();
 					if (data != null)

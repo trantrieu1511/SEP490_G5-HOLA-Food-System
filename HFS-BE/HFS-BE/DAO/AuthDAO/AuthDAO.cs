@@ -23,7 +23,7 @@ namespace HFS_BE.Dao.AuthDao
 		private const string MailgunApiBaseUrl = "https://api.mailgun.net/v3/";
 		private const string MailgunDomain = "sandbox38179487b9c441e69a66b0ecb5364d85.mailgun.org";
 		private const string MailgunApiKey = "c050ad11536d134d879a655d65baae5d-5465e583-034be4a6";
-		public AuthDao(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+		public AuthDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
 		{
 		}
 
@@ -198,7 +198,7 @@ namespace HFS_BE.Dao.AuthDao
 		{
 			string userid = "";
 			string confirmationCode = GenerateConfirmationCode(model.Email);
-			//using (SEP490_HFSContext context = new SEP490_HFSContext())
+			//using (SEP490_HFS_2Context context = new SEP490_HFS_2Context())
 			//{
 			//	var user = context.Users.Where(s => s.Email.ToLower().Equals(toEmail.ToLower())).FirstOrDefault();
 
@@ -300,7 +300,7 @@ namespace HFS_BE.Dao.AuthDao
 
 				var jwtToken = (JwtSecurityToken)validatedToken;
 				string email = jwtToken.Claims.First(c => c.Type == "userId").Value;
-				using (var context = new SEP490_HFSContext())
+				using (var context = new SEP490_HFS_2Context())
 				{
 					var data = context.Users.Where(s => s.Email == email).FirstOrDefault();
 					if (data == null)

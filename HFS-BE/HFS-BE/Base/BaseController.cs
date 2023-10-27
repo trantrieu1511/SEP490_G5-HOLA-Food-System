@@ -12,10 +12,10 @@ namespace HFS_BE.Base
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public class BaseController : ControllerBase
     {
-        private readonly SEP490_HFSContext context;
+        private readonly SEP490_HFS_2Context context;
         public readonly IMapper mapper;
 
-        public BaseController(SEP490_HFSContext context, IMapper mapper)
+        public BaseController(SEP490_HFS_2Context context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;

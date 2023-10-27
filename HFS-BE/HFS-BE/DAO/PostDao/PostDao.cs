@@ -11,7 +11,7 @@ namespace HFS_BE.Dao.PostDao
 {
     public class PostDao : BaseDao
     {
-        public PostDao(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public PostDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

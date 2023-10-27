@@ -13,7 +13,7 @@ namespace HFS_BE.Controllers.ManageFood
 {
     public class EnableDisableFoodController : BaseController
     {
-        public EnableDisableFoodController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public EnableDisableFoodController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

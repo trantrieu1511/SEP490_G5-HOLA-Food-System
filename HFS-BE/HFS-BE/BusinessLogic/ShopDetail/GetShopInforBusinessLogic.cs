@@ -8,7 +8,7 @@ namespace HFS_BE.BusinessLogic.ShopDetail
 {
     public class GetShopInforBusinessLogic : BaseBusinessLogic
     {
-        public GetShopInforBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public GetShopInforBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

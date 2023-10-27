@@ -5,10 +5,10 @@ namespace HFS_BE.Base
 {
     public class BaseBusinessLogic
     {
-        private readonly SEP490_HFSContext context;
+        private readonly SEP490_HFS_2Context context;
         public readonly IMapper mapper;
 
-        public BaseBusinessLogic(SEP490_HFSContext context, IMapper mapper) {
+        public BaseBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) {
             this.context = context;
             this.mapper = mapper;
         }

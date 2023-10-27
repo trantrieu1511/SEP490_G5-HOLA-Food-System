@@ -8,7 +8,7 @@ namespace HFS_BE.BusinessLogic.Category
 {
     public class AddCategoryBusinessLogic : BaseBusinessLogic
     {
-        public AddCategoryBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public AddCategoryBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
         public BaseOutputDto AddCategory(CategoryDaoInputDto inputDto)

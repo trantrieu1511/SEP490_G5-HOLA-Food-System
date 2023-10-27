@@ -10,7 +10,7 @@ namespace HFS_BE.BusinessLogic.ManagePost
 {
     public class AddNewPostBusinessLogic : BaseBusinessLogic
     {
-        public AddNewPostBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public AddNewPostBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

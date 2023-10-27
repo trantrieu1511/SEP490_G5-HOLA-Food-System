@@ -14,7 +14,7 @@ namespace HFS_BE.Controllers.OrderShipper
     //[Authorize(Roles = "4")]
     public class OrderOnShipperController : BaseController
     {
-        public OrderOnShipperController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public OrderOnShipperController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
         [HttpPost("shipper/order")]

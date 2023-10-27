@@ -8,7 +8,7 @@ namespace HFS_BE.BusinessLogic.Homepage
 {
     public class SearchShopBusinessLogic : BaseBusinessLogic
     {
-        public SearchShopBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public SearchShopBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

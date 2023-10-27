@@ -7,7 +7,7 @@ namespace HFS_BE.BusinessLogic.Auth
 {
 	public class ForgotPasswordBusinessLogic : BaseBusinessLogic
 	{
-		public ForgotPasswordBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+		public ForgotPasswordBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
 		{
 		}
 		public async Task<BaseOutputDto> SendForgotPassword(ForgotPasswordInputDto inputDto)

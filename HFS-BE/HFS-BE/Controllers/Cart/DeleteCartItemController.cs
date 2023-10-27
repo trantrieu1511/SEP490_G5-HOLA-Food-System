@@ -10,7 +10,7 @@ namespace HFS_BE.Controllers.Cart
 {
     public class DeleteCartItemController : BaseController
     {
-        public DeleteCartItemController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public DeleteCartItemController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

@@ -13,7 +13,7 @@ namespace HFS_BE.Controllers.ManageFood
 
     public class AddNewFoodController : BaseController
     {
-        public AddNewFoodController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public AddNewFoodController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

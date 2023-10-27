@@ -11,7 +11,7 @@ namespace HFS_BE.Controllers.ManagePost
 
     public class AddNewPostSellerController : BaseController
     {
-        public AddNewPostSellerController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public AddNewPostSellerController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

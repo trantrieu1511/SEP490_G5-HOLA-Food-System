@@ -8,7 +8,7 @@ namespace HFS_BE.DAO.UserDao
 {
     public class UserDao : BaseDao
     {
-        public UserDao(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public UserDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

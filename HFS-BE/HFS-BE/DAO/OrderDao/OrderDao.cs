@@ -9,7 +9,7 @@ namespace HFS_BE.Dao.OrderDao
 {
     public class OrderDao : BaseDao
     {
-        public OrderDao(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public OrderDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
         public OrderByShipperDaoOutputDto OrderOfShipper(OrderByShipperDaoInputDto inputDto)

@@ -11,7 +11,7 @@ namespace HFS_BE.Dao.FoodDao
 {
     public class FoodDao : BaseDao
     {
-        public FoodDao(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public FoodDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
