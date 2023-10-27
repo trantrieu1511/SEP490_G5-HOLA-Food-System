@@ -13,7 +13,7 @@ import {
   SelectItem,
   TreeNode
 } from "primeng/api";
-import { Profile } from '../../models/profile';
+import { Profile, ProfileDisplay } from '../../models/profile';
 
 @Component({
   selector: 'app-manageprofile',
@@ -24,6 +24,7 @@ import { Profile } from '../../models/profile';
 export class ManageprofileComponent extends iComponentBase implements OnInit {
 
   profile: Profile;
+  profileDisplay: ProfileDisplay;
   visible = false;
 
   constructor(
@@ -59,8 +60,10 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
 
       if (response && response.message === 'Success') {
         this.profile = response.data;
+        this.profileDisplay = Object.assign({}, response.data);
 
         console.log(this.profile);
+        console.log(this.profileDisplay);
 
       }
     } catch (e) {
@@ -80,7 +83,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase.putDataAsync(API.PHAN_HE.USER, API.API_USER.EDITPROFILE, inputData);
 
       if (response && response.message === 'Success') {
-        this.profile = response.data;
+        
         this.showMessage(mType.success, "Notification"
           , "profile updated successfully", 'notify');
 
