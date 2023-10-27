@@ -2,7 +2,7 @@
 
 namespace HFS_BE.DAO.UserDao
 {
-    public class UserProfileOutputDto : BaseOutputDto
+    public class UserProfile
     {
         public int UserId { get; set; }
         public string FirstName { get; set; } = null!;
@@ -20,9 +20,9 @@ namespace HFS_BE.DAO.UserDao
         public int? ManageBy { get; set; }
     }
 
-    public class UserProfileOutputDao : BaseOutputDto
+    public class UserProfileOutputDto : BaseOutputDto
     {
-        public UserProfileOutputDto? data { get; set;}
+        public UserProfile? data { get; set;}
     }
     public class GetOrderInfoOutputDto : BaseOutputDto
     {

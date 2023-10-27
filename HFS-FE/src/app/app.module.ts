@@ -38,7 +38,6 @@ import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
 import { LoadingComponent } from './modules/shared-module/components/loading-component/loading.component';
 import { ForgotComponent } from './forgot/forgot.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -161,23 +161,23 @@
                     [@topbarActionPanelAnimation]="'visible'"
                     *ngIf="layoutService.state.activeTopbarItem === 'profile'">
                     <li class="layout-topbar-action-item">
-                        <a class="flex flex-row align-items-center" pRipple>
-                            <i class="pi pi-cog"
-                               [ngClass]="{'mr-2': !layoutService.config.isRTL, 'ml-2': layoutService.config.isRTL}"></i>
-                            <span>Settings</span>
+                        <a class="flex flex-row align-items-center" pRipple (click)="viewProfile()">
+                            <i class="pi pi-user"
+                               [ngClass]="{'mr-2': !layoutService.config.isRTL, 'ml-2': layoutService.config.isRTL}"></i>&nbsp;
+                            <span>Profile</span>
                         </a>
                     </li>
                     <li class="layout-topbar-action-item">
                         <a class="flex flex-row align-items-center" pRipple>
                             <i class="pi pi-file-o"
-                               [ngClass]="{'mr-2': !layoutService.config.isRTL, 'ml-2': layoutService.config.isRTL}"></i>
+                               [ngClass]="{'mr-2': !layoutService.config.isRTL, 'ml-2': layoutService.config.isRTL}"></i>&nbsp;
                             <span>Terms of Usage</span>
                         </a>
                     </li>
                     <li class="layout-topbar-action-item">
                         <a class="flex flex-row align-items-center" pRipple>
                             <i class="pi pi-compass"
-                               [ngClass]="{'mr-2': !layoutService.config.isRTL, 'ml-2': layoutService.config.isRTL}"></i>
+                               [ngClass]="{'mr-2': !layoutService.config.isRTL, 'ml-2': layoutService.config.isRTL}"></i>&nbsp;
                             <span>Support</span>
                         </a>
                     </li>
@@ -185,7 +185,7 @@
                         <a class="flex flex-row align-items-center" 
                            pRipple>
                             <i class="pi pi-power-off"
-                               [ngClass]="{'mr-2': !layoutService.config.isRTL, 'ml-2': layoutService.config.isRTL}"></i>
+                               [ngClass]="{'mr-2': !layoutService.config.isRTL, 'ml-2': layoutService.config.isRTL}"></i>&nbsp;
                             <span>Logout</span>
                         </a>
                     </li>

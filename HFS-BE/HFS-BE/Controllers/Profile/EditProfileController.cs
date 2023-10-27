@@ -9,20 +9,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.Profile
 {
-    public class DisplayProfileController : BaseController
+    public class EditProfileController : BaseController
     {
-        public DisplayProfileController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public EditProfileController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
         {
         }
 
-        [HttpPost("users/profile")]
-        public UserProfileOutputDto Post() {
+        [HttpPut("users/editprofile")]
+        public BaseOutputDto Post(EditUserProfileInputDto inputDto)
+        {
             try
             {
-                var business = GetBusinessLogic<DisplayProfileBusinessLogic>();
-                int userId = GetUserInfor().UserId;
-
-                return business.GetProfile(userId);
+                var business = GetBusinessLogic<EditProfileBusinessLogic>();
+                return business.EditProfile(inputDto);
             }
             catch (Exception)
             {

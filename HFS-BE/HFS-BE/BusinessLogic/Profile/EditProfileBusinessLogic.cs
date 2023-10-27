@@ -6,17 +6,18 @@ using HFS_BE.Utils;
 
 namespace HFS_BE.BusinessLogic.Profile
 {
-    public class DisplayProfileBusinessLogic : BaseBusinessLogic
+    public class EditProfileBusinessLogic : BaseBusinessLogic
     {
-        public DisplayProfileBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public EditProfileBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
         {
         }
 
-        public UserProfileOutputDto GetProfile(int userId) {
+        public BaseOutputDto EditProfile(EditUserProfileInputDto inputDto)
+        {
             try
             {
                 var dao = CreateDao<UserDao>();
-                return dao.GetUserProfileById(userId);
+                return dao.EditProfileById(inputDto);
             }
             catch (Exception)
             {
