@@ -15,7 +15,7 @@ CREATE TABLE [dbo].[Seller](
 	[lastName] [nvarchar](50) NOT NULL,
 	[gender] [nvarchar](10) NULL,
 	[birthDate] [date] NULL,
-	[email] [nvarchar](100) NOT NULL,
+	[email] [nvarchar](100) UNIQUE NOT NULL,
 	[phoneNumber] [bigint] NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
@@ -24,11 +24,11 @@ CREATE TABLE [dbo].[Seller](
 	[walletBalance] [money] NULL,
 	shopName NVARCHAR(50),
 	shopAddress NVARCHAR(MAX),
-	[manageBy] [int] NULL,
-	[confirmEmail] [bit] not NULL,
-	[ban] [bit] not null DEFAULT('true'),
-	[checkSeller] [bit] not null DEFAULT('false'),
+	[confirmedEmail] [bit] not NULL DEFAULT('false'),
+	[isBanned] [bit] not null DEFAULT('false'),
+	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Seller) da duoc admin xac nhan cho phep kinh doanh o HFS chua
 )
+
 CREATE TABLE [dbo].[Admin](
 	[adminId] [nvarchar](50) NOT NULL primary key,
 	[firstName] [nvarchar](50) NOT NULL,
@@ -42,8 +42,9 @@ CREATE TABLE [dbo].[Admin](
 	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL,
 	[walletBalance] [money] NULL,
-	[confirmEmail] [bit] not NULL,
+	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 )
+
 CREATE TABLE [dbo].[PostModerator](
 	[modId] [nvarchar](50) NOT NULL primary key,
 	[firstName] [nvarchar](50) NOT NULL,
@@ -56,7 +57,8 @@ CREATE TABLE [dbo].[PostModerator](
 	[PasswordHash] [varbinary](max) NOT NULL,
 	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL,
-	[confirmEmail] [bit] not NULL,
+	[confirmedEmail] [bit] not NULL DEFAULT('false'),
+	[isBanned] [bit] not null DEFAULT('false')
 )
 
 CREATE TABLE [dbo].[MenuModerator](
@@ -71,8 +73,10 @@ CREATE TABLE [dbo].[MenuModerator](
 	[PasswordHash] [varbinary](max) NOT NULL,
 	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL,
-	[confirmEmail] [bit] not NULL,
+	[confirmedEmail] [bit] not NULL DEFAULT('false'),
+	[isBanned] [bit] not null DEFAULT('false')
 )
+
 CREATE TABLE [dbo].[Customer](
 	[customerId] [nvarchar](50) NOT NULL primary key,
 	[firstName] [nvarchar](50) NOT NULL,
@@ -86,8 +90,8 @@ CREATE TABLE [dbo].[Customer](
 	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL DEFAULT('false'),
 	[walletBalance] [money] NULL,
-	[confirmEmail] [bit] not NULL,
-	[ban] [bit] not null DEFAULT('false'),		
+	[confirmedEmail] [bit] not NULL DEFAULT('false'),
+	[isBanned] [bit] not null DEFAULT('false'),		
 )
 
 CREATE TABLE [dbo].[Shipper](
@@ -103,9 +107,9 @@ CREATE TABLE [dbo].[Shipper](
 	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL DEFAULT('false'),
 	[manageBy] [nvarchar](50) NULL,
-	[confirmEmail] [bit] not NULL,
-	[ban] [bit] not null DEFAULT('true'),
-	[isVerify] [bit] not null DEFAULT('false'),
+	[confirmedEmail] [bit] not NULL DEFAULT('false'),
+	[isBanned] [bit] not null DEFAULT('false'),
+	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Shipper) da duoc admin xac nhan cho phep kinh doanh o HFS chua
 	CONSTRAINT FK_Shiper_Seller FOREIGN KEY (manageBy) REFERENCES [Seller]([sellerId]),
 )
 
