@@ -9,7 +9,7 @@ namespace HFS_BE.DAO.UserDao
 
     public class EditUserProfileInputDto
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Gender { get; set; }

@@ -19,6 +19,7 @@ using HFS_BE.Dao.FoodDao;
 using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.DAO.CategoryDao;
 using HFS_BE.BusinessLogic.OrderShipper;
+using HFS_BE.DAO.UserDao.CustomerDao;
 
 namespace HFS_BE.Automapper
 {
@@ -86,7 +87,7 @@ namespace HFS_BE.Automapper
             //input
             CreateMap<Controllers.ManageFood.FoodCreateInputDto, BusinessLogic.ManageFood.FoodCreateInputDto>();
             CreateMap<BusinessLogic.ManageFood.FoodCreateInputDto, Dao.FoodDao.FoodCreateInputDto>();
-            CreateMap<Dao.FoodDao.FoodCreateInputDto, BusinessLogic.ManageFood.FoodCreateInputDto> ();
+            CreateMap<Dao.FoodDao.FoodCreateInputDto, BusinessLogic.ManageFood.FoodCreateInputDto>();
             CreateMap<BusinessLogic.ManageFood.FoodUpdateInputDto, Dao.FoodDao.FoodUpdateInforInputDto>();
             CreateMap<Controllers.ManageFood.FoodUpdateInputDto, BusinessLogic.ManageFood.FoodUpdateInputDto>();
             //output
@@ -190,7 +191,7 @@ namespace HFS_BE.Automapper
             CreateMap<OrderProgress, OrderProgressDaoOutputDto>();
 
             CreateMap<Controllers.OrderShipper.OrderProgressControllerInputDto, BusinessLogic.OrderShipper.OrderProgressBusinessLogicInputDto>();
-            CreateMap<BusinessLogic.OrderShipper.OrderProgressBusinessLogicInputDto,DAO.OrderProgressDao.OrderProgressDaoInputDto>()
+            CreateMap<BusinessLogic.OrderShipper.OrderProgressBusinessLogicInputDto, DAO.OrderProgressDao.OrderProgressDaoInputDto>()
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserDto.UserId));
 
 
@@ -200,7 +201,7 @@ namespace HFS_BE.Automapper
         public void Shop()
         {
             CreateMap<User, GetShopDetailDaoOutputDto>()
-                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.UserId));            
+                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.UserId));
         }
 
         public void Cart()
@@ -220,17 +221,22 @@ namespace HFS_BE.Automapper
 
         public void UserProfile()
         {
+            CreateMap<Admin, UserProfile>();
             CreateMap<Customer, UserProfile>();
-                //.ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => DateOnly.FromDateTime(Convert.ToDateTime(src.BirthDate))));
+            CreateMap<Seller, UserProfile>();
+            CreateMap<Shipper, UserProfile>();
+            CreateMap<PostModerator, UserProfile>();
+            CreateMap<MenuModerator, UserProfile>();
+            //.ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => DateOnly.FromDateTime(Convert.ToDateTime(src.BirthDate))));
         }
-        
+
         public void File()
         {
             CreateMap<ImageFileConvert.ImageOutputDto, PostImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, FoodImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, BusinessLogic.OrderShipper.ImageFoodOutputDto>();
         }
-       
+
         public void Category()
         {
             CreateMap<CategoryDaoInputDto, Category>();

@@ -2,6 +2,7 @@
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Profile;
 using HFS_BE.DAO.UserDao;
+using HFS_BE.DAO.UserDao.CustomerDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Http;
