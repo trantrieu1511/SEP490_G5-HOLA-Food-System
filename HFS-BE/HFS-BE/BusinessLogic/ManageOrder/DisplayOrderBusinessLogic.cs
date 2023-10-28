@@ -7,7 +7,7 @@ namespace HFS_BE.BusinessLogic.ManageOrder
 {
     public class DisplayOrderBusinessLogic : BaseBusinessLogic
     {
-        public DisplayOrderBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public DisplayOrderBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

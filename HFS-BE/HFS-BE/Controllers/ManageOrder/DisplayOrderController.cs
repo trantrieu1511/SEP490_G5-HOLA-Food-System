@@ -9,7 +9,7 @@ namespace HFS_BE.Controllers.ManageOrder
 {
     public class DisplayOrderController : BaseController
     {
-        public DisplayOrderController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public DisplayOrderController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

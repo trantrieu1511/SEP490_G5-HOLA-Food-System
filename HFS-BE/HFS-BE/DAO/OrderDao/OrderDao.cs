@@ -142,12 +142,12 @@ namespace HFS_BE.Dao.OrderDao
                     .Include(x => x.OrderDetails).ThenInclude(x => x.Food)
                         .ThenInclude(f => f.FoodImages)
                     .Include(x => x.OrderProgresses)
-                    .Include(x => x.Voucher)
-                    .Include(x => x.Customer);
+                    .Include(x => x.Customer)
+                    .Include(x => x.Voucher);
 
                 if (inputDto.Status == 2 || inputDto.Status == 3 || inputDto.Status == 4 || inputDto.Status == 5)
                 {
-                    query = query.Include(x => x.Shipper);
+                    query = query.Include(x => x.Shipper).Include(x => x.Voucher);
                 }
 
                 var data = new List<Order>();
@@ -158,13 +158,13 @@ namespace HFS_BE.Dao.OrderDao
 
                 if (inputDto.DateFrom.Equals(inputDto.DateEnd) || arrayStatus.Contains((int)inputDto.Status))
                 {
-                    data = query.Where(x => x.ShopId == inputDto.UserId
+                    data = query.Where(x => x.SellerId.Equals(inputDto.UserId)
                             && x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == inputDto.Status)
                             .ToList();
                 }
                 else
                 {
-                    data = query.Where(x => x.ShopId == inputDto.UserId
+                    data = query.Where(x => x.SellerId.Equals(inputDto.UserId)
                             && x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == inputDto.Status
                             && x.OrderDate >= inputDto.DateFrom && x.OrderDate <= inputDto.DateEnd)
                             .ToList();
