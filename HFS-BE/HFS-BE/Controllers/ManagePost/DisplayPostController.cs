@@ -3,6 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.BusinessLogic.ManagePost;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace HFS_BE.Controllers.ManagePost
         }
 
         [HttpGet("posts/getPostsSeller")]
+        [Authorize]
         public ListPostOutputSellerDto Get()
         {
             try
