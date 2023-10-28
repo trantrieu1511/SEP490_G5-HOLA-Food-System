@@ -9,7 +9,7 @@
             public string? Size { get; set; }
         }
 
-        public static ImageOutputDto? ConvertFileToBase64(int userId,string fileName, int type)
+        public static ImageOutputDto? ConvertFileToBase64(string userId,string fileName, int type)
         {
             string path = $"Resources\\Images\\" +
                             $"{userId}\\" +

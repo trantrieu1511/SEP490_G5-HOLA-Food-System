@@ -17,13 +17,6 @@ namespace HFS_BE.BusinessLogic.ManagePost
         {
             try
             {
-                userDto = new UserDto
-                {
-                    Email = "test@gmail.com",
-                    Name = "testSeller",
-                    RoleId = 1,
-                    UserId = 1,
-                };
 
                 var Dao = this.CreateDao<PostDao>();
                 Dao.PostDao.ListPostOutputSellerDto daoOutput = Dao.GetAllPostSeller(userDto);
