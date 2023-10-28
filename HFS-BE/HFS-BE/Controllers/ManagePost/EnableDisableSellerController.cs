@@ -4,6 +4,7 @@ using HFS_BE.BusinessLogic.ManagePost;
 using HFS_BE.Dao.PostDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace HFS_BE.Controllers.ManagePost
         }
 
         [HttpPost("posts/enableDisableSeller")]
+        [Authorize]
         public BaseOutputDto EnableDisablePost(PostEnableDisableInputDto input)
         {
             try

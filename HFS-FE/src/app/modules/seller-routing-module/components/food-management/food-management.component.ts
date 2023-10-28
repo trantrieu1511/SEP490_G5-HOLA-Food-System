@@ -207,7 +207,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
 
   onSaveFood() {
     //console.log(this.foodModel);
-    this.foodModel.categoryId = this.selectedCategory.categoryId;
+    this.foodModel.categoryId = this.selectedCategory != null ?  this.selectedCategory.categoryId : null;
     
     let foodEntity = this.bindingDataFoodModel();
 
@@ -281,7 +281,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
         const response = await this.iServiceBase
           .postDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.ADD_FOOD, param, true);
         //console.log(response);
-        if(response && response.success === "Success"){
+        if(response && response.message === "Success"){
           this.showMessage(mType.success, "Notification", "New food added successfully", 'notify');
 
           this.displayDialogEditAddFood = false;

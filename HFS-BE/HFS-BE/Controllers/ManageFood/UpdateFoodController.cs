@@ -3,6 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.BusinessLogic.ManageFood;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.ManageFood
@@ -14,6 +15,7 @@ namespace HFS_BE.Controllers.ManageFood
         }
 
         [HttpPut("foods/updateFood")]
+        [Authorize]
         public BaseOutputDto UpdateFood([FromForm] FoodUpdateInputDto input)
         {
             try
