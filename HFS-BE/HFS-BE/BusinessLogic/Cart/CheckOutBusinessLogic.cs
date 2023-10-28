@@ -54,7 +54,7 @@ namespace HFS_BE.BusinessLogic.Cart
                         {
                             FoodId = food.FoodId,
                         });
-                        if (foodInfo != null)
+                        if (foodInfo == null)
                         {
                             return this.Output<BaseOutputDto>(Constants.ResultCdFail, "FoodId not exsit!");
                         }
