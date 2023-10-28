@@ -18,6 +18,13 @@ namespace HFS_BE.BusinessLogic.ManagePost
         {
             try
             {
+                /*inputDto.UserDto = new UserDto
+                {
+                    Email = "test@gmail.com",
+                    Name = "testSeller",
+                    RoleId = 2,
+                    UserId = 1,
+                };*/
 
                 if (String.IsNullOrEmpty(inputDto.PostContent))
                 {

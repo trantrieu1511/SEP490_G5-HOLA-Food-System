@@ -131,7 +131,93 @@ namespace HFS_BE.Dao.OrderDao
                 return this.Output<CheckOutOrderDaoOutputDto>(Constants.ResultCdFail, e.Message);
             }
         }
+    
+        public OrderSellerDaoOutputDto GetOrderByStatus(OrderSellerByStatusInputDto inputDto)
+        {
+            try
+            {
+                var query = context.Orders
+                    .Include(x => x.OrderDetails).ThenInclude(x => x.Food)
+                        .ThenInclude(f => f.Category)
+                    .Include(x => x.OrderDetails).ThenInclude(x => x.Food)
+                        .ThenInclude(f => f.FoodImages)
+                    .Include(x => x.OrderProgresses)
+                    .Include(x => x.Voucher)
+                    .Include(x => x.Customer);
 
+                if (inputDto.Status == 2 || inputDto.Status == 3 || inputDto.Status == 4 || inputDto.Status == 5)
+                {
+                    query = query.Include(x => x.Shipper);
+                }
+
+                var data = new List<Order>();
+                List<int> arrayStatus = new List<int>
+                    {
+                        0, 1, 2, 3
+                    };
+
+                if (inputDto.DateFrom.Equals(inputDto.DateEnd) || arrayStatus.Contains((int)inputDto.Status))
+                {
+                    data = query.Where(x => x.ShopId == inputDto.UserId
+                            && x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == inputDto.Status)
+                            .ToList();
+                }
+                else
+                {
+                    data = query.Where(x => x.ShopId == inputDto.UserId
+                            && x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == inputDto.Status
+                            && x.OrderDate >= inputDto.DateFrom && x.OrderDate <= inputDto.DateEnd)
+                            .ToList();
+                }
+
+                
+
+                /*var result = data.Select(o => new OrderDaoSellerOutputDto
+                {
+                    OrderId = o.OrderId,
+                    CustomerId = o.CustomerId,
+                    CustomerName = o.Customer != null ? o.Customer.FirstName + " " + o.Customer.LastName : null ,
+                    OrderDate = o.OrderDate != null ? o.OrderDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null,
+                    RequiredDate = o.RequiredDate != null ? o.RequiredDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null,
+                    ShippedDate = o.ShippedDate != null ? o.ShippedDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null,
+                    ShipAddress = o.ShipAddress,
+                    ShipperId = o.ShipperId,
+                    ShipperName = o.Shipper != null ? o.Shipper.FirstName + " " + o.Shipper.LastName : null,
+                    VoucherId = o.VoucherId,
+                    TotalPrice = o.OrderDetails.Select(d => d.UnitPrice * d.Quantity).ToList().Sum(), //* them voucher,
+                    Detail = new DetailProgress
+                    {
+                        Image = o.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Image,
+                        Note = o.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Note,
+                        CreateDate = o.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().CreateDate.Value.ToString("MM/dd/yyyy - HH:mm:ss")
+                    },
+                    OrderDetails = o.OrderDetails.Select(od => new OrderDetailFoodDto
+                    {
+                        OrderId = od.OrderId,
+                        FoodId = od.FoodId,
+                        FoodName = od.Food.Name,
+                        UnitPrice = od.UnitPrice,
+                        Quantity = od.Quantity,
+                        Image = od.Food.FoodImages.ToList().First().Path,
+                        CategoryName = od.Food.Category.Name
+                    }).ToList()
+                }).ToList();*/
+
+                var result = data.Select(o => mapper.Map<Order, OrderDaoSellerOutputDto>(o)).ToList();
+
+
+                
+                var output = this.Output<OrderSellerDaoOutputDto>(Constants.ResultCdSuccess);
+                output.Orders = result;
+                return output;
+
+            }
+            catch (Exception)
+            {
+
+                return this.Output<OrderSellerDaoOutputDto>(Constants.ResultCdFail);
+            }
+        }
         
     }
 }

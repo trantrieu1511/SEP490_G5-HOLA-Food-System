@@ -208,7 +208,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       check = false;
     }
 
-    return true;
+    return check;
   }
 
   async createPost(postEnity: PostInput) {

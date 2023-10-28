@@ -36,4 +36,12 @@ namespace HFS_BE.Dao.OrderDao
         public int? OrderId { get; set; }
         public bool Status { get; set; }
     }
+
+    public class OrderSellerByStatusInputDto
+    {
+        public int? UserId { get; set; }
+        public int? Status { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateEnd { get; set; }
+    }
 }
