@@ -209,8 +209,8 @@ namespace HFS_BE.Automapper
             CreateMap<CartItem, DAO.CartDao.CartItemOutputDto>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Food.Name))
                 .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => src.Food.FoodImages))
-                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.Food.ShopId))
-                .ForMember(dest => dest.ShopName, opt => opt.MapFrom(src => src.Food.Shop.ShopName))
+                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.Food.SellerId))
+                .ForMember(dest => dest.ShopName, opt => opt.MapFrom(src => src.Food.Seller.ShopName))
                 .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.Food.UnitPrice));
             CreateMap<AddCartItemInputDto, CartItem>();
 
@@ -220,7 +220,7 @@ namespace HFS_BE.Automapper
 
         public void UserProfile()
         {
-            CreateMap<User, UserProfile>();
+            CreateMap<Customer, UserProfile>();
                 //.ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => DateOnly.FromDateTime(Convert.ToDateTime(src.BirthDate))));
         }
         
