@@ -19,7 +19,6 @@ using HFS_BE.Dao.FoodDao;
 using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.DAO.CategoryDao;
 using HFS_BE.BusinessLogic.OrderShipper;
-using HFS_BE.DAO.UserDao.CustomerDao;
 using HFS_BE.DAO.ShipperDao;
 
 namespace HFS_BE.Automapper
@@ -46,8 +45,8 @@ namespace HFS_BE.Automapper
         /// </summary>
         public void Homepage()
         {
-            CreateMap<User, ShopDto>();
-            CreateMap<List<User>, DisplayShopDaoOutputDto>();
+            //CreateMap<User, ShopDto>();
+            //CreateMap<List<User>, DisplayShopDaoOutputDto>();
             CreateMap<ShopDto, BusinessLogic.Homepage.ShopDto>();
             CreateMap<DisplayShopDaoOutputDto, BusinessLogic.Homepage.DisplayShopOutputDto>();
         }
@@ -102,7 +101,7 @@ namespace HFS_BE.Automapper
             CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>();
             CreateMap<OrderDetail, Dao.OrderDao.OrderDetailDto>()
                 .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name))
-                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.Food.ShopId))
+                //.ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.Food.ShopId))
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Food.FoodImages.AsQueryable().First().Path));
             CreateMap<Dao.OrderDao.OrderDetailDto, BusinessLogic.OrderShipper.OrderDetailBLDto>();
             CreateMap<Dao.OrderDao.OrderDaoOutputDto, BusinessLogic.OrderShipper.OrderBLOutputDto>();
@@ -202,8 +201,8 @@ namespace HFS_BE.Automapper
         }
         public void Shop()
         {
-            CreateMap<User, GetShopDetailDaoOutputDto>()
-                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.UserId));
+            //CreateMap<User, GetShopDetailDaoOutputDto>()
+            //    .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.UserId));
         }
 
         public void Cart()

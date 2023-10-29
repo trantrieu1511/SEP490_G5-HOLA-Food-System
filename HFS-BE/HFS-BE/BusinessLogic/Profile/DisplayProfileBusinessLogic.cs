@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.DAO.UserDao;
-using HFS_BE.DAO.UserDao.CustomerDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 
@@ -13,10 +12,10 @@ namespace HFS_BE.BusinessLogic.Profile
         {
         }
 
-        public UserProfileOutputDto GetProfile(int userId) {
+        public UserProfileOutputDto GetProfile(string userId) {
             try
             {
-                var dao = CreateDao<CustomerDao>();
+                var dao = CreateDao<UserDao>();
                 return dao.GetUserProfileById(userId);
             }
             catch (Exception)
