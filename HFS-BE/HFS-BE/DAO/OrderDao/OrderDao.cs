@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
+using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
@@ -155,7 +156,9 @@ namespace HFS_BE.Dao.OrderDao
                     {
                         0, 1, 2, 3
                     };
-
+                // check dateFrom == dateTo
+                // or stasus: requested, prapring, wait shipper, shipping
+                // -> not where date
                 if (inputDto.DateFrom.Equals(inputDto.DateEnd) || arrayStatus.Contains((int)inputDto.Status))
                 {
                     data = query.Where(x => x.SellerId.Equals(inputDto.UserId)
@@ -218,6 +221,32 @@ namespace HFS_BE.Dao.OrderDao
                 return this.Output<OrderSellerDaoOutputDto>(Constants.ResultCdFail);
             }
         }
-        
+
+        public BaseOutputDto AddOrderInternalShipper(OrderInternalShipInputDto inputDto)
+        {
+            try
+            {
+                var order = context.Orders.First(o => o.OrderId.Equals(inputDto.OrderId));
+                // vut qua ben BL
+                // check shipperId null ko
+                /*if (order == null)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Order is not exist");*/
+
+                order.ShipperId = inputDto.ShipperId;
+
+                context.SaveChanges();
+
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+                return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Add Internal Shipper Failed");
+            }
+        }
+
+        public Order? GetOrderByOrderId(string orderId)
+        {
+            return context.Orders.FirstOrDefault(o => o.OrderId.Equals(orderId));
+        }
     }
 }

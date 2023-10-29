@@ -20,6 +20,7 @@ using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.DAO.CategoryDao;
 using HFS_BE.BusinessLogic.OrderShipper;
 using HFS_BE.DAO.UserDao.CustomerDao;
+using HFS_BE.DAO.ShipperDao;
 
 namespace HFS_BE.Automapper
 {
@@ -167,7 +168,8 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
                 .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name))
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Food.FoodImages.ToList().First().Path))
-                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Food.Category.Name));
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Food.Category.Name))
+                .ForMember(dest => dest.SellId, opt => opt.MapFrom(src => src.Food.SellerId));
             //CreateMap<ICollection<OrderDetail>, List<OrderDetailFoodDto>>();
 
             CreateMap<Dao.OrderDao.OrderDetailFoodDto, BusinessLogic.ManageOrder.OrderDetailFoodDto>();
@@ -241,6 +243,12 @@ namespace HFS_BE.Automapper
         {
             CreateMap<CategoryDaoInputDto, Category>();
             CreateMap<Category, CategoryDaoOutputDto>();
+        }
+
+        public void Shipper()
+        {
+            CreateMap<Shipper, ShipperInfor>()
+                .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
         }
     }
 }

@@ -29,6 +29,16 @@ namespace HFS_BE.BusinessLogic.ManageFood
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed" , errors);
                 }
 
+                var foodDao = this.CreateDao<FoodDao>();
+                //check exist food name of shop or not
+                var foods = foodDao.GetAllFoodSeller(inputDto.UserDto);
+                var existFoodName = foods.Foods.FirstOrDefault(x => x.Name.Replace(" ", "").ToLower().Equals(inputDto.Name.Replace(" ", "").ToLower()));
+
+                if (foods.Foods != null && existFoodName != null)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", "Food name is current used!");
+                }
+
                 /*inputDto.UserDto = new UserDto
                 {
                     Email = "test@gmail.com",
@@ -41,11 +51,10 @@ namespace HFS_BE.BusinessLogic.ManageFood
                 if (inputDto.Images != null && inputDto.Images.Count > 0)
                     fileNames = ReadSaveImage.SaveImages(inputDto.Images, inputDto.UserDto, 1);
 
-                var Dao = this.CreateDao<FoodDao>();
                 var inputMapper = mapper.Map<FoodCreateInputDto, Dao.FoodDao.FoodCreateInputDto>(inputDto);
                 inputMapper.Images = fileNames;
 
-                var output = Dao.AddNewFood(inputMapper);
+                var output = foodDao.AddNewFood(inputMapper);
                 return output;
             }
             catch (Exception)

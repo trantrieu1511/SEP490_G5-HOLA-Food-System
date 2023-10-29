@@ -78,13 +78,13 @@ namespace HFS_BE.Dao.OrderDao
     public class OrderDaoSellerOutputDto
     {
         public int? OrderId { get; set; }
-        public int? CustomerId { get; set; }
+        public string? CustomerId { get; set; }
         public string? CustomerName { get; set; }
         public string? OrderDate { get; set; }
         public string? RequiredDate { get; set; }
         public string? ShippedDate { get; set; }
         public string? ShipAddress { get; set; }
-        public int? ShipperId { get; set; }
+        public string? ShipperId { get; set; }
         public string? ShipperName { get; set; }
         public int? VoucherId { get; set; }
         public decimal? TotalPrice { get; set; }
@@ -98,11 +98,12 @@ namespace HFS_BE.Dao.OrderDao
     {
         public int OrderId { get; set; }
         public int FoodId { get; set; }
-        public string FoodName { get; set; }
+        public string? FoodName { get; set; }
         public decimal? UnitPrice { get; set; }
         public int? Quantity { get; set; }
         public string Image { get; set; }
-        public string CategoryName { get; set; }
+        public string? CategoryName { get; set; }
+        public string? SellId { get; set; }
     }
 
     public class DetailProgress

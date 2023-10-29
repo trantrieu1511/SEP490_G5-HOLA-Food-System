@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Models;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace HFS_BE.Base
 {
@@ -39,6 +40,21 @@ namespace HFS_BE.Base
 
         public T Output<T>(bool success, string content, ICollection<string> errors) where T : BaseOutputDto, new()
         {
+            return new T
+            {
+                Message = content,
+                Success = success,
+                Errors = new ErrorsMessage
+                {
+                    SystemErrors = errors
+                }
+            };
+        }
+
+        public T Output<T>(bool success, string content, string error) where T : BaseOutputDto, new()
+        {
+            var errors = new List<string>();
+            errors.Add(error);
             return new T
             {
                 Message = content,
