@@ -204,24 +204,24 @@ namespace HFS_BE.DAO.UserDao
             }
         }
 
-        //public GetOrderInfoOutputDto GetUserInfo(GetOrderInfoInputDto inputDto)
-        //{
-        //    try
-        //    {
-        //        var user = this.context.Users.Include(x => x.ShipAddresses).FirstOrDefault(x => x.UserId == inputDto.UserId);
-        //        var output = this.Output<GetOrderInfoOutputDto>(Constants.ResultCdSuccess);
-        //        if (user != null)
-        //        {
-        //            output.Balance = user.WalletBalance == null ? 0 : user.WalletBalance.Value;
-        //            output.Address = user.ShipAddresses.FirstOrDefault() == null ? "" : user.ShipAddresses.FirstOrDefault().AddressInfo;
-        //        }
+        public GetOrderInfoOutputDto GetUserInfo(GetOrderInfoInputDto inputDto)
+        {
+            try
+            {
+                var user = this.context.Customers.Include(x => x.ShipAddresses).FirstOrDefault(x => x.CustomerId == inputDto.UserId);
+                var output = this.Output<GetOrderInfoOutputDto>(Constants.ResultCdSuccess);
+                if (user != null)
+                {
+                    output.Balance = user.WalletBalance == null ? 0 : user.WalletBalance.Value;
+                    output.Address = user.ShipAddresses.FirstOrDefault() == null ? "" : user.ShipAddresses.FirstOrDefault().AddressInfo;
+                }
 
-        //        return output;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return this.Output<GetOrderInfoOutputDto>(Constants.ResultCdFail);
-        //    }
-        //}
+                return output;
+            }
+            catch (Exception)
+            {
+                return this.Output<GetOrderInfoOutputDto>(Constants.ResultCdFail);
+            }
+        }
     }
 }

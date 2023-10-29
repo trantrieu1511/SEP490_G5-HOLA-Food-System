@@ -32,7 +32,7 @@ namespace HFS_BE.Dao.OrderDao
     {
         public int OrderId { get; set; }
         public int FoodId { get; set; }
-        public int ShopId { get; set; }
+        public string ShopId { get; set; }
         public string FoodName { get; set; }
         public decimal? UnitPrice { get; set; }
         public int? Quantity { get; set; }

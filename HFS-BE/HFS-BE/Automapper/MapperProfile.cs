@@ -101,7 +101,7 @@ namespace HFS_BE.Automapper
             CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>();
             CreateMap<OrderDetail, Dao.OrderDao.OrderDetailDto>()
                 .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name))
-                //.ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.Food.ShopId))
+                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.Food.SellerId))
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Food.FoodImages.AsQueryable().First().Path));
             CreateMap<Dao.OrderDao.OrderDetailDto, BusinessLogic.OrderShipper.OrderDetailBLDto>();
             CreateMap<Dao.OrderDao.OrderDaoOutputDto, BusinessLogic.OrderShipper.OrderBLOutputDto>();
@@ -201,8 +201,8 @@ namespace HFS_BE.Automapper
         }
         public void Shop()
         {
-            //CreateMap<User, GetShopDetailDaoOutputDto>()
-            //    .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.UserId));
+            CreateMap<Seller, GetShopDetailDaoOutputDto>()
+                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.SellerId));
         }
 
         public void Cart()

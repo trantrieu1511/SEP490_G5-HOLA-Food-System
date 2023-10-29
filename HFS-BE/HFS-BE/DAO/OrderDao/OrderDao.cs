@@ -35,7 +35,7 @@ namespace HFS_BE.Dao.OrderDao
                         var image = detail.Food.FoodImages.AsQueryable().First().Path;
                         output[indexOder].OrderDetails[indexDetail].Image = image;
                         output[indexOder].OrderDetails[indexDetail].FoodName = detail.Food.Name;
-                        output[indexOder].OrderDetails[indexDetail].ShopId = (int)detail.Food.ShopId;
+                        output[indexOder].OrderDetails[indexDetail].ShopId = detail.Food.SellerId;
                     }
                 }
                 var output1 = this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdSuccess);
@@ -94,7 +94,7 @@ namespace HFS_BE.Dao.OrderDao
                         var image = detail.Food.FoodImages.AsQueryable().First().Path;
                         output[indexOder].OrderDetails[indexDetail].Image = image;
                         output[indexOder].OrderDetails[indexDetail].FoodName = detail.Food.Name;
-                        output[indexOder].OrderDetails[indexDetail].ShopId = (int)detail.Food.ShopId;
+                        output[indexOder].OrderDetails[indexDetail].ShopId = detail.Food.SellerId;
                     }
                     var status = item.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status;
                     output[indexOder].Status = OrderStatus.GetOrderStatusString(status);

@@ -10,6 +10,6 @@ namespace HFS_BE.Dao.ShopDao
 
     public class GetShopDetailDaoInputDto
     {
-        public int ShopId { get; set; }
+        public string ShopId { get; set; }
     }
 }

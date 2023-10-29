@@ -18,7 +18,7 @@ namespace HFS_BE.DAO.CartDao
             {
                 var data = this.context.CartItems
                     .Include(x => x.Food)
-                    .ThenInclude(x => x.Shop)
+                    .ThenInclude(x => x.Seller)
                     .Include(x => x.Food)
                     .ThenInclude(x => x.FoodImages)
                     .Where(x => x.CartId == inputDto.CartId)

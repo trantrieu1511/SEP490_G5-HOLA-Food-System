@@ -5,7 +5,7 @@ namespace HFS_BE.Dao.OrderDao
     public class OrderByShipperDaoInputDto
     {
         [Required(ErrorMessage = "Shipper required!")]
-        public int? ShipperId { get; set; }
+        public string? ShipperId { get; set; }
         public bool Status { get; set; }
     }
 
@@ -17,8 +17,8 @@ namespace HFS_BE.Dao.OrderDao
 
     public class CheckOutOrderDaoInputDto
     {
-        public int? CustomerId { get; set; }
-        public int? ShopId { get; set; }
+        public string? CustomerId { get; set; }
+        public string? ShopId { get; set; }
         public string? ShipAddress { get; set; }
         public int? VoucherId { get; set; }
         public string? Note { get; set; }

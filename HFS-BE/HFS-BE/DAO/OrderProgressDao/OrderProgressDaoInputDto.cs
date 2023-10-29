@@ -18,7 +18,7 @@ namespace HFS_BE.DAO.OrderProgressDao
         public DateTime? CreateDate { get; set; }
         public int? OrderId { get; set; }
         public byte? Status { get; set; }
-        public int? UserId { get; set; }
+        public string? UserId { get; set; }
     }
 
     public class OrderProgressStatusInputDto
