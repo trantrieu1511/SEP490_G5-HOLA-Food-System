@@ -232,7 +232,7 @@ namespace HFS_BE.DAO.AuthDAO
 			}
 			var user = new HFS_BE.Models.Shipper
 			{
-				SellerId = paddedString,
+				ShipperId = paddedString,
 				Email = model.Email,
 				BirthDate = model.BirthDate,
 				FirstName = model.FirstName,
@@ -242,9 +242,6 @@ namespace HFS_BE.DAO.AuthDAO
 				IsBanned = false
 
 			};
-
-
-
 			using (HMACSHA256? hmac = new HMACSHA256())
 			{
 				user.PasswordSalt = hmac.Key;
@@ -253,7 +250,7 @@ namespace HFS_BE.DAO.AuthDAO
 
 			try
 			{
-				context.Shipper.Add(user);
+				context.Shippers.Add(user);
 				context.SaveChanges();
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}
