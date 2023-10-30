@@ -20,7 +20,7 @@ namespace HFS_BE.Controllers.Cart
             try
             {
                 var userinfo = this.GetUserInfor();
-                if (userinfo.RoleId != 3)
+                if (!userinfo.Role.Equals("CU"))
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail);
                 }

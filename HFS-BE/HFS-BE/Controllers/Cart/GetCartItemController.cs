@@ -17,15 +17,14 @@ namespace HFS_BE.Controllers.Cart
 
         [HttpPost]
         [Route("cart/getcartitem")]
-        [Authorize(Roles = "3")]
         public GetCartItemDaoOutputDto GetCartItem()
         {
             try
             {
+                var userInfor = this.GetUserInfor();
                 var inputDto = new GetCartItemDaoInputDto();
-                inputDto.CartId = this.GetUserInfor().UserId;
-                var role = this.GetAccessRight();
-                if (role != 3)
+                inputDto.CartId = userInfor.UserId;
+                if (!userInfor.Role.Equals("CU"))
                 {
                     return this.Output<GetCartItemDaoOutputDto>(Constants.ResultCdSuccess, "You are not customer.");
                 }

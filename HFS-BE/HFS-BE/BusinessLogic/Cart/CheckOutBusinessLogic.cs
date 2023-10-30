@@ -27,7 +27,7 @@ namespace HFS_BE.BusinessLogic.Cart
                 var foodDao = this.CreateDao<FoodDao>();
                 var user = userDao.GetUserInfo(new GetOrderInfoInputDto()
                 {
-                    UserId = inputDto.CustomerId.Value,
+                    UserId = inputDto.CustomerId,
                 });
 
                 if (!inputDto.PaymentMethod.Equals("default") && !inputDto.PaymentMethod.Equals("cod"))
@@ -107,7 +107,7 @@ namespace HFS_BE.BusinessLogic.Cart
                         DeleteCartItemInputDto iteminput = new DeleteCartItemInputDto()
                         {
                             FoodId = cartitem.FoodId.Value,
-                            CartId = inputDto.CustomerId.Value,
+                            CartId = inputDto.CustomerId,
                         };
 
                         var deletecartitem = cartDao.DeleteCartItem(iteminput);

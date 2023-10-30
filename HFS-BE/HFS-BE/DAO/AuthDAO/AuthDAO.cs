@@ -30,24 +30,24 @@ namespace HFS_BE.Dao.AuthDao
 		public AuthDaoOutputDto Login(AuthDaoInputDto input)
 		{
 			var output = new AuthDaoOutputDto();
-			var user = context.Users.Where(s => s.Email == input.Email).FirstOrDefault();
+			var user = context.Customers.Where(s => s.Email == input.Email).FirstOrDefault();
 			if (user == null)
 			{
 				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
 			}
 
-			var match = CheckPassword(input.Password, (HFS_BE.Models.User)user);
+			var match = CheckPassword(input.Password, (Customer)user);
 
 			if (!match)
 			{
 				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
 			}
-			JwtSecurityToken token = GenerateSecurityToken((HFS_BE.Models.User)user);
+			JwtSecurityToken token = GenerateSecurityToken((Customer)user);
 			output.Token = new JwtSecurityTokenHandler().WriteToken(token);
 			return output;
 
 		}
-		private bool CheckPassword(string password, HFS_BE.Models.User user)
+		private bool CheckPassword(string password, Customer user)
 		{
 			bool result;
 
@@ -87,21 +87,19 @@ namespace HFS_BE.Dao.AuthDao
 		//	return new { token = encrypterToken, username = user.Email };
 		//}
 
-		private JwtSecurityToken GenerateSecurityToken(HFS_BE.Models.User acc)
+		private JwtSecurityToken GenerateSecurityToken(Customer acc)
 		{
 			var conf = new ConfigurationBuilder()
 			.SetBasePath(Directory.GetCurrentDirectory())
 				.AddJsonFile("appsettings.json", true, true)
 				.Build();
-			string role = acc.RoleId.ToString();
-
+			string role = "CU";
 			var authClaims = new List<Claim>
 			{
 				new Claim(ClaimTypes.Email, acc.Email),
-				new Claim(ClaimTypes.Role, role),
 				new Claim(ClaimTypes.Name, acc.FirstName + acc.LastName),
-				new Claim("userId", acc.UserId.ToString())
-
+				new Claim("userId", acc.CustomerId.ToString()),
+			new Claim(ClaimTypes.Role,role)
 			};
 
 			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(conf["JWT:Secret"]));
@@ -115,11 +113,26 @@ namespace HFS_BE.Dao.AuthDao
 			return token;
 		}
 
-		public BaseOutputDto Register(RegisterDto model)
+		public BaseOutputDto RegisterCustomer(RegisterDto model)
 		{
 			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
 			var validationResults = new List<ValidationResult>();
 			bool isValid = Validator.TryValidateObject(model, validationContext, validationResults, validateAllProperties: true);
+		
+			var cus = context.Customers.OrderBy(s => s.CustomerId).Last();
+			int cuschinhId = 0;
+			if (cus == null)
+			{
+				cuschinhId = 1;
+			}
+			string cusIdCheck = cus.CustomerId;
+			string trimmedString = cusIdCheck.Substring(2);
+			int CusIdiNT = Int32.Parse(trimmedString);
+			cuschinhId = CusIdiNT++;
+			int desiredLength = 12;
+			char paddingChar = '0';
+			string paddedString = cuschinhId.ToString().PadLeft(desiredLength - 2, paddingChar);
+			paddedString = "CU" + paddedString.Substring(2);
 
 			if (!isValid)
 			{
@@ -130,20 +143,21 @@ namespace HFS_BE.Dao.AuthDao
 				}
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
 			}
-			var data = context.Users.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data = context.Customers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			if (data != null)
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail,"Email đã sử dụng");
 			}
-			var user = new HFS_BE.Models.User
+			var user = new HFS_BE.Models.Customer
 			{
+				CustomerId=paddedString,
 				Email = model.Email,
-				RoleId = model.RoleId,
 				BirthDate = model.BirthDate,
 				FirstName = model.FirstName,
 				LastName = model.LastName,
 				Gender = model.Gender,
-				ConfirmEmail = false
+				ConfirmEmail = false,
+				
 			};
 
 
@@ -156,7 +170,7 @@ namespace HFS_BE.Dao.AuthDao
 
 			try
 			{
-				context.Users.Add(user);
+				context.Customers.Add(user);
 				context.SaveChanges();
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}
@@ -302,7 +316,7 @@ namespace HFS_BE.Dao.AuthDao
 				string email = jwtToken.Claims.First(c => c.Type == "userId").Value;
 				using (var context = new SEP490_HFS_2Context())
 				{
-					var data = context.Users.Where(s => s.Email == email).FirstOrDefault();
+					var data = context.Customers.Where(s => s.Email == email).FirstOrDefault();
 					if (data == null)
 					{
 						return null;
@@ -341,7 +355,7 @@ namespace HFS_BE.Dao.AuthDao
 				var jwtToken = (JwtSecurityToken)validatedToken;
 				string email = jwtToken.Claims.First(c => c.Type == "userId").Value;
 				
-					var data = context.Users.Where(s => s.Email == email).FirstOrDefault();
+					var data = context.Customers.Where(s => s.Email == email).FirstOrDefault();
 					if (data == null)
 					{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail);
@@ -371,7 +385,7 @@ namespace HFS_BE.Dao.AuthDao
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail,"Het hạn token changepassword");
 				}
-				var data = context.Users.Where(s => s.Email == email).FirstOrDefault();
+				var data = context.Customers.Where(s => s.Email == email).FirstOrDefault();
 				if (change.Password != change.ConfirmPassword)
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "password và confirm password khác nhau");
@@ -381,7 +395,7 @@ namespace HFS_BE.Dao.AuthDao
 					data.PasswordSalt = hmac.Key;
 					data.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(change.Password));
 				}
-				context.Users.Update(data);
+				context.Customers.Update(data);
 				context.SaveChanges(); 
 
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
@@ -393,65 +407,65 @@ namespace HFS_BE.Dao.AuthDao
 			
 		}
 
-		public async Task<AuthDaoOutputDto>? LoginWithGoogleAsync(string credential)
-		{
-			var conf = new ConfigurationBuilder()
-				.SetBasePath(Directory.GetCurrentDirectory())
-				.AddJsonFile("appsettings.json", true, true)
-				.Build();
+		//public async Task<AuthDaoOutputDto>? LoginWithGoogleAsync(string credential)
+		//{
+		//	var conf = new ConfigurationBuilder()
+		//		.SetBasePath(Directory.GetCurrentDirectory())
+		//		.AddJsonFile("appsettings.json", true, true)
+		//		.Build();
 
-			var output = new AuthDaoOutputDto();
-			var settings = new GoogleJsonWebSignature.ValidationSettings()
-			{
-				Audience = new List<string> { (conf["ApplicationSettings:GoogleClientId"]) }
-			};
+		//	var output = new AuthDaoOutputDto();
+		//	var settings = new GoogleJsonWebSignature.ValidationSettings()
+		//	{
+		//		Audience = new List<string> { (conf["ApplicationSettings:GoogleClientId"]) }
+		//	};
 
-			var payload = await GoogleJsonWebSignature.ValidateAsync(credential, settings);
+		//	var payload = await GoogleJsonWebSignature.ValidateAsync(credential, settings);
 
-			var user = context.Users.Where(x => x.Email == payload.Email).FirstOrDefault();
+		//	var user = context.Customer.Where(x => x.Email == payload.Email).FirstOrDefault();
 
-			if (user != null)
-			{
-				JwtSecurityToken token = GenerateSecurityToken((HFS_BE.Models.User)user);
-				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-				return output;
-			}
+		//	if (user != null)
+		//	{
+		//		JwtSecurityToken token = GenerateSecurityToken((HFS_BE.Models.Customer)user);
+		//		output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+		//		return output;
+		//	}
 
-			else
-			{
-				string[] FullName = payload.Name.Split(" ");
-				var user1 = new HFS_BE.Models.User { Email = payload.Email, RoleId = 3, FirstName = FullName[0], LastName = FullName[1], Gender = "Null" };
-				if (FullName.Length == 3)
-				{
-					 user1 = new HFS_BE.Models.User { Email = payload.Email, RoleId = 3, FirstName = FullName[0], LastName = FullName[1] + FullName[2] , Gender = "Null" };
+		//	else
+		//	{
+		//		string[] FullName = payload.Name.Split(" ");
+		//		var user1 = new HFS_BE.Models.Customer { Email = payload.Email, RoleId = 3, FirstName = FullName[0], LastName = FullName[1], Gender = "Null" };
+		//		if (FullName.Length == 3)
+		//		{
+		//			 user1 = new HFS_BE.Models.User { Email = payload.Email, RoleId = 3, FirstName = FullName[0], LastName = FullName[1] + FullName[2] , Gender = "Null" };
 
-				}
+		//		}
 				
 					
 				
 				
 
-				using (HMACSHA256? hmac = new HMACSHA256())
-				{
-					user1.PasswordSalt = hmac.Key;
-					user1.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(payload.Email));
-				}
-				try
-				{
-					await context.Users.AddAsync(user1);
-					context.SaveChangesAsync();
-					JwtSecurityToken token = GenerateSecurityToken((HFS_BE.Models.User)user1);
-					output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-					return output;
-				}
-				catch (Exception ex)
-				{
-					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail);
-				}
-			}
+		//		using (HMACSHA256? hmac = new HMACSHA256())
+		//		{
+		//			user1.PasswordSalt = hmac.Key;
+		//			user1.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(payload.Email));
+		//		}
+		//		try
+		//		{
+		//			await context.Users.AddAsync(user1);
+		//			context.SaveChangesAsync();
+		//			JwtSecurityToken token = GenerateSecurityToken((HFS_BE.Models.User)user1);
+		//			output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+		//			return output;
+		//		}
+		//		catch (Exception ex)
+		//		{
+		//			return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail);
+		//		}
+		//	}
 			
 
-		}
+		//}
 
 	}
 }
