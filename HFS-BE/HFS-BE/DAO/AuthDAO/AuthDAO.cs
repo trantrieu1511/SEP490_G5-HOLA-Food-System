@@ -93,13 +93,13 @@ namespace HFS_BE.Dao.AuthDao
 			.SetBasePath(Directory.GetCurrentDirectory())
 				.AddJsonFile("appsettings.json", true, true)
 				.Build();
-
+			string role = "CU";
 			var authClaims = new List<Claim>
 			{
 				new Claim(ClaimTypes.Email, acc.Email),
 				new Claim(ClaimTypes.Name, acc.FirstName + acc.LastName),
-				new Claim("userId", acc.CustomerId.ToString())
-
+				new Claim("userId", acc.CustomerId.ToString()),
+			new Claim(ClaimTypes.Role,role)
 			};
 
 			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(conf["JWT:Secret"]));
