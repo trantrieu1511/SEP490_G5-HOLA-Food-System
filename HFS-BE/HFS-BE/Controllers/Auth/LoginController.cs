@@ -28,19 +28,23 @@ namespace HFS_BE.Controllers.Auth
 				throw;
 			}
 		}
-		[HttpPost("home/loginseller")]
-		public LoginOutputDto LoginSeller(LoginInPutDto inputDto)
+		[HttpPost("home/loginnotcustomer")]
+		public LoginOutputDto LoginNotCustomer(LoginInPutDto inputDto)
 		{
 			try
 			{
-				var business = this.GetBusinessLogic<AuthBusinessLogic>();
+				var business = this.GetBusinessLogic<AuthNotCustomerBusinessLogin>();
 
-				return business.Login(inputDto);
+
+				return business.LoginNotCustomer(inputDto);
+
+
 			}
 			catch (Exception ex)
 			{
 				throw;
 			}
 		}
+		
 	}
 }
