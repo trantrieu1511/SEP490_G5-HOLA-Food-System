@@ -12,10 +12,10 @@ namespace HFS_BE.Base
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public class BaseController : ControllerBase
     {
-        private readonly SEP490_HFSContext context;
+        private readonly SEP490_HFS_2Context context;
         public readonly IMapper mapper;
 
-        public BaseController(SEP490_HFSContext context, IMapper mapper)
+        public BaseController(SEP490_HFS_2Context context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
@@ -68,7 +68,7 @@ namespace HFS_BE.Base
                 var roleId = identity.FindFirst(ClaimTypes.Role)?.Value;
                 var name = identity.FindFirst(ClaimTypes.Name)?.Value;
                 var userid = identity.FindFirst("userId")?.Value;
-                return new UserDto { Email = email, RoleId = Convert.ToInt16(roleId), Name = name , UserId = Convert.ToUInt16(userid)};
+                return new UserDto { Email = email, Name = name , UserId = userid};
             }
             return null;
         }

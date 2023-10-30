@@ -9,7 +9,7 @@ namespace HFS_BE.Controllers.Homepage
 {
     public class SearchShopController : BaseController
     {
-        public SearchShopController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public SearchShopController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

@@ -10,7 +10,7 @@ namespace HFS_BE.Controllers.Auth
 {
 	public class LoginController : BaseController
 	{
-		public LoginController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+		public LoginController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
 		{
 		}
 

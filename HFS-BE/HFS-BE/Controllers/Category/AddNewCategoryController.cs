@@ -13,7 +13,7 @@ namespace HFS_BE.Controllers.Category
     [Authorize(Roles = "1")]
     public class AddNewCategoryController : BaseController
     {
-        public AddNewCategoryController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public AddNewCategoryController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

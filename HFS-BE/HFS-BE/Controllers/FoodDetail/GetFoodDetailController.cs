@@ -10,7 +10,7 @@ namespace HFS_BE.Controllers.FoodDetail
 {
     public class GetFoodDetailController : BaseController
     {
-        public GetFoodDetailController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public GetFoodDetailController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

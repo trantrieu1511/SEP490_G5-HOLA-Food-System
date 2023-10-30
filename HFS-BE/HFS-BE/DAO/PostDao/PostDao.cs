@@ -11,7 +11,7 @@ namespace HFS_BE.Dao.PostDao
 {
     public class PostDao : BaseDao
     {
-        public PostDao(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public PostDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
@@ -35,13 +35,13 @@ namespace HFS_BE.Dao.PostDao
                                 postImages = context.PostImages.Where(pi => pi.PostId == post.PostId).ToList()
                             }).ToList();*/
                 List<PostOutputDto> data = context.Posts
-                    .Include(p => p.Shop)
+                    .Include(p => p.Seller)
                     .Include(p => p.PostImages)
                     .Select(p => new PostOutputDto
                     {
                         PostId = p.PostId,
-                        UserId = p.ShopId,
-                        UserFirstName = p.Shop.FirstName,
+                        //UserId = p.SellerId,
+                        UserFirstName = p.Seller.FirstName,
                         PostContent = p.PostContent,
                         CreatedDate = p.CreatedDate,
                         //Status = p.Status,
@@ -66,7 +66,7 @@ namespace HFS_BE.Dao.PostDao
             {
                 List<PostOutputSellerDto> postsModel = context.Posts
                                         .Include(p => p.PostImages)
-                                        .Where(p => p.ShopId == userDto.UserId)
+                                        .Where(p => p.SellerId == userDto.UserId)
                                         .Select(p => new PostOutputSellerDto
                                         {
                                             PostId = p.PostId,
@@ -97,7 +97,7 @@ namespace HFS_BE.Dao.PostDao
                     CreatedDate = DateTime.Now,
                     PostContent = postDto.PostContent,
                     Status = 0,
-                    ShopId = postDto.UserDto.UserId
+                    SellerId = postDto.UserDto.UserId
                 };
                 context.Add(post);
                 context.SaveChanges();

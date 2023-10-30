@@ -7,7 +7,7 @@ namespace HFS_BE.BusinessLogic.Homepage
 {
     public class DisplayShopBusinessLogic : BaseBusinessLogic
     {
-        public DisplayShopBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public DisplayShopBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

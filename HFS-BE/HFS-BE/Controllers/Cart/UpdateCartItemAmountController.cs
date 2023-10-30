@@ -10,7 +10,7 @@ namespace HFS_BE.Controllers.Cart
 {
     public class UpdateCartItemAmountController : BaseController
     {
-        public UpdateCartItemAmountController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public UpdateCartItemAmountController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

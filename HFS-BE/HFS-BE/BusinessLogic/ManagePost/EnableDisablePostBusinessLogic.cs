@@ -8,7 +8,7 @@ namespace HFS_BE.BusinessLogic.ManagePost
 {
     public class EnableDisablePostBusinessLogic : BaseBusinessLogic
     {
-        public EnableDisablePostBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public EnableDisablePostBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

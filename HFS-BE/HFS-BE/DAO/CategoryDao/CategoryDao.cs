@@ -8,7 +8,7 @@ namespace HFS_BE.DAO.CategoryDao
 {
     public class CategoryDao : BaseDao
     {
-        public CategoryDao(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public CategoryDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
         public CreateCategoryOutputDto CreateCategory (CategoryDaoInputDto inputDto)

@@ -4,6 +4,7 @@ using HFS_BE.BusinessLogic.ManageFood;
 using HFS_BE.BusinessLogic.ManagePost;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -13,11 +14,12 @@ namespace HFS_BE.Controllers.ManageFood
 
     public class AddNewFoodController : BaseController
     {
-        public AddNewFoodController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public AddNewFoodController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
         [HttpPost("foods/addNewFood")]
+        [Authorize]
 
         public BaseOutputDto AddNewPost([FromForm] FoodCreateInputDto input)
         {

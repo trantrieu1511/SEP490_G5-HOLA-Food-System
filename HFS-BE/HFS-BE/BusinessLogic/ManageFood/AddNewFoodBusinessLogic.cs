@@ -12,7 +12,7 @@ namespace HFS_BE.BusinessLogic.ManageFood
 {
     public class AddNewFoodBusinessLogic : BaseBusinessLogic 
     {
-        public AddNewFoodBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public AddNewFoodBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
@@ -29,13 +29,13 @@ namespace HFS_BE.BusinessLogic.ManageFood
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed" , errors);
                 }
 
-                inputDto.UserDto = new UserDto
+                /*inputDto.UserDto = new UserDto
                 {
                     Email = "test@gmail.com",
                     Name = "testSeller",
                     RoleId = 2,
                     UserId = 1,
-                };
+                };*/
                 var fileNames = new List<string>();
                 // save file to server -> return list file name
                 if (inputDto.Images != null && inputDto.Images.Count > 0)

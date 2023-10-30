@@ -11,7 +11,7 @@ namespace HFS_BE.Dao.FoodDao
 {
     public class FoodDao : BaseDao
     {
-        public FoodDao(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public FoodDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
@@ -22,7 +22,7 @@ namespace HFS_BE.Dao.FoodDao
                 var data = this.context.Foods
                     .Include(x => x.FoodImages)
                     .Include(x => x.Category)
-                    .Where(x => x.ShopId == inputDto.ShopId)
+                    .Where(x => x.SellerId.Equals(inputDto.ShopId))
                     .Select(x => mapper.Map<Food, FoodOutputDto>(x))
                     .ToList();
 
@@ -62,7 +62,7 @@ namespace HFS_BE.Dao.FoodDao
                 // Add food
                 Food food = new Food
                 {
-                    ShopId = inputDto.UserDto.UserId,
+                    SellerId = inputDto.UserDto.UserId,
                     Name = inputDto.Name,
                     UnitPrice = inputDto.UnitPrice,
                     Description = inputDto.Description,
@@ -97,7 +97,7 @@ namespace HFS_BE.Dao.FoodDao
                                         .Include(p => p.FoodImages)
                                         .Include(p => p.Category)
                                         .Include(p => p.Feedbacks)
-                                        .Where(p => p.ShopId == userDto.UserId)
+                                        .Where(p => p.SellerId.Equals(userDto.UserId))
                                         .Select(p => new FoodOutputSellerDto
                                         {
                                             FoodId = p.FoodId,

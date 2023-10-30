@@ -9,7 +9,7 @@ namespace HFS_BE.BusinessLogic.ManagePost
 {
     public class DisplayPostBusinessLogic : BaseBusinessLogic
     {
-        public DisplayPostBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public DisplayPostBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
@@ -17,13 +17,13 @@ namespace HFS_BE.BusinessLogic.ManagePost
         {
             try
             {
-                userDto = new UserDto
+                /*userDto = new UserDto
                 {
                     Email = "test@gmail.com",
                     Name = "testSeller",
                     RoleId = 1,
                     UserId = 1,
-                };
+                };*/
 
                 var Dao = this.CreateDao<PostDao>();
                 Dao.PostDao.ListPostOutputSellerDto daoOutput = Dao.GetAllPostSeller(userDto);

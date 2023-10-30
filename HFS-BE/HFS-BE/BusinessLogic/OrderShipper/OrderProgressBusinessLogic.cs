@@ -11,7 +11,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
 {
     public class OrderProgressBusinessLogic : BaseBusinessLogic
     {
-        public OrderProgressBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public OrderProgressBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
         public BaseOutputDto CreateOrderProgress(OrderProgressBusinessLogicInputDto inputDto)

@@ -3,6 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.BusinessLogic.ManagePost;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,11 +12,12 @@ namespace HFS_BE.Controllers.ManagePost
 
     public class AddNewPostSellerController : BaseController
     {
-        public AddNewPostSellerController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public AddNewPostSellerController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
         [HttpPost("posts/addPostSeller")]
+        [Authorize]
         public BaseOutputDto AddNewPost([FromForm] IReadOnlyList<IFormFile> images, [FromForm] string postContent)
         {
             try

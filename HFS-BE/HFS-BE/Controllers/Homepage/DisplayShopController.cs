@@ -10,7 +10,7 @@ namespace HFS_BE.Controllers.Homepage
 {
 	public class DisplayShopController : BaseController
     {
-        public DisplayShopController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public DisplayShopController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
 
         }

@@ -6,9 +6,9 @@ namespace HFS_BE.Base
 {
     public class BaseDao
     {
-        public readonly SEP490_HFSContext context;
+        public readonly SEP490_HFS_2Context context;
         public readonly IMapper mapper;
-        public BaseDao(SEP490_HFSContext context, IMapper mapper)
+        public BaseDao(SEP490_HFS_2Context context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;

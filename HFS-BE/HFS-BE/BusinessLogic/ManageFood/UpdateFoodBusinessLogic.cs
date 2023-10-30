@@ -12,7 +12,7 @@ namespace HFS_BE.BusinessLogic.ManageFood
 {
     public class UpdateFoodBusinessLogic : BaseBusinessLogic
     {
-        public UpdateFoodBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public UpdateFoodBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
@@ -20,13 +20,13 @@ namespace HFS_BE.BusinessLogic.ManageFood
         {
             try
             {
-                inputDto.UserDto = new UserDto
+                /*inputDto.UserDto = new UserDto
                 {
                     Email = "test@gmail.com",
                     Name = "testSeller",
                     RoleId = 2,
                     UserId = 1,
-                };
+                };*/
 
                 var daoCate = CreateDao<CategoryDao>();
                 var cate = daoCate.GetCategoryById(inputDto.CategoryId);

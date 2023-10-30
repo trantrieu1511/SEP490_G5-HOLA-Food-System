@@ -11,7 +11,7 @@ namespace HFS_BE.Controllers.Cart
 {
     public class GetCartItemController : BaseController
     {
-        public GetCartItemController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public GetCartItemController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

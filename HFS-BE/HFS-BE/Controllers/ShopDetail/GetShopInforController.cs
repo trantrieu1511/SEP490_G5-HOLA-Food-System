@@ -10,7 +10,7 @@ namespace HFS_BE.Controllers.ShopDetail
 {
     public class GetShopInforController : BaseController
     {
-        public GetShopInforController(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public GetShopInforController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

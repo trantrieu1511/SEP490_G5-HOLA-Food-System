@@ -9,9 +9,9 @@ namespace HFS_BE.Models
         public int FeedbackId { get; set; }
         public bool? IsLike { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public int VoteBy { get; set; }
+        public string VoteBy { get; set; } = null!;
 
         public virtual Feedback Feedback { get; set; } = null!;
-        public virtual User VoteByNavigation { get; set; } = null!;
+        public virtual Customer VoteByNavigation { get; set; } = null!;
     }
 }

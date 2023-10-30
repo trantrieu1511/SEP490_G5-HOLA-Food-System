@@ -9,7 +9,7 @@ namespace HFS_BE.DAO.OrderProgressDao
 {
     public class OrderProgressDao : BaseDao
     {
-        public OrderProgressDao(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public OrderProgressDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
         public BaseOutputDto CreateOrderProgress(OrderProgressDaoInputDto inputDto)

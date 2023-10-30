@@ -12,7 +12,7 @@ namespace HFS_BE.BusinessLogic.ManagePost
 {
     public class UpdatePostBusinessLogic : BaseBusinessLogic
     {
-        public UpdatePostBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public UpdatePostBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
@@ -20,13 +20,13 @@ namespace HFS_BE.BusinessLogic.ManagePost
         {
             try
             {
-                inputDto.UserDto = new UserDto
+                /*inputDto.UserDto = new UserDto
                 {
                     Email = "test@gmail.com",
                     Name = "testSeller",
                     RoleId = 2,
                     UserId = 1,
-                };
+                };*/
 
                 if (String.IsNullOrEmpty(inputDto.PostContent))
                 {

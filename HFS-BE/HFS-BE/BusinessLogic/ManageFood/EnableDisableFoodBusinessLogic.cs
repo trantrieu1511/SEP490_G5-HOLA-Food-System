@@ -9,7 +9,7 @@ namespace HFS_BE.BusinessLogic.ManageFood
 {
     public class EnableDisableFoodBusinessLogic : BaseBusinessLogic
     {
-        public EnableDisableFoodBusinessLogic(SEP490_HFSContext context, IMapper mapper) : base(context, mapper)
+        public EnableDisableFoodBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
