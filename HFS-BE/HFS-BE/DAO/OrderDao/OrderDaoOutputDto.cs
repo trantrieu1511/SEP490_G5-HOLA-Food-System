@@ -7,12 +7,13 @@ namespace HFS_BE.Dao.OrderDao
     public class OrderDaoOutputDto
     {
         public int OrderId { get; set; }
-        public int? CustomerId { get; set; }
+        public string? CustomerId { get; set; }
+        public string? SellerId { get; set; }
         public DateTime? OrderDate { get; set; }
         public DateTime? RequiredDate { get; set; }
         public DateTime? ShippedDate { get; set; }
         public string? ShipAddress { get; set; }
-        public int? ShipperId { get; set; }
+        public string? ShipperId { get; set; }
         public int? VoucherId { get; set; }
         public string? Status { get; set; }
 
@@ -32,7 +33,7 @@ namespace HFS_BE.Dao.OrderDao
     {
         public int OrderId { get; set; }
         public int FoodId { get; set; }
-        public string ShopId { get; set; }
+        public string SellerId { get; set; }
         public string FoodName { get; set; }
         public decimal? UnitPrice { get; set; }
         public int? Quantity { get; set; }
@@ -46,7 +47,7 @@ namespace HFS_BE.Dao.OrderDao
         public string? Image { get; set; }
         public int? OrderId { get; set; }
         public byte? Status { get; set; }
-        public int? UserId { get; set; }
+        public string? CreatedBy { get; set; }
     }
 
     public class CheckOutOrderDaoOutputDto : BaseOutputDto
