@@ -25,9 +25,9 @@ namespace HFS_BE.Models
         public string? Avatar { get; set; }
         public bool? IsOnline { get; set; }
         public string? ManageBy { get; set; }
-        public bool ConfirmEmail { get; set; }
-        public bool? Ban { get; set; }
-        public bool? IsVerify { get; set; }
+        public bool? ConfirmedEmail { get; set; }
+        public bool? IsBanned { get; set; }
+        public bool? IsVerified { get; set; }
 
         public virtual Seller? ManageByNavigation { get; set; }
         public virtual ICollection<Notification> NotificationReceiver5s { get; set; }

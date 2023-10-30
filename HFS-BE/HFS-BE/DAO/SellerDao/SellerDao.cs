@@ -35,7 +35,7 @@ namespace HFS_BE.DAO.SellerDao
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Seller is not in data ");
 				}
-				user.Ban = input.Ban;
+				user.IsBanned = input.Ban;
 				context.Sellers.Update(user);
 				context.SaveChanges();
 				var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
@@ -56,7 +56,7 @@ namespace HFS_BE.DAO.SellerDao
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Seller is not in data ");
 				}
-				user.CheckSeller = input.CheckSeller;
+				user.IsVerified = input.IsVerified;
 				context.Sellers.Update(user);
 				context.SaveChanges();
 				var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);

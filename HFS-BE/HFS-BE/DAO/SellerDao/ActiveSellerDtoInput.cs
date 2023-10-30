@@ -5,6 +5,6 @@ namespace HFS_BE.DAO.SellerDao
 	public class ActiveSellerDtoInput:BaseInputDto
 	{
 		public string SellerId { get; set; } = null!;
-		public bool? CheckSeller { get; set; }
+		public bool? IsVerified { get; set; }
 	}
 }

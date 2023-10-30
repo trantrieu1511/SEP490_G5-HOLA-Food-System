@@ -47,6 +47,7 @@ namespace HFS_BE.Dao.AuthDao
 			return output;
 
 		}
+		
 		private bool CheckPassword(string password, Customer user)
 		{
 			bool result;
@@ -118,17 +119,22 @@ namespace HFS_BE.Dao.AuthDao
 			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
 			var validationResults = new List<ValidationResult>();
 			bool isValid = Validator.TryValidateObject(model, validationContext, validationResults, validateAllProperties: true);
-		
-			var cus = context.Customers.OrderBy(s => s.CustomerId).Last();
+			var cusall = context.Customers.ToList();
 			int cuschinhId = 0;
-			if (cus == null)
+			if (cusall.Count == 0)
 			{
 				cuschinhId = 1;
 			}
-			string cusIdCheck = cus.CustomerId;
-			string trimmedString = cusIdCheck.Substring(2);
-			int CusIdiNT = Int32.Parse(trimmedString);
-			cuschinhId = CusIdiNT++;
+			else
+			{
+				var cus = context.Customers.OrderBy(s => s.CustomerId).Last();
+				string cusIdCheck = cus.CustomerId;
+				string trimmedString = cusIdCheck.Substring(2);
+				int CusIdiNT = Int32.Parse(trimmedString);
+				cuschinhId = CusIdiNT + 1;
+
+			}
+		
 			int desiredLength = 12;
 			char paddingChar = '0';
 			string paddedString = cuschinhId.ToString().PadLeft(desiredLength - 2, paddingChar);
@@ -144,9 +150,12 @@ namespace HFS_BE.Dao.AuthDao
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
 			}
 			var data = context.Customers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
-			if (data != null)
+			var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			if (data != null || data2 != null || data3 != null || data4 != null)
 			{
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail,"Email đã sử dụng");
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email đã sử dụng");
 			}
 			var user = new HFS_BE.Models.Customer
 			{
@@ -156,7 +165,8 @@ namespace HFS_BE.Dao.AuthDao
 				FirstName = model.FirstName,
 				LastName = model.LastName,
 				Gender = model.Gender,
-				ConfirmEmail = false,
+				ConfirmedEmail = false,
+				IsBanned=false
 				
 			};
 
@@ -179,6 +189,8 @@ namespace HFS_BE.Dao.AuthDao
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
 			}
 		}
+
+	
 		public BaseOutputDto ForgotPassword(ForgotPasswordInputDto model)
 		{
 			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
@@ -237,6 +249,8 @@ namespace HFS_BE.Dao.AuthDao
 			}
 
 		}
+
+
 		private async Task SendEmail(string toEmail, string subject, string message)
 		{
 			var httpClient = new HttpClient();

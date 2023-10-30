@@ -14,7 +14,7 @@ namespace HFS_BE.Controllers.Auth
 		{
 		}
 
-		[HttpPost("home/login")]
+		[HttpPost("home/logincustomer")]
 		public LoginOutputDto Login(LoginInPutDto inputDto)
 		{
 			try
@@ -22,6 +22,20 @@ namespace HFS_BE.Controllers.Auth
 				var business = this.GetBusinessLogic<AuthBusinessLogic>();
 
 				return business.Login(inputDto);
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+		[HttpPost("home/loginseller")]
+		public LoginOutputDto LoginSeller(LoginInPutDto inputDto)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<AuthBusinessLogic>();
+
+				return business.L(inputDto);
 			}
 			catch (Exception ex)
 			{

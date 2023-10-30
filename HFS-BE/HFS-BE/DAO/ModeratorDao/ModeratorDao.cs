@@ -91,7 +91,7 @@ namespace HFS_BE.DAO.ModeratorDao
 				FirstName = model.FirstName,
 				LastName = model.LastName,
 				Gender = model.Gender,
-				ConfirmEmail = true,
+				ConfirmedEmail = true,
 
 			};
 
@@ -159,7 +159,8 @@ namespace HFS_BE.DAO.ModeratorDao
 				FirstName = model.FirstName,
 				LastName = model.LastName,
 				Gender = model.Gender,
-				ConfirmEmail = true,
+				ConfirmedEmail = true,
+
 
 			};
 

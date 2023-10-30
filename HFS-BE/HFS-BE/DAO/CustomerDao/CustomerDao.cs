@@ -36,7 +36,7 @@ namespace HFS_BE.DAO.CustomerDao
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Customer is not in data ");
 				}
-				user.Ban = input.Ban;
+				user.IsBanned = input.Ban;
 				context.Customers.Update(user);
 				context.SaveChanges();
 				var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
