@@ -18,10 +18,10 @@ namespace HFS_BE.DAO.OrderProgressDao
             {
                 //get orderprogress by inputDto.orderId
                 var data = this.context.OrderProgresses.Where(x=>x.OrderId == inputDto.OrderId).ToList();
-                //if(data.Where(x=>x.Status == inputDto.Status) != null)
-                //{
-                //    return Output<BaseOutputDto>(Constants.ResultCdFail);
-                //}
+                if(data.Where(x=>x.Status == inputDto.Status) != null)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail);
+                }
                 // check trong list trả về có status = inputDto.status ko
                 // có -> return ....
                 // ko làm tiếp bên dưới
