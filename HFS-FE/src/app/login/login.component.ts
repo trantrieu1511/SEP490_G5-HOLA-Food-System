@@ -101,28 +101,28 @@ async handleCredentialResponse(response: CredentialResponse) {
     (x:any) => {
       this._ngZone.run(() => {
         switch(this.user.role){
-          case 1:
+          case "AD":
             this.router.navigateByUrl('/HFSBusiness/admin');
             break;
-            case 2:
+            case "SE":
               this.router.navigateByUrl('/HFSBusiness/seller');
               break;
-              case 3:
+              case "CU":
               this.router.navigateByUrl('/');
               break;
 
-              case 4:
+              case "SH":
                 this.router.navigateByUrl('/HFSBusiness/shipper');
                 break;
-                case 5:
+                case "PM":
                   this.router.navigateByUrl('/HFSBusiness/PostModerator');
                   break;
 
-                  case 6:
+                  case "MM":
                   this.router.navigateByUrl('/HFSBusiness/MenuModerator');
                   break;
 
-                  default: this.router.navigateByUrl('/');
+                  default: this.router.navigateByUrl('/login');
 }
       })},
     (error:any) => {
@@ -144,28 +144,28 @@ async onSubmit() {
         // const userData = localStorage.getItem('user');
         // this.user = JSON.parse(userData);
         switch(this.user.role){
-                  case 1:
-                    this.router.navigateByUrl('/HFSBusiness/admin');
-                    break;
-                    case 2:
-                      this.router.navigateByUrl('/HFSBusiness/seller');
-                      break;
-                      case 3:
-                      this.router.navigateByUrl('/');
-                      break;
+          case "AD":
+            this.router.navigateByUrl('/HFSBusiness/admin');
+            break;
+            case "SE":
+              this.router.navigateByUrl('/HFSBusiness/seller');
+              break;
+              case "CU":
+              this.router.navigateByUrl('/');
+              break;
 
-                      case 4:
-                        this.router.navigateByUrl('/HFSBusiness/shipper');
-                        break;
-                        case 5:
-                          this.router.navigateByUrl('/HFSBusiness/PostModerator');
-                          break;
+              case "SH":
+                this.router.navigateByUrl('/HFSBusiness/shipper');
+                break;
+                case "PM":
+                  this.router.navigateByUrl('/HFSBusiness/PostModerator');
+                  break;
 
-                          case 6:
-                          this.router.navigateByUrl('/HFSBusiness/MenuModerator');
-                          break;
+                  case "MM":
+                  this.router.navigateByUrl('/HFSBusiness/MenuModerator');
+                  break;
 
-                          default: this.router.navigateByUrl('/');
+                  default: this.router.navigateByUrl('/login');
         }
 
 

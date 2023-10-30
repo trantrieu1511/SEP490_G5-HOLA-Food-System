@@ -28,7 +28,7 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
   constructor(private httpClient: HttpClient) { }
 
   login(model: any){
-    return this.httpClient.post(this.path+'home/login', model).pipe(
+    return this.httpClient.post(this.path+'home/logincustomer', model).pipe(
       map((res:Tokens)=>{
         const token = res;
         if(token.success){
@@ -41,7 +41,20 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
       })
     )
   }
+  loginnotcus(model: any){
+    return this.httpClient.post(this.path+'home/loginnotcustomer', model).pipe(
+      map((res:Tokens)=>{
+        const token = res;
+        if(token.success){
+          this.setCurrentUser(token);
 
+        }else{
+          this.errorSubject.next('Email hoặc mật khẩu không chính xác');
+
+        }
+      })
+    )
+  }
   logingoogle(credentials: string): Observable<any>{
 
     const header = new HttpHeaders().set('Content-type', 'application/json');
@@ -165,7 +178,7 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
       const data = this.getDecodedToken(token.token);//copy token to jwt.io see .role
       this.user = {
         email: data['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
-        role: +data['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
+        role: data['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
         name: data['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
         userId: data['userId'],
         exp: +data['exp']
@@ -189,15 +202,9 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
 
 export interface User {
   email: string;
-  role: number;
+  role: string;
   name: string;
   userId: string;
   exp: number;
 }
-export interface User {
-  email: string;
-  role: number;
-  name: string;
-  userId: string;
-  exp: number;
-}
+
