@@ -35,7 +35,7 @@ namespace HFS_BE.Controllers.Auth
 			{
 				var business = this.GetBusinessLogic<AuthBusinessLogic>();
 
-				return business.L(inputDto);
+				return business.Login(inputDto);
 			}
 			catch (Exception ex)
 			{
