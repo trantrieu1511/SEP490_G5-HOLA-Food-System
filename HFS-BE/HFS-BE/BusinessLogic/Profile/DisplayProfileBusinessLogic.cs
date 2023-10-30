@@ -12,7 +12,7 @@ namespace HFS_BE.BusinessLogic.Profile
         {
         }
 
-        public UserProfileOutputDto GetProfile(int userId) {
+        public UserProfileOutputDto GetProfile(string userId) {
             try
             {
                 var dao = CreateDao<UserDao>();

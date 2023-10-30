@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.OrderShipper
 {
-    //[Authorize(Roles = "4")]
+    [Authorize(Roles = "4")]
     public class OrderOnShipperController : BaseController
     {
         public OrderOnShipperController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)

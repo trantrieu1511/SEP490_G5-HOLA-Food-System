@@ -20,7 +20,7 @@ namespace HFS_BE.Controllers.Profile
             try
             {
                 var business = GetBusinessLogic<DisplayProfileBusinessLogic>();
-                int userId = GetUserInfor().UserId;
+                string userId = GetUserInfor().UserId;
 
                 return business.GetProfile(userId);
             }

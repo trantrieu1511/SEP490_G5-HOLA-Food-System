@@ -34,14 +34,14 @@ namespace HFS_BE.BusinessLogic.Auth
 			try
 			{
 				var dao = this.CreateDao<AuthDao>();
-				
-				var daooutput =await dao.LoginWithGoogleAsync(inputDto);
-				
-					var output = mapper.Map<AuthDaoOutputDto, LoginOutputDto>(daooutput);
-				
+
+				//var daooutput = await dao.LoginWithGoogleAsync(inputDto);
+
+				//var output = mapper.Map<AuthDaoOutputDto, LoginOutputDto>(daooutput);
+
 				// output = mapper.Map<AuthOutputDto, LoginOutputDto>(daooutput);
 
-				return output;
+				return null;
 			}
 			catch (Exception)
 			{

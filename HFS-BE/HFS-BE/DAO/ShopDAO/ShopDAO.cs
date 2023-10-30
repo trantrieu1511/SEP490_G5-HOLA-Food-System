@@ -19,11 +19,11 @@ namespace HFS_BE.Dao.ShopDao
         {
             try
             {
-                var output = this.context.Users.Where(x => x.RoleId == 2).ToList();
+                var output = this.context.Sellers.ToList();
 
                 DisplayShopDaoOutputDto outputDto = this.Output<DisplayShopDaoOutputDto>(Constants.ResultCdSuccess);
                 //output = this.Paginate(output, inputDto.Pagination);
-                outputDto.ListShop = mapper.Map<List<User>, List<ShopDto>>(output);
+                outputDto.ListShop = mapper.Map<List<Seller>, List<ShopDto>>(output);
                 return outputDto;
             }
             catch (Exception ex)
@@ -36,14 +36,14 @@ namespace HFS_BE.Dao.ShopDao
         {
             try
             {
-                var output = this.context.Users
-                    .Where(x => x.UserId == inputDto.ShopId)
+                var output = this.context.Sellers
+                    .Where(x => x.SellerId.Equals(inputDto.ShopId))
                     .FirstOrDefault();
 
                 var outputDto = this.Output<GetShopDetailDaoOutputDto>(Constants.ResultCdSuccess);
                 if (output != null)
                 {
-                    outputDto = mapper.Map<User, GetShopDetailDaoOutputDto>(output);
+                    outputDto = mapper.Map<Seller, GetShopDetailDaoOutputDto>(output);
                 }
                 
                 return outputDto;

@@ -18,7 +18,7 @@ namespace HFS_BE.Controllers.Homepage
         //[Authorize]
         [HttpPost("home/displayshop")]
 		
-		public DisplayShopOutputDto Create()
+		public DisplayShopOutputDto DisplayShop()
         {
             try
             {

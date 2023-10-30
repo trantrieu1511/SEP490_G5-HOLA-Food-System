@@ -16,10 +16,10 @@ namespace HFS_BE.BusinessLogic.Auth
 			{
 				var Dao = this.CreateDao<AuthDao>();
 				var daoinput = mapper.Map<RegisterInputDto,RegisterDto>(inputDto);
-				var daooutput = Dao.Register(daoinput);
+				//var daooutput = Dao.Register(daoinput);
 			
 
-				return daooutput;
+				return null;
 			}
 			catch (Exception)
 			{

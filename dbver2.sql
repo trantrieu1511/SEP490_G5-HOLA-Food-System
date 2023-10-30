@@ -222,7 +222,7 @@ CREATE TABLE [dbo].[CartItem](
 	[foodId] [int] NOT NULL,
 	[cartId] [nvarchar](50) NOT NULL,
 	[amount] [int] NOT NULL,
-	Foreign Key ([cartId]) REFERENCES [Seller](sellerId),
+	Foreign Key ([cartId]) REFERENCES [Customer](customerId),
 	Foreign key ([foodId]) REFERENCES [Food](foodId),
 PRIMARY KEY CLUSTERED 
 (

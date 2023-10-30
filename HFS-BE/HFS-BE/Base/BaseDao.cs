@@ -34,6 +34,34 @@ namespace HFS_BE.Base
             };
         }
 
+        public T Output<T>(bool success, string content, ICollection<string> errors) where T : BaseOutputDto, new()
+        {
+            return new T
+            {
+                Message = content,
+                Success = success,
+                Errors = new ErrorsMessage
+                {
+                    SystemErrors = errors
+                }
+            };
+        }
+
+        public T Output<T>(bool success, string content, string error) where T : BaseOutputDto, new()
+        {
+            var errors = new List<string>();
+            errors.Add(error);
+            return new T
+            {
+                Message = content,
+                Success = success,
+                Errors = new ErrorsMessage
+                {
+                    SystemErrors = errors
+                }
+            };
+        }
+
         public List<T> Paginate<T>(List<T> sourceList, PaginationDto pagination)
         {
             return sourceList.Skip((pagination.pageNumber - 1) * pagination.pageSize).Take(pagination.pageSize).ToList();

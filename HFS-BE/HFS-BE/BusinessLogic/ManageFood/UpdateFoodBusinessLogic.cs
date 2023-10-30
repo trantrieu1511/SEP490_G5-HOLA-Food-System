@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CloudinaryDotNet.Actions;
 using HFS_BE.Base;
 using HFS_BE.Dao.FoodDao;
 using HFS_BE.DAO.CategoryDao;
@@ -38,6 +39,16 @@ namespace HFS_BE.BusinessLogic.ManageFood
                 }
 
                 var foodDao = CreateDao<FoodDao>();
+
+                //check exist food name of shop or not
+                var foods = foodDao.GetAllFoodSeller(inputDto.UserDto);
+                var existFoodName = foods.Foods.FirstOrDefault(x => x.Name.Replace(" ", "").ToLower().Equals(inputDto.Name.Replace(" ", "").ToLower()));
+
+                if (foods.Foods != null &&  existFoodName != null)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", "Food name is current used!");
+                }
+
                 var output = foodDao.UpdateFood(
                         mapper.Map<FoodUpdateInputDto, FoodUpdateInforInputDto>(inputDto)
                     );
