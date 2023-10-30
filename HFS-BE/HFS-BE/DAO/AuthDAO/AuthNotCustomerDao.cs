@@ -230,7 +230,7 @@ namespace HFS_BE.DAO.AuthDAO
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email đã sử dụng");
 			}
-			var user = new HFS_BE.Models.Seller
+			var user = new HFS_BE.Models.Shipper
 			{
 				SellerId = paddedString,
 				Email = model.Email,
@@ -253,7 +253,7 @@ namespace HFS_BE.DAO.AuthDAO
 
 			try
 			{
-				context.Sellers.Add(user);
+				context.Shipper.Add(user);
 				context.SaveChanges();
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}
