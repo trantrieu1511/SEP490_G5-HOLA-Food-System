@@ -260,10 +260,10 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.DisplayDate, opt => opt.MapFrom(src => src.UpdateDate ?? src.CreatedDate))
                 .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == true).ToList().Count))
                 .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == false).ToList().Count))
-                .ForMember(dest => dest.ListVoted, opt => opt.MapFrom(src => src.FeedbackVotes.Select(x => x.VoteBy)));
+                .ForMember(dest => dest.ListVoted, opt => opt.MapFrom(src => src.FeedbackVotes));
             CreateMap<FeedbackVote, CustomerVoted>();
             CreateMap<FeedbackReply, FeedBackReplyDaoOutputDto>()
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User != null ? src.User.FirstName + " " + src.User.LastName : src.Seller.ShopName));
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.FirstName + " " + src.Customer.LastName : src.Seller.ShopName));
 
 
             CreateMap<GetFeedBackByFoodIdDaoOutputDto, GetFeedBackOutputDto>();

@@ -17,7 +17,7 @@ namespace HFS_BE.DAO.FeedBackReplyDao
             try
             {
                 var data = this.context.FeedbackReplies
-                    .Include(x => x.User)
+                    .Include(x => x.Customer)
                     .Include(x => x.Seller)
                     .Where(x => x.FeedbackId == inputDto.FeedBackId)
                     .ToList();
