@@ -73,7 +73,45 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
   register(model: any){
     debugger;
 
-    return this.httpClient.post(this.path+'home/register', model).pipe(
+    return this.httpClient.post(this.path+'home/registercustomer', model).pipe(
+
+      map((res:Register)=>{
+        const register = res;
+        debugger;
+        if(register.success){
+         console.log("tao tài khoản thành công");
+
+         this.showSubject.next(false);
+        }else{
+          this.errorregisterSubject.next(register.message.toString());
+          this.showSubject.next(true);
+        }
+      })
+    )
+  }
+  registerseller(model: any){
+    debugger;
+
+    return this.httpClient.post(this.path+'home/registerseller', model).pipe(
+
+      map((res:Register)=>{
+        const register = res;
+        debugger;
+        if(register.success){
+         console.log("tao tài khoản thành công");
+
+         this.showSubject.next(false);
+        }else{
+          this.errorregisterSubject.next(register.message.toString());
+          this.showSubject.next(true);
+        }
+      })
+    )
+  }
+  registershipper(model: any){
+    debugger;
+
+    return this.httpClient.post(this.path+'home/registershipper', model).pipe(
 
       map((res:Register)=>{
         const register = res;
