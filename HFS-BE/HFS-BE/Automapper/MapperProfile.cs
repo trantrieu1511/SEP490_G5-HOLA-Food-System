@@ -20,6 +20,9 @@ using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.DAO.CategoryDao;
 using HFS_BE.BusinessLogic.OrderShipper;
 using HFS_BE.DAO.ShipperDao;
+using HFS_BE.DAO.FeedBackDao;
+using HFS_BE.DAO.FeedBackReplyDao;
+using HFS_BE.BusinessLogic.FoodDetail;
 
 namespace HFS_BE.Automapper
 {
@@ -248,6 +251,24 @@ namespace HFS_BE.Automapper
         {
             CreateMap<Shipper, ShipperInfor>()
                 .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
+        }
+
+        public void FeedBack()
+        {
+            CreateMap<Feedback, FeedBackDaoOutputDto>()
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.LastName))
+                .ForMember(dest => dest.DisplayDate, opt => opt.MapFrom(src => src.UpdateDate ?? src.CreatedDate))
+                .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == true).ToList().Count))
+                .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == false).ToList().Count))
+                .ForMember(dest => dest.ListVoted, opt => opt.MapFrom(src => src.FeedbackVotes.Select(x => x.VoteBy)));
+            CreateMap<FeedbackVote, CustomerVoted>();
+            CreateMap<FeedbackReply, FeedBackReplyDaoOutputDto>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User != null ? src.User.FirstName + " " + src.User.LastName : src.Seller.ShopName));
+
+
+            CreateMap<GetFeedBackByFoodIdDaoOutputDto, GetFeedBackOutputDto>();
+            CreateMap<FeedBackDaoOutputDto, FeedBackOutputDto>();
+            CreateMap<FeedBackReplyDaoOutputDto, FeedBackReplyOutputDto>();
         }
     }
 }
