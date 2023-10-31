@@ -225,12 +225,18 @@ namespace HFS_BE.Automapper
 
         public void UserProfile()
         {
-            CreateMap<Admin, UserProfile>();
-            CreateMap<Customer, UserProfile>();
-            CreateMap<Seller, UserProfile>();
-            CreateMap<Shipper, UserProfile>();
-            CreateMap<PostModerator, UserProfile>();
-            CreateMap<MenuModerator, UserProfile>();
+            CreateMap<Admin, UserProfile>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.AdminId));
+            CreateMap<Customer, UserProfile>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.CustomerId));
+            CreateMap<Seller, UserProfile>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.SellerId));
+            CreateMap<Shipper, UserProfile>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ShipperId));
+            CreateMap<PostModerator, UserProfile>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
+            CreateMap<MenuModerator, UserProfile>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
             //.ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => DateOnly.FromDateTime(Convert.ToDateTime(src.BirthDate))));
         }
 

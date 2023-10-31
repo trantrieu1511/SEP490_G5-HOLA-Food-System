@@ -146,7 +146,7 @@ namespace HFS_BE.DAO.ModeratorDao
 			int desiredLength = 12;
 			char paddingChar = '0';
 			string paddedString = cuschinhId.ToString().PadLeft(desiredLength - 2, paddingChar);
-			paddedString = "MM" + paddedString.Substring(2);
+			paddedString = "PM" + paddedString.Substring(2);
 
 			if (!isValid)
 			{

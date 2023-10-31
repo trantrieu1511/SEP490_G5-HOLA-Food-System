@@ -60,7 +60,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
 
       if (response && response.message === 'Success') {
         this.profile = response.data;
-        this.profileDisplay = Object.assign({}, response.data);
+        this.profileDisplay = Object.assign({}, response.data); //Copy profile sang mot entity moi phuc vu cho viec display (Entity do khac dia chi so voi profile nen khong bi anh huong boi two way data binding)
 
         console.log(this.profile);
         console.log(this.profileDisplay);
