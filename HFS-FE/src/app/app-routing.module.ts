@@ -12,6 +12,7 @@ import { RegisterComponent } from './register/register.component';
 import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
 import { ManageprofileComponent } from './modules/customer-routing-module/components/manageprofile/manageprofile.component';
 import { ForgotComponent } from './forgot/forgot.component';
+import { LoginNonCustomerComponent } from './login-non-customer/login-non-customer.component';
 
 const routes: Routes = [
   // {
@@ -22,6 +23,11 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  }
+  ,
+  {
+    path: 'login-2',
+    component: LoginNonCustomerComponent
   }
   ,
   {
@@ -89,6 +95,8 @@ const routes: Routes = [
         path: 'postmoderator',
         loadChildren: () => import('./modules/postmoderator-routing-module/postmoderator-routing-module.module').then(m => m.PostmoderatorRoutingModule),
       }
+
+
     ]
   },
   { path: 'error', component: AppErrorComponent },

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
+using HFS_BE.Dao.AuthDao;
 using HFS_BE.DAO.CustomerDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
@@ -46,25 +47,31 @@ namespace HFS_BE.DAO.ModeratorDao
 				return this.Output<ListMenuModeratorDtoOutput>(Constants.ResultCdFail);
 			}
 		}
-		public BaseOutputDto CreateMenuModerator(AddMenuModeratorDtoInput model)
+		public BaseOutputDto CreateMenuModerator(RegisterDto model)
 		{
 			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
 			var validationResults = new List<ValidationResult>();
 			bool isValid = Validator.TryValidateObject(model, validationContext, validationResults, validateAllProperties: true);
 
-			var user = context.MenuModerators.OrderBy(s => s.ModId).Last();
-			int userchinhId = 0;
-			if (user == null)
+			var mesall = context.MenuModerators.ToList();
+			int cuschinhId = 0;
+			if (mesall.Count == 0)
 			{
-				userchinhId = 1;
+				cuschinhId = 1;
 			}
-			string cusIdCheck = user.ModId;
-			string trimmedString = cusIdCheck.Substring(2);
-			int CusIdiNT = Int32.Parse(trimmedString);
-			userchinhId = CusIdiNT++;
+			else
+			{
+				var cus = context.MenuModerators.OrderBy(s => s.ModId).Last();
+				string cusIdCheck = cus.ModId;
+				string trimmedString = cusIdCheck.Substring(2);
+				int CusIdiNT = Int32.Parse(trimmedString);
+				cuschinhId = CusIdiNT + 1;
+
+			}
+
 			int desiredLength = 12;
 			char paddingChar = '0';
-			string paddedString = userchinhId.ToString().PadLeft(desiredLength - 2, paddingChar);
+			string paddedString = cuschinhId.ToString().PadLeft(desiredLength - 2, paddingChar);
 			paddedString = "MM" + paddedString.Substring(2);
 
 			if (!isValid)
@@ -99,8 +106,8 @@ namespace HFS_BE.DAO.ModeratorDao
 
 			using (HMACSHA256? hmac = new HMACSHA256())
 			{
-				user.PasswordSalt = hmac.Key;
-				user.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(model.Password));
+				userCreate.PasswordSalt = hmac.Key;
+				userCreate.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(model.Password));
 			}
 
 			try
@@ -114,26 +121,32 @@ namespace HFS_BE.DAO.ModeratorDao
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
 			}
 		}
-		public BaseOutputDto CreatePostModerator(AddMenuModeratorDtoInput model)
+		public BaseOutputDto CreatePostModerator(RegisterDto model)
 		{
 			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
 			var validationResults = new List<ValidationResult>();
 			bool isValid = Validator.TryValidateObject(model, validationContext, validationResults, validateAllProperties: true);
 
-			var user = context.PostModerators.OrderBy(s => s.ModId).Last();
-			int userchinhId = 0;
-			if (user == null)
+			var posall = context.PostModerators.ToList();
+			int cuschinhId = 0;
+			if (posall.Count == 0)
 			{
-				userchinhId = 1;
+				cuschinhId = 1;
 			}
-			string cusIdCheck = user.ModId;
-			string trimmedString = cusIdCheck.Substring(2);
-			int CusIdiNT = Int32.Parse(trimmedString);
-			userchinhId = CusIdiNT++;
+			else
+			{
+				var cus = context.PostModerators.OrderBy(s => s.ModId).Last();
+				string cusIdCheck = cus.ModId;
+				string trimmedString = cusIdCheck.Substring(2);
+				int CusIdiNT = Int32.Parse(trimmedString);
+				cuschinhId = CusIdiNT + 1;
+
+			}
+
 			int desiredLength = 12;
 			char paddingChar = '0';
-			string paddedString = userchinhId.ToString().PadLeft(desiredLength - 2, paddingChar);
-			paddedString = "PM" + paddedString.Substring(2);
+			string paddedString = cuschinhId.ToString().PadLeft(desiredLength - 2, paddingChar);
+			paddedString = "MM" + paddedString.Substring(2);
 
 			if (!isValid)
 			{
@@ -168,8 +181,8 @@ namespace HFS_BE.DAO.ModeratorDao
 
 			using (HMACSHA256? hmac = new HMACSHA256())
 			{
-				user.PasswordSalt = hmac.Key;
-				user.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(model.Password));
+				userCreate.PasswordSalt = hmac.Key;
+				userCreate.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(model.Password));
 			}
 
 			try

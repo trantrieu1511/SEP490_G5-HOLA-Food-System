@@ -37,6 +37,7 @@ import { RegisterComponent } from './register/register.component';
 import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
 import { LoadingComponent } from './modules/shared-module/components/loading-component/loading.component';
 import { ForgotComponent } from './forgot/forgot.component';
+import { LoginNonCustomerComponent } from './login-non-customer/login-non-customer.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { ForgotComponent } from './forgot/forgot.component';
     RegisterComponent,
     ConfirmemailComponent,
     ForgotComponent,
+    LoginNonCustomerComponent,
 
 
   ],
