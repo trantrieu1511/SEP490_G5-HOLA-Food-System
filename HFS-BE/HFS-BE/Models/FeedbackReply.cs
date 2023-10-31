@@ -15,6 +15,6 @@ namespace HFS_BE.Models
 
         public virtual Feedback Feedback { get; set; } = null!;
         public virtual Customer User { get; set; } = null!;
-        public virtual Seller UserNavigation { get; set; } = null!;
+        public virtual Seller Seller { get; set; } = null!;
     }
 }

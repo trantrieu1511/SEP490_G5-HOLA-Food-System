@@ -279,7 +279,7 @@ namespace HFS_BE.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__FeedbackR__userI__4F7CD00D");
 
-                entity.HasOne(d => d.UserNavigation)
+                entity.HasOne(d => d.Seller)
                     .WithMany(p => p.FeedbackReplies)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
