@@ -46,6 +46,8 @@ private client_Id=environment.clientId;
   })
 }
  ngOnInit(): void {
+  localStorage.clear();
+  sessionStorage.clear();
   this.service.error$.subscribe(error => {
     this.error = error;})
   this.FormFirst();
@@ -115,11 +117,11 @@ async handleCredentialResponse(response: CredentialResponse) {
                 this.router.navigateByUrl('/HFSBusiness/shipper');
                 break;
                 case "PM":
-                  this.router.navigateByUrl('/HFSBusiness/PostModerator');
+                  this.router.navigateByUrl('/HFSBusiness/postmoderator');
                   break;
 
                   case "MM":
-                  this.router.navigateByUrl('/HFSBusiness/MenuModerator');
+                  this.router.navigateByUrl('/HFSBusiness/menumoderator');
                   break;
 
                   default: this.router.navigateByUrl('/login');

@@ -95,6 +95,8 @@ const routes: Routes = [
         path: 'postmoderator',
         loadChildren: () => import('./modules/postmoderator-routing-module/postmoderator-routing-module.module').then(m => m.PostmoderatorRoutingModule),
       }
+
+
     ]
   },
   { path: 'error', component: AppErrorComponent },

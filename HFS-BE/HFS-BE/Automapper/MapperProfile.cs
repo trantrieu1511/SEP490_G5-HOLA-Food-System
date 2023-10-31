@@ -20,6 +20,9 @@ using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.DAO.CategoryDao;
 using HFS_BE.BusinessLogic.OrderShipper;
 using HFS_BE.DAO.ShipperDao;
+using HFS_BE.DAO.CustomerDao;
+using HFS_BE.DAO.SellerDao;
+using HFS_BE.DAO.ModeratorDao;
 
 namespace HFS_BE.Automapper
 {
@@ -38,7 +41,9 @@ namespace HFS_BE.Automapper
             UserProfile();
             File();
             Category();
-        }
+            ManageUser();
+
+		}
 
         /// <summary>
         /// dataconvert của màn homepage.
@@ -249,5 +254,14 @@ namespace HFS_BE.Automapper
             CreateMap<Shipper, ShipperInfor>()
                 .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
         }
-    }
+
+		public void ManageUser()
+		{
+            CreateMap<Customer, CustomerDtoOutput>();
+			CreateMap<Seller, SellerDtoOutput>();
+			CreateMap<Shipper, SellerDtoOutput>();
+			CreateMap<PostModerator, PostModeratorDtoOutput>();
+			CreateMap<MenuModerator, MenuModeratorDtoOutput>();
+		}
+	}
 }
