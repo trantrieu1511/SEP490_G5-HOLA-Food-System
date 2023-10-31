@@ -62,7 +62,7 @@ namespace HFS_BE.DAO.AuthDAO
 							{
 								return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
 							}
-							JwtSecurityToken token = GenerateSecurityTokenModerator(menuModerators);
+							JwtSecurityToken token = GenerateSecurityTokenModerator(postModerators);
 							output.Token = new JwtSecurityTokenHandler().WriteToken(token);
 							return output;
 						}

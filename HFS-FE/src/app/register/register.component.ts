@@ -109,19 +109,47 @@ showLastnameError() {
 }
 async onSubmit() {
   if (this.formregister.valid) {
+debugger;
+    switch(this.formregister.value.roleId){
+      case 3:
+        try {
+          debugger;
+          this.formregister.removeControl('roleId');
+          this.service.register(this.formregister.value).subscribe(res=>{
+            this.service.showregister$.subscribe(showregister => {
+              this.showForm = showregister;})
+          })
+        }catch (err) {
 
+        }
+        break;
+        case "2":
+          try {
+            debugger;
+            this.formregister.removeControl('roleId');
+            this.service.registerseller(this.formregister.value).subscribe(res=>{
+              this.service.showregister$.subscribe(showregister => {
+                this.showForm = showregister;})
+            })
+          }catch (err) {
 
+          }
+          break;
+          case 4:
+            try {
+              debugger;
+              this.formregister.removeControl('roleId');
+              this.service.registershipper(this.formregister.value).subscribe(res=>{
+                this.service.showregister$.subscribe(showregister => {
+                  this.showForm = showregister;})
+              })
+            }catch (err) {
 
-    console.log(this.formregister.value);
-    try {
-      debugger;
-      this.service.register(this.formregister.value).subscribe(res=>{
-        this.service.showregister$.subscribe(showregister => {
-          this.showForm = showregister;})
-      })
-    }catch (err) {
-
+            }
+          break;
     }
+    console.log(this.formregister.value.roleId);
+
 }
 }
 

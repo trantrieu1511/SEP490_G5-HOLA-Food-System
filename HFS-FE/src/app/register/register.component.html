@@ -12,7 +12,7 @@
         <div *ngIf="showForm">
           <form [formGroup]="formregister" (ngSubmit)="onSubmit()">
             <label for="firstname" class="block text-900 font-medium mb-2">FirstName</label>
-            <input id="firstname" formControlName="firstName" type="text"placeholder="FirstName" pInputText class="w-full mb-3"(focus)="isFirstnameTouched = true" (blur)="showFirstnameError()">
+            <input id="firstname" formControlName="firstName" type="text" placeholder="FirstName" pInputText class="w-full mb-3"(focus)="isFirstnameTouched = true" (blur)="showFirstnameError()">
             <div *ngIf="isFirstnameTouched && formregister.get('firstName').errors?.required" class="invalid-feedback">Firstname is required!</div>
             <label for="lastname"  class="block text-900 font-medium mb-2">LastName</label>
             <input id="lastname" type="text" formControlName="lastName" placeholder="LastName" pInputText class="w-full mb-3" (focus)="isLastnameTouched = true" (blur)="showLastnameError()">

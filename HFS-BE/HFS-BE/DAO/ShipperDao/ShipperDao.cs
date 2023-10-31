@@ -21,5 +21,14 @@ namespace HFS_BE.DAO.ShipperDao
             output.Shippers = data;
             return output;
         }
-    }
+		public ShipperInforList GetShipperAll()
+		{
+			var data = context.Shippers
+				.Select(s => mapper.Map<Shipper, ShipperInfor>(s))
+				.ToList();
+			var output = Output<ShipperInforList>(Constants.ResultCdSuccess);
+			output.Shippers = data;
+			return output;
+		}
+	}
 }

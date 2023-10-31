@@ -51,11 +51,11 @@ namespace HFS_BE.Base
         }
 
         [NonAction]
-        public int GetAccessRight()
+        public string GetAccessRight()
         {
             ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
             var a = identity.FindFirst(ClaimTypes.Role)?.Value;
-            return Convert.ToInt16(a);
+            return a;
         }
 
 
