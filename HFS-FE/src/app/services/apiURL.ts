@@ -20,7 +20,7 @@ export class PHAN_HE {
 
 export class API_POSTMODERATOR{
     public static GETPOST = "viewposts";
-    
+
 }
 
 export class API_TEST{
@@ -54,6 +54,14 @@ export class API_SHIPPER {
     public static GET_All = "order";
     public static CHANGE_STATUS = "orderprogress";
     public static HISTORY = "history";
+}
+export class API_MANAGE{
+  public static LIST_CUS = "listcustomer";
+  public static BAN_CUS = "bancustomer";
+    public static LIST_SELLER = "listcustomer";
+    public static LIST_SHIPPER = "listcustomer";
+    public static LIST_PM = "listcustomer";
+    public static LIST_MM = "listcustomer";
 }
 
 // Service QTHT
@@ -102,11 +110,11 @@ export class API_FOOD{
     public static ADD_FOOD = "addNewFood";
     public static UPDATE_FOOD = "updateFood";
     public static GET_FOOD_SELLER = "getFoodsSeller";
-    public static ENABLE_DISABLE = "enableDisable";     
+    public static ENABLE_DISABLE = "enableDisable";
 }
 
 export class API_CHECKOUT{
-    public static CREATE_ORDER = "createorder"; 
+    public static CREATE_ORDER = "createorder";
 }
 
 export class API_HUB{

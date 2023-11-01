@@ -46,7 +46,7 @@ namespace HFS_BE.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=localhost;database=SEP490_HFS_2;Integrated security=true;TrustServerCertificate=true;");
+                optionsBuilder.UseSqlServer("server =localhost; database =SEP490_HFS_2;uid=sa;pwd=123456;");
             }
         }
 
@@ -1031,6 +1031,14 @@ namespace HFS_BE.Models
 
                 entity.Property(e => e.VoucherId).HasColumnName("voucherId");
 
+                entity.Property(e => e.Code)
+                    .HasMaxLength(100)
+                    .HasColumnName("code");
+
+                entity.Property(e => e.DiscountAmount)
+                    .HasColumnType("decimal(10, 2)")
+                    .HasColumnName("discount_amount");
+
                 entity.Property(e => e.EffectiveDate)
                     .HasColumnType("date")
                     .HasColumnName("effectiveDate");
@@ -1039,15 +1047,15 @@ namespace HFS_BE.Models
                     .HasColumnType("date")
                     .HasColumnName("expireDate");
 
+                entity.Property(e => e.MinimumOrderValue)
+                    .HasColumnType("decimal(10, 2)")
+                    .HasColumnName("minimum_order_value");
+
                 entity.Property(e => e.SellerId)
                     .HasMaxLength(50)
                     .HasColumnName("sellerId");
 
                 entity.Property(e => e.Status).HasColumnName("status");
-
-                entity.Property(e => e.VoucherName)
-                    .HasMaxLength(100)
-                    .HasColumnName("voucherName");
 
                 entity.HasOne(d => d.Seller)
                     .WithMany(p => p.Vouchers)

@@ -28,6 +28,7 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
   constructor(private httpClient: HttpClient) { }
 
   login(model: any){
+    debugger;
     return this.httpClient.post(this.path+'home/logincustomer', model).pipe(
       map((res:Tokens)=>{
         const token = res;
@@ -35,7 +36,7 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
           this.setCurrentUser(token);
 
         }else{
-          this.errorSubject.next('Email hoặc mật khẩu không chính xác');
+          this.errorSubject.next(token.message.toString());
 
         }
       })
@@ -46,6 +47,7 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
     return this.httpClient.post(this.path+'home/loginnotcustomer', model).pipe(
       map((res:Tokens)=>{
         const token = res;
+        debugger
         if(token.success){
           this.setCurrentUser(token);
 

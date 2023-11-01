@@ -7,7 +7,7 @@ import {LoadingService} from '../shared-data-services/loading.service';
 
 
 // @ts-ignore
-import IPService from '/src/assets/config/IPService.json';
+import IPService from 'src/assets/config/IPService.json';
 
 @Injectable()
 export class iServiceBase {

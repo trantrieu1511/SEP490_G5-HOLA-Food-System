@@ -1,5 +1,5 @@
 export class Profile {
-    userId: number;
+    userId: string;
     firstName: string;
     lastName: string;
     gender: string;
@@ -16,7 +16,7 @@ export class Profile {
 }
 
 export class ProfileDisplay {
-    userId: number;
+    userId: string;
     firstName: string;
     lastName: string;
     gender: string;

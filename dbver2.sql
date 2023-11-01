@@ -262,7 +262,9 @@ GO
 CREATE TABLE [dbo].[Voucher](
 	[voucherId] [int] IDENTITY(1,1) NOT NULL,
 	[sellerId] [nvarchar](50) null,
-	[voucherName] [nvarchar](100) NULL,
+	[code] [nvarchar](100) NOT NULL,
+	[discount_amount] DECIMAL(10, 2) NOT NULL,
+	[minimum_order_value] DECIMAL(10, 2),
 	[status] [tinyint] NULL,
 	[effectiveDate] [date] NULL,
 	[expireDate] [date] NULL,

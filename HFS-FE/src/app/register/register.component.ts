@@ -111,10 +111,10 @@ async onSubmit() {
   if (this.formregister.valid) {
 debugger;
     switch(this.formregister.value.roleId){
-      case 3:
+      case "3":
         try {
           debugger;
-          this.formregister.removeControl('roleId');
+
           this.service.register(this.formregister.value).subscribe(res=>{
             this.service.showregister$.subscribe(showregister => {
               this.showForm = showregister;})
@@ -126,7 +126,7 @@ debugger;
         case "2":
           try {
             debugger;
-            this.formregister.removeControl('roleId');
+
             this.service.registerseller(this.formregister.value).subscribe(res=>{
               this.service.showregister$.subscribe(showregister => {
                 this.showForm = showregister;})
@@ -135,10 +135,10 @@ debugger;
 
           }
           break;
-          case 4:
+          case "4":
             try {
               debugger;
-              this.formregister.removeControl('roleId');
+
               this.service.registershipper(this.formregister.value).subscribe(res=>{
                 this.service.showregister$.subscribe(showregister => {
                   this.showForm = showregister;})

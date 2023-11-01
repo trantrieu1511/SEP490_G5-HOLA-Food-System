@@ -25,6 +25,10 @@ using HFS_BE.DAO.FeedBackReplyDao;
 using HFS_BE.BusinessLogic.FoodDetail;
 using HFS_BE.Utils.Enum;
 using HFS_BE.Controllers.ManageOrder;
+using HFS_BE.DAO.CustomerDao;
+using HFS_BE.DAO.SellerDao;
+using HFS_BE.DAO.ModeratorDao;
+using HFS_BE.DAO.VoucherDao;
 
 namespace HFS_BE.Automapper
 {
@@ -44,6 +48,8 @@ namespace HFS_BE.Automapper
             File();
             Category();
             Shipper();
+            Manage();
+            Voucher();
         }
 
         /// <summary>
@@ -265,8 +271,14 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate != null ? src.BirthDate.Value.ToString("MM/dd/yyyy") : null))
                 .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
         }
-
-        public void FeedBack()
+		public void Manage()
+		{
+            CreateMap<Customer, CustomerDtoOutput>();
+			CreateMap<Seller, SellerDtoOutput>();
+			CreateMap<PostModerator, PostModeratorDtoOutput>();
+			CreateMap<MenuModerator, MenuModeratorDtoOutput>();
+		}
+		public void FeedBack()
         {
             CreateMap<Feedback, FeedBackDaoOutputDto>()
                 .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.LastName))
@@ -283,5 +295,12 @@ namespace HFS_BE.Automapper
             CreateMap<FeedBackDaoOutputDto, FeedBackOutputDto>();
             CreateMap<FeedBackReplyDaoOutputDto, FeedBackReplyOutputDto>();
         }
-    }
+
+        public void Voucher()
+        {
+            CreateMap<Voucher, GetVoucherDaoOutputDto>();
+                
+        }
+
 }
+
