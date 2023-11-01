@@ -7,7 +7,7 @@ namespace HFS_BE.DAO.UserDao
     /// </summary>
     public class UserProfile
     {
-        public int UserId { get; set; }
+        public string? UserId { get; set; }
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public string? Gender { get; set; }
