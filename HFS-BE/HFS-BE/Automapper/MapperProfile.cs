@@ -26,6 +26,7 @@ using HFS_BE.BusinessLogic.FoodDetail;
 using HFS_BE.DAO.CustomerDao;
 using HFS_BE.DAO.SellerDao;
 using HFS_BE.DAO.ModeratorDao;
+using HFS_BE.DAO.VoucherDao;
 
 namespace HFS_BE.Automapper
 {
@@ -48,6 +49,8 @@ namespace HFS_BE.Automapper
             Manage();
 
 		}
+            Voucher();
+        }
 
         /// <summary>
         /// dataconvert của màn homepage.
@@ -288,5 +291,12 @@ namespace HFS_BE.Automapper
             CreateMap<FeedBackDaoOutputDto, FeedBackOutputDto>();
             CreateMap<FeedBackReplyDaoOutputDto, FeedBackReplyOutputDto>();
         }
-    }
+
+        public void Voucher()
+        {
+            CreateMap<Voucher, GetVoucherDaoOutputDto>();
+                
+        }
+
 }
+
