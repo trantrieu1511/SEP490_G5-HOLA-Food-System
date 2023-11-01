@@ -23,6 +23,9 @@ using HFS_BE.DAO.ShipperDao;
 using HFS_BE.DAO.FeedBackDao;
 using HFS_BE.DAO.FeedBackReplyDao;
 using HFS_BE.BusinessLogic.FoodDetail;
+using HFS_BE.DAO.CustomerDao;
+using HFS_BE.DAO.SellerDao;
+using HFS_BE.DAO.ModeratorDao;
 
 namespace HFS_BE.Automapper
 {
@@ -41,7 +44,10 @@ namespace HFS_BE.Automapper
             UserProfile();
             File();
             Category();
-        }
+
+            Manage();
+
+		}
 
         /// <summary>
         /// dataconvert của màn homepage.
@@ -252,8 +258,14 @@ namespace HFS_BE.Automapper
             CreateMap<Shipper, ShipperInfor>()
                 .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
         }
-
-        public void FeedBack()
+		public void Manage()
+		{
+            CreateMap<Customer, CustomerDtoOutput>();
+			CreateMap<Seller, SellerDtoOutput>();
+			CreateMap<PostModerator, PostModeratorDtoOutput>();
+			CreateMap<MenuModerator, MenuModeratorDtoOutput>();
+		}
+		public void FeedBack()
         {
             CreateMap<Feedback, FeedBackDaoOutputDto>()
                 .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.LastName))

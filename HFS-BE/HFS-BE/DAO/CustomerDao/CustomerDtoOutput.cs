@@ -13,6 +13,6 @@
 		public bool? IsOnline { get; set; }
 		public decimal? WalletBalance { get; set; }
 		public bool ConfirmEmail { get; set; }
-		public bool? Ban { get; set; }
+		public bool? IsBanned { get; set; }
 	}
 }

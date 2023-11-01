@@ -3,3 +3,8 @@ export interface Tokens {
   success:string;
 
 }
+export interface Tokens {
+  message:string;
+  success:string;
+
+}

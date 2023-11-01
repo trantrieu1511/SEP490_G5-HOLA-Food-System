@@ -31,6 +31,7 @@ namespace HFS_BE.Dao.AuthDao
 		{
 			var output = new AuthDaoOutputDto();
 			var user = context.Customers.Where(s => s.Email == input.Email).FirstOrDefault();
+			
 			if (user == null)
 			{
 				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
@@ -41,6 +42,10 @@ namespace HFS_BE.Dao.AuthDao
 			if (!match)
 			{
 				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
+			}
+			if (user.IsBanned == true)
+			{
+				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Bạn đã bị ban do vi phạm hãy liên hệ chúng tôi để giải quyết");
 			}
 			JwtSecurityToken token = GenerateSecurityToken((Customer)user);
 			output.Token = new JwtSecurityTokenHandler().WriteToken(token);
@@ -153,10 +158,22 @@ namespace HFS_BE.Dao.AuthDao
 			var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
-			if (data != null || data2 != null || data3 != null || data4 != null)
+			var data5 = context.Admins.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			if (data != null || data2 != null || data3 != null || data4 != null || data5 != null)
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email đã sử dụng");
 			}
+			var userCreate = new HFS_BE.Models.Admin
+			{
+				AdminId = paddedString,
+				Email = model.Email,
+				BirthDate = model.BirthDate,
+				FirstName = model.FirstName,
+				LastName = model.LastName,
+				Gender = model.Gender,
+				ConfirmedEmail = true,
+
+			};
 			var user = new HFS_BE.Models.Customer
 			{
 				CustomerId=paddedString,
