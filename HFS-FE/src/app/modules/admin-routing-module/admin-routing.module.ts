@@ -4,9 +4,10 @@ import { SharedModule } from '../shared-module/shared-module.module';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { ComponentModule } from '../components-module/component.modules';
+import { ManageCustomerModuleComponent } from './manage-customer-module/manage-customer-module.component';
 
 const routes: Routes = [
-  
+  {path: "", component: ManageCustomerModuleComponent},
 ]
 
 @NgModule({
@@ -18,7 +19,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [
-    
+
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy}

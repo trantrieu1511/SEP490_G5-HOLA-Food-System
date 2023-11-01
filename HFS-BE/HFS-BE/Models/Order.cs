@@ -21,6 +21,7 @@ namespace HFS_BE.Models
         public string? ShipperId { get; set; }
         public int? VoucherId { get; set; }
         public byte? Status { get; set; }
+        public byte? PaymentMethod { get; set; }
 
         public virtual Customer? Customer { get; set; }
         public virtual Seller? Seller { get; set; }

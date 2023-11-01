@@ -30,5 +30,21 @@ namespace HFS_BE.Controllers.ManageUser.ManageCustomer
 				throw;
 			}
 		}
+
+		[HttpPost("users/bancustomer")]
+
+		public BaseOutputDto BanCustomer(BanCustomerDtoInput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<CustomerBusinessLogic>();
+				var output = business.BanCustomer(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
 	}
 }

@@ -61,23 +61,12 @@ namespace HFS_BE.DAO.OrderProgressDao
         {
             try
             {
-                // vut sang BL
-                //get orderprogress by inputDto.orderId
-                var data = this.context.OrderProgresses.Where(x => x.OrderId == inputDto.OrderId).ToList();
-                if (data.FirstOrDefault(x => x.Status == inputDto.Status) != null)
-                {
-                    return Output<BaseOutputDto>(Constants.ResultCdFail);
-                }
-                // check trong list trả về có status = inputDto.status ko
-                // có -> return ....
-                // ko làm tiếp bên dưới
-
                 //var data = context.Orders.FirstOrDefault(x => x.OrderId == inputDto.OrderId);
 
                 OrderProgress orderProgress = new OrderProgress
                 {
                     CreateDate = DateTime.Now,
-                    CreatedBy = inputDto.UserId,
+                    SellerId = inputDto.UserId,
                     OrderId = inputDto.OrderId,
                     Status = inputDto.Status
                 };
@@ -96,24 +85,11 @@ namespace HFS_BE.DAO.OrderProgressDao
         public BaseOutputDto AddOrderProgressCancelStatus(OrderProgressCancelInputDto inputDto)
         {
             try
-            {
-                // vu sang BL
-                //get orderprogress by inputDto.orderId
-                var data = this.context.OrderProgresses.Where(x => x.OrderId == inputDto.OrderId).ToList();
-                if (data.FirstOrDefault(x => x.Status == inputDto.Status) != null)
-                {
-                    return Output<BaseOutputDto>(Constants.ResultCdFail);
-                }
-                // check trong list trả về có status = inputDto.status ko
-                // có -> return ....
-                // ko làm tiếp bên dưới
-
-                //var data = context.Orders.FirstOrDefault(x => x.OrderId == inputDto.OrderId);
-
+            { 
                 OrderProgress orderProgress = new OrderProgress
                 {
                     CreateDate = DateTime.Now,
-                    CreatedBy = inputDto.UserId,
+                    SellerId = inputDto.UserId,
                     OrderId = inputDto.OrderId,
                     Status = inputDto.Status,
                     Note = inputDto.Note
@@ -128,6 +104,11 @@ namespace HFS_BE.DAO.OrderProgressDao
 
                 return Output<BaseOutputDto>(Constants.ResultCdFail);
             }
+        }
+
+        public List<OrderProgress> GetOrderProgresByOrderId(int orderId)
+        {
+            return context.OrderProgresses.Where(x => x.OrderId == orderId).ToList();
         }
 
     }

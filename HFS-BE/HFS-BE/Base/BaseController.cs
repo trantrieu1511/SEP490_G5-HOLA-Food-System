@@ -3,6 +3,7 @@ using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -21,7 +22,7 @@ namespace HFS_BE.Base
             this.mapper = mapper;
         }
 
-        [NonAction]
+        
         public T GetBusinessLogic<T>() where T : BaseBusinessLogic
         {
 

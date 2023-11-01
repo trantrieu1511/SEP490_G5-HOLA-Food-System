@@ -38,6 +38,9 @@ import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
 import { LoadingComponent } from './modules/shared-module/components/loading-component/loading.component';
 import { ForgotComponent } from './forgot/forgot.component';
 import { LoginNonCustomerComponent } from './login-non-customer/login-non-customer.component';
+import { ManageCustomerModuleComponent } from './modules/admin-routing-module/manage-customer-module/manage-customer-module.component';
+import { ManagePostmoderatorModuleComponent } from './modules/admin-routing-module/manage-postmoderator-module/manage-postmoderator-module.component';
+import { NewsfeedComponent } from './modules/customer-routing-module/components/newsfeed/newsfeed.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +60,9 @@ import { LoginNonCustomerComponent } from './login-non-customer/login-non-custom
     ConfirmemailComponent,
     ForgotComponent,
     LoginNonCustomerComponent,
+    ManageCustomerModuleComponent,
+    ManagePostmoderatorModuleComponent,
+    NewsfeedComponent,
 
 
   ],

@@ -174,6 +174,7 @@
                         <span class="p-input-icon-left p-float-label" style="width: 100%" >
                             <textarea class="w-full" rows="10" cols="60" 
                                 pInputTextarea 
+                                maxlength="1500"
                                 [(ngModel)]="postModel.postContent"
                                 [class.ng-invalid] = "!inputValidation.isPostContentValid"
                                 [class.ng-dirty] = "!inputValidation.isPostContentValid"    
@@ -237,7 +238,7 @@
     </p>
 </p-dialog>
 
-<p-dialog header="List Image" [(visible)]="visibleImageDialog" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+<p-dialog header="Image List" [(visible)]="visibleImageDialog" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
     <p-table [value]="postImageDialog.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>

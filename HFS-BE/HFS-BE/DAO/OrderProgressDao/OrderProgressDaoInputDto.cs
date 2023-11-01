@@ -23,15 +23,15 @@ namespace HFS_BE.DAO.OrderProgressDao
 
     public class OrderProgressStatusInputDto
     {
-        public int? OrderId { get; set; }
-        public byte? Status { get; set; }
+        public int OrderId { get; set; }
+        public byte Status { get; set; }
         public string? UserId { get; set; }
     }
 
     public class OrderProgressCancelInputDto
     {
-        public int? OrderId { get; set; }
-        public byte? Status { get; set; }
+        public int OrderId { get; set; }
+        public byte Status { get; set; }
         public string? UserId { get; set; }
         public string? Note { get; set; }
     }

@@ -72,7 +72,33 @@ namespace HFS_BE.Dao.PostDao
                                             PostId = p.PostId,
                                             CreatedDate = p.CreatedDate.Value.ToString("MM/dd/yyyy"),
                                             PostContent = p.PostContent,
-                                            Status = PostMenuStatus.GetStatusString(p.Status),
+                                            Status = PostMenuStatusEnum.GetStatusString(p.Status),
+                                            Images = p.PostImages.ToList()
+                                        })
+                                        .ToList();
+                var output = this.Output<ListPostOutputSellerDto>(Constants.ResultCdSuccess);
+                output.Posts = postsModel;
+                return output;
+            }
+            catch (Exception e)
+            {
+                return this.Output<ListPostOutputSellerDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public ListPostOutputSellerDto GetAllPostPostModerator(UserDto userDto)
+        {
+            try
+            {
+                List<PostOutputSellerDto> postsModel = context.Posts
+                                        .Include(p => p.PostImages)
+                                        .Where(p => p.SellerId == userDto.UserId)
+                                        .Select(p => new PostOutputSellerDto
+                                        {
+                                            PostId = p.PostId,
+                                            CreatedDate = p.CreatedDate.Value.ToString("MM/dd/yyyy"),
+                                            PostContent = p.PostContent,
+                                            Status = PostMenuStatusEnum.GetStatusString(p.Status),
                                             Images = p.PostImages.ToList()
                                         })
                                         .ToList();
@@ -90,7 +116,7 @@ namespace HFS_BE.Dao.PostDao
         {
             try
             {
-                
+
                 // Add post
                 Post post = new Post
                 {
@@ -102,7 +128,7 @@ namespace HFS_BE.Dao.PostDao
                 context.Add(post);
                 context.SaveChanges();
 
-                if(postDto.Images != null)
+                if (postDto.Images != null)
                 {
                     foreach (var img in postDto.Images)
                     {
@@ -143,6 +169,32 @@ namespace HFS_BE.Dao.PostDao
                 return Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
             catch (Exception e)
+            {
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public BaseOutputDto BanUnbanPost(PostBanUnbanInputDto input)
+        {
+            try
+            {
+                // Get post
+                var post = context.Posts.SingleOrDefault(x => x.PostId == input.PostId);
+
+                if (input.isBanned)
+                {
+                    // set status banned
+                    post.Status = 3;
+                    context.SaveChanges();
+                    return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+                }
+                //set status display
+                post.Status = 1;
+                context.SaveChanges();
+
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
             {
                 return Output<BaseOutputDto>(Constants.ResultCdFail);
             }

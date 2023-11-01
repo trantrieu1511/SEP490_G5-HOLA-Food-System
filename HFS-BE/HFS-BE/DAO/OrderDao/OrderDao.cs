@@ -97,7 +97,7 @@ namespace HFS_BE.Dao.OrderDao
                         output[indexOder].OrderDetails[indexDetail].SellerId = detail.Food.SellerId;
                     }
                     var status = item.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status;
-                    output[indexOder].Status = OrderStatus.GetOrderStatusString(status);
+                    output[indexOder].Status = OrderStatusEnum.GetOrderStatusString(status);
                 }
                 var output1 = this.Output<OrderHistoryDaoOutputDto>(Constants.ResultCdSuccess);
                 output1.Orders = output;
@@ -208,8 +208,6 @@ namespace HFS_BE.Dao.OrderDao
 
                 var result = data.Select(o => mapper.Map<Order, OrderDaoSellerOutputDto>(o)).ToList();
 
-
-                
                 var output = this.Output<OrderSellerDaoOutputDto>(Constants.ResultCdSuccess);
                 output.Orders = result;
                 return output;
@@ -227,11 +225,7 @@ namespace HFS_BE.Dao.OrderDao
             try
             {
                 var order = context.Orders.First(o => o.OrderId.Equals(inputDto.OrderId));
-                // vut qua ben BL
-                // check shipperId null ko
-                /*if (order == null)
-                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Order is not exist");*/
-
+                
                 order.ShipperId = inputDto.ShipperId;
 
                 context.SaveChanges();
@@ -240,13 +234,13 @@ namespace HFS_BE.Dao.OrderDao
             }
             catch (Exception)
             {
-                return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Add Internal Shipper Failed");
+                return Output<BaseOutputDto>(Constants.ResultCdFail, "Commmission Failed", "Add Internal Shipper Failed");
             }
         }
 
-        public Order? GetOrderByOrderId(string orderId)
+        public Order? GetOrderByOrderIdAndSellerId(int orderId, string sellerId)
         {
-            return context.Orders.FirstOrDefault(o => o.OrderId.Equals(orderId));
+            return context.Orders.FirstOrDefault(o => o.OrderId == orderId && o.SellerId.Equals(sellerId));
         }
     }
 }

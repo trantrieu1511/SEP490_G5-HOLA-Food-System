@@ -151,10 +151,22 @@ namespace HFS_BE.DAO.AuthDAO
 			var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
-			if (data != null || data2 != null || data3 != null || data4 != null)
+			var data5 = context.Admins.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			if (data != null || data2 != null || data3 != null || data4 != null || data5 != null)
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email đã sử dụng");
 			}
+			var userCreate = new HFS_BE.Models.Admin
+			{
+				AdminId = paddedString,
+				Email = model.Email,
+				BirthDate = model.BirthDate,
+				FirstName = model.FirstName,
+				LastName = model.LastName,
+				Gender = model.Gender,
+				ConfirmedEmail = true,
+
+			};
 			var user = new HFS_BE.Models.Seller
 			{
 				SellerId = paddedString,
@@ -226,10 +238,22 @@ namespace HFS_BE.DAO.AuthDAO
 			var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
-			if (data != null || data2 != null || data3 != null || data4 != null)
+			var data5 = context.Admins.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			if (data != null || data2 != null || data3 != null || data4 != null || data5 != null)
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email đã sử dụng");
 			}
+			var userCreate = new HFS_BE.Models.Admin
+			{
+				AdminId = paddedString,
+				Email = model.Email,
+				BirthDate = model.BirthDate,
+				FirstName = model.FirstName,
+				LastName = model.LastName,
+				Gender = model.Gender,
+				ConfirmedEmail = true,
+
+			};
 			var user = new HFS_BE.Models.Shipper
 			{
 				ShipperId = paddedString,

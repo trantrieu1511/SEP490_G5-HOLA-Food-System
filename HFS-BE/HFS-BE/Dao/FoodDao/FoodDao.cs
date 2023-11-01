@@ -106,7 +106,7 @@ namespace HFS_BE.Dao.FoodDao
                                             Description = p.Description,
                                             CategoryId = p.CategoryId,
                                             CategoryName = p.Category.Name,
-                                            Status = PostMenuStatus.GetStatusString(p.Status),
+                                            Status = PostMenuStatusEnum.GetStatusString(p.Status),
                                             Images = p.FoodImages.ToList(),
                                             Feedbacks = p.Feedbacks.ToList(),
                                         })

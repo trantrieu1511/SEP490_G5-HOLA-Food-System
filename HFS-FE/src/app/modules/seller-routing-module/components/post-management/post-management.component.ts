@@ -17,6 +17,8 @@ import {
     TreeNode
 } from "primeng/api";
 import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
+import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
+
 
 @Component({
   selector: 'app-post-management',
@@ -50,12 +52,15 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
               public messageService: MessageService,
               private confirmationService: ConfirmationService,
               private iServiceBase: iServiceBase,
-              private iFunction: iFunction
+              private iFunction: iFunction,
+              private signalRService: DataRealTimeService
               ) {
       super(messageService, breadcrumbService);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.connectSignalR();
+    
     this.getAllPost();
 
     // Convert CustomFile[] to File[]
@@ -76,6 +81,15 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
     console.log(this.uploadedFiles);
   }
 
+  async connectSignalR(){
+    this.lstPost = [];
+    this.signalRService.startConnection();
+    const res = await this.signalRService.addTransferDataListener(API.PHAN_HE.POST, API.API_POST.GET_POST_SELLER);
+    if (res && res.message === "Success") {
+      this.lstPost = res.posts;
+    }
+  }
+
   async getAllPost() {
       this.lstPost = [];
       this.uploadedFiles = [];
@@ -83,6 +97,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
           this.loading = true;
 
           let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.POST, API.API_POST.GET_POST_SELLER);
+          // let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.POST, API.API_POST.GET_POST);
 
           if (response && response.message === "Success") {
             this.lstPost = response.posts;
@@ -261,7 +276,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase
         .putDataAsync(API.PHAN_HE.POST, API.API_POST.UPDATE_POST, param, true);
 
-      if (response && response.success) {
+      if (response && response.message === "Success") {
         this.showMessage(mType.success, "Notification", "New post updated successfully", 'notify');
 
         this.displayDialogEditAddPost = false;
@@ -296,7 +311,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
 
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POST, API.API_POST.ENABLE_DISABLE_SELLER, param, true);
 
-      if (response && response.success) {
+      if (response && response.message === "Success") {
         this.showMessage(mType.success, "Notification",  `${message} postId: ${postEnity.postId} successfully`, 'notify');
 
         //lấy lại danh sách All 

@@ -315,7 +315,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
         let response = await this.iServiceBase
             .putDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.UPDATE_FOOD, param, true);
 
-        if (response && response.success) {
+        if (response && response.message === "Success") {
           this.showMessage(mType.success, "Notification"
             , "New food updated successfully", 'notify');
 
@@ -349,7 +349,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
 
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.ENABLE_DISABLE, param, true);
 
-      if (response && response.success) {
+      if (response && response.message === "Success") {
         this.showMessage(mType.success, "Notification", `${message} foodId: ${foodEnity.foodId} successfully`, 'notify');
 
         //lấy lại danh sách All Role
