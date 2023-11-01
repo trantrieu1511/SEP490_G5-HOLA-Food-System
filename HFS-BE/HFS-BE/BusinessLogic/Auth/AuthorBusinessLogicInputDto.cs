@@ -17,7 +17,6 @@ namespace HFS_BE.BusinessLogic.Auth
 		public string LastName { get; set; } = null!;
 		public string? Gender { get; set; }
 		public DateTime? BirthDate { get; set; }
-		public int RoleId { get; set; }
 		public string Email { get; set; } = null!;
 		public string Password { get; set; } = null!;
 

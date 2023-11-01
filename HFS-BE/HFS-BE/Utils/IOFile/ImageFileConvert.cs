@@ -11,6 +11,9 @@
 
         public static ImageOutputDto? ConvertFileToBase64(string userId,string fileName, int type)
         {
+            if (fileName == null || fileName.Equals(""))
+                return null;
+
             string path = $"Resources\\Images\\" +
                             $"{userId}\\" +
                             $"{GetFolderNameTypeImage(type)}\\"

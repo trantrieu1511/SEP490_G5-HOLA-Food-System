@@ -9,7 +9,7 @@ namespace HFS_BE.Models
         public string CartId { get; set; } = null!;
         public int Amount { get; set; }
 
-        public virtual Seller Cart { get; set; } = null!;
+        public virtual Customer Cart { get; set; } = null!;
         public virtual Food Food { get; set; } = null!;
     }
 }

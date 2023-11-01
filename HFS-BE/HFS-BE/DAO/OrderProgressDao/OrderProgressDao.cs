@@ -18,10 +18,10 @@ namespace HFS_BE.DAO.OrderProgressDao
             {
                 //get orderprogress by inputDto.orderId
                 var data = this.context.OrderProgresses.Where(x=>x.OrderId == inputDto.OrderId).ToList();
-                //if(data.Where(x=>x.Status == inputDto.Status) != null)
-                //{
-                //    return Output<BaseOutputDto>(Constants.ResultCdFail);
-                //}
+                if(data.Where(x=>x.Status == inputDto.Status) != null)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail);
+                }
                 // check trong list trả về có status = inputDto.status ko
                 // có -> return ....
                 // ko làm tiếp bên dưới
@@ -56,5 +56,79 @@ namespace HFS_BE.DAO.OrderProgressDao
                 return Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
+
+        public BaseOutputDto AddOrderProgressCommonStatus(OrderProgressStatusInputDto inputDto)
+        {
+            try
+            {
+                // vut sang BL
+                //get orderprogress by inputDto.orderId
+                var data = this.context.OrderProgresses.Where(x => x.OrderId == inputDto.OrderId).ToList();
+                if (data.FirstOrDefault(x => x.Status == inputDto.Status) != null)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail);
+                }
+                // check trong list trả về có status = inputDto.status ko
+                // có -> return ....
+                // ko làm tiếp bên dưới
+
+                //var data = context.Orders.FirstOrDefault(x => x.OrderId == inputDto.OrderId);
+
+                OrderProgress orderProgress = new OrderProgress
+                {
+                    CreateDate = DateTime.Now,
+                    CreatedBy = inputDto.UserId,
+                    OrderId = inputDto.OrderId,
+                    Status = inputDto.Status
+                };
+
+                context.OrderProgresses.Add(orderProgress);
+                context.SaveChanges();
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public BaseOutputDto AddOrderProgressCancelStatus(OrderProgressCancelInputDto inputDto)
+        {
+            try
+            {
+                // vu sang BL
+                //get orderprogress by inputDto.orderId
+                var data = this.context.OrderProgresses.Where(x => x.OrderId == inputDto.OrderId).ToList();
+                if (data.FirstOrDefault(x => x.Status == inputDto.Status) != null)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail);
+                }
+                // check trong list trả về có status = inputDto.status ko
+                // có -> return ....
+                // ko làm tiếp bên dưới
+
+                //var data = context.Orders.FirstOrDefault(x => x.OrderId == inputDto.OrderId);
+
+                OrderProgress orderProgress = new OrderProgress
+                {
+                    CreateDate = DateTime.Now,
+                    CreatedBy = inputDto.UserId,
+                    OrderId = inputDto.OrderId,
+                    Status = inputDto.Status,
+                    Note = inputDto.Note
+                };
+
+                context.OrderProgresses.Add(orderProgress);
+                context.SaveChanges();
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
     }
 }

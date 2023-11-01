@@ -29,7 +29,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                     var indexOrder = output.Orders.IndexOf(order);
                     foreach (var detail in order.OrderDetails)
                     {
-                        var imageInfor = ImageFileConvert.ConvertFileToBase64(detail.ShopId, detail.Image, 1);
+                        var imageInfor = ImageFileConvert.ConvertFileToBase64(detail.SellerId, detail.Image, 1);
                         if (imageInfor == null)
                             continue;
                         var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, ImageFoodOutputDto>(imageInfor);

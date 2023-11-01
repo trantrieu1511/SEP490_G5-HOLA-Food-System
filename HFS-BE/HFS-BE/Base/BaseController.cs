@@ -51,11 +51,11 @@ namespace HFS_BE.Base
         }
 
         [NonAction]
-        public int GetAccessRight()
+        public string GetAccessRight()
         {
             ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
             var a = identity.FindFirst(ClaimTypes.Role)?.Value;
-            return Convert.ToInt16(a);
+            return a;
         }
 
 
@@ -68,7 +68,7 @@ namespace HFS_BE.Base
                 var roleId = identity.FindFirst(ClaimTypes.Role)?.Value;
                 var name = identity.FindFirst(ClaimTypes.Name)?.Value;
                 var userid = identity.FindFirst("userId")?.Value;
-                return new UserDto { Email = email, Name = name , UserId = userid};
+                return new UserDto { Email = email, Name = name , UserId = userid, Role = roleId};
             }
             return null;
         }

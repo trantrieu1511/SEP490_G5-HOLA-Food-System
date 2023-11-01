@@ -16,7 +16,7 @@ CREATE TABLE [dbo].[Seller](
 	[gender] [nvarchar](10) NULL,
 	[birthDate] [date] NULL,
 	[email] [nvarchar](100) UNIQUE NOT NULL,
-	[phoneNumber] [bigint] NULL,
+	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
 	[avatar] [nvarchar](100) NULL,
@@ -36,7 +36,7 @@ CREATE TABLE [dbo].[Admin](
 	[gender] [nvarchar](10) NULL,
 	[birthDate] [date] NULL,
 	[email] [nvarchar](100) UNIQUE NOT NULL,
-	[phoneNumber] [bigint] NULL,
+	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
 	[avatar] [nvarchar](100) NULL,
@@ -52,7 +52,7 @@ CREATE TABLE [dbo].[PostModerator](
 	[gender] [nvarchar](10) NULL,
 	[birthDate] [date] NULL,
 	[email] [nvarchar](100) UNIQUE NOT NULL,
-	[phoneNumber] [bigint] NULL,
+	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
 	[avatar] [nvarchar](100) NULL,
@@ -68,7 +68,7 @@ CREATE TABLE [dbo].[MenuModerator](
 	[gender] [nvarchar](10) NULL,
 	[birthDate] [date] NULL,
 	[email] [nvarchar](100) UNIQUE NOT NULL,
-	[phoneNumber] [bigint] NULL,
+	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
 	[avatar] [nvarchar](100) NULL,
@@ -84,7 +84,7 @@ CREATE TABLE [dbo].[Customer](
 	[gender] [nvarchar](10) NULL,
 	[birthDate] [date] NULL,
 	[email] [nvarchar](100) UNIQUE NOT NULL,
-	[phoneNumber] [bigint] NULL,
+	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
 	[avatar] [nvarchar](100) NULL,
@@ -101,7 +101,7 @@ CREATE TABLE [dbo].[Shipper](
 	[gender] [nvarchar](10) NULL,
 	[birthDate] [date] NULL,
 	[email] [nvarchar](100) UNIQUE NOT NULL,
-	[phoneNumber] [bigint] NULL,
+	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
 	[avatar] [nvarchar](100) NULL,
@@ -151,78 +151,14 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Feedback]    Script Date: 09/10/2023 11:11:40 CH ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Feedback](
-	[feedbackId] [int] IDENTITY(1,1) NOT NULL,
-	[foodId] [int] NULL,
-	[customerId] [nvarchar](50)  NULL,
-	[feedbackMessage] [nvarchar](max) NULL,
-	[star] [tinyint] NULL,
-	[createdDate] [datetime] NULL,
-	[updateDate] [datetime] NULL,
-	[status] [tinyint] NULL,
-	FOREIGN KEY([customerId]) REFERENCES [dbo].[Customer] ([customerId]),
-	FOREIGN KEY([foodId]) REFERENCES [dbo].[Food] ([foodId]),
-	CONSTRAINT CK_FeedBack_Dates CHECK (createdDate <= updateDate),
-PRIMARY KEY CLUSTERED 
-(
-	[feedbackId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
 
-/****** Object:  Table [dbo].[FeedbackReply]    Script Date: 09/10/2023 11:11:40 CH ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[FeedbackReply](
-	[replyId] [int] IDENTITY(1,1) NOT NULL,
-	[userId] [nvarchar](50) NOT NULL,
-	[feedbackId] [int] not null,
-	[replyMessage] [nvarchar](max) NULL,
-	[createdDate] [datetime] NULL,
-	[updateDate] [datetime] NULL,
-	[status] [tinyint] NULL,
-	foreign key (userId) references Customer(customerId),
-	foreign key (userId) references Seller(sellerId),
-	foreign key (feedbackId) references Feedback(feedbackId),
-PRIMARY KEY CLUSTERED 
-(
-	[replyId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[FeedbackVote]    Script Date: 09/10/2023 11:11:40 CH ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[FeedbackVote](
-	[voteId] [int] IDENTITY(1,1) NOT NULL,
-	[feedbackId] [int] NOT NULL,
-	[isLike] [bit] NULL,
-	[createdDate] [datetime] NULL,
-	[voteBy] [nvarchar](50) Not Null,
-	Foreign Key ([voteBy]) REFERENCES [Customer](customerId),
-	Foreign Key ([feedbackId]) REFERENCES [Feedback](feedbackId),
-PRIMARY KEY CLUSTERED 
-(
-	[voteId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
 
 -- cart item
 CREATE TABLE [dbo].[CartItem](
 	[foodId] [int] NOT NULL,
 	[cartId] [nvarchar](50) NOT NULL,
 	[amount] [int] NOT NULL,
-	Foreign Key ([cartId]) REFERENCES [Seller](sellerId),
+	Foreign Key ([cartId]) REFERENCES [Customer](customerId),
 	Foreign key ([foodId]) REFERENCES [Food](foodId),
 PRIMARY KEY CLUSTERED 
 (
@@ -408,6 +344,73 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
+/****** Object:  Table [dbo].[Feedback]    Script Date: 09/10/2023 11:11:40 CH ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Feedback](
+	[feedbackId] [int] IDENTITY(1,1) NOT NULL,
+	[foodId] [int] NULL,
+	[customerId] [nvarchar](50)  NULL,
+	[feedbackMessage] [nvarchar](max) NULL,
+	[star] [tinyint] NULL,
+	[createdDate] [datetime] NULL,
+	[updateDate] [datetime] NULL,
+	[status] [tinyint] NULL,
+	FOREIGN KEY([customerId]) REFERENCES [dbo].[Customer] ([customerId]),
+	FOREIGN KEY([foodId]) REFERENCES [dbo].[Food] ([foodId]),
+	CONSTRAINT CK_FeedBack_Dates CHECK (createdDate <= updateDate),
+PRIMARY KEY CLUSTERED 
+(
+	[feedbackId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[FeedbackReply]    Script Date: 09/10/2023 11:11:40 CH ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[FeedbackReply](
+	[replyId] [int] IDENTITY(1,1) NOT NULL,
+	[customerId] [nvarchar](50) NULL,
+	[sellerId] [nvarchar](50) NULL,
+	[feedbackId] [int] not null,
+	[replyMessage] [nvarchar](max) NULL,
+	[createdDate] [datetime] NULL,
+	[updateDate] [datetime] NULL,
+	[status] [tinyint] NULL,
+	foreign key ([customerId]) references Customer(customerId),
+	foreign key ([sellerId]) references Seller(sellerId),
+	foreign key (feedbackId) references Feedback(feedbackId),
+PRIMARY KEY CLUSTERED 
+(
+	[replyId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[FeedbackVote]    Script Date: 09/10/2023 11:11:40 CH ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[FeedbackVote](
+	[voteId] [int] IDENTITY(1,1) NOT NULL,
+	[feedbackId] [int] NOT NULL,
+	[isLike] [bit] NULL,
+	[createdDate] [datetime] NULL,
+	[voteBy] [nvarchar](50) Not Null,
+	Foreign Key ([voteBy]) REFERENCES [Customer](customerId),
+	Foreign Key ([feedbackId]) REFERENCES [Feedback](feedbackId),
+PRIMARY KEY CLUSTERED 
+(
+	[voteId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
 /****** Object:  Table [dbo].[Post]    Script Date: 09/10/2023 11:11:40 CH ******/
 SET ANSI_NULLS ON
 GO

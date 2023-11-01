@@ -5,7 +5,7 @@ namespace HFS_BE.BusinessLogic.Cart
 {
     public class CheckOutCartInputDto
     {
-        public int? CustomerId { get; set; }
+        public string? CustomerId { get; set; }
         [Required(ErrorMessage = "ShipAddress Required")]
         public string? ShipAddress { get; set; }
         public int? VoucherId { get; set; }
@@ -20,7 +20,7 @@ namespace HFS_BE.BusinessLogic.Cart
     public class ListShopItemInputDto
     {
         [Required(ErrorMessage = "ShopId Required!")]
-        public int? ShopId { get; set; }
+        public string? ShopId { get; set; }
         public List<CartItemInputDto>? CartItems { get; set; }
     }
 

@@ -5,7 +5,7 @@ namespace HFS_BE.Dao.ShopDao
 {
     public class ShopDto
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public string ShopName { get; set; }
         public string ShopAddress { get; set; }
         public string Avatar { get; set; }
@@ -18,7 +18,7 @@ namespace HFS_BE.Dao.ShopDao
 
     public class GetShopDetailDaoOutputDto : BaseOutputDto
     {
-        public int ShopId { get; set; }
+        public string ShopId { get; set; }
         public long? PhoneNumber { get; set; }  
         public string? Avatar { get; set; }
         public string? ShopName { get; set; }

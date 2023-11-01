@@ -31,6 +31,11 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DAO\AuthSellerDao\" />
+    <Folder Include="DAO\FeedBackVoteDao\" />
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

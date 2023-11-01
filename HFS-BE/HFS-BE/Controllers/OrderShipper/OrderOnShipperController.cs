@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.OrderShipper
 {
-    [Authorize(Roles = "4")]
+    //[Authorize(Roles = "4")]
     public class OrderOnShipperController : BaseController
     {
         public OrderOnShipperController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
@@ -24,12 +24,7 @@ namespace HFS_BE.Controllers.OrderShipper
             try
             {
 
-                var busi = this.GetBusinessLogic<OrderShipperBusinessLogic>();
-                var role = this.GetAccessRight();
-                //if(role != 4)
-                //{
-                //    return this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdFail);
-                //}
+                var busi = this.GetBusinessLogic<OrderShipperBusinessLogic>();                
                 return busi.ListOrderShipper(inputDto);
 
                 

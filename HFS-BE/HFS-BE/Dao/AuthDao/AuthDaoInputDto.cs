@@ -32,8 +32,6 @@ namespace HFS_BE.Dao.AuthDao
 		[MinimumAge(18, ErrorMessage = "You must be at least 18 years old")]
 		public DateTime? BirthDate { get; set; }
 
-		[Required(ErrorMessage = "Role ID is required")]
-		public int RoleId { get; set; }
 
 		[Required(ErrorMessage = "Email is required")]
 		[EmailAddress(ErrorMessage = "Invalid email address")]

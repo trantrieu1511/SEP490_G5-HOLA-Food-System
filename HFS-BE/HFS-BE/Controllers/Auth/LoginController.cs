@@ -14,7 +14,7 @@ namespace HFS_BE.Controllers.Auth
 		{
 		}
 
-		[HttpPost("home/login")]
+		[HttpPost("home/logincustomer")]
 		public LoginOutputDto Login(LoginInPutDto inputDto)
 		{
 			try
@@ -28,5 +28,23 @@ namespace HFS_BE.Controllers.Auth
 				throw;
 			}
 		}
+		[HttpPost("home/loginnotcustomer")]
+		public LoginOutputDto LoginNotCustomer(LoginInPutDto inputDto)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<AuthNotCustomerBusinessLogin>();
+
+
+				return business.LoginNotCustomer(inputDto);
+
+
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+		
 	}
 }

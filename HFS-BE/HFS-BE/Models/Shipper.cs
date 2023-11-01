@@ -19,15 +19,15 @@ namespace HFS_BE.Models
         public string? Gender { get; set; }
         public DateTime? BirthDate { get; set; }
         public string Email { get; set; } = null!;
-        public long? PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         public byte[] PasswordSalt { get; set; } = null!;
         public byte[] PasswordHash { get; set; } = null!;
         public string? Avatar { get; set; }
         public bool? IsOnline { get; set; }
         public string? ManageBy { get; set; }
-        public bool ConfirmEmail { get; set; }
-        public bool? Ban { get; set; }
-        public bool? IsVerify { get; set; }
+        public bool? ConfirmedEmail { get; set; }
+        public bool? IsBanned { get; set; }
+        public bool? IsVerified { get; set; }
 
         public virtual Seller? ManageByNavigation { get; set; }
         public virtual ICollection<Notification> NotificationReceiver5s { get; set; }
