@@ -16,6 +16,7 @@ namespace HFS_BE.BusinessLogic.ManageOrder
         public string? ShipperId { get; set; }
         public string? ShipperName { get; set; }
         public int? VoucherId { get; set; }
+        public string PaymentMethod { get; set; }
         public decimal? TotalPrice { get; set; }
         public List<DetailProgress>? OrderProgresses { get; set; }
         public List<OrderDetailFoodDto>? OrderDetails { get; set; }
@@ -32,7 +33,6 @@ namespace HFS_BE.BusinessLogic.ManageOrder
         public int? Quantity { get; set; }
         public FoodImageOutputSellerDto ImageBase64 { get; set; }
         public string CategoryName { get; set; }
-        public string? SellId { get; set; }
     }
 
     public class DetailProgress

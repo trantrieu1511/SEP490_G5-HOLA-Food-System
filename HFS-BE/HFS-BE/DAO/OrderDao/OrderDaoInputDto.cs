@@ -47,8 +47,8 @@ namespace HFS_BE.Dao.OrderDao
 
     public class OrderInternalShipInputDto
     {
-        public int? OrderId { get; set; }
-        public byte? Status { get; set; }
+        public int OrderId { get; set; }
+        public byte Status { get; set; }
         public string? UserId { get; set; }
         public string? ShipperId { get; set; }
     }

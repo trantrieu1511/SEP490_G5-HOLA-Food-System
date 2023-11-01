@@ -1,24 +1,26 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.ManagePost;
+using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace HFS_BE.Controllers.ManagePost
 {
 
-    public class AddNewPostSellerController : BaseController
+    public class AddNewPostSellerController : BaseControllerSignalR
     {
-        public AddNewPostSellerController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public AddNewPostSellerController(SEP490_HFS_2Context context, IMapper mapper, IHubContext<DataRealTimeHub> hub) : base(context, mapper, hub)
         {
         }
 
         [HttpPost("posts/addPostSeller")]
         [Authorize]
-        public BaseOutputDto AddNewPost([FromForm] IReadOnlyList<IFormFile> images, [FromForm] string postContent)
+        public async Task<BaseOutputDto> AddNewPost([FromForm] IReadOnlyList<IFormFile> images, [FromForm] string postContent)
         {
             try
             {
@@ -42,6 +44,11 @@ namespace HFS_BE.Controllers.ManagePost
                 var output = business.AddNewPost(inputBL);
 
                 // call signalR to Post Modelrator
+
+                if (output.Success)
+                {
+                    await hubContext.Clients.All.SendAsync("dataRealTime");
+                }
 
                 return output;
             }

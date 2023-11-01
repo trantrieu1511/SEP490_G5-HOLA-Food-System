@@ -8,6 +8,7 @@ import {iServiceBase} from './functions/iServiceBase';
 import {LoadingComponent} from './components/loading-component/loading.component';
 import {OpenPagePopupComponent} from './components/open-page-popup/open-page-popup.component';
 import { iFunction } from './shared-module';
+import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
 
 
 
@@ -21,7 +22,8 @@ import { iFunction } from './shared-module';
   ],
   providers: [
       iServiceBase,
-      iFunction
+      iFunction,
+      DataRealTimeService
   ],
   declarations: [
       iComponentBase,

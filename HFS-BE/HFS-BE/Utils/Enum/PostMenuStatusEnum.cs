@@ -1,8 +1,8 @@
 ﻿namespace HFS_BE.Utils.Enum
 {
-    public static class PostMenuStatus
+    public static class PostMenuStatusEnum
     {
-        public enum PostMenuStatusEnum
+        public enum PostMenuStatus
         {
             NotApproved = 0,
             Display = 1,
@@ -14,13 +14,13 @@
         {
             switch (status)
             {
-                case (int)PostMenuStatusEnum.NotApproved:
+                case (int)PostMenuStatus.NotApproved:
                     return "NotApproved";
-                case (int)PostMenuStatusEnum.Display:
+                case (int)PostMenuStatus.Display:
                     return "Display";
-                case (int)PostMenuStatusEnum.Hidden:
+                case (int)PostMenuStatus.Hidden:
                     return "Hidden";
-                case (int)PostMenuStatusEnum.Ban:
+                case (int)PostMenuStatus.Ban:
                     return "Ban";
                 default:
                     return "unknown";

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HFS_BE.Models;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.SignalR;
 
 namespace HFS_BE.Base
 {
@@ -17,6 +18,7 @@ namespace HFS_BE.Base
         {
             return (T)Activator.CreateInstance(typeof(T), context, mapper);
         }
+
 
         public T Output<T>(bool success) where T : BaseOutputDto, new()
         {
