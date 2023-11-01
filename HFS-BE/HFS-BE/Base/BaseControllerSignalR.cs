@@ -11,18 +11,20 @@ namespace HFS_BE.Base
 {
     [ApiController]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public class BaseController : ControllerBase
+    public class BaseControllerSignalR : ControllerBase
     {
         private readonly SEP490_HFS_2Context context;
         public readonly IMapper mapper;
+        protected readonly IHubContext<Hub> hubContext;
 
-        public BaseController(SEP490_HFS_2Context context, IMapper mapper)
+        public BaseControllerSignalR(SEP490_HFS_2Context context, IMapper mapper, IHubContext<Hub> hubContext)
         {
             this.context = context;
             this.mapper = mapper;
+            this.hubContext = hubContext;
         }
 
-        
+
         public T GetBusinessLogic<T>() where T : BaseBusinessLogic
         {
 
@@ -69,7 +71,7 @@ namespace HFS_BE.Base
                 var roleId = identity.FindFirst(ClaimTypes.Role)?.Value;
                 var name = identity.FindFirst(ClaimTypes.Name)?.Value;
                 var userid = identity.FindFirst("userId")?.Value;
-                return new UserDto { Email = email, Name = name , UserId = userid, Role = roleId};
+                return new UserDto { Email = email, Name = name, UserId = userid, Role = roleId };
             }
             return null;
         }

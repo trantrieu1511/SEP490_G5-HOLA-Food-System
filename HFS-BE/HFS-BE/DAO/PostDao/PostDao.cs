@@ -72,7 +72,7 @@ namespace HFS_BE.Dao.PostDao
                                             PostId = p.PostId,
                                             CreatedDate = p.CreatedDate.Value.ToString("MM/dd/yyyy"),
                                             PostContent = p.PostContent,
-                                            Status = PostMenuStatus.GetStatusString(p.Status),
+                                            Status = PostMenuStatusEnum.GetStatusString(p.Status),
                                             Images = p.PostImages.ToList()
                                         })
                                         .ToList();

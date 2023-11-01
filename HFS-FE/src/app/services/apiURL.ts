@@ -14,6 +14,7 @@ export class PHAN_HE {
     public static CART = "cart"
     public static FOOD = "Food"
     public static CHECKOUT = "checkout"
+    public static HUB = "hub"
 }
 
 
@@ -33,6 +34,7 @@ export class API_USER {
     public static REGISTER = "register";
     public static GETPROFILE = "profile";
     public static EDITPROFILE = "editprofile";
+    public static GET_SHIPPERS_AVAILABLE = "getShippersAvailable";
 }
 
 // Service Role
@@ -42,7 +44,10 @@ export class API_ROLE {
 
 // Service Danh Mục
 export class API_ORDER {
-    public static GET_DVI_QLY = "getDviqly";
+    public static GET_ORDER_BY_STATUS = "getOrdersSeller";
+    public static CANCEL_ORDER = "cancelOrderSeller";
+    public static ACCEPT_ORDER = "acceptOrderSeller";
+    public static INTERNAL_ORDER = "internalShipperOrderSeller";
 }
 
 export class API_SHIPPER {
@@ -102,4 +107,8 @@ export class API_FOOD{
 
 export class API_CHECKOUT{
     public static CREATE_ORDER = "createorder"; 
+}
+
+export class API_HUB{
+    public static DATA_REALTIME = "dataRealTime";
 }

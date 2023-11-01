@@ -23,6 +23,8 @@ using HFS_BE.DAO.ShipperDao;
 using HFS_BE.DAO.FeedBackDao;
 using HFS_BE.DAO.FeedBackReplyDao;
 using HFS_BE.BusinessLogic.FoodDetail;
+using HFS_BE.Utils.Enum;
+using HFS_BE.Controllers.ManageOrder;
 
 namespace HFS_BE.Automapper
 {
@@ -41,6 +43,7 @@ namespace HFS_BE.Automapper
             UserProfile();
             File();
             Category();
+            Shipper();
         }
 
         /// <summary>
@@ -126,7 +129,10 @@ namespace HFS_BE.Automapper
 
             //seller
             //*input
-
+            CreateMap<OrderCancelInputDto, OrderProgressCancelInputDto>();
+            CreateMap<OrderAcceptInputDto, OrderProgressStatusInputDto>();
+            CreateMap<OrderInternalShipInputDto, OrderProgressStatusInputDto>();
+            CreateMap<OrderInternalInputDto, OrderInternalShipInputDto>();
             //*output
 
             //CreateMap<List<Order>, OrderDaoSellerOutputDto>();
@@ -136,10 +142,10 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.RequiredDate, opt => opt.MapFrom(src => src.RequiredDate != null ? src.RequiredDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null))
                 .ForMember(dest => dest.ShippedDate, opt => opt.MapFrom(src => src.ShippedDate != null ? src.ShippedDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null))
                 .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.Shipper != null ? src.Shipper.FirstName + " " + src.Shipper.LastName : null))
+                .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => PaymentMethodEnum.GetPaymentMethodString(src.PaymentMethod)))
                 .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.OrderDetails.Select(d => d.UnitPrice * d.Quantity).ToList().Sum())) //* them voucher))
-                .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses))
-                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails))
-                ;
+                .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses.OrderBy(x => x.CreateDate).ToList()))
+                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.OrderBy(x => x.UnitPrice).ToList()));
             /*.ForMember(dest => dest.Detail, opt => opt.MapFrom(src => new DetailProgress
                 {
                     Image = src.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Image,
@@ -256,6 +262,7 @@ namespace HFS_BE.Automapper
         public void Shipper()
         {
             CreateMap<Shipper, ShipperInfor>()
+                .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate != null ? src.BirthDate.Value.ToString("MM/dd/yyyy") : null))
                 .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
         }
 

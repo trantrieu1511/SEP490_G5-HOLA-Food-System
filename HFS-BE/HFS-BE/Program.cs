@@ -1,6 +1,7 @@
 using AutoMapper;
 using HFS_BE;
 using HFS_BE.Automapper;
+using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -99,6 +100,7 @@ var mappingConfig = new MapperConfiguration(mc =>
 
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
+builder.Services.AddSignalR();
 
 
 var app = builder.Build();
@@ -116,5 +118,7 @@ app.UseAuthorization();
 app.UseCors("_MainPolicy");
 
 app.MapControllers();
+app.MapHub<DataRealTimeHub>("hubs/dataRealTime");
+
 
 app.Run();
