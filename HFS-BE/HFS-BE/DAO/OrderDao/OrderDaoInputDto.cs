@@ -52,4 +52,21 @@ namespace HFS_BE.Dao.OrderDao
         public string? UserId { get; set; }
         public string? ShipperId { get; set; }
     }
+
+    public class GetOrdersCustomerDaoInputDto
+    {
+        public string CustomerId { get; set;}
+    }
+
+    public class OrderCustomerDaoInputDto
+    {
+        public int OrderId { get; set; }
+        public string CustomerId { get; set; }
+    }
+
+    public class GetOrdersCustomerFoodIdDaoInputDto
+    {
+        public string CustomerId { get; set; }
+        public int? FoodId { get; set; }
+    }
 }

@@ -4,4 +4,12 @@
     {
         public int? FoodId { get; set; }
     }
+
+    public class CreateFeedBackDaoInputDto
+    {
+        public int? FoodId { get; set; }
+        public string? CustomerId { get; set; }
+        public string? FeedbackMessage { get; set; }
+        public byte? Star { get; set; }
+    }
 }

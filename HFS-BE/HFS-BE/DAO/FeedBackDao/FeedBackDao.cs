@@ -32,5 +32,28 @@ namespace HFS_BE.DAO.FeedBackDao
                 return this.Output<GetFeedBackByFoodIdDaoOutputDto>(Constants.ResultCdFail);
             }
         }
+
+        public BaseOutputDto CreateFeedBack(CreateFeedBackDaoInputDto inputDto)
+        {
+            try
+            {
+                var feedBack = new Feedback()
+                {
+                    CustomerId = inputDto.CustomerId,
+                    FoodId = inputDto.FoodId,
+                    FeedbackMessage = inputDto.FeedbackMessage,
+                    Star = inputDto.Star,
+                    CreatedDate = DateTime.Now,
+                };
+
+                this.context.Add(feedBack);
+                this.context.SaveChanges();
+                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
     }
 }

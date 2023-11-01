@@ -183,5 +183,26 @@ namespace HFS_BE.Dao.FoodDao
         {
             return context.Foods.FirstOrDefault(x => x.FoodId == inputDto.FoodId);
         }
+
+        public FoodShopDaoOutputDto GetFoodByCategory(GetFoodByCategoryDaoInputDto inputDto)
+        {
+            try
+            {
+                var data = this.context.Foods
+                    .Include(x => x.FoodImages)
+                    .Include(x => x.Category)
+                    .Where(x => x.CategoryId.Equals(inputDto.CategoryId))
+                    .Select(x => mapper.Map<Food, FoodOutputDto>(x))
+                    .ToList();
+
+                var output = this.Output<FoodShopDaoOutputDto>(Constants.ResultCdSuccess);
+                output.ListFood = data;
+                return output;
+            }
+            catch (Exception)
+            {
+                return this.Output<FoodShopDaoOutputDto>(Constants.ResultCdFail);
+            }
+        }
     }
 }

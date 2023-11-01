@@ -192,8 +192,27 @@ namespace HFS_BE.Automapper
             CreateMap<Dao.OrderDao.OrderDaoSellerOutputDto, BusinessLogic.ManageOrder.OrderDaoSellerOutputDto>();
             CreateMap<Dao.OrderDao.OrderSellerDaoOutputDto, BusinessLogic.ManageOrder.OrderSellerDaoOutputDto>();
 
+            // ordercustomer
+            CreateMap<Order, Dao.OrderDao.OrderCustomerDaoOutputDto>()
+                .ForMember(dest => dest.ShopName, opt => opt.MapFrom(src => src.Seller != null ? src.Seller.ShopName : null))
+                .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => src.OrderDate != null ? src.OrderDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null))
+                .ForMember(dest => dest.RequiredDate, opt => opt.MapFrom(src => src.RequiredDate != null ? src.RequiredDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null))
+                .ForMember(dest => dest.ShippedDate, opt => opt.MapFrom(src => src.ShippedDate != null ? src.ShippedDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null))
+                .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.Shipper != null ? src.Shipper.FirstName + " " + src.Shipper.LastName : null))
+                .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => PaymentMethodEnum.GetPaymentMethodString(src.PaymentMethod)))
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.OrderDetails.Select(d => d.UnitPrice * d.Quantity).ToList().Sum())) //* them voucher))
+                .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses.OrderBy(x => x.CreateDate).ToList()))
+                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.OrderBy(x => x.UnitPrice).ToList()));
+            CreateMap<OrderProgress, DetailProgressCustomerDto>()
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
+                .ForMember(dest => dest.Note, opt => opt.MapFrom(src => src.Note))
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("MM/dd/yyyy - HH:mm:ss")));
+            CreateMap<OrderDetail, OrderDetaiCustomerDto>()
+                .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name))
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Food.FoodImages.ToList().First().Path))
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Food.Category.Name));
 
-        }
+                    }
         public void OrderHistory()
         {
             CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>();
