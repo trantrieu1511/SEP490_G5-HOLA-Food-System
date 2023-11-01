@@ -41,6 +41,7 @@ namespace HFS_BE.Automapper
             UserProfile();
             File();
             Category();
+            FeedBack();
         }
 
         /// <summary>
@@ -259,7 +260,7 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.LastName))
                 .ForMember(dest => dest.DisplayDate, opt => opt.MapFrom(src => src.UpdateDate ?? src.CreatedDate))
                 .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == true).ToList().Count))
-                .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == false).ToList().Count))
+                .ForMember(dest => dest.DisLikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == false).ToList().Count))
                 .ForMember(dest => dest.ListVoted, opt => opt.MapFrom(src => src.FeedbackVotes));
             CreateMap<FeedbackVote, CustomerVoted>();
             CreateMap<FeedbackReply, FeedBackReplyDaoOutputDto>()
