@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace HFS_BE.Base
 {
     /// <summary>
-    /// The base output use for response body of an API
+    /// The base output use in response body of an API, which consists of messages, success state, list of validation/system errors
     /// </summary>
     public class BaseOutputDto
     {

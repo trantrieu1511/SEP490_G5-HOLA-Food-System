@@ -747,9 +747,6 @@ export class iServiceBase {
                 case API.PHAN_HE.TEST: {
                     return localStorage.getItem('APISERVICE') + '/home/';
                 }
-                case API.PHAN_HE.POSTMODERATORMANAGEPOST: {
-                    return localStorage.getItem('APISERVICE') + '/manage/';
-                }
                 case API.PHAN_HE.SHIPPER: {
                     return localStorage.getItem('APISERVICE') + '/shipper/';
                 }

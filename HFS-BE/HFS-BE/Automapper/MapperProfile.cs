@@ -271,14 +271,14 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate != null ? src.BirthDate.Value.ToString("MM/dd/yyyy") : null))
                 .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
         }
-		public void Manage()
-		{
+        public void Manage()
+        {
             CreateMap<Customer, CustomerDtoOutput>();
-			CreateMap<Seller, SellerDtoOutput>();
-			CreateMap<PostModerator, PostModeratorDtoOutput>();
-			CreateMap<MenuModerator, MenuModeratorDtoOutput>();
-		}
-		public void FeedBack()
+            CreateMap<Seller, SellerDtoOutput>();
+            CreateMap<PostModerator, PostModeratorDtoOutput>();
+            CreateMap<MenuModerator, MenuModeratorDtoOutput>();
+        }
+        public void FeedBack()
         {
             CreateMap<Feedback, FeedBackDaoOutputDto>()
                 .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.LastName))
@@ -299,8 +299,9 @@ namespace HFS_BE.Automapper
         public void Voucher()
         {
             CreateMap<Voucher, GetVoucherDaoOutputDto>();
-                
+
         }
 
+    }
 }
 

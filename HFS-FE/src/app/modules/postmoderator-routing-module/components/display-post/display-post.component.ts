@@ -46,7 +46,7 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
     try {
       this.loading = true;
 
-      let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.POSTMODERATORMANAGEPOST, API.API_POSTMODERATOR.GETPOST);
+      let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.POST, API.API_POST.GET_POST);
 
       if (response && response.message === 'Success') {
         this.listPosts = response.posts;

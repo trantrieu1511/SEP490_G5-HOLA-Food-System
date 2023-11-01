@@ -40,6 +40,7 @@ import { ForgotComponent } from './forgot/forgot.component';
 import { LoginNonCustomerComponent } from './login-non-customer/login-non-customer.component';
 import { ManageCustomerModuleComponent } from './modules/admin-routing-module/manage-customer-module/manage-customer-module.component';
 import { ManagePostmoderatorModuleComponent } from './modules/admin-routing-module/manage-postmoderator-module/manage-postmoderator-module.component';
+import { NewsfeedComponent } from './modules/customer-routing-module/components/newsfeed/newsfeed.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { ManagePostmoderatorModuleComponent } from './modules/admin-routing-modu
     LoginNonCustomerComponent,
     ManageCustomerModuleComponent,
     ManagePostmoderatorModuleComponent,
+    NewsfeedComponent,
 
 
   ],
