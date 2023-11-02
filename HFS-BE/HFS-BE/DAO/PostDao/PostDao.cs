@@ -86,16 +86,16 @@ namespace HFS_BE.Dao.PostDao
             }
         }
 
-        public ListPostOutputSellerDto GetAllPostPostModerator(UserDto userDto)
+        public ListPostOutputSellerDto GetAllPostPostModerator()
         {
             try
             {
                 List<PostOutputSellerDto> postsModel = context.Posts
                                         .Include(p => p.PostImages)
-                                        .Where(p => p.SellerId == userDto.UserId)
                                         .Select(p => new PostOutputSellerDto
                                         {
                                             PostId = p.PostId,
+                                            SellerId = p.SellerId,
                                             CreatedDate = p.CreatedDate.Value.ToString("MM/dd/yyyy"),
                                             PostContent = p.PostContent,
                                             Status = PostMenuStatusEnum.GetStatusString(p.Status),

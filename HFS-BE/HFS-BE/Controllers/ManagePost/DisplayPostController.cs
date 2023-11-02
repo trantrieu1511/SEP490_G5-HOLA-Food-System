@@ -26,6 +26,7 @@ namespace HFS_BE.Controllers.ManagePost
                 var business = this.GetBusinessLogic<DisplayPostBusinessLogic>();
 
                 return business.ListPosts(this.GetUserInfor());
+                //return business.ListPosts(new UserDto { UserId = "PM000000001"});
             }
             catch (Exception)
             {

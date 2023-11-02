@@ -51,13 +51,33 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
    logOut(event : Event) {
         //Logout thì xóa đi
         sessionStorage.clear();
-localStorage.clear();
         //Xóa hết đi các thứ linh tinh chỉ gán lại các thứ cấn thiết trong localstorage
+        this.clearLocalStorage();
 
         event.preventDefault();
 
         this.router.navigate(['/login']);
     }
+
+    clearLocalStorage() {
+        //get ra các biến không cần xóa
+        let IP_API_SERVICE = localStorage.getItem('APISERVICE');
+        let IP_API_GATEWAY = localStorage.getItem('APIGATEWAY');
+        let VERSION = localStorage.getItem('VERSION');
+        let PROJECT_NAME = localStorage.getItem('PROJECT_NAME');
+
+        //clear
+        localStorage.clear();
+
+        //Set lại các thứ cần thiết
+        if(IP_API_SERVICE && IP_API_GATEWAY && VERSION && PROJECT_NAME){
+            localStorage.setItem("APISERVICE", IP_API_SERVICE);
+            localStorage.setItem("APIGATEWAY", IP_API_GATEWAY);
+            localStorage.setItem("VERSION", VERSION);
+            localStorage.setItem("PROJECT_NAME", PROJECT_NAME);
+        }
+    }
+
     onCartDetail(){
         this.router.navigate(['/cartdetail']);
     }

@@ -52,7 +52,6 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     logOut(event : Event) {
         //Logout thì xóa đi
         sessionStorage.clear();
-localStorage.clear();
         //Xóa hết đi các thứ linh tinh chỉ gán lại các thứ cấn thiết trong localstorage
         this.clearLocalStorage();
 
