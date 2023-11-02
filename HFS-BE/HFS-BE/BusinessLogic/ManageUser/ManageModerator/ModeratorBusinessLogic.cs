@@ -47,7 +47,7 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageModerator
 			try
 			{
 				var Dao = this.CreateDao<ModeratorDao>();
-				var daoinput = mapper.Map<CreateModerator, RegisterDto>(inputDto);
+				var daoinput = mapper.Map<CreateModerator, CreateModeratorDaoDtoInput>(inputDto);
 				var daooutput = Dao.CreatePostModerator(daoinput);
 			
 
@@ -63,7 +63,7 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageModerator
 			try
 			{
 				var Dao = this.CreateDao<ModeratorDao>();
-				var daoinput = mapper.Map<CreateModerator, RegisterDto>(inputDto);
+				var daoinput = mapper.Map<CreateModerator, CreateModeratorDaoDtoInput>(inputDto);
 				var daooutput = Dao.CreateMenuModerator(daoinput);
 
 				return daooutput;

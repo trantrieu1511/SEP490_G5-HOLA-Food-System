@@ -47,7 +47,7 @@ namespace HFS_BE.DAO.ModeratorDao
 				return this.Output<ListMenuModeratorDtoOutput>(Constants.ResultCdFail);
 			}
 		}
-		public BaseOutputDto CreateMenuModerator(RegisterDto model)
+		public BaseOutputDto CreateMenuModerator(CreateModeratorDaoDtoInput model)
 		{
 			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
 			var validationResults = new List<ValidationResult>();
@@ -121,7 +121,7 @@ namespace HFS_BE.DAO.ModeratorDao
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
 			}
 		}
-		public BaseOutputDto CreatePostModerator(RegisterDto model)
+		public BaseOutputDto CreatePostModerator(CreateModeratorDaoDtoInput model)
 		{
 			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
 			var validationResults = new List<ValidationResult>();
