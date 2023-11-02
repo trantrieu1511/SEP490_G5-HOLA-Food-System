@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Auth;
+using HFS_BE.BusinessLogic.ManageUser;
 using HFS_BE.BusinessLogic.ManageUser.ManageModerator;
 using HFS_BE.Dao.AuthDao;
 using HFS_BE.DAO.ModeratorDao;
@@ -48,7 +49,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageModerator
 		}
 		[HttpPost("users/addpostmoderator")]
 
-		public BaseOutputDto AddPostModerator(RegisterInputDto input)
+		public BaseOutputDto AddPostModerator(CreateModerator input)
 		{
 			try
 			{
@@ -63,7 +64,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageModerator
 		}
 		[HttpPost("users/addmenumoderator")]
 
-		public BaseOutputDto AddMenuModerator(RegisterInputDto input)
+		public BaseOutputDto AddMenuModerator(CreateModerator input)
 		{
 			try
 			{

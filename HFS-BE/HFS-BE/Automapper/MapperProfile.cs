@@ -26,6 +26,7 @@ using HFS_BE.BusinessLogic.FoodDetail;
 using HFS_BE.DAO.CustomerDao;
 using HFS_BE.DAO.SellerDao;
 using HFS_BE.DAO.ModeratorDao;
+using HFS_BE.BusinessLogic.ManageUser;
 
 namespace HFS_BE.Automapper
 {
@@ -65,7 +66,8 @@ namespace HFS_BE.Automapper
             CreateMap<LoginInPutDto, Dao.AuthDao.AuthDaoInputDto>();
             CreateMap<RegisterDto, Dao.AuthDao.RegisterDto>();
             CreateMap<AuthDaoOutputDto, LoginOutputDto>();
-            CreateMap<RegisterInputDto, RegisterDto>();
+			CreateMap<AuthDaoOutputDto, LoginOutputDto>();
+			CreateMap<RegisterInputDto, RegisterDto>();
             //CreateMap<DisplayShopOutputDto, BusinessLogic.Homepage.DisplayShopOutputDto>();
         }
 
@@ -270,6 +272,8 @@ namespace HFS_BE.Automapper
 			CreateMap<Seller, SellerDtoOutput>();
 			CreateMap<PostModerator, PostModeratorDtoOutput>();
 			CreateMap<MenuModerator, MenuModeratorDtoOutput>();
+			CreateMap<MenuModerator, MenuModeratorDtoOutput>();
+			CreateMap<CreateModerator, CreateModeratorDaoDtoInput>();
 		}
 		public void FeedBack()
         {

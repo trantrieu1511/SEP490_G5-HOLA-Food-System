@@ -4,7 +4,7 @@
             <img src="assets/image/Logo.png" alt="logo">
             <!-- <span>Hola Food System</span> -->
         </a>
-    
+
         <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
             <i class="pi pi-ellipsis-v"></i>
         </button>
@@ -23,7 +23,7 @@
                 <ul class="layout-topbar-action-panel shadow-6"
                     [@topbarActionPanelAnimation]="'visible'"
                     *ngIf="layoutService.state.activeTopbarItem === 'notifications'">
-                    
+
                     <li class="layout-topbar-action-item">
                         <div class="flex flex-row align-items-center">
                             <img src="../../../assets/demo/images/avatar/avatar-2.png"/>
@@ -85,7 +85,7 @@
                 <ul class="layout-topbar-action-panel shadow-6"
                     [@topbarActionPanelAnimation]="'visible'"
                     *ngIf="layoutService.state.activeTopbarItem === 'shoppingcart'">
-                    
+
                     <li class="layout-topbar-action-item">
                         <div class="flex flex-row align-items-center">
                             <img src="../../../assets/demo/images/avatar/avatar-1.png"/>
@@ -182,7 +182,7 @@
                         </a>
                     </li>
                     <li class="layout-topbar-action-item">
-                        <a class="flex flex-row align-items-center" 
+                        <a class="flex flex-row align-items-center" (click)="logOut($event)"
                            pRipple>
                             <i class="pi pi-power-off"
                                [ngClass]="{'mr-2': !layoutService.config.isRTL, 'ml-2': layoutService.config.isRTL}"></i>&nbsp;
@@ -191,8 +191,8 @@
                     </li>
                 </ul>
             </li>
-            
+
         </ul>
-       
+
     </div>
 </div>

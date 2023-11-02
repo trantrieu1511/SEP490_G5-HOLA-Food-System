@@ -1,1 +1,305 @@
-<p>manage-postmoderator-module works!</p>
+
+<div class="grid table-demo">
+  <div class="col-12">
+      <div class="card">
+          <h5>Customer Management</h5>
+
+          <p-table #dt [value]="lstUser" dataKey="id"
+                   styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
+                   [showCurrentPageReport]="true"
+                   [paginator]="lstUser.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
+                   currentPageReportTemplate="Total: {totalRecords} foods"
+                   [globalFilterFields]="['firstName']" responsiveLayout="scroll"
+
+          >
+              <ng-template pTemplate="caption">
+                  <div class="flex flex-row align-items-center flex-wrap justify-content-between ">
+                      <div class="flex-1">
+                          <span class="p-input-icon-left">
+                              <i class="pi pi-search"></i>
+                              <input pInputText type="text"  #textInput
+                                     (input)="dt.filterGlobal(textInput.value, 'contains')"
+                                     placeholder="Search Name by name"/>
+                          </span>
+                      </div>
+
+                      <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
+                          <div class="flex align-items-center justify-content-center">
+                              <button pButton type="button" label="Add new" icon="pi pi-plus"
+                              (click)="onCreatePostM()"
+                                      style="width: auto;"></button>
+                          </div>
+                      </div>
+                  </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                  <tr>
+                      <!-- <th style="width: 3rem">
+                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                      </th> -->
+                      <th pSortableColumn="customerId">
+                          <div class="flex justify-content-between align-items-center">
+                              ID
+                              <p-sortIcon field="customerId"></p-sortIcon>
+                              <p-columnFilter type="numeric" field="customerId" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="firstName">
+                          <div class="flex justify-content-between align-items-center">
+                            FirstName
+                              <p-sortIcon field="firstName"></p-sortIcon>
+                              <p-columnFilter type="text" field="firstName" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="lastName">
+                          <div class="flex justify-content-between align-items-center">
+                            LastName
+                              <p-sortIcon field="lastName"></p-sortIcon>
+                              <p-columnFilter type="text" field="lastName" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="gender">
+                          <div class="flex justify-content-between align-items-center">
+                            Gender
+                              <p-sortIcon field="gender"></p-sortIcon>
+                              <p-columnFilter type="text" field="gender" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="birthDate">
+                          <div class="flex justify-content-between align-items-center">
+                              DOB
+                              <p-sortIcon field="birthDate"></p-sortIcon>
+                              <p-columnFilter type="text" field="birthDate" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="isOnline">
+                          <div class="flex justify-content-between align-items-center">
+                            Online
+                              <p-sortIcon field="isOnline"></p-sortIcon>
+                              <p-columnFilter type="numeric" field="isOnline" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th>
+                          <div class="flex justify-content-between align-items-center">
+                              Images
+                          </div>
+                      </th>
+                      <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Ban
+                        </div>
+                    </th>
+                      <th style="min-width: 8rem">
+                          <div
+                               class="flex justify-content-between align-items-center">
+                              Action
+                          </div>
+                      </th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-user>
+                  <tr class="p-selectable-row">
+                      <!-- <td>
+                          <p-tableCheckbox [value]="post"></p-tableCheckbox>
+                      </td> -->
+                      <td>
+                          <span class="p-column-title">ID</span>
+                          <span class="post-id">{{user.customerId}}</span>
+                      </td>
+                      <td>
+                          <span class="p-column-title">FirstName</span>
+                          {{user.firstName}}
+                      </td>
+                      <td >
+                          <span class="p-column-title">LastName</span>
+                          {{user.lastName}}
+                      </td>
+                      <td>
+                          <span class="p-column-title">Gender</span>
+                          <span class="post-content" >{{user.gender}}</span>
+                      </td>
+                      <td >
+                          <span class="p-column-title">BirthDate</span>
+                          {{user.birthDate}}
+                      </td>
+                      <td >
+                        <span class="p-column-title">Online</span>
+                        <div *ngIf="user.isOnline" style="color:chartreuse;">
+                          Online
+                        </div>
+                        <div *ngIf="!user.isOnline"  style="color:darkgray;">
+                          Offline
+                        </div>
+                    </td>
+                      <td>
+                          <span class="p-column-title">Image</span>
+
+                          <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+                      </td>
+                      <td >
+                        <span class="p-column-title">IsBanned</span>
+                        <div *ngIf="user.isBanned" style="color:red;">
+                          Ban
+                        </div>
+                        <div *ngIf="!user.isBanned"  style="color:chartreuse;">
+                          Not Ban
+                        </div>
+                    </td>
+                      <td style="text-align: center">
+                          <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+                              <div class="flex align-items-center justify-content-center">
+                                  <button pButton pRipple icon="pi pi-ban"
+                                  (click)="BanCustomer(user)"
+                                          class="p-button-rounded p-mr-2"></button>
+                              </div>
+
+                          </div>
+                      </td>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                  <tr>
+                      <td colspan="8">No food yet.</td>
+                  </tr>
+              </ng-template>
+          </p-table>
+      </div>
+  </div>
+</div>
+
+<p-dialog [header]="headerDialog" [(visible)]="displayDialogAdd"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '50vw'}"
+          [draggable]="false" [resizable]="false" [maximizable]="true"
+
+          >
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <b>Post Moderator information</b>
+                    </div>
+                </p-divider>
+                <div class="grid">
+                  <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                      <span class="p-input-icon-left p-float-label" style="width: 100%">
+                          <input type="text" step="5000" min="0"  class="w-full" [(ngModel)]="postM.firstName"
+                                  pInputText
+                                  />
+                          <label>FirstName*</label>
+                      </span>
+                  </div>
+                  <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                    <span class="p-input-icon-left p-float-label">
+                      <input type="text" step="5000" min="0"  class="w-full" [(ngModel)]="postM.lastName"
+                      pInputText
+                      />
+                        <label>LastName*</label>
+                    </span>
+
+                </div>
+                <div class="col-12 mb-2 ">
+                  <span class="p-input-icon-left p-float-label" style="width: 100%">
+                      <input type="text" step="5000" min="0"  class="w-full" [(ngModel)]="postM.phoneNumber"
+                              pInputText
+                              />
+                      <label>Phone*</label>
+                  </span>
+              </div>
+                <div class="col-12 mb-2 ">
+                  <span class="p-input-icon-left p-float-label" style="width: 100%">
+                      <input type="email" step="5000" min="0"  class="w-full" [(ngModel)]="postM.email"
+                              pInputText
+                              />
+                      <label>Email*</label>
+                  </span>
+              </div>
+
+              <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                <span class="p-input-icon-left p-float-label" style="width: 100%">
+                    <input type="password" step="5000" min="0"  class="w-full" [(ngModel)]="postM.password"
+                            pInputText
+                            />
+                    <label>Password*</label>
+                </span>
+            </div>
+            <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+              <span class="p-input-icon-left p-float-label">
+                <input type="password" step="5000" min="0"  class="w-full" [(ngModel)]="postM.confirmpassword"
+                pInputText
+                />
+                  <label>CofirmPassword*</label>
+              </span>
+
+          </div>
+          <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+            <label>Dob*</label>
+            <span style="width: 100%">
+                <input type="date"  class="w-full" [(ngModel)]="postM.birthDate"
+                        pInputText
+                        />
+
+            </span>
+        </div>
+        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+          <span  style="display: flex;">
+            <label>Gender*</label>
+            <div  class="col-3" style="display: flex; align-items: center;">
+              <input type="radio"
+                     class="w-full"
+                     [(ngModel)]="postM.gender"
+                     name="gender"
+                     value="male"
+                     id="genderMale" />
+              <label for="genderMale" style="margin-left: 10px;">Male</label>
+            </div>
+            <div class="col-3" style="display: flex; align-items: center;">
+              <input type="radio"
+                     class="w-full"
+                     [(ngModel)]="postM.gender"
+                     name="gender"
+                     value="female"
+                     id="genderFemale" />
+              <label for="genderFemale" style="margin-left: 10px;">Female</label>
+            </div>
+
+
+          </span>
+
+      </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-center flex-wrap" style="text-align: center">
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Save" icon="pi pi-save"
+                        (click)="onSavePostM()"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                        (click)="onCancelPostM()" class="p-button-danger"
+                        style="width: 100%;"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>
+
+<p-confirmPopup></p-confirmPopup>
+
+<p-confirmDialog key="uhideFood" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<cmis-loading></cmis-loading>

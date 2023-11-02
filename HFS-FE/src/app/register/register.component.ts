@@ -110,7 +110,7 @@ showLastnameError() {
 async onSubmit() {
   if (this.formregister.valid) {
 debugger;
-    switch(this.formregister.value.roleId){
+    switch(this.formregister.value.roleId.toString()){
       case "3":
         try {
           debugger;

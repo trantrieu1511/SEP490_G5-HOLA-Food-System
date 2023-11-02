@@ -37,11 +37,11 @@ namespace HFS_BE.Dao.AuthDao
 		[EmailAddress(ErrorMessage = "Invalid email address")]
 		public string Email { get; set; } = null!;
 
-		[Required(ErrorMessage = "Password is required")]
-		[StringLength(20, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 20 characters")]
-		public string Password { get; set; } = null!;
-		
-		public string ConfirmPassword { get; set; } = null!;
+		[Password(8, ErrorMessage = "Invalid password.")]
+		public string Password { get; set; }
+
+		[Compare("Password", ErrorMessage = "Confirm password does not match.")]
+		public string ConfirmPassword { get; set; }
 	}
 	public class ForgotPasswordInputDto:BaseInputDto
 	{ 
