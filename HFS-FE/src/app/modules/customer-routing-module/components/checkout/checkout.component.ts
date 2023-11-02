@@ -30,10 +30,12 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
   items : CartItem[]
   selectedOption: string = 'default';
   customAddress: string = '';
+  defaultAddress: string = '';
   paymentOptions: string = 'cod'
   totalPrice : number
   note : string
   phone: string
+  address : any[]
   constructor(
     private shareData: ShareData,
     public messageService: MessageService,
@@ -47,11 +49,12 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
   }
 
   ngOnInit(){
+    this.getAddress();
     if (this.dataService.getData() != null){
       this.items = this.dataService.getData();
     }
     else{
-      this.router.navigate(['/login']);
+      this.router.navigate(['/cartdetail']);
     }
     console.log(this.items)
     this.calculate();
@@ -68,7 +71,7 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
     try {
       this.loading = true;
       let checkoutInfor = new CreateOrder();
-      checkoutInfor.shipAddress = this.selectedOption == 'default' ? "default" : this.customAddress
+      checkoutInfor.shipAddress = this.selectedOption == 'default' ? this.defaultAddress : this.customAddress
       checkoutInfor.note = this.note
       checkoutInfor.paymentMethod = this.paymentOptions
       checkoutInfor.phone = this.phone
@@ -106,7 +109,25 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
       }
       else{
         this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');
-        this.router.navigate(['/login']);
+        //this.router.navigate(['/login']);
+      }
+
+      this.loading = false;
+  } catch (e) {
+      console.log(e);
+      this.loading = false;
+  }
+  }
+
+  async getAddress(){
+    try {
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CHECKOUT, API.API_CHECKOUT.GET_ADDRESS, null);
+      if (response && response.message === "Success") {
+        this.address = response.listAddress
+        console.log(this.address)
+      }
+      else{
+        //this.router.navigate(['/login']);
       }
 
       this.loading = false;

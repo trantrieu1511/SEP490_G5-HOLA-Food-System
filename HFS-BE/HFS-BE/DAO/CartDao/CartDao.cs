@@ -106,7 +106,7 @@ namespace HFS_BE.DAO.CartDao
         {
             try
             {
-                var cartitem = this.context.CartItems.FirstOrDefault(x => x.CartId == inputDto.CartId && x.FoodId == inputDto.FoodId);
+                var cartitem = this.context.CartItems.FirstOrDefault(x => x.CartId.Equals(inputDto.CartId) && x.FoodId == inputDto.FoodId);
 
                 if (cartitem != null)
                 {
