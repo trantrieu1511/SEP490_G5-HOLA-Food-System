@@ -52,7 +52,6 @@ namespace HFS_BE.Automapper
             Shipper();
             Manage();
             Voucher();
-            Shop();
         }
 
         /// <summary>
@@ -60,8 +59,7 @@ namespace HFS_BE.Automapper
         /// </summary>
         public void Homepage()
         {
-            CreateMap<Seller, ShopDto>()
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(x => x.SellerId));
+            //CreateMap<User, ShopDto>();
             //CreateMap<List<User>, DisplayShopDaoOutputDto>();
             CreateMap<ShopDto, BusinessLogic.Homepage.ShopDto>();
             CreateMap<DisplayShopDaoOutputDto, BusinessLogic.Homepage.DisplayShopOutputDto>();
@@ -129,9 +127,7 @@ namespace HFS_BE.Automapper
             // checkout order
             CreateMap<CheckOutOrderDaoInputDto, Order>()
                 .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.Items))
-                .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => DateTime.Now))
-                .ForMember(dest => dest.SellerId, opt => opt.MapFrom(src => src.ShopId))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => 1));
+                .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => DateTime.Now));
             CreateMap<CartItemDaoInputDto, OrderDetail>()
                 .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Amount));
             CreateMap<ListShopItemInputDto, CheckOutOrderDaoInputDto>()

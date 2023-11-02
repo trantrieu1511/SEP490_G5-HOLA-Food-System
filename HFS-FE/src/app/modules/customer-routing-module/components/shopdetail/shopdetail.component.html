@@ -1,20 +1,5 @@
 <div class="col-12 shopdetail-list" >
     <div class="card">
-        <h1>toi ten la duoc</h1>
-        <div id="profile-banner-image">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg" alt="Banner image">
-          </div>
-          <div id="profile-d">
-            <div id="profile-pic">
-              <img src="https://imagizer.imageshack.com/img921/3072/rqkhIb.jpg">
-            </div>
-            <h1 id="u-name">{{shopInfor.shopName}}</h1>
-            <h5 id="u-address">{{shopInfor.shopAddress}}</h5>          
-          </div>
-    </div>
-</div>
-<div class="col-12 shopdetail-list" >
-    <div class="card">
         <h5>Menu</h5>
         <p-dataView #dv [value]="foods" [paginator]="true" [rows]="9" filterBy="name" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
             <ng-template pTemplate="header">
@@ -51,7 +36,7 @@
                         <div class="product-grid-item-top">
                             <div>
                                 <i class="pi pi-tag product-category-icon"></i>
-                                <span class="product-category">{{product.categoryName}}</span>
+                                <span class="product-category">{{product.category}}</span>
                             </div>
                             <!-- <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
                         </div>

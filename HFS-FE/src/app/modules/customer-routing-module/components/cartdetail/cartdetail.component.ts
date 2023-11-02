@@ -117,11 +117,11 @@ export class CartdetailComponent extends iComponentBase implements OnInit{
           this.calculate();
 
           let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.UPDATE_AMOUNT, updateItem);
-          if (response && response.success === true) {
+          if (response && response.message === "Success") {
               console.log("abc")
           }
           else{
-            // this.router.navigate(['/login']);
+            this.router.navigate(['/login']);
           }
     
           this.loading = false;

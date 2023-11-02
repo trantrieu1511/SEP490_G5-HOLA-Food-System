@@ -4,7 +4,6 @@ using HFS_BE.BusinessLogic.Cart;
 using HFS_BE.DAO.CartDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.Cart
@@ -16,7 +15,6 @@ namespace HFS_BE.Controllers.Cart
         }
 
         [HttpPost("cart/updateamount")]
-        [Authorize]
         public BaseOutputDto UpdateAmount(UpdateAmoutCartItemDaoInputDto inputDto)
         {
             try

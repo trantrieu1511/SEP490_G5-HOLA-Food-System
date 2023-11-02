@@ -19,7 +19,7 @@ namespace HFS_BE.DAO.CartDao
 
     public class DeleteCartItemInputDto
     {
-        public string? CartId { get; set; }
+        public string CartId { get; set; }
         [Required(ErrorMessage = "FoodId Required")]
         public int? FoodId { get; set; }
         public int? Amount { get; set; }
@@ -27,7 +27,7 @@ namespace HFS_BE.DAO.CartDao
 
     public class UpdateAmoutCartItemDaoInputDto
     {
-        public string? CartId { get; set; }
+        public string CartId { get; set; }
         [Required(ErrorMessage = "FoodId Required")]
         public int? FoodId { get; set; }
         [Required(ErrorMessage = "Amount Required")]

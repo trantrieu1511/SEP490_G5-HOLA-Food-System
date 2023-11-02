@@ -17,7 +17,6 @@ namespace HFS_BE.Controllers.Cart
 
         [HttpPost]
         [Route("cart/getcartitem")]
-        [Authorize]
         public GetCartItemDaoOutputDto GetCartItem()
         {
             try

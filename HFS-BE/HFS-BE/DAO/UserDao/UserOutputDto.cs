@@ -36,15 +36,4 @@ namespace HFS_BE.DAO.UserDao
         public string? Address { get; set; }
     }
 
-    public class GetUserAddressDaoOutputDto : BaseOutputDto
-    {
-        public List<UserAddressDaoOutputDto> ListAddress { get; set; }
-    }
-
-    public class UserAddressDaoOutputDto
-    {
-        public int AddressId { get; set; }
-        public string AddressInfo { get; set; }
-        public bool? IsDefaultAddress { get; set; }
-    }
 }

@@ -41,7 +41,6 @@ import { LoginNonCustomerComponent } from './login-non-customer/login-non-custom
 import { ManageCustomerModuleComponent } from './modules/admin-routing-module/manage-customer-module/manage-customer-module.component';
 import { ManagePostmoderatorModuleComponent } from './modules/admin-routing-module/manage-postmoderator-module/manage-postmoderator-module.component';
 import { NewsfeedComponent } from './modules/customer-routing-module/components/newsfeed/newsfeed.component';
-import { OrderhistoryComponent } from './modules/customer-routing-module/orderhistory/orderhistory.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +63,6 @@ import { OrderhistoryComponent } from './modules/customer-routing-module/orderhi
     ManageCustomerModuleComponent,
     ManagePostmoderatorModuleComponent,
     NewsfeedComponent,
-    OrderhistoryComponent,
 
 
   ],

@@ -21,6 +21,7 @@ namespace HFS_BE.Controllers.ShopDetail
             try
             {
                 var busi = this.GetBusinessLogic<ViewShopFoodBusinessLogic>();
+                var a = this.GetAccessRight();
                 return busi.FoodShop(inputDto);
             }
             catch (Exception)

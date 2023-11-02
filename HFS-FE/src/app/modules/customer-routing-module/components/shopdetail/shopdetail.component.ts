@@ -15,7 +15,6 @@ import { DataService } from 'src/app/services/data.service';
 import { MenuInput } from '../../models/menuInput.model';
 import { AddToCart } from '../../models/addToCart.model';
 import { DataView } from 'primeng/dataview';
-import { GetShopInforInputDto } from '../../models/GetShopInforInputDto.model';
 
 
 @Component({
@@ -30,8 +29,6 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
   loading: boolean;
   sortField: string;
 	menuInput = new MenuInput();
-  shopid : string;
-  shopInfor : any
   constructor(
     private shareData: ShareData,
     public messageService: MessageService,
@@ -47,13 +44,13 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
 
   ngOnInit(){
     this.route.queryParams.subscribe(params => {
-      this.shopid = params['shopid'];
+      const shopid = params['shopid'];
+	  const shopIdAsNumber = parseInt(shopid, 10);
       // console.log(id);
       // Sử dụng giá trị id tại đây
-	  this.menuInput.shopId = this.shopid
+	  this.menuInput.shopId = shopIdAsNumber
 	  console.log(this.menuInput)
 		this.getMenu(this.menuInput)
-    this.getShopInfor()
     });
 
     this.sortOptions = [
@@ -80,26 +77,8 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
         this.loading = true;
 
         let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.SHOP_DETAIL, API.API_SHOP_DETAIL.DISPLAY_MENU, menuInput);
-        if (response && response.success == true) {
+        if (response && response.message === "Success") {
             this.foods = response.listFood;            
-        }
-
-		console.log(this.foods);
-        this.loading = false;
-    } catch (e) {
-        console.log(e);
-        this.loading = false;
-    }
-  }
-
-  async getShopInfor(){
-    try {
-        this.loading = true;
-        let shopInforInput = new GetShopInforInputDto();
-        shopInforInput.ShopId = this.shopid
-        let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.SHOP_DETAIL, API.API_SHOP_DETAIL.DISPLAY_INFOR, shopInforInput);
-        if (response && response.success === true) {
-            this.shopInfor = response;            
         }
 
 		console.log(this.foods);

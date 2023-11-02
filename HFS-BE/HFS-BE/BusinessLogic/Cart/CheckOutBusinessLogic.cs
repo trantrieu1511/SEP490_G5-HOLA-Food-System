@@ -30,11 +30,12 @@ namespace HFS_BE.BusinessLogic.Cart
                     UserId = inputDto.CustomerId,
                 });
 
-                if (!inputDto.PaymentMethod.Equals("wallet") && !inputDto.PaymentMethod.Equals("cod"))
+                if (!inputDto.PaymentMethod.Equals("default") && !inputDto.PaymentMethod.Equals("cod"))
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Your payment method invalid!");
                 }
 
+                inputDto.ShipAddress = inputDto.ShipAddress.Equals("default") ? user.Address : inputDto.ShipAddress;
                 if(inputDto.ListShop.Count == 0)
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Your ListShop is empty!");
@@ -75,7 +76,6 @@ namespace HFS_BE.BusinessLogic.Cart
                     orderdaoInput.ShipAddress = inputDto.ShipAddress;
                     orderdaoInput.VoucherId = inputDto.VoucherId;
                     orderdaoInput.Note = inputDto.Note;
-                    orderdaoInput.PaymentMethod = inputDto.PaymentMethod.Equals("wallet") ? 1 : 0;
 
                     var daoOutput = orderDao.CheckOutOrder(orderdaoInput);
                     if (!daoOutput.Success)

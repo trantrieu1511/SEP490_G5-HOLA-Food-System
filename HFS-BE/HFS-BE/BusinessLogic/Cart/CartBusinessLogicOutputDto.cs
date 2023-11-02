@@ -9,7 +9,7 @@ namespace HFS_BE.BusinessLogic.Cart
 
     public class ListShopItemDto
     {
-        public string ShopId { get; set; }
+        public int ShopId { get; set; }
         public string ShopName { get; set; }
         public List<CartItemDto> ListItem { get; set; }
     }

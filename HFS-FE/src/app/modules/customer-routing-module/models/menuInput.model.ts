@@ -4,5 +4,5 @@ export class MenuInput{
      */
     public MenuInput() {     
     }
-    shopId : string
+    shopId : number
 }

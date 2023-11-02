@@ -116,11 +116,6 @@
 		color: #8A5340;
 	}
 }
-#profile-banner-image {
-  height: 360px;
-  overflow: hidden;
-  z-index: 1;
-}
 
 @media screen and (max-width: 576px) {
 	:host ::ng-deep .product-list-item {
