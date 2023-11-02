@@ -7,19 +7,13 @@ export class PHAN_HE {
     public static VOUCHER = "Voucher";
     public static POST = "Post";
     public static TEST = "Test";
-    public static POSTMODERATORMANAGEPOST = "manage";
     public static SHIPPER = "Shipper";
     public static HOME = "Home"
     public static SHOP_DETAIL = "shopDetail"
     public static CART = "cart"
     public static FOOD = "Food"
     public static CHECKOUT = "checkout"
-}
-
-
-export class API_POSTMODERATOR{
-    public static GETPOST = "viewposts";
-
+    public static HUB = "hub"
 }
 
 export class API_TEST{
@@ -33,6 +27,7 @@ export class API_USER {
     public static REGISTER = "register";
     public static GETPROFILE = "profile";
     public static EDITPROFILE = "editprofile";
+    public static GET_SHIPPERS_AVAILABLE = "getShippersAvailable";
 }
 
 // Service Role
@@ -42,7 +37,10 @@ export class API_ROLE {
 
 // Service Danh Mục
 export class API_ORDER {
-    public static GET_DVI_QLY = "getDviqly";
+    public static GET_ORDER_BY_STATUS = "getOrdersSeller";
+    public static CANCEL_ORDER = "cancelOrderSeller";
+    public static ACCEPT_ORDER = "acceptOrderSeller";
+    public static INTERNAL_ORDER = "internalShipperOrderSeller";
 }
 
 export class API_SHIPPER {
@@ -80,10 +78,12 @@ export class API_VOUCHER {
 
 }
 
+// API related to post entity
 export class API_POST{
     public static ADD_POST_SELLER = "addPostSeller";
     public static UPDATE_POST = "updatePost";
     public static GET_POST_SELLER = "getPostsSeller";
+    public static GET_POST = "getPosts"; // Ong post mod va seller dung chung. Em dang phan quyen not cho no - Trieu
     public static ENABLE_DISABLE_SELLER = "enableDisableSeller";
 }
 
@@ -111,4 +111,8 @@ export class API_FOOD{
 
 export class API_CHECKOUT{
     public static CREATE_ORDER = "createorder";
+}
+
+export class API_HUB{
+    public static DATA_REALTIME = "dataRealTime";
 }

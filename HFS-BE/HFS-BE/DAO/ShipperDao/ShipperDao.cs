@@ -12,16 +12,23 @@ namespace HFS_BE.DAO.ShipperDao
         {
         }
 
-        public ShipperInforList GetShipperNoneManager()
+        public ShipperInforList GetShippersBySellerId(string sellerId)
         {
-            var data = context.Shippers.Where(s => s.ManageBy == null)
+            var data = context.Shippers
+                .Where(s => s.ManageBy.Equals(sellerId))
                 .Select(s => mapper.Map<Shipper, ShipperInfor>(s))
                 .ToList();
             var output = Output<ShipperInforList>(Constants.ResultCdSuccess);
             output.Shippers = data;
             return output;
         }
-		public ShipperInforList GetShipperAll()
+
+        public Shipper? GetShipperByShipperIdAndSellerId(string sellerId, string shipperId)
+        {
+            return context.Shippers.FirstOrDefault(x => x.ShipperId.Equals(shipperId) && x.ManageBy.Equals(sellerId));
+        }
+
+        public ShipperInforList GetShipperAll()
 		{
 			var data = context.Shippers
 				.Select(s => mapper.Map<Shipper, ShipperInfor>(s))
@@ -30,5 +37,6 @@ namespace HFS_BE.DAO.ShipperDao
 			output.Shippers = data;
 			return output;
 		}
+
 	}
 }

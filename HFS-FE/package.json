@@ -25,6 +25,7 @@
     "@fullcalendar/daygrid": "^6.1.9",
     "@fullcalendar/interaction": "^6.1.9",
     "@fullcalendar/timegrid": "^6.1.9",
+    "@microsoft/signalr": "^7.0.12",
     "@types/google-one-tap": "^1.2.3",
     "chart.js": "^4.4.0",
     "google-one-tap": "^1.0.6",

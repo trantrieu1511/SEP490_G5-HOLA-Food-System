@@ -35,6 +35,12 @@ namespace HFS_BE.BusinessLogic.ManagePost
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", errors);
                 }
 
+                if (inputDto.PostContent.Length > Constants.PostContentMaxLength)
+                {
+                    var errors = new List<string>();
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Post content must not exceed 1500 characters");
+                }
+
                 var postDao = CreateDao<PostDao>();
                 var output = postDao.UpdatePost(
                         mapper.Map<PostUpdateInputDto, Dao.PostDao.PostUpdateInputDto>(inputDto)

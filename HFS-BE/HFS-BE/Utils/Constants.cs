@@ -4,5 +4,6 @@
     {
         public const bool ResultCdSuccess = true;
         public const bool ResultCdFail = false;
+        public const int PostContentMaxLength = 1500;
     }
 }

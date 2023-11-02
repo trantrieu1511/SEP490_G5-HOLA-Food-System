@@ -97,7 +97,7 @@ namespace HFS_BE.Dao.OrderDao
                         output[indexOder].OrderDetails[indexDetail].SellerId = detail.Food.SellerId;
                     }
                     var status = item.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status;
-                    output[indexOder].Status = OrderStatus.GetOrderStatusString(status);
+                    output[indexOder].Status = OrderStatusEnum.GetOrderStatusString(status);
                 }
                 var output1 = this.Output<OrderHistoryDaoOutputDto>(Constants.ResultCdSuccess);
                 output1.Orders = output;
@@ -208,8 +208,6 @@ namespace HFS_BE.Dao.OrderDao
 
                 var result = data.Select(o => mapper.Map<Order, OrderDaoSellerOutputDto>(o)).ToList();
 
-
-                
                 var output = this.Output<OrderSellerDaoOutputDto>(Constants.ResultCdSuccess);
                 output.Orders = result;
                 return output;
@@ -227,11 +225,7 @@ namespace HFS_BE.Dao.OrderDao
             try
             {
                 var order = context.Orders.First(o => o.OrderId.Equals(inputDto.OrderId));
-                // vut qua ben BL
-                // check shipperId null ko
-                /*if (order == null)
-                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Order is not exist");*/
-
+                
                 order.ShipperId = inputDto.ShipperId;
 
                 context.SaveChanges();
@@ -240,13 +234,107 @@ namespace HFS_BE.Dao.OrderDao
             }
             catch (Exception)
             {
-                return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Add Internal Shipper Failed");
+                return Output<BaseOutputDto>(Constants.ResultCdFail, "Commmission Failed", "Add Internal Shipper Failed");
             }
         }
 
-        public Order? GetOrderByOrderId(string orderId)
+        public Order? GetOrderByOrderIdAndSellerId(int orderId, string sellerId)
         {
-            return context.Orders.FirstOrDefault(o => o.OrderId.Equals(orderId));
+            return context.Orders.FirstOrDefault(o => o.OrderId == orderId && o.SellerId.Equals(sellerId));
+        }
+
+        public GetCustomerOrdersDaoOutputDto GetOrdersCustomer(GetOrdersCustomerDaoInputDto inputDto)
+        {
+            try
+            {
+                var query = context.Orders
+                    .Include(x => x.OrderDetails).ThenInclude(x => x.Food)
+                        .ThenInclude(f => f.Category)
+                    .Include(x => x.OrderDetails).ThenInclude(x => x.Food)
+                        .ThenInclude(f => f.FoodImages)
+                    .Include(x => x.OrderProgresses)
+                    .Include(x => x.Seller)
+                    .Include(x => x.Voucher);
+
+                var result = query.Select(o => mapper.Map<Order, OrderCustomerDaoOutputDto>(o)).ToList();
+
+                var output = this.Output<GetCustomerOrdersDaoOutputDto>(Constants.ResultCdSuccess);
+                output.ListOrders = result;
+                return output;
+            }
+            catch (Exception)
+            {
+                return this.Output<GetCustomerOrdersDaoOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public BaseOutputDto CancelOrderCustomer(OrderCustomerDaoInputDto inputDto)
+        {
+            try
+            {
+                var order = this.context.Orders
+                    .FirstOrDefault(x => x.OrderId == inputDto.OrderId
+                                        && x.CustomerId.Equals(inputDto.CustomerId));
+
+                order.Status = 6;
+                this.context.Update(order);
+                this.context.SaveChanges();
+                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public OrderCustomerDaoOutputDto GetOrderCustomer(OrderCustomerDaoInputDto inputDto)
+        {
+            try
+            {
+                var order = this.context.Orders
+                    .FirstOrDefault(x => x.OrderId == inputDto.OrderId
+                                        && x.CustomerId.Equals(inputDto.CustomerId));
+
+                var output = this.Output<OrderCustomerDaoOutputDto>(Constants.ResultCdSuccess);
+                if (order != null)
+                {
+                    output = this.mapper.Map<Order, OrderCustomerDaoOutputDto>(order);
+                }
+                else return null;
+                return output;
+            }
+            catch (Exception)
+            {
+                return this.Output<OrderCustomerDaoOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public GetCustomerOrdersDaoOutputDto GetOrderCustomerFoodId(GetOrdersCustomerFoodIdDaoInputDto inputDto)
+        {
+            try
+            {
+                var query = context.Orders
+                    .Include(x => x.OrderDetails).ThenInclude(x => x.Food)
+                        .ThenInclude(f => f.Category)
+                    .Include(x => x.OrderDetails).ThenInclude(x => x.Food)
+                        .ThenInclude(f => f.FoodImages)
+                    .Include(x => x.OrderProgresses)
+                    .Include(x => x.Seller)
+                    .Include(x => x.Voucher)
+                    .Where(x => x.CustomerId.Equals(inputDto.CustomerId) 
+                                && x.OrderDetails.Where(x => x.FoodId == inputDto.FoodId).Any())
+                    .OrderByDescending(x => x.OrderId);
+
+                var result = query.Select(o => mapper.Map<Order, OrderCustomerDaoOutputDto>(o)).ToList();
+
+                var output = this.Output<GetCustomerOrdersDaoOutputDto>(Constants.ResultCdSuccess);
+                output.ListOrders = result;
+                return output;
+            }
+            catch (Exception)
+            {
+                return this.Output<GetCustomerOrdersDaoOutputDto>(Constants.ResultCdFail);
+            }
         }
     }
 }

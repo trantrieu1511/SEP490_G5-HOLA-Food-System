@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.Dao.PostDao;
+using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.IOFile;
+using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 
 namespace HFS_BE.BusinessLogic.ManagePost
@@ -34,6 +36,12 @@ namespace HFS_BE.BusinessLogic.ManagePost
                     
                 }
 
+                if(inputDto.PostContent.Length > Constants.PostContentMaxLength)
+                {
+                    var errors = new List<string>();
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Post content must not exceed 1500 characters");
+                }
+
                 var Dao = this.CreateDao<PostDao>();
                 var inputMapper = mapper.Map<PostCreateInputDto, Dao.PostDao.PostCreateInputDto>(inputDto);
 
@@ -50,6 +58,7 @@ namespace HFS_BE.BusinessLogic.ManagePost
                 }
 
                 var output = Dao.AddNewPost(inputMapper);
+
                 return output;
             }
             catch (Exception)

@@ -48,14 +48,15 @@ export class LoginNonCustomerComponent implements OnInit, AfterViewInit {
   }
   ngOnInit(): void {
 
-    localStorage.clear();
-  sessionStorage.clear();
-   this.service.error$.subscribe(error => {
-     this.error = error;})
-   this.FormFirst();
-   this.loadGoogleLibrary();
-   this.service.user$.subscribe(user => {
-     this.user = user;
+    // localStorage.clear();
+    sessionStorage.clear();
+    this.service.error$.subscribe(error => {
+      this.error = error;
+    })
+    this.FormFirst();
+    this.loadGoogleLibrary();
+    this.service.user$.subscribe(user => {
+      this.user = user;
 
 
     });
