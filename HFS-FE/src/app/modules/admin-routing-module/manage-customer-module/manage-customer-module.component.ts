@@ -10,7 +10,7 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import * as API from "../../../services/apiURL";
 import { Customer } from '../models/Customer';
-import { BanCustomer } from '../models/BanCustomer';
+
 @Component({
   selector: 'app-manage-customer-module',
   templateUrl: './manage-customer-module.component.html',
@@ -19,7 +19,7 @@ import { BanCustomer } from '../models/BanCustomer';
 export class ManageCustomerModuleComponent extends iComponentBase implements OnInit {
   lstUser: Customer[] = [];
   user:User;
-  ban:BanCustomer;
+
   constructor( private shareData: ShareData,
     public messageService: MessageService,
     private iServiceBase: iServiceBase,
@@ -71,12 +71,12 @@ try {
 
        if (response && response.message === "Success") {
         this.getAllCustomer();
-
+        this.showMessage(mType.success, "Notification", "Update "+user.customerId+" successfully", 'notify');
        }
       ;
    } catch (e) {
        console.log(e);
-
+       this.showMessage(mType.error, "Notification", "Update "+user.customerId+" failure", 'notify');
    }
 }
 }

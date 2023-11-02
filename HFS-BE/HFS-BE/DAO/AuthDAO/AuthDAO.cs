@@ -438,65 +438,85 @@ namespace HFS_BE.Dao.AuthDao
 			
 		}
 
-		//public async Task<AuthDaoOutputDto>? LoginWithGoogleAsync(string credential)
-		//{
-		//	var conf = new ConfigurationBuilder()
-		//		.SetBasePath(Directory.GetCurrentDirectory())
-		//		.AddJsonFile("appsettings.json", true, true)
-		//		.Build();
+		public async Task<AuthDaoOutputDto>? LoginWithGoogleAsync(string credential)
+		{
+			var conf = new ConfigurationBuilder()
+				.SetBasePath(Directory.GetCurrentDirectory())
+				.AddJsonFile("appsettings.json", true, true)
+				.Build();
 
-		//	var output = new AuthDaoOutputDto();
-		//	var settings = new GoogleJsonWebSignature.ValidationSettings()
-		//	{
-		//		Audience = new List<string> { (conf["ApplicationSettings:GoogleClientId"]) }
-		//	};
+			var output = new AuthDaoOutputDto();
+			var settings = new GoogleJsonWebSignature.ValidationSettings()
+			{
+				Audience = new List<string> { (conf["ApplicationSettings:GoogleClientId"]) }
+			};
 
-		//	var payload = await GoogleJsonWebSignature.ValidateAsync(credential, settings);
+			var payload = await GoogleJsonWebSignature.ValidateAsync(credential, settings);
 
-		//	var user = context.Customer.Where(x => x.Email == payload.Email).FirstOrDefault();
+			var user = context.Customers.Where(x => x.Email == payload.Email).FirstOrDefault();
+			if (user != null)
+			{
+				JwtSecurityToken token = GenerateSecurityToken((HFS_BE.Models.Customer)user);
+				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+				return output;
+			}
 
-		//	if (user != null)
-		//	{
-		//		JwtSecurityToken token = GenerateSecurityToken((HFS_BE.Models.Customer)user);
-		//		output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-		//		return output;
-		//	}
+			else
+			{
+				var cusall = context.Customers.ToList();
+				int cuschinhId = 0;
+				if (cusall.Count == 0)
+				{
+					cuschinhId = 1;
+				}
+				else
+				{
+					var cus = context.Customers.OrderBy(s => s.CustomerId).Last();
+					string cusIdCheck = cus.CustomerId;
+					string trimmedString = cusIdCheck.Substring(2);
+					int CusIdiNT = Int32.Parse(trimmedString);
+					cuschinhId = CusIdiNT + 1;
 
-		//	else
-		//	{
-		//		string[] FullName = payload.Name.Split(" ");
-		//		var user1 = new HFS_BE.Models.Customer { Email = payload.Email, RoleId = 3, FirstName = FullName[0], LastName = FullName[1], Gender = "Null" };
-		//		if (FullName.Length == 3)
-		//		{
-		//			 user1 = new HFS_BE.Models.User { Email = payload.Email, RoleId = 3, FirstName = FullName[0], LastName = FullName[1] + FullName[2] , Gender = "Null" };
+				}
 
-		//		}
-				
-					
-				
-				
+				int desiredLength = 12;
+				char paddingChar = '0';
+				string paddedString = cuschinhId.ToString().PadLeft(desiredLength - 2, paddingChar);
+				paddedString = "CU" + paddedString.Substring(2);
 
-		//		using (HMACSHA256? hmac = new HMACSHA256())
-		//		{
-		//			user1.PasswordSalt = hmac.Key;
-		//			user1.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(payload.Email));
-		//		}
-		//		try
-		//		{
-		//			await context.Users.AddAsync(user1);
-		//			context.SaveChangesAsync();
-		//			JwtSecurityToken token = GenerateSecurityToken((HFS_BE.Models.User)user1);
-		//			output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-		//			return output;
-		//		}
-		//		catch (Exception ex)
-		//		{
-		//			return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail);
-		//		}
-		//	}
-			
+				string[] FullName = payload.Name.Split(" ");
+				var user1 = new HFS_BE.Models.Customer {CustomerId= paddedString, Email = payload.Email, FirstName = FullName[0], LastName = FullName[1], Gender = "Null", };
+				if (FullName.Length == 3)
+				{
+					user1 = new HFS_BE.Models.Customer { CustomerId = paddedString, Email = payload.Email, FirstName = FullName[0], LastName = FullName[1] + FullName[2], Gender = "Null" };
 
-		//}
+				}
+
+
+
+
+
+				using (HMACSHA256? hmac = new HMACSHA256())
+				{
+					user1.PasswordSalt = hmac.Key;
+					user1.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(payload.Email));
+				}
+				try
+				{
+					await context.Customers.AddAsync(user1);
+					context.SaveChangesAsync();
+					JwtSecurityToken token = GenerateSecurityToken((HFS_BE.Models.Customer)user1);
+					output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+					return output;
+				}
+				catch (Exception ex)
+				{
+					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail);
+				}
+			}
+
+
+		}
 
 	}
 }

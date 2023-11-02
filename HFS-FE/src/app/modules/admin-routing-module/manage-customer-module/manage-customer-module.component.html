@@ -60,6 +60,14 @@
                                               class="ml-auto"></p-columnFilter>
                           </div>
                       </th>
+                      <th pSortableColumn="email">
+                        <div class="flex justify-content-between align-items-center">
+                          Email
+                            <p-sortIcon field="email"></p-sortIcon>
+                            <p-columnFilter type="text" field="email" display="menu"
+                                            class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
                       <th pSortableColumn="gender">
                           <div class="flex justify-content-between align-items-center">
                             Gender
@@ -119,6 +127,10 @@
                           <span class="p-column-title">LastName</span>
                           {{user.lastName}}
                       </td>
+                      <td >
+                        <span class="p-column-title">Email</span>
+                        {{user.email}}
+                    </td>
                       <td>
                           <span class="p-column-title">Gender</span>
                           <span class="post-content" >{{user.gender}}</span>

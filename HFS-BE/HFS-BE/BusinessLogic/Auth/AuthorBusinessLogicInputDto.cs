@@ -19,6 +19,7 @@ namespace HFS_BE.BusinessLogic.Auth
 		public DateTime? BirthDate { get; set; }
 		public string Email { get; set; } = null!;
 		public string Password { get; set; } = null!;
+		public string ConfirmPassword { get; set; }
 
 	}
 }

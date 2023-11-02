@@ -42,12 +42,12 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageModerator
 				throw;
 			}
 		}
-		public BaseOutputDto AddPostModerator(RegisterInputDto inputDto)
+		public BaseOutputDto AddPostModerator(CreateModerator inputDto)
 		{
 			try
 			{
 				var Dao = this.CreateDao<ModeratorDao>();
-				var daoinput = mapper.Map<RegisterInputDto, RegisterDto>(inputDto);
+				var daoinput = mapper.Map<CreateModerator, RegisterDto>(inputDto);
 				var daooutput = Dao.CreatePostModerator(daoinput);
 			
 
@@ -58,12 +58,12 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageModerator
 				throw;
 			}
 		}
-		public BaseOutputDto AddMenuModerator(RegisterInputDto inputDto)
+		public BaseOutputDto AddMenuModerator(CreateModerator inputDto)
 		{
 			try
 			{
 				var Dao = this.CreateDao<ModeratorDao>();
-				var daoinput = mapper.Map<RegisterInputDto, RegisterDto>(inputDto);
+				var daoinput = mapper.Map<CreateModerator, RegisterDto>(inputDto);
 				var daooutput = Dao.CreateMenuModerator(daoinput);
 
 				return daooutput;

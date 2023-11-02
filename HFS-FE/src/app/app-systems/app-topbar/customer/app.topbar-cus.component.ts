@@ -29,8 +29,8 @@ import { AppComponent } from 'src/app/app.component';
     ],
     styleUrls: ['./app.topbar-cus.component.scss'],
 })
-export class AppCustomerTopBarComponent extends iComponentBase implements OnInit {  
-    
+export class AppCustomerTopBarComponent extends iComponentBase implements OnInit {
+
     constructor(public layoutService: CustomerLayoutService,
                 public app: AppComponent,
                 private router: Router,
@@ -48,7 +48,16 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
     ngOnInit() {
 
     }
+   logOut(event : Event) {
+        //Logout thì xóa đi
+        sessionStorage.clear();
+localStorage.clear();
+        //Xóa hết đi các thứ linh tinh chỉ gán lại các thứ cấn thiết trong localstorage
 
+        event.preventDefault();
+
+        this.router.navigate(['/login']);
+    }
     onCartDetail(){
         this.router.navigate(['/cartdetail']);
     }

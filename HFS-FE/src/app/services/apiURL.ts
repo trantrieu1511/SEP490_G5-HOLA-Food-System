@@ -53,7 +53,8 @@ export class API_MANAGE{
   public static BAN_CUS = "bancustomer";
     public static LIST_SELLER = "listcustomer";
     public static LIST_SHIPPER = "listcustomer";
-    public static LIST_PM = "listcustomer";
+    public static LIST_PM = "listpostmoderator";
+    public static ADD_PM = "addpostmoderator";
     public static LIST_MM = "listcustomer";
 }
 
