@@ -1,12 +1,15 @@
 <div class="grid">
 	<div class="col-12 md:col-6 mx-auto">
 		<div class="card p-fluid">
-			<h5>Checkout: {{totalPrice}}</h5>           
+			<h5>Checkout: {{totalPrice}}$</h5>           
             <div class="field">
                 <label htmlFor="address">Address</label>
 				<div>
                     <label>
                       <input name="address" type="radio" [(ngModel)]="selectedOption" [value]="'default'"> Profile Default Address
+                      <select [(ngModel)]="defaultAddress" *ngIf="selectedOption === 'default'">
+                        <option  *ngFor="let option of address" [value]="option.addressInfo">{{ option.addressInfo }}</option>
+                      </select>
                     </label>
                   </div>
                   

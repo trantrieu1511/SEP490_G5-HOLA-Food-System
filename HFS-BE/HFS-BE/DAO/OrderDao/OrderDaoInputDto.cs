@@ -22,6 +22,7 @@ namespace HFS_BE.Dao.OrderDao
         public string? ShipAddress { get; set; }
         public int? VoucherId { get; set; }
         public string? Note { get; set; }
+        public int? PaymentMethod { get; set; }
         public List<CartItemDaoInputDto> Items { get; set; }
     }
     public class OrderHistoryInputDto
