@@ -92,6 +92,7 @@ export class API_HOME{
 
 export class API_SHOP_DETAIL{
     public static DISPLAY_MENU = "foods";
+    public static DISPLAY_INFOR = "shopinfor";
 }
 
 export class API_CART{
@@ -110,6 +111,7 @@ export class API_FOOD{
 
 export class API_CHECKOUT{
     public static CREATE_ORDER = "createorder";
+    public static GET_ADDRESS = "address";
 }
 
 export class API_HUB{
