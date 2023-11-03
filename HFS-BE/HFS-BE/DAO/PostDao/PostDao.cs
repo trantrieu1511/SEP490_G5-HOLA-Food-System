@@ -90,7 +90,7 @@ namespace HFS_BE.Dao.PostDao
         {
             try
             {
-                List<PostOutputSellerDto> postsModel = context.Posts
+                List<PostOutputSellerDto> posts = context.Posts
                                         .Include(p => p.PostImages)
                                         .Select(p => new PostOutputSellerDto
                                         {
@@ -103,7 +103,7 @@ namespace HFS_BE.Dao.PostDao
                                         })
                                         .ToList();
                 var output = this.Output<ListPostOutputSellerDto>(Constants.ResultCdSuccess);
-                output.Posts = postsModel;
+                output.Posts = posts;
                 return output;
             }
             catch (Exception e)
@@ -122,7 +122,7 @@ namespace HFS_BE.Dao.PostDao
                 {
                     CreatedDate = DateTime.Now,
                     PostContent = postDto.PostContent,
-                    Status = 0,
+                    Status = 1,
                     SellerId = postDto.UserDto.UserId
                 };
                 context.Add(post);

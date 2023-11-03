@@ -9,7 +9,7 @@
             public string? Size { get; set; }
         }
 
-        public static ImageOutputDto? ConvertFileToBase64(string userId,string fileName, int type)
+        public static ImageOutputDto? ConvertFileToBase64(string userId, string fileName, int type)
         {
             if (fileName == null || fileName.Equals(""))
                 return null;
@@ -40,7 +40,7 @@
                 catch (Exception ex)
                 {
                     return null;
-                   // return "Error: " + ex.Message;
+                    // return "Error: " + ex.Message;
                 }
             }
             else

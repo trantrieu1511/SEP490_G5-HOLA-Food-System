@@ -28,22 +28,23 @@ namespace HFS_BE.BusinessLogic.ManagePost
                 var Dao = this.CreateDao<PostDao>();
 
 
-                
                 // Seller
                 Dao.PostDao.ListPostOutputSellerDto daoOutput = Dao.GetAllPostSeller(userDto);
-                // Post moderator (Dang lam not)
+
+                // post moderator thì gọi method dao khác select thêm shopID nx 
+                // output thêm trường shopId r -> xài dùng output ListPostOutputSellerDto
+                // thiêm truòng j trả về thì thềm vào ListPostOutputSellerDto ở BL, Dao
+
+                // Post moderator
                 if (userDto.UserId.Substring(0, 2).Equals("PM"))
                 {
                     daoOutput = Dao.GetAllPostPostModerator();
                 }
                 var output = mapper.Map<Dao.PostDao.ListPostOutputSellerDto, ListPostOutputSellerDto>(daoOutput);
-                // post moderator thì gọi method dao khác select thêm shopID nx 
-                // output thêm trường shopId r -> xài dùng output ListPostOutputSellerDto
-                // thiêm truòng j trả về thì thềm vào ListPostOutputSellerDto ở BL, Dao
-                
+
                 foreach (var post in daoOutput.Posts)
                 {
-                    if(post.Images == null ||post.Images.Count < 1) 
+                    if (post.Images == null || post.Images.Count < 1)
                         continue;
                     // get current index
                     var index = daoOutput.Posts.IndexOf(post);
@@ -51,7 +52,7 @@ namespace HFS_BE.BusinessLogic.ManagePost
                     {
                         // convert to base64
                         var imageInfor = ImageFileConvert.ConvertFileToBase64(userDto.UserId, img.Path, 0);
-                        if (imageInfor == null) 
+                        if (imageInfor == null)
                             continue;
 
                         var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, PostImageOutputSellerDto>(imageInfor);

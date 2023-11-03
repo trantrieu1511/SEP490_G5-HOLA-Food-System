@@ -82,9 +82,10 @@ export class API_VOUCHER {
 export class API_POST{
     public static ADD_POST_SELLER = "addPostSeller";
     public static UPDATE_POST = "updatePost";
-    public static GET_POST_SELLER = "getPostsSeller";
-    public static GET_POST = "getPosts"; // Ong post mod va seller dung chung. Em dang phan quyen not cho no - Trieu
+    // public static GET_POST_SELLER = "getPostsSeller";
+    public static GET_POST = "getPosts"; // Ong post mod va seller dung chung. Em phan quyen cho no r - Trieu
     public static ENABLE_DISABLE_SELLER = "enableDisableSeller";
+    public static BAN_UNBAN = "banunban";
 }
 
 export class API_HOME{
