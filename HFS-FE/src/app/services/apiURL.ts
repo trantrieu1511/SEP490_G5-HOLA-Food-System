@@ -107,8 +107,10 @@ export class API_CART{
 export class API_FOOD{
     public static ADD_FOOD = "addNewFood";
     public static UPDATE_FOOD = "updateFood";
-    public static GET_FOOD_SELLER = "getFoodsSeller";
+    // public static GET_FOOD_SELLER = "getFoodsSeller";
+    public static GET_FOOD = "getFoods"; // Danh cho ca seller va menu mod. Em de dieu kien cho cai api roi - Trieu
     public static ENABLE_DISABLE = "enableDisable";
+    public static BAN_UNBAN = "banunban";
 }
 
 export class API_CHECKOUT{

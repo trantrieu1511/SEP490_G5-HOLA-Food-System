@@ -105,8 +105,8 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
   }
 
   async ngOnInit() {
-    this.connectSignalR();
     this.checkUserAccessPermission();
+    this.connectSignalR();
     this.getAllPost();
 
     // Convert CustomFile[] to File[]
@@ -146,7 +146,7 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
 
       if (response && response.message === "Success") {
         this.lstPost = response.posts;
-        //console.log(this.lstPost);
+        console.log(this.lstPost);
       }
       this.loading = false;
     } catch (e) {
@@ -205,7 +205,7 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
   async banUnbanPost(post: Post, isBanned: boolean) {
     // type = true => Unban
     // false => Ban
-    debugger;
+    // debugger;
     const message = isBanned ? "Banned" : "Unbanned";
 
     try {

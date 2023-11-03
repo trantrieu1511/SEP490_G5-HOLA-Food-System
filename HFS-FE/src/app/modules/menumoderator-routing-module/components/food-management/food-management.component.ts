@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Table } from "primeng/table";
 import { AppBreadcrumbService } from "../../../../app-systems/app-breadcrumb/app.breadcrumb.service";
-import { Food, Category, FoodInput, FoodDisplayHideInputDto, FoodInputValidation } from "../../models/food.model";
+import { Food, Category, FoodInput, FoodDisplayHideInputDto, FoodInputValidation, FoodBanUnbanInputDto } from "../../models/food.model";
 import {
   iComponentBase,
   iServiceBase, mType,
@@ -19,14 +19,14 @@ import {
 } from "primeng/api";
 import { FileRemoveEvent, FileSelectEvent, FileUpload } from 'primeng/fileupload';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-food-management',
   templateUrl: './food-management.component.html',
   styleUrls: ['./food-management.component.scss']
 })
-export class FoodManagementComponent extends iComponentBase implements OnInit {
-
+export class FoodManagementComponent extends iComponentBase implements OnInit{
   lstFood: Food[] = [];
   // selectedPosts: Post[] = [];
   displayDialogEditAddFood: boolean = false;
@@ -57,7 +57,8 @@ export class FoodManagementComponent extends iComponentBase implements OnInit {
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
     super(messageService, breadcrumbService);
     this.foodForm = this.fb.group({
@@ -69,8 +70,17 @@ export class FoodManagementComponent extends iComponentBase implements OnInit {
     });
   }
 
+  // Not allow the user to access the page if they are not menu moderator
+  checkUserAccessPermission() {
+    let userRoleName = sessionStorage.getItem("userId").substring(0, 2);
+    if (userRoleName !== "MM") {
+      this.router.navigateByUrl('/HFSBusiness');
+      alert('You cannot access this page unless you are a menu moderator');
+    }
+  }
 
   ngOnInit() {
+    this.checkUserAccessPermission();
     this.getAllFood();
     this.getAllCategory();
     //console.log(this.foodValidation);
@@ -174,14 +184,14 @@ export class FoodManagementComponent extends iComponentBase implements OnInit {
     this.displayDialogEditAddFood = true;
   }
 
-  onHideFood(food: Food, event) {
+  onBanFood(food: Food, event){
     this.confirmationService.confirm({
       target: event.target,
-      message: `Are you sure to Hide this food id: ${food.foodId} ?`,
+      message: `Are you sure to Ban this food id: ${food.foodId}?`,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         //confirm action
-        this.deleteFood(food, false);
+        this.banUnbanFood(food, true);
       },
       reject: () => {
         //reject action
@@ -189,15 +199,29 @@ export class FoodManagementComponent extends iComponentBase implements OnInit {
     });
   }
 
+  onUnbanFood(food: Food, event){
+    this.confirmationService.confirm({
+      target: event.target,
+      message: `Are you sure to Unban this food id: ${food.foodId}?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //confirm action
+        this.banUnbanFood(food, false);
+      },
+      reject: () => {
+        //reject action
+      }
+    });
+  }
 
   onDisplayFood(food: Food, event) {
     this.confirmationService.confirm({
       target: event.target,
-      message: `Are you sure to Display this food id: ${food.foodId} ?`,
+      message: `Are you sure to Display this food id: ${food.foodId} to the guests and customers?`,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         //confirm action
-        this.deleteFood(food, true);
+        this.enableDisableFood(food, true);
       },
       reject: () => {
         //reject action
@@ -337,7 +361,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit {
     }
   }
 
-  async deleteFood(foodEnity: Food, type: boolean) {
+  async enableDisableFood(foodEnity: Food, type: boolean) {
     // type = true => Display
     // false => Hide
 
@@ -350,8 +374,36 @@ export class FoodManagementComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.ENABLE_DISABLE, param, true);
 
       if (response && response.message === "Success") {
-        this.showMessage(mType.success, "Notification", `${message} foodId: ${foodEnity.foodId} successfully`, 'notify');
+        this.showMessage(mType.success, "Notification", `Successfully approved foodId: ${foodEnity.foodId} to be displayed to public`, 'notify');
+        console.log(`Successfully approved foodId: ${foodEnity.foodId}`);
+        //lấy lại danh sách All Role
+        this.getAllFood();
 
+      } else {
+        var messageError = this.iServiceBase.formatMessageError(response);
+        console.log(messageError);
+        this.showMessage(mType.error, response.message, messageError, 'notify');
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  
+  async banUnbanFood(foodEnity: Food, isBanned: boolean) {
+    // type = true => Display
+    // false => Hide
+
+    const message = isBanned ? "Banned" : "Unbanned";
+    try {
+      let param = new FoodBanUnbanInputDto();
+      param.foodId = foodEnity.foodId;
+      param.isBanned = isBanned;
+
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.BAN_UNBAN, param, true);
+
+      if (response && response.message === "Success") {
+        this.showMessage(mType.success, "Notification", `${message} foodId: ${foodEnity.foodId} successfully`, 'notify');
+        console.log(`${message} foodId: ${foodEnity.foodId} successfully`);
         //lấy lại danh sách All Role
         this.getAllFood();
 
@@ -416,4 +468,5 @@ export class FoodManagementComponent extends iComponentBase implements OnInit {
   onHideDialogEditAdd() {
     this.uploadedFiles = [];
   }
+
 }

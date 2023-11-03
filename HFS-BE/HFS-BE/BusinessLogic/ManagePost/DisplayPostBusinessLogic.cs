@@ -33,7 +33,7 @@ namespace HFS_BE.BusinessLogic.ManagePost
 
                 // post moderator thì gọi method dao khác select thêm shopID nx 
                 // output thêm trường shopId r -> xài dùng output ListPostOutputSellerDto
-                // thiêm truòng j trả về thì thềm vào ListPostOutputSellerDto ở BL, Dao
+                // thiêm truòng j trả về thì thềm vào ListPostOutputSellerDto ở BL, Dao - OK
 
                 // Post moderator
                 if (userDto.UserId.Substring(0, 2).Equals("PM"))
@@ -50,8 +50,17 @@ namespace HFS_BE.BusinessLogic.ManagePost
                     var index = daoOutput.Posts.IndexOf(post);
                     foreach (var img in post.Images)
                     {
+                        ImageFileConvert.ImageOutputDto? imageInfor = null;
                         // convert to base64
-                        var imageInfor = ImageFileConvert.ConvertFileToBase64(userDto.UserId, img.Path, 0);
+                        // post moderator case
+                        if (userDto.UserId.Substring(0, 2).Equals("PM"))
+                        {
+                            imageInfor = ImageFileConvert.ConvertFileToBase64(post.SellerId, img.Path, 0);
+                        }
+                        else // seller case
+                        {
+                            imageInfor = ImageFileConvert.ConvertFileToBase64(userDto.UserId, img.Path, 0);
+                        }
                         if (imageInfor == null)
                             continue;
 

@@ -16,6 +16,7 @@
 
 export class Post {
     postId: number;
+    sellerId: string
     postContent: string;
     createdDate: string;
     status: string;

@@ -56,7 +56,7 @@ namespace HFS_BE.Dao.FoodDao
         }
 
         public BaseOutputDto AddNewFood(FoodCreateInputDto inputDto)
-        { 
+        {
             try
             {
                 // Add food
@@ -121,6 +121,38 @@ namespace HFS_BE.Dao.FoodDao
             }
         }
 
+        public ListFoodOutputSellerDto GetAllFoodMenuModerator()
+        {
+            try
+            {
+                List<FoodOutputSellerDto> foodsModel = context.Foods
+                                        .Include(p => p.FoodImages)
+                                        .Include(p => p.Category)
+                                        .Include(p => p.Feedbacks)
+                                        .Select(p => new FoodOutputSellerDto
+                                        {
+                                            FoodId = p.FoodId,
+                                            SellerId = p.SellerId,
+                                            Name = p.Name,
+                                            UnitPrice = p.UnitPrice,
+                                            Description = p.Description,
+                                            CategoryId = p.CategoryId,
+                                            CategoryName = p.Category.Name,
+                                            Status = PostMenuStatusEnum.GetStatusString(p.Status),
+                                            Images = p.FoodImages.ToList(),
+                                            Feedbacks = p.Feedbacks.ToList(),
+                                        })
+                                        .ToList();
+                var output = this.Output<ListFoodOutputSellerDto>(Constants.ResultCdSuccess);
+                output.Foods = foodsModel;
+                return output;
+            }
+            catch (Exception e)
+            {
+                return this.Output<ListFoodOutputSellerDto>(Constants.ResultCdFail);
+            }
+        }
+
         public Food? GetFoodById(int foodId)
         {
             return context.Foods.FirstOrDefault(x => x.FoodId == foodId);
@@ -153,14 +185,40 @@ namespace HFS_BE.Dao.FoodDao
             }
         }
 
+        public BaseOutputDto BanUnbanFood(FoodBanUnbanInputDto input)
+        {
+            try
+            {
+                // Get food
+                var food = context.Foods.SingleOrDefault(x => x.FoodId == input.FoodId);
+
+                if (input.isBanned)
+                {
+                    // set status banned
+                    food.Status = 3;
+                    context.SaveChanges();
+                    return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+                }
+                //set status display
+                food.Status = 1;
+                context.SaveChanges();
+
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
         public BaseOutputDto UpdateFood(FoodUpdateInforInputDto input)
         {
             try
             {
                 var foodModel = context.Foods.FirstOrDefault(
                         f => f.FoodId == input.FoodId
-                    ); 
-                if(foodModel ==  null)
+                    );
+                if (foodModel == null)
                     return Output<BaseOutputDto>(Constants.ResultCdFail, $"FoodId: {input.FoodId} not exist!");
 
                 foodModel.Name = input.Name;

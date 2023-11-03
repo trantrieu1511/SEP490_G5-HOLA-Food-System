@@ -37,12 +37,15 @@ namespace HFS_BE.BusinessLogic.ManageFood
                         $"FoodId: {input.FoodId} has been banned and cannot be changed!");*/
                 }
                 // check status Not Approved
-                if (food.Status == 0)
+                if (!input.isMenuMod) // TH la seller thi se phai validate nhu ben duoi
                 {
-                    errors.Add($"FoodId: {input.FoodId} is pending acceptance and cannot be changed!");
-                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Enable/Disable Failed", errors);
-                    /*return Output<BaseOutputDto>(Constants.ResultCdFail,
-                        $"FoodId: {input.FoodId} is pending acceptance and cannot be changed!");*/
+                    if (food.Status == 0)
+                    {
+                        errors.Add($"FoodId: {input.FoodId} is pending acceptance and cannot be changed!");
+                        return Output<BaseOutputDto>(Constants.ResultCdFail, "Enable/Disable Failed", errors);
+                        /*return Output<BaseOutputDto>(Constants.ResultCdFail,
+                            $"FoodId: {input.FoodId} is pending acceptance and cannot be changed!");*/
+                    }
                 }
 
                 var output = dao.EnableDisableFood(input);

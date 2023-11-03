@@ -26,7 +26,10 @@ namespace HFS_BE.Controllers.ManageFood
             {
 
                 var business = this.GetBusinessLogic<EnableDisableFoodBusinessLogic>();
-
+                if (GetUserInfor().UserId.Substring(0, 2).Equals("MM"))
+                {
+                    input.isMenuMod = true;
+                }
                 var output = business.EnableDisableFood(input);
 
                 // call signalR 

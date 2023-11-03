@@ -93,10 +93,12 @@ const routes: Routes = [
       },
       {
         path: 'postmoderator',
-        loadChildren: () => import('./modules/postmoderator-routing-module/postmoderator-routing-module.module').then(m => m.PostmoderatorRoutingModule),
+        loadChildren: () => import('./modules/postmoderator-routing-module/postmoderator-routing.module').then(m => m.PostmoderatorRoutingModule),
+      },
+      {
+        path: 'menumoderator',
+        loadChildren: () => import('./modules/menumoderator-routing-module/menumoderator-routing.module').then(m => m.MenumoderatorRoutingModule),
       }
-
-
     ]
   },
   { path: 'error', component: AppErrorComponent },

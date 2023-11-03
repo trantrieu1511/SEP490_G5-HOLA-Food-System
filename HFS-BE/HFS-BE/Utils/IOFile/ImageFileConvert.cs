@@ -9,6 +9,14 @@
             public string? Size { get; set; }
         }
 
+        /// <summary>
+        /// Convert the image file into base64 string.
+        /// </summary>
+        /// <param name="userId">The id of the user, used for getting full the path of the stored image</param>
+        /// <param name="fileName">Name of the image file that is saved to the server database</param>
+        /// <param name="type">The image category of the image (food, post, order progress) </param>
+        /// <returns>ImageOutputDto, which is the output object of the image that has been converted into base64 string, 
+        /// consist of attributes: ImageBase64, name and size</returns>
         public static ImageOutputDto? ConvertFileToBase64(string userId, string fileName, int type)
         {
             if (fileName == null || fileName.Equals(""))

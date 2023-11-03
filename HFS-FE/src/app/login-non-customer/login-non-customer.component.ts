@@ -169,7 +169,7 @@ export class LoginNonCustomerComponent implements OnInit, AfterViewInit {
               break;
 
             case "MM":
-              this.router.navigateByUrl('/HFSBusiness/postmoderator');
+              this.router.navigateByUrl('/HFSBusiness/menumoderator');
               break;
 
             default: this.router.navigateByUrl('/login');

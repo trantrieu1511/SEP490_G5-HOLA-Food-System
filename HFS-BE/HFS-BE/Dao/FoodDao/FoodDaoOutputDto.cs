@@ -30,6 +30,7 @@ namespace HFS_BE.Dao.FoodDao
     public class FoodOutputSellerDto : BaseOutputDto
     {
         public int FoodId { get; set; }
+        public string? SellerId { get; set; }
         public string? Name { get; set; }
         public decimal? UnitPrice { get; set; }
         public string? Description { get; set; }
