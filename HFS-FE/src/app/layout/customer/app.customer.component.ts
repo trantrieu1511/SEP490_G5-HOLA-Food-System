@@ -124,7 +124,6 @@ export class AppCustomerLayoutComponent implements OnDestroy, OnInit {
     }
 
     ngOnInit(): void {
-        this.checkUserAccessPermission();
         const cssFilePaths = ['assets/theme/lara-light-indigo/theme.css',
             'assets/layout/customer/layout.css'];
         // Xóa các liên kết CSS hiện có trong document.head
@@ -140,5 +139,6 @@ export class AppCustomerLayoutComponent implements OnDestroy, OnInit {
             this.renderer.setAttribute(cssLink, 'href', link);
             this.renderer.appendChild(document.head, cssLink);
         });
+        this.checkUserAccessPermission();
     }
 }

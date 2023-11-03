@@ -19,14 +19,15 @@ export class AppManageLayoutComponent implements AfterViewInit, OnInit, OnDestro
 
   // Check whether the user has logged in before accessing the page
   checkLoggedIn() {
-    if (sessionStorage.getItem("userId") == '') {
+    // debugger;
+    if (sessionStorage.getItem("userId") == null) {
       this.router.navigateByUrl('/login');
       alert('Please login before accessing.');
     }
   }
 
   // Not allow the user to access the page if they are not sellers, shippers, admin, post/menu moderators
-  checkUserRole() {
+  checkUserAccessPermission() {
     let userRoleName = sessionStorage.getItem("userId").substring(0, 2);
     if (userRoleName == 'CU') {
       this.router.navigateByUrl('/');
@@ -35,9 +36,6 @@ export class AppManageLayoutComponent implements AfterViewInit, OnInit, OnDestro
   }
 
   ngOnInit(): void {
-    this.checkLoggedIn();
-    this.checkUserRole();
-
     this.layoutService.state.menuActive = this.layoutService.isStatic()
       && !this.layoutService.isMobile();
 
@@ -57,6 +55,9 @@ export class AppManageLayoutComponent implements AfterViewInit, OnInit, OnDestro
       this.renderer.setAttribute(cssLink, 'href', link);
       this.renderer.appendChild(document.head, cssLink);
     });
+
+    this.checkLoggedIn();
+    this.checkUserAccessPermission();
   }
 
   ngAfterViewInit() {
