@@ -81,16 +81,29 @@ builder.Services.AddAuthentication(options =>
 	options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
-	options.SaveToken = true;
+    // authen for signalR
+    //options.Authority = "Authority URL";
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            if (context.Request.Path.ToString().StartsWith("/hubs/"))
+                context.Token = context.Request.Query["access_token"];
+            return Task.CompletedTask;
+        }
+    };
+
+    options.SaveToken = true;
 	options.RequireHttpsMetadata = false;
-	options.TokenValidationParameters = new TokenValidationParameters()
-	{
-		ValidateIssuer = true,
-		ValidateAudience = true,
-		ValidAudience = configuration["JWT:ValidAudience"],
-		ValidIssuer = configuration["JWT:ValidIssuer"],
-		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
-	};
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = configuration["JWT:ValidAudience"],
+        ValidIssuer = configuration["JWT:ValidIssuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
+    };
+
 });
 // add automapper
 var mappingConfig = new MapperConfiguration(mc =>
@@ -119,6 +132,6 @@ app.UseCors("_MainPolicy");
 
 app.MapControllers();
 app.MapHub<DataRealTimeHub>("hubs/dataRealTime");
-
+app.MapHub<NotificationHub>("hubs/notifyRealTime");
 
 app.Run();

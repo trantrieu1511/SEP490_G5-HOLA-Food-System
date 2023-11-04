@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.SignalR;
 namespace HFS_BE.Hubs
 {
     [Authorize]
-    public class DataRealTimeHub : Hub
+    public class NotificationHub : Hub
     {
         public override Task OnConnectedAsync()
         {
@@ -15,6 +15,17 @@ namespace HFS_BE.Hubs
             }
             Groups.AddToGroupAsync(Context.ConnectionId, userId);
             return base.OnConnectedAsync();
+        }
+
+        public override Task OnDisconnectedAsync(Exception? exception)
+        {
+            var userId = TokenQuerySignalR.GetSingleton().GetUserId(Context);
+            if (userId == null)
+            {
+                throw new HubException("Disconnection failed: Unauthorized");
+            }
+            Groups.RemoveFromGroupAsync(Context.ConnectionId, userId);
+            return base.OnDisconnectedAsync(exception);
         }
     }
 }

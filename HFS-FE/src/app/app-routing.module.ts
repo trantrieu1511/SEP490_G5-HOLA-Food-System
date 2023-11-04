@@ -82,7 +82,7 @@ const routes: Routes = [
       {
         path: 'seller',
         // canActivate: [authGuard],
-        // data: { requiredRole: 'Seller' },
+        // data: { requiredRole: ['Seller', 'Shipper'] },
         loadChildren: () => import('./modules/seller-routing-module/seller-routing.module').then(m => m.SellerRoutingModule),
       },
       {

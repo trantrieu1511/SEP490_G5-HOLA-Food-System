@@ -1,33 +1,38 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Table } from "primeng/table";
-import { AppBreadcrumbService } from "../../../../app-systems/app-breadcrumb/app.breadcrumb.service";
-import { Post, PostDisplayHideInputDto, PostInput, PostInputValidation } from "../../models/post.model";
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Table } from 'primeng/table';
+import { AppBreadcrumbService } from '../../../../app-systems/app-breadcrumb/app.breadcrumb.service';
+import {
+  Post,
+  PostDisplayHideInputDto,
+  PostInput,
+  PostInputValidation,
+} from '../../models/post.model';
 import {
   iComponentBase,
-  iServiceBase, mType,
-  ShareData, iFunction
+  iServiceBase,
+  mType,
+  ShareData,
+  iFunction,
 } from 'src/app/modules/shared-module/shared-module';
-import * as API from "../../../../services/apiURL";
+import * as API from '../../../../services/apiURL';
 import {
   ConfirmationService,
   LazyLoadEvent,
   MenuItem,
   MessageService,
   SelectItem,
-  TreeNode
-} from "primeng/api";
+  TreeNode,
+} from 'primeng/api';
 import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
 import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-post-management',
   templateUrl: './post-management.component.html',
-  styleUrls: ['./post-management.component.scss']
+  styleUrls: ['./post-management.component.scss'],
 })
 export class PostManagementComponent extends iComponentBase implements OnInit {
-
   lstPost: Post[] = [];
   // selectedPosts: Post[] = [];
   displayDialogEditAddPost: boolean = false;
@@ -45,33 +50,22 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
 
   inputValidation: PostInputValidation = new PostInputValidation();
 
-
   @ViewChild('dt') table: Table;
 
-  constructor(public breadcrumbService: AppBreadcrumbService,
+  constructor(
+    public breadcrumbService: AppBreadcrumbService,
     private shareData: ShareData,
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
-    private signalRService: DataRealTimeService,
-    private router: Router
+    private signalRService: DataRealTimeService
   ) {
     super(messageService, breadcrumbService);
   }
 
-  // Not allow the user to access the page if they are not seller
-  checkUserAccessPermission() {
-    let userRoleName = sessionStorage.getItem("userId").substring(0, 2);
-    if (userRoleName !== "SE") {
-      this.router.navigateByUrl('/HFSBusiness');
-      alert('You cannot access this page unless you are a seller');
-    }
-  }
-
   async ngOnInit() {
     this.connectSignalR();
-    this.checkUserAccessPermission();
     this.getAllPost();
 
     // Convert CustomFile[] to File[]
@@ -95,11 +89,18 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
   async connectSignalR() {
     this.lstPost = [];
     this.signalRService.startConnection();
-    // const res = await this.signalRService.addTransferDataListener(API.PHAN_HE.POST, API.API_POST.GET_POST_SELLER);
-    const res = await this.signalRService.addTransferDataListener(API.PHAN_HE.POST, API.API_POST.GET_POST);
-    if (res && res.message === "Success") {
+    const res = await this.signalRService.addTransferDataListener(
+      API.PHAN_HE.POST,
+      API.API_POST.GET_POST
+    );
+    if (res && res.message === 'Success') {
       this.lstPost = res.posts;
     }
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any): void {
+    this.signalRService.stopConnection();
   }
 
   async getAllPost() {
@@ -108,10 +109,13 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
     try {
       this.loading = true;
 
-      // let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.POST, API.API_POST.GET_POST_SELLER);
-      let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.POST, API.API_POST.GET_POST);
+      let response = await this.iServiceBase.getDataAsync(
+        API.PHAN_HE.POST,
+        API.API_POST.GET_POST
+      );
+      // let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.POST, API.API_POST.GET_POST);
 
-      if (response && response.message === "Success") {
+      if (response && response.message === 'Success') {
         this.lstPost = response.posts;
         //console.log(this.lstPost);
       }
@@ -120,11 +124,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       console.log(e);
       this.loading = false;
     }
-
   }
 
   bindingDataPostModel(): PostInput {
-
     let postInput = new PostInput();
 
     if (this.postModel.postId && this.postModel.postId > 0) {
@@ -156,13 +158,16 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
   onUpdatePost(post: Post) {
     this.headerDialog = `Edit Post ID: ${post.postId}`;
 
-    this.postModel = Object.assign({}, post); // assign cac gia tri cua post sang mot target object moi co dia chi khac voi object post de gia tri cua object post khong bi anh huong boi two way binding cua postModel
+    this.postModel = Object.assign({}, post);
 
     //this.uploadedFiles = post.images;
     this.uploadedFiles = [];
 
-    post.imagesBase64.forEach(image => {
-      var fileimage = this.iFunction.convertImageBase64toFile(image.imageBase64, image.name);
+    post.imagesBase64.forEach((image) => {
+      var fileimage = this.iFunction.convertImageBase64toFile(
+        image.imageBase64,
+        image.name
+      );
       this.uploadedFiles.push(fileimage);
       //this.f_upload.files.push(fileimage);
     });
@@ -181,10 +186,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       },
       reject: () => {
         //reject action
-      }
+      },
     });
   }
-
 
   onDisplayPost(post: Post, event) {
     this.confirmationService.confirm({
@@ -197,7 +201,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       },
       reject: () => {
         //reject action
-      }
+      },
     });
   }
 
@@ -231,7 +235,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
     // }
     if (!this.postModel.postContent || this.postModel.postContent == '') {
       this.inputValidation.isPostContentValid = false;
-      this.inputValidation.postContentMessage = "Please enter a post content";
+      this.inputValidation.postContentMessage = 'Please enter a post content';
       check = false;
     }
 
@@ -244,20 +248,29 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       const param = new FormData();
       param.append('postContent', postEntity.postContent);
 
-      this.uploadedFiles.forEach(file => {
+      this.uploadedFiles.forEach((file) => {
         param.append('images', file, file.name);
       });
 
       //console.log(param);
-      const response = await this.iServiceBase
-        .postDataAsync(API.PHAN_HE.POST, API.API_POST.ADD_POST_SELLER, param, true);
+      const response = await this.iServiceBase.postDataAsync(
+        API.PHAN_HE.POST,
+        API.API_POST.ADD_POST_SELLER,
+        param,
+        true
+      );
 
-      if (response && response.message === "Success") {
-        this.showMessage(mType.success, "Notification", "New post added successfully", 'notify');
+      if (response && response.message === 'Success') {
+        this.showMessage(
+          mType.success,
+          'Notification',
+          'New post added successfully',
+          'notify'
+        );
 
         this.displayDialogEditAddPost = false;
 
-        //lấy lại danh sách All 
+        //lấy lại danh sách All
         this.getAllPost();
 
         //Clear model đã tạo
@@ -271,7 +284,12 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       }
     } catch (e) {
       console.log(e);
-      this.showMessage(mType.error, "Notification", "Adding new post failed", 'notify');
+      this.showMessage(
+        mType.error,
+        'Notification',
+        'Adding new post failed',
+        'notify'
+      );
     }
   }
 
@@ -281,19 +299,28 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       param.append('postContent', postEnity.postContent);
       param.append('postId', postEnity.postId.toString());
 
-      this.uploadedFiles.forEach(file => {
+      this.uploadedFiles.forEach((file) => {
         param.append('images', file, file.name);
       });
 
-      let response = await this.iServiceBase
-        .putDataAsync(API.PHAN_HE.POST, API.API_POST.UPDATE_POST, param, true);
+      let response = await this.iServiceBase.putDataAsync(
+        API.PHAN_HE.POST,
+        API.API_POST.UPDATE_POST,
+        param,
+        true
+      );
 
-      if (response && response.message === "Success") {
-        this.showMessage(mType.success, "Notification", "New post updated successfully", 'notify');
+      if (response && response.message === 'Success') {
+        this.showMessage(
+          mType.success,
+          'Notification',
+          'New post updated successfully',
+          'notify'
+        );
 
         this.displayDialogEditAddPost = false;
 
-        //lấy lại danh sách All 
+        //lấy lại danh sách All
         this.getAllPost();
 
         //Clear model đã tạo
@@ -314,21 +341,30 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
     // type = true => Display
     // false => Hide
 
-    const message = type ? "Displayed" : "Hidden";
+    const message = type ? 'Displayed' : 'Hidden';
 
     try {
       let param: PostDisplayHideInputDto = new PostDisplayHideInputDto();
       param.postId = postEnity.postId;
       param.type = type;
 
-      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POST, API.API_POST.ENABLE_DISABLE_SELLER, param, true);
+      let response = await this.iServiceBase.postDataAsync(
+        API.PHAN_HE.POST,
+        API.API_POST.ENABLE_DISABLE_SELLER,
+        param,
+        true
+      );
 
-      if (response && response.message === "Success") {
-        this.showMessage(mType.success, "Notification", `${message} postId: ${postEnity.postId} successfully`, 'notify');
+      if (response && response.message === 'Success') {
+        this.showMessage(
+          mType.success,
+          'Notification',
+          `${message} postId: ${postEnity.postId} successfully`,
+          'notify'
+        );
 
-        //lấy lại danh sách All 
+        //lấy lại danh sách All
         this.getAllPost();
-
       } else {
         var messageError = this.iServiceBase.formatMessageError(response);
         console.log(messageError);
@@ -360,10 +396,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
   }
 
   handleFileSelection(event: FileSelectEvent) {
-    // console.log("select", event);
+    //console.log("select", event);
 
     this.uploadedFiles = event.currentFiles;
-    console.log(this.uploadedFiles);
 
     // const files = event.currentFiles as File[];
 
@@ -385,7 +420,6 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
     //   reader.readAsDataURL(file);
     // }
 
-
     // console.log("currentfile", event.currentFiles);
     // console.log("customfile", this.fileList);
   }
@@ -399,7 +433,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
   handleFileRemoval(event: FileRemoveEvent) {
     //console.log("remove", event.file.name);
 
-    this.uploadedFiles = this.uploadedFiles.filter(f => f.name !== event.file.name);
+    this.uploadedFiles = this.uploadedFiles.filter(
+      (f) => f.name !== event.file.name
+    );
     //console.log("uploadFiles", this.uploadedFiles);
   }
 

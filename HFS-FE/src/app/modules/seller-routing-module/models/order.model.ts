@@ -8,6 +8,7 @@ export class Order{
   shipperId: string;
   shipperName: string;
   voucherId: string;
+  discountAmount: number;
   paymentMethod: string;
   totalPrice: number;
   orderProgresses: DetailProgress[];
@@ -45,8 +46,8 @@ export class ImageFoodOutputDto{
 
 export class OrderStatusInput{
   status: number;
-  dateFrom: Date;
-  dateEnd: Date;
+  dateFrom: string;
+  dateEnd: string;
 }
 
 export class OrderCancelInput{

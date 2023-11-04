@@ -28,7 +28,7 @@ namespace HFS_BE.Base
         public T GetBusinessLogic<T>() where T : BaseBusinessLogic
         {
 
-            return (T)Activator.CreateInstance(typeof(T), context, mapper);
+            return (T)Activator.CreateInstance(typeof(T), context, mapper, hubContext);
         }
 
         [NonAction]

@@ -30,6 +30,7 @@ using HFS_BE.DAO.SellerDao;
 using HFS_BE.DAO.ModeratorDao;
 using HFS_BE.BusinessLogic.ManageUser;
 using HFS_BE.DAO.VoucherDao;
+using HFS_BE.DAO.NotificationDao;
 
 namespace HFS_BE.Automapper
 {
@@ -53,6 +54,7 @@ namespace HFS_BE.Automapper
             Manage();
             Voucher();
             Shop();
+            Notification();
         }
 
         /// <summary>
@@ -206,7 +208,9 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.ShippedDate, opt => opt.MapFrom(src => src.ShippedDate != null ? src.ShippedDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null))
                 .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.Shipper != null ? src.Shipper.FirstName + " " + src.Shipper.LastName : null))
                 .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => PaymentMethodEnum.GetPaymentMethodString(src.PaymentMethod)))
-                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.OrderDetails.Select(d => d.UnitPrice * d.Quantity).ToList().Sum())) //* them voucher))
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.OrderDetails.Select(
+                        d => d.UnitPrice * d.Quantity
+                    ).ToList().Sum() - (src.Voucher != null ? src.Voucher.DiscountAmount : 0))) //* them voucher))
                 .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses.OrderBy(x => x.CreateDate).ToList()))
                 .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.OrderBy(x => x.UnitPrice).ToList()));
             CreateMap<OrderProgress, DetailProgressCustomerDto>()
@@ -330,6 +334,11 @@ namespace HFS_BE.Automapper
         {
             CreateMap<Voucher, GetVoucherDaoOutputDto>();
 
+        }
+
+        public void Notification()
+        {
+            CreateMap<NotificationAddNewInputDto, Notification>();
         }
 
     }

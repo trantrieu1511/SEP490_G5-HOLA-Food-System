@@ -28,7 +28,7 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
   constructor(private httpClient: HttpClient) { }
 
   login(model: any){
-    debugger;
+    //debugger;
     return this.httpClient.post(this.path+'home/logincustomer', model).pipe(
       map((res:Tokens)=>{
         const token = res;
@@ -43,11 +43,11 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
     )
   }
   loginnotcus(model: any){
-    debugger
+    //debugger
     return this.httpClient.post(this.path+'home/loginnotcustomer', model).pipe(
       map((res:Tokens)=>{
         const token = res;
-        debugger
+        //debugger
         if(token.success){
           this.setCurrentUser(token);
 
@@ -65,7 +65,7 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
 
       map((res:Tokens)=>{
         const token = res;
-        debugger;
+        //debugger;
         if(token){
           this.setCurrentUser(token);
 
@@ -74,13 +74,13 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
     )
   }
   register(model: any){
-    debugger;
+    //debugger;
 
     return this.httpClient.post(this.path+'home/registercustomer', model).pipe(
 
       map((res:Register)=>{
         const register = res;
-        debugger;
+        //debugger;
         if(register.success){
          console.log("tao tài khoản thành công");
 
@@ -93,13 +93,13 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
     )
   }
   registerseller(model: any){
-    debugger;
+    //debugger;
 
     return this.httpClient.post(this.path+'home/registerseller', model).pipe(
 
       map((res:Register)=>{
         const register = res;
-        debugger;
+        //debugger;
         if(register.success){
          console.log("tao tài khoản thành công");
 
@@ -112,13 +112,13 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
     )
   }
   registershipper(model: any){
-    debugger;
+    //debugger;
 
     return this.httpClient.post(this.path+'home/registershipper', model).pipe(
 
       map((res:Register)=>{
         const register = res;
-        debugger;
+        //debugger;
         if(register.success){
          console.log("tao tài khoản thành công");
 
@@ -131,13 +131,13 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
     )
   }
   loginfacebook(tokenconfirm: string): Observable<any>{
-    debugger;
+    //debugger;
     const header = new HttpHeaders().set('Content-type', 'application/json');
     return this.httpClient.post("https://localhost:7016/api/Ok/" + "LoginWithFacebook", JSON.stringify(tokenconfirm),{ headers: header, withCredentials: true }).pipe(
 
       map((res:Tokens)=>{
         const token = res;
-        debugger;
+        //debugger;
         if(token){
           this.setCurrentUser(token);
 
@@ -147,13 +147,13 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
   }
 
   confirm(tokenconfirm: string): Observable<any>{
-    debugger;
+    //debugger;
     const header = new HttpHeaders().set('Content-type', 'application/json');
     return this.httpClient.post("https://localhost:7016/api/Role/" + "confirmation", JSON.stringify(tokenconfirm),{ headers: header, withCredentials: true }).pipe(
 
       map((res:Tokens)=>{
         const token = res;
-        debugger;
+        //debugger;
         if(token){
           console.log("ok");
 
@@ -163,12 +163,12 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
   }
 
   sendforgot(model: any){
-    debugger;
+    //debugger;
    // https://localhost:7016/home/sendforgot
     return this.httpClient.post(this.path+ "home/sendforgot",model ).pipe(
       map((res:Tokens)=>{
         const token = res;
-        debugger;
+        //debugger;
         if(token.success){
           this.showforgotSubject.next(0);
 
@@ -180,12 +180,12 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
     )
   }
   confirmforgot(model: any){
-    debugger;
+    //debugger;
    // https://localhost:7016/home/confirmforgot
     return this.httpClient.post("https://localhost:7016/home/confirmforgot",model ).pipe(
       map((res:Register)=>{
         const ok = res;
-        debugger;
+        //debugger;
         if(ok.success){
           this.showforgotSubject.next(2);
 
@@ -197,12 +197,12 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
     )
   }
   changeforgot(model: any){
-    debugger;
+    //debugger;
    // https://localhost:7016/home/confirmforgot
     return this.httpClient.post(this.path+"home/changepassword",model ).pipe(
       map((res:Register)=>{
         const ok = res;
-        debugger;
+        //debugger;
         if(ok.success){
           this.showforgotSubject.next(3);
 
@@ -214,7 +214,7 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
     )
   }
   setCurrentUser(token: Tokens){
-    debugger;
+    //debugger;
     if(token){
       const data = this.getDecodedToken(token.token);//copy token to jwt.io see .role
       this.user = {

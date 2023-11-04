@@ -18,13 +18,33 @@ export class DataRealTimeService {
        
     const url = `${service}${API.API_HUB.DATA_REALTIME}`;
 
+    const jwt = sessionStorage.getItem('JWT');
+    //.withUrl(url, { accessTokenFactory: () => jwt })
+    /*
+    .withUrl(url, {
+      headers : {Authorization: `Bearer ${jwt}`},
+      transport: signalR.HttpTransportType.None
+    })
+    */
     this.hubConnection = new signalR.HubConnectionBuilder()
-                            .withUrl(url)
+                            .withUrl(url, { 
+                              skipNegotiation: true,
+                              transport: signalR.HttpTransportType.WebSockets,
+                              accessTokenFactory: () => jwt 
+                            })
                             .build();
     this.hubConnection
       .start()
       .then(() => console.log('Connection started'))
       .catch(err => console.log('Error while starting connection: ' + err))
+  }
+
+  public stopConnection = () => {
+    if (this.hubConnection) {
+        this.hubConnection.stop()
+            .then(() => console.log('Connection stopped'))
+            .catch(err => console.log('Error while stopping connection: ' + err));
+    }
   }
   
   public addTransferDataListener = (service: any, api: string, inputData?: any, method: boolean = true, ignoreLoading?: boolean): Promise<any> => {

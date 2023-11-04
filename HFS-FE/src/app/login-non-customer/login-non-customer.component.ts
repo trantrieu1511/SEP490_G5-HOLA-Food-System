@@ -102,7 +102,7 @@ export class LoginNonCustomerComponent implements OnInit, AfterViewInit {
     };
   }
   async handleCredentialResponse(response: CredentialResponse) {
-    debugger;
+    //debugger;
     await this.service.logingoogle(response.credential).subscribe(
       (x: any) => {
         this._ngZone.run(() => {
@@ -145,7 +145,7 @@ export class LoginNonCustomerComponent implements OnInit, AfterViewInit {
     if (this.form.valid) {
 
       try {
-        debugger;
+        //debugger;
         this.service.loginnotcus(this.form.value).subscribe(res => {
           //this.toastr.success('Login success');
           // const userData = localStorage.getItem('user');
@@ -196,7 +196,7 @@ export class LoginNonCustomerComponent implements OnInit, AfterViewInit {
 
   //  async loginfb() {
   //    FB.login(async (result:any) => {
-  //      debugger;
+  //      //debugger;
   //        await this.service.loginfacebook(result.authResponse.accessToken).subscribe(
   //          (x:any) => {
   //            this._ngZone.run(() => {
