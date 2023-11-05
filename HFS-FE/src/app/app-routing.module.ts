@@ -13,6 +13,7 @@ import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
 import { ManageprofileComponent } from './modules/customer-routing-module/components/manageprofile/manageprofile.component';
 import { ForgotComponent } from './forgot/forgot.component';
 import { LoginNonCustomerComponent } from './login-non-customer/login-non-customer.component';
+import { SellerListComponent } from './seller-list/seller-list.component';
 
 const routes: Routes = [
   // {
@@ -50,6 +51,11 @@ const routes: Routes = [
     component: ChatComponent
   }
   ,
+  {
+    path: 'listseller',
+    component: SellerListComponent
+  }
+  ,
   // {
   //   path: 'profile',
   //   component: ManageprofileComponent
@@ -81,8 +87,8 @@ const routes: Routes = [
       },
       {
         path: 'seller',
-        // canActivate: [authGuard],
-        // data: { requiredRole: 'Seller' },
+        canActivate: [authGuard],
+         data: { requiredRole: 'Seller' },
         loadChildren: () => import('./modules/seller-routing-module/seller-routing.module').then(m => m.SellerRoutingModule),
       },
       {

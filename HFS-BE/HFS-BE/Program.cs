@@ -1,6 +1,8 @@
 using AutoMapper;
 using HFS_BE;
 using HFS_BE.Automapper;
+using HFS_BE.DAO.SellerDao;
+using HFS_BE.DAO.UserDao;
 using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Services;
@@ -91,6 +93,21 @@ builder.Services.AddAuthentication(options =>
 		ValidIssuer = configuration["JWT:ValidIssuer"],
 		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
 	};
+	options.Events = new JwtBearerEvents
+	{
+		OnMessageReceived = context =>
+		{
+			var accessToken = context.Request.Query["access_token"];
+
+			var path = context.HttpContext.Request.Path;
+			if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+			{
+				context.Token = accessToken;
+			}
+
+			return Task.CompletedTask;
+		}
+	};
 });
 // add automapper
 var mappingConfig = new MapperConfiguration(mc =>
@@ -101,7 +118,8 @@ var mappingConfig = new MapperConfiguration(mc =>
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddSignalR();
-
+builder.Services.AddScoped<PresenceTracker>();
+builder.Services.AddScoped<SellerDao>();
 
 var app = builder.Build();
 
@@ -111,12 +129,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseRouting();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors("_MainPolicy");
-
+app.MapHub<PresenceHub>("hubs/presence");
 app.MapControllers();
 app.MapHub<DataRealTimeHub>("hubs/dataRealTime");
 

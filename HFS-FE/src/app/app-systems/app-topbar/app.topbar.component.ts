@@ -10,6 +10,7 @@ import {
 } from 'src/app/modules/shared-module/shared-module';
 import * as API from 'src/app/services/apiURL';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { PresenceService } from 'src/app/services/presence.service';
 
 @Component({
     selector: 'app-topbar',
@@ -33,7 +34,8 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
                 private router: Router,
                 private iServiceBase: iServiceBase,
                 private shareData: ShareData,
-                public messageService: MessageService
+                public messageService: MessageService,
+                public presence: PresenceService
     ) {
         super(messageService);
     }
@@ -52,13 +54,17 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     logOut(event : Event) {
         //Logout thì xóa đi
         sessionStorage.clear();
-localStorage.clear();
+               localStorage.removeItem('user');
         //Xóa hết đi các thứ linh tinh chỉ gán lại các thứ cấn thiết trong localstorage
         this.clearLocalStorage();
 
         event.preventDefault();
 
-        this.router.navigate(['/login']);
+        //this.router.navigate(['/login']);
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/login-2']);
+          window.location.reload();
+        });
     }
 
     clearLocalStorage() {
@@ -83,6 +89,7 @@ localStorage.clear();
 
 
     ngOnInit() {
+
 
     }
 }

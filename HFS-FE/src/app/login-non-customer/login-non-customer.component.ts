@@ -48,7 +48,7 @@ export class LoginNonCustomerComponent implements OnInit, AfterViewInit {
   }
   ngOnInit(): void {
 
-    // localStorage.clear();
+     localStorage.removeItem('user');
     sessionStorage.clear();
     this.service.error$.subscribe(error => {
       this.error = error;

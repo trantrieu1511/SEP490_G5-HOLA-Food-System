@@ -19,6 +19,8 @@ import {
 } from "primeng/api";
 import { FileRemoveEvent, FileSelectEvent, FileUpload } from 'primeng/fileupload';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import { User } from 'src/app/services/auth.service';
+import { PresenceService } from 'src/app/services/presence.service';
 
 @Component({
   selector: 'app-food-management',
@@ -26,7 +28,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms'
   styleUrls: ['./food-management.component.scss']
 })
 export class FoodManagementComponent extends iComponentBase implements OnInit{
-  
+
   lstFood: Food[] = [];
   // selectedPosts: Post[] = [];
   displayDialogEditAddFood: boolean = false;
@@ -57,7 +59,8 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
               private confirmationService: ConfirmationService,
               private iServiceBase: iServiceBase,
               private iFunction: iFunction,
-              private fb: FormBuilder
+              private fb: FormBuilder,
+              public presence: PresenceService
               ) {
     super(messageService, breadcrumbService);
     this.foodForm = this.fb.group({
@@ -74,8 +77,17 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
     this.getAllFood();
     this.getAllCategory();
     //console.log(this.foodValidation);
+    this.setCurrentUser();
   }
+  setCurrentUser(){
+    const user: User = JSON.parse(localStorage.getItem('user'));
+    const token=sessionStorage.getItem('JWT');
+debugger;
+    if(user){
 
+      this.presence.createHubConnection(token);
+    }
+  }
   async getAllCategory(){
     // try {
     //     this.loading = true;
@@ -119,7 +131,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
 
   bindingDataFoodModel(): FoodInput {
       let result = new FoodInput();
-      
+
       if (this.foodModel.foodId && this.foodModel.foodId > 0) {
         // //Update
         result.foodId = this.foodModel.foodId;
@@ -135,7 +147,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
         result.description = this.foodModel.description;
         result.categoryId = this.foodModel.categoryId;
       }
-    
+
       return result;
   }
 
@@ -143,7 +155,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
       this.headerDialog = 'Add New Food';
 
       this.uploadedFiles = [];
-      
+
       this.foodModel = new Food();
 
       this.selectedCategory = null;
@@ -189,7 +201,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
     });
   }
 
-  
+
   onDisplayFood(food: Food, event) {
     this.confirmationService.confirm({
       target: event.target,
@@ -208,7 +220,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
   onSaveFood() {
     //console.log(this.foodModel);
     this.foodModel.categoryId = this.selectedCategory != null ?  this.selectedCategory.categoryId : null;
-    
+
     let foodEntity = this.bindingDataFoodModel();
 
     if (this.validateFoodModel()) {
@@ -257,13 +269,13 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
         this.foodValidation.descriptionMessage = "Description can not empty";
         check = false;
       }
-      
+
       if(!this.foodModel.categoryId || this.foodModel.categoryId < 1 ){
         this.foodValidation.isCategoryIdValid = false;
         this.foodValidation.categoryIdMessage = "Category must be choose";
         check = false;
       }
-      
+
 
       return check;
   }
@@ -286,7 +298,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
 
           this.displayDialogEditAddFood = false;
 
-          //lấy lại danh sách All 
+          //lấy lại danh sách All
           this.getAllFood();
 
           //Clear model đã tạo
@@ -321,7 +333,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
 
           this.displayDialogEditAddFood = false;
 
-          //lấy lại danh sách All 
+          //lấy lại danh sách All
           this.getAllFood();
 
           //Clear model đã tạo
@@ -387,7 +399,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
 
   handleFileSelection(event :  FileSelectEvent) {
     //console.log("select", event);
-    
+
     this.uploadedFiles = event.currentFiles;
 
     //console.log('primeSelect',this.f_upload);

@@ -15,9 +15,9 @@ const routes: Routes = [
   {path: 'order-management', component: OrderManagementComponent},
   {path: 'shipper-management', component: ShipperComponent},
   {path: 'post-management', component: PostManagementComponent},
-  {path: 'food-management', component: FoodManagementComponent},
+  {path: '', component: FoodManagementComponent},
 ]
-
+// food-management
 @NgModule({
   declarations: [
     OrderManagementComponent,
@@ -33,7 +33,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [
-    
+
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy}
