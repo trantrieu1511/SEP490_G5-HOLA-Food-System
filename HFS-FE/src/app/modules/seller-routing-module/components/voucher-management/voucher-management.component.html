@@ -1,1 +1,240 @@
-<p>voucher-management works!</p>
+<div class="grid table-demo">
+    <div class="col-12">
+        <div class="card">
+            <h5>Voucher Management</h5>
+
+            <p-table #dt [value]="lstVoucher" dataKey="id"
+                     styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
+                     [showCurrentPageReport]="true"
+                     [paginator]="lstVoucher.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
+                     currentPageReportTemplate="Total: {totalRecords} vouchers"
+                     [globalFilterFields]="['name']" responsiveLayout="scroll"
+                     [loading]="loading"
+            >
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-row align-items-center flex-wrap justify-content-between ">
+                        <div class="flex-1">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text"  #textInput 
+                                       (input)="dt.filterGlobal(textInput.value, 'contains')"
+                                       placeholder="Search Food by name"/>
+                            </span>
+                        </div>
+
+                        <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
+                            <div class="flex align-items-center justify-content-center">
+                                <button pButton type="button" label="Add new" icon="pi pi-plus"
+                                    (click)="onCreateVoucher()"
+                                        style="width: auto;"></button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="name">
+                            <div class="flex justify-content-between align-items-center">
+                                Code
+                                <p-sortIcon field="name"></p-sortIcon>
+                                <p-columnFilter type="text" field="name" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="description">
+                            <div class="flex justify-content-between align-items-center">
+                                Discount Amount
+                                <p-sortIcon field="description"></p-sortIcon>
+                                <p-columnFilter type="text" field="description" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="unitPrice">
+                            <div class="flex justify-content-between align-items-center">
+                                Minimum Order
+                                <p-sortIcon field="unitPrice"></p-sortIcon>
+                                <p-columnFilter type="text" field="unitPrice" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="rating">
+                            <div class="flex justify-content-between align-items-center">
+                                Effective Date
+                                <p-sortIcon field="rating"></p-sortIcon>
+                                <p-columnFilter type="numeric" field="rating" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        
+                        <th pSortableColumn="status">
+                            <div class="flex justify-content-between align-items-center">
+                                Expire Date
+                                <p-sortIcon field="status"></p-sortIcon>
+                                <p-columnFilter type="text" field="status" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width: 8rem">
+                            <div 
+                                 class="flex justify-content-between align-items-center">
+                                Action
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-voucher>
+                    <tr class="p-selectable-row">
+                        
+                        <td>
+                            <span class="p-column-title">CODE</span>
+                            <span class="post-id">{{voucher.code}}</span>
+                        </td>
+                        <td>
+                            <span class="p-column-title">Discount Amount</span>
+                            {{voucher.discountAmount}}
+                        </td>
+                        <td >
+                            <span class="p-column-title">Minimum Order</span>
+                            {{voucher.minimumOrderValue}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Effective Date</span>
+                            {{voucher.effectiveDate}}
+                        </td>
+                        <td >
+                            <span class="p-column-title">Expire Date</span>
+                            {{voucher.expireDate}}
+                        </td>
+                        
+                        <td style="text-align: center">
+                            <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+                                <div class="flex align-items-center justify-content-center">
+                                    <button pButton pRipple icon="pi pi-pencil"
+                                            (click)="onUpdateVoucher(voucher)"
+                                            class="p-button-rounded p-mr-2"></button>
+                                </div>
+                                
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">No food yet.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-dialog [header]="headerDialog" [(visible)]="displayDialogEditAddVoucher"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '50vw'}"
+          [draggable]="false" [resizable]="false" [maximizable]="true"
+          (onHide)="onHideDialogEditAdd()"
+          >
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <b>Voucher information</b>
+                    </div>
+                </p-divider>
+                <div class="grid">
+                    
+                    <ng-container >
+                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                            <label>Discount Amount*</label>
+                            <span class="p-input-icon-left p-float-label" style="width: 100%">
+                                <input type="text" step="5000" min="0"  class="w-full" [(ngModel)] = "voucherModel.discountAmount"
+                                  pInputText
+                                  />
+                                
+                            </span>
+                            
+                        </div>
+                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                            <label>Minimum Order Value*</label>
+                            <span class="p-input-icon-left p-float-label" style="width: 100%">
+                                <input type="text" step="5000" min="0"  class="w-full" [(ngModel)] = "voucherModel.minimumOrderValue"
+                                  pInputText
+                                  />
+                               
+                            </span>
+                            
+                        </div>
+                    </ng-container>
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <label>Effective Date*</label>
+                        <span class="p-input-icon-left p-float-label" style="width: 100%">
+                            <input type="datetime-local" step="5000" min="0"  class="w-full" [(ngModel)] = "voucherModel.effectiveDate"
+                                  pInputText
+                                  />
+                                 
+                        </span>
+                        
+                    </div>
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <label>Expire Date*</label>
+                        <span class="p-input-icon-left p-float-label" style="width: 100%">
+                            <input type="datetime-local" step="5000" min="0"  class="w-full" [(ngModel)] = "voucherModel.expireDate"
+                                  pInputText
+                                  />
+                        </span>
+                        
+                    </div>
+                    
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <label>Status*</label>
+                        <span  style="display: flex;">
+                          <div  class="col-3" style="display: flex; align-items: center;">
+                            <input type="radio"
+                                   class="w-full"
+                                   [(ngModel)]="voucherModel.status"
+                                    
+                                   name="status"
+                                   value="1"
+                                   id="display" />
+                            <label for="genderMale" style="margin-left: 10px;">Display</label>
+                          </div>
+                          <div class="col-3" style="display: flex; align-items: center;">
+                            <input type="radio"
+                                   class="w-full"
+                                   [(ngModel)]="voucherModel.status"
+                                   name="status"
+                                   checked
+                                   value="0"
+                                   id="hidden" />
+                            <label for="genderFemale" style="margin-left: 10px;">Hidden</label>
+                          </div>              
+                        </span>
+              
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-center flex-wrap" style="text-align: center">
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Save" icon="pi pi-save"
+                        (click)="onSaveVoucher()"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                        (click)="onCancelVoucher()"class="p-button-danger"
+                        style="width: 100%;"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>
+
+<p-confirmPopup></p-confirmPopup>
+
+<p-confirmDialog key="uhideFood" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<cmis-loading></cmis-loading>
