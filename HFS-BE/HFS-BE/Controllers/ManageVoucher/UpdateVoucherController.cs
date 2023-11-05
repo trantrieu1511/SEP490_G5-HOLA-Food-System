@@ -10,14 +10,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.ManageVoucher
 {
-    [Route("api/[controller]")]
-    [ApiController]
+
     public class UpdateVoucherController : BaseController
     {
         public UpdateVoucherController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
-        [HttpPost("shop/updateVoucher")]
+        [HttpPost("vouchers/updateVoucher")]
         //[Authorize]
 
         public BaseOutputDto UpdateVoucher(UpdateVoucherDaoInput input)
