@@ -1,21 +1,21 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {Table} from "primeng/table";
-import {AppBreadcrumbService} from "../../../../app-systems/app-breadcrumb/app.breadcrumb.service";
-import {Food, Category, FoodInput, FoodDisplayHideInputDto, FoodInputValidation} from "../../models/food.model";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Table } from "primeng/table";
+import { AppBreadcrumbService } from "../../../../app-systems/app-breadcrumb/app.breadcrumb.service";
+import { Food, Category, FoodInput, FoodDisplayHideInputDto, FoodInputValidation } from "../../models/food.model";
 import {
-    iComponentBase,
-    iServiceBase, mType,
-    ShareData,
-    iFunction
+  iComponentBase,
+  iServiceBase, mType,
+  ShareData,
+  iFunction
 } from 'src/app/modules/shared-module/shared-module';
 import * as API from "../../../../services/apiURL";
 import {
-    ConfirmationService,
-    LazyLoadEvent,
-    MenuItem,
-    MessageService,
-    SelectItem,
-    TreeNode
+  ConfirmationService,
+  LazyLoadEvent,
+  MenuItem,
+  MessageService,
+  SelectItem,
+  TreeNode
 } from "primeng/api";
 import { FileRemoveEvent, FileSelectEvent, FileUpload } from 'primeng/fileupload';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
@@ -51,7 +51,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
 
   foodForm: FormGroup;
 
-  foodValidation : FoodInputValidation = new FoodInputValidation();
+  foodValidation: FoodInputValidation = new FoodInputValidation();
 
   constructor(public breadcrumbService: AppBreadcrumbService,
               private shareData: ShareData,
@@ -88,7 +88,8 @@ debugger;
       this.presence.createHubConnection(token);
     }
   }
-  async getAllCategory(){
+
+  async getAllCategory() {
     // try {
     //     this.loading = true;
 
@@ -104,8 +105,8 @@ debugger;
     // }
 
     this.lstCategory = [
-        {name: 'Food', categoryId: 1},
-        {name: 'Drink', categoryId: 2}
+      { name: 'Food', categoryId: 1 },
+      { name: 'Drink', categoryId: 2 }
     ];
   }
 
@@ -113,20 +114,20 @@ debugger;
     this.lstFood = [];
     this.uploadedFiles = [];
     try {
-        this.loading = true;
+      this.loading = true;
 
-        let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.GET_FOOD_SELLER);
+      // let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.GET_FOOD_SELLER);
+      let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.GET_FOOD);
 
-        if (response && response.message === "Success") {
-            this.lstFood = response.foods;
-        }
-        this.loading = false;
+      if (response && response.message === "Success") {
+        this.lstFood = response.foods;
+        console.log(this.lstFood);
+      }
+      this.loading = false;
     } catch (e) {
-        console.log(e);
-        this.loading = false;
+      console.log(e);
+      this.loading = false;
     }
-
-
   }
 
   bindingDataFoodModel(): FoodInput {
@@ -152,15 +153,17 @@ debugger;
   }
 
   onCreateFood() {
-      this.headerDialog = 'Add New Food';
+    this.headerDialog = 'Add New Food';
 
       this.uploadedFiles = [];
 
       this.foodModel = new Food();
 
-      this.selectedCategory = null;
+    this.foodModel = new Food();
 
-      this.displayDialogEditAddFood = true;
+    this.selectedCategory = null;
+
+    this.displayDialogEditAddFood = true;
   }
 
   onUpdateFood(food: Food) {
@@ -226,43 +229,43 @@ debugger;
     if (this.validateFoodModel()) {
       document.body.style.cursor = 'wait';
       if (foodEntity && foodEntity.foodId && foodEntity.foodId > 0) {
-          this.updateFood(foodEntity);
+        this.updateFood(foodEntity);
       } else {
-          this.createFood(foodEntity);
+        this.createFood(foodEntity);
       }
     }
   }
 
   onCancelFood() {
-      this.foodModel = new Food();
+    this.foodModel = new Food();
 
-      this.displayDialogEditAddFood = false;
+    this.displayDialogEditAddFood = false;
   }
 
   validateFoodModel(): boolean {
-      // if (!this.roleModel.roleKey || this.roleModel.roleKey == '') {
-      //     this.showMessage(mType.warn, "Thông báo", "Mã phân quyền không được để trống. Vui lòng nhập!", 'notify');
-      //     return false;
-      // }
-      var check = true;
-      this.foodValidation = new FoodInputValidation();
-      if(!this.foodModel.name || this.foodModel.name == ''){
-        this.foodValidation.isNameValid = false;
-        this.foodValidation.nameMessage = "Food name can not empty";
-        check = false;
-      }
+    // if (!this.roleModel.roleKey || this.roleModel.roleKey == '') {
+    //     this.showMessage(mType.warn, "Thông báo", "Mã phân quyền không được để trống. Vui lòng nhập!", 'notify');
+    //     return false;
+    // }
+    var check = true;
+    this.foodValidation = new FoodInputValidation();
+    if (!this.foodModel.name || this.foodModel.name == '') {
+      this.foodValidation.isNameValid = false;
+      this.foodValidation.nameMessage = "Food name can not empty";
+      check = false;
+    }
 
-      if(!this.foodModel.unitPrice || this.foodModel.unitPrice == ''){
-        this.foodValidation.isUnitPriceValid = false;
-        this.foodValidation.unitPriceMessage = "UnitPrice can not empty";
-        check = false;
-      }
+    if (!this.foodModel.unitPrice || this.foodModel.unitPrice == '') {
+      this.foodValidation.isUnitPriceValid = false;
+      this.foodValidation.unitPriceMessage = "UnitPrice can not empty";
+      check = false;
+    }
 
-      if(parseInt(this.foodModel.unitPrice) < 0){
-        this.foodValidation.isUnitPriceValid = false;
-        this.foodValidation.unitPriceMessage = "UnitPrice must be >= 0";
-        check = false;
-      }
+    if (parseInt(this.foodModel.unitPrice) < 0) {
+      this.foodValidation.isUnitPriceValid = false;
+      this.foodValidation.unitPriceMessage = "UnitPrice must be >= 0";
+      check = false;
+    }
 
       if(!this.foodModel.description || this.foodModel.description == ''){
         this.foodValidation.isDescriptionValid = false;
@@ -277,76 +280,83 @@ debugger;
       }
 
 
-      return check;
+    if (!this.foodModel.categoryId || this.foodModel.categoryId < 1) {
+      this.foodValidation.isCategoryIdValid = false;
+      this.foodValidation.categoryIdMessage = "Category must be choose";
+      check = false;
+    }
+
+
+    return check;
   }
 
   async createFood(foodEnity: FoodInput) {
-        const param = new FormData();
+    const param = new FormData();
 
-        this.uploadedFiles.forEach(file => {
-          param.append('images', file, file.name);
-        });
+    this.uploadedFiles.forEach(file => {
+      param.append('images', file, file.name);
+    });
 
-        Object.keys(foodEnity).forEach(function(key) {
-          param.append(key, foodEnity[key]);
-        });
-        const response = await this.iServiceBase
-          .postDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.ADD_FOOD, param, true);
-        //console.log(response);
-        if(response && response.message === "Success"){
-          this.showMessage(mType.success, "Notification", "New food added successfully", 'notify');
+    Object.keys(foodEnity).forEach(function (key) {
+      param.append(key, foodEnity[key]);
+    });
+    const response = await this.iServiceBase
+      .postDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.ADD_FOOD, param, true);
+    //console.log(response);
+    if (response && response.message === "Success") {
+      this.showMessage(mType.success, "Notification", "New food added successfully", 'notify');
 
-          this.displayDialogEditAddFood = false;
+      this.displayDialogEditAddFood = false;
 
           //lấy lại danh sách All
           this.getAllFood();
 
-          //Clear model đã tạo
-          this.foodModel = new Food();
-          //clear file upload too =))
-          this.uploadedFiles = [];
-        }else{
-          var messageError = this.iServiceBase.formatMessageError(response);
-          console.log(messageError);
-          this.showMessage(mType.error, response.message, messageError, 'notify');
-        }
+      //Clear model đã tạo
+      this.foodModel = new Food();
+      //clear file upload too =))
+      this.uploadedFiles = [];
+    } else {
+      var messageError = this.iServiceBase.formatMessageError(response);
+      console.log(messageError);
+      this.showMessage(mType.error, response.message, messageError, 'notify');
+    }
   }
 
   async updateFood(foodEnity) {
-      try {
-        const param = new FormData();
+    try {
+      const param = new FormData();
 
-        this.uploadedFiles.forEach(file => {
-          param.append('images', file, file.name);
-        });
+      this.uploadedFiles.forEach(file => {
+        param.append('images', file, file.name);
+      });
 
-        Object.keys(foodEnity).forEach(function(key) {
-          param.append(key, foodEnity[key]);
-        });
+      Object.keys(foodEnity).forEach(function (key) {
+        param.append(key, foodEnity[key]);
+      });
 
-        let response = await this.iServiceBase
-            .putDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.UPDATE_FOOD, param, true);
+      let response = await this.iServiceBase
+        .putDataAsync(API.PHAN_HE.FOOD, API.API_FOOD.UPDATE_FOOD, param, true);
 
-        if (response && response.message === "Success") {
-          this.showMessage(mType.success, "Notification"
-            , "New food updated successfully", 'notify');
+      if (response && response.message === "Success") {
+        this.showMessage(mType.success, "Notification"
+          , "New food updated successfully", 'notify');
 
-          this.displayDialogEditAddFood = false;
+        this.displayDialogEditAddFood = false;
 
           //lấy lại danh sách All
           this.getAllFood();
 
-          //Clear model đã tạo
-          this.foodModel = new Food();
-          //clear file upload too =))
-          this.uploadedFiles = [];
-        } else {
-          var messageError = this.iServiceBase.formatMessageError(response)
-          this.showMessage(mType.error, response.message, messageError, 'notify');
-        }
-      } catch (e) {
-          console.log(e);
+        //Clear model đã tạo
+        this.foodModel = new Food();
+        //clear file upload too =))
+        this.uploadedFiles = [];
+      } else {
+        var messageError = this.iServiceBase.formatMessageError(response)
+        this.showMessage(mType.error, response.message, messageError, 'notify');
       }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   async deleteFood(foodEnity: Food, type: boolean) {
@@ -369,15 +379,15 @@ debugger;
 
       } else {
         var messageError = this.iServiceBase.formatMessageError(response);
-          console.log(messageError);
-          this.showMessage(mType.error, response.message, messageError, 'notify');
+        console.log(messageError);
+        this.showMessage(mType.error, response.message, messageError, 'notify');
       }
     } catch (e) {
       console.log(e);
     }
   }
 
-  viewContentDetail(food: Food){
+  viewContentDetail(food: Food) {
     this.contentDialog = food.description;
     this.visibleDescriptionDialog = true;
   }
@@ -397,7 +407,7 @@ debugger;
     }
   }
 
-  handleFileSelection(event :  FileSelectEvent) {
+  handleFileSelection(event: FileSelectEvent) {
     //console.log("select", event);
 
     this.uploadedFiles = event.currentFiles;
@@ -406,26 +416,26 @@ debugger;
     //console.log("uploadFiles", this.uploadedFiles);
   }
 
-  handleFileRemoval(event :  FileRemoveEvent){
+  handleFileRemoval(event: FileRemoveEvent) {
     //console.log("remove", event.file.name);
 
     this.uploadedFiles = this.uploadedFiles.filter(f => f.name !== event.file.name);
     //console.log("uploadFiles", this.uploadedFiles);
   }
 
-  handleAllFilesClear(event :  Event){
+  handleAllFilesClear(event: Event) {
     //console.log("clear", event);
 
     this.uploadedFiles = [];
     //console.log("uploadFiles", this.uploadedFiles);
   }
 
-  onDisplayImagesDialog(food: Food, event: any){
+  onDisplayImagesDialog(food: Food, event: any) {
     this.foodImageDialog = food;
     this.visibleImageDialog = true;
   }
 
-  onHideDialogEditAdd(){
+  onHideDialogEditAdd() {
     this.uploadedFiles = [];
   }
 }

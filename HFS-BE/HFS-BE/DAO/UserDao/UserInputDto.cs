@@ -20,4 +20,9 @@ namespace HFS_BE.DAO.UserDao
     {
         public string? UserId { get; set; }
     }
+
+    public class GetAddressInfoInputDto
+    {
+        public string? UserId { get; set; }
+    }
 }

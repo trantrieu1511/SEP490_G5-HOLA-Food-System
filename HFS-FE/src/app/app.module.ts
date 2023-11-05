@@ -42,6 +42,7 @@ import { ManageCustomerModuleComponent } from './modules/admin-routing-module/ma
 import { ManagePostmoderatorModuleComponent } from './modules/admin-routing-module/manage-postmoderator-module/manage-postmoderator-module.component';
 import { NewsfeedComponent } from './modules/customer-routing-module/components/newsfeed/newsfeed.component';
 import { SellerListComponent } from './seller-list/seller-list.component';
+import { FoodManagementComponent } from './modules/menumoderator-routing-module/components/food-management/food-management.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { SellerListComponent } from './seller-list/seller-list.component';
     ManagePostmoderatorModuleComponent,
     NewsfeedComponent,
     SellerListComponent,
+
 
 
   ],

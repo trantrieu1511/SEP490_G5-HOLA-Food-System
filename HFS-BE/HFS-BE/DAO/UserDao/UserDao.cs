@@ -223,5 +223,29 @@ namespace HFS_BE.DAO.UserDao
                 return this.Output<GetOrderInfoOutputDto>(Constants.ResultCdFail);
             }
         }
+
+        public GetUserAddressDaoOutputDto GetCusAddress(GetAddressInfoInputDto inputDto)
+        {
+            try
+            {
+                var user = this.context.ShipAddresses
+                    .Where(x => x.CustomerId == inputDto.UserId)
+                    .Select(x => new UserAddressDaoOutputDto
+                    {
+                        AddressId = x.AddressId,
+                        AddressInfo = x.AddressInfo,
+                        IsDefaultAddress = x.IsDefaultAddress,
+                    });
+
+                var output = this.Output<GetUserAddressDaoOutputDto>(Constants.ResultCdSuccess);
+                output.ListAddress = user.ToList();
+
+                return output;
+            }
+            catch (Exception)
+            {
+                return this.Output<GetUserAddressDaoOutputDto>(Constants.ResultCdFail);
+            }
+        }
     }
 }

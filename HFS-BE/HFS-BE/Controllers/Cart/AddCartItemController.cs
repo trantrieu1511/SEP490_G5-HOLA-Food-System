@@ -17,6 +17,7 @@ namespace HFS_BE.Controllers.Cart
         }
 
         [HttpPost("cart/addtocart")]
+        [Authorize]
         public BaseOutputDto AddCartItem(AddCartItemInputDto inputDto)
         {
             try

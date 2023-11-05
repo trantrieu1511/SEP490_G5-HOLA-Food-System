@@ -1,0 +1,31 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+
+namespace HFS_BE.Hubs
+{
+    [Authorize]
+    public class NotificationHub : Hub
+    {
+        public override Task OnConnectedAsync()
+        {
+            var userId = TokenQuerySignalR.GetSingleton().GetUserId(Context);
+            if (userId == null)
+            {
+                throw new HubException("Connection failed: Unauthorized");
+            }
+            Groups.AddToGroupAsync(Context.ConnectionId, userId);
+            return base.OnConnectedAsync();
+        }
+
+        public override Task OnDisconnectedAsync(Exception? exception)
+        {
+            var userId = TokenQuerySignalR.GetSingleton().GetUserId(Context);
+            if (userId == null)
+            {
+                throw new HubException("Disconnection failed: Unauthorized");
+            }
+            Groups.RemoveFromGroupAsync(Context.ConnectionId, userId);
+            return base.OnDisconnectedAsync(exception);
+        }
+    }
+}

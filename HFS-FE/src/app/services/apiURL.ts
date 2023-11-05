@@ -82,9 +82,10 @@ export class API_VOUCHER {
 export class API_POST{
     public static ADD_POST_SELLER = "addPostSeller";
     public static UPDATE_POST = "updatePost";
-    public static GET_POST_SELLER = "getPostsSeller";
-    public static GET_POST = "getPosts"; // Ong post mod va seller dung chung. Em dang phan quyen not cho no - Trieu
+    // public static GET_POST_SELLER = "getPostsSeller";
+    public static GET_POST = "getPosts"; // Ong post mod va seller dung chung. Em phan quyen cho no r - Trieu
     public static ENABLE_DISABLE_SELLER = "enableDisableSeller";
+    public static BAN_UNBAN = "banunban";
 }
 
 export class API_HOME{
@@ -93,6 +94,7 @@ export class API_HOME{
 
 export class API_SHOP_DETAIL{
     public static DISPLAY_MENU = "foods";
+    public static DISPLAY_INFOR = "shopinfor";
 }
 
 export class API_CART{
@@ -105,12 +107,15 @@ export class API_CART{
 export class API_FOOD{
     public static ADD_FOOD = "addNewFood";
     public static UPDATE_FOOD = "updateFood";
-    public static GET_FOOD_SELLER = "getFoodsSeller";
+    // public static GET_FOOD_SELLER = "getFoodsSeller";
+    public static GET_FOOD = "getFoods"; // Danh cho ca seller va menu mod. Em de dieu kien cho cai api roi - Trieu
     public static ENABLE_DISABLE = "enableDisable";
+    public static BAN_UNBAN = "banunban";
 }
 
 export class API_CHECKOUT{
     public static CREATE_ORDER = "createorder";
+    public static GET_ADDRESS = "address";
 }
 
 export class API_HUB{

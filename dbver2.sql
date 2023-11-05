@@ -232,21 +232,9 @@ CREATE TABLE [dbo].[Notification](
 	[sendBy] [nvarchar](50) null,
 	[receiver] [nvarchar](50) null,
 	[typeId] [int] NOT NULL,
-	[content] [nvarchar](max) NULL,
-	[createDate] [datetime] NULL,
-	Foreign Key ([sendBy]) REFERENCES [Customer](customerId),
-	Foreign Key ([sendBy]) REFERENCES [Seller](sellerId),
-	Foreign Key ([sendBy]) REFERENCES [Admin](adminId),
-	Foreign Key ([sendBy]) REFERENCES [Shipper](shipperId),
-	Foreign Key ([sendBy]) REFERENCES [MenuModerator](modId),
-	Foreign Key ([sendBy]) REFERENCES [PostModerator](modId),
-	Foreign Key ([receiver]) REFERENCES [Customer](customerId),
-	Foreign Key ([receiver]) REFERENCES [Seller](sellerId),
-	Foreign Key ([receiver]) REFERENCES [Admin](adminId),
-	Foreign Key ([receiver]) REFERENCES [Shipper](shipperId),
-	Foreign Key ([receiver]) REFERENCES [MenuModerator](modId),
-	Foreign Key ([receiver]) REFERENCES [PostModerator](modId),
-	Foreign Key ([typeId]) REFERENCES [notificationtype](id),
+	[title] [nvarchar](50) NULL,
+	[content] [nvarchar](500) NULL,
+	[createDate] [datetime] NULL
 PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
@@ -424,7 +412,7 @@ GO
 CREATE TABLE [dbo].[Post](
 	[postId] [int] IDENTITY(1,1) NOT NULL,
 	[sellerId] [nvarchar](50) NOT NULL,
-	[postContent] [nvarchar](max) NULL,
+	[postContent] [nvarchar](1500) NULL,
 	[createdDate] [datetime] NULL,
 	[status] [tinyint] NULL,
 	Foreign Key ([sellerId]) REFERENCES [Seller](SellerId),

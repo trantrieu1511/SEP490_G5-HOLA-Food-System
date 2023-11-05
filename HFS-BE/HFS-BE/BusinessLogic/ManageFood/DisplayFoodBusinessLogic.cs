@@ -17,7 +17,7 @@ namespace HFS_BE.BusinessLogic.ManageFood
         }
 
 
-        public ListFoodOutputSellerDto ListFoods(Utils.UserDto userDto)
+        public ListFoodOutputSellerDto ListFoods(UserDto userDto)
         {
             try
             {
@@ -31,7 +31,19 @@ namespace HFS_BE.BusinessLogic.ManageFood
 
                 var dao = this.CreateDao<FoodDao>();
 
-                var daoOutput = dao.GetAllFoodSeller(userDto);
+                // Divide into 2 cases: Seller, menu moderator
+                string? userRole = userDto.UserId.Substring(0, 2);
+                Dao.FoodDao.ListFoodOutputSellerDto daoOutput = null;
+                switch (userRole)
+                {
+                    case "SE":
+                        daoOutput = dao.GetAllFoodSeller(userDto);
+                        break;
+                    case "MM":
+                        daoOutput = dao.GetAllFoodMenuModerator();
+                        break;
+                }
+
                 var outputBL = mapper.Map<Dao.FoodDao.ListFoodOutputSellerDto, ListFoodOutputSellerDto>(daoOutput);
 
                 foreach (var food in daoOutput.Foods)
@@ -43,11 +55,20 @@ namespace HFS_BE.BusinessLogic.ManageFood
                     {
                         continue;
                     }
-                    
+
                     foreach (var img in food.Images)
                     {
-                        // convert to base64
-                        var imageInfor = ImageFileConvert.ConvertFileToBase64(userDto.UserId, img.Path, 1);
+                        ImageFileConvert.ImageOutputDto? imageInfor = null;
+                        // convert to base64 with 2 cases
+                        switch (userRole)
+                        {
+                            case "SE":
+                                imageInfor = ImageFileConvert.ConvertFileToBase64(userDto.UserId, img.Path, 1);
+                                break;
+                            case "MM":
+                                imageInfor = ImageFileConvert.ConvertFileToBase64(food.SellerId, img.Path, 1);
+                                break;
+                        }
                         if (imageInfor == null)
                             continue;
                         var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, FoodImageOutputSellerDto>(imageInfor);
