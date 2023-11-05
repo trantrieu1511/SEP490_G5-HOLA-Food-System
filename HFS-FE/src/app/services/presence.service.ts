@@ -17,6 +17,10 @@ export class PresenceService {
   onlineUsers$ = this.onlineUsersSource.asObservable();
   private offlineUsersSource = new BehaviorSubject<Seller[]>([]);
   offlineUsers$ = this.offlineUsersSource.asObservable();
+  private onlineUsersSourcecus = new BehaviorSubject<Seller[]>([]);
+  onlineUserscus$ = this.onlineUsersSourcecus.asObservable();
+  private offlineUsersSourcecus = new BehaviorSubject<Seller[]>([]);
+  offlineUserscus$ = this.offlineUsersSourcecus.asObservable();
   constructor( private router: Router) { }
 
   createHubConnection(token: string) {
@@ -39,22 +43,23 @@ export class PresenceService {
 
       this.hubConnection.on('UserIsOnline', (username: Seller) => {
         debugger;
-        this.onlineUsers$.pipe(take(1)).subscribe(usernames => {
-          this.onlineUsersSource.next([...usernames, username])
-        })
-         this.offlineUsers$.pipe(take(1)).subscribe(usernames => {
-          this.offlineUsersSource.next([...usernames.filter(x => x.email !== username.email)])
 
+         this.offlineUserscus$.pipe(take(1)).subscribe(usernames => {
+          this.offlineUsersSourcecus.next([...usernames.filter(x => x.email !== username.email)])
+
+        })
+        this.onlineUserscus$.pipe(take(1)).subscribe(usernames => {
+          this.onlineUsersSourcecus.next([...usernames, username])
         })
         console.log(username.lastName+ ' has connect')
       })
       this.hubConnection.on('UserIsOffline', (username: Seller) => {
-        this.onlineUsers$.pipe(take(1)).subscribe(usernames => {
-          this.onlineUsersSource.next([...usernames.filter(x => x.email !== username.email)])
+        this.onlineUserscus$.pipe(take(1)).subscribe(usernames => {
+          this.onlineUsersSourcecus.next([...usernames.filter(x => x.email !== username.email)])
 
         })
-         this.offlineUsers$.pipe(take(1)).subscribe(usernames => {
-          this.offlineUsersSource.next([...usernames,username])
+         this.offlineUserscus$.pipe(take(1)).subscribe(usernames => {
+          this.offlineUsersSourcecus.next([...usernames,username])
 
         })
         console.log(username.lastName + ' disconnect')
@@ -72,6 +77,12 @@ export class PresenceService {
         debugger;
         this.onlineUsersSource.next(onlineUsers);
         this.offlineUsersSource.next(offlineUsers);
+      });
+      this.hubConnection.on('GetOnlineAndOfflineUsersCUS', (onlineUsers: Seller[], offlineUsers: Seller[]) => {
+        // Xử lý danh sách người dùng trực tuyến (onlineUsers) và người dùng offline (offlineUsers) ở đây
+        debugger;
+        this.offlineUsersSourcecus.next(onlineUsers);
+        this.offlineUsersSourcecus.next(offlineUsers);
       });
 }
 

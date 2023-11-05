@@ -16,6 +16,8 @@ namespace HFS_BE.Hubs
 		private readonly SellerDao sellerDao;
 		private List<SellerDtoOutput> usersOnline = new List<SellerDtoOutput>();
 		private List<SellerDtoOutput> usersOffline = new List<SellerDtoOutput>();
+		private List<SellerDtoOutput> usersOnlineCUS = new List<SellerDtoOutput>();
+		private List<SellerDtoOutput> usersOfflineCUS = new List<SellerDtoOutput>();
 		public PresenceHub(PresenceTracker tracker, SellerDao sellerDao)
 		{
 			_tracker = tracker;
@@ -25,23 +27,34 @@ namespace HFS_BE.Hubs
 		public override async Task OnConnectedAsync()
 		{
 			var username = Context.User.GetEmail();
-		
-			//var username = Context.User.FindFirstValue(ClaimTypes.Email);
-			var isOnline = await _tracker.UserConnected(username, Context.ConnectionId);
-			if (isOnline)
+		   var role = Context.User.FindFirst(c => c.Type == ClaimTypes.Role)?.Value;
+			if (role == "CU")
 			{
-
-				var user = await sellerDao.GetSellersAsync(username);
-				await Clients.Others.SendAsync("UserIsOnline", user);
-
-
-
 				var currentUsers = await _tracker.GetOnlineUsers();
-				usersOnline = await sellerDao.GetUsersOnlineAsync(username, currentUsers);
-				usersOffline = await sellerDao.GetUsersOfflineAsync(username, usersOnline);
-			
-				await Clients.Caller.SendAsync("GetOnlineAndOfflineUsers", usersOnline, usersOffline);
+				usersOnlineCUS = await sellerDao.GetUsersOnlineCustomerAsync(currentUsers);
+				usersOfflineCUS = await sellerDao.GetUsersOfflineCustomerAsync(usersOnline);
+				await Clients.All.SendAsync("GetOnlineAndOfflineUsersCUS", usersOnlineCUS, usersOfflineCUS);
 			}
+			else
+			{
+				var isOnline = await _tracker.UserConnected(username, Context.ConnectionId);
+				if (isOnline)
+				{
+
+					var user = await sellerDao.GetSellersAsync(username);
+					await Clients.All.SendAsync("UserIsOnline", user);
+
+
+
+					var currentUsers = await _tracker.GetOnlineUsers();
+					usersOnline = await sellerDao.GetUsersOnlineAsync(username, currentUsers);
+					usersOffline = await sellerDao.GetUsersOfflineAsync(username, usersOnline);
+
+					await Clients.All.SendAsync("GetOnlineAndOfflineUsers", usersOnline, usersOffline);
+				}
+			}
+			//var username = Context.User.FindFirstValue(ClaimTypes.Email);
+			
 		}
 		public override async Task OnDisconnectedAsync(Exception exception)
 		{
@@ -51,7 +64,7 @@ namespace HFS_BE.Hubs
 			if (isOffline)
 			{
 				var user = await sellerDao.GetSellersAsync(username);
-				await Clients.Others.SendAsync("UserIsOffline", user);
+				await Clients.All.SendAsync("UserIsOffline", user);
 
 				usersOnline.Remove(user); // Xóa người dùng khỏi danh sách usersOnline
 				usersOffline.Add(user);

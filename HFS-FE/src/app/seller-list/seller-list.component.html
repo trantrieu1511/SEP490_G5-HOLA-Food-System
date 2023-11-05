@@ -5,7 +5,7 @@
   </div>
   <div class="card-body">
       <ul id="contact" style="padding-left: 0px;">
-          <li class="pd-contact" *ngFor="let item of (presence.onlineUsers$ | async)" (click)="selectUser(item)">
+          <li class="pd-contact" *ngFor="let item of (presence.onlineUserscus$ | async)" (click)="selectUser(item)">
               <div class="d-flex">
                   <div class="mr" style="position: relative;">
                       <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
@@ -20,7 +20,7 @@
                   </div>
               </div>
           </li>
-          <li class="pd-contact" *ngFor="let item1 of (presence.offlineUsers$ | async)" (click)="selectUser(item1)">
+          <li class="pd-contact" *ngFor="let item1 of (presence.offlineUserscus$ | async)" (click)="selectUser(item1)">
             <div class="d-flex">
                 <div class="mr" style="position: relative;">
                     <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
