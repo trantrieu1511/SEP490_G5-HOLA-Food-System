@@ -23,7 +23,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
 
                 var output = dao.OrderOfShipper(inputDto);
                 var ouputMapper = mapper.Map<Dao.OrderDao.OrderByShipperDaoOutputDto, OrderByShipperBLOutputDto>(output);
-
+                
                 foreach (var order in output.Orders)
                 {
                     var indexOrder = output.Orders.IndexOf(order);
@@ -37,6 +37,18 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                         ouputMapper.Orders[indexOrder].OrderDetails[indexDetail].ImageBase64 = imageMapper;
 
                     }
+
+                    //lay last orderprogress
+                    var lastOP = order.OrderProgress.OrderBy(x => x.CreateDate).AsQueryable().Last();
+                    var indexProgressCompleted = order.OrderProgress.IndexOf(lastOP);
+                    if (lastOP.Status != 4)
+                        continue;
+                    //lastOP.Image -> base64
+                    var imgProgressBase64 = ImageFileConvert.ConvertFileToBase64(order.Status, lastOP.Image, 4);
+                    if (imgProgressBase64 == null)
+                        continue;
+                    var imgProgressMapper = mapper.Map<ImageFileConvert.ImageOutputDto, ImageFoodOutputDto>(imgProgressBase64);
+                    ouputMapper.Orders[indexOrder].OrderProgress[indexProgressCompleted].ImageBase64 = imgProgressMapper;
                 }
 
                 return ouputMapper;

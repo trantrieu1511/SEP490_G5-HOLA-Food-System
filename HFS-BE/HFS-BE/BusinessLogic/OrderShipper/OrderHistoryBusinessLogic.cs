@@ -19,20 +19,24 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                 var dao = this.CreateDao<OrderDao>();
 
                 var output = dao.OrderHistory(inputDto);
-                var ouputMapper = mapper.Map<Dao.OrderDao.OrderHistoryDaoOutputDto, OrderByShipperBLOutputDto>(output);
 
-                foreach (var order in output.Orders)
+                var ouputMapper = new OrderByShipperBLOutputDto();
+                if (output.Orders.Count > 0)
                 {
-                    var indexOrder = output.Orders.IndexOf(order);
-                    foreach (var detail in order.OrderDetails)
+                    ouputMapper = mapper.Map<Dao.OrderDao.OrderHistoryDaoOutputDto, OrderByShipperBLOutputDto>(output);
+                    foreach (var order in output.Orders)
                     {
-                        var imageInfor = ImageFileConvert.ConvertFileToBase64(detail.SellerId, detail.Image, 1);
-                        if (imageInfor == null)
-                            continue;
-                        var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, ImageFoodOutputDto>(imageInfor);
-                        var indexDetail = order.OrderDetails.IndexOf(detail);
-                        ouputMapper.Orders[indexOrder].OrderDetails[indexDetail].ImageBase64 = imageMapper;
+                        var indexOrder = output.Orders.IndexOf(order);
+                        foreach (var detail in order.OrderDetails)
+                        {
+                            var imageInfor = ImageFileConvert.ConvertFileToBase64(detail.SellerId, detail.Image, 1);
+                            if (imageInfor == null)
+                                continue;
+                            var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, ImageFoodOutputDto>(imageInfor);
+                            var indexDetail = order.OrderDetails.IndexOf(detail);
+                            ouputMapper.Orders[indexOrder].OrderDetails[indexDetail].ImageBase64 = imageMapper;
 
+                        }
                     }
                 }
 
