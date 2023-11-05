@@ -18,6 +18,7 @@ namespace HFS_BE.Dao.OrderDao
         public string? Status { get; set; }
 
         public List<OrderDetailDto> OrderDetails { get; set; }
+        public List<OrderProgressDto>? OrderProgress { get; set; }
 
     }
 

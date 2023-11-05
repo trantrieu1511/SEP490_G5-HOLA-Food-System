@@ -18,7 +18,7 @@ namespace HFS_BE.DAO.OrderProgressDao
             {
                 //get orderprogress by inputDto.orderId
                 var data = this.context.OrderProgresses.Where(x=>x.OrderId == inputDto.OrderId).ToList();
-                if(data.Where(x=>x.Status == inputDto.Status) != null)
+                if(data.FirstOrDefault(x=>x.Status == inputDto.Status) != null)
                 {
                     return Output<BaseOutputDto>(Constants.ResultCdFail);
                 }
@@ -30,6 +30,7 @@ namespace HFS_BE.DAO.OrderProgressDao
 
                 inputDto.CreateDate = DateTime.Now; 
                 var order = mapper.Map<OrderProgressDaoInputDto, OrderProgress>(inputDto);
+                order.ShipperId = inputDto.ShipperId;
                 context.OrderProgresses.Add(order);
                 context.SaveChanges();
                 return Output<BaseOutputDto>(Constants.ResultCdSuccess);

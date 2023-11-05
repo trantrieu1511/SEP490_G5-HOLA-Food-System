@@ -100,6 +100,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
       param.append('orderId', order.orderId.toString());
       param.append('status', "3");
       param.append('notes', "dang ship nha");
+      param.append('shipperId', this.userId);
       let response =  await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.SHIPPER, API.API_SHIPPER.CHANGE_STATUS,param);
       if (response && response.message === "Success") {
         this.lstOrderOfShipper = response.orderList;
@@ -112,9 +113,9 @@ export class ShipperComponent extends iComponentBase implements OnInit {
       try {
         this.loading = true;
         this.userId = sessionStorage.getItem('userId');  
-
+        
         const param = {
-            "shipperId":parseInt(this.userId),
+            "shipperId":this.userId,
             
             "Status" : this.activeItem.id == "0" ? true : false,
         };

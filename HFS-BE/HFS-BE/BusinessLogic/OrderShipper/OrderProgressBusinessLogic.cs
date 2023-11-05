@@ -18,6 +18,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
         {
             try
             {
+                inputDto.UserDto.UserId = "SH00000001";
                 string fileNames = null;
                 if (inputDto.Image != null)
                 {
@@ -27,6 +28,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                 var dao = this.CreateDao<OrderProgressDao>();
                 var inputMapper = mapper.Map<OrderProgressBusinessLogicInputDto, DAO.OrderProgressDao.OrderProgressDaoInputDto>(inputDto);
                 inputMapper.Image = fileNames;
+                inputMapper.ShipperId = inputDto.UserDto.UserId;
                 BaseOutputDto baseOutputDto = dao.CreateOrderProgress(inputMapper);
                 return baseOutputDto;
                 
