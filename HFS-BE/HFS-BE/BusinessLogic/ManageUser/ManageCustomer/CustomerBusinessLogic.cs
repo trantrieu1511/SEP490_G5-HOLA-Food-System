@@ -40,5 +40,19 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageCustomer
 				throw;
 			}
 		}
+		public ListHistoryBanCustomer ListHistoryBanCustomer(BanCustomerHistoryDtoInput input)
+		{
+			try
+			{
+				var Dao = this.CreateDao<CustomerDao>();
+				var daooutput = Dao.ListHistoryCustomer(input);
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
 	}
 }

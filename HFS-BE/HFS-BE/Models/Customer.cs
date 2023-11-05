@@ -8,12 +8,13 @@ namespace HFS_BE.Models
         public Customer()
         {
             CartItems = new HashSet<CartItem>();
+            ChatReceivers = new HashSet<Chat>();
+            ChatSenders = new HashSet<Chat>();
+            CustomerBans = new HashSet<CustomerBan>();
             FeedbackReplies = new HashSet<FeedbackReply>();
             FeedbackVotes = new HashSet<FeedbackVote>();
             Feedbacks = new HashSet<Feedback>();
             MenuReports = new HashSet<MenuReport>();
-            NotificationReceiver1s = new HashSet<Notification>();
-            NotificationSendBy1s = new HashSet<Notification>();
             OrderProgresses = new HashSet<OrderProgress>();
             Orders = new HashSet<Order>();
             PostReports = new HashSet<PostReport>();
@@ -36,12 +37,13 @@ namespace HFS_BE.Models
         public bool? IsBanned { get; set; }
 
         public virtual ICollection<CartItem> CartItems { get; set; }
+        public virtual ICollection<Chat> ChatReceivers { get; set; }
+        public virtual ICollection<Chat> ChatSenders { get; set; }
+        public virtual ICollection<CustomerBan> CustomerBans { get; set; }
         public virtual ICollection<FeedbackReply> FeedbackReplies { get; set; }
         public virtual ICollection<FeedbackVote> FeedbackVotes { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual ICollection<MenuReport> MenuReports { get; set; }
-        public virtual ICollection<Notification> NotificationReceiver1s { get; set; }
-        public virtual ICollection<Notification> NotificationSendBy1s { get; set; }
         public virtual ICollection<OrderProgress> OrderProgresses { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<PostReport> PostReports { get; set; }

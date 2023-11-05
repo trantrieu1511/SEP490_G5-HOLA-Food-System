@@ -32,13 +32,17 @@ namespace HFS_BE.DAO.SellerDao
 		{
 			try
 			{
+				SellerBan ban = new SellerBan();
 				var user = this.context.Sellers.FirstOrDefault(s => s.SellerId == input.SellerId);
 				if (user == null)
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Seller is not in data ");
 				}
-				user.IsBanned = input.Ban;
+				ban.SellerId = user.SellerId;
+				ban.Reason = input.Reason;
+				user.IsBanned = input.IsBanned;
 				context.Sellers.Update(user);
+				context.SellerBans.Add(ban);
 				context.SaveChanges();
 				var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 

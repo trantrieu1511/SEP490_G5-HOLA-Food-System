@@ -156,7 +156,7 @@
                       <td >
                         <span class="p-column-title">IsBanned</span>
                         <div *ngIf="user.isBanned" style="color:red;">
-                          Ban
+                         <span class="post-content" (click)="onHistoryBan(user.customerId)">Ban</span>
                         </div>
                         <div *ngIf="!user.isBanned"  style="color:chartreuse;">
                           Not Ban
@@ -165,8 +165,8 @@
                       <td style="text-align: center">
                           <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
                               <div class="flex align-items-center justify-content-center">
-                                  <button pButton pRipple icon="pi pi-ban"
-                                  (click)="BanCustomer(user)"
+                                  <button pButton pRipple  [icon]="user.isBanned ? 'pi pi-lock-open' : 'pi pi-ban'"
+                                  (click)="BanCustomer1(user)"
                                           class="p-button-rounded p-mr-2"></button>
                               </div>
 
@@ -176,15 +176,100 @@
               </ng-template>
               <ng-template pTemplate="emptymessage">
                   <tr>
-                      <td colspan="8">No food yet.</td>
+                      <td colspan="8">No Customer yet.</td>
                   </tr>
               </ng-template>
           </p-table>
       </div>
   </div>
 </div>
+<p-dialog [header]="headerDialog" [(visible)]="displayDialogBan"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '50vw'}"
+          [draggable]="false" [resizable]="false" [maximizable]="true"
+
+          >
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <b>Ban Reason</b>
+                    </div>
+                </p-divider>
+                <div class="grid">
+                  <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                      <span class="p-input-icon-left p-float-label" style="width: 100%">
+                          <input type="hidden" step="5000" min="0"  class="w-full" [(ngModel)]="bancus.customerId"
+                                  pInputText
+                                  />
+
+                      </span>
+                  </div>
+
+                <div class="col-12 mb-2 ">
+                  <span class="p-input-icon-left p-float-label" style="width: 100%">
+                    <textarea class="w-full" rows="10" cols="60"
+                    pInputTextarea
+                    [(ngModel)]="bancus.reason"
+
+                    ></textarea>
+                      <label>Reason*</label>
+                  </span>
+              </div>
 
 
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-center flex-wrap" style="text-align: center">
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Save" icon="pi pi-save"
+                        (click)="onSaveBan()"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                        (click)="onCancelBan()" class="p-button-danger"
+                        style="width: 100%;"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+<p-dialog header="List Ban History"
+    [(visible)]="visiblebanHistoryDialog"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    [maximizable]="true"
+    >
+    <p-table  [value]="listhistoryBan" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="banCustomerId">ID<p-sortIcon field="banCustomerId"></p-sortIcon></th>
+                <th>Reason</th>
+                <th>Create Date</th>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-history>
+            <tr >
+                <td>{{history.banCustomerId}}</td>
+                <td>{{history.reason}}</td>
+                <td>{{history.createDate}}</td>
+
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>
 
 <p-confirmPopup></p-confirmPopup>

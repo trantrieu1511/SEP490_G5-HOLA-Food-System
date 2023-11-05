@@ -31,14 +31,24 @@ namespace HFS_BE.DAO.CustomerDao
 		{
 			try
 			{
+				CustomerBan ban = new CustomerBan();
 				var user = this.context.Customers.FirstOrDefault(s=>s.CustomerId==input.CustomerId);
 				if (user == null)
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Customer is not in data ");
 				}
-				user.IsBanned = input.Ban;
-				context.Customers.Update(user);
-				context.SaveChanges();
+				
+				
+					ban.CustomerId = user.CustomerId;
+					ban.Reason = input.Reason;
+				    ban.CreateDate = DateTime.Now;
+					user.IsBanned = input.IsBanned;
+					context.Customers.Update(user);
+					context.CustomerBans.Add(ban);
+					context.SaveChanges();
+				
+			
+				
 				var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 				
 				return output;
@@ -48,6 +58,24 @@ namespace HFS_BE.DAO.CustomerDao
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
 			}
 		}
+		public ListHistoryBanCustomer ListHistoryCustomer(BanCustomerHistoryDtoInput cusId)
+		{
+			try
+			{
 
+				var user = this.context.CustomerBans.Where(s=>s.CustomerId==cusId.CustomerId).ToList();
+
+				var output = this.Output<ListHistoryBanCustomer>(Constants.ResultCdSuccess);
+				output.data = mapper.Map<List<CustomerBan>, List<BanHistoryCustomerDtoOutput>>(user);
+
+
+
+				return output;
+			}
+			catch (Exception)
+			{
+				return this.Output<ListHistoryBanCustomer>(Constants.ResultCdFail);
+			}
+		}
 	}
 }
