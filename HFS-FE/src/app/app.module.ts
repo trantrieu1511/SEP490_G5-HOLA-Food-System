@@ -43,6 +43,7 @@ import { ManagePostmoderatorModuleComponent } from './modules/admin-routing-modu
 import { NewsfeedComponent } from './modules/customer-routing-module/components/newsfeed/newsfeed.component';
 import { FoodManagementComponent } from './modules/menumoderator-routing-module/components/food-management/food-management.component';
 import { VoucherManagementComponent } from './modules/seller-routing-module/components/voucher-management/voucher-management.component';
+import { ProfileManagementComponent } from './modules/seller-routing-module/components/profile-management/profile-management.component';
 
 @NgModule({
   declarations: [
@@ -66,8 +67,8 @@ import { VoucherManagementComponent } from './modules/seller-routing-module/comp
     ManagePostmoderatorModuleComponent,
     NewsfeedComponent,
     VoucherManagementComponent,
-
-
+    ProfileManagementComponent
+    
   ],
   imports: [
     BrowserModule,

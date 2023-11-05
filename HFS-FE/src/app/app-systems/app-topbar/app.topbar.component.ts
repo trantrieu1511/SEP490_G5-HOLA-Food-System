@@ -79,7 +79,9 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         }
     }
 
-
+    viewProfile(){
+        this.router.navigateByUrl('HFSBusiness');
+    }
 
     ngOnInit() {
 
