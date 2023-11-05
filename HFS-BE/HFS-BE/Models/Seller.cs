@@ -7,13 +7,14 @@ namespace HFS_BE.Models
     {
         public Seller()
         {
+            ChatReceiverNavigations = new HashSet<Chat>();
+            ChatSenderNavigations = new HashSet<Chat>();
             FeedbackReplies = new HashSet<FeedbackReply>();
             Foods = new HashSet<Food>();
-            NotificationReceiver4s = new HashSet<Notification>();
-            NotificationSendBy4s = new HashSet<Notification>();
             OrderProgresses = new HashSet<OrderProgress>();
             Orders = new HashSet<Order>();
             Posts = new HashSet<Post>();
+            SellerBans = new HashSet<SellerBan>();
             Shippers = new HashSet<Shipper>();
             Vouchers = new HashSet<Voucher>();
         }
@@ -36,13 +37,14 @@ namespace HFS_BE.Models
         public bool? IsBanned { get; set; }
         public bool? IsVerified { get; set; }
 
+        public virtual ICollection<Chat> ChatReceiverNavigations { get; set; }
+        public virtual ICollection<Chat> ChatSenderNavigations { get; set; }
         public virtual ICollection<FeedbackReply> FeedbackReplies { get; set; }
         public virtual ICollection<Food> Foods { get; set; }
-        public virtual ICollection<Notification> NotificationReceiver4s { get; set; }
-        public virtual ICollection<Notification> NotificationSendBy4s { get; set; }
         public virtual ICollection<OrderProgress> OrderProgresses { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<SellerBan> SellerBans { get; set; }
         public virtual ICollection<Shipper> Shippers { get; set; }
         public virtual ICollection<Voucher> Vouchers { get; set; }
     }

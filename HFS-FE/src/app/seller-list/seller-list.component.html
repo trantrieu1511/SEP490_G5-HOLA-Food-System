@@ -1,0 +1,44 @@
+<div class="card friend-list">
+  <div class="card-header">
+      <h4 class="text-primary">Seller list</h4>
+
+  </div>
+  <div class="card-body">
+      <ul id="contact" style="padding-left: 0px;">
+          <li class="pd-contact" *ngFor="let item of (presence.onlineUserscus$ | async)" (click)="selectUser(item)">
+              <div class="d-flex">
+                  <div class="mr" style="position: relative;">
+                      <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
+                      <!-- <span class="badge label-u label-danger">3</span> -->
+                  </div>
+                  <div>
+                      <div class="displayName">{{item.email}}</div>
+
+                      <div class="label"  class="online">
+                       Online
+                      </div>
+                  </div>
+              </div>
+          </li>
+          <li class="pd-contact" *ngFor="let item1 of (presence.offlineUserscus$ | async)" (click)="selectUser(item1)">
+            <div class="d-flex">
+                <div class="mr" style="position: relative;">
+                    <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
+                    <!-- <span class="badge label-u label-danger">3</span> -->
+                </div>
+                <div>
+                    <div class="displayName">{{item1.email}}</div>
+
+                    <div class="label" class="offline">
+                     Offline
+                    </div>
+                </div>
+            </div>
+        </li>
+      </ul>
+  </div>
+  <div class="card-footer">
+      <div class="text-success text-center">{{dataUser.length}} online</div>
+  </div>
+</div>
+

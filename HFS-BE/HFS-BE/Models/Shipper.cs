@@ -7,8 +7,6 @@ namespace HFS_BE.Models
     {
         public Shipper()
         {
-            NotificationReceiver5s = new HashSet<Notification>();
-            NotificationSendBy5s = new HashSet<Notification>();
             OrderProgresses = new HashSet<OrderProgress>();
             Orders = new HashSet<Order>();
         }
@@ -30,8 +28,6 @@ namespace HFS_BE.Models
         public bool? IsVerified { get; set; }
 
         public virtual Seller? ManageByNavigation { get; set; }
-        public virtual ICollection<Notification> NotificationReceiver5s { get; set; }
-        public virtual ICollection<Notification> NotificationSendBy5s { get; set; }
         public virtual ICollection<OrderProgress> OrderProgresses { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
     }

@@ -8,8 +8,6 @@ namespace HFS_BE.Models
         public MenuModerator()
         {
             MenuReports = new HashSet<MenuReport>();
-            NotificationReceiver2s = new HashSet<Notification>();
-            NotificationSendBy2s = new HashSet<Notification>();
         }
 
         public string ModId { get; set; } = null!;
@@ -27,7 +25,5 @@ namespace HFS_BE.Models
         public bool? IsBanned { get; set; }
 
         public virtual ICollection<MenuReport> MenuReports { get; set; }
-        public virtual ICollection<Notification> NotificationReceiver2s { get; set; }
-        public virtual ICollection<Notification> NotificationSendBy2s { get; set; }
     }
 }

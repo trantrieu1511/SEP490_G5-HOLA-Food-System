@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import * as API from "../../../services/apiURL";
 import { Customer } from '../models/Customer';
+import { BanCustomer, HistoryBanCustomer } from '../models/BanCustomer';
 
 @Component({
   selector: 'app-manage-customer-module',
@@ -18,8 +19,12 @@ import { Customer } from '../models/Customer';
 })
 export class ManageCustomerModuleComponent extends iComponentBase implements OnInit {
   lstUser: Customer[] = [];
+  listhistoryBan: HistoryBanCustomer[] = [];
   user:User;
-
+  bancus:BanCustomer=new BanCustomer();
+  displayDialogBan: boolean = false;
+  visiblebanHistoryDialog:boolean=false;
+  headerDialog: string = '';
   constructor( private shareData: ShareData,
     public messageService: MessageService,
     private iServiceBase: iServiceBase,
@@ -57,26 +62,76 @@ export class ManageCustomerModuleComponent extends iComponentBase implements OnI
 
     }
 }
-async BanCustomer(user:Customer){
-  debugger;
-  const param = {
-    "customerId":user.customerId,
-   "Ban":!user.isBanned
-  };
-  console.log(param)
-try {
+// async BanCustomer(user:Customer){
+//   debugger;
+//   const param = {
+//     "customerId":user.customerId,
+//    "Ban":!user.isBanned
+//   };
+//   console.log(param)
+// try {
 
-  debugger;
-       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.BAN_CUS,param);
+//   debugger;
+//        let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.BAN_CUS,param);
 
-       if (response && response.message === "Success") {
-        this.getAllCustomer();
-        this.showMessage(mType.success, "Notification", "Update "+user.customerId+" successfully", 'notify');
-       }
-      ;
-   } catch (e) {
-       console.log(e);
-       this.showMessage(mType.error, "Notification", "Update "+user.customerId+" failure", 'notify');
-   }
+//        if (response && response.message === "Success") {
+//         this.getAllCustomer();
+//         this.showMessage(mType.success, "Notification", "Update "+user.customerId+" successfully", 'notify');
+//        }
+//       ;
+//    } catch (e) {
+//        console.log(e);
+//        this.showMessage(mType.error, "Notification", "Update "+user.customerId+" failure", 'notify');
+//    }
+// }
+
+async BanCustomer1(user:Customer){
+  this.displayDialogBan = true;
+this.bancus.customerId=user.customerId;
+this.bancus.isBanned=!user.isBanned;
+}
+async onSaveBan(){
+  console.log(this.bancus);
+  try{
+    debugger;
+  let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.BAN_CUS,this.bancus);
+
+  if (response && response.message === "Success") {
+   this.getAllCustomer();
+   this.showMessage(mType.success, "Notification", "Ban "+this.bancus.customerId+" successfully", 'notify');
+  }
+ ;
+} catch (e) {
+  console.log(e);
+  this.showMessage(mType.error, "Notification", "Ban "+this.bancus.customerId+" failure", 'notify');
+}
+}
+onCancelBan(){
+  this.bancus = new BanCustomer();
+
+
+  this.displayDialogBan = false;
+}
+  async onHistoryBan(customerId:string){
+  this.bancus = new BanCustomer();
+  this.visiblebanHistoryDialog = true;
+  this.listhistoryBan = [];
+const param={
+  "customerId":customerId
+}
+    try {
+
+   debugger;
+        let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.HIS_CUS,param);
+
+        if (response && response.message === "Success") {
+            this.listhistoryBan = response.data;
+
+        }
+       ;
+    } catch (e) {
+        console.log(e);
+
+    }
 }
 }

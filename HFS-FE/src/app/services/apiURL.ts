@@ -52,6 +52,7 @@ export class API_SHIPPER {
 export class API_MANAGE{
   public static LIST_CUS = "listcustomer";
   public static BAN_CUS = "bancustomer";
+   public static HIS_CUS = "bancustomerhistory";
     public static LIST_SELLER = "listcustomer";
     public static LIST_SHIPPER = "listcustomer";
     public static LIST_PM = "listpostmoderator";

@@ -16,9 +16,8 @@ namespace HFS_BE.DAO.SellerDao
 		public decimal? WalletBalance { get; set; }
 		public string? ShopName { get; set; }
 		public string? ShopAddress { get; set; }
-		public int? ManageBy { get; set; }
-		public bool ConfirmEmail { get; set; }
-		public bool? Ban { get; set; }
-		public bool? CheckSeller { get; set; }
+		public bool? ConfirmedEmail { get; set; }
+		public bool? IsBanned { get; set; }
+		public bool? IsVerified { get; set; }
 	}
 }

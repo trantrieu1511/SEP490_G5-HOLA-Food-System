@@ -61,9 +61,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     });
   }
   ngOnInit(): void {
-    // localStorage.clear();
-    // sessionStorage.clear(); -- Chi xoa thang sessionStorage khi ng dung bam log out thoi (localStorage thi k can), k phai moi lan truy cap vao trang login la xoa - Trieu
-
+    localStorage.removeItem('user');
+    sessionStorage.clear();
     this.service.error$.subscribe(error => {
       this.error = error;
     });

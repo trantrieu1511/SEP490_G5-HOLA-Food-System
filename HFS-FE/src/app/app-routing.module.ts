@@ -13,6 +13,7 @@ import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
 import { ManageprofileComponent } from './modules/customer-routing-module/components/manageprofile/manageprofile.component';
 import { ForgotComponent } from './forgot/forgot.component';
 import { LoginNonCustomerComponent } from './login-non-customer/login-non-customer.component';
+import { SellerListComponent } from './seller-list/seller-list.component';
 
 const routes: Routes = [
   // {
@@ -48,6 +49,11 @@ const routes: Routes = [
   {
     path: 'chat',
     component: ChatComponent
+  }
+  ,
+  {
+    path: 'listseller',
+    component: SellerListComponent
   }
   ,
   // {

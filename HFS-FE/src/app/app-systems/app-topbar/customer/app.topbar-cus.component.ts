@@ -51,12 +51,16 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
    logOut(event : Event) {
         //Logout thì xóa đi
         sessionStorage.clear();
+        localStorage.removeItem('user');
         //Xóa hết đi các thứ linh tinh chỉ gán lại các thứ cấn thiết trong localstorage
         this.clearLocalStorage();
 
         event.preventDefault();
 
-        this.router.navigate(['/login']);
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/login']);
+          window.location.reload();
+        });
     }
 
     clearLocalStorage() {

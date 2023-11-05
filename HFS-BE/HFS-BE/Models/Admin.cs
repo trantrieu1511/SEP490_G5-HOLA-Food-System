@@ -5,12 +5,6 @@ namespace HFS_BE.Models
 {
     public partial class Admin
     {
-        public Admin()
-        {
-            NotificationReceiverNavigations = new HashSet<Notification>();
-            NotificationSendByNavigations = new HashSet<Notification>();
-        }
-
         public string AdminId { get; set; } = null!;
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
@@ -24,8 +18,5 @@ namespace HFS_BE.Models
         public bool IsOnline { get; set; }
         public decimal? WalletBalance { get; set; }
         public bool? ConfirmedEmail { get; set; }
-
-        public virtual ICollection<Notification> NotificationReceiverNavigations { get; set; }
-        public virtual ICollection<Notification> NotificationSendByNavigations { get; set; }
     }
 }

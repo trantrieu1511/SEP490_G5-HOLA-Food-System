@@ -1,4 +1,4 @@
-USE [master]
+﻿USE [master]
 --Drop database SEP490_HFS_2
 GO
 /****** Object:  Database [SEP490_HFS]    Script Date: 09/10/2023 11:11:40 CH ******/
@@ -475,4 +475,30 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
+CREATE TABLE SellerBan (
+    banSellerId INT PRIMARY KEY IDENTITY(1, 1),
+    sellerId NVARCHAR(50) NOT NULL,
+    Reason NVARCHAR(255),
+    CreateDate DATETIME NOT NULL,
+    CONSTRAINT FK_SellerBan_Seller FOREIGN KEY (sellerId) REFERENCES Seller(sellerId)
+);
 
+-- Bảng lưu trữ thông tin ban khách hàng
+CREATE TABLE CustomerBan (
+    banCustomerId INT PRIMARY KEY IDENTITY(1, 1),
+    customerId NVARCHAR(50) NOT NULL,
+    Reason NVARCHAR(255),
+    CreateDate DATETIME NOT NULL,
+    CONSTRAINT FK_CustomerBan_Customer FOREIGN KEY (customerId) REFERENCES Customer(customerId)
+);
+CREATE TABLE Chat (
+    ChatId INT PRIMARY KEY IDENTITY(1,1),
+    SenderId NVARCHAR(50) NOT NULL,
+    ReceiverId NVARCHAR(50) NOT NULL,
+    Message NVARCHAR(MAX) NOT NULL,
+    SentAt DATETIME NOT NULL,
+    CONSTRAINT FK_Chat_Customer_Sender FOREIGN KEY (SenderId) REFERENCES Customer (CustomerId),
+    CONSTRAINT FK_Chat_Customer_Receiver FOREIGN KEY (ReceiverId) REFERENCES Customer (CustomerId),
+    CONSTRAINT FK_Chat_Seller_Sender FOREIGN KEY (SenderId) REFERENCES Seller (SellerId),
+    CONSTRAINT FK_Chat_Seller_Receiver FOREIGN KEY (ReceiverId) REFERENCES Seller (SellerId)
+);

@@ -46,5 +46,20 @@ namespace HFS_BE.Controllers.ManageUser.ManageCustomer
 				throw;
 			}
 		}
+		[HttpPost("users/bancustomerhistory")]
+
+		public BaseOutputDto ListHistoryBanCustomer(BanCustomerHistoryDtoInput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<CustomerBusinessLogic>();
+				var output = business.ListHistoryBanCustomer(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
 	}
 }

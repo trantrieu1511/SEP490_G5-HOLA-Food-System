@@ -7,8 +7,6 @@ namespace HFS_BE.Models
     {
         public PostModerator()
         {
-            NotificationReceiver3s = new HashSet<Notification>();
-            NotificationSendBy3s = new HashSet<Notification>();
             PostReports = new HashSet<PostReport>();
         }
 
@@ -26,8 +24,6 @@ namespace HFS_BE.Models
         public bool? ConfirmedEmail { get; set; }
         public bool? IsBanned { get; set; }
 
-        public virtual ICollection<Notification> NotificationReceiver3s { get; set; }
-        public virtual ICollection<Notification> NotificationSendBy3s { get; set; }
         public virtual ICollection<PostReport> PostReports { get; set; }
     }
 }

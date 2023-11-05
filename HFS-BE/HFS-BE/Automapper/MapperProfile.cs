@@ -309,7 +309,8 @@ namespace HFS_BE.Automapper
 			CreateMap<MenuModerator, MenuModeratorDtoOutput>();
 			CreateMap<MenuModerator, MenuModeratorDtoOutput>();
 			CreateMap<CreateModerator, CreateModeratorDaoDtoInput>();
-     
+			CreateMap<CustomerBan, BanHistoryCustomerDtoOutput>();
+
 		}
 	
         public void FeedBack()

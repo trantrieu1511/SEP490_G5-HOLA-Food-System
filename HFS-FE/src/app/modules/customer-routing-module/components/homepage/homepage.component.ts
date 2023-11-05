@@ -17,6 +17,8 @@ import { Table } from 'primeng/table';
 import { Shop } from '../../models/shop.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { User } from 'src/app/services/auth.service';
+import { PresenceService } from 'src/app/services/presence.service';
 
 @Component({
   selector: 'app-homepage',
@@ -35,16 +37,25 @@ export class HomepageComponent  extends iComponentBase implements OnInit {
               private iServiceBase: iServiceBase,
               private _router: Router,
               private _route: ActivatedRoute,
-              private dataService: DataService
+              private dataService: DataService,
+              public presence: PresenceService
               ) {
       super(messageService);
   }
 
   ngOnInit() {
     this.getAllShop();
-    
+this.setCurrentUser();
   }
+  setCurrentUser(){
+    const user: User = JSON.parse(localStorage.getItem('user'));
+    const token=sessionStorage.getItem('JWT');
+debugger;
+    if(user){
 
+      this.presence.createHubConnection(token);
+    }
+  }
   async getAllShop(){
     try {
         this.loading = true;
@@ -52,7 +63,7 @@ export class HomepageComponent  extends iComponentBase implements OnInit {
         let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.HOME, API.API_HOME.DISPLAY_SHOP, null);
         console.log(response)
         if (response && response.message === "Success") {
-            this.lstShop = response.listShop;          
+            this.lstShop = response.listShop;
         }
         this.loading = false;
     } catch (e) {

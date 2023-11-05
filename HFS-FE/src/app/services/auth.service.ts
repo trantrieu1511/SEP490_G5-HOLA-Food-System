@@ -227,7 +227,7 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
      console.log(this.user)
 
       this.userSubject.next(this.user);
-
+      localStorage.setItem("user", JSON.stringify(this.user));
       sessionStorage.setItem("JWT",token.token);
       sessionStorage.setItem("role",this.user.role.toString());
       sessionStorage.setItem("timetoken",this.user.exp.toString());
