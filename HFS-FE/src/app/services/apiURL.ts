@@ -14,6 +14,7 @@ export class PHAN_HE {
     public static FOOD = "Food"
     public static CHECKOUT = "checkout"
     public static HUB = "hub"
+    public static NOTIFY = "notify"
 }
 
 export class API_TEST{
@@ -121,4 +122,9 @@ export class API_CHECKOUT{
 
 export class API_HUB{
     public static DATA_REALTIME = "dataRealTime";
+}
+
+export class API_NOTIFY{
+    public static GET_ALL_NOTIFIES = "getAllNotify";
+    public static UPDATE_NOTIFY = "updateNotify";
 }

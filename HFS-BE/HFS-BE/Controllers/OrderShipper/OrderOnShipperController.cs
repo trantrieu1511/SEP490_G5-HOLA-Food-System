@@ -36,7 +36,7 @@ namespace HFS_BE.Controllers.OrderShipper
         }
 
         [HttpPost("shipper/orderprogress")]
-        //[Authorize(Roles = "4")]
+        //[Authorize(Roles = "SH")]
         public BaseOutputDto CreateOrderProgress([FromForm] OrderProgressControllerInputDto inputDto)
         {
             try

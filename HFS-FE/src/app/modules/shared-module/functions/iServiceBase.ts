@@ -769,6 +769,9 @@ export class iServiceBase {
                 case API.PHAN_HE.HUB: {
                     return localStorage.getItem('APISERVICE') + '/hubs/';
                 }
+                case API.PHAN_HE.NOTIFY: {
+                    return localStorage.getItem('APISERVICE') + '/notifies/';
+                }
                 default: {
                     return '';
                 }

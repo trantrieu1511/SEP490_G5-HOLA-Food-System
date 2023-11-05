@@ -1,0 +1,21 @@
+<li class="layout-topbar-item notifications">
+    <a class="layout-topbar-action rounded-circle"
+        (click)="layoutService.onTopbarItemClick($event, 'notifications')" pRipple>
+        <span class="p-overlay-badge">
+            <i class="pi pi-bell fs-large"></i>
+            <span class="p-badge p-badge-warning p-badge-dot dot-new-notify"
+                [style.display]="isNewNotify ? 'block' : 'none'"
+            ></span>
+        </span>
+    </a>
+
+    <ul class="layout-topbar-action-panel shadow-6"
+        [@topbarActionPanelAnimation]="'visible'"
+        *ngIf="layoutService.state.activeTopbarItem === 'notifications'">
+        <notification-item [layoutService]="layoutService" 
+            (notifyChange)="notifyChange($event)"
+            [notify]="notify" 
+            *ngFor="let notify of lstNotification">
+        </notification-item>
+    </ul>
+</li>

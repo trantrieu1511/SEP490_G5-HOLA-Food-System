@@ -9,7 +9,7 @@ namespace HFS_BE.DAO.OrderProgressDao
         public string? Image { get; set; }
         public int? OrderId { get; set; }
         public byte? Status { get; set; }
-        public int? UserId { get; set; }
+        public string ShipperId { get; set; }
     }
 
     public class OrderCreateDaoInputDto

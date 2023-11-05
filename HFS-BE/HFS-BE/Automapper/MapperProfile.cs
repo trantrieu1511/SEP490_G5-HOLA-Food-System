@@ -238,7 +238,7 @@ namespace HFS_BE.Automapper
 
             CreateMap<Controllers.OrderShipper.OrderProgressControllerInputDto, BusinessLogic.OrderShipper.OrderProgressBusinessLogicInputDto>();
             CreateMap<BusinessLogic.OrderShipper.OrderProgressBusinessLogicInputDto, DAO.OrderProgressDao.OrderProgressDaoInputDto>()
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserDto.UserId));
+                .ForMember(dest => dest.ShipperId, opt => opt.MapFrom(src => src.UserDto.UserId));
 
 
             // check-out customer
