@@ -14,6 +14,7 @@ import { AppCustomerTopBarComponent } from 'src/app/app-systems/app-topbar/custo
 import { AppCustomerLayoutComponent } from './app.customer.component';
 import { AppCustomerFooterComponent } from 'src/app/app-systems/app-footer/customer/app.footer-cus.component';
 import { ComponentModule } from 'src/app/modules/components-module/component.modules';
+import { SharedModule } from 'src/app/modules/shared-module/shared-module.module';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import { ComponentModule } from 'src/app/modules/components-module/component.mod
         InputSwitchModule,
         RippleModule,
         RouterModule,
+        SharedModule
     ],
     exports: [AppCustomerLayoutComponent]
 })

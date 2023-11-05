@@ -9,8 +9,8 @@ import {LoadingComponent} from './components/loading-component/loading.component
 import {OpenPagePopupComponent} from './components/open-page-popup/open-page-popup.component';
 import { iFunction } from './shared-module';
 import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
-
-
+import { NotificationsComponent } from 'src/app/modules/shared-module/components/notifications/notifications.component';
+import { NotificationItemComponent } from './components/notification-item/notification-item.component';
 
 @NgModule({
   imports: [
@@ -23,17 +23,21 @@ import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.ser
   providers: [
       iServiceBase,
       iFunction,
-      DataRealTimeService
+      DataRealTimeService,
+      
   ],
   declarations: [
       iComponentBase,
       LoadingComponent,
       OpenPagePopupComponent,
+      NotificationsComponent,
+      NotificationItemComponent
   ],
   exports: [
       iComponentBase,
       LoadingComponent,
-      OpenPagePopupComponent
+      OpenPagePopupComponent,
+      NotificationsComponent
   ],
 })
 

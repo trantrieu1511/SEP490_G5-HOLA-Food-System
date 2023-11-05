@@ -234,12 +234,11 @@ CREATE TABLE [dbo].[Notification](
 	[typeId] [int] NOT NULL,
 	[title] [nvarchar](50) NULL,
 	[content] [nvarchar](500) NULL,
-	[createDate] [datetime] NULL
-PRIMARY KEY CLUSTERED 
-(
-	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+	[createDate] [datetime] NULL,
+	[isRead] [bit] NULL,
+	primary key([id]),
+	Foreign Key ([typeId]) REFERENCES [NotificationType]([id]),
+	)
 GO
 
 /****** Object:  Table [dbo].[Voucher]    Script Date: 09/10/2023 11:11:40 CH ******/
@@ -416,11 +415,8 @@ CREATE TABLE [dbo].[Post](
 	[createdDate] [datetime] NULL,
 	[status] [tinyint] NULL,
 	Foreign Key ([sellerId]) REFERENCES [Seller](SellerId),
-PRIMARY KEY CLUSTERED 
-(
-	[postId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+	primary key([postId]),
+	)
 GO
 /****** Object:  Table [dbo].[PostImage]    Script Date: 09/10/2023 11:11:40 CH ******/
 SET ANSI_NULLS ON

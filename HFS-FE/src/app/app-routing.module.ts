@@ -65,7 +65,10 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'HFSBusiness', component: AppManageLayoutComponent,
+    path: 'HFSBusiness', 
+    // canActivate: [authGuard],
+    // data: { requiredRole: ['Admin', 'Shipper', 'Seller'] },
+    component: AppManageLayoutComponent,
     children: [
       {
         path: 'manage',

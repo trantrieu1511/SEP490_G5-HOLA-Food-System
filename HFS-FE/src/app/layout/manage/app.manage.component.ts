@@ -16,25 +16,6 @@ export class AppManageLayoutComponent implements AfterViewInit, OnInit, OnDestro
   constructor(public renderer: Renderer2, private menuService: MenuService,
     public layoutService: LayoutService, private router: Router) { }
 
-
-  // Check whether the user has logged in before accessing the page
-  checkLoggedIn() {
-    // debugger;
-    if (sessionStorage.getItem("userId") == null) {
-      this.router.navigateByUrl('/login');
-      alert('Please login before accessing.');
-    }
-  }
-
-  // Not allow the user to access the page if they are not sellers, shippers, admin, post/menu moderators
-  checkUserAccessPermission() {
-    let userRoleName = sessionStorage.getItem("userId").substring(0, 2);
-    if (userRoleName == 'CU') {
-      this.router.navigateByUrl('/');
-      alert('You cannot access this page unless you are the person who works for HOLA Food Business.');
-    }
-  }
-
   ngOnInit(): void {
     this.layoutService.state.menuActive = this.layoutService.isStatic()
       && !this.layoutService.isMobile();
@@ -56,8 +37,6 @@ export class AppManageLayoutComponent implements AfterViewInit, OnInit, OnDestro
       this.renderer.appendChild(document.head, cssLink);
     });
 
-    this.checkLoggedIn();
-    this.checkUserAccessPermission();
   }
 
   ngAfterViewInit() {
