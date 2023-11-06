@@ -196,7 +196,7 @@ CREATE TABLE [dbo].[MenuReport](
 	[updateBy] [nvarchar](50) null,
 	[createDate] [datetime] NOT NULL,
 	[updateDate] [datetime] NOT NULL,
-	[isDone] [bit] NOT NULL,
+	[status] [bit] NOT NULL, -- 0: Pending: KH moi tao report, menu mod chua xu ly report, 1: Approved - Menu mod chap nhan to cao va da xu ly xong thuc pham bi to cao, 2: NotApproved: Menu mod khong chap nhan report (Co le do nguoi report k neu ra duoc noi dung to cao mot cach nghiem tuc)
 	Foreign Key ([reportBy]) REFERENCES [Customer](customerId),
 	Foreign Key ([updateBy]) REFERENCES [MenuModerator](modId),
 	Foreign Key ([foodId]) REFERENCES Food(foodId),
@@ -446,7 +446,7 @@ CREATE TABLE [dbo].[PostReport](
 	[createDate] [datetime] NOT NULL,
 	[updateDate] [datetime] NOT NULL,
 	[updateBy] [nvarchar](50) null,
-	[isDone] [bit] NOT NULL,
+	[status] [bit] NOT NULL, -- 0: Pending: KH moi tao report, post mod chua xu ly report, 1: Approved - Post mod chap nhan to cao va da xu ly xong bai viet bi to cao, 2: NotApproved: Post mod khong chap nhan report (Co le do nguoi report k neu ra duoc noi dung to cao mot cach nghiem tuc)
 	FOREIGN KEY([reportBy]) REFERENCES [dbo].[Customer] ([customerId]),
 	FOREIGN KEY([updateBy]) REFERENCES [dbo].[PostModerator] ([modId]),
 	FOREIGN KEY([postId]) REFERENCES [dbo].[Post] ([postId]),
