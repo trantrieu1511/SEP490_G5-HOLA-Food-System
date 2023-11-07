@@ -15,7 +15,7 @@ namespace HFS_BE.Base
         }
 
         public T Output<T>(bool success) where T : BaseOutputDto, new()
-        {
+        {   
             return new T
             {
                 Message = success ? "Success" : "Fail",

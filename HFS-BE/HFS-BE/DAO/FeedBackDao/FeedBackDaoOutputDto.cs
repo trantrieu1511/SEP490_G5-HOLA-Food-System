@@ -20,6 +20,7 @@ namespace HFS_BE.DAO.FeedBackDao
     public class CustomerVoted
     {
         public string VoteBy { get; set; } = null!;
+        public bool ? IsLike { get; set; }
     }
 
     public class GetFeedBackByFoodIdDaoOutputDto : BaseOutputDto
