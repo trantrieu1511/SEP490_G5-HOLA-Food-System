@@ -196,7 +196,7 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("MM/dd/yyyy - HH:mm:ss")));
             //CreateMap<ICollection<OrderProgress>, List<DetailProgress>>();
 
-            CreateMap<OrderDetail, OrderDetailFoodDto>()
+            CreateMap<OrderDetail, Dao.OrderDao.OrderDetailFoodDto>()
                 .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderId))
                 .ForMember(dest => dest.FoodId, opt => opt.MapFrom(src => src.FoodId))
                 .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.UnitPrice))
@@ -207,7 +207,7 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.SellId, opt => opt.MapFrom(src => src.Food.SellerId));
             //CreateMap<ICollection<OrderDetail>, List<OrderDetailFoodDto>>();
 
-            CreateMap<Dao.OrderDao.OrderDetailFoodDto, BusinessLogic.ManageOrder.OrderDetailFoodDto>();
+            CreateMap<Dao.OrderDao.OrderDetailFoodDto, BusinessLogic.ManageOrder.OrderDetailFoodBLDto>();
             CreateMap<Dao.OrderDao.DetailProgress, BusinessLogic.ManageOrder.DetailProgress>();
             CreateMap<Dao.OrderDao.OrderDaoSellerOutputDto, BusinessLogic.ManageOrder.OrderDaoSellerOutputDto>();
             CreateMap<Dao.OrderDao.OrderSellerDaoOutputDto, BusinessLogic.ManageOrder.OrderSellerDaoOutputDto>();

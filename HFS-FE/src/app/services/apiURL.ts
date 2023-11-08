@@ -127,6 +127,7 @@ export class API_CHECKOUT{
 
 export class API_HUB{
     public static DATA_REALTIME = "dataRealTime";
+    public static NOTIFY_REALTIME = "notifyRealTime";
 }
 
 export class API_NOTIFY{
