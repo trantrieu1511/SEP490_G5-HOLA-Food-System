@@ -74,6 +74,14 @@
                                                 class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
+                        <th pSortableColumn="expireDate">
+                            <div class="flex justify-content-between align-items-center">
+                                Status
+                                <p-sortIcon field="status"></p-sortIcon>
+                                <p-columnFilter type="text" field="status" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
                         <th style="min-width: 8rem">
                             <div 
                                  class="flex justify-content-between align-items-center">
@@ -105,6 +113,10 @@
                             <span class="p-column-title">Expire Date</span>
                             {{voucher.expireDate}}
                         </td>
+                        <td >
+                            <span class="p-column-title">Status</span>
+                            {{voucher.status}}
+                        </td>
                         
                         <td style="text-align: center">
                             <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
@@ -113,6 +125,19 @@
                                             (click)="onUpdateVoucher(voucher)"
                                             class="p-button-rounded p-mr-2"></button>
                                 </div>
+                                
+                                    <div *ngIf="voucher.status === 'Display'; else statusHide" class="flex align-items-center justify-content-center">
+                                        <button pButton pRipple icon="pi pi-eye-slash"
+                                                (click)="onHideVoucher(voucher, $event)"
+                                                class="p-button-rounded p-button-danger"></button>
+                                    </div>
+                                    <ng-template #statusHide>
+                                        <div class="flex align-items-center justify-content-center">
+                                            <button pButton pRipple icon="pi pi-eye"
+                                                    (click)="onDisplayVoucher(voucher, $event)"
+                                                    class="p-button-rounded p-button-danger"></button>
+                                        </div>
+                                    </ng-template>
                                 
                             </div>
                         </td>

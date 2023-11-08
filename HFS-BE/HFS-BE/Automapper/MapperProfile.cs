@@ -346,7 +346,10 @@ namespace HFS_BE.Automapper
 
         public void Voucher()
         {
-            CreateMap<Voucher, GetVoucherDaoOutputDto>();
+            CreateMap<Voucher, GetVoucherDaoOutputDto>()
+                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => VoucherStatusEnum.GetStatusString(src.Status)));
+
+
 
         }
 

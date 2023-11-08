@@ -26,4 +26,9 @@ namespace HFS_BE.DAO.VoucherDao
         public DateTime EffectiveDate { get; set; }
         public DateTime ExpireDate { get; set; }
     }
+    public class Enable_Disable_VoucherDaoInput
+    {
+        public int VoucherId { get; set; }
+        public bool Type { get; set; }
+    }
 }

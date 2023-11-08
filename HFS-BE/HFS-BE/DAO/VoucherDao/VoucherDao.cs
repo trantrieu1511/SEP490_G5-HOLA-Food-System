@@ -86,6 +86,33 @@ namespace HFS_BE.DAO.VoucherDao
                 return this.Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
+
+        public BaseOutputDto Enable_Disable_Voucher(Enable_Disable_VoucherDaoInput inputDto)
+        {
+            try
+            {
+                var data = this.context.Vouchers.FirstOrDefault(x => x.VoucherId == inputDto.VoucherId);
+                if (data == null)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, $"VoucherId: {inputDto.VoucherId} not exist!");
+                }
+                if (inputDto.Type)
+                {
+                    data.Status = 1;
+                    context.SaveChanges();
+                    return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+                }
+                data.Status = 2;
+                context.SaveChanges();
+
+                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
         private string GenerateVoucherCode(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -99,6 +126,11 @@ namespace HFS_BE.DAO.VoucherDao
             }
 
             return code.ToString();
+        }
+
+        public Voucher? GetVoucherById(int voucherId)
+        {
+            return context.Vouchers.FirstOrDefault(x => x.VoucherId == voucherId);
         }
     }
 }

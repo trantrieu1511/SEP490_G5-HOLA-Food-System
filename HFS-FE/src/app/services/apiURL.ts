@@ -83,6 +83,7 @@ export class API_VOUCHER {
     public static GET_ALL_VOUCHER = "getListvoucher";
     public static CREATE_VOUCHER = "addNewVoucher";
     public static EDIT_VOUCHER = "updatevoucher";
+    public static ENABLE_DISABLE_VOUCHER = "Enable_Disable"
 }
 
 // API related to post entity
