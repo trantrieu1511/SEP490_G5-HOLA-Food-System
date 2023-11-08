@@ -31,6 +31,7 @@ using HFS_BE.DAO.ModeratorDao;
 using HFS_BE.BusinessLogic.ManageUser;
 using HFS_BE.DAO.VoucherDao;
 using HFS_BE.DAO.NotificationDao;
+using HFS_BE.DAO.PostReportDao;
 
 namespace HFS_BE.Automapper
 {
@@ -353,7 +354,6 @@ namespace HFS_BE.Automapper
         {
             CreateMap<NotificationAddNewInputDto, Notification>();
         }
-
     }
 }
 
