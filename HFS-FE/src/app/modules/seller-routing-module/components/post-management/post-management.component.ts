@@ -67,29 +67,13 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
   async ngOnInit() {
     this.connectSignalR();
     this.getAllPost();
-
-    // Convert CustomFile[] to File[]
-    // this.uploadedFiles = this.fileList.map(customFile => {
-    //   const blob = new Blob([], { type: 'application/octet-stream' });
-    //   const file = new File([blob], customFile.name, { type: 'image/*' });
-
-    //   Object.defineProperty(file, 'imageBase64', {
-    //     value: customFile.imageBase64,
-    //     writable: false,
-    //     enumerable: true,
-    //     configurable: true,
-    //   });
-
-    //   return file;
-    // });
-
-    console.log(this.uploadedFiles);
   }
 
   async connectSignalR() {
     this.lstPost = [];
     this.signalRService.startConnection();
     const res = await this.signalRService.addTransferDataListener(
+      'dataRealTime',
       API.PHAN_HE.POST,
       API.API_POST.GET_POST
     );

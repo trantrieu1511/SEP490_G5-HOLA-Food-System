@@ -140,14 +140,24 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.CartItems));
             CreateMap<CartItemDto, CartItemDaoInputDto>();
             CreateMap<CartItemInputDto, CartItemDaoInputDto>();
-
+            CreateMap<Order, OrderExternalShipperOutputDto>()
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.FirstName + " " + src.Customer.LastName : null))
+                .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => src.OrderDate != null ? src.OrderDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null))
+                .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => PaymentMethodEnum.GetPaymentMethodString(src.PaymentMethod)))
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.OrderDetails.Select(
+                        d => d.UnitPrice * d.Quantity
+                    ).ToList().Sum() - (src.Voucher != null ? src.Voucher.DiscountAmount : 0))) //* them voucher))
+                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.OrderBy(x => x.UnitPrice).ToList()));
 
             //seller
             //*input
             CreateMap<OrderCancelInputDto, OrderProgressCancelInputDto>();
             CreateMap<OrderAcceptInputDto, OrderProgressStatusInputDto>();
-            CreateMap<OrderInternalShipInputDto, OrderProgressStatusInputDto>();
+            CreateMap<OrderInternalShipInputDto, OrderProgressStatusInputDto>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.User.UserId));
             CreateMap<OrderInternalInputDto, OrderInternalShipInputDto>();
+            CreateMap<OrderExternalShipInputDto, OrderProgressStatusInputDto>();
+            CreateMap<OrderExternalInputDto, OrderExternalShipInputDto>();
             //*output
 
             //CreateMap<List<Order>, OrderDaoSellerOutputDto>();
@@ -158,7 +168,9 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.ShippedDate, opt => opt.MapFrom(src => src.ShippedDate != null ? src.ShippedDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null))
                 .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.Shipper != null ? src.Shipper.FirstName + " " + src.Shipper.LastName : null))
                 .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => PaymentMethodEnum.GetPaymentMethodString(src.PaymentMethod)))
-                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.OrderDetails.Select(d => d.UnitPrice * d.Quantity).ToList().Sum())) //* them voucher))
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.OrderDetails.Select(
+                        d => d.UnitPrice * d.Quantity
+                    ).ToList().Sum() - (src.Voucher != null ? src.Voucher.DiscountAmount : 0))) //* them voucher))
                 .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses.OrderBy(x => x.CreateDate).ToList()))
                 .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.OrderBy(x => x.UnitPrice).ToList()));
             /*.ForMember(dest => dest.Detail, opt => opt.MapFrom(src => new DetailProgress

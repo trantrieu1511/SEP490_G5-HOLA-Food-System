@@ -64,7 +64,7 @@ html {
     font-size: 14px;
 }
 body {
-    font-family: var(--font-family);
+    font-family: Roboto, "Helvetica Neue", sans-serif;
     color: var(--text-color);
     background-color: var(--surface-ground);
     margin: 0;
@@ -75,7 +75,7 @@ body {
 }
 a {
     text-decoration: none;
-    color: var(--primary-color);
+    color: #212121;
 }
 .layout-wrapper {
     min-height: 100vh;
@@ -294,6 +294,11 @@ a {
         animation: fadein 0.2s;
    }
 }
+
+.fs-small {
+    font-size: 0.858rem !important;
+}
+
 .layout-topbar {
     position: fixed;
     height: 5rem;

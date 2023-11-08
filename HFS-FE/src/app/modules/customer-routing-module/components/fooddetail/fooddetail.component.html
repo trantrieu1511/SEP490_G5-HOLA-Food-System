@@ -1,1 +1,434 @@
-<p>fooddetail works!</p>
+<div class="grid">
+    <div class="col-12">
+        <p-breadcrumb [model]="" [home]="{icon: 'pi pi-home'}"></p-breadcrumb>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="grid" style="max-width: 100%;">
+                <div class="col-5 align-items-center justify-content-center">
+                    <p-galleria [value]="foodImages" [responsiveOptions]="galleriaResponsiveOptions"
+                                [containerStyle]="{'max-width': '100%', 'margin':'auto'}" [numVisible]="6" [circular]="true">
+                        <ng-template pTemplate="item" let-item>
+                            <img [src]="item.path" style="max-width: 100%; display: block; max-height: 100%;"/>
+                        </ng-template>
+                        <ng-template pTemplate="thumbnail" let-item>
+                            <div class="grid nogutter justify-center">
+                                <img [src]="item.path" style=" max-width: 30%; display: block; max-height: 30%;"/>
+                            </div>
+                        </ng-template>
+                    </p-galleria>
+                </div>      
+                <div class="col-1">
+                    <p-divider layout="vertical">
+                    </p-divider>
+                </div>
+                <div class="col-5 align-items-center justify-content-center" >
+                    <div>
+                        <h1>{{fooddetail.name}}</h1>
+                    </div>
+                    
+
+                    <p-divider layout="horizontal" align="center">
+                    </p-divider>
+
+                    <h4 class="line-height-3 m-0">Description: {{fooddetail.description}}</h4>
+
+                    <p-divider align="right">
+                    </p-divider>
+                    <h4 class="line-height-3 m-0">Category: {{fooddetail.categoryName}}</h4>
+
+                    <p-divider align="right">
+                    </p-divider>
+
+                    <h3>Price: {{fooddetail.unitPrice}}$</h3>
+                    <p-divider align="right">
+                    </p-divider>
+                    <div class="product-grid-item-bottom">
+                        <p-inputNumber [(ngModel)]="amount" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" [step]="1"
+                    decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" [min]="1" [max]="100" [(ngModel)]="amount"></p-inputNumber>
+                        <p-button icon="pi pi-shopping-cart" (onClick)="onAddToCart(fooddetail.foodId)"></p-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <h1>Similar food</h1>
+        <p-carousel [value]="similarFood" [numVisible]="3" [numScroll]="3" [circular]="false" [responsiveOptions]="">
+            <ng-template let-product pTemplate="item">
+                    <div class="border-round m-2 text-center p-2" style="border: 1px solid var(--surface-d)">
+                        <div class="my-5">
+                            <img [src]="product.foodImages[0].path" [alt]="product.name" class="shadow-4" style="max-width: 30%; max-height: 30%;"/>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">{{product.name}}</h5>
+                            <h6 class="mt-0 mb-3">${{product.unitPrice}}</h6>
+                            <!-- <span [class]="'product-badge status-'+product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
+                            <div class="my-5">
+                                <button pButton pRipple icon="pi pi-search" class="mr-2 p-button-rounded"></button>
+                                <button pButton pRipple icon="pi pi-star-fill" class="mr-2 p-button-rounded p-button-success"></button>
+                                <button pButton pRipple icon="pi pi-cog" class="p-button-rounded p-button-info"></button>
+                            </div>
+                        </div>
+                    </div>
+            </ng-template>
+        </p-carousel>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <h5>Review</h5>
+            <p-tabView orientation="left" (onChange)="onTabChange($event)">
+                <p-tabPanel header="5 sao" class="line-height-3 m-0">
+                    <div class="flex-auto">
+                        <div *ngFor="let item of displayFeedback" class="comment-thread">
+                            <!-- Comment 1 start -->
+                            <details class="comment" id="comment-1">
+                                <a href="#comment-1" class="comment-border-link">
+                                    <span class="sr-only">Jump to comment-1</span>
+                                </a>
+                                <summary style="margin-bottom: 10px;">
+                                    <div class="comment-heading" style="margin-bottom: 10px;">                                    
+                                        <div class="comment-info">
+                                            <a href="#" class="comment-author">{{item.customerName}}</a>
+                                            <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
+                                            <p class="m-0">
+                                                {{item.likeCount}} points &bull; {{item.displayDate}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </summary>
+                        
+                                <div class="comment-body">
+                                    <p>
+                                        {{item.feedbackMessage}}
+                                    </p>
+                                    <button [class.d-none]="!item.canReply" type="button" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onReply(item.feedbackId)">Reply</button>
+                                    <button type="button" (click)="onLikeReview(item.feedbackId)">{{item.isLiked ? "Unlike" : "Like"}}</button>
+                        
+                                    <!-- Reply form start -->
+                                    <div [id]="item.feedbackId" class="reply-form d-none">
+                                        <textarea placeholder="Reply to comment" rows="4"></textarea>
+                                        <button type="submit">Submit</button>
+                                        <button type="button" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onCancel(item.feedbackId)">Cancel</button>
+                                    </div>
+                                    <!-- Reply form end -->
+                                </div>
+                        
+                                <div *ngFor="let replies of item.listReply" class="replies">
+                                    <!-- Comment 2 start -->
+                                    <details class="comment" id="comment-2">
+                                        <a href="#comment-2" class="comment-border-link">
+                                            <span class="sr-only">Jump to comment-2</span>
+                                        </a>
+                                        <summary>
+                                            <div class="comment-heading">
+                                                <div class="comment-info">
+                                                    <a href="#" class="comment-author">{{replies.userName}}</a>
+                                                    <p class="m-0">
+                                                        {{replies.createDate}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </summary>
+                        
+                                        <div class="comment-body">
+                                            <p>
+                                                {{replies.replyMessage}}
+                                            </p>
+                                            <!-- Reply form end -->
+                                        </div>
+                                    </details>
+                                    <!-- Comment 2 end -->
+                                </div>
+                            </details>
+                            <!-- Comment 1 end -->
+                        </div>
+                        <p-paginator (onPageChange)="onPageChange($event, 5)" [first]="first" [rows]="rows" [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
+                        </p-paginator>
+                    </div>                    
+                </p-tabPanel>
+                <p-tabPanel header="4 sao" class="line-height-3 m-0">
+                    <div class="flex-auto">
+                        <div *ngFor="let item of displayFeedback" class="comment-thread">
+                            <!-- Comment 1 start -->
+                            <details class="comment" id="comment-1">
+                                <a href="#comment-1" class="comment-border-link">
+                                    <span class="sr-only">Jump to comment-1</span>
+                                </a>
+                                <summary style="margin-bottom: 10px;">
+                                    <div class="comment-heading" style="margin-bottom: 10px;">                                    
+                                        <div class="comment-info">
+                                            <a href="#" class="comment-author">{{item.customerName}}</a>
+                                            <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
+                                            <p class="m-0">
+                                                {{item.likeCount}} points &bull; {{item.displayDate}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </summary>
+                        
+                                <div class="comment-body">
+                                    <p>
+                                        {{item.feedbackMessage}}
+                                    </p>
+                                    <button [class.d-none]="!item.canReply" type="button" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onReply(item.feedbackId)">Reply</button>
+                                    <button type="button" (click)="onLikeReview(item.feedbackId)">{{item.isLiked ? "Unlike" : "Like"}}</button>
+                        
+                                    <!-- Reply form start -->
+                                    <div [id]="item.feedbackId" class="reply-form d-none">
+                                        <textarea placeholder="Reply to comment" rows="4"></textarea>
+                                        <button type="submit">Submit</button>
+                                        <button type="button" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onCancel(item.feedbackId)">Cancel</button>
+                                    </div>
+                                    <!-- Reply form end -->
+                                </div>
+                        
+                                <div *ngFor="let replies of item.listReply" class="replies">
+                                    <!-- Comment 2 start -->
+                                    <details class="comment" id="comment-2">
+                                        <a href="#comment-2" class="comment-border-link">
+                                            <span class="sr-only">Jump to comment-2</span>
+                                        </a>
+                                        <summary>
+                                            <div class="comment-heading">
+                                                <div class="comment-info">
+                                                    <a href="#" class="comment-author">{{replies.userName}}</a>
+                                                    <p class="m-0">
+                                                        {{replies.createDate}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </summary>
+                        
+                                        <div class="comment-body">
+                                            <p>
+                                                {{replies.replyMessage}}
+                                            </p>
+                                            <!-- Reply form end -->
+                                        </div>
+                                    </details>
+                                    <!-- Comment 2 end -->
+                                </div>
+                            </details>
+                            <!-- Comment 1 end -->
+                        </div>
+                        <p-paginator (onPageChange)="onPageChange($event, 4)" [first]="first" [rows]="rows" [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
+                        </p-paginator>
+                    </div>            
+                </p-tabPanel>
+                <p-tabPanel header="3 sao" class="line-height-3 m-0">
+                    <div class="flex-auto">
+                        <div *ngFor="let item of displayFeedback" class="comment-thread">
+                            <!-- Comment 1 start -->
+                            <details class="comment" id="comment-1">
+                                <a href="#comment-1" class="comment-border-link">
+                                    <span class="sr-only">Jump to comment-1</span>
+                                </a>
+                                <summary style="margin-bottom: 10px;">
+                                    <div class="comment-heading" style="margin-bottom: 10px;">                                    
+                                        <div class="comment-info">
+                                            <a href="#" class="comment-author">{{item.customerName}}</a>
+                                            <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
+                                            <p class="m-0">
+                                                {{item.likeCount}} points &bull; {{item.displayDate}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </summary>
+                        
+                                <div class="comment-body">
+                                    <p>
+                                        {{item.feedbackMessage}}
+                                    </p>
+                                    <button [class.d-none]="!item.canReply" type="button" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onReply(item.feedbackId)">Reply</button>
+                                    <button type="button" (click)="onLikeReview(item.feedbackId)">{{item.isLiked ? "Unlike" : "Like"}}</button>
+                        
+                                    <!-- Reply form start -->
+                                    <div [id]="item.feedbackId" class="reply-form d-none">
+                                        <textarea placeholder="Reply to comment" rows="4"></textarea>
+                                        <button type="submit">Submit</button>
+                                        <button type="button" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onCancel(item.feedbackId)">Cancel</button>
+                                    </div>
+                                    <!-- Reply form end -->
+                                </div>
+                        
+                                <div *ngFor="let replies of item.listReply" class="replies">
+                                    <!-- Comment 2 start -->
+                                    <details class="comment" id="comment-2">
+                                        <a href="#comment-2" class="comment-border-link">
+                                            <span class="sr-only">Jump to comment-2</span>
+                                        </a>
+                                        <summary>
+                                            <div class="comment-heading">
+                                                <div class="comment-info">
+                                                    <a href="#" class="comment-author">{{replies.userName}}</a>
+                                                    <p class="m-0">
+                                                        {{replies.createDate}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </summary>
+                        
+                                        <div class="comment-body">
+                                            <p>
+                                                {{replies.replyMessage}}
+                                            </p>
+                                            <!-- Reply form end -->
+                                        </div>
+                                    </details>
+                                    <!-- Comment 2 end -->
+                                </div>
+                            </details>
+                            <!-- Comment 1 end -->
+                        </div>
+                        <p-paginator (onPageChange)="onPageChange($event, 3)" [first]="first" [rows]="rows" [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
+                        </p-paginator>
+                    </div>            
+                </p-tabPanel>
+                <p-tabPanel header="2 sao" class="line-height-3 m-0">
+                    <div class="flex-auto">
+                        <div *ngFor="let item of displayFeedback" class="comment-thread">
+                            <!-- Comment 1 start -->
+                            <details class="comment" id="comment-1">
+                                <a href="#comment-1" class="comment-border-link">
+                                    <span class="sr-only">Jump to comment-1</span>
+                                </a>
+                                <summary style="margin-bottom: 10px;">
+                                    <div class="comment-heading" style="margin-bottom: 10px;">                                    
+                                        <div class="comment-info">
+                                            <a href="#" class="comment-author">{{item.customerName}}</a>
+                                            <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
+                                            <p class="m-0">
+                                                {{item.likeCount}} points &bull; {{item.displayDate}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </summary>
+                        
+                                <div class="comment-body">
+                                    <p>
+                                        {{item.feedbackMessage}}
+                                    </p>
+                                    <button [class.d-none]="!item.canReply" type="button" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onReply(item.feedbackId)">Reply</button>
+                                    <button type="button" (click)="onLikeReview(item.feedbackId)">{{item.isLiked ? "Unlike" : "Like"}}</button>
+                        
+                                    <!-- Reply form start -->
+                                    <div [id]="item.feedbackId" class="reply-form d-none">
+                                        <textarea placeholder="Reply to comment" rows="4"></textarea>
+                                        <button type="submit">Submit</button>
+                                        <button type="button" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onCancel(item.feedbackId)">Cancel</button>
+                                    </div>
+                                    <!-- Reply form end -->
+                                </div>
+                        
+                                <div *ngFor="let replies of item.listReply" class="replies">
+                                    <!-- Comment 2 start -->
+                                    <details class="comment" id="comment-2">
+                                        <a href="#comment-2" class="comment-border-link">
+                                            <span class="sr-only">Jump to comment-2</span>
+                                        </a>
+                                        <summary>
+                                            <div class="comment-heading">
+                                                <div class="comment-info">
+                                                    <a href="#" class="comment-author">{{replies.userName}}</a>
+                                                    <p class="m-0">
+                                                        {{replies.createDate}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </summary>
+                        
+                                        <div class="comment-body">
+                                            <p>
+                                                {{replies.replyMessage}}
+                                            </p>
+                                            <!-- Reply form end -->
+                                        </div>
+                                    </details>
+                                    <!-- Comment 2 end -->
+                                </div>
+                            </details>
+                            <!-- Comment 1 end -->
+                        </div>
+                        <p-paginator (onPageChange)="onPageChange($event, 2)" [first]="first" [rows]="rows" [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
+                        </p-paginator>
+                    </div>            
+                </p-tabPanel>
+                <p-tabPanel header="1 sao" class="line-height-3 m-0">
+                    <div class="flex-auto">
+                        <div *ngFor="let item of displayFeedback" class="comment-thread">
+                            <!-- Comment 1 start -->
+                            <details class="comment" id="comment-1">
+                                <a href="#comment-1" class="comment-border-link">
+                                    <span class="sr-only">Jump to comment-1</span>
+                                </a>
+                                <summary style="margin-bottom: 10px;">
+                                    <div class="comment-heading" style="margin-bottom: 10px;">                                    
+                                        <div class="comment-info">
+                                            <a href="#" class="comment-author">{{item.customerName}}</a>
+                                            <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
+                                            <p class="m-0">
+                                                {{item.likeCount}} points &bull; {{item.displayDate}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </summary>
+                        
+                                <div class="comment-body">
+                                    <p>
+                                        {{item.feedbackMessage}}
+                                    </p>
+                                    <button [class.d-none]="!item.canReply" type="button" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onReply(item.feedbackId)">Reply</button>
+                                    <button type="button" (click)="onLikeReview(item.feedbackId)">{{item.isLiked ? "Unlike" : "Like"}}</button>
+                        
+                                    <!-- Reply form start -->
+                                    <div [id]="item.feedbackId" class="reply-form d-none">
+                                        <textarea placeholder="Reply to comment" rows="4"></textarea>
+                                        <button type="submit">Submit</button>
+                                        <button type="button" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onCancel(item.feedbackId)">Cancel</button>
+                                    </div>
+                                    <!-- Reply form end -->
+                                </div>
+                        
+                                <div *ngFor="let replies of item.listReply" class="replies">
+                                    <!-- Comment 2 start -->
+                                    <details class="comment" id="comment-2">
+                                        <a href="#comment-2" class="comment-border-link">
+                                            <span class="sr-only">Jump to comment-2</span>
+                                        </a>
+                                        <summary>
+                                            <div class="comment-heading">
+                                                <div class="comment-info">
+                                                    <a href="#" class="comment-author">{{replies.userName}}</a>
+                                                    <p class="m-0">
+                                                        {{replies.createDate}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </summary>
+                        
+                                        <div class="comment-body">
+                                            <p>
+                                                {{replies.replyMessage}}
+                                            </p>
+                                            <!-- Reply form end -->
+                                        </div>
+                                    </details>
+                                    <!-- Comment 2 end -->
+                                </div>
+                            </details>
+                            <!-- Comment 1 end -->
+                        </div>
+                        <p-paginator (onPageChange)="onPageChange($event, 1)" [first]="first" [rows]="rows" [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
+                        </p-paginator>
+                    </div>            
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+    </div>
+</div>
+
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>

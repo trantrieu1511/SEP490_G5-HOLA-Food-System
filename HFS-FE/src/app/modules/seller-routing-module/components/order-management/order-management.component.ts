@@ -10,6 +10,7 @@ import {
   OrderAcceptInput,
   OrderCancelInput,
   OrderCancelInputValidation,
+  OrderExternalInput,
   OrderInternalInput,
   OrderStatusInput,
 } from '../../models/order.model';
@@ -298,9 +299,9 @@ export class OrderManagementComponent
       message: `Are you sure to Accept this Order id: ${order.orderId} ?`,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        // document.body.style.cursor = 'wait';
-        // //confirm action
-        // this.acceptOrder(order);
+         document.body.style.cursor = 'wait';
+         //confirm action
+        this.commissionExternalShipper();
       },
       reject: () => {
         //reject action
@@ -352,7 +353,6 @@ export class OrderManagementComponent
 
     const param: OrderInternalInput = new OrderInternalInput(
       orderId,
-      2,
       shipperId
     );
     let response = await this.iServiceBase.postDataAsync(
@@ -374,6 +374,37 @@ export class OrderManagementComponent
       this.getAllOrders();
 
       this.visibleShipperLstDialog = false;
+    } else {
+      var messageError = this.iServiceBase.formatMessageError(response);
+      console.log(messageError);
+      this.showMessage(mType.error, response.message, messageError, 'notify');
+    }
+  }
+
+  
+  async commissionExternalShipper() {
+    const orderId = this.orderPreparingSelected.orderId;
+
+    const param: OrderExternalInput = new OrderExternalInput(
+      orderId
+    );
+    let response = await this.iServiceBase.postDataAsync(
+      API.PHAN_HE.ORDER,
+      API.API_ORDER.EXTERNAL_ORDER,
+      param,
+      true
+    );
+
+    if (response && response.message === 'Success') {
+      this.showMessage(
+        mType.success,
+        'Notification',
+        `Commission external shipper to orderId: ${orderId} successfully`,
+        'notify'
+      );
+
+      //lấy lại danh sách All
+      this.getAllOrders();
     } else {
       var messageError = this.iServiceBase.formatMessageError(response);
       console.log(messageError);

@@ -72,14 +72,20 @@ export class OrderAcceptInput{
 }
 
 export class OrderInternalInput{
-  constructor(orderId: number, status: number, shipperId: number){
+  constructor(orderId: number, shipperId: number){
     this.orderId = orderId;
-    this.status = status;
     this.shipperId = shipperId;
   }
 
   orderId: number;
-  status: number;
   shipperId: number;
+}
+
+export class OrderExternalInput{
+  constructor(orderId: number){
+    this.orderId = orderId;
+  }
+
+  orderId: number;
 }
 

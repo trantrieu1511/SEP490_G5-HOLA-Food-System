@@ -7,18 +7,18 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace HFS_BE.BusinessLogic.Notification
 {
-    public class NotificationBusinessLogic : BaseBusinessLogicSignalR
+    public class AddNotificationBusinessLogic : BaseBusinessLogic
     {
-        public NotificationBusinessLogic(SEP490_HFS_2Context context, IMapper mapper, IHubContext<Hub> hubContext) : base(context, mapper, hubContext)
+        public AddNotificationBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
-        public BaseOutputDto SendNotification(NotificationAddNewInputDto inputDto)
+        public BaseOutputDto AddNewNotification(NotificationAddNewInputDto inputDto)
         {
             try
             {
-
-                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+                var dao = CreateDao<NotificationDao>();
+                return dao.AddNewNotification(inputDto);
             }
             catch (Exception)
             {
