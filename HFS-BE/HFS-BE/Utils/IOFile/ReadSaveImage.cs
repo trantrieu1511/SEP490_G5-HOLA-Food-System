@@ -6,13 +6,13 @@ namespace HFS_BE.Utils.IOFile
     {
 
         /// <summary>
-        /// Save the images inputted by users through the API to the server's local path
+        /// Save the images inputted by users in the API to the server's local path
         /// </summary>
         /// <param name="images">Images inputted by users, has type of IReadOnlyList<IFormFile></param>
         /// <param name="user">The basic info of users which include userId, name, email, role</param>
         /// <param name="type">The category which the image belongs to (post images, food images, 
         /// order progress images,...)</param>
-        /// <returns>List of file which has been saved into the server with full path</returns>
+        /// <returns>List of fileName in order to save to db</returns>
         public static List<string> SaveImages(IReadOnlyList<IFormFile> images, UserDto user, int type)
         {
             string basePath = $"Resources\\Images\\" +

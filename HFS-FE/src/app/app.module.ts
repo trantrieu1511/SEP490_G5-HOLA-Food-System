@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppManageLayoutComponent } from './layout/manage/app.manage.component';
-import { DatePipe, HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { CommonModule, DatePipe, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { MenuService } from './app-systems/app-menu/app.menu.service';
 import { AppBreadcrumbService } from './app-systems/app-breadcrumb/app.breadcrumb.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -46,6 +46,8 @@ import { FoodManagementComponent } from './modules/menumoderator-routing-module/
 import { VoucherManagementComponent } from './modules/seller-routing-module/components/voucher-management/voucher-management.component';
 import { ProfileManagementComponent } from './modules/seller-routing-module/components/profile-management/profile-management.component';
 import { OrderhistoryComponent } from './modules/customer-routing-module/components/orderhistory/orderhistory.component';
+import { MenuDataService } from './services/menu-data.service';
+import { BusinessRoutingModule } from './modules/business-routing-module/business-routing-module.module';
 
 @NgModule({
   declarations: [
@@ -85,6 +87,7 @@ import { OrderhistoryComponent } from './modules/customer-routing-module/compone
     AppCustomerLayoutModule,
     ReactiveFormsModule,
     FormsModule,
+    BusinessRoutingModule,
     JwtModule.forRoot({
       config: {
         tokenGetter:  () => sessionStorage.getItem('token')
@@ -95,6 +98,7 @@ import { OrderhistoryComponent } from './modules/customer-routing-module/compone
 
   providers: [
     JwtService,
+    MenuDataService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     MenuService, AppBreadcrumbService, DatePipe,
     {provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true},

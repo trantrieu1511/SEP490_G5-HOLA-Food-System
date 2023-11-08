@@ -31,6 +31,9 @@ using HFS_BE.DAO.ModeratorDao;
 using HFS_BE.BusinessLogic.ManageUser;
 using HFS_BE.DAO.VoucherDao;
 using HFS_BE.DAO.NotificationDao;
+using HFS_BE.DAO.PostReportDao;
+using HFS_BE.DAO.NewsfeedDao;
+using HFS_BE.BusinessLogic.Newsfeed;
 
 namespace HFS_BE.Automapper
 {
@@ -55,6 +58,7 @@ namespace HFS_BE.Automapper
             Voucher();
             Shop();
             Notification();
+            Newsfeed();
         }
 
         /// <summary>
@@ -140,14 +144,24 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.CartItems));
             CreateMap<CartItemDto, CartItemDaoInputDto>();
             CreateMap<CartItemInputDto, CartItemDaoInputDto>();
-
+            CreateMap<Order, OrderExternalShipperOutputDto>()
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.FirstName + " " + src.Customer.LastName : null))
+                .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => src.OrderDate != null ? src.OrderDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null))
+                .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => PaymentMethodEnum.GetPaymentMethodString(src.PaymentMethod)))
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.OrderDetails.Select(
+                        d => d.UnitPrice * d.Quantity
+                    ).ToList().Sum() - (src.Voucher != null ? src.Voucher.DiscountAmount : 0))) //* them voucher))
+                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.OrderBy(x => x.UnitPrice).ToList()));
 
             //seller
             //*input
             CreateMap<OrderCancelInputDto, OrderProgressCancelInputDto>();
             CreateMap<OrderAcceptInputDto, OrderProgressStatusInputDto>();
-            CreateMap<OrderInternalShipInputDto, OrderProgressStatusInputDto>();
+            CreateMap<OrderInternalShipInputDto, OrderProgressStatusInputDto>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.User.UserId));
             CreateMap<OrderInternalInputDto, OrderInternalShipInputDto>();
+            CreateMap<OrderExternalShipInputDto, OrderProgressStatusInputDto>();
+            CreateMap<OrderExternalInputDto, OrderExternalShipInputDto>();
             //*output
 
             //CreateMap<List<Order>, OrderDaoSellerOutputDto>();
@@ -158,7 +172,9 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.ShippedDate, opt => opt.MapFrom(src => src.ShippedDate != null ? src.ShippedDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null))
                 .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.Shipper != null ? src.Shipper.FirstName + " " + src.Shipper.LastName : null))
                 .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => PaymentMethodEnum.GetPaymentMethodString(src.PaymentMethod)))
-                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.OrderDetails.Select(d => d.UnitPrice * d.Quantity).ToList().Sum())) //* them voucher))
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.OrderDetails.Select(
+                        d => d.UnitPrice * d.Quantity
+                    ).ToList().Sum() - (src.Voucher != null ? src.Voucher.DiscountAmount : 0))) //* them voucher))
                 .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses.OrderBy(x => x.CreateDate).ToList()))
                 .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.OrderBy(x => x.UnitPrice).ToList()));
             /*.ForMember(dest => dest.Detail, opt => opt.MapFrom(src => new DetailProgress
@@ -184,7 +200,7 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("MM/dd/yyyy - HH:mm:ss")));
             //CreateMap<ICollection<OrderProgress>, List<DetailProgress>>();
 
-            CreateMap<OrderDetail, OrderDetailFoodDto>()
+            CreateMap<OrderDetail, Dao.OrderDao.OrderDetailFoodDto>()
                 .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderId))
                 .ForMember(dest => dest.FoodId, opt => opt.MapFrom(src => src.FoodId))
                 .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.UnitPrice))
@@ -195,7 +211,7 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.SellId, opt => opt.MapFrom(src => src.Food.SellerId));
             //CreateMap<ICollection<OrderDetail>, List<OrderDetailFoodDto>>();
 
-            CreateMap<Dao.OrderDao.OrderDetailFoodDto, BusinessLogic.ManageOrder.OrderDetailFoodDto>();
+            CreateMap<Dao.OrderDao.OrderDetailFoodDto, BusinessLogic.ManageOrder.OrderDetailFoodBLDto>();
             CreateMap<Dao.OrderDao.DetailProgress, BusinessLogic.ManageOrder.DetailProgress>();
             CreateMap<Dao.OrderDao.OrderDaoSellerOutputDto, BusinessLogic.ManageOrder.OrderDaoSellerOutputDto>();
             CreateMap<Dao.OrderDao.OrderSellerDaoOutputDto, BusinessLogic.ManageOrder.OrderSellerDaoOutputDto>();
@@ -288,6 +304,7 @@ namespace HFS_BE.Automapper
             CreateMap<ImageFileConvert.ImageOutputDto, PostImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, FoodImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, BusinessLogic.OrderShipper.ImageFoodOutputDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, BusinessLogic.Newsfeed.PostImageOutputDto>();
         }
 
         public void Category()
@@ -334,7 +351,10 @@ namespace HFS_BE.Automapper
 
         public void Voucher()
         {
-            CreateMap<Voucher, GetVoucherDaoOutputDto>();
+            CreateMap<Voucher, GetVoucherDaoOutputDto>()
+                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => VoucherStatusEnum.GetStatusString(src.Status)));
+
+
 
         }
 
@@ -343,6 +363,11 @@ namespace HFS_BE.Automapper
             CreateMap<NotificationAddNewInputDto, Notification>();
         }
 
+        public void Newsfeed()
+        {
+            CreateMap<DAO.NewsfeedDao.NewsfeedOutputDto, BusinessLogic.Newsfeed.NewsfeedOutputDto>();
+            CreateMap<DAO.NewsfeedDao.ListNewsfeedOutputDto, BusinessLogic.Newsfeed.ListNewsfeedOutputDto>();
+        }
     }
 }
 

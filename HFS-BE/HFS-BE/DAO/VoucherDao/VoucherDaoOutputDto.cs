@@ -21,7 +21,7 @@ namespace HFS_BE.DAO.VoucherDao
         public string Code { get; set; } = null!;
         public decimal DiscountAmount { get; set; }
         public decimal? MinimumOrderValue { get; set; }
-        public byte? Status { get; set; }
+        public string? Status { get; set; }
         public DateTime? EffectiveDate { get; set; }
         public DateTime? ExpireDate { get; set; }
     }

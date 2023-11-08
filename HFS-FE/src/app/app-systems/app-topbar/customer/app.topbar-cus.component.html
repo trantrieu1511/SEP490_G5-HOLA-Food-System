@@ -5,35 +5,42 @@
             <!-- <span>Hola Food System</span> -->
         </a>
 
-        <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+        <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button"
+            (click)="layoutService.showProfileSidebar()">
             <i class="pi pi-ellipsis-v"></i>
         </button>
     </div>
 
-    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+    <div #topbarmenu class="layout-topbar-menu"
+        [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
         <ul class="layout-topbar-items">
+            <li class="layout-topbar-item">
+                <a class="layout-topbar-action rounded-circle" (click)="goToNewsFeedPage();" pRipple>
+                    <span class="p-overlay-badge">
+                        <i class="pi pi-book fs-large"></i>
+                    </span>
+                </a>
+            </li>
             <app-notifications [layoutService]="layoutService"></app-notifications>
             <li class="layout-topbar-item shoppingcart">
                 <a class="layout-topbar-action rounded-circle"
-                   (click)="layoutService.onTopbarItemClick($event, 'shoppingcart')" pRipple>
+                    (click)="layoutService.onTopbarItemClick($event, 'shoppingcart')" pRipple>
                     <span class="p-overlay-badge">
                         <i class="pi pi-shopping-cart fs-large"></i>
                         <span class="p-badge p-badge-warning p-badge-dot"></span>
                     </span>
                 </a>
 
-                <ul class="layout-topbar-action-panel shadow-6"
-                    [@topbarActionPanelAnimation]="'visible'"
+                <ul class="layout-topbar-action-panel shadow-6" [@topbarActionPanelAnimation]="'visible'"
                     *ngIf="layoutService.state.activeTopbarItem === 'shoppingcart'">
 
                     <li class="layout-topbar-action-item">
                         <div class="flex flex-row align-items-center">
-                            <img src="../../../assets/demo/images/avatar/avatar-1.png"/>
+                            <img src="../../../assets/demo/images/avatar/avatar-1.png" />
                             <div class="flex flex-column"
-                                 [ngClass]="{'ml-3': !layoutService.app.isRTL, 'mr-3': layoutService.app.isRTL}"
-                                 style="flex-grow: 1;">
-                                <div
-                                    class="flex align-items-center justify-content-between mb-1">
+                                [ngClass]="{'ml-3': !layoutService.app.isRTL, 'mr-3': layoutService.app.isRTL}"
+                                style="flex-grow: 1;">
+                                <div class="flex align-items-center justify-content-between mb-1">
                                     <span class="fs-small font-bold">Jerome Bell</span>
                                     <small>42 mins ago</small>
                                 </div>
@@ -43,28 +50,25 @@
                     </li>
                     <li class="layout-topbar-action-item">
                         <div class="flex flex-row align-items-center">
-                            <img src="../../../assets/demo/images/avatar/avatar-2.png"/>
+                            <img src="../../../assets/demo/images/avatar/avatar-2.png" />
                             <div class="flex flex-column"
-                                 [ngClass]="{'ml-3': !layoutService.app.isRTL, 'mr-3': layoutService.app.isRTL}"
-                                 style="flex-grow: 1;">
-                                <div
-                                    class="flex align-items-center justify-content-between mb-1">
+                                [ngClass]="{'ml-3': !layoutService.app.isRTL, 'mr-3': layoutService.app.isRTL}"
+                                style="flex-grow: 1;">
+                                <div class="flex align-items-center justify-content-between mb-1">
                                     <span class="fs-small font-bold">Cameron Williamson</span>
                                     <small>48 mins ago</small>
                                 </div>
-                                <span
-                                    class="fs-small">Start a blog to reach your creative peak.</span>
+                                <span class="fs-small">Start a blog to reach your creative peak.</span>
                             </div>
                         </div>
                     </li>
                     <li class="layout-topbar-action-item">
                         <div class="flex flex-row align-items-center">
-                            <img src="../../../assets/demo/images/avatar/avatar-3.png"/>
+                            <img src="../../../assets/demo/images/avatar/avatar-3.png" />
                             <div class="flex flex-column"
-                                 [ngClass]="{'ml-3': !layoutService.app.isRTL, 'mr-3': layoutService.app.isRTL}"
-                                 style="flex-grow: 1;">
-                                <div
-                                    class="flex align-items-center justify-content-between mb-1">
+                                [ngClass]="{'ml-3': !layoutService.app.isRTL, 'mr-3': layoutService.app.isRTL}"
+                                style="flex-grow: 1;">
+                                <div class="flex align-items-center justify-content-between mb-1">
                                     <span class="fs-small font-bold">Anna Miles</span>
                                     <small>1 day ago</small>
                                 </div>
@@ -74,62 +78,64 @@
                     </li>
                     <li class="layout-topbar-action-item">
                         <div class="flex flex-row align-items-center">
-                            <img src="../../../assets/demo/images/avatar/avatar-4.png"/>
+                            <img src="../../../assets/demo/images/avatar/avatar-4.png" />
                             <div class="flex flex-column"
-                                 [ngClass]="{'ml-3': !layoutService.app.isRTL, 'mr-3': layoutService.app.isRTL}"
-                                 style="flex-grow: 1;">
-                                <div
-                                    class="flex align-items-center justify-content-between mb-1">
+                                [ngClass]="{'ml-3': !layoutService.app.isRTL, 'mr-3': layoutService.app.isRTL}"
+                                style="flex-grow: 1;">
+                                <div class="flex align-items-center justify-content-between mb-1">
                                     <span class="fs-small font-bold">Arlene Mccoy</span>
                                     <small>4 day ago</small>
                                 </div>
-                                <span
-                                    class="fs-small">Starting your traveling blog with Vasco.</span>
+                                <span class="fs-small">Starting your traveling blog with Vasco.</span>
                             </div>
                         </div>
                     </li>
                 </ul>
             </li>
-            <li class="layout-topbar-item">
+            <li *ngIf="isLoggedIn == true" class="layout-topbar-item">
                 <a class="layout-topbar-action flex flex-row justify-content-center align-items-center px-2 rounded-circle"
-                   (click)="layoutService.onTopbarItemClick($event, 'profile')" pRipple>
+                    (click)="layoutService.onTopbarItemClick($event, 'profile')" pRipple>
                     <img src="../../../assets/demo/images/avatar/amyelsner.png" alt="avatar"
-                         style="width: 32px; height: 32px;">
+                        style="width: 32px; height: 32px;">
                 </a>
 
-                <ul class="layout-topbar-action-panel shadow-6"
-                    [@topbarActionPanelAnimation]="'visible'"
+                <ul class="layout-topbar-action-panel shadow-6" [@topbarActionPanelAnimation]="'visible'"
                     *ngIf="layoutService.state.activeTopbarItem === 'profile'">
                     <li class="layout-topbar-action-item">
                         <a class="flex flex-row align-items-center" pRipple (click)="viewProfile()">
                             <i class="pi pi-user"
-                               [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>&nbsp;
+                                [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>&nbsp;
                             <span>Profile</span>
                         </a>
                     </li>
                     <li class="layout-topbar-action-item">
                         <a class="flex flex-row align-items-center" pRipple>
                             <i class="pi pi-file-o"
-                               [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>&nbsp;
+                                [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>&nbsp;
                             <span>Terms of Usage</span>
                         </a>
                     </li>
                     <li class="layout-topbar-action-item">
                         <a class="flex flex-row align-items-center" pRipple>
                             <i class="pi pi-compass"
-                               [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>&nbsp;
+                                [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>&nbsp;
                             <span>Support</span>
                         </a>
                     </li>
                     <li class="layout-topbar-action-item">
-                        <a class="flex flex-row align-items-center" (click)="logOut($event)"
-                           pRipple>
+                        <a class="flex flex-row align-items-center" (click)="logOut($event)" pRipple>
                             <i class="pi pi-power-off"
-                               [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>&nbsp;
+                                [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>&nbsp;
                             <span>Logout</span>
                         </a>
                     </li>
                 </ul>
+            </li>
+            <li *ngIf="!isLoggedIn" style="padding-top: 10px;">
+                <a class="layout-topbar-action flex flex-row justify-content-center align-items-center px-2 rounded-circle"
+                    (click)="goToLoginPage();" pRipple>
+                    Login
+                </a>
             </li>
 
         </ul>

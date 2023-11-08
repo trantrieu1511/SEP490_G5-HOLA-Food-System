@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Mvc;
@@ -15,20 +16,20 @@ namespace HFS_BE.Base
     {
         private readonly SEP490_HFS_2Context context;
         public readonly IMapper mapper;
-        protected readonly IHubContext<Hub> hubContext;
+        protected readonly IHubContextFactory _hubContextFactory;
 
-        public BaseControllerSignalR(SEP490_HFS_2Context context, IMapper mapper, IHubContext<Hub> hubContext)
+        public BaseControllerSignalR(SEP490_HFS_2Context context, IMapper mapper, IHubContextFactory hubContextFactory)
         {
             this.context = context;
             this.mapper = mapper;
-            this.hubContext = hubContext;
+            _hubContextFactory = hubContextFactory;
         }
 
 
         public T GetBusinessLogic<T>() where T : BaseBusinessLogic
         {
 
-            return (T)Activator.CreateInstance(typeof(T), context, mapper, hubContext);
+            return (T)Activator.CreateInstance(typeof(T), context, mapper);
         }
 
         [NonAction]

@@ -44,6 +44,8 @@ export class API_ORDER {
     public static CANCEL_ORDER = "cancelOrderSeller";
     public static ACCEPT_ORDER = "acceptOrderSeller";
     public static INTERNAL_ORDER = "internalShipperOrderSeller";
+    public static EXTERNAL_ORDER = "externalShipperOrderSeller";
+
 }
 
 export class API_SHIPPER {
@@ -81,7 +83,8 @@ export class API_VOUCHER {
     public static DELETE_LIST_APP_USER = "deleteListAppUser";
     public static GET_ALL_VOUCHER = "getListvoucher";
     public static CREATE_VOUCHER = "addNewVoucher";
-    public static EDIT_VOUCHER = "updateVoucher";
+    public static EDIT_VOUCHER = "updatevoucher";
+    public static ENABLE_DISABLE_VOUCHER = "Enable_Disable"
 }
 
 // API related to post entity
@@ -126,6 +129,7 @@ export class API_CHECKOUT{
 
 export class API_HUB{
     public static DATA_REALTIME = "dataRealTime";
+    public static NOTIFY_REALTIME = "notifyRealTime";
 }
 
 export class API_NOTIFY{

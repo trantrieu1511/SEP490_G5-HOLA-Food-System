@@ -72,13 +72,39 @@ namespace HFS_BE.DAO.VoucherDao
                 {
                     return Output<BaseOutputDto>(Constants.ResultCdFail, $"VoucherId: {inputDto.VoucherId} not exist!");
                 }
-                data.Code = inputDto.Code;
                 data.DiscountAmount = inputDto.DiscountAmount;
                 data.Status = inputDto.Status;
                 data.EffectiveDate = inputDto.EffectiveDate;
                 data.ExpireDate = inputDto.ExpireDate;
                 context.SaveChanges();
                 
+                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public BaseOutputDto Enable_Disable_Voucher(Enable_Disable_VoucherDaoInput inputDto)
+        {
+            try
+            {
+                var data = this.context.Vouchers.FirstOrDefault(x => x.VoucherId == inputDto.VoucherId);
+                if (data == null)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, $"VoucherId: {inputDto.VoucherId} not exist!");
+                }
+                if (inputDto.Type)
+                {
+                    data.Status = 1;
+                    context.SaveChanges();
+                    return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+                }
+                data.Status = 2;
+                context.SaveChanges();
+
                 return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
             catch (Exception)
@@ -100,6 +126,11 @@ namespace HFS_BE.DAO.VoucherDao
             }
 
             return code.ToString();
+        }
+
+        public Voucher? GetVoucherById(int voucherId)
+        {
+            return context.Vouchers.FirstOrDefault(x => x.VoucherId == voucherId);
         }
     }
 }

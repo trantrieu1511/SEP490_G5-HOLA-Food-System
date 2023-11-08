@@ -17,8 +17,8 @@ namespace HFS_BE.Controllers.OrderShipper
         public OrderOnShipperController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
+
         [HttpPost("shipper/order")]
-        
         public OrderByShipperBLOutputDto GetAllOrder(OrderByShipperDaoInputDto inputDto)
         {
             try

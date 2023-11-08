@@ -42,10 +42,13 @@ namespace HFS_BE.Controllers.ManageOrder
     {
         [Required(ErrorMessage = "OrderId is not empty")]
         public int OrderId { get; set; }
-        [Required(ErrorMessage = "Status is not empty")]
-        [OrderProgressStatus(ErrorMessage = "Invalid status")]
-        public byte Status { get; set; }
         [Required(ErrorMessage = "ShipperId is not empty")]
         public string? ShipperId { get; set; }
+    }
+
+    public class OrderExternalInputDto
+    {
+        [Required(ErrorMessage = "OrderId is not empty")]
+        public int OrderId { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HFS_BE.Utils;
+using System.ComponentModel.DataAnnotations;
 
 namespace HFS_BE.Dao.OrderDao
 {
@@ -49,9 +50,14 @@ namespace HFS_BE.Dao.OrderDao
     public class OrderInternalShipInputDto
     {
         public int OrderId { get; set; }
-        public byte Status { get; set; }
-        public string? UserId { get; set; }
+        public UserDto? User { get; set; }
         public string? ShipperId { get; set; }
+    }
+
+    public class OrderExternalShipInputDto
+    {
+        public int OrderId { get; set; }
+        public string? UserId { get; set; }
     }
 
     public class GetOrdersCustomerDaoInputDto
@@ -74,4 +80,5 @@ namespace HFS_BE.Dao.OrderDao
         public string CustomerId { get; set; }
         public int? FoodId { get; set; }
     }
+
 }

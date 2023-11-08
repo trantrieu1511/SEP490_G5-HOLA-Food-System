@@ -33,5 +33,25 @@ namespace HFS_BE.DAO.CategoryDao
         {
             return context.Categories.FirstOrDefault(x => x.CategoryId == id); 
         }
+
+        public BaseOutputDto UpdateCategory(UpdateCategoryDaoInputDto inputDto)
+        {
+            try
+            {
+                var data = context.Categories.FirstOrDefault(x => x.CategoryId == inputDto.CategoryId);
+                if(data == null)
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                }
+                data.Name= inputDto.Name;
+                data.Status= inputDto.Status;
+                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
     }
 }

@@ -115,13 +115,13 @@ export class AppCustomerLayoutComponent implements OnDestroy, OnInit {
     }
 
     // Not allow the user to access the page if they are not guests/customers
-    checkUserAccessPermission() {
-        let userRoleName = sessionStorage.getItem("userId").substring(0, 2);
-        if (userRoleName !== 'CU') {
-            this.router.navigateByUrl('/HFSBusiness');
-            alert('You can only visit this website as a guest or customer.');
-        }
-    }
+    // checkUserAccessPermission() {
+    //     let userRoleName = sessionStorage.getItem("userId").substring(0, 2);
+    //     if (userRoleName !== 'CU') {
+    //         this.router.navigateByUrl('/HFSBusiness');
+    //         alert('You can only visit this website as a guest or customer.');
+    //     }
+    // }
 
     ngOnInit(): void {
         const cssFilePaths = ['assets/theme/lara-light-indigo/theme.css',
@@ -139,6 +139,6 @@ export class AppCustomerLayoutComponent implements OnDestroy, OnInit {
             this.renderer.setAttribute(cssLink, 'href', link);
             this.renderer.appendChild(document.head, cssLink);
         });
-        this.checkUserAccessPermission();
+        // this.checkUserAccessPermission();
     }
 }

@@ -96,16 +96,16 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
   }
 
   // Not allow the user to access the page if they are not post moderator
-  checkUserAccessPermission() {
-    let userRoleName = sessionStorage.getItem("userId").substring(0, 2);
-    if (userRoleName !== "PM") {
-      this.router.navigateByUrl('/HFSBusiness');
-      alert('You cannot access this page unless you are a post moderator');
-    }
-  }
+  // checkUserAccessPermission() {
+  //   let userRoleName = sessionStorage.getItem("userId").substring(0, 2);
+  //   if (userRoleName !== "PM") {
+  //     this.router.navigateByUrl('/HFSBusiness');
+  //     alert('You cannot access this page unless you are a post moderator');
+  //   }
+  // }
 
   async ngOnInit() {
-    this.checkUserAccessPermission();
+    // this.checkUserAccessPermission();
     this.connectSignalR();
     this.getAllPost();
 
@@ -130,7 +130,7 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
   async connectSignalR() {
     this.lstPost = [];
     this.signalRService.startConnection();
-    const res = await this.signalRService.addTransferDataListener(API.PHAN_HE.POST, API.API_POST.GET_POST);
+    const res = await this.signalRService.addTransferDataListener('dataRealTime' ,API.PHAN_HE.POST, API.API_POST.GET_POST);
     if (res && res.message === "Success") {
       this.lstPost = res.posts;
     }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CloudinaryDotNet.Actions;
 using HFS_BE.Base;
 using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.Models;
@@ -354,6 +355,34 @@ namespace HFS_BE.Dao.OrderDao
             catch (Exception)
             {
                 return this.Output<GetCustomerOrdersDaoOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public OrderExternalLstOutputDto GetAllOrderExternalShipper()
+        {
+            try
+            {
+                var query = context.Orders
+                    .Include(x => x.OrderDetails).ThenInclude(x => x.Food)
+                        .ThenInclude(f => f.Category)
+                    .Include(x => x.OrderDetails).ThenInclude(x => x.Food)
+                        .ThenInclude(f => f.FoodImages)
+                    .Include(x => x.Customer)
+                    .Include(x => x.Voucher)
+                    .Include(x => x.OrderProgresses)
+                    .Include(x => x.Seller)
+                    .Where(x => x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 2 //check order is Wait_Shipper = 2,
+                        && x.ShipperId == null // null because orderprogress : wait shipper but shipperId in order null -> wait external shipper
+                );
+
+                var result = query.Select(o => mapper.Map<Order, OrderExternalShipperOutputDto>(o)).ToList();
+                var output = Output<OrderExternalLstOutputDto>(Constants.ResultCdSuccess);
+                output.Orders = result;
+                return output;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

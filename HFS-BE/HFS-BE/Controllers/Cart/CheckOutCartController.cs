@@ -1,28 +1,46 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Cart;
+using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace HFS_BE.Controllers.Cart
 {
-    public class CheckOutCartController : BaseController
+    public class CheckOutCartController : BaseControllerSignalR
     {
-        public CheckOutCartController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public CheckOutCartController(SEP490_HFS_2Context context, IMapper mapper, IHubContextFactory hubContextFactory) : base(context, mapper, hubContextFactory)
         {
         }
 
         [HttpPost("checkout/createorder")]
         [Authorize(Roles = "CU")]
-        public BaseOutputDto CheckOutCart(CheckOutCartInputDto inputDto)
+        public async Task<BaseOutputDto> CheckOutCart(CheckOutCartInputDto inputDto)
         {
             try
             {
                 inputDto.CustomerId = this.GetUserInfor().UserId;
                 var busi = this.GetBusinessLogic<CheckOutBusinessLogic>();
-                return busi.CheckOutCart(inputDto);
+                var result = busi.CheckOutCart(inputDto);
+
+                if (result.Success)
+                {
+                    //notify for seller
+                    var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
+                    // refresh data of seller
+                    var dataRealTimeHub = _hubContextFactory.CreateHub<DataRealTimeHub>();
+
+                    foreach (var shop in inputDto.ListShop)
+                    {
+                        await notifyHub.Clients.Group(shop.ShopId).SendAsync("notification");
+                        await dataRealTimeHub.Clients.Group(shop.ShopId).SendAsync("orderSellerRealTime");
+                    }
+                }
+
+                return result;
             }
             catch (Exception)
             {

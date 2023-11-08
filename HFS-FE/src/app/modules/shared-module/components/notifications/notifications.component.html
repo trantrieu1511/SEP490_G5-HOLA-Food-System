@@ -1,4 +1,5 @@
-<li class="layout-topbar-item notifications">
+<li class="layout-topbar-item notifications"
+>
     <a class="layout-topbar-action rounded-circle"
         (click)="layoutService.onTopbarItemClick($event, 'notifications')" pRipple>
         <span class="p-overlay-badge">
@@ -17,5 +18,34 @@
             [notify]="notify" 
             *ngFor="let notify of lstNotification">
         </notification-item>
+        <li class="view-all mt-3">
+            <div class="flex flex-row align-items-center">
+                <div class="flex flex-column"
+                        [class.ml-3] = "!layoutService.app.isRTL"
+                        [class.mr-3] = "layoutService.app.isRTL"
+                        style="flex-grow: 1;">
+                    <div class="flex align-items-center justify-content-center mb-1">
+                        <a class="text-sm font-bold" href="">View All Notifications</a>
+                        <i class="text-sm pi pi-chevron-right"
+                            style="margin-left: 0.3rem; color: #212121; margin-top: 0.2rem;"
+                        ></i>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="mark-all">
+            <div class="flex flex-row align-items-center">
+                <div class="flex flex-column"
+                        [class.ml-3] = "!layoutService.app.isRTL"
+                        [class.mr-3] = "layoutService.app.isRTL"
+                        style="flex-grow: 1;">
+                    <div class="flex align-items-center justify-content-center">
+                        <a class="text-xs font-bold text-600" 
+                        [class.mark-all_disabled]="!isNewNotify"
+                        href="">Mark all notifications as read</a>
+                    </div>
+                </div>
+            </div>
+        </li>
     </ul>
 </li>

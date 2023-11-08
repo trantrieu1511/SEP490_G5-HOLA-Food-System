@@ -10,7 +10,7 @@ import {
   ShareData,
   iFunction,
 } from 'src/app/modules/shared-module/shared-module';
-import { Voucher, VoucherCreate } from '../../models/voucher.model';
+import { Voucher, VoucherDisplayHideInputDto, VoucherInput} from '../../models/voucher.model';
 @Component({
   selector: 'app-voucher-management',
   templateUrl: './voucher-management.component.html',
@@ -22,8 +22,7 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
   loading: boolean;
   userId : string;
   headerDialog: string = '';
-  voucherModel: VoucherCreate = new VoucherCreate();
-  voucherModel1: Voucher = new Voucher();
+  voucherModel: Voucher = new Voucher();
   check :boolean = false;
   displayDialogEditAddVoucher: boolean = false;
 
@@ -42,6 +41,7 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
     this.GetAllVoucher();
   }
   
+
   async GetAllVoucher(){
     this.lstVoucher = [];
 
@@ -69,64 +69,173 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
   onHideDialogEditAdd() {
     
   }
+
+  onHideVoucher(voucher: Voucher, event) {
+    this.confirmationService.confirm({
+      target: event.target,
+      message: `Are you sure to Hide this Voucher : ${voucher.code} ?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //confirm action
+        this.EDVoucher(voucher, false);
+      },
+      reject: () => {
+        //reject action
+      },
+    });
+  }
+
+  onDisplayVoucher(voucher: Voucher, event) {
+    this.confirmationService.confirm({
+      target: event.target,
+      message: `Are you sure to Display this post id: ${voucher.code} ?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //confirm action
+        this.EDVoucher(voucher, true);
+      },
+      reject: () => {
+        //reject action
+      },
+    });
+  }
+
+  async EDVoucher(voucherEnity: Voucher, type: boolean) {
+    // type = true => Display
+    // false => Hide
+
+    const message = type ? 'Displayed' : 'Hidden';
+
+    try {
+      let param: VoucherDisplayHideInputDto = new VoucherDisplayHideInputDto();
+      param.voucherId = voucherEnity.voucherId;
+      param.type = type;
+
+      let response = await this.iServiceBase.postDataAsync(
+        API.PHAN_HE.VOUCHER,
+        API.API_VOUCHER.ENABLE_DISABLE_VOUCHER,
+        param,
+        true
+      );
+
+      if (response && response.message === 'Success') {
+        this.showMessage(
+          mType.success,
+          'Notification',
+          `${message} Voucher: ${voucherEnity.code} successfully`,
+          'notify'
+        );
+
+        //lấy lại danh sách All
+        this.GetAllVoucher();
+      } else {
+        var messageError = this.iServiceBase.formatMessageError(response);
+        console.log(messageError);
+        this.showMessage(mType.error, response.message, messageError, 'notify');
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  bindingDataVoucherModel(): VoucherInput {
+    let vouInput = new VoucherInput();
+
+    if (this.voucherModel.voucherId && this.voucherModel.voucherId > 0) {
+      //Update
+      vouInput.voucherId = this.voucherModel.voucherId;
+      vouInput.discountAmount = this.voucherModel.discountAmount;
+      vouInput.effectiveDate = this.voucherModel.effectiveDate;
+      vouInput.expireDate = this.voucherModel.expireDate;
+      vouInput.minimumOrderValue = this.voucherModel.minimumOrderValue;
+      vouInput.status = this.voucherModel.status;
+    } else {
+      //Insert
+      vouInput.discountAmount = this.voucherModel.discountAmount;
+      vouInput.effectiveDate = this.voucherModel.effectiveDate;
+      vouInput.expireDate = this.voucherModel.expireDate;
+      vouInput.minimumOrderValue = this.voucherModel.minimumOrderValue;
+      vouInput.status = this.voucherModel.status;
+    }
+
+    return vouInput;
+  }
+
   onCreateVoucher(){
     this.headerDialog = 'Add New Voucher';
 
     this.voucherModel = new Voucher();
-this.check=true;
+
     this.displayDialogEditAddVoucher = true;
   }
-  async onSaveVoucher(){
 
-if(this.check ==true){
-  this.voucherModel.sellerId = this.userId;
-  console.log(this.voucherModel)
-  debugger;
-  try{
-  let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.VOUCHER, API.API_VOUCHER.CREATE_VOUCHER,this.voucherModel);
+  onUpdateVoucher(voucher: Voucher) {
+    this.headerDialog = `Edit Voucher: ${voucher.code}`;
 
-  if (response && response.message === "Success") {
-    this.GetAllVoucher();
-    this.showMessage(mType.success, "Notification", "Create successfully", 'notify');
-    this.displayDialogEditAddVoucher = false;
-  }else{
-    this.showMessage(mType.success, "Notification", "Create failure", 'notify');
+    this.displayDialogEditAddVoucher=true;
+
+    this.voucherModel = Object.assign({}, voucher);
+
   }
-  }catch (e) {
-    console.log(e);
-    this.showMessage(mType.error, "Notification", "Create failure", 'notify');
-    }
-}else{
-  //xử lý update voucher
-  try{
 
-    let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.VOUCHER, API.API_VOUCHER.EDIT_VOUCHER,this.voucherModel1);
-  
-    if (response && response.message === "Success") {
-      this.GetAllVoucher();
-      this.showMessage(mType.success, "Notification", "Update successfully", 'notify');
-      this.displayDialogEditAddVoucher = false;
-    }else{
-      this.showMessage(mType.success, "Notification", "Update failure", 'notify');
-    }
-    }catch (e) {
-      console.log(e);
-      this.showMessage(mType.error, "Notification", "Update failure", 'notify');
+  onSaveVoucher() {
+    //console.log(this.uploadedFiles);
+    let voucherEntity = this.bindingDataVoucherModel();
+
+      if (voucherEntity && voucherEntity.voucherId && voucherEntity.voucherId > 0) {
+        this.updateVoucher(voucherEntity);
+      } else {
+        this.createVoucher(voucherEntity);
       }
-}
     
   }
+
+  async updateVoucher(voucherEntity : VoucherInput){
+    try {
+      voucherEntity.sellerId = this.userId;
+
+      let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.VOUCHER, API.API_VOUCHER.EDIT_VOUCHER,voucherEntity);
+      if (response && response.message === "Success") {
+        this.GetAllVoucher();
+        this.showMessage(mType.success, "Notification", "Update successfully", 'notify');
+        this.displayDialogEditAddVoucher = false;
+      }else{
+        this.showMessage(mType.success, "Notification", "Update failure", 'notify');
+      }
+    } catch (e) {
+      console.log(e);
+        this.showMessage(mType.error, "Notification", "Update failure", 'notify');
+    }
+  }
+  async createVoucher(voucherEntity : VoucherInput){
+    try {
+      
+      const param = new FormData();  
+      this.userId = sessionStorage.getItem('userId');  
+      param.append('sellerId',this.userId);    
+      param.append('discountAmount',voucherEntity.discountAmount.toString());
+      param.append('minimumOrderValue',voucherEntity.minimumOrderValue.toString());
+      param.append('status',voucherEntity.status.toString());
+      param.append('effectiveDate',voucherEntity.effectiveDate.toString());
+      param.append('expireDate',voucherEntity.expireDate.toString());
+
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.VOUCHER, API.API_VOUCHER.CREATE_VOUCHER,param,true);
+      if (response && response.message === "Success") {
+        this.GetAllVoucher();
+        this.showMessage(mType.success, "Notification", "Create successfully", 'notify');
+        this.displayDialogEditAddVoucher = false;
+      }else{
+        this.showMessage(mType.success, "Notification", "Create failure", 'notify');
+      }
+    } catch (e) {
+      console.log(e);
+        this.showMessage(mType.error, "Notification", "Create failure", 'notify');
+    }
+  }
+  
+  
   onCancelVoucher(){
     this.displayDialogEditAddVoucher = false;
   }
- 
 
-  onUpdateVoucher(voucher: Voucher) {
-    this.check=false;
-    this.headerDialog = `Edit Voucher: ${voucher.code}`;
-    this.displayDialogEditAddVoucher=true;
-    this.voucherModel=voucher;
-    console.log(this.voucherModel);
-
-  }
 }
