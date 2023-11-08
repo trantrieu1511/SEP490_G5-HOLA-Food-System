@@ -45,6 +45,7 @@ import { SellerListComponent } from './seller-list/seller-list.component';
 import { FoodManagementComponent } from './modules/menumoderator-routing-module/components/food-management/food-management.component';
 import { VoucherManagementComponent } from './modules/seller-routing-module/components/voucher-management/voucher-management.component';
 import { ProfileManagementComponent } from './modules/seller-routing-module/components/profile-management/profile-management.component';
+import { OrderhistoryComponent } from './modules/customer-routing-module/components/orderhistory/orderhistory.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { ProfileManagementComponent } from './modules/seller-routing-module/comp
     NewsfeedComponent,
     SellerListComponent,
     VoucherManagementComponent,
-    ProfileManagementComponent
+    ProfileManagementComponent,
+    OrderhistoryComponent
     
   ],
   imports: [

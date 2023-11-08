@@ -56,13 +56,17 @@ namespace HFS_BE.Dao.OrderDao
 
     public class GetOrdersCustomerDaoInputDto
     {
-        public string CustomerId { get; set;}
+        public string? CustomerId { get; set;}
+        public int? Status { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateEnd { get; set; }
     }
 
     public class OrderCustomerDaoInputDto
     {
         public int OrderId { get; set; }
-        public string CustomerId { get; set; }
+        public string? Note { get; set; }
+        public string? CustomerId { get; set; }
     }
 
     public class GetOrdersCustomerFoodIdDaoInputDto

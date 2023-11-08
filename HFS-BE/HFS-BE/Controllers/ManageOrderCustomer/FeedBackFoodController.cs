@@ -16,17 +16,18 @@ namespace HFS_BE.Controllers.ManageOrderCustomer
         }
 
         [HttpPost("order/feedback")]
-        [Authorize]
+        //[Authorize]
         public BaseOutputDto FeedBackFood(CreateFeedBackDaoInputDto inputDto)
         {
             try
             {
-                var userInfor = this.GetUserInfor();
-                if (!userInfor.Role.Equals("CU"))
-                {
-                    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You are not customer!");
-                }
-                inputDto.CustomerId = userInfor.UserId;
+                //var userInfor = this.GetUserInfor();
+                //if (!userInfor.Role.Equals("CU"))
+                //{
+                //    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You are not customer!");
+                //}
+                //inputDto.CustomerId = userInfor.UserId;
+                inputDto.CustomerId = "CU00000001";
                 var busi = this.GetBusinessLogic<FeedBackFoodBusinessLogic>();
                 return busi.FeedBackFood(inputDto);
             }

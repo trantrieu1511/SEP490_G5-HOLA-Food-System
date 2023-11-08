@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared-module/shared-module.module';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
+import { SwitchCasesDirective } from './services/switch-case.directive';
 import {AppComponent} from '../../app.component';
 import { ComponentModule } from '../components-module/component.modules';
 import { HomepageComponent } from './components/homepage/homepage.component';
@@ -12,6 +13,8 @@ import { ShopdetailComponent } from './components/shopdetail/shopdetail.componen
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ManageprofileComponent } from './components/manageprofile/manageprofile.component';
 import { NewsfeedComponent } from './components/newsfeed/newsfeed.component';
+import { OrderhistoryComponent } from './components/orderhistory/orderhistory.component';
+
 
 
 const routes: Routes = [
@@ -21,7 +24,8 @@ const routes: Routes = [
   {path: "cartdetail", component: CartdetailComponent},
   {path: "checkout", component : CheckoutComponent},
   {path: "profile", component : ManageprofileComponent},
-  {path: "newsfeed", component : NewsfeedComponent}
+  {path: "newsfeed", component : NewsfeedComponent},
+  {path: "orderhistory", component : OrderhistoryComponent}
 ]
 
 @NgModule({
@@ -31,7 +35,8 @@ const routes: Routes = [
     CartdetailComponent,
     ShopdetailComponent,
     CheckoutComponent,
-    ManageprofileComponent
+    ManageprofileComponent,
+    SwitchCasesDirective
   ],
   imports: [
     CommonModule,

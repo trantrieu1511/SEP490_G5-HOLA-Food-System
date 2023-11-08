@@ -16,6 +16,7 @@ export class PHAN_HE {
     public static HUB = "hub"
     public static NOTIFY = "notify"
     public static FOODETAIL = "fooddetail"
+    public static ORDERCUSTOMER = "order"
 }
 
 export class API_TEST{
@@ -138,3 +139,10 @@ export class API_FOODDETAIL{
     public static GET_FEEDBACK = "feedbck"
     public static VOTE_FEEDBACK = "vote"
 }
+
+export class API_ORDERCUSTOMER{
+    public static GET_ORDER = "history";
+    public static CANCEL_ORDER = "cancel";
+    public static RATE_FOOD = "feedback"
+}
+

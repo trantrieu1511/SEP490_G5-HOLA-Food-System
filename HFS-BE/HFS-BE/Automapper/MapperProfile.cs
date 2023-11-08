@@ -133,7 +133,7 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.Items))
                 .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => DateTime.Now))
                 .ForMember(dest => dest.SellerId, opt => opt.MapFrom(src => src.ShopId))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => 1));
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => 0));
             CreateMap<CartItemDaoInputDto, OrderDetail>()
                 .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Amount));
             CreateMap<ListShopItemInputDto, CheckOutOrderDaoInputDto>()
@@ -242,7 +242,8 @@ namespace HFS_BE.Automapper
 
 
             // check-out customer
-            CreateMap<OrderCreateDaoInputDto, OrderProgress>();
+            CreateMap<OrderCreateDaoInputDto, OrderProgress>()
+                .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.UserId));
         }
         public void Shop()
         {
