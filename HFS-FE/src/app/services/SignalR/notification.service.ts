@@ -14,7 +14,7 @@ export class NotificationService {
   public startConnection = () => {
     const service = this.iServiceBase.getURLService(API.PHAN_HE.HUB);
 
-    const url = `${service}${API.API_HUB.DATA_REALTIME}`;
+    const url = `${service}${API.API_HUB.NOTIFY_REALTIME}`;
 
     const jwt = sessionStorage.getItem('JWT');
 
@@ -48,6 +48,7 @@ export class NotificationService {
     return new Promise((resolve, reject) => {
       this.hubConnection.on('notification', async () => {
         try {
+          console.log("load lai noti")
           const result = await this.loadProdData(
             service,
             api,

@@ -344,10 +344,13 @@ namespace HFS_BE.Dao.OrderDao
             {
                 var query = context.Orders
                     .Include(x => x.OrderDetails).ThenInclude(x => x.Food)
+                        .ThenInclude(f => f.Category)
+                    .Include(x => x.OrderDetails).ThenInclude(x => x.Food)
                         .ThenInclude(f => f.FoodImages)
                     .Include(x => x.Customer)
                     .Include(x => x.Voucher)
                     .Include(x => x.OrderProgresses)
+                    .Include(x => x.Seller)
                     .Where(x => x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 2 //check order is Wait_Shipper = 2,
                         && x.ShipperId == null // null because orderprogress : wait shipper but shipperId in order null -> wait external shipper
                 );

@@ -6,13 +6,16 @@ namespace HFS_BE.Utils
 {
     public class GenerateNotification
     {
-        private static readonly GenerateNotification _singleton = new GenerateNotification();
-
+        private static class SingletonHelper
+        {
+            internal static readonly GenerateNotification INSTANCE = new GenerateNotification();
+        }
+                
         private GenerateNotification() { }
 
         public static GenerateNotification GetSingleton()
         {
-            return _singleton;
+            return SingletonHelper.INSTANCE;
         }
 
         public void GenNotificationInternalShipper(NotificationAddNewInputDto input, int orderId, string shopName)

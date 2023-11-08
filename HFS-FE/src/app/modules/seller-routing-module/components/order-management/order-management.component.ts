@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  HostListener,
   OnInit,
   Renderer2,
 } from '@angular/core';
@@ -42,6 +43,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Shipper } from '../../models/shipper.model';
 import {DatePipe} from '@angular/common';
+import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
 
 @Component({
   selector: 'app-order-management',
@@ -86,7 +88,8 @@ export class OrderManagementComponent
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private signalRService: DataRealTimeService
   ) {
     super(messageService);
     this.rangeDates = [];
@@ -95,9 +98,30 @@ export class OrderManagementComponent
 
   async ngOnInit() {
     this.initTabMenuitem();
+    this.connectSignalR();
     this.getAllOrders();
     
     this.showCurrentPageReport = true;
+  }
+
+  async connectSignalR() {
+    this.lstOrders = [];
+    this.signalRService.startConnection();
+    const res = await this.signalRService.addTransferDataListener(
+      'orderSellerRealTime',
+      API.PHAN_HE.ORDER,
+      API.API_ORDER.GET_ORDER_BY_STATUS,
+      this.orderParamInput,
+      false
+    );
+    if (res && res.message === 'Success') {
+      this.lstOrders = res.orders;
+    }
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any): void {
+    this.signalRService.stopConnection();
   }
 
   ngAfterViewInit() {
@@ -143,7 +167,7 @@ export class OrderManagementComponent
 
       if (response && response.message === 'Success') {
         this.lstOrders = response.orders;
-        console.log(this.lstOrders);
+        //console.log(this.lstOrders);
       }
       this.loading = false;
     } catch (e) {

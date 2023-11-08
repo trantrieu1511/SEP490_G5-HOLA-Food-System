@@ -81,7 +81,7 @@ export class NotificationsComponent implements OnInit {
         }
       ]
       // check có tin ch đọc hay ko
-      const hasUnreadNotification = this.lstNotification.some(notification => notification.isRead === true);
+      const hasUnreadNotification = this.lstNotification.some(notification => notification.isRead === false);
 
       // Đặt isNewNotify thành true if has isRead = true
       this.isNewNotify = hasUnreadNotification;
@@ -97,6 +97,11 @@ export class NotificationsComponent implements OnInit {
     );
     if (res && res.message === 'Success') {
       this.lstNotification = res.notifies;
+
+      // check có tin ch đọc hay ko
+      const hasUnreadNotification = this.lstNotification.some(notification => notification.isRead === false);
+      // Đặt isNewNotify thành true if has isRead = true
+      this.isNewNotify = hasUnreadNotification;
     }
   }
 
@@ -114,6 +119,11 @@ export class NotificationsComponent implements OnInit {
     );
     if (response && response.message === 'Success') {
       this.lstNotification = response.notifies;
+
+      // check có tin ch đọc hay ko
+      const hasUnreadNotification = this.lstNotification.some(notification => notification.isRead === false);
+      // Đặt isNewNotify thành true if has isRead = true
+      this.isNewNotify = hasUnreadNotification;
     }
   }
 
