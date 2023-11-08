@@ -37,55 +37,55 @@ export class NotificationsComponent implements OnInit {
     private iServiceBase: iServiceBase,
     private signalRService: NotificationService
   ){
-    this.connectSignalR();
-    this.getAllNotification();
-
-    this.lstNotification = [
-      {
-        id: 1,
-        sendBy: "a9whjufe",
-        receiver: "efasdf",
-        typeId: 1,
-        typeName: "fasddf",
-        title: "have new order",
-        content: "order 11029 request",
-        createDate: "11/05/2023",
-        isRead: false
-      },
-      {
-        id: 2,
-        sendBy: "a9whjufe",
-        receiver: "efasdf",
-        typeId: 1,
-        typeName: "fasddf",
-        title: "have new order",
-        content: "order 453242329 request",
-        createDate: "11/05/2023",
-        isRead: false
-      },
-      {
-        id: 3,
-        sendBy: "a9whjufe",
-        receiver: "efasdf",
-        typeId: 1,
-        typeName: "fasddf",
-        title: "have new order",
-        content: "order 11021229 request",
-        createDate: "11/05/2023",
-        isRead: true
-      }
-    ]
-    // check có tin ch đọc hay ko
-    const hasUnreadNotification = this.lstNotification.some(notification => notification.isRead === true);
-
-    // Đặt isNewNotify thành true if has isRead = true
-    this.isNewNotify = hasUnreadNotification;
-
-    console.log(this.lstNotification);
+    
   }
 
   async ngOnInit() {
-    
+    if(sessionStorage.getItem('JWT')){
+      this.connectSignalR();
+      this.getAllNotification();
+
+      this.lstNotification = [
+        {
+          id: 1,
+          sendBy: "a9whjufe",
+          receiver: "efasdf",
+          typeId: 1,
+          typeName: "fasddf",
+          title: "have new order",
+          content: "order 11029 request",
+          createDate: "11/05/2023",
+          isRead: false
+        },
+        {
+          id: 2,
+          sendBy: "a9whjufe",
+          receiver: "efasdf",
+          typeId: 1,
+          typeName: "fasddf",
+          title: "have new order",
+          content: "order 453242329 request",
+          createDate: "11/05/2023",
+          isRead: false
+        },
+        {
+          id: 3,
+          sendBy: "a9whjufe",
+          receiver: "efasdf",
+          typeId: 1,
+          typeName: "fasddf",
+          title: "have new order",
+          content: "order 11021229 request",
+          createDate: "11/05/2023",
+          isRead: true
+        }
+      ]
+      // check có tin ch đọc hay ko
+      const hasUnreadNotification = this.lstNotification.some(notification => notification.isRead === true);
+
+      // Đặt isNewNotify thành true if has isRead = true
+      this.isNewNotify = hasUnreadNotification;
+    }
   }
 
   async connectSignalR() {
@@ -124,7 +124,7 @@ export class NotificationsComponent implements OnInit {
     // move to page read
   }
 
-  async updateNotification(notifyId: number){
+  async updateNotificationRead(notifyId: number){
     const param = {
       notifyId : notifyId
     }

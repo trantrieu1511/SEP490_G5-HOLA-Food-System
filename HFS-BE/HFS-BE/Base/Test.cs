@@ -3,22 +3,20 @@ using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace HFS_BE.Base
 {
     [ApiController]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public class BaseControllerSignalR : ControllerBase
+    public class Test : ControllerBase
     {
         private readonly SEP490_HFS_2Context context;
         public readonly IMapper mapper;
-        protected readonly IHubContextFactory _hubContextFactory;
+        protected readonly IHubContext<Hub> _hubContextFactory;
 
-        public BaseControllerSignalR(SEP490_HFS_2Context context, IMapper mapper, IHubContextFactory hubContextFactory)
+        public Test(SEP490_HFS_2Context context, IMapper mapper, IHubContext<Hub> hubContextFactory)
         {
             this.context = context;
             this.mapper = mapper;

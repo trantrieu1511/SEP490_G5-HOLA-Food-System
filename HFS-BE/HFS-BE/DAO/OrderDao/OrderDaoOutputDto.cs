@@ -164,4 +164,21 @@ namespace HFS_BE.Dao.OrderDao
     {
         public List<OrderCustomerDaoOutputDto> ListOrders { get; set;}
     }
+
+    public class OrderExternalShipperOutputDto
+    {
+        public int? OrderId { get; set; }
+        public string? CustomerName { get; set; }
+        public string? OrderDate { get; set; }
+        public string? ShipAddress { get; set; }
+        public string PaymentMethod { get; set; }
+        public decimal? TotalPrice { get; set; }
+        public List<OrderDetailFoodDto>? OrderDetails { get; set; }
+
+    }
+
+    public class OrderExternalLstOutputDto : BaseOutputDto
+    {
+        public List<OrderExternalShipperOutputDto> Orders { get; set; }
+    }
 }

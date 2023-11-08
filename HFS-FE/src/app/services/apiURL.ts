@@ -43,6 +43,8 @@ export class API_ORDER {
     public static CANCEL_ORDER = "cancelOrderSeller";
     public static ACCEPT_ORDER = "acceptOrderSeller";
     public static INTERNAL_ORDER = "internalShipperOrderSeller";
+    public static EXTERNAL_ORDER = "externalShipperOrderSeller";
+
 }
 
 export class API_SHIPPER {

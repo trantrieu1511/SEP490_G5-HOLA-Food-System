@@ -4,17 +4,19 @@ using HFS_BE.BusinessLogic.ManagePost;
 using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System.Text.RegularExpressions;
 
 namespace HFS_BE.Controllers.ManagePost
 {
 
     public class AddNewPostSellerController : BaseControllerSignalR
     {
-        public AddNewPostSellerController(SEP490_HFS_2Context context, IMapper mapper, IHubContext<DataRealTimeHub> hub) : base(context, mapper, hub)
+        public AddNewPostSellerController(SEP490_HFS_2Context context, IMapper mapper, IHubContextFactory hubContextFactory) : base(context, mapper, hubContextFactory)
         {
         }
 
@@ -33,7 +35,7 @@ namespace HFS_BE.Controllers.ManagePost
 
                 var business = this.GetBusinessLogic<AddNewPostBusinessLogic>();
 
-                BusinessLogic.ManagePost.PostCreateInputDto inputBL = new BusinessLogic.ManagePost.PostCreateInputDto
+                PostCreateInputDto inputBL = new PostCreateInputDto
                 {
                     Images = images,
                     PostContent = postContent,
@@ -46,8 +48,10 @@ namespace HFS_BE.Controllers.ManagePost
                 // call signalR to Post Modelrator
 
                 if (output.Success)
-                {
-                    await hubContext.Clients.All.SendAsync("dataRealTime");
+                { 
+                    var dataRealTimeHub = _hubContextFactory.CreateHub<DataRealTimeHub>();
+                    await dataRealTimeHub.Clients.All.SendAsync("dataRealTime");
+                    //await this._hubContextFactory.Clients.All.SendAsync("dataRealTime");
                 }
 
                 return output;
