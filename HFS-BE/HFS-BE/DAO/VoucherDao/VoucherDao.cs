@@ -72,7 +72,6 @@ namespace HFS_BE.DAO.VoucherDao
                 {
                     return Output<BaseOutputDto>(Constants.ResultCdFail, $"VoucherId: {inputDto.VoucherId} not exist!");
                 }
-                data.Code = inputDto.Code;
                 data.DiscountAmount = inputDto.DiscountAmount;
                 data.Status = inputDto.Status;
                 data.EffectiveDate = inputDto.EffectiveDate;

@@ -82,7 +82,7 @@ export class API_VOUCHER {
     public static DELETE_LIST_APP_USER = "deleteListAppUser";
     public static GET_ALL_VOUCHER = "getListvoucher";
     public static CREATE_VOUCHER = "addNewVoucher";
-    public static EDIT_VOUCHER = "updateVoucher";
+    public static EDIT_VOUCHER = "updatevoucher";
 }
 
 // API related to post entity
