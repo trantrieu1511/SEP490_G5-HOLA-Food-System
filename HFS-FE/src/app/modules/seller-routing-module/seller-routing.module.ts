@@ -36,7 +36,9 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [
-
+    OrderManagementComponent,
+    PostManagementComponent,
+    FoodManagementComponent,
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy}

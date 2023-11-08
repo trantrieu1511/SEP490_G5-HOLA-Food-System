@@ -45,6 +45,8 @@ import { SellerListComponent } from './seller-list/seller-list.component';
 import { FoodManagementComponent } from './modules/menumoderator-routing-module/components/food-management/food-management.component';
 import { VoucherManagementComponent } from './modules/seller-routing-module/components/voucher-management/voucher-management.component';
 import { ProfileManagementComponent } from './modules/seller-routing-module/components/profile-management/profile-management.component';
+import { MenuDataService } from './services/menu-data.service';
+import { BusinessRoutingModule } from './modules/business-routing-module/business-routing-module.module';
 
 @NgModule({
   declarations: [
@@ -83,6 +85,7 @@ import { ProfileManagementComponent } from './modules/seller-routing-module/comp
     AppCustomerLayoutModule,
     ReactiveFormsModule,
     FormsModule,
+    BusinessRoutingModule,
     JwtModule.forRoot({
       config: {
         tokenGetter:  () => sessionStorage.getItem('token')
@@ -93,6 +96,7 @@ import { ProfileManagementComponent } from './modules/seller-routing-module/comp
 
   providers: [
     JwtService,
+    MenuDataService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     MenuService, AppBreadcrumbService, DatePipe,
     {provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true},

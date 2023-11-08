@@ -49,7 +49,7 @@ namespace HFS_BE.DAO.NotificationDao
                         TypeName = x.Type.Name,
                         Title = x.Title,
                         Content = x.Content,
-                        CreateDate = x.CreateDate.Value.ToString("MM/dd/yyyy"),
+                        CreateDate = x.CreateDate.Value.ToString("MM/dd/yyyy hh:mm:ss tt"),
                         IsRead = x.IsRead
                     })
                     .ToList();

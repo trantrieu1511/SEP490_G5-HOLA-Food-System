@@ -238,6 +238,10 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
     return JSON.parse(atob(token.split('.')[1]));
   }
 
+  getRole(){
+    return sessionStorage.getItem("role");
+  }
+
 
 }
 

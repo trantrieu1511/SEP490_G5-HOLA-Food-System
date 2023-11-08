@@ -23,7 +23,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [
-    
+    DisplayPostComponent
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy}

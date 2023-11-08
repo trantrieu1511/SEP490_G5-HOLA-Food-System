@@ -28,7 +28,7 @@ import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.ser
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-post-management',
+  selector: 'post-seller',
   templateUrl: './post-management.component.html',
   styleUrls: ['./post-management.component.scss'],
 })

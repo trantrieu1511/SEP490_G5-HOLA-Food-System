@@ -40,7 +40,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [
-    ManageprofileComponent
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy}
