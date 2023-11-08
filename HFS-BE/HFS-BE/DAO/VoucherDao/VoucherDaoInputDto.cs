@@ -20,7 +20,6 @@ namespace HFS_BE.DAO.VoucherDao
     public class UpdateVoucherDaoInput
     {
         public int VoucherId { get; set; }
-        public string Code { get; set; } = null!;
         public decimal DiscountAmount { get; set; }
         public decimal? MinimumOrderValue { get; set; }
         public byte? Status { get; set; }
