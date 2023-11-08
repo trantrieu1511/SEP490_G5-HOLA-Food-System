@@ -10,7 +10,7 @@ import {
   ShareData,
   iFunction,
 } from 'src/app/modules/shared-module/shared-module';
-import { Voucher, VoucherInput} from '../../models/voucher.model';
+import { Voucher, VoucherDisplayHideInputDto, VoucherInput} from '../../models/voucher.model';
 @Component({
   selector: 'app-voucher-management',
   templateUrl: './voucher-management.component.html',
@@ -68,6 +68,74 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
   }
   onHideDialogEditAdd() {
     
+  }
+
+  onHideVoucher(voucher: Voucher, event) {
+    this.confirmationService.confirm({
+      target: event.target,
+      message: `Are you sure to Hide this Voucher : ${voucher.code} ?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //confirm action
+        this.EDVoucher(voucher, false);
+      },
+      reject: () => {
+        //reject action
+      },
+    });
+  }
+
+  onDisplayVoucher(voucher: Voucher, event) {
+    this.confirmationService.confirm({
+      target: event.target,
+      message: `Are you sure to Display this post id: ${voucher.code} ?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //confirm action
+        this.EDVoucher(voucher, true);
+      },
+      reject: () => {
+        //reject action
+      },
+    });
+  }
+
+  async EDVoucher(voucherEnity: Voucher, type: boolean) {
+    // type = true => Display
+    // false => Hide
+
+    const message = type ? 'Displayed' : 'Hidden';
+
+    try {
+      let param: VoucherDisplayHideInputDto = new VoucherDisplayHideInputDto();
+      param.voucherId = voucherEnity.voucherId;
+      param.type = type;
+
+      let response = await this.iServiceBase.postDataAsync(
+        API.PHAN_HE.VOUCHER,
+        API.API_VOUCHER.ENABLE_DISABLE_VOUCHER,
+        param,
+        true
+      );
+
+      if (response && response.message === 'Success') {
+        this.showMessage(
+          mType.success,
+          'Notification',
+          `${message} Voucher: ${voucherEnity.code} successfully`,
+          'notify'
+        );
+
+        //lấy lại danh sách All
+        this.GetAllVoucher();
+      } else {
+        var messageError = this.iServiceBase.formatMessageError(response);
+        console.log(messageError);
+        this.showMessage(mType.error, response.message, messageError, 'notify');
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   bindingDataVoucherModel(): VoucherInput {

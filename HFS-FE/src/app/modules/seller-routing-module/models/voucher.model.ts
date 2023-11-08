@@ -26,3 +26,8 @@ export class VoucherInput{
     expireDate:Date;
     status:number;
 }
+
+export class VoucherDisplayHideInputDto{
+    voucherId: number;
+    type: boolean;
+  }
