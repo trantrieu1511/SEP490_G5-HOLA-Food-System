@@ -32,6 +32,8 @@ using HFS_BE.BusinessLogic.ManageUser;
 using HFS_BE.DAO.VoucherDao;
 using HFS_BE.DAO.NotificationDao;
 using HFS_BE.DAO.PostReportDao;
+using HFS_BE.DAO.NewsfeedDao;
+using HFS_BE.BusinessLogic.Newsfeed;
 
 namespace HFS_BE.Automapper
 {
@@ -56,6 +58,7 @@ namespace HFS_BE.Automapper
             Voucher();
             Shop();
             Notification();
+            Newsfeed();
         }
 
         /// <summary>
@@ -300,6 +303,7 @@ namespace HFS_BE.Automapper
             CreateMap<ImageFileConvert.ImageOutputDto, PostImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, FoodImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, BusinessLogic.OrderShipper.ImageFoodOutputDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, BusinessLogic.Newsfeed.PostImageOutputDto>();
         }
 
         public void Category()
@@ -356,6 +360,12 @@ namespace HFS_BE.Automapper
         public void Notification()
         {
             CreateMap<NotificationAddNewInputDto, Notification>();
+        }
+
+        public void Newsfeed()
+        {
+            CreateMap<DAO.NewsfeedDao.NewsfeedOutputDto, BusinessLogic.Newsfeed.NewsfeedOutputDto>();
+            CreateMap<DAO.NewsfeedDao.ListNewsfeedOutputDto, BusinessLogic.Newsfeed.ListNewsfeedOutputDto>();
         }
     }
 }

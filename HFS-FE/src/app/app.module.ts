@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppManageLayoutComponent } from './layout/manage/app.manage.component';
-import { DatePipe, HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { CommonModule, DatePipe, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { MenuService } from './app-systems/app-menu/app.menu.service';
 import { AppBreadcrumbService } from './app-systems/app-breadcrumb/app.breadcrumb.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';

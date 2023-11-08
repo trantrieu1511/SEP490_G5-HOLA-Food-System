@@ -96,16 +96,16 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
   }
 
   // Not allow the user to access the page if they are not post moderator
-  checkUserAccessPermission() {
-    let userRoleName = sessionStorage.getItem("userId").substring(0, 2);
-    if (userRoleName !== "PM") {
-      this.router.navigateByUrl('/HFSBusiness');
-      alert('You cannot access this page unless you are a post moderator');
-    }
-  }
+  // checkUserAccessPermission() {
+  //   let userRoleName = sessionStorage.getItem("userId").substring(0, 2);
+  //   if (userRoleName !== "PM") {
+  //     this.router.navigateByUrl('/HFSBusiness');
+  //     alert('You cannot access this page unless you are a post moderator');
+  //   }
+  // }
 
   async ngOnInit() {
-    this.checkUserAccessPermission();
+    // this.checkUserAccessPermission();
     this.connectSignalR();
     this.getAllPost();
 

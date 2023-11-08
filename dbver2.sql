@@ -504,3 +504,9 @@ CREATE TABLE Chat (
     CONSTRAINT FK_Chat_Seller_Sender FOREIGN KEY (SenderId) REFERENCES Seller (SellerId),
     CONSTRAINT FK_Chat_Seller_Receiver FOREIGN KEY (ReceiverId) REFERENCES Seller (SellerId)
 );
+
+CREATE TABLE [ProfileImage] (
+	[imageId] [int] PRIMARY KEY IDENTITY(1, 1),
+	[userId] [int] NULL,
+	[path] [nvarchar](max) NULL,
+)
