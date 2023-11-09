@@ -35,6 +35,7 @@ namespace HFS_BE.Base
         [NonAction]
         public T Output<T>(bool success) where T : BaseOutputDto, new()
         {
+            if (!success) this.context.Database.RollbackTransaction();
             return new T
             {
                 Message = success ? "Success" : "Fail",
@@ -46,6 +47,7 @@ namespace HFS_BE.Base
         [NonAction]
         public T Output<T>(bool success, string content) where T : BaseOutputDto, new()
         {
+            if (!success) this.context.Database.RollbackTransaction();
             return new T
             {
                 Message = success ? "Success" : content,

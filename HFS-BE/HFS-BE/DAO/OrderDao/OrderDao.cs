@@ -257,8 +257,8 @@ namespace HFS_BE.Dao.OrderDao
                     .Include(x => x.Seller)
                     .Include(x => x.Voucher)
                     .Where(x => x.Status == inputDto.Status 
-                                && x.OrderDate >= inputDto.DateFrom
-                                && x.OrderDate <= inputDto.DateEnd);
+                                && x.OrderDate.Value.Date >= inputDto.DateFrom
+                                && x.OrderDate.Value.Date <= inputDto.DateEnd);
 
                 var result = query.Select(o => mapper.Map<Order, OrderCustomerDaoOutputDto>(o)).ToList();
                 foreach (var item in result )

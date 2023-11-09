@@ -142,7 +142,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODETAIL, API.API_FOODDETAIL.GET_FEEDBACK, getfood);
       if (response && response.success === true) {
         this.feedbacks = response.feedBacks
-        this.displayFeedback = this.feedbacks.slice(this.first, this.rows);
+        this.displayFeedback = this.feedbacks.filter(x => x.star === 5).slice(this.first, this.rows);
       }
       this.loading = false;
     } catch (e) {

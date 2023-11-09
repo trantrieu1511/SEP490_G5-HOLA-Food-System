@@ -7,13 +7,13 @@
             <div class="grid" style="max-width: 100%;">
                 <div class="col-5 align-items-center justify-content-center">
                     <p-galleria [value]="foodImages" [responsiveOptions]="galleriaResponsiveOptions"
-                                [containerStyle]="{'max-width': '100%', 'margin':'auto'}" [numVisible]="6" [circular]="true">
+                                [containerStyle]="{'max-width': '100%', 'margin':'auto'}" [circular]="true">
                         <ng-template pTemplate="item" let-item>
                             <img [src]="item.path" style="max-width: 100%; display: block; max-height: 100%;"/>
                         </ng-template>
                         <ng-template pTemplate="thumbnail" let-item>
                             <div class="grid nogutter justify-center">
-                                <img [src]="item.path" style=" max-width: 30%; display: block; max-height: 30%;"/>
+                                <img [src]="item.path" style=" max-width: 50px; display: block; max-height: 30%;"/>
                             </div>
                         </ng-template>
                     </p-galleria>
@@ -79,7 +79,7 @@
 
     <div class="col-12">
         <div class="card">
-            <h5>Review</h5>
+            <h1>Review</h1>
             <p-tabView orientation="left" (onChange)="onTabChange($event)">
                 <p-tabPanel header="5 sao" class="line-height-3 m-0">
                     <div class="flex-auto">
@@ -95,7 +95,7 @@
                                             <a href="#" class="comment-author">{{item.customerName}}</a>
                                             <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
                                             <p class="m-0">
-                                                {{item.likeCount}} points &bull; {{item.displayDate}}
+                                                {{item.likeCount}} Like &bull; {{item.displayDate}}
                                             </p>
                                         </div>
                                     </div>
