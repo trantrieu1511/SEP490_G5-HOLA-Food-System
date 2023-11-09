@@ -14,7 +14,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    DisplayPostComponent
+    DisplayPostComponent,
+    PostreportManagementComponent
   ],
   imports: [
     CommonModule,
