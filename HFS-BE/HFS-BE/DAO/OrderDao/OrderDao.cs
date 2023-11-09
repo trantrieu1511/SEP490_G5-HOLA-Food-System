@@ -255,9 +255,29 @@ namespace HFS_BE.Dao.OrderDao
                         .ThenInclude(f => f.FoodImages)
                     .Include(x => x.OrderProgresses)
                     .Include(x => x.Seller)
-                    .Include(x => x.Voucher);
+                    .Include(x => x.Voucher)
+                    .Where(x => x.Status == inputDto.Status 
+                                && x.OrderDate >= inputDto.DateFrom
+                                && x.OrderDate <= inputDto.DateEnd);
 
                 var result = query.Select(o => mapper.Map<Order, OrderCustomerDaoOutputDto>(o)).ToList();
+                foreach (var item in result )
+                {
+                    foreach (var details in item.OrderDetails)
+                    {
+                        var feedbacks = this.context.Feedbacks
+                            .Where(x => x.FoodId == details.FoodId
+                                    && x.CustomerId == inputDto.CustomerId)
+                            .ToList();
+
+                        if (feedbacks.Any())
+                        {
+                            details.IsRated = true;
+                        }
+                        else details.IsRated = false;
+
+                    }
+                }
 
                 var output = this.Output<GetCustomerOrdersDaoOutputDto>(Constants.ResultCdSuccess);
                 output.ListOrders = result;

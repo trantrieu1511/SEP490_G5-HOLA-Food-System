@@ -151,6 +151,7 @@ namespace HFS_BE.Dao.OrderDao
         public string Image { get; set; }
         public string? CategoryName { get; set; }
         public string? SellerId { get; set; }
+        public bool? IsRated { get; set; }
     }
 
     public class DetailProgressCustomerDto
