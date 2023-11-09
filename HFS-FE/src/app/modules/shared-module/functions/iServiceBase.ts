@@ -781,6 +781,9 @@ export class iServiceBase {
                 case API.PHAN_HE.POSTREPORT: {
                     return localStorage.getItem('APISERVICE') + '/postreports/';
                 }
+                case API.PHAN_HE.FOODREPORT: {
+                    return localStorage.getItem('APISERVICE') + '/menureports/';
+                }
                 default: {
                     return '';
                 }

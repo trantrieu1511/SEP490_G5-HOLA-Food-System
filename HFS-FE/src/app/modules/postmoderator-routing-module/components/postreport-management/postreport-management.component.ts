@@ -19,6 +19,11 @@ import {
 import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
 import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
 import { Router } from '@angular/router';
+import { PostReport } from '../../models/postreport.model';
+
+// interface ApproveNotApproveOption {
+//   optionName: string;
+// }
 
 @Component({
   selector: 'app-postreport-management',
@@ -26,22 +31,37 @@ import { Router } from '@angular/router';
   styleUrls: ['./postreport-management.component.scss']
 })
 export class PostreportManagementComponent extends iComponentBase implements OnInit {
-  lstPostReport: Post[] = [];
+  lstPostReport: PostReport[] = [];
+
   // selectedPosts: Post[] = [];
+
   displayDialogEditAddPost: boolean = false;
+
   headerDialog: string = '';
+
+  postReport: PostReport = new PostReport();
+
   postModel: Post = new Post();
+
   loading: boolean;
 
   uploadedFiles: File[] = [];
 
   contentDialog: string;
+
   visibleContentDialog: boolean = false;
 
+  isVisibleApproveNotApproveModal: boolean = false;
+
   postImageDialog: Post = new Post();
+
   visibleImageDialog: boolean = false;
 
   inputValidation: PostInputValidation = new PostInputValidation();
+
+  // listApproveNotApproveOption: ApproveNotApproveOption[] | undefined;
+
+  // approveNotApproveOption: ApproveNotApproveOption | undefined;
 
 
   @ViewChild('dt') table: Table;
@@ -58,44 +78,25 @@ export class PostreportManagementComponent extends iComponentBase implements OnI
     super(messageService, breadcrumbService);
   }
 
-  // Not allow the user to access the page if they are not post moderator
-  // checkUserAccessPermission() {
-  //   let userRoleName = sessionStorage.getItem("userId").substring(0, 2);
-  //   if (userRoleName !== "PM") {
-  //     this.router.navigateByUrl('/HFSBusiness');
-  //     alert('You cannot access this page unless you are a post moderator');
-  //   }
-  // }
-
   async ngOnInit() {
-    // this.checkUserAccessPermission();
     this.connectSignalR();
     this.getAllPostReport();
 
-    // Convert CustomFile[] to File[]
-    // this.uploadedFiles = this.fileList.map(customFile => {
-    //   const blob = new Blob([], { type: 'application/octet-stream' });
-    //   const file = new File([blob], customFile.name, { type: 'image/*' });
-
-    //   Object.defineProperty(file, 'imageBase64', {
-    //     value: customFile.imageBase64,
-    //     writable: false,
-    //     enumerable: true,
-    //     configurable: true,
-    //   });
-
-    //   return file;
-    // });
+    // this.listApproveNotApproveOption = [
+    //   { optionName: 'Approved' },
+    //   { optionName: 'NotApproved' }
+    // ];
 
     console.log(this.uploadedFiles);
+    // console.log(this.listApproveNotApproveOption);
   }
 
   async connectSignalR() {
     this.lstPostReport = [];
     this.signalRService.startConnection();
-    const res = await this.signalRService.addTransferDataListener('dataRealTime', API.PHAN_HE.POST, API.API_POST.GET_POST);
+    const res = await this.signalRService.addTransferDataListener('dataRealTime', API.PHAN_HE.POSTREPORT, API.API_POSTREPORT.GET_ALL_POSTREPORT);
     if (res && res.message === "Success") {
-      this.lstPostReport = res.posts;
+      this.lstPostReport = res.postReports;
     }
   }
 
@@ -105,10 +106,10 @@ export class PostreportManagementComponent extends iComponentBase implements OnI
     try {
       this.loading = true;
 
-      let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.POST, API.API_POST.GET_POST);
+      let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.POSTREPORT, API.API_POSTREPORT.GET_ALL_POSTREPORT);
 
       if (response && response.message === "Success") {
-        this.lstPostReport = response.posts;
+        this.lstPostReport = response.postReports;
         console.log(this.lstPostReport);
       }
       this.loading = false;
@@ -119,35 +120,46 @@ export class PostreportManagementComponent extends iComponentBase implements OnI
 
   }
 
-  onBanPost(post: Post, event) {
-    this.confirmationService.confirm({
-      target: event.target,
-      message: 'Are you sure to ban this post id: ' + post.postId + '?',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        //confirm action
-        this.banUnbanPost(post, true);
-      },
-      reject: () => {
-        //reject action
-      }
-    });
+  onOpenApproveNotApproveModal(postrp) {
+    this.postReport = Object.assign({}, postrp);
+    // debugger;
+    // this.approveNotApproveOption = { optionName: '' };
+    // this.approveNotApproveOption.optionName = this.postReport.status;
+    // this.postReport.status = this.approveNotApproveOption.optionName;
+    // console.log(postrp);
+    // console.log(this.postReport);
+    this.isVisibleApproveNotApproveModal = true;
   }
 
-  onUnbanPost(post: Post, event) {
-    this.confirmationService.confirm({
-      target: event.target,
-      message: 'Are you sure to unban this post id: ' + post.postId + '?',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        //confirm action
-        this.banUnbanPost(post, false);
-      },
-      reject: () => {
-        //reject action
-      }
-    });
-  }
+  // onApprove(postrp, event) {
+  //   this.confirmationService.confirm({
+  //     target: event.target,
+  //     message: 'Are you sure to approve this post report id: ' + postrp.postId + '? of user: ' + postrp.reportBy,
+  //     icon: 'pi pi-exclamation-triangle',
+  //     accept: () => {
+  //       //confirm action
+  //       this.approveNotApprovePost(postrp, true);
+  //     },
+  //     reject: () => {
+  //       //reject action
+  //     }
+  //   });
+  // }
+
+  // onNotApprove(postrp, event) {
+  //   this.confirmationService.confirm({
+  //     target: event.target,
+  //     message: 'Are you sure to not approve this post id: ' + postrp.postId + '? of user: ' + postrp.reportBy,
+  //     icon: 'pi pi-exclamation-triangle',
+  //     accept: () => {
+  //       //confirm action
+  //       this.approveNotApprovePost(postrp, false);
+  //     },
+  //     reject: () => {
+  //       //reject action
+  //     }
+  //   });
+  // }
 
   validatePostModel(): boolean {
     this.inputValidation = new PostInputValidation();
@@ -165,22 +177,26 @@ export class PostreportManagementComponent extends iComponentBase implements OnI
     return check;
   }
 
-  async banUnbanPost(post: Post, isBanned: boolean) {
+  async approveNotApprovePost(postrp) {
     // type = true => Unban
     // false => Ban
     // debugger;
-    const message = isBanned ? "Banned" : "Unbanned";
+    let isApproved = postrp.status == 'Approved' ? true : false;
+    const message = isApproved ? "Approved" : "Not approved";
 
     try {
-      let param: PostBanUnbanInputDto = new PostBanUnbanInputDto();
-      param.postId = post.postId;
-      param.isBanned = isBanned;
+      let param = {
+        postId: postrp.postId,
+        reportBy: postrp.reportBy,
+        isApproved: isApproved,
+        note: postrp.note
+      };
 
-      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POST, API.API_POST.BAN_UNBAN, param, true);
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POSTREPORT, API.API_POSTREPORT.APPROVE_NOTAPPROVE_POSTREPORT, param, true);
 
       if (response && response.message === "Success") {
-        this.showMessage(mType.success, "Notification", `${message} postId: ${post.postId} successfully`, 'notify');
-        console.log(message + ' postId: ' + post.postId + ' successfully');
+        this.showMessage(mType.success, "Notification", `${message} postId: ${postrp.postId} of user: ${postrp.reportBy} successfully`, 'notify');
+        console.log(`${message} postId: ${postrp.postId} of user: ${postrp.reportBy} successfully`);
         //lấy lại danh sách All 
         this.getAllPostReport();
 
@@ -192,85 +208,27 @@ export class PostreportManagementComponent extends iComponentBase implements OnI
     } catch (e) {
       console.log(e);
     }
+    //hide modal
+    this.isVisibleApproveNotApproveModal = false;
   }
 
-  viewContentDetail(post: Post) {
-    this.contentDialog = post.postContent;
+  viewContentDetail(postReport: PostReport) {
+    this.contentDialog = postReport.reportContent;
     this.visibleContentDialog = true;
   }
 
   getSeverity(status: string) {
     switch (status) {
+      case 'Pending':
+        return 'secondary';
+      case 'Approved':
+        return 'success';
       case 'NotApproved':
         return 'warning';
-      case 'Display':
-        return 'success';
-      case 'Hidden':
-        return 'secondary';
       case 'Ban':
         return 'danger';
       default:
         return 'error';
     }
-  }
-
-  handleFileSelection(event: FileSelectEvent) {
-    //console.log("select", event);
-
-    this.uploadedFiles = event.currentFiles;
-
-
-    // const files = event.currentFiles as File[];
-
-    // // Process each file
-    // for (const file of files) {
-    //   const customFile: CustomFile = {
-    //     imageBase64: '', // Placeholder for base64 data
-    //     name: file.name,
-    //     size: this.formatSize(file.size)
-    //   };
-
-    //   this.fileList.push(customFile);
-
-    //   // Read file as base64
-    //   const reader = new FileReader();
-    //   reader.onloadend = () => {
-    //     customFile.imageBase64 = reader.result as string;
-    //   };
-    //   reader.readAsDataURL(file);
-    // }
-
-
-    // console.log("currentfile", event.currentFiles);
-    // console.log("customfile", this.fileList);
-  }
-
-  formatSize(size: number): string {
-    // Format file size as needed
-    // Example: Convert bytes to KB
-    return (size / 1024).toFixed(2) + ' KB';
-  }
-
-  handleFileRemoval(event: FileRemoveEvent) {
-    //console.log("remove", event.file.name);
-
-    this.uploadedFiles = this.uploadedFiles.filter(f => f.name !== event.file.name);
-    //console.log("uploadFiles", this.uploadedFiles);
-  }
-
-  handleAllFilesClear(event: Event) {
-    //console.log("clear", event);
-
-    this.uploadedFiles = [];
-    //console.log("uploadFiles", this.uploadedFiles);
-  }
-
-  onDisplayImagesDialog(post: Post, event: any) {
-    this.postImageDialog = post;
-    this.visibleImageDialog = true;
-  }
-
-  onHideDialogEditAdd() {
-    this.uploadedFiles = [];
   }
 }

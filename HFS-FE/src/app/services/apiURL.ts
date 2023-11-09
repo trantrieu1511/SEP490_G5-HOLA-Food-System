@@ -17,7 +17,8 @@ export class PHAN_HE {
     public static NOTIFY = "notify"
     public static FOODETAIL = "fooddetail"
     public static ORDERCUSTOMER = "order"
-    public static POSTREPORT;
+    public static POSTREPORT = "postreport";
+    public static FOODREPORT = "foodreport";
 }
 
 export class API_TEST{
@@ -155,5 +156,11 @@ export class API_POSTREPORT{
     public static GET_ALL_POSTREPORT = "getallpostreports";
     public static APPROVE_NOTAPPROVE_POSTREPORT = "approvenotapprovepostreport";
     public static CREATE_NEW_POSTREPORT = "createnewpostreports"
+}
+
+export class API_FOODREPORT{
+    public static GET_ALL_FOODREPORT = "getallfoodreports";
+    public static APPROVE_NOTAPPROVE_FOODREPORT = "approvenotapprovefoodreport";
+    public static CREATE_NEW_FOODREPORT = "createnewfoodreports"
 }
 
