@@ -99,6 +99,8 @@ async onSaveBan(){
   if (response && response.message === "Success") {
    this.getAllCustomer();
    this.showMessage(mType.success, "Notification", "Ban "+this.bancus.customerId+" successfully", 'notify');
+   this.bancus = new BanCustomer();
+   this.displayDialogBan = false;
   }
  ;
 } catch (e) {
@@ -108,8 +110,6 @@ async onSaveBan(){
 }
 onCancelBan(){
   this.bancus = new BanCustomer();
-
-
   this.displayDialogBan = false;
 }
   async onHistoryBan(customerId:string){

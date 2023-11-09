@@ -251,7 +251,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
       this.uploadedFiles.forEach((file) => {
         param.append('images', file, file.name);
       });
-
+debugger
       //console.log(param);
       const response = await this.iServiceBase.postDataAsync(
         API.PHAN_HE.POST,

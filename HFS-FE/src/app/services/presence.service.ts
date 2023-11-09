@@ -31,7 +31,7 @@ export class PresenceService {
       })
       .withAutomaticReconnect()
       .build()
-      debugger;
+
       this.hubConnection
       .start()
       .then(() => {
@@ -42,7 +42,7 @@ export class PresenceService {
 
 
       this.hubConnection.on('UserIsOnline', (username: Seller) => {
-        debugger;
+
 
          this.offlineUserscus$.pipe(take(1)).subscribe(usernames => {
           this.offlineUsersSourcecus.next([...usernames.filter(x => x.email !== username.email)])
@@ -74,14 +74,14 @@ export class PresenceService {
       // })
       this.hubConnection.on('GetOnlineAndOfflineUsers', (onlineUsers: Seller[], offlineUsers: Seller[]) => {
         // Xử lý danh sách người dùng trực tuyến (onlineUsers) và người dùng offline (offlineUsers) ở đây
-        debugger;
+
         this.onlineUsersSource.next(onlineUsers);
         this.offlineUsersSource.next(offlineUsers);
       });
       this.hubConnection.on('GetOnlineAndOfflineUsersCUS', (onlineUsers: Seller[], offlineUsers: Seller[]) => {
         // Xử lý danh sách người dùng trực tuyến (onlineUsers) và người dùng offline (offlineUsers) ở đây
-        debugger;
-        this.offlineUsersSourcecus.next(onlineUsers);
+
+        this.onlineUsersSourcecus.next(onlineUsers);
         this.offlineUsersSourcecus.next(offlineUsers);
       });
 }

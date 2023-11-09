@@ -491,14 +491,32 @@ CREATE TABLE CustomerBan (
     CreateDate DATETIME NOT NULL,
     CONSTRAINT FK_CustomerBan_Customer FOREIGN KEY (customerId) REFERENCES Customer(customerId)
 );
-CREATE TABLE Chat (
-    ChatId INT PRIMARY KEY IDENTITY(1,1),
-    SenderId NVARCHAR(50) NOT NULL,
-    ReceiverId NVARCHAR(50) NOT NULL,
+
+-- Tạo bảng Mời làm Shipper (Invitation)
+CREATE TABLE Invitation (
+    SellerID NVARCHAR(50) NOT NULL,
+    ShipperID NVARCHAR(50) NOT NULL,
+     Accepted TINYINT NOT NULL DEFAULT 0,
+    CONSTRAINT PK_Invitation PRIMARY KEY (SellerID, ShipperID),
+    CONSTRAINT FK_Invitation_Seller FOREIGN KEY (SellerID) REFERENCES Seller(sellerId),
+    CONSTRAINT FK_Invitation_Shipper FOREIGN KEY (ShipperID) REFERENCES Shipper(shipperId)
+);
+
+CREATE TABLE ShipperBan (
+    banShipperId INT PRIMARY KEY IDENTITY(1, 1),
+    shipperId NVARCHAR(50) NOT NULL,
+    Reason NVARCHAR(255),
+    CreateDate DATETIME NOT NULL,
+    CONSTRAINT FK_ShipperBan_Customer FOREIGN KEY (shipperId) REFERENCES Shipper(shipperId)
+);
+
+CREATE TABLE ChatMessage (
+    MessageId INT PRIMARY KEY IDENTITY(1,1),
+    CustomerId NVARCHAR(50) NOT NULL,
+    SellerId NVARCHAR(50) NOT NULL,
+    SenderType bit NOT NULL,
     Message NVARCHAR(MAX) NOT NULL,
     SentAt DATETIME NOT NULL,
-    CONSTRAINT FK_Chat_Customer_Sender FOREIGN KEY (SenderId) REFERENCES Customer (CustomerId),
-    CONSTRAINT FK_Chat_Customer_Receiver FOREIGN KEY (ReceiverId) REFERENCES Customer (CustomerId),
-    CONSTRAINT FK_Chat_Seller_Sender FOREIGN KEY (SenderId) REFERENCES Seller (SellerId),
-    CONSTRAINT FK_Chat_Seller_Receiver FOREIGN KEY (ReceiverId) REFERENCES Seller (SellerId)
+    CONSTRAINT FK_ChatMessage_Customer_Sender FOREIGN KEY (CustomerId) REFERENCES Customer (CustomerId),
+    CONSTRAINT FK_ChatMessage_Seller_Receiver FOREIGN KEY (SellerId) REFERENCES Seller (SellerId)
 );

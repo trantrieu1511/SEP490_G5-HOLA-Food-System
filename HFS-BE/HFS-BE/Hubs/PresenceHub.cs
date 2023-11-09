@@ -32,7 +32,7 @@ namespace HFS_BE.Hubs
 			{
 				var currentUsers = await _tracker.GetOnlineUsers();
 				usersOnlineCUS = await sellerDao.GetUsersOnlineCustomerAsync(currentUsers);
-				usersOfflineCUS = await sellerDao.GetUsersOfflineCustomerAsync(usersOnline);
+				usersOfflineCUS = await sellerDao.GetUsersOfflineCustomerAsync(usersOnlineCUS);
 				await Clients.All.SendAsync("GetOnlineAndOfflineUsersCUS", usersOnlineCUS, usersOfflineCUS);
 			}
 			else

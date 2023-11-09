@@ -11,6 +11,8 @@ import { iFunction } from './shared-module';
 import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
 import { NotificationsComponent } from 'src/app/modules/shared-module/components/notifications/notifications.component';
 import { NotificationItemComponent } from './components/notification-item/notification-item.component';
+import { SellerListComponent } from 'src/app/seller-list/seller-list.component';
+import { ChatboxComponent } from 'src/app/chatbox/chatbox.component';
 
 @NgModule({
   imports: [
@@ -19,25 +21,30 @@ import { NotificationItemComponent } from './components/notification-item/notifi
       CommonModule,
       ReactiveFormsModule,
       StyleClassModule,
+
   ],
   providers: [
       iServiceBase,
       iFunction,
       DataRealTimeService,
-      
+
   ],
   declarations: [
       iComponentBase,
       LoadingComponent,
       OpenPagePopupComponent,
       NotificationsComponent,
-      NotificationItemComponent
+      NotificationItemComponent,
+      SellerListComponent,
+      ChatboxComponent
+
   ],
   exports: [
       iComponentBase,
       LoadingComponent,
       OpenPagePopupComponent,
-      NotificationsComponent
+      NotificationsComponent,
+      SellerListComponent
   ],
 })
 

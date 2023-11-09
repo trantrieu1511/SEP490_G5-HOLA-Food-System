@@ -34,6 +34,7 @@ export class SellerListComponent {
   selectUser(user: any) {
     switch ((this.usersOnline.length+1) % 2) {
       case 1: {
+        debugger;
         var u = this.usersOnline.find(x => x.seller.userName === user.userName);
         if (u) {
           this.usersOnline = this.usersOnline.filter(x => x.seller.userName !== user.userName);

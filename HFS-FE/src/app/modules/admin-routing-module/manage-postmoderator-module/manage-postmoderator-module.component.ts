@@ -10,7 +10,7 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import * as API from "../../../services/apiURL";
 import { User } from 'src/app/services/auth.service';
-import { PostModerator } from '../models/PostModerator';
+import { PostModerator, PostModeratorOutput } from '../models/PostModerator';
 
 @Component({
   selector: 'app-manage-postmoderator-module',
@@ -18,7 +18,7 @@ import { PostModerator } from '../models/PostModerator';
   styleUrls: ['./manage-postmoderator-module.component.scss']
 })
 export class ManagePostmoderatorModuleComponent extends iComponentBase implements OnInit {
-  lstUser: Customer[] = [];
+  lstUser: PostModeratorOutput[] = [];
   user:User;
   displayDialogAdd: boolean = false;
   headerDialog: string = '';
@@ -60,26 +60,26 @@ export class ManagePostmoderatorModuleComponent extends iComponentBase implement
 
     }
 }
-async BanCustomer(user:Customer){
+async BanModerator(user:PostModeratorOutput){
   debugger;
   const param = {
-    "customerId":user.customerId,
-   "Ban":!user.isBanned
+    "modId":user.modId,
+   "isBanned":!user.isBanned
   };
   console.log(param)
 try {
 
   debugger;
-       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.BAN_CUS,param);
+       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.BAN_PM,param);
 
        if (response && response.message === "Success") {
         this.getAllCustomer();
-        this.showMessage(mType.success, "Notification", "Update "+user.customerId+" successfully", 'notify');
+        this.showMessage(mType.success, "Notification", "Update "+user.modId+" successfully", 'notify');
        }
       ;
    } catch (e) {
        console.log(e);
-       this.showMessage(mType.error, "Notification", "Update "+user.customerId+" failure", 'notify');
+       this.showMessage(mType.error, "Notification", "Update "+user.modId+" failure", 'notify');
    }
 }
 onCreatePostM() {

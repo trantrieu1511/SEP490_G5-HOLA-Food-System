@@ -29,6 +29,9 @@ export class API_USER {
     public static GETPROFILE = "profile";
     public static EDITPROFILE = "editprofile";
     public static GET_SHIPPERS_AVAILABLE = "getShippersAvailable";
+    public static GET_SHIPPERS_BYSELLER = "listshipperbyseller";
+    public static GET_SHIPPERS_INVITATION = "listinvitationshipper";
+    public static ADD_SHIPPERS_INVITATION = "invitationshipper";
 }
 
 // Service Role
@@ -53,10 +56,17 @@ export class API_MANAGE{
   public static LIST_CUS = "listcustomer";
   public static BAN_CUS = "bancustomer";
    public static HIS_CUS = "bancustomerhistory";
-    public static LIST_SELLER = "listcustomer";
-    public static LIST_SHIPPER = "listcustomer";
+    public static LIST_SELLER = "listseller";
+    public static BAN_SELLER = "banseller";
+    public static ACTIVE_SELLER = "activeseller";
+    public static HIS_SELLER = "bansellerhistory";
+    public static HIS_SHIPPER = "banshipperhistory";
+    public static LIST_SHIPPER = "listshipperbyadmin";
+    public static BAN_SHIPPER = "banshipper";
+        public static ACTIVE_SHIPPER = "activeshipper";
     public static LIST_PM = "listpostmoderator";
     public static ADD_PM = "addpostmoderator";
+    public static BAN_PM = "banpostmoderator";
     public static LIST_MM = "listcustomer";
 }
 

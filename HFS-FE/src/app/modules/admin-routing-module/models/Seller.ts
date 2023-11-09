@@ -15,3 +15,17 @@ export class Seller {
   isBanned: boolean;
   isVerified:boolean;
 }
+export class  HistoryBanSeller{
+  banSellerId: number;
+  reason:string;
+  createDate:Date;
+}
+export class BanSeller {
+  sellerId: string;
+  reason:string;
+  isBanned: boolean;
+}
+export class ActiveSeller {
+  sellerId: string;
+  isVerified:boolean;
+}

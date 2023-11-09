@@ -19,7 +19,7 @@ namespace HFS_BE.Models
         public virtual DbSet<Admin> Admins { get; set; } = null!;
         public virtual DbSet<CartItem> CartItems { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
-        public virtual DbSet<Chat> Chats { get; set; } = null!;
+        public virtual DbSet<ChatMessage> ChatMessages { get; set; } = null!;
         public virtual DbSet<Customer> Customers { get; set; } = null!;
         public virtual DbSet<CustomerBan> CustomerBans { get; set; } = null!;
         public virtual DbSet<Feedback> Feedbacks { get; set; } = null!;
@@ -27,6 +27,7 @@ namespace HFS_BE.Models
         public virtual DbSet<FeedbackVote> FeedbackVotes { get; set; } = null!;
         public virtual DbSet<Food> Foods { get; set; } = null!;
         public virtual DbSet<FoodImage> FoodImages { get; set; } = null!;
+        public virtual DbSet<Invitation> Invitations { get; set; } = null!;
         public virtual DbSet<MenuModerator> MenuModerators { get; set; } = null!;
         public virtual DbSet<MenuReport> MenuReports { get; set; } = null!;
         public virtual DbSet<Notification> Notifications { get; set; } = null!;
@@ -42,6 +43,7 @@ namespace HFS_BE.Models
         public virtual DbSet<SellerBan> SellerBans { get; set; } = null!;
         public virtual DbSet<ShipAddress> ShipAddresses { get; set; } = null!;
         public virtual DbSet<Shipper> Shippers { get; set; } = null!;
+        public virtual DbSet<ShipperBan> ShipperBans { get; set; } = null!;
         public virtual DbSet<Voucher> Vouchers { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -147,39 +149,30 @@ namespace HFS_BE.Models
                 entity.Property(e => e.Status).HasColumnName("status");
             });
 
-            modelBuilder.Entity<Chat>(entity =>
+            modelBuilder.Entity<ChatMessage>(entity =>
             {
-                entity.ToTable("Chat");
+                entity.HasKey(e => e.MessageId)
+                    .HasName("PK__ChatMess__C87C0C9C2EC0A978");
 
-                entity.Property(e => e.ReceiverId).HasMaxLength(50);
+                entity.ToTable("ChatMessage");
 
-                entity.Property(e => e.SenderId).HasMaxLength(50);
+                entity.Property(e => e.CustomerId).HasMaxLength(50);
+
+                entity.Property(e => e.SellerId).HasMaxLength(50);
 
                 entity.Property(e => e.SentAt).HasColumnType("datetime");
 
-                entity.HasOne(d => d.Receiver)
-                    .WithMany(p => p.ChatReceivers)
-                    .HasForeignKey(d => d.ReceiverId)
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.ChatMessages)
+                    .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Chat_Customer_Receiver");
+                    .HasConstraintName("FK_ChatMessage_Customer_Sender");
 
-                entity.HasOne(d => d.ReceiverNavigation)
-                    .WithMany(p => p.ChatReceiverNavigations)
-                    .HasForeignKey(d => d.ReceiverId)
+                entity.HasOne(d => d.Seller)
+                    .WithMany(p => p.ChatMessages)
+                    .HasForeignKey(d => d.SellerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Chat_Seller_Receiver");
-
-                entity.HasOne(d => d.Sender)
-                    .WithMany(p => p.ChatSenders)
-                    .HasForeignKey(d => d.SenderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Chat_Customer_Sender");
-
-                entity.HasOne(d => d.SenderNavigation)
-                    .WithMany(p => p.ChatSenderNavigations)
-                    .HasForeignKey(d => d.SenderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Chat_Seller_Sender");
+                    .HasConstraintName("FK_ChatMessage_Seller_Receiver");
             });
 
             modelBuilder.Entity<Customer>(entity =>
@@ -437,6 +430,33 @@ namespace HFS_BE.Models
                     .WithMany(p => p.FoodImages)
                     .HasForeignKey(d => d.FoodId)
                     .HasConstraintName("FK__FoodImage__foodI__4E88ABD4");
+            });
+
+            modelBuilder.Entity<Invitation>(entity =>
+            {
+                entity.HasKey(e => new { e.SellerId, e.ShipperId });
+
+                entity.ToTable("Invitation");
+
+                entity.Property(e => e.SellerId)
+                    .HasMaxLength(50)
+                    .HasColumnName("SellerID");
+
+                entity.Property(e => e.ShipperId)
+                    .HasMaxLength(50)
+                    .HasColumnName("ShipperID");
+
+                entity.HasOne(d => d.Seller)
+                    .WithMany(p => p.Invitations)
+                    .HasForeignKey(d => d.SellerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Invitation_Seller");
+
+                entity.HasOne(d => d.Shipper)
+                    .WithMany(p => p.Invitations)
+                    .HasForeignKey(d => d.ShipperId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Invitation_Shipper");
             });
 
             modelBuilder.Entity<MenuModerator>(entity =>
@@ -1059,6 +1079,30 @@ namespace HFS_BE.Models
                     .WithMany(p => p.Shippers)
                     .HasForeignKey(d => d.ManageBy)
                     .HasConstraintName("FK_Shiper_Seller");
+            });
+
+            modelBuilder.Entity<ShipperBan>(entity =>
+            {
+                entity.HasKey(e => e.BanShipperId)
+                    .HasName("PK__ShipperB__84EFD78C9882C016");
+
+                entity.ToTable("ShipperBan");
+
+                entity.Property(e => e.BanShipperId).HasColumnName("banShipperId");
+
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Reason).HasMaxLength(255);
+
+                entity.Property(e => e.ShipperId)
+                    .HasMaxLength(50)
+                    .HasColumnName("shipperId");
+
+                entity.HasOne(d => d.Shipper)
+                    .WithMany(p => p.ShipperBans)
+                    .HasForeignKey(d => d.ShipperId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ShipperBan_Customer");
             });
 
             modelBuilder.Entity<Voucher>(entity =>

@@ -232,12 +232,12 @@ showforgot$: Observable<number> = this.showforgotSubject.asObservable();
       sessionStorage.setItem("role",this.user.role.toString());
       sessionStorage.setItem("timetoken",this.user.exp.toString());
       sessionStorage.setItem("userId",this.user.userId.toString());
+
     }
   }
   getDecodedToken(token: string) {
     return JSON.parse(atob(token.split('.')[1]));
   }
-
 
 }
 

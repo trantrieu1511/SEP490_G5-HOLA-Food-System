@@ -44,6 +44,10 @@ import { NewsfeedComponent } from './modules/customer-routing-module/components/
 import { SellerListComponent } from './seller-list/seller-list.component';
 import { FoodManagementComponent } from './modules/menumoderator-routing-module/components/food-management/food-management.component';
 import { VoucherManagementComponent } from './modules/seller-routing-module/components/voucher-management/voucher-management.component';
+import { InvitationShipperComponent } from './modules/seller-routing-module/components/invitation-shipper/invitation-shipper.component';
+import { ManageSellerModuleComponent } from './modules/admin-routing-module/manage-seller-module/manage-seller-module.component';
+import { ManageShipperModuleComponent } from './modules/admin-routing-module/manage-shipper-module/manage-shipper-module.component';
+import { ChatboxComponent } from './chatbox/chatbox.component';
 
 @NgModule({
   declarations: [
@@ -66,8 +70,11 @@ import { VoucherManagementComponent } from './modules/seller-routing-module/comp
     ManageCustomerModuleComponent,
     ManagePostmoderatorModuleComponent,
     NewsfeedComponent,
-    SellerListComponent,
     VoucherManagementComponent,
+    InvitationShipperComponent,
+    ManageSellerModuleComponent,
+    ManageShipperModuleComponent,
+
 
 
 

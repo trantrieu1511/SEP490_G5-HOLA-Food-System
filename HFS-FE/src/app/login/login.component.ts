@@ -96,8 +96,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
   loadGoogleLibrary() {
     // @ts-ignore
     window.onGoogleLibraryLoad = () => {
+
       console.log(document.getElementById('buttonDiv'));
       // @ts-ignore
+
       google.accounts.id.initialize({
         client_id: this.client_Id,
         callback: this.handleCredentialResponse.bind(this),
@@ -128,7 +130,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
               this.router.navigateByUrl('/HFSBusiness/seller');
               break;
             case 'CU':
-              this.router.navigateByUrl('/');
+
+                  this.router.navigate(['/']);
               break;
 
             case 'SH':
@@ -171,7 +174,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
                 this.router.navigateByUrl('/HFSBusiness/seller');
                 break;
               case 'CU':
-                this.router.navigateByUrl('/');
+                          this.router.navigate(['/']);
+
                 break;
 
               case 'SH':

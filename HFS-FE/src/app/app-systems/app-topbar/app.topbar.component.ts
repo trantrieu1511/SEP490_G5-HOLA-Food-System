@@ -65,6 +65,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
           this.router.navigate(['/login-2']);
           window.location.reload();
         });
+           this.router.navigate(['/login-2']);
     }
 
     clearLocalStorage() {

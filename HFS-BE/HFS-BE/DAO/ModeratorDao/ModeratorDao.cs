@@ -196,5 +196,54 @@ namespace HFS_BE.DAO.ModeratorDao
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
 			}
 		}
+		public BaseOutputDto BanPostModerator(BanModeratorDtoinput input)
+		{
+			try
+			{
+				
+				var user = this.context.PostModerators.FirstOrDefault(s => s.ModId == input.ModId);
+				if (user == null)
+				{
+					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Moderator is not in data ");
+				}
+				user.IsBanned = input.IsBanned;
+				context.PostModerators.Update(user);
+				context.SaveChanges();
+
+
+				var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+				return output;
+			}
+			catch (Exception)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+			}
+		}
+
+		public BaseOutputDto BanMenuModerator(BanModeratorDtoinput input)
+		{
+			try
+			{
+
+				var user = this.context.MenuModerators.FirstOrDefault(s => s.ModId == input.ModId);
+				if (user == null)
+				{
+					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Moderator is not in data ");
+				}
+				user.IsBanned = input.IsBanned;
+				context.MenuModerators.Update(user);
+				context.SaveChanges();
+
+
+				var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+				return output;
+			}
+			catch (Exception)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+			}
+		}
 	}
 }

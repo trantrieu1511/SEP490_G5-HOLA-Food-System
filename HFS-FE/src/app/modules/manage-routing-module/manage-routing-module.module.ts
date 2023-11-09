@@ -12,7 +12,7 @@ import { QuanTriPhanQuyenComponent } from './components/test1-component/quan-tri
 const routes: Routes = [
   {path: '', component: DashboardComponent},
   {path: 'users', component: QuanTriPhanQuyenComponent},
-  
+
 ]
 
 @NgModule({
@@ -27,7 +27,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [
-    
+
   ],
   providers: [
       {provide: LocationStrategy, useClass: HashLocationStrategy}

@@ -8,8 +8,7 @@ namespace HFS_BE.Models
         public Customer()
         {
             CartItems = new HashSet<CartItem>();
-            ChatReceivers = new HashSet<Chat>();
-            ChatSenders = new HashSet<Chat>();
+            ChatMessages = new HashSet<ChatMessage>();
             CustomerBans = new HashSet<CustomerBan>();
             FeedbackReplies = new HashSet<FeedbackReply>();
             FeedbackVotes = new HashSet<FeedbackVote>();
@@ -37,8 +36,7 @@ namespace HFS_BE.Models
         public bool? IsBanned { get; set; }
 
         public virtual ICollection<CartItem> CartItems { get; set; }
-        public virtual ICollection<Chat> ChatReceivers { get; set; }
-        public virtual ICollection<Chat> ChatSenders { get; set; }
+        public virtual ICollection<ChatMessage> ChatMessages { get; set; }
         public virtual ICollection<CustomerBan> CustomerBans { get; set; }
         public virtual ICollection<FeedbackReply> FeedbackReplies { get; set; }
         public virtual ICollection<FeedbackVote> FeedbackVotes { get; set; }

@@ -32,4 +32,9 @@ namespace HFS_BE.DAO.ModeratorDao
 		[Compare("Password", ErrorMessage = "Confirm password does not match.")]
 		public string ConfirmPassword { get; set; }
 	}
+	public class BanModeratorDtoinput : BaseInputDto
+	{
+		public string ModId { get; set; }
+		public bool? IsBanned { get; set; }
+	}
 }

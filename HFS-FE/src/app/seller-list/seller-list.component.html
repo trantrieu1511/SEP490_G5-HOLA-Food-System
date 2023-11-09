@@ -38,7 +38,12 @@
       </ul>
   </div>
   <div class="card-footer">
-      <div class="text-success text-center">{{dataUser.length}} online</div>
+      <div class="text-success text-center">{{(presence.onlineUserscus$ | async).length}} online</div>
   </div>
 </div>
-
+<div>
+  <app-chatbox *ngFor="let item of usersOnline" [right]="item.right" [user]="item.seller"
+  (miniChatBox)="miniChatBox($event)"
+  (removeChatBox)="removeChatBox($event)">
+</app-chatbox>
+</div>

@@ -5,6 +5,7 @@ using HFS_BE.Models;
 using HFS_BE.Utils;
 using Mailjet.Client.Resources;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace HFS_BE.DAO.SellerDao
 {
@@ -30,6 +31,18 @@ namespace HFS_BE.DAO.SellerDao
 		}
 		public BaseOutputDto BanSeller(BanSellerDtoInput input)
 		{
+			var validationContext = new ValidationContext(input, serviceProvider: null, items: null);
+			var validationResults = new List<ValidationResult>();
+			bool isValid = Validator.TryValidateObject(input, validationContext, validationResults, validateAllProperties: true);
+			if (!isValid)
+			{
+				string err = "";
+				foreach (var item in validationResults)
+				{
+					err += item.ToString() + " ";
+				}
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
+			}
 			try
 			{
 				SellerBan ban = new SellerBan();
@@ -41,6 +54,7 @@ namespace HFS_BE.DAO.SellerDao
 				ban.SellerId = user.SellerId;
 				ban.Reason = input.Reason;
 				user.IsBanned = input.IsBanned;
+				ban.CreateDate = DateTime.Now;
 				context.Sellers.Update(user);
 				context.SellerBans.Add(ban);
 				context.SaveChanges();
@@ -48,9 +62,9 @@ namespace HFS_BE.DAO.SellerDao
 
 				return output;
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail,ex.ToString());
 			}
 		}
 		public BaseOutputDto ActiveSeller(ActiveSellerDtoInput input)
@@ -74,6 +88,32 @@ namespace HFS_BE.DAO.SellerDao
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
 			}
 		}
+
+		public ListHistoryBanSeller ListHistorySeller(BanSellerHistoryDtoInput Id)
+		{
+			try
+			{
+
+				var user = this.context.SellerBans.Where(s => s.SellerId == Id.SellerId).ToList();
+
+				var output = this.Output<ListHistoryBanSeller>(Constants.ResultCdSuccess);
+				output.data = mapper.Map<List<SellerBan>, List<BanHistorySellerDtoOutput>>(user);
+
+
+
+				return output;
+			}
+			catch (Exception)
+			{
+				return this.Output<ListHistoryBanSeller>(Constants.ResultCdFail);
+			}
+		}
+
+
+
+
+
+
 		public async Task<SellerDtoOutput> GetSellersAsync(string email)
 		{
 			var user = await context.Sellers
