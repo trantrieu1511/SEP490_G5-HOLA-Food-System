@@ -3,6 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.Dao.FoodDao;
 using HFS_BE.Dao.OrderDao;
 using HFS_BE.DAO.CartDao;
+using HFS_BE.DAO.NotificationDao;
 using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.DAO.UserDao;
 using HFS_BE.Models;
@@ -25,6 +26,7 @@ namespace HFS_BE.BusinessLogic.Cart
                 var cartDao = this.CreateDao<CartDao>();
                 var userDao = this.CreateDao<UserDao>();
                 var foodDao = this.CreateDao<FoodDao>();
+                var notifyDao = CreateDao<NotificationDao>();
                 var user = userDao.GetUserInfo(new GetOrderInfoInputDto()
                 {
                     UserId = inputDto.CustomerId,
@@ -100,6 +102,21 @@ namespace HFS_BE.BusinessLogic.Cart
                     }
 
                     // create noti for user and seller.
+                    // add new nofition
+                    NotificationAddNewInputDto inputNoti = new NotificationAddNewInputDto
+                    {
+                        CreateDate = DateTime.Now,
+                        SendBy = "System",
+                        Receiver = item.ShopId,
+                        TypeId = 1
+                    };
+                    // gen title and content notification
+                    GenerateNotification.GetSingleton().GenNotificationNewOrderSeller(inputNoti, (int)daoOutput.OrderId);
+                    var noti = notifyDao.AddNewNotification(inputNoti);
+                    if (!noti.Success)
+                    {
+                        return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                    }
 
                     // delete item from cart.
                     foreach (var cartitem in item.CartItems)

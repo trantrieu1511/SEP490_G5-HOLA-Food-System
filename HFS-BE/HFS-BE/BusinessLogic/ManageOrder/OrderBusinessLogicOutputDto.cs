@@ -20,12 +20,12 @@ namespace HFS_BE.BusinessLogic.ManageOrder
         public string PaymentMethod { get; set; }
         public decimal? TotalPrice { get; set; }
         public List<DetailProgress>? OrderProgresses { get; set; }
-        public List<OrderDetailFoodDto>? OrderDetails { get; set; }
+        public List<OrderDetailFoodBLDto>? OrderDetails { get; set; }
 
     }
 
 
-    public class OrderDetailFoodDto
+    public class OrderDetailFoodBLDto
     {
         public int OrderId { get; set; }
         public int FoodId { get; set; }

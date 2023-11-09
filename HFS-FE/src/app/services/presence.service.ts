@@ -32,6 +32,7 @@ export class PresenceService {
       .withAutomaticReconnect()
       .build()
 
+      //debugger;
       this.hubConnection
       .start()
       .then(() => {
@@ -43,6 +44,7 @@ export class PresenceService {
 
       this.hubConnection.on('UserIsOnline', (username: Seller) => {
 
+        //debugger;
 
          this.offlineUserscus$.pipe(take(1)).subscribe(usernames => {
           this.offlineUsersSourcecus.next([...usernames.filter(x => x.email !== username.email)])

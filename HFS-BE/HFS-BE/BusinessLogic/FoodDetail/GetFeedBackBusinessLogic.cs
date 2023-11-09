@@ -30,7 +30,7 @@ namespace HFS_BE.BusinessLogic.FoodDetail
                 {
                     if (inputDto.CustomerId != null && item.ListVoted.Where(x => x.VoteBy.Equals(inputDto.CustomerId)).ToList().Count > 0)
                     {
-                        item.IsLiked = true;
+                        item.IsLiked = item.ListVoted.Where(x => x.VoteBy.Equals(inputDto.CustomerId)).FirstOrDefault().IsLike;
                     }
                 }
 

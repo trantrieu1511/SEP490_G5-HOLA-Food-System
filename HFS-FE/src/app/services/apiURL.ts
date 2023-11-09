@@ -15,6 +15,7 @@ export class PHAN_HE {
     public static CHECKOUT = "checkout"
     public static HUB = "hub"
     public static NOTIFY = "notify"
+    public static FOODETAIL = "fooddetail"
 }
 
 export class API_TEST{
@@ -45,6 +46,8 @@ export class API_ORDER {
     public static CANCEL_ORDER = "cancelOrderSeller";
     public static ACCEPT_ORDER = "acceptOrderSeller";
     public static INTERNAL_ORDER = "internalShipperOrderSeller";
+    public static EXTERNAL_ORDER = "externalShipperOrderSeller";
+
 }
 
 export class API_SHIPPER {
@@ -87,7 +90,9 @@ export class API_VOUCHER {
     public static UPDATE_APP_USER = "updateAppUser";
     public static DELETE_APP_USER = "deleteAppUser";
     public static DELETE_LIST_APP_USER = "deleteListAppUser";
-
+    public static GET_ALL_VOUCHER = "getListvoucher";
+    public static CREATE_VOUCHER = "addNewVoucher";
+    public static EDIT_VOUCHER = "updateVoucher";
 }
 
 // API related to post entity
@@ -132,9 +137,17 @@ export class API_CHECKOUT{
 
 export class API_HUB{
     public static DATA_REALTIME = "dataRealTime";
+    public static NOTIFY_REALTIME = "notifyRealTime";
 }
 
 export class API_NOTIFY{
     public static GET_ALL_NOTIFIES = "getAllNotify";
     public static UPDATE_NOTIFY = "updateNotify";
+}
+
+export class API_FOODDETAIL{
+    public static GET_FOOD = "getfood";
+    public static GET_SIMILARFOOD = "similarfood"
+    public static GET_FEEDBACK = "feedbck"
+    public static VOTE_FEEDBACK = "vote"
 }

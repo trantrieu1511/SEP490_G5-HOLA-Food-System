@@ -51,7 +51,7 @@ namespace HFS_BE.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server =localhost; database =SEP490_HFS_2;uid=sa;pwd=123456;");
+                optionsBuilder.UseSqlServer("Server=localhost;database=SEP490_HFS_2;Integrated security=true;TrustServerCertificate=true;");
             }
         }
 
@@ -61,7 +61,7 @@ namespace HFS_BE.Models
             {
                 entity.ToTable("Admin");
 
-                entity.HasIndex(e => e.Email, "UQ__Admin__AB6E61642FAEB419")
+                entity.HasIndex(e => e.Email, "UQ__Admin__AB6E61644AAE0CBD")
                     .IsUnique();
 
                 entity.Property(e => e.AdminId)
@@ -111,7 +111,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<CartItem>(entity =>
             {
                 entity.HasKey(e => new { e.FoodId, e.CartId })
-                    .HasName("PK__CartItem__E3FF5A02E75A4AB3");
+                    .HasName("PK__CartItem__E3FF5A020C9A3BAB");
 
                 entity.ToTable("CartItem");
 
@@ -179,7 +179,7 @@ namespace HFS_BE.Models
             {
                 entity.ToTable("Customer");
 
-                entity.HasIndex(e => e.Email, "UQ__Customer__AB6E6164131D6F5F")
+                entity.HasIndex(e => e.Email, "UQ__Customer__AB6E61640E199A5A")
                     .IsUnique();
 
                 entity.Property(e => e.CustomerId)
@@ -237,7 +237,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<CustomerBan>(entity =>
             {
                 entity.HasKey(e => e.BanCustomerId)
-                    .HasName("PK__Customer__AA147D2F51541AEB");
+                    .HasName("PK__Customer__AA147D2F043EDCD6");
 
                 entity.ToTable("CustomerBan");
 
@@ -298,7 +298,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FeedbackReply>(entity =>
             {
                 entity.HasKey(e => e.ReplyId)
-                    .HasName("PK__Feedback__36BBF688EE83F368");
+                    .HasName("PK__Feedback__36BBF688ADA59C0B");
 
                 entity.ToTable("FeedbackReply");
 
@@ -346,7 +346,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FeedbackVote>(entity =>
             {
                 entity.HasKey(e => e.VoteId)
-                    .HasName("PK__Feedback__78F0B9F3D92316B5");
+                    .HasName("PK__Feedback__78F0B9F33953100B");
 
                 entity.ToTable("FeedbackVote");
 
@@ -416,7 +416,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FoodImage>(entity =>
             {
                 entity.HasKey(e => e.ImageId)
-                    .HasName("PK__FoodImag__336E9B551935ADC0");
+                    .HasName("PK__FoodImag__336E9B55BA777ECD");
 
                 entity.ToTable("FoodImage");
 
@@ -462,11 +462,11 @@ namespace HFS_BE.Models
             modelBuilder.Entity<MenuModerator>(entity =>
             {
                 entity.HasKey(e => e.ModId)
-                    .HasName("PK__MenuMode__0B7D023B46F824CC");
+                    .HasName("PK__MenuMode__0B7D023B8BBB97B2");
 
                 entity.ToTable("MenuModerator");
 
-                entity.HasIndex(e => e.Email, "UQ__MenuMode__AB6E6164C8BAAE40")
+                entity.HasIndex(e => e.Email, "UQ__MenuMode__AB6E61641E6773AD")
                     .IsUnique();
 
                 entity.Property(e => e.ModId)
@@ -517,7 +517,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<MenuReport>(entity =>
             {
                 entity.HasKey(e => new { e.FoodId, e.ReportBy })
-                    .HasName("PK__MenuRepo__C62346BB13CE7B78");
+                    .HasName("PK__MenuRepo__C62346BBA1109452");
 
                 entity.ToTable("MenuReport");
 
@@ -531,9 +531,11 @@ namespace HFS_BE.Models
                     .HasColumnType("datetime")
                     .HasColumnName("createDate");
 
-                entity.Property(e => e.IsDone).HasColumnName("isDone");
+                entity.Property(e => e.Note).HasColumnName("note");
 
                 entity.Property(e => e.ReportContent).HasColumnName("reportContent");
+
+                entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.Property(e => e.UpdateBy)
                     .HasMaxLength(50)
@@ -669,7 +671,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<OrderDetail>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.FoodId })
-                    .HasName("PK__OrderDet__8F779DFE64D4D3BE");
+                    .HasName("PK__OrderDet__8F779DFEF73738AF");
 
                 entity.ToTable("OrderDetail");
 
@@ -779,7 +781,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<PostImage>(entity =>
             {
                 entity.HasKey(e => e.ImageId)
-                    .HasName("PK__PostImag__336E9B55A3B7B1CE");
+                    .HasName("PK__PostImag__336E9B5558CEA4B4");
 
                 entity.ToTable("PostImage");
 
@@ -798,11 +800,11 @@ namespace HFS_BE.Models
             modelBuilder.Entity<PostModerator>(entity =>
             {
                 entity.HasKey(e => e.ModId)
-                    .HasName("PK__PostMode__0B7D023BAED08844");
+                    .HasName("PK__PostMode__0B7D023B63468549");
 
                 entity.ToTable("PostModerator");
 
-                entity.HasIndex(e => e.Email, "UQ__PostMode__AB6E6164145FABC9")
+                entity.HasIndex(e => e.Email, "UQ__PostMode__AB6E61649650A310")
                     .IsUnique();
 
                 entity.Property(e => e.ModId)
@@ -853,7 +855,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<PostReport>(entity =>
             {
                 entity.HasKey(e => new { e.PostId, e.ReportBy })
-                    .HasName("PK__PostRepo__6CC5DF18FDE8563A");
+                    .HasName("PK__PostRepo__6CC5DF18DD120CD1");
 
                 entity.ToTable("PostReport");
 
@@ -867,9 +869,11 @@ namespace HFS_BE.Models
                     .HasColumnType("datetime")
                     .HasColumnName("createDate");
 
-                entity.Property(e => e.IsDone).HasColumnName("isDone");
+                entity.Property(e => e.Note).HasColumnName("note");
 
                 entity.Property(e => e.ReportContent).HasColumnName("reportContent");
+
+                entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.Property(e => e.UpdateBy)
                     .HasMaxLength(50)
@@ -901,7 +905,7 @@ namespace HFS_BE.Models
             {
                 entity.ToTable("Seller");
 
-                entity.HasIndex(e => e.Email, "UQ__Seller__AB6E6164933C5D5D")
+                entity.HasIndex(e => e.Email, "UQ__Seller__AB6E61643AE9D1C6")
                     .IsUnique();
 
                 entity.Property(e => e.SellerId)
@@ -967,7 +971,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<SellerBan>(entity =>
             {
                 entity.HasKey(e => e.BanSellerId)
-                    .HasName("PK__SellerBa__CC1B046A017A919B");
+                    .HasName("PK__SellerBa__CC1B046A1EA3A65C");
 
                 entity.ToTable("SellerBan");
 
@@ -991,7 +995,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<ShipAddress>(entity =>
             {
                 entity.HasKey(e => e.AddressId)
-                    .HasName("PK__ShipAddr__26A111AD4B4CA47C");
+                    .HasName("PK__ShipAddr__26A111AD1C8BA596");
 
                 entity.ToTable("ShipAddress");
 
@@ -1016,7 +1020,7 @@ namespace HFS_BE.Models
             {
                 entity.ToTable("Shipper");
 
-                entity.HasIndex(e => e.Email, "UQ__Shipper__AB6E6164A2488C5C")
+                entity.HasIndex(e => e.Email, "UQ__Shipper__AB6E6164969ACD08")
                     .IsUnique();
 
                 entity.Property(e => e.ShipperId)

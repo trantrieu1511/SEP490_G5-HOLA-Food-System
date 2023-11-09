@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  HostListener,
   OnInit,
   Renderer2,
 } from '@angular/core';
@@ -10,6 +11,7 @@ import {
   OrderAcceptInput,
   OrderCancelInput,
   OrderCancelInputValidation,
+  OrderExternalInput,
   OrderInternalInput,
   OrderStatusInput,
 } from '../../models/order.model';
@@ -41,6 +43,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Shipper } from '../../models/shipper.model';
 import {DatePipe} from '@angular/common';
+import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
 
 @Component({
   selector: 'app-order-management',
@@ -85,7 +88,8 @@ export class OrderManagementComponent
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private signalRService: DataRealTimeService
   ) {
     super(messageService);
     this.rangeDates = [];
@@ -94,9 +98,30 @@ export class OrderManagementComponent
 
   async ngOnInit() {
     this.initTabMenuitem();
+    this.connectSignalR();
     this.getAllOrders();
     
     this.showCurrentPageReport = true;
+  }
+
+  async connectSignalR() {
+    this.lstOrders = [];
+    this.signalRService.startConnection();
+    const res = await this.signalRService.addTransferDataListener(
+      'orderSellerRealTime',
+      API.PHAN_HE.ORDER,
+      API.API_ORDER.GET_ORDER_BY_STATUS,
+      this.orderParamInput,
+      false
+    );
+    if (res && res.message === 'Success') {
+      this.lstOrders = res.orders;
+    }
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any): void {
+    this.signalRService.stopConnection();
   }
 
   ngAfterViewInit() {
@@ -142,7 +167,7 @@ export class OrderManagementComponent
 
       if (response && response.message === 'Success') {
         this.lstOrders = response.orders;
-        console.log(this.lstOrders);
+        //console.log(this.lstOrders);
       }
       this.loading = false;
     } catch (e) {
@@ -298,9 +323,9 @@ export class OrderManagementComponent
       message: `Are you sure to Accept this Order id: ${order.orderId} ?`,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        // document.body.style.cursor = 'wait';
-        // //confirm action
-        // this.acceptOrder(order);
+         document.body.style.cursor = 'wait';
+         //confirm action
+        this.commissionExternalShipper();
       },
       reject: () => {
         //reject action
@@ -352,7 +377,6 @@ export class OrderManagementComponent
 
     const param: OrderInternalInput = new OrderInternalInput(
       orderId,
-      2,
       shipperId
     );
     let response = await this.iServiceBase.postDataAsync(
@@ -374,6 +398,37 @@ export class OrderManagementComponent
       this.getAllOrders();
 
       this.visibleShipperLstDialog = false;
+    } else {
+      var messageError = this.iServiceBase.formatMessageError(response);
+      console.log(messageError);
+      this.showMessage(mType.error, response.message, messageError, 'notify');
+    }
+  }
+
+  
+  async commissionExternalShipper() {
+    const orderId = this.orderPreparingSelected.orderId;
+
+    const param: OrderExternalInput = new OrderExternalInput(
+      orderId
+    );
+    let response = await this.iServiceBase.postDataAsync(
+      API.PHAN_HE.ORDER,
+      API.API_ORDER.EXTERNAL_ORDER,
+      param,
+      true
+    );
+
+    if (response && response.message === 'Success') {
+      this.showMessage(
+        mType.success,
+        'Notification',
+        `Commission external shipper to orderId: ${orderId} successfully`,
+        'notify'
+      );
+
+      //lấy lại danh sách All
+      this.getAllOrders();
     } else {
       var messageError = this.iServiceBase.formatMessageError(response);
       console.log(messageError);

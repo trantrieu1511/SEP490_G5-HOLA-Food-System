@@ -48,6 +48,7 @@ import { InvitationShipperComponent } from './modules/seller-routing-module/comp
 import { ManageSellerModuleComponent } from './modules/admin-routing-module/manage-seller-module/manage-seller-module.component';
 import { ManageShipperModuleComponent } from './modules/admin-routing-module/manage-shipper-module/manage-shipper-module.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
+import { ProfileManagementComponent } from './modules/seller-routing-module/components/profile-management/profile-management.component';
 
 @NgModule({
   declarations: [
@@ -74,10 +75,7 @@ import { ChatboxComponent } from './chatbox/chatbox.component';
     InvitationShipperComponent,
     ManageSellerModuleComponent,
     ManageShipperModuleComponent,
-
-
-
-
+    ProfileManagementComponent
   ],
   imports: [
     BrowserModule,

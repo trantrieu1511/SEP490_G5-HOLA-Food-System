@@ -11,6 +11,7 @@ import { PostManagementComponent } from './components/post-management/post-manag
 import { FoodManagementComponent } from './components/food-management/food-management.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InvitationShipperComponent } from './components/invitation-shipper/invitation-shipper.component';
+import { VoucherManagementComponent } from './components/voucher-management/voucher-management.component';
 
 const routes: Routes = [
   {path: 'order-management', component: OrderManagementComponent},
@@ -18,6 +19,8 @@ const routes: Routes = [
   {path: 'post-management', component: PostManagementComponent},
     {path: 'invitation-shipper', component: InvitationShipperComponent},
   {path: '', component: FoodManagementComponent},
+  {path: 'food-management', component: FoodManagementComponent},
+  {path: 'voucher-management', component: VoucherManagementComponent},
 ]
 // food-management
 @NgModule({

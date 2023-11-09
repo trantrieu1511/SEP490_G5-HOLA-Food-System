@@ -11,17 +11,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.ManageVoucher
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class CreateVoucherController : BaseController
     {
         public CreateVoucherController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
-        [HttpPost("foods/addNewVoucher")]
+        [HttpPost("vouchers/addNewVoucher")]
         //[Authorize]
 
-        public BaseOutputDto CreateVoucher([FromForm] CreateVoucherDaoInputDto input)
+        public BaseOutputDto CreateVoucher(CreateVoucherDaoInputDto input)
         {
             try
             {

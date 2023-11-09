@@ -45,6 +45,7 @@ export class DataRealTimeService {
   };
 
   public addTransferDataListener = (
+    methodName: string,
     service: any,
     api: string,
     inputData?: any,
@@ -52,7 +53,7 @@ export class DataRealTimeService {
     ignoreLoading?: boolean
   ): Promise<any> => {
     return new Promise((resolve, reject) => {
-      this.hubConnection.on('dataRealTime', async () => {
+      this.hubConnection.on(methodName, async () => {
         try {
           const result = await this.loadProdData(
             service,
