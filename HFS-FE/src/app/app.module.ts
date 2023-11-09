@@ -40,7 +40,6 @@ import { ForgotComponent } from './forgot/forgot.component';
 import { LoginNonCustomerComponent } from './login-non-customer/login-non-customer.component';
 import { ManageCustomerModuleComponent } from './modules/admin-routing-module/manage-customer-module/manage-customer-module.component';
 import { ManagePostmoderatorModuleComponent } from './modules/admin-routing-module/manage-postmoderator-module/manage-postmoderator-module.component';
-import { NewsfeedComponent } from './modules/customer-routing-module/components/newsfeed/newsfeed.component';
 import { SellerListComponent } from './seller-list/seller-list.component';
 import { FoodManagementComponent } from './modules/menumoderator-routing-module/components/food-management/food-management.component';
 import { VoucherManagementComponent } from './modules/seller-routing-module/components/voucher-management/voucher-management.component';
@@ -68,7 +67,6 @@ import { BusinessRoutingModule } from './modules/business-routing-module/busines
     LoginNonCustomerComponent,
     ManageCustomerModuleComponent,
     ManagePostmoderatorModuleComponent,
-    NewsfeedComponent,
     SellerListComponent,
     VoucherManagementComponent,
     ProfileManagementComponent
