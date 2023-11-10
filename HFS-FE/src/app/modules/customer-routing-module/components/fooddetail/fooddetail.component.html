@@ -1,3 +1,48 @@
+<p-dialog header="Reporting the food: {{fooddetail.name}}" [(visible)]="isVisibleFoodReportModal" [modal]="true"
+    [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '500px' }" [draggable]="false" [resizable]="false"
+    [responsive]="true">
+    <br>
+    <div class="align-items-center" style="padding-bottom: 5px;">
+        <!-- <input type="text" value="{{fooddetail.foodId}}" [(ngModel)]="foodReport.foodId" disabled /> -->
+        <!-- <hr> -->
+        <div style="padding-bottom: 5px; font-style: italic;">
+            Các lý do phổ biến:
+        </div>
+        <div style="padding-bottom: 5px;">
+            <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
+                value="Đồ ăn không đúng với mô tả" [(ngModel)]="foodReport.reportContents"
+                inputId="reportContent1"></p-checkbox>
+            <label for="reportContent1" class="ml-2">Đồ ăn không đúng với mô tả</label>
+        </div>
+        <div style="padding-bottom: 5px;">
+            <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
+                value="Hình ảnh đồ ăn không rõ ràng" [(ngModel)]="foodReport.reportContents"
+                inputId="reportContent2"></p-checkbox>
+            <label for="reportContent2" class="ml-2">Hình ảnh đồ ăn không rõ ràng</label>
+        </div>
+        <div style="padding-bottom: 5px;">
+            <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
+                value="Đồ ăn không đảm bảo chất lượng" [(ngModel)]="foodReport.reportContents"
+                inputId="reportContent3"></p-checkbox>
+            <label for="reportContent3" class="ml-2">Đồ ăn không đảm bảo chất lượng</label>
+        </div>
+    </div>
+    <br>
+    <div style="padding-bottom: 5px;">
+        <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportTextArea($event);" value="Other"
+            inputId="reportContentOther"></p-checkbox>
+        <label for="reportContentOther" class="ml-2">Khác</label>
+    </div>
+    <span class="">
+        <textarea (change)="addValueToReportContentList();" [disabled]="isDisabledFoodReportTextArea" class="w-full"
+            id="float-input" rows="5" cols="50" [(ngModel)]="foodReport.reportContent" placeholder="Điền lý do khác"
+            pInputTextarea></textarea>
+        <!-- <label for="float-input">Lý do khác</label> -->
+    </span>
+    <br>
+    <p-button [disabled]="isDisabledFoodReportBtnSubmit" (click)="submitReport()">Save</p-button>
+</p-dialog>
+
 <div class="grid">
     <div class="col-12">
         <p-breadcrumb [model]="" [home]="{icon: 'pi pi-home'}"></p-breadcrumb>
@@ -7,26 +52,35 @@
             <div class="grid" style="max-width: 100%;">
                 <div class="col-5 align-items-center justify-content-center">
                     <p-galleria [value]="foodImages" [responsiveOptions]="galleriaResponsiveOptions"
-                                [containerStyle]="{'max-width': '100%', 'margin':'auto'}" [circular]="true">
+                        [containerStyle]="{'max-width': '100%', 'margin':'auto'}" [circular]="true">
                         <ng-template pTemplate="item" let-item>
-                            <img [src]="item.path" style="max-width: 100%; display: block; max-height: 100%;"/>
+                            <img [src]="item.path" style="max-width: 100%; display: block; max-height: 100%;" />
                         </ng-template>
                         <ng-template pTemplate="thumbnail" let-item>
                             <div class="grid nogutter justify-center">
-                                <img [src]="item.path" style=" max-width: 50px; display: block; max-height: 30%;"/>
+                                <img [src]="item.path" style=" max-width: 50px; display: block; max-height: 30%;" />
                             </div>
                         </ng-template>
                     </p-galleria>
-                </div>      
+                </div>
                 <div class="col-1">
                     <p-divider layout="vertical">
                     </p-divider>
                 </div>
-                <div class="col-5 align-items-center justify-content-center" >
+                <div class="col-5 align-items-center justify-content-center">
+                    <div *ngIf="hasAlreadyReported == true" style="text-align: right;">
+                        Đã tố cáo
+                    </div>
+                    <div *ngIf="isLoggedIn == true && hasAlreadyReported == false" style="text-align: right;">
+                        <a href="" (click)="openFoodReportDialog();">
+                            <i class="pi pi-flag fs-large"></i>
+                            Report
+                        </a>
+                    </div>
                     <div>
                         <h1>{{fooddetail.name}}</h1>
                     </div>
-                    
+
 
                     <p-divider layout="horizontal" align="center">
                     </p-divider>
@@ -44,8 +98,11 @@
                     <p-divider align="right">
                     </p-divider>
                     <div class="product-grid-item-bottom">
-                        <p-inputNumber [(ngModel)]="amount" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" [step]="1"
-                    decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" [min]="1" [max]="100" [(ngModel)]="amount"></p-inputNumber>
+                        <p-inputNumber [(ngModel)]="amount" [showButtons]="true" buttonLayout="horizontal"
+                            inputId="horizontal" spinnerMode="horizontal" [step]="1"
+                            decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
+                            incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" [min]="1" [max]="100"
+                            [(ngModel)]="amount"></p-inputNumber>
                         <p-button icon="pi pi-shopping-cart" (onClick)="onAddToCart(fooddetail.foodId)"></p-button>
                     </div>
                 </div>
@@ -55,11 +112,13 @@
     <div class="col-12">
         <div class="card">
             <h1>Similar food</h1>
-        <p-carousel [value]="similarFood" [numVisible]="3" [numScroll]="3" [circular]="false" [responsiveOptions]="">
-            <ng-template let-product pTemplate="item">
+            <p-carousel [value]="similarFood" [numVisible]="3" [numScroll]="3" [circular]="false"
+                [responsiveOptions]="">
+                <ng-template let-product pTemplate="item">
                     <div class="border-round m-2 text-center p-2" style="border: 1px solid var(--surface-d)">
                         <div class="my-5">
-                            <img [src]="product.foodImages[0].path" [alt]="product.name" class="shadow-4" style="max-width: 30%; max-height: 30%;"/>
+                            <img [src]="product.foodImages[0].path" [alt]="product.name" class="shadow-4"
+                                style="max-width: 30%; max-height: 30%;" />
                         </div>
                         <div>
                             <h5 class="mb-1">{{product.name}}</h5>
@@ -67,13 +126,15 @@
                             <!-- <span [class]="'product-badge status-'+product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
                             <div class="my-5">
                                 <button pButton pRipple icon="pi pi-search" class="mr-2 p-button-rounded"></button>
-                                <button pButton pRipple icon="pi pi-star-fill" class="mr-2 p-button-rounded p-button-success"></button>
-                                <button pButton pRipple icon="pi pi-cog" class="p-button-rounded p-button-info"></button>
+                                <button pButton pRipple icon="pi pi-star-fill"
+                                    class="mr-2 p-button-rounded p-button-success"></button>
+                                <button pButton pRipple icon="pi pi-cog"
+                                    class="p-button-rounded p-button-info"></button>
                             </div>
                         </div>
                     </div>
-            </ng-template>
-        </p-carousel>
+                </ng-template>
+            </p-carousel>
         </div>
     </div>
 
@@ -90,7 +151,7 @@
                                     <span class="sr-only">Jump to comment-1</span>
                                 </a>
                                 <summary style="margin-bottom: 10px;">
-                                    <div class="comment-heading" style="margin-bottom: 10px;">                                    
+                                    <div class="comment-heading" style="margin-bottom: 10px;">
                                         <div class="comment-info">
                                             <a href="#" class="comment-author">{{item.customerName}}</a>
                                             <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
@@ -100,23 +161,28 @@
                                         </div>
                                     </div>
                                 </summary>
-                        
+
                                 <div class="comment-body">
                                     <p>
                                         {{item.feedbackMessage}}
                                     </p>
-                                    <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply" type="button" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onReply(item.feedbackId)"></p-button>
-                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'" (click)="onLikeReview(item.feedbackId)"></p-button>
-                        
+                                    <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply"
+                                        type="button" data-toggle="reply-form" data-target="comment-1-reply-form"
+                                        (click)="onReply(item.feedbackId)"></p-button>
+                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
+                                        (click)="onLikeReview(item.feedbackId)"></p-button>
+
                                     <!-- Reply form start -->
                                     <div [id]="item.feedbackId" class="reply-form d-none">
                                         <textarea placeholder="Reply to comment" rows="4"></textarea>
-                                        <p-button label = "Submit" [raised]="true"></p-button>
-                                        <p-button label="Cancel" severity="danger" [raised]="true" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onCancel(item.feedbackId)"></p-button>
+                                        <p-button label="Submit" [raised]="true"></p-button>
+                                        <p-button label="Cancel" severity="danger" [raised]="true"
+                                            data-toggle="reply-form" data-target="comment-1-reply-form"
+                                            (click)="onCancel(item.feedbackId)"></p-button>
                                     </div>
                                     <!-- Reply form end -->
                                 </div>
-                        
+
                                 <div *ngFor="let replies of item.listReply" class="replies">
                                     <!-- Comment 2 start -->
                                     <details class="comment" id="comment-2">
@@ -133,7 +199,7 @@
                                                 </div>
                                             </div>
                                         </summary>
-                        
+
                                         <div class="comment-body">
                                             <p>
                                                 {{replies.replyMessage}}
@@ -146,9 +212,10 @@
                             </details>
                             <!-- Comment 1 end -->
                         </div>
-                        <p-paginator (onPageChange)="onPageChange($event, 5)" [first]="first" [rows]="rows" [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
+                        <p-paginator (onPageChange)="onPageChange($event, 5)" [first]="first" [rows]="rows"
+                            [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
                         </p-paginator>
-                    </div>                    
+                    </div>
                 </p-tabPanel>
                 <p-tabPanel header="4 sao" class="line-height-3 m-0">
                     <div class="flex-auto">
@@ -159,7 +226,7 @@
                                     <span class="sr-only">Jump to comment-1</span>
                                 </a>
                                 <summary style="margin-bottom: 10px;">
-                                    <div class="comment-heading" style="margin-bottom: 10px;">                                    
+                                    <div class="comment-heading" style="margin-bottom: 10px;">
                                         <div class="comment-info">
                                             <a href="#" class="comment-author">{{item.customerName}}</a>
                                             <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
@@ -169,24 +236,29 @@
                                         </div>
                                     </div>
                                 </summary>
-                        
+
                                 <div class="comment-body">
                                     <p>
                                         {{item.feedbackMessage}}
                                     </p>
-                                    <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply" type="button" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onReply(item.feedbackId)"></p-button>
-                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'" (click)="onLikeReview(item.feedbackId)"></p-button>
-                        
+                                    <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply"
+                                        type="button" data-toggle="reply-form" data-target="comment-1-reply-form"
+                                        (click)="onReply(item.feedbackId)"></p-button>
+                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
+                                        (click)="onLikeReview(item.feedbackId)"></p-button>
+
                                     <!-- Reply form start -->
                                     <div [id]="item.feedbackId" class="reply-form d-none">
                                         <textarea placeholder="Reply to comment" rows="4"></textarea>
-                                        <p-button label = "Submit" [raised]="true"></p-button>
-                                        <p-button label="Cancel" severity="danger" [raised]="true" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onCancel(item.feedbackId)"></p-button>
+                                        <p-button label="Submit" [raised]="true"></p-button>
+                                        <p-button label="Cancel" severity="danger" [raised]="true"
+                                            data-toggle="reply-form" data-target="comment-1-reply-form"
+                                            (click)="onCancel(item.feedbackId)"></p-button>
                                     </div>
                                     <!-- Reply form end -->
                                 </div>
-                        
-                        
+
+
                                 <div *ngFor="let replies of item.listReply" class="replies">
                                     <!-- Comment 2 start -->
                                     <details class="comment" id="comment-2">
@@ -203,7 +275,7 @@
                                                 </div>
                                             </div>
                                         </summary>
-                        
+
                                         <div class="comment-body">
                                             <p>
                                                 {{replies.replyMessage}}
@@ -216,9 +288,10 @@
                             </details>
                             <!-- Comment 1 end -->
                         </div>
-                        <p-paginator (onPageChange)="onPageChange($event, 4)" [first]="first" [rows]="rows" [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
+                        <p-paginator (onPageChange)="onPageChange($event, 4)" [first]="first" [rows]="rows"
+                            [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
                         </p-paginator>
-                    </div>            
+                    </div>
                 </p-tabPanel>
                 <p-tabPanel header="3 sao" class="line-height-3 m-0">
                     <div class="flex-auto">
@@ -229,7 +302,7 @@
                                     <span class="sr-only">Jump to comment-1</span>
                                 </a>
                                 <summary style="margin-bottom: 10px;">
-                                    <div class="comment-heading" style="margin-bottom: 10px;">                                    
+                                    <div class="comment-heading" style="margin-bottom: 10px;">
                                         <div class="comment-info">
                                             <a href="#" class="comment-author">{{item.customerName}}</a>
                                             <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
@@ -239,23 +312,28 @@
                                         </div>
                                     </div>
                                 </summary>
-                        
+
                                 <div class="comment-body">
                                     <p>
                                         {{item.feedbackMessage}}
                                     </p>
-                                    <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply" type="button" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onReply(item.feedbackId)"></p-button>
-                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'" (click)="onLikeReview(item.feedbackId)"></p-button>
-                        
+                                    <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply"
+                                        type="button" data-toggle="reply-form" data-target="comment-1-reply-form"
+                                        (click)="onReply(item.feedbackId)"></p-button>
+                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
+                                        (click)="onLikeReview(item.feedbackId)"></p-button>
+
                                     <!-- Reply form start -->
                                     <div [id]="item.feedbackId" class="reply-form d-none">
                                         <textarea placeholder="Reply to comment" rows="4"></textarea>
-                                        <p-button label = "Submit" [raised]="true"></p-button>
-                                        <p-button label="Cancel" severity="danger" [raised]="true" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onCancel(item.feedbackId)"></p-button>
+                                        <p-button label="Submit" [raised]="true"></p-button>
+                                        <p-button label="Cancel" severity="danger" [raised]="true"
+                                            data-toggle="reply-form" data-target="comment-1-reply-form"
+                                            (click)="onCancel(item.feedbackId)"></p-button>
                                     </div>
                                     <!-- Reply form end -->
                                 </div>
-                        
+
                                 <div *ngFor="let replies of item.listReply" class="replies">
                                     <!-- Comment 2 start -->
                                     <details class="comment" id="comment-2">
@@ -272,7 +350,7 @@
                                                 </div>
                                             </div>
                                         </summary>
-                        
+
                                         <div class="comment-body">
                                             <p>
                                                 {{replies.replyMessage}}
@@ -285,9 +363,10 @@
                             </details>
                             <!-- Comment 1 end -->
                         </div>
-                        <p-paginator (onPageChange)="onPageChange($event, 3)" [first]="first" [rows]="rows" [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
+                        <p-paginator (onPageChange)="onPageChange($event, 3)" [first]="first" [rows]="rows"
+                            [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
                         </p-paginator>
-                    </div>            
+                    </div>
                 </p-tabPanel>
                 <p-tabPanel header="2 sao" class="line-height-3 m-0">
                     <div class="flex-auto">
@@ -298,7 +377,7 @@
                                     <span class="sr-only">Jump to comment-1</span>
                                 </a>
                                 <summary style="margin-bottom: 10px;">
-                                    <div class="comment-heading" style="margin-bottom: 10px;">                                    
+                                    <div class="comment-heading" style="margin-bottom: 10px;">
                                         <div class="comment-info">
                                             <a href="#" class="comment-author">{{item.customerName}}</a>
                                             <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
@@ -308,23 +387,28 @@
                                         </div>
                                     </div>
                                 </summary>
-                        
+
                                 <div class="comment-body">
                                     <p>
                                         {{item.feedbackMessage}}
                                     </p>
-                                    <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply" type="button" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onReply(item.feedbackId)"></p-button>
-                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'" (click)="onLikeReview(item.feedbackId)"></p-button>
-                        
+                                    <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply"
+                                        type="button" data-toggle="reply-form" data-target="comment-1-reply-form"
+                                        (click)="onReply(item.feedbackId)"></p-button>
+                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
+                                        (click)="onLikeReview(item.feedbackId)"></p-button>
+
                                     <!-- Reply form start -->
                                     <div [id]="item.feedbackId" class="reply-form d-none">
                                         <textarea placeholder="Reply to comment" rows="4"></textarea>
-                                        <p-button label = "Submit" [raised]="true"></p-button>
-                                        <p-button label="Cancel" severity="danger" [raised]="true" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onCancel(item.feedbackId)"></p-button>
+                                        <p-button label="Submit" [raised]="true"></p-button>
+                                        <p-button label="Cancel" severity="danger" [raised]="true"
+                                            data-toggle="reply-form" data-target="comment-1-reply-form"
+                                            (click)="onCancel(item.feedbackId)"></p-button>
                                     </div>
                                     <!-- Reply form end -->
                                 </div>
-                        
+
                                 <div *ngFor="let replies of item.listReply" class="replies">
                                     <!-- Comment 2 start -->
                                     <details class="comment" id="comment-2">
@@ -341,7 +425,7 @@
                                                 </div>
                                             </div>
                                         </summary>
-                        
+
                                         <div class="comment-body">
                                             <p>
                                                 {{replies.replyMessage}}
@@ -354,9 +438,10 @@
                             </details>
                             <!-- Comment 1 end -->
                         </div>
-                        <p-paginator (onPageChange)="onPageChange($event, 2)" [first]="first" [rows]="rows" [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
+                        <p-paginator (onPageChange)="onPageChange($event, 2)" [first]="first" [rows]="rows"
+                            [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
                         </p-paginator>
-                    </div>            
+                    </div>
                 </p-tabPanel>
                 <p-tabPanel header="1 sao" class="line-height-3 m-0">
                     <div class="flex-auto">
@@ -367,7 +452,7 @@
                                     <span class="sr-only">Jump to comment-1</span>
                                 </a>
                                 <summary style="margin-bottom: 10px;">
-                                    <div class="comment-heading" style="margin-bottom: 10px;">                                    
+                                    <div class="comment-heading" style="margin-bottom: 10px;">
                                         <div class="comment-info">
                                             <a href="#" class="comment-author">{{item.customerName}}</a>
                                             <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
@@ -377,23 +462,28 @@
                                         </div>
                                     </div>
                                 </summary>
-                        
+
                                 <div class="comment-body">
                                     <p>
                                         {{item.feedbackMessage}}
                                     </p>
-                                    <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply" type="button" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onReply(item.feedbackId)"></p-button>
-                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'" (click)="onLikeReview(item.feedbackId)"></p-button>
-                        
+                                    <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply"
+                                        type="button" data-toggle="reply-form" data-target="comment-1-reply-form"
+                                        (click)="onReply(item.feedbackId)"></p-button>
+                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
+                                        (click)="onLikeReview(item.feedbackId)"></p-button>
+
                                     <!-- Reply form start -->
                                     <div [id]="item.feedbackId" class="reply-form d-none">
                                         <textarea placeholder="Reply to comment" rows="4"></textarea>
-                                        <p-button label = "Submit" [raised]="true"></p-button>
-                                        <p-button label="Cancel" severity="danger" [raised]="true" data-toggle="reply-form" data-target="comment-1-reply-form" (click)="onCancel(item.feedbackId)"></p-button>
+                                        <p-button label="Submit" [raised]="true"></p-button>
+                                        <p-button label="Cancel" severity="danger" [raised]="true"
+                                            data-toggle="reply-form" data-target="comment-1-reply-form"
+                                            (click)="onCancel(item.feedbackId)"></p-button>
                                     </div>
                                     <!-- Reply form end -->
                                 </div>
-                        
+
                                 <div *ngFor="let replies of item.listReply" class="replies">
                                     <!-- Comment 2 start -->
                                     <details class="comment" id="comment-2">
@@ -410,7 +500,7 @@
                                                 </div>
                                             </div>
                                         </summary>
-                        
+
                                         <div class="comment-body">
                                             <p>
                                                 {{replies.replyMessage}}
@@ -423,9 +513,10 @@
                             </details>
                             <!-- Comment 1 end -->
                         </div>
-                        <p-paginator (onPageChange)="onPageChange($event, 1)" [first]="first" [rows]="rows" [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
+                        <p-paginator (onPageChange)="onPageChange($event, 1)" [first]="first" [rows]="rows"
+                            [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
                         </p-paginator>
-                    </div>            
+                    </div>
                 </p-tabPanel>
             </p-tabView>
         </div>

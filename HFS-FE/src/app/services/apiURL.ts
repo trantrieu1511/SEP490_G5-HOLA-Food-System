@@ -161,6 +161,6 @@ export class API_POSTREPORT{
 export class API_FOODREPORT{
     public static GET_ALL_FOODREPORT = "getallfoodreports";
     public static APPROVE_NOTAPPROVE_FOODREPORT = "approvenotapprovefoodreport";
-    public static CREATE_NEW_FOODREPORT = "createnewfoodreports"
+    public static CREATE_NEW_FOODREPORT = "createnewfoodreport"
 }
 

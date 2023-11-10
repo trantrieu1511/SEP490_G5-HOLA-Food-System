@@ -22,6 +22,8 @@ import { AddToCart } from '../../models/addToCart.model';
 import { GetFoodByCategoryInpt } from '../../models/GetFoodByCategoryInput.model';
 import { VoteFeedBackInputDto } from '../../models/VoteFeedBackInputDto.model';
 import { TabView, TabViewChangeEvent } from 'primeng/tabview';
+import { FoodReport } from 'src/app/modules/menumoderator-routing-module/models/foodreport.model';
+import { CheckboxChangeEvent } from 'primeng/checkbox';
 interface PageEvent {
   first?: number;
   rows?: number;
@@ -34,6 +36,7 @@ interface PageEvent {
   styleUrls: ['./fooddetail.component.scss']
 })
 export class FooddetailComponent extends iComponentBase implements OnInit {
+
   constructor(private shareData: ShareData,
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -56,10 +59,30 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
   first: number = 0;
   rows: number = 10;
 
+  // ----------- Food report --------------
+  isVisibleFoodReportModal = false; // Bien phuc vu cho viec bat tat modal
+  foodReport: FoodReport = new FoodReport();
+  isDisabledFoodReportBtnSubmit: boolean = true; // Trạng thái disable của nút submit của modal food report
+  isDisabledFoodReportTextArea: boolean = true; // Trạng thái disable của text area của modal food report
+  isLoggedIn: boolean = false; // Trang thai da login cua nguoi dung
+  listFoodReport: any[] = [];
+  hasAlreadyReported: boolean = false; // Bien de check xem food nay da duoc report chua
+
+  checkLoggedIn() {
+    if (sessionStorage.getItem('userId') != null) {
+      this.isLoggedIn = true;
+    }
+  }
+
   async ngOnInit() {
     await this.getFoodDetail();
     await this.onGetSimilarFood();
     await this.getFeedBack();
+    this.checkLoggedIn();
+    this.checkUsersReportFoodCapability();
+    if(!this.hasAlreadyReported){
+      this.enableDisableFoodReportButtonSubmit();
+    }
   }
 
   onPageChange(event: PageEvent, star: number) {
@@ -160,6 +183,9 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       debugger
       if (response && response.success === true) {
         this.fooddetail = response;
+        console.log(response);
+        console.log(this.fooddetail);
+        this.foodReport.foodId = response.foodId;
         this.foodImages = response.foodImages
         this.category = response.categoryId
       }
@@ -208,6 +234,130 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
         this.showMessage(mType.warn, "", "There was some problem please try againg or contact for admin help!", 'notify');
       }
 
+      this.loading = false;
+    } catch (e) {
+      console.log(e);
+      this.loading = false;
+    }
+  }
+
+  openFoodReportDialog() {
+    this.isVisibleFoodReportModal = true;
+    event.preventDefault();
+  }
+
+  async submitReport() {
+    //------------ Lay cac ly do report duoc input boi nguoi dung -------------
+    let rpContent: string = "";
+    let i = 0;
+    // debugger;
+    console.log(this.foodReport.reportContents);
+    this.foodReport.reportContents.forEach(element => {
+      i++;
+      console.log("element" + i + ": " + element);
+      if (element == this.foodReport.reportContents[this.foodReport.reportContents.length - 1]) { //the last element in the array
+        rpContent += element;
+      } else {
+        rpContent += element + ", ";
+      }
+    });
+    // rpContent += ", " + this.foodReport.reportContent;
+
+    this.foodReport.reportContent = rpContent;
+    console.log("Full rp content: " + this.foodReport.reportContent);
+
+    // ------------------ Commit vao db --------------------
+    try {
+      this.loading = true;
+      let param = {
+        foodId: this.foodReport.foodId,
+        reportContent: this.foodReport.reportContent
+      }
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODREPORT, API.API_FOODREPORT.CREATE_NEW_FOODREPORT, param);
+      if (response && response.success === true) {
+        this.showMessage(mType.success, "Notification", `Create new food report successfully`, 'notify');
+        console.log(response);
+        console.log('Create new food report successfully');
+      }
+      else {
+        this.showMessage(mType.warn, "error", "Internal server error, please contact for admin help!", 'notify');
+        console.log(response);
+        console.log('Internal server error, please contact for admin help!');
+      }
+      this.loading = false;
+    } catch (e) {
+      console.log(e);
+      this.loading = false;
+    }
+    
+    // Làm mới model để không bị ảnh hường bởi two way binding
+    this.foodReport = new FoodReport();
+    // Tat modal
+    this.isVisibleFoodReportModal = false;
+    // Refresh nut submit
+    this.enableDisableFoodReportButtonSubmit();
+  }
+
+  // Phuc vu cho viec an hien nut submit
+  addValueToReportContentList() {
+    console.log(this.foodReport.reportContent);
+    if (this.foodReport.reportContent == '') {
+      this.foodReport.reportContents.pop();
+      console.log("poped!");
+    } else {
+      this.foodReport.reportContents.push(this.foodReport.reportContent);
+      console.log("pushed!");
+    }
+    this.enableDisableFoodReportButtonSubmit();
+  }
+
+  enableDisableFoodReportTextArea($event: any) {
+    if ($event.checked == 'Other') {
+      this.isDisabledFoodReportTextArea = false;
+    } else {
+      this.isDisabledFoodReportTextArea = true;
+    }
+  }
+
+  // Validate to make this submit button enable whenever the user input some report content
+  enableDisableFoodReportButtonSubmit() {
+    // debugger;
+    // console.log($event.checked);
+    // this.foodReport.reportContents.forEach(element => {
+    //   console.log(element);
+    //   if ($event.checked == element) {
+    //     this.isDisabledFoodReportBtnSubmit = false;
+    //   } else {
+    //     this.isDisabledFoodReportBtnSubmit = true;
+    //   }
+    // });
+    console.log(this.foodReport.reportContents);
+    console.log("rpContents length: " + this.foodReport.reportContents.length);
+    if (this.foodReport.reportContents.length < 1) {
+      this.isDisabledFoodReportBtnSubmit = true;
+    } else {
+      this.isDisabledFoodReportBtnSubmit = false;
+    }
+  }
+
+  // Hàm này kiểm tra khả năng tố cáo bằng cách xem customer đã report cái food với id: cụ thể nào đó chưa.
+  async checkUsersReportFoodCapability() {
+    debugger;
+    try {
+      this.loading = true;
+
+      let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.FOODREPORT, API.API_FOODREPORT.GET_ALL_FOODREPORT);
+
+      if (response && response.message === "Success") {
+        this.listFoodReport = response.foodReports;
+        // console.log("Danh sách các đồ ăn đã tố cáo của khách hàng: " + this.listFoodReport);
+        // console.log(response.foodReports);
+        this.listFoodReport.forEach(element => {
+          if(element.foodId == this.fooddetail.foodId){ // Da report
+            this.hasAlreadyReported = true;
+          }
+        });
+      }
       this.loading = false;
     } catch (e) {
       console.log(e);

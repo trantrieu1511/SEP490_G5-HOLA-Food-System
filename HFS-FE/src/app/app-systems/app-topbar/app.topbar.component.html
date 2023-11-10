@@ -111,7 +111,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="layout-topbar-item">
+                <li *ngIf="isLoggedInState" class="layout-topbar-item">
                     <a class="layout-topbar-action flex flex-row justify-content-center align-items-center px-2 rounded-circle"
                         (click)="layoutService.onTopbarItemClick($event, 'profile')" pRipple>
                         <img src="../../../assets/demo/images/avatar/amyelsner.png" alt="avatar"
@@ -122,7 +122,7 @@
                         *ngIf="layoutService.state.activeTopbarItem === 'profile'">
                         <li class="layout-topbar-action-item">
                             <a class="flex flex-row align-items-center" (click)="viewProfile()" pRipple>
-                                <i class="pi pi-cog"
+                                <i class="pi pi-user"
                                     [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>
                                 <span>My profile</span>
                             </a>
@@ -150,7 +150,15 @@
                         </li>
                     </ul>
                 </li>
-
+                <li class="layout-topbar-item" *ngIf="!isLoggedInState">
+                    <a class="layout-topbar-action rounded-circle"
+                        (click)="goToLoginBusinessPage();" pRipple>
+                        <span class="p-overlay-badge">
+                            <!-- <i class="pi pi-sign-in fs-large"></i> -->
+                            <span>Login</span>
+                        </span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
