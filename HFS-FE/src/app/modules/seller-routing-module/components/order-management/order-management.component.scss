@@ -43,3 +43,13 @@
         }
     }
 }
+
+.no-voucher{
+    font-style: italic; 
+    font-size: 0.85rem; 
+    text-decoration: underline;
+
+    &:hover{
+        cursor: not-allowed;
+    }
+}

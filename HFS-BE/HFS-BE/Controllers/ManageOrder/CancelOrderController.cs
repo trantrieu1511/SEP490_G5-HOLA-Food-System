@@ -17,6 +17,7 @@ namespace HFS_BE.Controllers.ManageOrder
         }
 
         [HttpPost("orders/cancelOrderSeller")]
+        [Authorize]
         public BaseOutputDto CancelOrder(OrderCancelInputDto input)
         {
             try

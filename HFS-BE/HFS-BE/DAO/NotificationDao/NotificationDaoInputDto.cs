@@ -4,7 +4,7 @@
     {
         public string? SendBy { get; set; }
         public string? Receiver { get; set; }
-        public int TypeId { get; set; }
+        public int Type { get; set; }
         public string? Title { get; set; }
         public string? Content { get; set; }
         public DateTime CreateDate { get; set; }
@@ -15,7 +15,13 @@
         public string? Receiver { get; set; }
     }
 
-    public class NotificationReadedInput
+    public class NotificationGetInput
+    {
+        public string? Receiver { get; set; }
+        public int SkipNum { get; set; }
+    }
+
+    public class NotificationReadInput
     {
         public int NotifyId { get; set; }
     }

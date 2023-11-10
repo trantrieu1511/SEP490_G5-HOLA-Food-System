@@ -119,7 +119,9 @@ export class iServiceBase {
         }
 
         const url = `${service}${api}`;
-        const response = await this.httpClient.get(url, {params: Params}).pipe(catchError(this.handleError)).toPromise();
+        const option = this.getOptionsRequest(ignoreLoading)
+        option.params = Params;
+        const response = await this.httpClient.get(url, option).toPromise();
         document.body.style.cursor = 'default';
 
         return response;

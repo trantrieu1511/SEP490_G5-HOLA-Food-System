@@ -26,5 +26,9 @@
 }
 
 .mark-all_disabled{
-    cursor: not-allowed;
+    cursor: not-allowed !important;
+}
+
+.link-btn{
+    cursor: pointer;
 }

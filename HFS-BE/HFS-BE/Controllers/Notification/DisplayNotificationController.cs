@@ -16,13 +16,14 @@ namespace HFS_BE.Controllers.Notification
 
         [HttpGet("notifies/getAllNotify")]
         [Authorize]
-        public NotificationLst GetNotificationByReceiver()
+        public NotificationLst GetNotificationByReceiver([FromQuery]NotificationGetInputDto inputDto)
         {
             try
             {
-                NotificationInput input = new NotificationInput
+                NotificationGetInput input = new NotificationGetInput
                 {
-                    Receiver = GetUserInfor().UserId
+                    Receiver = GetUserInfor().UserId,
+                    SkipNum = inputDto.SkipNum
                 };
 
                 var business = GetBusinessLogic<GetAllNotificationBusinessLogic>();

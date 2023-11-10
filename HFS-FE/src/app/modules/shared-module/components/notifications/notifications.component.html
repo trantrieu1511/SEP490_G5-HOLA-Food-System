@@ -10,42 +10,98 @@
         </span>
     </a>
 
-    <ul class="layout-topbar-action-panel shadow-6"
-        [@topbarActionPanelAnimation]="'visible'"
-        *ngIf="layoutService.state.activeTopbarItem === 'notifications'">
-        <notification-item [layoutService]="layoutService" 
-            (notifyChange)="notifyChange($event)"
-            [notify]="notify" 
-            *ngFor="let notify of lstNotification">
-        </notification-item>
-        <li class="view-all mt-3">
-            <div class="flex flex-row align-items-center">
-                <div class="flex flex-column"
-                        [class.ml-3] = "!layoutService.app.isRTL"
-                        [class.mr-3] = "layoutService.app.isRTL"
-                        style="flex-grow: 1;">
-                    <div class="flex align-items-center justify-content-center mb-1">
-                        <a class="text-sm font-bold" href="">View All Notifications</a>
-                        <i class="text-sm pi pi-chevron-right"
-                            style="margin-left: 0.3rem; color: #212121; margin-top: 0.2rem;"
-                        ></i>
+    <div *ngIf="!authService.getRole(); else loggedin">
+        <ul class="layout-topbar-action-panel shadow-6" 
+            [@topbarActionPanelAnimation]="'visible'"
+            *ngIf="layoutService.state.activeTopbarItem === 'notifications'">
+            <li class="">
+                <div class="flex flex-row align-items-center">
+                    <div class="flex flex-column"
+                            [class.ml-3] = "!layoutService.app.isRTL"
+                            [class.mr-3] = "layoutService.app.isRTL"
+                            style="flex-grow: 1;"
+                            >
+                        <div class="flex align-items-center justify-content-center mb-1" style="min-height: 10rem;">
+                            Login to view Notifications
+                        </div>
                     </div>
                 </div>
-            </div>
-        </li>
-        <li class="mark-all">
-            <div class="flex flex-row align-items-center">
-                <div class="flex flex-column"
-                        [class.ml-3] = "!layoutService.app.isRTL"
-                        [class.mr-3] = "layoutService.app.isRTL"
-                        style="flex-grow: 1;">
-                    <div class="flex align-items-center justify-content-center">
-                        <a class="text-xs font-bold text-600" 
-                        [class.mark-all_disabled]="!isNewNotify"
-                        href="">Mark all notifications as read</a>
+            </li>
+            <li class="">
+                <div class="flex flex-row align-items-center">
+                    <div class="flex flex-column"
+                            [class.ml-3] = "!layoutService.app.isRTL"
+                            [class.mr-3] = "layoutService.app.isRTL"
+                            style="flex-grow: 1;"
+                            >
+                        <div class="flex align-items-center justify-content-center mb-1">
+                            <button  pButton pRipple style="flex-grow: 1; text-align: center;"
+                                routerLink="/login"
+                                class="p-button-text p-button-Primary justify-content-center">Login</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </li>
-    </ul>
+            </li>
+        </ul>
+    </div>
+
+    <ng-template #loggedin>
+        <ul class="layout-topbar-action-panel shadow-6"
+            [@topbarActionPanelAnimation]="'visible'"
+            *ngIf="layoutService.state.activeTopbarItem === 'notifications'">
+            <ng-container *ngIf="lstNotification.length > 0; else emptyNotify">
+                <notification-item [layoutService]="layoutService" 
+                    (notifyChange)="notifyChange($event)"
+                    [notify]="notify" 
+                    *ngFor="let notify of lstNotification"
+                >
+                </notification-item>
+            </ng-container>
+            <ng-template #emptyNotify>
+                <li class="">
+                    <div class="flex flex-row align-items-center">
+                        <div class="flex flex-column"
+                                [class.ml-3] = "!layoutService.app.isRTL"
+                                [class.mr-3] = "layoutService.app.isRTL"
+                                style="flex-grow: 1;"
+                                >
+                            <div class="flex align-items-center justify-content-center mb-1" style="min-height: 10rem;">
+                                You have no Notifications
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ng-template>
+            
+            <li class="view-all mt-3">
+                <div class="flex flex-row align-items-center">
+                    <div class="flex flex-column"
+                            [class.ml-3] = "!layoutService.app.isRTL"
+                            [class.mr-3] = "layoutService.app.isRTL"
+                            style="flex-grow: 1;">
+                        <div class="flex align-items-center justify-content-center mb-1">
+                            <a class="text-sm font-bold link-btn">View All Notifications</a>
+                            <i class="text-sm pi pi-chevron-right"
+                                style="margin-left: 0.3rem; color: #212121; margin-top: 0.2rem;"
+                            ></i>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="mark-all">
+                <div class="flex flex-row align-items-center">
+                    <div class="flex flex-column"
+                            [class.ml-3] = "!layoutService.app.isRTL"
+                            [class.mr-3] = "layoutService.app.isRTL"
+                            style="flex-grow: 1;">
+                        <div class="flex align-items-center justify-content-center">
+                            <a class="text-xs font-bold text-600 link-btn" 
+                            [class.mark-all_disabled]="!isNewNotify"
+                            (click)="onMarkAllRead()">Mark all notifications as read</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>   
+    </ng-template>
 </li>

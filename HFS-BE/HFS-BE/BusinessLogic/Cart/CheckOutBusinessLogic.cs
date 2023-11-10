@@ -8,6 +8,7 @@ using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.DAO.UserDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using HFS_BE.Utils.Enum;
 
 namespace HFS_BE.BusinessLogic.Cart
 {
@@ -108,7 +109,7 @@ namespace HFS_BE.BusinessLogic.Cart
                         CreateDate = DateTime.Now,
                         SendBy = "System",
                         Receiver = item.ShopId,
-                        TypeId = 1
+                        Type = NotificationTypeEnum.GetNotifyValue("System")
                     };
                     // gen title and content notification
                     GenerateNotification.GetSingleton().GenNotificationNewOrderSeller(inputNoti, (int)daoOutput.OrderId);

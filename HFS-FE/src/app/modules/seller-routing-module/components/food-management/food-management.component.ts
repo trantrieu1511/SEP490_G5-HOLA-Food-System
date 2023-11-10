@@ -82,7 +82,6 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
   setCurrentUser(){
     const user: User = JSON.parse(localStorage.getItem('user'));
     const token=sessionStorage.getItem('JWT');
-debugger;
     if(user){
 
       this.presence.createHubConnection(token);

@@ -7,8 +7,7 @@ namespace HFS_BE.DAO.NotificationDao
         public int Id { get; set; }
         public string? SendBy { get; set; }
         public string? Receiver { get; set; }
-        public int TypeId { get; set; }
-        public string? TypeName { get; set; }
+        public string Type { get; set; }
         public string? Title { get; set; }
         public string? Content { get; set; }
         public string? CreateDate { get; set; }

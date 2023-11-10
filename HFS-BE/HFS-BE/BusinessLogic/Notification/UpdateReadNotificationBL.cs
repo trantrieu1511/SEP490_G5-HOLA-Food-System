@@ -5,18 +5,18 @@ using HFS_BE.Models;
 
 namespace HFS_BE.BusinessLogic.Notification
 {
-    public class GetAllNotificationBusinessLogic : BaseBusinessLogic
+    public class UpdateReadNotificationBL : BaseBusinessLogic
     {
-        public GetAllNotificationBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public UpdateReadNotificationBL(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
-        public NotificationLst GetNotificationByReceiver(NotificationGetInput inputDto)
+        public BaseOutputDto UpdateNotificationReaded(NotificationReadInput inputDto)
         {
             try
             {
                 var dao = CreateDao<NotificationDao>();
-                return dao.GetNotificationByReceiver(inputDto);
+                return dao.UpdateReadNotification(inputDto);
             }
             catch (Exception)
             {

@@ -14,7 +14,11 @@ import { ManageprofileComponent } from './modules/customer-routing-module/compon
 import { ForgotComponent } from './forgot/forgot.component';
 import { LoginNonCustomerComponent } from './login-non-customer/login-non-customer.component';
 import { SellerListComponent } from './seller-list/seller-list.component';
-import { ManagePostComponent } from './modules/business-routing-module/business-routing-mudule';
+import { 
+  DetailNotificationComponent,
+  ManageNotificationComponent,
+  ManagePostComponent 
+} from './modules/business-routing-module/business-routing-mudule';
 
 const routes: Routes = [
   // {
@@ -80,6 +84,14 @@ const routes: Routes = [
       {
         path: 'post-management',
         component: ManagePostComponent
+      },
+      {
+        path: 'notify-management',
+        component: ManageNotificationComponent,
+      },
+      {
+        path: 'notify-management/detail',
+        component: DetailNotificationComponent,
       },
       {
         path: 'shipper',

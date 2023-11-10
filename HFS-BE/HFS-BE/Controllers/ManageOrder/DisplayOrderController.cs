@@ -15,6 +15,7 @@ namespace HFS_BE.Controllers.ManageOrder
         }
 
         [HttpPost("orders/getOrdersSeller")]
+        [Authorize]
         public OrderSellerDaoOutputDto DisplayOrderSeller(OrderSellerByStatusInputDto inputDto)
         {
             try

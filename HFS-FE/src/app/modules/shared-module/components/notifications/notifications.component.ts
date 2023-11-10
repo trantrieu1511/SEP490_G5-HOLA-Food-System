@@ -8,6 +8,7 @@ import { Notification } from '../../models/notification.model';
 import {animate, AnimationEvent, style, transition, trigger} from '@angular/animations';
 import { BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -35,7 +36,8 @@ export class NotificationsComponent implements OnInit {
 
   constructor(
     private iServiceBase: iServiceBase,
-    private signalRService: NotificationService
+    private signalRService: NotificationService,
+    public authService: AuthService
   ){
     
   }
@@ -44,42 +46,6 @@ export class NotificationsComponent implements OnInit {
     if(sessionStorage.getItem('JWT')){
       this.connectSignalR();
       this.getAllNotification();
-
-      this.lstNotification = [
-        {
-          id: 1,
-          sendBy: "a9whjufe",
-          receiver: "efasdf",
-          typeId: 1,
-          typeName: "fasddf",
-          title: "have new order",
-          content: "order 11029 request",
-          createDate: "11/05/2023",
-          isRead: false
-        },
-        {
-          id: 2,
-          sendBy: "a9whjufe",
-          receiver: "efasdf",
-          typeId: 1,
-          typeName: "fasddf",
-          title: "have new order",
-          content: "order 453242329 request",
-          createDate: "11/05/2023",
-          isRead: false
-        },
-        {
-          id: 3,
-          sendBy: "a9whjufe",
-          receiver: "efasdf",
-          typeId: 1,
-          typeName: "fasddf",
-          title: "have new order",
-          content: "order 11021229 request",
-          createDate: "11/05/2023",
-          isRead: true
-        }
-      ]
       // check có tin ch đọc hay ko
       const hasUnreadNotification = this.lstNotification.some(notification => notification.isRead === false);
 
@@ -89,11 +55,14 @@ export class NotificationsComponent implements OnInit {
   }
 
   async connectSignalR() {
-    this.lstNotification = [];
+    const param = {
+      skipNum: 0
+    };
     this.signalRService.startConnection();
     const res = await this.signalRService.addTransferDataListener(
       API.PHAN_HE.NOTIFY,
-      API.API_NOTIFY.GET_ALL_NOTIFIES
+      API.API_NOTIFY.GET_ALL_NOTIFIES,
+      param
     );
     if (res && res.message === 'Success') {
       this.lstNotification = res.notifies;
@@ -112,14 +81,16 @@ export class NotificationsComponent implements OnInit {
 
   async getAllNotification(){
     this.lstNotification = [];
-   
-    let response = await this.iServiceBase.getDataAsync(
+    const param = {
+      skipNum: 0
+    };
+    let response = await this.iServiceBase.getDataWithParamsAsync(
       API.PHAN_HE.NOTIFY,
-      API.API_NOTIFY.GET_ALL_NOTIFIES
+      API.API_NOTIFY.GET_ALL_NOTIFIES,
+      param
     );
     if (response && response.message === 'Success') {
       this.lstNotification = response.notifies;
-
       // check có tin ch đọc hay ko
       const hasUnreadNotification = this.lstNotification.some(notification => notification.isRead === false);
       // Đặt isNewNotify thành true if has isRead = true
@@ -151,6 +122,22 @@ export class NotificationsComponent implements OnInit {
       if (index !== -1) {
         this.lstNotification[index].isRead = true;
       }
+    }
+  }
+
+  onMarkAllRead(){
+    this.markAllNotificationRead();
+  }
+
+  async markAllNotificationRead(){
+    let response = await this.iServiceBase.postDataAsync(
+      API.PHAN_HE.NOTIFY,
+      API.API_NOTIFY.MARK_ALL_NOTIFY_READ,
+      null
+    );
+
+    if (response && response.message === 'Success') {
+      await this.getAllNotification();
     }
   }
 

@@ -6,6 +6,7 @@ using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.DAO.ShipperDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using HFS_BE.Utils.Enum;
 
 namespace HFS_BE.BusinessLogic.ManageOrder
 {
@@ -19,7 +20,7 @@ namespace HFS_BE.BusinessLogic.ManageOrder
         {
             try
             {
-                input.User.UserId = "SE00000001";
+                /*input.User.UserId = "SE00000001";*/
 
                 var orderDao = CreateDao<OrderDao>();
 
@@ -53,7 +54,7 @@ namespace HFS_BE.BusinessLogic.ManageOrder
                     CreateDate = DateTime.Now,
                     SendBy = input.User.UserId,
                     Receiver = input.ShipperId,
-                    TypeId = 0
+                    Type = NotificationTypeEnum.GetNotifyValue("System")
                 };
                 // gen title and content notification
                 GenerateNotification.GetSingleton().GenNotificationInternalShipper(inputNoti, input.OrderId, input.User.Name);

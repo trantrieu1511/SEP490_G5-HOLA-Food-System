@@ -137,6 +137,7 @@ export class API_HUB{
 export class API_NOTIFY{
     public static GET_ALL_NOTIFIES = "getAllNotify";
     public static UPDATE_NOTIFY = "updateNotify";
+    public static MARK_ALL_NOTIFY_READ = "markAllRead";
 }
 
 export class API_FOODDETAIL{

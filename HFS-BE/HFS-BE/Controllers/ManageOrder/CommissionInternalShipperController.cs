@@ -6,6 +6,7 @@ using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using System.Text.RegularExpressions;
@@ -19,6 +20,7 @@ namespace HFS_BE.Controllers.ManageOrder
         }
 
         [HttpPost("orders/internalShipperOrderSeller")]
+        [Authorize]
         public async Task<BaseOutputDto> CommissionInternal(OrderInternalInputDto input)
         {
             try

@@ -8,20 +8,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.Notification
 {
-    public class UpdateNotifyReadedController : BaseController
+    public class MarkAllNotifyReadController : BaseController
     {
-        public UpdateNotifyReadedController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public MarkAllNotifyReadController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
-        [HttpPost("notifies/updateNotify")]
+        [HttpPost("notifies/markAllRead")]
         [Authorize]
-        public BaseOutputDto UpdateNotificationReaded(NotificationReadedInput inputDto)
+        public BaseOutputDto MarkAllRead()
         {
             try
             {
-                var dao = GetBusinessLogic<UpdateNotificationReadedBL>();
-                return dao.UpdateNotificationReaded(inputDto);
+                var busi = GetBusinessLogic<MarkAllNotificationReadBL>();
+                return busi.MarkAllRead(new NotificationInput { Receiver = GetUserInfor().UserId});
             }
             catch (Exception)
             {

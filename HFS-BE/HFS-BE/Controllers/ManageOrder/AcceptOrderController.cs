@@ -4,6 +4,7 @@ using HFS_BE.BusinessLogic.ManageOrder;
 using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.ManageOrder
@@ -15,6 +16,7 @@ namespace HFS_BE.Controllers.ManageOrder
         }
 
         [HttpPost("orders/acceptOrderSeller")]
+        [Authorize]
         public BaseOutputDto AcceptOrder(OrderAcceptInputDto input)
         {
             try
