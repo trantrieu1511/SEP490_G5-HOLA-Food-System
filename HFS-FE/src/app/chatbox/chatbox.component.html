@@ -1,4 +1,4 @@
-<div id="{{user.userName}}" class="p-panel p-component chat-box">
+<div id="{{user.email}}" class="p-panel p-component chat-box">
   <div class="p-panel-header">
     <div class="d-flex align-items-center">
         <div>
@@ -16,31 +16,34 @@
 </div>
 <div class="p-panel-content" id="collapseChatBox">
   <ul #scrollMe [scrollTop]="scrollMe.scrollHeight" class="chat chat-frame" style="height: 350px;">
-      <li class="pd-5 d-flex align-items-center">
-          <div class="mr">
-              <img class="rounded-circle small-img" src="assets/image/user.png" alt="">
-          </div>
-          <div class="message-body message-send">
-              <div>Message here!!</div>
-          </div>
-      </li>
-      <li class="pd-5 d-flex align-items-center">
-          <div class="mr">
-              <img class="rounded-circle small-img" src="assets/image/user.png" alt="">
-          </div>
-          <div class="message-body">
-              <div>Message here!!</div>
-          </div>
-      </li>
-      <li class="pd-5 d-flex align-items-center">
-          <div class="mr">
-              <img class="rounded-circle small-img" src="assets/image/user.png" alt="">
-          </div>
-          <div class="message-body message-send">
-              <div>Message here!!</div>
-          </div>
-      </li>
-  </ul>
+    <li class="pd-5 d-flex align-items-end justify-content-end">
+        <div class="ml-3">
+            <img class="rounded-circle small-img" src="assets/image/user.png" alt="">
+        </div>
+        <div class="message-body message-send">
+            <div>Message from sender!!</div>
+        </div>
+    </li>
+    <li class="pd-5 d-flex align-items-start">
+        <div class="mr-3">
+            <img class="rounded-circle small-img" src="assets/image/user.png" alt="">
+        </div>
+        <div class="message-body">
+            <div>Message for recipient!!</div>
+        </div>
+    </li>
+    <li class="pd-5 d-flex align-items-end justify-content-end">
+        <div class="ml-3">
+            <img class="rounded-circle small-img" src="assets/image/user.png" alt="">
+        </div>
+        <div class="message-body message-send">
+            <div>Another message from sender!!</div>
+        </div>
+    </li>
+</ul>
+
+
+
 </div>
   <div class="p-panel-footer">
       <form #messageForm="ngForm" (ngSubmit)="sendMessage()" autocomplete="off">

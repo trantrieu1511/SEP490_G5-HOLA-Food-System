@@ -32,12 +32,13 @@ export class SellerListComponent {
   }
 
   selectUser(user: any) {
+    debugger
     switch ((this.usersOnline.length+1) % 2) {
       case 1: {
         debugger;
-        var u = this.usersOnline.find(x => x.seller.userName === user.userName);
+        var u = this.usersOnline.find(x => x.seller.email === user.email);
         if (u) {
-          this.usersOnline = this.usersOnline.filter(x => x.seller.userName !== user.userName);
+          this.usersOnline = this.usersOnline.filter(x => x.seller.email !== user.email);
           this.usersOnline.push(u);
         } else {
           this.usersOnline.push(new SellerChatBox(user, 250));
@@ -45,9 +46,9 @@ export class SellerListComponent {
         break;
       }
       case 0: {
-        var u = this.usersOnline.find(x => x.seller.userName === user.userName);
+        var u = this.usersOnline.find(x => x.seller.email === user.email);
         if (u) {
-          this.usersOnline = this.usersOnline.filter(x => x.seller.userName !== user.userName);
+          this.usersOnline = this.usersOnline.filter(x => x.seller.email !== user.email);
           this.usersOnline.push(u);
         } else {
           this.usersOnline.push(new SellerChatBox(user, 250 + 325));
@@ -62,7 +63,7 @@ export class SellerListComponent {
   }
 
   removeChatBox(event: string) {
-    this.usersOnline = this.usersOnline.filter(x => x.seller.userName !== event);
+    this.usersOnline = this.usersOnline.filter(x => x.seller.email !== event);
   }
 
   miniChatBox(user: any){

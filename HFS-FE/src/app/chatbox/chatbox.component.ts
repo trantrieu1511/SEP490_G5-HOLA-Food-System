@@ -21,7 +21,7 @@ export class ChatboxComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    var chatBox = document.getElementById(this.user.userName);
+    var chatBox = document.getElementById(this.user.email);
     chatBox.style.right = this.right + "px";
   }
 
@@ -29,7 +29,7 @@ export class ChatboxComponent implements OnInit, AfterViewInit {
   }
 
   closeBoxChat() {
-    this.removeChatBox.emit(this.user.userName);
+    this.removeChatBox.emit(this.user.email);
   }
 
   minimumBoxChat() {
