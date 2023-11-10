@@ -19,7 +19,7 @@ namespace HFS_BE.Controllers.ManageVoucher
         [HttpPost("vouchers/addNewVoucher")]
         //[Authorize]
 
-        public BaseOutputDto CreateVoucher(CreateVoucherDaoInputDto input)
+        public BaseOutputDto CreateVoucher([FromForm] CreateVoucherDaoInputDto input)
         {
             try
             {
@@ -35,5 +35,6 @@ namespace HFS_BE.Controllers.ManageVoucher
                 return this.Output<CreateVoucherDaoOutputDto>(Constants.ResultCdFail);
             }
         }
+        
     }
 }

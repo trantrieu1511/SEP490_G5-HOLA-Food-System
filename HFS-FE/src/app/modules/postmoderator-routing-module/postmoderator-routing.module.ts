@@ -14,7 +14,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    DisplayPostComponent
+    DisplayPostComponent,
+    PostreportManagementComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +24,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [
-    
+    DisplayPostComponent
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy}

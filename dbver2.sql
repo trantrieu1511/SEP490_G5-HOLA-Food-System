@@ -521,4 +521,11 @@ CREATE TABLE ChatMessage (
     SentAt DATETIME NOT NULL,
     CONSTRAINT FK_ChatMessage_Customer_Sender FOREIGN KEY (CustomerId) REFERENCES Customer (CustomerId),
     CONSTRAINT FK_ChatMessage_Seller_Receiver FOREIGN KEY (SellerId) REFERENCES Seller (SellerId)
+
 );
+
+CREATE TABLE [ProfileImage] (
+	[imageId] [int] PRIMARY KEY IDENTITY(1, 1),
+	[userId] [int] NULL,
+	[path] [nvarchar](max) NULL,
+)

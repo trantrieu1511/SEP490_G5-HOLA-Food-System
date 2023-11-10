@@ -16,17 +16,18 @@ namespace HFS_BE.Controllers.ManageOrderCustomer
         }
 
         [HttpPost("order/cancel")]
-        [Authorize]
+        //[Authorize]
         public BaseOutputDto CancelOrder(OrderCustomerDaoInputDto inputDto)
         {
             try
             {
-                var userInfo = this.GetUserInfor();
-                if (!userInfo.Role.Equals("CU"))
-                {
-                    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You are not customer!");
-                }
-                inputDto.CustomerId = userInfo.UserId;
+                //var userInfo = this.GetUserInfor();
+                //if (!userInfo.Role.Equals("CU"))
+                //{
+                //    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You are not customer!");
+                //}
+                //inputDto.CustomerId = userInfo.UserId;
+                inputDto.CustomerId = "CU00000001";
                 var busi = this.GetBusinessLogic<CancelOrderBusinessLogic>();
                 return busi.CancelOrder(inputDto);
             }

@@ -1,7 +1,14 @@
 .grid {
+    display: flex;
+    flex-wrap: wrap;
    max-width: 80%;
     margin: 0 auto;
 }
+h1 {
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    color: #333;
+  }
 
 /* 
     Body, button, comment-thread, and utilities
@@ -178,4 +185,10 @@ details.comment:not([open]) .comment-heading::after {
 }
 .d-none {
     display: none;
+}
+
+@media (max-width: 768px) {
+    .grid {
+      flex-direction: column;
+    }
 }

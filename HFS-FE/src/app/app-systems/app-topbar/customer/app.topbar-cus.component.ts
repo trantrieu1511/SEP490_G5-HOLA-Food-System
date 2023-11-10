@@ -1,7 +1,7 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {animate, AnimationEvent, style, transition, trigger} from '@angular/animations';
-import {MegaMenuItem, MessageService} from 'primeng/api';
-import {Router} from "@angular/router";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { animate, AnimationEvent, style, transition, trigger } from '@angular/animations';
+import { MegaMenuItem, MessageService } from 'primeng/api';
+import { Router } from "@angular/router";
 import {
     iComponentBase,
     iServiceBase,
@@ -19,11 +19,11 @@ import { AppComponent } from 'src/app/app.component';
     animations: [
         trigger('topbarActionPanelAnimation', [
             transition(':enter', [
-                style({opacity: 0, transform: 'scaleY(0.8)'}),
-                animate('.12s cubic-bezier(0, 0, 0.2, 1)', style({opacity: 1, transform: '*'})),
+                style({ opacity: 0, transform: 'scaleY(0.8)' }),
+                animate('.12s cubic-bezier(0, 0, 0.2, 1)', style({ opacity: 1, transform: '*' })),
             ]),
             transition(':leave', [
-                animate('.1s linear', style({opacity: 0}))
+                animate('.1s linear', style({ opacity: 0 }))
             ])
         ])
     ],
@@ -31,12 +31,14 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class AppCustomerTopBarComponent extends iComponentBase implements OnInit {
 
+    isLoggedIn: boolean = false;
+
     constructor(public layoutService: CustomerLayoutService,
-                public app: AppComponent,
-                private router: Router,
-                private iServiceBase: iServiceBase,
-                private shareData: ShareData,
-                public messageService: MessageService
+        public app: AppComponent,
+        private router: Router,
+        private iServiceBase: iServiceBase,
+        private shareData: ShareData,
+        public messageService: MessageService
     ) {
         super(messageService);
     }
@@ -45,10 +47,26 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
-    ngOnInit() {
-
+    goToNewsFeedPage() {
+        this.router.navigateByUrl('/newsfeed');
     }
-   logOut(event : Event) {
+
+    goToLoginPage() {
+        this.router.navigateByUrl('/login');
+    }
+
+    //check whether the user has logged in or not to display button login for them to login
+    checkUserLoggedInState() {
+        if (sessionStorage.getItem('userId') != null) {
+            this.isLoggedIn = true;
+        }
+    }
+
+    ngOnInit() {
+        this.checkUserLoggedInState();
+    }
+
+    logOut(event: Event) {
         //Logout thì xóa đi
         sessionStorage.clear();
         localStorage.removeItem('user');
@@ -58,8 +76,8 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
         event.preventDefault();
 
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.router.navigate(['/login']);
-          window.location.reload();
+            this.router.navigate(['/login']);
+            window.location.reload();
         });
             this.router.navigate(['/login']);
     }
@@ -75,7 +93,7 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
         localStorage.clear();
 
         //Set lại các thứ cần thiết
-        if(IP_API_SERVICE && IP_API_GATEWAY && VERSION && PROJECT_NAME){
+        if (IP_API_SERVICE && IP_API_GATEWAY && VERSION && PROJECT_NAME) {
             localStorage.setItem("APISERVICE", IP_API_SERVICE);
             localStorage.setItem("APIGATEWAY", IP_API_GATEWAY);
             localStorage.setItem("VERSION", VERSION);
@@ -83,10 +101,10 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
         }
     }
 
-    onCartDetail(){
+    onCartDetail() {
         this.router.navigate(['/cartdetail']);
     }
-    viewProfile(){
+    viewProfile() {
         this.router.navigate(['/profile']);
     }
 }

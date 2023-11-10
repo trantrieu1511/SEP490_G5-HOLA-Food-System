@@ -20,7 +20,7 @@ namespace HFS_BE.DAO.MenuReportDao
                 string userRole = userId.Substring(0, 2);
                 switch (userRole)
                 {
-                    case "PM": // Post moderator can see all post reports
+                    case "MM": // Menu moderator can see all food reports
                         foodReportOutputDtos = context.MenuReports
                             .Select(mr => new FoodReportOutputDto
                             {
@@ -35,7 +35,7 @@ namespace HFS_BE.DAO.MenuReportDao
                             })
                             .ToList();
                         break;
-                    case "CU": // Customer can only see their menu reports
+                    case "CU": // Customer can only see their food reports
                         foodReportOutputDtos = context.MenuReports
                             .Where(mr => mr.ReportBy.Equals(userId))
                             .Select(mr => new FoodReportOutputDto

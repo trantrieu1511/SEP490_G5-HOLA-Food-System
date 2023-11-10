@@ -14,6 +14,7 @@ import { ManageprofileComponent } from './modules/customer-routing-module/compon
 import { ForgotComponent } from './forgot/forgot.component';
 import { LoginNonCustomerComponent } from './login-non-customer/login-non-customer.component';
 import { SellerListComponent } from './seller-list/seller-list.component';
+import { ManagePostComponent } from './modules/business-routing-module/business-routing-mudule';
 
 const routes: Routes = [
   // {
@@ -77,10 +78,8 @@ const routes: Routes = [
     component: AppManageLayoutComponent,
     children: [
       {
-        path: 'manage',
-        canActivate: [authGuard],
-        data: { requiredRole: 'Admin' },
-        loadChildren: () => import('./modules/manage-routing-module/manage-routing-module.module').then(m => m.ManageRoutingModuleModule),
+        path: 'post-management',
+        component: ManagePostComponent
       },
       {
         path: 'shipper',
