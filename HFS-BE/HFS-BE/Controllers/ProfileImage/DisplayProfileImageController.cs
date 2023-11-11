@@ -19,6 +19,10 @@ namespace HFS_BE.Controllers.ProfileImage
         {
             try
             {
+                if (GetUserInfor().UserId == null)
+                {
+                    return Output<ProfileImageOutputDtoWrapper>(Constants.ResultCdFail, "Please login first before using this API.");
+                }
                 var business = GetBusinessLogic<GetProfileImageBusinessLogic>();
                 return business.GetProfileImage(GetUserInfor().UserId);
             }

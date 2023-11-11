@@ -20,6 +20,7 @@ namespace HFS_BE.Base
         {
             this.context = context;
             this.mapper = mapper;
+            this.context.Database.BeginTransaction();
         }
 
         

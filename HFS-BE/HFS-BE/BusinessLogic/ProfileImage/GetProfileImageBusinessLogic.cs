@@ -19,12 +19,16 @@ namespace HFS_BE.BusinessLogic.ProfileImage
         {
             try
             {
-                if (userId == null)
-                {
-                    return Output<ProfileImageOutputDtoWrapper>(Constants.ResultCdFail, "Please login before using this API.");
-                }
+                //if (userId == null)
+                //{
+                //    return Output<ProfileImageOutputDtoWrapper>(Constants.ResultCdFail, "Please login before using this API.");
+                //}
                 var dao = CreateDao<ProfileImageDao>();
                 var daoOutput = dao.getUsersProfileImage(userId);
+                //if (!daoOutput.Success)
+                //{
+                //    return Output<ProfileImageOutputDtoWrapper>(Constants.ResultCdFail);
+                //}
                 if (daoOutput.ProfileImage == null)
                 {
                     return Output<ProfileImageOutputDtoWrapper>(Constants.ResultCdFail, "User have not imported any profile images yet.");
