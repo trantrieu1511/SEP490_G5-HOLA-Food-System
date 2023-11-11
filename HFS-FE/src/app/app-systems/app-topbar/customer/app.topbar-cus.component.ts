@@ -11,6 +11,8 @@ import * as API from 'src/app/services/apiURL';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { CustomerLayoutService } from 'src/app/layout/service/app.layout-cus.service';
 import { AppComponent } from 'src/app/app.component';
+import { ManageprofileComponent } from 'src/app/modules/customer-routing-module/components/manageprofile/manageprofile.component';
+import { ProfileImage } from 'src/app/modules/customer-routing-module/models/profile';
 
 
 @Component({
@@ -28,17 +30,20 @@ import { AppComponent } from 'src/app/app.component';
         ])
     ],
     styleUrls: ['./app.topbar-cus.component.scss'],
+    providers: [ManageprofileComponent]
 })
 export class AppCustomerTopBarComponent extends iComponentBase implements OnInit {
 
     isLoggedIn: boolean = false;
+    topBarProfileImg: ProfileImage = new ProfileImage();
 
     constructor(public layoutService: CustomerLayoutService,
         public app: AppComponent,
         private router: Router,
         private iServiceBase: iServiceBase,
         private shareData: ShareData,
-        public messageService: MessageService
+        public messageService: MessageService,
+        public profileService: ManageprofileComponent
     ) {
         super(messageService);
     }
@@ -62,8 +67,11 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
         }
     }
 
-    ngOnInit() {
+    async ngOnInit() {
         this.checkUserLoggedInState();
+        await this.profileService.getProfileImage();
+        this.topBarProfileImg = this.profileService.profileImage;
+        console.log(this.topBarProfileImg);
     }
 
     logOut(event: Event) {

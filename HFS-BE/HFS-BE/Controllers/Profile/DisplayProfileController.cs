@@ -15,8 +15,8 @@ namespace HFS_BE.Controllers.Profile
         {
         }
 
-        [HttpPost("users/profile")]
-        public UserProfileOutputDto Post() {
+        [HttpGet("users/profile")]
+        public UserProfileOutputDto GetProfile() {
             try
             {
                 var business = GetBusinessLogic<DisplayProfileBusinessLogic>();

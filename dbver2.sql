@@ -497,6 +497,7 @@ CREATE TABLE Chat (
 
 CREATE TABLE [ProfileImage] (
 	[imageId] [int] PRIMARY KEY IDENTITY(1, 1),
-	[userId] [int] NULL,
-	[path] [nvarchar](max) NULL,
+	[userId] NVARCHAR(50) NOT NULL,
+	[path] [nvarchar](max) NOT NULL,
+	[isReplaced] [bit] NOT NULL, -- 0: Tức là hình ảnh vẫn còn đang được sử dụng và chưa bị thay thế. 1: Hình ảnh đã bị thay thế bởi người dùng.
 )

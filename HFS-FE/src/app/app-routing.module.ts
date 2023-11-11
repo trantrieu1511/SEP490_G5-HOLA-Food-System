@@ -10,7 +10,6 @@ import { LoginComponent } from './login/login.component';
 import { ChatComponent } from './modules/chat/chat.component';
 import { RegisterComponent } from './register/register.component';
 import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
-import { ManageprofileComponent } from './modules/customer-routing-module/components/manageprofile/manageprofile.component';
 import { ForgotComponent } from './forgot/forgot.component';
 import { LoginNonCustomerComponent } from './login-non-customer/login-non-customer.component';
 import { SellerListComponent } from './seller-list/seller-list.component';
