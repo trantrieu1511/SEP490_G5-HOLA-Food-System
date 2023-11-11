@@ -22,7 +22,6 @@ namespace HFS_BE.BusinessLogic.Cart
         {
             try
             {
-                throw new Exception();
                 var orderDao = this.CreateDao<OrderDao>();
                 var orderProgessDao = this.CreateDao<OrderProgressDao>();
                 var cartDao = this.CreateDao<CartDao>();
