@@ -98,7 +98,7 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
 
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CHECKOUT, API.API_CHECKOUT.CREATE_ORDER, checkoutInfor);
       console.log(response)
-      if (response.success) {
+      if (response) {
         if (response.message != "Success"){
           this.showMessage(mType.warn, "", response.message, 'notify');
         }

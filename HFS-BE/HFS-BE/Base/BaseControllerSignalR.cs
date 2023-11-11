@@ -23,6 +23,7 @@ namespace HFS_BE.Base
             this.context = context;
             this.mapper = mapper;
             _hubContextFactory = hubContextFactory;
+            this.context.Database.BeginTransaction();
         }
 
 

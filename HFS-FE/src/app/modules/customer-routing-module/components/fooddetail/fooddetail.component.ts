@@ -48,6 +48,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
   ) {
     super(messageService);
   }
+  foodId : number
   loading: boolean;
   fooddetail: any;
   foodImages: any[]
@@ -75,6 +76,8 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
   }
 
   async ngOnInit() {
+    this._route.queryParams.subscribe(params => {
+      this.foodId = params['foodId'];})
     await this.getFoodDetail();
     await this.onGetSimilarFood();
     await this.getFeedBack();
@@ -161,7 +164,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     try {
       this.loading = true;
       let getfood = new GetFoodDetail();
-      getfood.foodId = 1
+      getfood.foodId = this.foodId
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODETAIL, API.API_FOODDETAIL.GET_FEEDBACK, getfood);
       if (response && response.success === true) {
         this.feedbacks = response.feedBacks
@@ -178,7 +181,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     try {
       this.loading = true;
       let getfood = new GetFoodDetail();
-      getfood.foodId = 1
+      getfood.foodId = this.foodId
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODETAIL, API.API_FOODDETAIL.GET_FOOD, getfood);
       debugger
       if (response && response.success === true) {

@@ -32,7 +32,7 @@
                     <div class="product-list-item">
                         <img [src]="'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg'" [alt]="product.name"/>
                         <div class="product-list-detail">
-                            <div class="product-name">{{product.name}}</div>
+                            <div class="product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</div>
                             <div class="product-description">{{product.description}}</div>
                             <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
                             <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{product.category}}</span>
@@ -57,7 +57,7 @@
                         </div>
                         <div class="product-grid-item-content">
                             <img [src]="'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg'" [alt]="product.name"/>
-                            <div class="product-name">{{product.name}}</div>
+                            <div class="product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</div>
                             <div class="product-description">{{product.description}}</div>
                             <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
                         </div>
