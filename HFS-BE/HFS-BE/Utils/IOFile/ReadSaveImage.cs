@@ -17,7 +17,7 @@ namespace HFS_BE.Utils.IOFile
         {
             string basePath = $"Resources\\Images\\" +
                             $"{user.UserId}\\" +
-                            $"{GetFolderNameTypeImage(type)}"; 
+                            $"{GetFolderNameTypeImage(type)}";
             // Đường dẫn cơ sở cho việc lưu hình ảnh
             string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
 
@@ -65,27 +65,65 @@ namespace HFS_BE.Utils.IOFile
             }
 
             string output = "";
-           
-                if (image.Length > 0)
+
+            if (image.Length > 0)
+            {
+                string insertTime = $"_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}";
+                string fileName = Path.GetFileNameWithoutExtension(image.FileName).Replace(" ", "")
+                    + insertTime
+                    + Path.GetExtension(image.FileName);
+
+                string filePath = Path.Combine(fullPath, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    string insertTime = $"_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}";
-                    string fileName = Path.GetFileNameWithoutExtension(image.FileName).Replace(" ", "")
-                        + insertTime
-                        + Path.GetExtension(image.FileName);
-
-                    string filePath = Path.Combine(fullPath, fileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
                     image.CopyTo(stream);
-                    }
+                }
                 output = fileName;
 
 
-                }
-            
+            }
+
             return output;
         }
+
+        /// <summary>
+        /// Save the profile image inputted by users in the API to the server's local path
+        /// </summary>
+        /// <param name="images">Images inputted by users, has type of IReadOnlyList<IFormFile></param>
+        /// <param name="user">The basic info of users which include userId, name, email, role</param>
+        /// <returns>The file's name, in order to save to db</returns>
+        public static string SaveProfileImage(IFormFile image, string userId)
+        {
+            string basePath = $"Resources\\Images\\" +
+                            $"{userId}\\" +
+                            $"{GetFolderNameTypeImage(3)}";
+            // Đường dẫn cơ sở cho việc lưu hình ảnh
+            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
+
+            // Tạo thư mục nếu chưa tồn tại
+            if (!Directory.Exists(fullPath))
+            {
+                Directory.CreateDirectory(fullPath);
+            }
+
+            string insertTime = $"_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}";
+            string fileName = Path.GetFileNameWithoutExtension(image.FileName).Replace(" ", "")
+                + insertTime
+                + Path.GetExtension(image.FileName);
+
+            string filePath = Path.Combine(fullPath, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                image.CopyTo(stream);
+            }
+
+            string? output = fileName;
+
+            return output;
+        }
+
         private static string GetFolderNameTypeImage(int type)
         {
             switch (type)
@@ -96,10 +134,12 @@ namespace HFS_BE.Utils.IOFile
                     return "food";
                 case 2:
                     return "orderprogress";
+                case 3:
+                    return "profile";
                 default:
                     return "";
             }
         }
-        
+
     }
 }

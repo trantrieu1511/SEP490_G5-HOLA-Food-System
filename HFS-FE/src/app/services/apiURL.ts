@@ -19,9 +19,10 @@ export class PHAN_HE {
     public static ORDERCUSTOMER = "order"
     public static POSTREPORT = "postreport";
     public static FOODREPORT = "foodreport";
+    public static PROFILEIMAGE = "profileImage";
 }
 
-export class API_TEST{
+export class API_TEST {
     public static SIGNIN = "login";
 }
 
@@ -55,10 +56,10 @@ export class API_SHIPPER {
     public static CHANGE_STATUS = "orderprogress";
     public static HISTORY = "history";
 }
-export class API_MANAGE{
-  public static LIST_CUS = "listcustomer";
-  public static BAN_CUS = "bancustomer";
-   public static HIS_CUS = "bancustomerhistory";
+export class API_MANAGE {
+    public static LIST_CUS = "listcustomer";
+    public static BAN_CUS = "bancustomer";
+    public static HIS_CUS = "bancustomerhistory";
     public static LIST_SELLER = "listcustomer";
     public static LIST_SHIPPER = "listcustomer";
     public static LIST_PM = "listpostmoderator";
@@ -90,7 +91,7 @@ export class API_VOUCHER {
 }
 
 // API related to post entity
-export class API_POST{
+export class API_POST {
     public static ADD_POST_SELLER = "addPostSeller";
     public static UPDATE_POST = "updatePost";
     // public static GET_POST_SELLER = "getPostsSeller";
@@ -99,23 +100,23 @@ export class API_POST{
     public static BAN_UNBAN = "banunban";
 }
 
-export class API_HOME{
+export class API_HOME {
     public static DISPLAY_SHOP = "displayshop";
 }
 
-export class API_SHOP_DETAIL{
+export class API_SHOP_DETAIL {
     public static DISPLAY_MENU = "foods";
     public static DISPLAY_INFOR = "shopinfor";
 }
 
-export class API_CART{
+export class API_CART {
     public static ADDTOCART = "addtocart"
     public static CART_DETAIL = "getcartitem"
     public static UPDATE_AMOUNT = "updateamount"
     public static DELETE_ITEM = "deleteitem"
 }
 
-export class API_FOOD{
+export class API_FOOD {
     public static ADD_FOOD = "addNewFood";
     public static UPDATE_FOOD = "updateFood";
     // public static GET_FOOD_SELLER = "getFoodsSeller";
@@ -124,45 +125,50 @@ export class API_FOOD{
     public static BAN_UNBAN = "banunban";
 }
 
-export class API_CHECKOUT{
+export class API_CHECKOUT {
     public static CREATE_ORDER = "createorder";
     public static GET_ADDRESS = "address";
 }
 
-export class API_HUB{
+export class API_HUB {
     public static DATA_REALTIME = "dataRealTime";
     public static NOTIFY_REALTIME = "notifyRealTime";
 }
 
-export class API_NOTIFY{
+export class API_NOTIFY {
     public static GET_ALL_NOTIFIES = "getAllNotify";
     public static UPDATE_NOTIFY = "updateNotify";
     public static MARK_ALL_NOTIFY_READ = "markAllRead";
     public static GET_DETAIL_NOTIFY = "getDetailNotify";
 }
 
-export class API_FOODDETAIL{
+export class API_FOODDETAIL {
     public static GET_FOOD = "getfood";
     public static GET_SIMILARFOOD = "similarfood"
     public static GET_FEEDBACK = "feedbck"
     public static VOTE_FEEDBACK = "vote"
 }
 
-export class API_ORDERCUSTOMER{
+export class API_ORDERCUSTOMER {
     public static GET_ORDER = "history";
     public static CANCEL_ORDER = "cancel";
     public static RATE_FOOD = "feedback"
 }
 
-export class API_POSTREPORT{
+export class API_POSTREPORT {
     public static GET_ALL_POSTREPORT = "getallpostreports";
     public static APPROVE_NOTAPPROVE_POSTREPORT = "approvenotapprovepostreport";
     public static CREATE_NEW_POSTREPORT = "createnewpostreports"
 }
 
-export class API_FOODREPORT{
+export class API_FOODREPORT {
     public static GET_ALL_FOODREPORT = "getallfoodreports";
     public static APPROVE_NOTAPPROVE_FOODREPORT = "approvenotapprovefoodreport";
     public static CREATE_NEW_FOODREPORT = "createnewfoodreport"
+}
+
+export class API_PROFILEIMAGE {
+    public static GET_PROFILEIMAGE = "getProfileImage";
+    public static IMPORT_PROFILEIMAGE = "importProfileImage";
 }
 

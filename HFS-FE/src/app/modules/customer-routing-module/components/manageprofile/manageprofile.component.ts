@@ -13,7 +13,8 @@ import {
   SelectItem,
   TreeNode
 } from "primeng/api";
-import { Profile, ProfileDisplay } from '../../models/profile';
+import { Profile, ProfileDisplay, ProfileImage } from '../../models/profile';
+import { FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-manageprofile',
@@ -23,9 +24,14 @@ import { Profile, ProfileDisplay } from '../../models/profile';
 
 export class ManageprofileComponent extends iComponentBase implements OnInit {
 
-  profile: Profile;
-  profileDisplay: ProfileDisplay;
-  visible = false;
+  profile: Profile = new Profile();
+  profileDisplay: ProfileDisplay = new ProfileDisplay();
+  // visible = false;
+  isVisibleEditProfileDialog: boolean = false;
+  // minDate: Date = new Date();
+  uploadedFiles: File[] = [];
+  profileImage: ProfileImage = new ProfileImage();
+  isLoggedIn: boolean = false;
 
   constructor(
     private shareData: ShareData,
@@ -42,25 +48,67 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
 
   }
 
-  ngOnInit(): void {
-    this.getProfileInfo();
+  // Check whether the user has logged into Hola Food or not
+  checkUserLoginState(){
+    if(sessionStorage.getItem("userId") != null){
+      this.isLoggedIn = true;
+    }
   }
 
-  showDialog() {
-    this.visible = true;
+  ngOnInit(): void {
+    this.checkUserLoginState();
+    this.getProfileInfo();
+    // this.minDate.setFullYear(new Date().getFullYear() - 80); // Cho người dùng nhập tối đa đến 80 năm tuổi
+    this.getProfileImage();
   }
+
+  async getProfileImage() {
+    try {
+      let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.PROFILEIMAGE, API.API_PROFILEIMAGE.GET_PROFILEIMAGE);
+
+      if (response && response.message === 'Success') {
+        console.log(response);
+        console.log(response.profileImage);
+        this.profileImage = response.profileImage;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  // showDialog() {
+  //   this.visible = true;
+  // }
+
+  showUploadedFiles() {
+    console.log(this.uploadedFiles);
+  }
+
+  handleFileSelection($event: FileSelectEvent) {
+    this.uploadedFiles = $event.currentFiles;
+    this.importProfileImage();
+  }
+
+  // onUploadProfileImg($event: FileUploadEvent) {
+  //   // debugger;
+
+  //   console.log($event.files);
+  //   console.log($event.originalEvent);
+  //   this.uploadedFiles = $event.files;
+  // }
 
   async getProfileInfo() {
     try {
-      debugger;
-      const params = {
-        userId: sessionStorage.getItem("userId")
-        // userId: 1
-      }
-      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_USER.GETPROFILE, params);
+      // debugger;
+      // const params = {
+      //   userId: sessionStorage.getItem("userId")
+      //   // userId: 1
+      // }
+      let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.USER, API.API_USER.GETPROFILE);
 
       if (response && response.message === 'Success') {
         this.profile = response.data;
+        this.profile.birthDate = this.profile.birthDate.toString().split('T')[0];
         this.profileDisplay = Object.assign({}, response.data); //Copy profile sang mot entity moi phuc vu cho viec display (Entity do khac dia chi so voi profile nen khong bi anh huong boi two way data binding)
 
         console.log(this.profile);
@@ -84,23 +132,95 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase.putDataAsync(API.PHAN_HE.USER, API.API_USER.EDITPROFILE, inputData);
 
       if (response && response.message === 'Success') {
-        
-        this.showMessage(mType.success, "Notification"
-          , "profile updated successfully", 'notify');
+        console.log(response);
+        console.log(response.message);
+        this.showMessage(mType.success, 'Notification'
+          , 'Profile information updated successfully.', 'notify');
 
-        this.visible = false;
+        this.isVisibleEditProfileDialog = false;
 
-        //lấy lại danh sách All 
+        //Tải lại profile info 
         this.getProfileInfo();
 
         //Clear model đã tạo
         this.profile = new Profile();
         // console.log(this.profile);
 
+      } else {
+        console.log(response);
+        console.log(response.message);
+        this.showMessage(mType.error, 'Notification'
+          , 'Internal server error, please contact admin for help.', 'notify');
       }
     } catch (e) {
       console.log(e);
     }
   }
+
+  async importProfileImage() {
+    try {
+      //let param = postEnity;
+      const param = new FormData();
+
+      this.uploadedFiles.forEach((file) => {
+        param.append('profileImage', file, file.name);
+      });
+
+      //console.log(param);
+      const response = await this.iServiceBase.postDataAsync(
+        API.PHAN_HE.PROFILEIMAGE,
+        API.API_PROFILEIMAGE.IMPORT_PROFILEIMAGE,
+        param,
+        true
+      );
+
+      if (response && response.message === 'Success') {
+        this.showMessage(
+          mType.success,
+          'Notification',
+          'Import new profile image successfully',
+          'notify'
+        );
+        console.log("Import new profile image successfully");
+
+        //refresh profile image
+        this.getProfileImage();
+
+        //clear file upload
+        this.uploadedFiles = [];
+      } else {
+        this.showMessage(
+          mType.error,
+          'Notification',
+          'Import new profile image failed',
+          'notify'
+        );
+        console.log("Import new profile image failed");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  openEditProfileDiaglog() {
+    this.isVisibleEditProfileDialog = true;
+  }
+
+  hideDialog() {
+    this.isVisibleEditProfileDialog = false;
+  }
+
+  // getSeverity(status: string) {
+  //   switch (status) {
+  //     case 'INSTOCK':
+  //       return 'success';
+  //     case 'LOWSTOCK':
+  //       return 'warning';
+  //     case 'OUTOFSTOCK':
+  //       return 'danger';
+  //     default:
+  //       return null;
+  //   }
+  // }
 
 }
