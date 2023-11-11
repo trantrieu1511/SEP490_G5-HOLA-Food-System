@@ -2,6 +2,6 @@
 {
     public class NotificationGetInputDto
     {
-        public int SkipNum { get; set; }
+        public int TakeNum { get; set; }
     }
 }

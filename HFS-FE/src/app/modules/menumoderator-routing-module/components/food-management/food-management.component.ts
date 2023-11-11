@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { Table } from "primeng/table";
 import { AppBreadcrumbService } from "../../../../app-systems/app-breadcrumb/app.breadcrumb.service";
 import { Food, Category, FoodInput, FoodDisplayHideInputDto, FoodInputValidation, FoodBanUnbanInputDto } from "../../models/food.model";
@@ -20,6 +20,7 @@ import {
 import { FileRemoveEvent, FileSelectEvent, FileUpload } from 'primeng/fileupload';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
+import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
 
 @Component({
   selector: 'app-food-management',
@@ -58,7 +59,8 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private signalRService: DataRealTimeService
   ) {
     super(messageService, breadcrumbService);
     this.foodForm = this.fb.group({
@@ -79,11 +81,30 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
     }
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.checkUserAccessPermission();
     this.getAllFood();
     this.getAllCategory();
+    this.connectSignalR();
     //console.log(this.foodValidation);
+  }
+
+  async connectSignalR() {
+    this.lstFood = [];
+    this.signalRService.startConnection();
+    const res = await this.signalRService.addTransferDataListener(
+      'foodDataRealTime',
+      API.PHAN_HE.FOOD, 
+      API.API_FOOD.GET_FOOD
+    );
+    if (res && res.message === 'Success') {
+      this.lstFood = res.foods;
+    }
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any): void {
+    this.signalRService.stopConnection();
   }
 
   async getAllCategory() {

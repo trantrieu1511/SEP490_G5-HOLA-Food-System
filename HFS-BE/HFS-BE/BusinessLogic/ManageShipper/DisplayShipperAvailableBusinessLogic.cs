@@ -15,7 +15,6 @@ namespace HFS_BE.BusinessLogic.ManageShipper
         {
             try
             {
-                input.User.UserId = "SE00000001";
                 var dao = CreateDao<ShipperDao>();
                 return dao.GetShippersBySellerId(input.User.UserId);
             }

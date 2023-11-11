@@ -46,13 +46,13 @@ namespace HFS_BE.Controllers.ManagePost
                 var output = business.AddNewPost(inputBL);
 
                 // call signalR to Post Modelrator
-
+/*
                 if (output.Success)
                 { 
                     var dataRealTimeHub = _hubContextFactory.CreateHub<DataRealTimeHub>();
-                    await dataRealTimeHub.Clients.All.SendAsync("dataRealTime");
+                    await dataRealTimeHub.Clients.All.SendAsync("postDataRealTime");
                     //await this._hubContextFactory.Clients.All.SendAsync("dataRealTime");
-                }
+                }*/
 
                 return output;
             }

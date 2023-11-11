@@ -55,7 +55,7 @@ namespace HFS_BE.Dao.FoodDao
             }
         }
 
-        public BaseOutputDto AddNewFood(FoodCreateInputDto inputDto)
+        public AddFoodOutput AddNewFood(FoodCreateInputDto inputDto)
         {
             try
             {
@@ -81,11 +81,13 @@ namespace HFS_BE.Dao.FoodDao
                     });
                     context.SaveChanges();
                 }
-                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+                var output = Output<AddFoodOutput>(Constants.ResultCdSuccess);
+                output.FoodId = food.FoodId;
+                return output;
             }
             catch (Exception e)
             {
-                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                return this.Output<AddFoodOutput>(Constants.ResultCdFail);
             }
         }
 

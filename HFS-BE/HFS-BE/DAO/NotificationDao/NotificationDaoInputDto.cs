@@ -18,7 +18,7 @@
     public class NotificationGetInput
     {
         public string? Receiver { get; set; }
-        public int SkipNum { get; set; }
+        public int TakeNum { get; set; }
     }
 
     public class NotificationReadInput

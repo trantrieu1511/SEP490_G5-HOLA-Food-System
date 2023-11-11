@@ -5,6 +5,7 @@ using HFS_BE.BusinessLogic.ManageShipper;
 using HFS_BE.DAO.ShipperDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace HFS_BE.Controllers.ManageShipper
         {
         }
         [HttpGet("users/getShippersAvailable")]
+        [Authorize]
         public ShipperInforList DisplayShipperAvailable()
         {
             try

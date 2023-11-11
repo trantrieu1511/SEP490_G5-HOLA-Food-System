@@ -5,31 +5,28 @@ import { iComponentBase } from 'src/app/modules/shared-module/shared-module';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-manage-post',
+  selector: 'app-manage-order',
   template: `
-      <post-seller *ngIf="authService.getRole() == 'SE'; else postModerator"></post-seller>
-      <ng-template #postModerator>
-        <app-display-post></app-display-post>
+      <order-seller *ngIf="authService.getRole() == 'SE'; else orderShipper"></order-seller>
+      <ng-template #orderShipper>
+        <app-shipper></app-shipper>
       </ng-template> 
     `
 })
-export class ManagePostComponent extends iComponentBase{
+export class ManageOrderComponent extends iComponentBase{
   constructor(
     public authService: AuthService,
     public breadcrumbService: AppBreadcrumbService,
     public messageService: MessageService,
-  ){
+    )
+  {
     super(messageService, breadcrumbService);
 
     this.breadcrumbService.setItems([
       {label: 'HFSBusiness'},
-      {label: 'Post Management', routerLink: ['/HFSBusiness/post-management']}
+      {label: 'Order Management', routerLink: ['/HFSBusiness/order-management']}
     ]);
+
   }
-/*<ng-template *ngIf="authService.getRole() === 'SE'; else postModerator">
-      <app-post-management></app-post-management>
-    </ng-template>
-    <ng-template #postModerator>
-      <app-display-post></app-display-post>
-    </ng-template> */
+
 }

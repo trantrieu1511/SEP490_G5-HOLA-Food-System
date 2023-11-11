@@ -45,4 +45,9 @@ namespace HFS_BE.Dao.FoodDao
     {
         public List<FoodOutputSellerDto> Foods { get; set; }
     }
+
+    public class AddFoodOutput : BaseOutputDto
+    {
+        public int FoodId { get; set; }
+    }
 }

@@ -18,4 +18,9 @@ namespace HFS_BE.DAO.NotificationDao
     {
         public List<NotificationDaoOutputDto>? Notifies { get; set; }
     }
+
+    public class NotificationOutputDto : BaseOutputDto
+    {
+        public NotificationDaoOutputDto Notify { get; set; }
+    }
 }

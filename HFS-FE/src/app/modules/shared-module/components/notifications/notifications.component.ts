@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, HostListener} from '@angular/core';
 import {
-  iServiceBase
+  iComponentBase,
+  iServiceBase,
+  mType
 } from 'src/app/modules/shared-module/shared-module';
 import { NotificationService } from 'src/app/services/SignalR/notification.service';
 import * as API from "../../../../services/apiURL";
@@ -9,6 +11,9 @@ import {animate, AnimationEvent, style, transition, trigger} from '@angular/anim
 import { BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { RoleNames } from '../../../../utils/roleName';
 
 
 @Component({
@@ -27,7 +32,7 @@ import { AuthService } from 'src/app/services/auth.service';
     ])
 ]
 })
-export class NotificationsComponent implements OnInit {
+export class NotificationsComponent extends iComponentBase implements OnInit {
   @Input() layoutService : any;
 
   lstNotification: Notification[] = [];
@@ -37,9 +42,12 @@ export class NotificationsComponent implements OnInit {
   constructor(
     private iServiceBase: iServiceBase,
     private signalRService: NotificationService,
-    public authService: AuthService
-  ){
+    public authService: AuthService,
+    private _route: Router,
+    public messageService: MessageService,
     
+  ){
+    super(messageService);
   }
 
   async ngOnInit() {
@@ -55,8 +63,9 @@ export class NotificationsComponent implements OnInit {
   }
 
   async connectSignalR() {
+    
     const param = {
-      skipNum: 0
+      takeNum: 5
     };
     this.signalRService.startConnection();
     const res = await this.signalRService.addTransferDataListener(
@@ -79,10 +88,11 @@ export class NotificationsComponent implements OnInit {
     this.signalRService.stopConnection();
   }
 
+
   async getAllNotification(){
     this.lstNotification = [];
     const param = {
-      skipNum: 0
+      takeNum: 5
     };
     let response = await this.iServiceBase.getDataWithParamsAsync(
       API.PHAN_HE.NOTIFY,
@@ -103,6 +113,7 @@ export class NotificationsComponent implements OnInit {
     //this.updateNotification(notify);
 
     // move to page read
+    this._route.navigate([`HFSBusiness/notify-management/detail/${notifyId}`]);
   }
 
   async updateNotificationRead(notifyId: number){
@@ -130,15 +141,26 @@ export class NotificationsComponent implements OnInit {
   }
 
   async markAllNotificationRead(){
-    let response = await this.iServiceBase.postDataAsync(
-      API.PHAN_HE.NOTIFY,
-      API.API_NOTIFY.MARK_ALL_NOTIFY_READ,
-      null
-    );
-
-    if (response && response.message === 'Success') {
-      await this.getAllNotification();
+    // check have new notify -> mark all read
+    if(this.isNewNotify){
+      let response = await this.iServiceBase.postDataAsync(
+        API.PHAN_HE.NOTIFY,
+        API.API_NOTIFY.MARK_ALL_NOTIFY_READ,
+        null
+      );
+  
+      if (response && response.message === 'Success') {
+        await this.getAllNotification();
+      }else{
+        var messageError = this.iServiceBase.formatMessageError(response);
+        this.showMessage(mType.error, response.message, messageError, 'notify');
+      }
     }
+  }
+
+  onViewAll(event: any){
+    event.preventDefault();
+    this._route.navigate([`HFSBusiness/notify-management`]);
   }
 
 }

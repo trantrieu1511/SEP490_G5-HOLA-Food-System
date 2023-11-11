@@ -122,7 +122,7 @@ namespace HFS_BE.Dao.PostDao
                 {
                     CreatedDate = DateTime.Now,
                     PostContent = postDto.PostContent,
-                    Status = 1,
+                    Status = 0,
                     SellerId = postDto.UserDto.UserId
                 };
                 context.Add(post);

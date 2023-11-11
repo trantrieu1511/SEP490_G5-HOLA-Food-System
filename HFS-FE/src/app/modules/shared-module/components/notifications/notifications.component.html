@@ -80,7 +80,9 @@
                             [class.mr-3] = "layoutService.app.isRTL"
                             style="flex-grow: 1;">
                         <div class="flex align-items-center justify-content-center mb-1">
-                            <a class="text-sm font-bold link-btn">View All Notifications</a>
+                            <a class="text-sm font-bold link-btn"
+                            (click)="onViewAll($event)"
+                            >View All Notifications</a>
                             <i class="text-sm pi pi-chevron-right"
                                 style="margin-left: 0.3rem; color: #212121; margin-top: 0.2rem;"
                             ></i>
@@ -105,3 +107,5 @@
         </ul>   
     </ng-template>
 </li>
+
+<!-- <p-toast [baseZIndex]="99999" key="notify"></p-toast> -->

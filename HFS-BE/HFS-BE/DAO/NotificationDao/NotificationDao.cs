@@ -37,10 +37,9 @@ namespace HFS_BE.DAO.NotificationDao
         {
             try
             {
-                var notifies = context.Notifications
+                var query = context.Notifications
                     .Where(x => x.Receiver.Equals(inputDto.Receiver))
                     .OrderByDescending(x => x.CreateDate)
-                    .Take(5)
                     .Select(x => new NotificationDaoOutputDto
                     {
                         Id = x.Id,
@@ -51,11 +50,16 @@ namespace HFS_BE.DAO.NotificationDao
                         Content = x.Content,
                         CreateDate = x.CreateDate.Value.ToString("MM/dd/yyyy hh:mm:ss tt"),
                         IsRead = x.IsRead
-                    })
-                    .ToList();
+                    });
+
+                if (inputDto.TakeNum != 0)
+                {
+                    query = query.Take(inputDto.TakeNum);
+                }
+                    
                 var output = this.Output<NotificationLst>(Constants.ResultCdSuccess);
                 //output.Posts = mapper.Map<List<Post>, List<PostOutputDto>>(data);
-                output.Notifies = notifies;
+                output.Notifies = query.ToList();
 
                 return output;
             }
@@ -105,6 +109,28 @@ namespace HFS_BE.DAO.NotificationDao
             {
 
                 return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public NotificationOutputDto GetNotificationById(NotificationReadInput inputDto)
+        {
+            try
+            {
+                var result = context.Notifications.FirstOrDefault(x => x.Id == inputDto.NotifyId);
+
+                if (result == null)
+                    return Output<NotificationOutputDto>(Constants.ResultCdFail,
+                        "Read fail", $"Notify ID: {inputDto.NotifyId} not exist!");
+
+                var output = Output<NotificationOutputDto>(Constants.ResultCdSuccess);
+                output.Notify = mapper.Map<Notification, NotificationDaoOutputDto>(result);
+
+                return output;
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }

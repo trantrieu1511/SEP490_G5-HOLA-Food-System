@@ -16,7 +16,9 @@ import { LoginNonCustomerComponent } from './login-non-customer/login-non-custom
 import { SellerListComponent } from './seller-list/seller-list.component';
 import { 
   DetailNotificationComponent,
+  ManageFoodComponent,
   ManageNotificationComponent,
+  ManageOrderComponent,
   ManagePostComponent 
 } from './modules/business-routing-module/business-routing-mudule';
 
@@ -77,12 +79,14 @@ const routes: Routes = [
   },
   {
     path: 'HFSBusiness', 
-    // canActivate: [authGuard],
-    // data: { requiredRole: ['Admin', 'Shipper', 'Seller'] },
+    canActivate: [authGuard],
+    data: { requiredRole: ['Admin', 'Shipper', 'Seller', 'PostModerator', 'MenuModerator'] },
     component: AppManageLayoutComponent,
     children: [
       {
         path: 'post-management',
+        canActivate: [authGuard],
+        data: { requiredRole: ['Seller', 'PostModerator'] },
         component: ManagePostComponent
       },
       {
@@ -90,8 +94,20 @@ const routes: Routes = [
         component: ManageNotificationComponent,
       },
       {
-        path: 'notify-management/detail',
+        path: 'notify-management/detail/:id',
         component: DetailNotificationComponent,
+      },
+      {
+        path: 'menu-management',
+        canActivate: [authGuard],
+        data: { requiredRole: ['Seller', 'MenuModerator'] },
+        component: ManageFoodComponent,
+      },
+      {
+        path: 'order-management',
+        canActivate: [authGuard],
+        data: { requiredRole: ['Seller', 'Shipper'] },
+        component: ManageOrderComponent,
       },
       {
         path: 'shipper',

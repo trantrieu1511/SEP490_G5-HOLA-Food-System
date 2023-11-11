@@ -34,13 +34,11 @@ namespace HFS_BE.Controllers.ManageOrder
                 {
                     //notify for shipper
                     var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
-
                     await notifyHub.Clients.Group(input.ShipperId).SendAsync("notification");
-                    
 
                     // refresh data of shipperId
                     var dataRealTimeHub = _hubContextFactory.CreateHub<DataRealTimeHub>();
-                    await dataRealTimeHub.Clients.Group(input.ShipperId).SendAsync("shipperRealTime");
+                    await dataRealTimeHub.Clients.Group(input.ShipperId).SendAsync("orderShipperRealTime");
                     //await dataRealTimeHub.Clients.Group("SE00000001").SendAsync("dataRealTime");
 
                 }

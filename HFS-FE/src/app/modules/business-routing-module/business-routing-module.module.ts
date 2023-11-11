@@ -11,6 +11,8 @@ import { SharedModule } from '../shared-module/shared-module.module';
 import { ComponentModule } from '../components-module/component.modules';
 import { ManageNotificationComponent } from './components/manage-notification/manage-notification.component';
 import { DetailNotificationComponent } from './components/detail-notification/detail-notification.component';
+import { ManageFoodComponent } from './components/manage-food/manage-food.component';
+import { ManageOrderComponent } from './components/manage-order/manage-order.component';
 
 // const routes: Routes = [
 //   {path: 'post-management', component: ManagePostComponent},
@@ -21,7 +23,9 @@ import { DetailNotificationComponent } from './components/detail-notification/de
   declarations: [
     ManagePostComponent,
     ManageNotificationComponent,
-    DetailNotificationComponent
+    DetailNotificationComponent,
+    ManageFoodComponent,
+    ManageOrderComponent
   ],
   imports: [
     CommonModule,
@@ -30,14 +34,16 @@ import { DetailNotificationComponent } from './components/detail-notification/de
     //RouterModule.forChild(routes),
     SellerRoutingModule,
     PostmoderatorRoutingModule,
-    //MenumoderatorRoutingModule,
-    //ShipperRoutingModule,
+    MenumoderatorRoutingModule,
+    ShipperRoutingModule,
 
   ],
   exports: [
     ManagePostComponent,
     ManageNotificationComponent,
-    DetailNotificationComponent
+    DetailNotificationComponent,
+    ManageFoodComponent,
+    ManageOrderComponent
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy}
