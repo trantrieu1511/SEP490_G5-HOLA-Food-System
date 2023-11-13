@@ -100,7 +100,7 @@
                 <br><br>
                 <!-- <p-button >import img</p-button> -->
                 <p-fileUpload [files]="uploadedFiles" mode="basic"
-                    [chooseLabel]="profileImage.imageBase64 === null ? 'Add profile image':'Edit profile image'"
+                    [chooseLabel]="profileImage.imageBase64 == undefined ? 'Add profile image':'Edit profile image'"
                     name="demo[]" [showUploadButton]="false" [customUpload]="true" accept="image/*"
                     [maxFileSize]="1000000" (onSelect)="handleFileSelection($event);" [auto]="true"></p-fileUpload>
 

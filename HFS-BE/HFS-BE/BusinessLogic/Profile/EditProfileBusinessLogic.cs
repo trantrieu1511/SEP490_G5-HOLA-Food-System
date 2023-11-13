@@ -12,12 +12,12 @@ namespace HFS_BE.BusinessLogic.Profile
         {
         }
 
-        public BaseOutputDto EditProfile(EditUserProfileInputDto inputDto)
+        public BaseOutputDto EditProfile(EditUserProfileInputDto inputDto, string? userId)
         {
             try
             {
                 var dao = CreateDao<UserDao>();
-                return dao.EditProfileById(inputDto);
+                return dao.EditProfileById(inputDto, userId);
             }
             catch (Exception)
             {

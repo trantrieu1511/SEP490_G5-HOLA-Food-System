@@ -35,6 +35,7 @@ import { ProfileImage } from 'src/app/modules/customer-routing-module/models/pro
 export class AppCustomerTopBarComponent extends iComponentBase implements OnInit {
 
     isLoggedIn: boolean = false;
+    // isReloaded: boolean = false;
     topBarProfileImg: ProfileImage = new ProfileImage();
 
     constructor(public layoutService: CustomerLayoutService,
@@ -67,11 +68,16 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
         }
     }
 
+    // reloadPage(){
+    //     window.location.reload();
+    // }
+
     async ngOnInit() {
         this.checkUserLoggedInState();
         await this.profileService.getProfileImage();
         this.topBarProfileImg = this.profileService.profileImage;
-        console.log(this.topBarProfileImg);
+        console.log("Top bar profile img: ");
+        console.log( this.topBarProfileImg);
     }
 
     logOut(event: Event) {

@@ -15,11 +15,14 @@ import {
 } from "primeng/api";
 import { Profile, ProfileDisplay, ProfileImage } from '../../models/profile';
 import { FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
+import { Router } from '@angular/router';
+import { AppCustomerTopBarComponent } from 'src/app/app-systems/app-topbar/customer/app.topbar-cus.component';
 
 @Component({
   selector: 'app-manageprofile',
   templateUrl: './manageprofile.component.html',
-  styleUrls: ['./manageprofile.component.scss']
+  styleUrls: ['./manageprofile.component.scss'],
+  // providers: [AppCustomerTopBarComponent]
 })
 
 export class ManageprofileComponent extends iComponentBase implements OnInit {
@@ -45,6 +48,8 @@ editEmail() {
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
+    private router: Router,
+    // private appCustomerTopBarComponent: AppCustomerTopBarComponent
   ) {
     super(messageService);
     // this.route.queryParams.subscribe(params => {
@@ -130,7 +135,7 @@ editEmail() {
   async editProfile() {
     try {
       const inputData = {
-        userId: sessionStorage.getItem("userId"),
+        // userId: sessionStorage.getItem("userId"),
         firstName: this.profile.firstName,
         lastName: this.profile.lastName,
         gender: this.profile.gender,
@@ -150,7 +155,7 @@ editEmail() {
         this.getProfileInfo();
 
         //Clear model đã tạo
-        this.profile = new Profile();
+        // this.profile = new Profile();
         // console.log(this.profile);
 
       } else {
@@ -195,6 +200,13 @@ editEmail() {
 
         //clear file upload
         this.uploadedFiles = [];
+
+        //refresh customer app top bar
+        // this.router.navigate(['/'], { skipLocationChange: true }).then(() => {
+        //   this.router.navigate(['/profile']);
+        // });
+        // this.appCustomerTopBarComponent.reloadPage();
+
       } else {
         this.showMessage(
           mType.error,

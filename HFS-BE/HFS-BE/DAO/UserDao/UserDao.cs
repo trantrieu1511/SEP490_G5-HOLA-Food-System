@@ -85,9 +85,9 @@ namespace HFS_BE.DAO.UserDao
         /// <param name="inputDto">The input of user</param>
         /// <returns>BaseOutputDto, which is the response of this function to the user that 
         /// consists of messages and success status</returns>
-        public BaseOutputDto EditProfileById(EditUserProfileInputDto inputDto)
+        public BaseOutputDto EditProfileById(EditUserProfileInputDto inputDto, string? userId)
         {
-            string userRole = inputDto.UserId.Substring(0, 2); // Lay role key: CU/SE/SH/PM/MM/AD
+            string userRole = userId.Substring(0, 2); // Lay role key: CU/SE/SH/PM/MM/AD
             try
             {
                 switch (userRole)
@@ -95,11 +95,11 @@ namespace HFS_BE.DAO.UserDao
                     case "CU":
                         //Tim trong context profile cua user theo id
                         var customer = context.Customers.SingleOrDefault(
-                        cu => cu.CustomerId.Equals(inputDto.UserId));
+                        cu => cu.CustomerId.Equals(userId));
 
                         //Check user co ton tai hay khong
                         if (customer == null)
-                            return Output<BaseOutputDto>(Constants.ResultCdFail, $"User with id: {inputDto.UserId} is not exist!");
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, $"User with id: {userId} is not exist!");
 
                         //Truong hop profile nguoi dung co ton tai thi cap nhat lai cac truong thong tin
                         customer.FirstName = inputDto.FirstName;
@@ -111,11 +111,11 @@ namespace HFS_BE.DAO.UserDao
                     case "SE":
                         //Tim trong context profile cua user theo id
                         var seller = context.Sellers.SingleOrDefault(
-                        se => se.SellerId.Equals(inputDto.UserId));
+                        se => se.SellerId.Equals(userId));
 
                         //Check user co ton tai hay khong
                         if (seller == null)
-                            return Output<BaseOutputDto>(Constants.ResultCdFail, $"User with id: {inputDto.UserId} is not exist!");
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, $"User with id: {userId} is not exist!");
 
                         //Truong hop profile nguoi dung co ton tai thi cap nhat lai cac truong thong tin
                         seller.FirstName = inputDto.FirstName;
@@ -127,11 +127,11 @@ namespace HFS_BE.DAO.UserDao
                     case "SH":
                         //Tim trong context profile cua user theo id
                         var shipper = context.Shippers.SingleOrDefault(
-                        sh => sh.ShipperId.Equals(inputDto.UserId));
+                        sh => sh.ShipperId.Equals(userId));
 
                         //Check user co ton tai hay khong
                         if (shipper == null)
-                            return Output<BaseOutputDto>(Constants.ResultCdFail, $"User with id: {inputDto.UserId} is not exist!");
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, $"User with id: {userId} is not exist!");
 
                         //Truong hop profile nguoi dung co ton tai thi cap nhat lai cac truong thong tin
                         shipper.FirstName = inputDto.FirstName;
@@ -143,11 +143,11 @@ namespace HFS_BE.DAO.UserDao
                     case "AD":
                         //Tim trong context profile cua user theo id
                         var admin = context.Admins.SingleOrDefault(
-                        ad => ad.AdminId.Equals(inputDto.UserId));
+                        ad => ad.AdminId.Equals(userId));
 
                         //Check user co ton tai hay khong
                         if (admin == null)
-                            return Output<BaseOutputDto>(Constants.ResultCdFail, $"User with id: {inputDto.UserId} is not exist!");
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, $"User with id: {userId} is not exist!");
 
                         //Truong hop profile nguoi dung co ton tai thi cap nhat lai cac truong thong tin
                         admin.FirstName = inputDto.FirstName;
@@ -159,11 +159,11 @@ namespace HFS_BE.DAO.UserDao
                     case "PM":
                         //Tim trong context profile cua user theo id
                         var postModerator = context.PostModerators.SingleOrDefault(
-                        pm => pm.ModId.Equals(inputDto.UserId));
+                        pm => pm.ModId.Equals(userId));
 
                         //Check user co ton tai hay khong
                         if (postModerator == null)
-                            return Output<BaseOutputDto>(Constants.ResultCdFail, $"User with id: {inputDto.UserId} is not exist!");
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, $"User with id: {userId} is not exist!");
 
                         //Truong hop profile nguoi dung co ton tai thi cap nhat lai cac truong thong tin
                         postModerator.FirstName = inputDto.FirstName;
@@ -175,11 +175,11 @@ namespace HFS_BE.DAO.UserDao
                     case "MM":
                         //Tim trong context profile cua user theo id
                         var menuModerator = context.MenuModerators.SingleOrDefault(
-                        mm => mm.ModId.Equals(inputDto.UserId));
+                        mm => mm.ModId.Equals(userId));
 
                         //Check user co ton tai hay khong
                         if (menuModerator == null)
-                            return Output<BaseOutputDto>(Constants.ResultCdFail, $"User with id: {inputDto.UserId} is not exist!");
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, $"User with id: {userId} is not exist!");
 
                         //Truong hop profile nguoi dung co ton tai thi cap nhat lai cac truong thong tin
                         menuModerator.FirstName = inputDto.FirstName;
