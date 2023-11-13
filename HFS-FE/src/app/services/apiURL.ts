@@ -20,6 +20,7 @@ export class PHAN_HE {
     public static POSTREPORT = "postreport";
     public static FOODREPORT = "foodreport";
     public static PROFILEIMAGE = "profileImage";
+    public static PAYMENT = "payment";
 }
 
 export class API_TEST {
@@ -172,3 +173,6 @@ export class API_PROFILEIMAGE {
     public static IMPORT_PROFILEIMAGE = "importProfileImage";
 }
 
+export class API_PAYMENT {
+    public static GET_URL = "getpaymenturl"
+}

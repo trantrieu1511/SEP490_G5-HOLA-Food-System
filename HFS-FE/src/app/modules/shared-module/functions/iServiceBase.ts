@@ -788,6 +788,9 @@ export class iServiceBase {
                 case API.PHAN_HE.PROFILEIMAGE: {
                     return localStorage.getItem('APISERVICE') + '/profileImage/';
                 }
+                case API.PHAN_HE.PAYMENT: {
+                    return localStorage.getItem('APISERVICE') + '/payment/';
+                }
                 default: {
                     return '';
                 }
