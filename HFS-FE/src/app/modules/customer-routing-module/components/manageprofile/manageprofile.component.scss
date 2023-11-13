@@ -1,5 +1,27 @@
 @media only screen and (max-width: 1200px) {
     .profilePageContent{
-        width: 1250px;
+        width: 1300px;
     }
+}
+.profilePageContent{
+    // width: 45%;
+    display: flex; 
+    justify-content: center;
+}
+
+.field-info{
+    opacity: 75%;
+    width: 50%;
+}
+.field-title{
+    font-weight: bold;
+    width: 50%;
+}
+
+.profile-sidebar:hover{
+    text-decoration: underline;
+}
+
+.profile-sidebar-onselected{
+    text-decoration: underline;
 }

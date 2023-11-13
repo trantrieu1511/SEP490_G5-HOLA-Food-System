@@ -23,6 +23,12 @@ import { FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
 })
 
 export class ManageprofileComponent extends iComponentBase implements OnInit {
+editPhoneNumber() {
+// throw new Error('Method not implemented.');
+}
+editEmail() {
+// throw new Error('Method not implemented.');
+}
 
   profile: Profile = new Profile();
   profileDisplay: ProfileDisplay = new ProfileDisplay();
@@ -32,6 +38,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   uploadedFiles: File[] = [];
   profileImage: ProfileImage = new ProfileImage();
   isLoggedIn: boolean = false;
+  selectedSideBarOption: boolean = true;
 
   constructor(
     private shareData: ShareData,
@@ -49,8 +56,8 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   }
 
   // Check whether the user has logged into Hola Food or not
-  checkUserLoginState(){
-    if(sessionStorage.getItem("userId") != null){
+  checkUserLoginState() {
+    if (sessionStorage.getItem("userId") != null) {
       this.isLoggedIn = true;
     }
   }
@@ -208,6 +215,10 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
 
   hideDialog() {
     this.isVisibleEditProfileDialog = false;
+  }
+
+  doSomething() {
+    // throw new Error('Method not implemented.');
   }
 
   // getSeverity(status: string) {
