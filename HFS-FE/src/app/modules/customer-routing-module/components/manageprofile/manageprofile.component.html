@@ -81,10 +81,9 @@
 
 <div class="profilePageContent">
     <div class="card" style="width: 15%;">
-        <a id="profile-option" [class]="selectedSideBarOption ? 'profile-sidebar-onselected':''" href="#"
-            onclick="event.preventDefault();">Profile</a>
+        <a id="profile-option" class="profile-sidebar-option-selected" href="#" onclick="event.preventDefault();">Profile</a>
         <hr>
-        <a id="myorder-option" class="profile-sidebar" href="#" onclick="event.preventDefault();">MyOrder</a>
+        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">MyOrder</a>
         <!-- <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">Profile</button><hr>
         <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">MyOrder</button> -->
     </div>
@@ -130,10 +129,18 @@
                 <hr>
                 <div style="display: flex;">
                     <p class="field-title">Email: </p>
-                    <p class="field-info" style="display: flex;" *ngIf="profileDisplay.email != undefined else RegisterEmail">
-                        {{profileDisplay.email}}
-                        &nbsp;&nbsp;<a href="#" onClick="event.preventDefault();">Edit email</a>
-                    </p>
+                    <div class="field-info" *ngIf="profileDisplay.email != undefined else RegisterEmail">
+                        {{profileDisplay.email}} <i *ngIf="profileDisplay.isVerified" class="pi pi-verified" style="color: green;"></i>
+                        <div>
+                            <a class="edit-email-link" href="#" onClick="event.preventDefault();"
+                                (click)="doSomething();">Edit email</a>
+                        </div>
+                        <div>
+                            <a class="verify-email-link" href="#" onClick="event.preventDefault();"
+                                (click)="doSomething();">Verify email</a>
+                        </div>
+
+                    </div>
                     <ng-template #RegisterEmail>
                         <p class="field-info"><p-button [text]="true">Add an email</p-button></p>
                     </ng-template>
