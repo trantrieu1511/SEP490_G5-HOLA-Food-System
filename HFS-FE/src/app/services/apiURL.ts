@@ -20,12 +20,16 @@ export class PHAN_HE {
     public static POSTREPORT = "postreport";
     public static FOODREPORT = "foodreport";
     public static PROFILEIMAGE = "profileImage";
+    public static NEWFEED = "newfeed";
 }
 
 export class API_TEST {
     public static SIGNIN = "login";
 }
 
+export class API_NEWFEED {
+    public static GETALLPOST = "getNewFeed";
+}
 // Service User
 export class API_USER {
     public static SIGNIN = "signin";

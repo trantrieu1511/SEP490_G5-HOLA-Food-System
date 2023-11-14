@@ -45,5 +45,31 @@ namespace HFS_BE.BusinessLogic.ManagePost
     {
         public List<PostOutputSellerDto> Posts { get; set; }
     }
+    public class PostOutputCustomerDto
+    {
+        public int PostId { get; set; }
+        public string? SellerId { get; set; }
+        public string? ShopName{ get; set; }
+        public string? PostContent { get; set; }
+
+        public string? CreatedDate { get; set; }
+
+        public string? Status { get; set; }
+
+        public List<PostImageOutputCustomerDto>? ImagesBase64 { get; set; } = new List<PostImageOutputCustomerDto>();
+    }
+
+    public class PostImageOutputCustomerDto
+    {
+        public int ImageId { get; set; }
+        public string? ImageBase64 { get; set; }
+        public string? Name { get; set; }
+        public string? Size { get; set; }
+    }
+
+    public class ListPostOutputCustomerDto : BaseOutputDto
+    {
+        public List<PostOutputCustomerDto> Posts { get; set; }
+    }
 
 }

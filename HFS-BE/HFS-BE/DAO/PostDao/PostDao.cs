@@ -227,5 +227,35 @@ namespace HFS_BE.Dao.PostDao
         {
             return context.Posts.FirstOrDefault(x => x.PostId == postId);
         }
+
+        public ListPostByCustomerOutputDto ListPostsByCustomer(PostStatusInputDto input)
+        {
+            try
+            {
+
+                List<PostByCustomerOutputDto> data = context.Posts
+                    .Include(p => p.Seller)
+                    .Include(p => p.PostImages)
+                    .Select(p => new PostByCustomerOutputDto
+                    {
+                        PostId = p.PostId,
+                        SellerId=p.SellerId,
+                        ShopName = p.Seller.ShopName,
+                        PostContent = p.PostContent,
+                        CreatedDate = p.CreatedDate,
+                        PostImages = p.PostImages.ToList(),
+                        Status = p.Status
+                    }).Where(s=>s.Status==input.status).ToList();
+
+                var output = this.Output<ListPostByCustomerOutputDto>(Constants.ResultCdSuccess);
+                output.Posts = data;
+                return output;
+            }
+            catch (Exception e)
+            {
+
+                return this.Output<ListPostByCustomerOutputDto>(Constants.ResultCdFail);
+            }
+        }
     }
 }

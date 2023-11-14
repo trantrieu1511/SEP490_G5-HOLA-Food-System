@@ -1,9 +1,9 @@
-<div class="grid table-demo">
+<!-- <div class="grid table-demo">
     <div class="col-12">
         <div class="card">
             <h5>Voucher Management</h5>
 
-            <p-table #dt [value]="lstVoucher" dataKey="id"
+            <p-table #dt [value]="lstCategory" dataKey="id"
                      styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
                      [showCurrentPageReport]="true"
                      [paginator]="lstVoucher.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
@@ -25,7 +25,7 @@
                         <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
                             <div class="flex align-items-center justify-content-center">
                                 <button pButton type="button" label="Add new" icon="pi pi-plus"
-                                    (click)="onCreateVoucher()"
+                                    (click)="onCreateCategory()"
                                         style="width: auto;"></button>
                             </div>
                         </div>
@@ -35,46 +35,22 @@
                     <tr>
                         <th pSortableColumn="code">
                             <div class="flex justify-content-between align-items-center">
-                                Code
-                                <p-sortIcon field="code"></p-sortIcon>
-                                <p-columnFilter type="text" field="code" display="menu"
+                                CategoryID
+                                <p-sortIcon field="categoryId"></p-sortIcon>
+                                <p-columnFilter type="text" field="categoryId" display="menu"
                                                 class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
-                        <th pSortableColumn="discountAmount">
+                        <th pSortableColumn="Name">
                             <div class="flex justify-content-between align-items-center">
-                                Discount Amount
-                                <p-sortIcon field="discountAmount"></p-sortIcon>
-                                <p-columnFilter type="text" field="discountAmount" display="menu"
-                                                class="ml-auto"></p-columnFilter>
-                            </div>
-                        </th>
-                        <th pSortableColumn="minimumOrder">
-                            <div class="flex justify-content-between align-items-center">
-                                Minimum Order
-                                <p-sortIcon field=" minimumOrder"></p-sortIcon>
-                                <p-columnFilter type="text" field="minimumOrder" display="menu"
-                                                class="ml-auto"></p-columnFilter>
-                            </div>
-                        </th>
-                        <th pSortableColumn="effectiveDate">
-                            <div class="flex justify-content-between align-items-center">
-                                Effective Date
-                                <p-sortIcon field="effectiveDate"></p-sortIcon>
-                                <p-columnFilter type="numeric" field="effectiveDate" display="menu"
+                                Name
+                                <p-sortIcon field="name"></p-sortIcon>
+                                <p-columnFilter type="text" field="name" display="menu"
                                                 class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
                         
-                        <th pSortableColumn="expireDate">
-                            <div class="flex justify-content-between align-items-center">
-                                Expire Date
-                                <p-sortIcon field="expireDate"></p-sortIcon>
-                                <p-columnFilter type="text" field="expireDate" display="menu"
-                                                class="ml-auto"></p-columnFilter>
-                            </div>
-                        </th>
-                        <th pSortableColumn="expireDate">
+                        <th pSortableColumn="status">
                             <div class="flex justify-content-between align-items-center">
                                 Status
                                 <p-sortIcon field="status"></p-sortIcon>
@@ -82,37 +58,21 @@
                                                 class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
-                        <th style="min-width: 8rem">
-                            <div 
-                                 class="flex justify-content-between align-items-center">
-                                Action
-                            </div>
-                        </th>
+                        
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-voucher>
+                <ng-template pTemplate="body" let-cate>
                     <tr class="p-selectable-row">
                         
                         <td>
-                            <span class="p-column-title">CODE</span>
-                            <span class="post-id">{{voucher.code}}</span>
+                            <span class="p-column-title">CategoryID</span>
+                            <span class="post-id">{{cate.categoryID}}</span>
                         </td>
                         <td>
-                            <span class="p-column-title">Discount Amount</span>
-                            {{voucher.discountAmount}}
+                            <span class="p-column-title">Name</span>
+                            {{cate.name}}
                         </td>
-                        <td >
-                            <span class="p-column-title">Minimum Order</span>
-                            {{voucher.minimumOrderValue}}
-                        </td>
-                        <td>
-                            <span class="p-column-title">Effective Date</span>
-                            {{voucher.effectiveDate}}
-                        </td>
-                        <td >
-                            <span class="p-column-title">Expire Date</span>
-                            {{voucher.expireDate}}
-                        </td>
+                        
                         <td >
                             <span class="p-column-title">Status</span>
                             {{voucher.status}}
@@ -122,19 +82,19 @@
                             <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
                                 <div class="flex align-items-center justify-content-center">
                                     <button pButton pRipple icon="pi pi-pencil"
-                                            (click)="onUpdateVoucher(voucher)"
+                                            (click)="onUpdateCategory(category)"
                                             class="p-button-rounded p-mr-2"></button>
                                 </div>
                                 
                                     <div *ngIf="voucher.status === 'Display'; else statusHide" class="flex align-items-center justify-content-center">
                                         <button pButton pRipple icon="pi pi-eye-slash"
-                                                (click)="onHideVoucher(voucher, $event)"
+                                                (click)="onHideCategory(category, $event)"
                                                 class="p-button-rounded p-button-danger"></button>
                                     </div>
                                     <ng-template #statusHide>
                                         <div class="flex align-items-center justify-content-center">
                                             <button pButton pRipple icon="pi pi-eye"
-                                                    (click)="onDisplayVoucher(voucher, $event)"
+                                                    (click)="onDisplayCategory(category, $event)"
                                                     class="p-button-rounded p-button-danger"></button>
                                         </div>
                                     </ng-template>
@@ -145,7 +105,7 @@
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="8">No voucher yet.</td>
+                        <td colspan="8">No category yet.</td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -163,51 +123,25 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Voucher information</b>
+                        <b>Category information</b>
                     </div>
                 </p-divider>
                 <div class="grid">
                     
                     <ng-container >
                         <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-                            <label>Discount Amount*</label>
+                            <label>Name*</label>
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
-                                <input type="text" step="5000" min="0"  class="w-full" [(ngModel)] = "voucherModel.discountAmount"
+                                <input type="text" step="5000" min="0"  class="w-full" [(ngModel)] = "cateModel.name"
                                   pInputText
                                   />
                                 
                             </span>
                             
                         </div>
-                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-                            <label>Minimum Order Value*</label>
-                            <span class="p-input-icon-left p-float-label" style="width: 100%">
-                                <input type="text" step="5000" min="0"  class="w-full" [(ngModel)] = "voucherModel.minimumOrderValue"
-                                  pInputText
-                                  />
-                               
-                            </span>
-                            
-                        </div>
-                    </ng-container>
-                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-                        <label>Effective Date*</label>
-                        <span class="p-input-icon-left p-float-label" style="width: 100%">
-                            <input type="datetime-local" step="5000" min="0"  class="w-full" [(ngModel)] = "voucherModel.effectiveDate"
-                                  pInputText
-                                  />
-                                 
-                        </span>
                         
-                    </div>
-                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-                        <label>Expire Date*</label>
-                        <span class="p-input-icon-left p-float-label" style="width: 100%">
-                            <input type="datetime-local" step="5000" min="0"  class="w-full" [(ngModel)] = "voucherModel.expireDate"
-                                  pInputText
-                                  />
-                        </span>   
-                    </div>                    
+                    </ng-container>
+                                 
                 </div>
             </div>
         </div>
@@ -216,13 +150,13 @@
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div  class="flex align-items-center justify-content-center" style="text-align: center">
                 <button pButton type="button" label="Save" icon="pi pi-save"
-                 (click)="onSaveVoucher()" style="width: 100%;"
+                 (click)="onSaveCategory()" style="width: 100%;"
                >
                 </button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
                 <button pButton type="button" label="Cancel" icon="pi pi-times"
-                        (click)="onCancelVoucher()"class="p-button-danger"
+                        (click)="onCancelCategory()"class="p-button-danger"
                         style="width: 100%;"></button>
             </div>
         </div>
@@ -235,4 +169,4 @@
 
 <p-confirmDialog key="uhideFood" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
-<cmis-loading></cmis-loading>
+<cmis-loading></cmis-loading> -->
