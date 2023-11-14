@@ -80,15 +80,21 @@
 
 
 <div class="profilePageContent">
-    <div class="card" style="width: 15%;">
+    <div class="card profile-sidebar">
         <a id="profile-option" class="profile-sidebar-option-selected" href="#" onclick="event.preventDefault();">Profile</a>
-        <hr>
-        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">MyOrder</a>
+        <div class="dash-line"></div>
+        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">Order</a>
+        <div class="dash-line"></div>
+        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">Ship address</a>
+        <div class="dash-line"></div>
+        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">Post report</a>
+        <div class="dash-line"></div>
+        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">Menu report</a>
         <!-- <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">Profile</button><hr>
         <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">MyOrder</button> -->
     </div>
 
-    <div class="card" style="width: 60%;">
+    <div class="card profile-main-body">
         <h2>Manage profile</h2>
         <hr>
         <div class="grid grid-nogutter">
@@ -132,11 +138,11 @@
                     <div class="field-info" *ngIf="profileDisplay.email != undefined else RegisterEmail">
                         {{profileDisplay.email}} <i *ngIf="profileDisplay.isVerified" class="pi pi-verified" style="color: green;"></i>
                         <div>
-                            <a class="edit-email-link" href="#" onClick="event.preventDefault();"
+                            <a style="color: #6366F1;" class="edit-email-link" href="#" onClick="event.preventDefault();"
                                 (click)="doSomething();">Edit email</a>
                         </div>
                         <div>
-                            <a class="verify-email-link" href="#" onClick="event.preventDefault();"
+                            <a style="color: #6366F1;" class="verify-email-link" href="#" onClick="event.preventDefault();"
                                 (click)="doSomething();">Verify email</a>
                         </div>
 
