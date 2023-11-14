@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.Dao.OrderDao;
+using HFS_BE.DAO.NotificationDao;
 using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using HFS_BE.Utils.Enum;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace HFS_BE.BusinessLogic.ManageOrder
@@ -14,27 +16,46 @@ namespace HFS_BE.BusinessLogic.ManageOrder
         {
         }
 
-        public BaseOutputDto AcceptOrder(OrderProgressStatusInputDto input)
+        public BaseOutputDto AcceptOrder(OrderProgressStatusInputDto input, out string? customerId)
         {
-            try
-            {
-                /*input.UserId = "SE00000001";*/
+            var oProgressDao = CreateDao<OrderProgressDao>();
+            var orderDao = CreateDao<OrderDao>();
+            var notifyDao = CreateDao<NotificationDao>();
 
-                var oProgressDao = CreateDao<OrderProgressDao>();
-                //get orderprogress by inputDto.orderId
-                var data = oProgressDao.GetOrderProgresByOrderId(input.OrderId);
-                // check trong list trả về có status = inputDto.status ko
-                if (data.FirstOrDefault(x => x.Status == input.Status) != null)
-                {
-                    return Output<BaseOutputDto>(Constants.ResultCdFail);
-                }
-                
-                return oProgressDao.AddOrderProgressCommonStatus(input);
-            }
-            catch (Exception)
+            // check orderid input
+            var order = orderDao.GetOrderByOrderIdAndSellerId(input.OrderId, input.UserId);
+
+            // put customerId
+            customerId = order?.CustomerId;
+            //check order
+            if (order == null)
+                return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Order is not exist");
+
+            //get orderprogress by inputDto.orderId
+            var data = oProgressDao.GetOrderProgresByOrderId(input.OrderId);
+            // check trong list trả về có status = inputDto.status ko
+            if (data.FirstOrDefault(x => x.Status == input.Status) != null)
             {
                 return Output<BaseOutputDto>(Constants.ResultCdFail);
             }
+
+            //add order progress
+            var outputP = oProgressDao.AddOrderProgressCommonStatus(input);
+            if (!outputP.Success)
+            {
+                return outputP;
+            }
+
+            // 2. gen title and content notification
+            var notifyBase = GenerateNotification.GetSingleton().GenNotificationAcceptOrder(customerId, order.OrderId);
+            //3. add notify
+            var noti = notifyDao.AddNewNotification(notifyBase);
+            if (!noti.Success)
+            {
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+
+            return Output<BaseOutputDto>(Constants.ResultCdSuccess);
         }
     }
 }

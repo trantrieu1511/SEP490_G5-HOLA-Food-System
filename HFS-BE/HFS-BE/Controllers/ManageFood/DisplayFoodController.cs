@@ -18,7 +18,7 @@ namespace HFS_BE.Controllers.ManageFood
 
         [HttpGet("foods/getFoods")]
         [Authorize]
-        public ListFoodOutputSellerDto Get()
+        public ListFoodOutputSellerDto DisplayFood()
         {
             try
             {

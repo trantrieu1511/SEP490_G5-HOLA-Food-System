@@ -49,20 +49,13 @@ namespace HFS_BE.BusinessLogic.ManageOrder
                     return outputAddOP;
 
                 // add notification
-                NotificationAddNewInputDto inputNoti = new NotificationAddNewInputDto
-                {
-                    CreateDate = DateTime.Now,
-                    SendBy = input.User.UserId,
-                    Receiver = input.ShipperId,
-                    Type = NotificationTypeEnum.GetNotifyValue("System")
-                };
                 // gen title and content notification
-                GenerateNotification.GetSingleton().GenNotificationInternalShipper(inputNoti, input.OrderId, input.User.Name);
+                var notify = GenerateNotification.GetSingleton().GenNotificationInternalShipper(input.ShipperId, input.OrderId, input.User.Name);
 
                 var notifyDao = CreateDao<NotificationDao>();
-                var notifyOutput = notifyDao.AddNewNotification(inputNoti);
+                var notifyOutput = notifyDao.AddNewNotification(notify);
 
-                return notifyOutput;
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
 
             }
             catch (Exception)

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, HostListener} from '@angular/core';
+import { Component, Input, OnInit, HostListener, OnDestroy} from '@angular/core';
 import {
   iComponentBase,
   iServiceBase,
@@ -8,7 +8,7 @@ import { NotificationService } from 'src/app/services/SignalR/notification.servi
 import * as API from "../../../../services/apiURL";
 import { Notification } from '../../models/notification.model';
 import {animate, AnimationEvent, style, transition, trigger} from '@angular/animations';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
@@ -32,12 +32,14 @@ import { RoleNames } from '../../../../utils/roleName';
     ])
 ]
 })
-export class NotificationsComponent extends iComponentBase implements OnInit {
+export class NotificationsComponent extends iComponentBase implements OnInit, OnDestroy {
   @Input() layoutService : any;
 
-  lstNotification: Notification[] = [];
+  lstNotification: Notification[] | undefined;
 
   isNewNotify: boolean = false;
+
+  lstNotificationSubscription: Subscription;
 
   constructor(
     private iServiceBase: iServiceBase,
@@ -48,18 +50,18 @@ export class NotificationsComponent extends iComponentBase implements OnInit {
     
   ){
     super(messageService);
-  }
-
-  async ngOnInit() {
     if(sessionStorage.getItem('JWT')){
       this.connectSignalR();
       this.getAllNotification();
-      // check có tin ch đọc hay ko
-      const hasUnreadNotification = this.lstNotification.some(notification => notification.isRead === false);
-
-      // Đặt isNewNotify thành true if has isRead = true
-      this.isNewNotify = hasUnreadNotification;
     }
+  }
+
+  async ngOnInit() {
+    
+  }
+
+  ngOnDestroy() {
+    this.lstNotificationSubscription.unsubscribe();
   }
 
   async connectSignalR() {
@@ -68,19 +70,17 @@ export class NotificationsComponent extends iComponentBase implements OnInit {
       takeNum: 5
     };
     this.signalRService.startConnection();
-    const res = await this.signalRService.addTransferDataListener(
+    this.signalRService.addTransferDataListener(
       API.PHAN_HE.NOTIFY,
       API.API_NOTIFY.GET_ALL_NOTIFIES,
       param
     );
-    if (res && res.message === 'Success') {
-      this.lstNotification = res.notifies;
 
-      // check có tin ch đọc hay ko
-      const hasUnreadNotification = this.lstNotification.some(notification => notification.isRead === false);
-      // Đặt isNewNotify thành true if has isRead = true
-      this.isNewNotify = hasUnreadNotification;
-    }
+    this.lstNotificationSubscription = this.signalRService.notifiesHandler.subscribe(res => {
+      this.lstNotification = res;
+
+      this.checkNewNotify();
+    });
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -101,19 +101,26 @@ export class NotificationsComponent extends iComponentBase implements OnInit {
     );
     if (response && response.message === 'Success') {
       this.lstNotification = response.notifies;
-      // check có tin ch đọc hay ko
-      const hasUnreadNotification = this.lstNotification.some(notification => notification.isRead === false);
-      // Đặt isNewNotify thành true if has isRead = true
-      this.isNewNotify = hasUnreadNotification;
+      this.checkNewNotify();
     }
   }
 
   notifyChange(notifyId: number){
     console.log("clicked", notifyId);
     //this.updateNotification(notify);
+  
+    var url = `/notify-management/detail/${notifyId}`;
+    if(RoleNames[this.authService.getRole()] != 'Customer'){
+      url = 'HFSBusiness' + url;
+    }
+
+    const index = this.lstNotification.findIndex(notification => notification.id === notifyId);
+      if (index !== -1) {
+        this.lstNotification[index].isRead = true;
+      }
 
     // move to page read
-    this._route.navigate([`HFSBusiness/notify-management/detail/${notifyId}`]);
+    this._route.navigate([url]);
   }
 
   async updateNotificationRead(notifyId: number){
@@ -160,7 +167,19 @@ export class NotificationsComponent extends iComponentBase implements OnInit {
 
   onViewAll(event: any){
     event.preventDefault();
-    this._route.navigate([`HFSBusiness/notify-management`]);
+    var url = `/notify-management`;
+    if(RoleNames[this.authService.getRole()] != 'Customer'){
+      url = 'HFSBusiness' + url;
+    }
+
+    this._route.navigate([url]);
+  }
+
+  checkNewNotify(){
+    // check có tin ch đọc hay ko
+    const hasUnreadNotification = this.lstNotification.some(notification => notification.isRead === false);
+    // Đặt isNewNotify thành true if has isRead = true
+    this.isNewNotify = hasUnreadNotification;
   }
 
 }

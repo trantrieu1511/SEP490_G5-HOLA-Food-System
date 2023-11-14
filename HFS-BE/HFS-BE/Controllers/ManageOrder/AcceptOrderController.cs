@@ -2,22 +2,24 @@
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.ManageOrder;
 using HFS_BE.DAO.OrderProgressDao;
+using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace HFS_BE.Controllers.ManageOrder
 {
-    public class AcceptOrderController : BaseController
+    public class AcceptOrderController : BaseControllerSignalR
     {
-        public AcceptOrderController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public AcceptOrderController(SEP490_HFS_2Context context, IMapper mapper, IHubContextFactory hubContextFactory) : base(context, mapper, hubContextFactory)
         {
         }
 
         [HttpPost("orders/acceptOrderSeller")]
         [Authorize]
-        public BaseOutputDto AcceptOrder(OrderAcceptInputDto input)
+        public async Task<BaseOutputDto> AcceptOrder(OrderAcceptInputDto input)
         {
             try
             {
@@ -25,7 +27,17 @@ namespace HFS_BE.Controllers.ManageOrder
                 inputBL.UserId = GetUserInfor().UserId;
 
                 var cancelBL = GetBusinessLogic<AcceptOrderBusinessLogic>();
-                return cancelBL.AcceptOrder(inputBL);
+                string? customerId = "";
+                var output = cancelBL.AcceptOrder(inputBL, out customerId);
+
+                if (output.Success)
+                {
+                    //notify for customer
+                    var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
+                    await notifyHub.Clients.Group(customerId).SendAsync("notification");
+                }
+
+                return output;
             }
             catch (Exception)
             {

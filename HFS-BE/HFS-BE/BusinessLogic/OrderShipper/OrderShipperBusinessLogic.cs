@@ -39,8 +39,8 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                     }
 
                     //lay last orderprogress
-                    var lastOP = order.OrderProgress.OrderBy(x => x.CreateDate).AsQueryable().Last();
-                    var indexProgressCompleted = order.OrderProgress.IndexOf(lastOP);
+                    var lastOP = order.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last();
+                    var indexProgressCompleted = order.OrderProgresses.IndexOf(lastOP);
                     if (lastOP.Status != 4)
                         continue;
                     //lastOP.Image -> base64

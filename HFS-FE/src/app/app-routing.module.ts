@@ -73,7 +73,15 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () => import('./modules/customer-routing-module/customer-routing.module').then(m => m.CustomerRoutingModule),
-      }
+      },
+      {
+        path: 'notify-management',
+        component: ManageNotificationComponent,
+      },
+      {
+        path: 'notify-management/detail/:id',
+        component: DetailNotificationComponent,
+      },
     ]
   },
   {

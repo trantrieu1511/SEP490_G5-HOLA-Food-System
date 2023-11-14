@@ -24,7 +24,7 @@ namespace HFS_BE.Controllers.ManageFood
         [HttpPost("foods/addNewFood")]
         [Authorize]
 
-        public async Task<BaseOutputDto> AddNewPost([FromForm] FoodCreateInputDto input)
+        public async Task<BaseOutputDto> AddNewFood([FromForm] FoodCreateInputDto input)
         {
             try
             {

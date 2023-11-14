@@ -246,9 +246,16 @@ namespace HFS_BE.Automapper
         }
         public void OrderHistory()
         {
-            CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>();
+            CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>()
+                .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses))
+                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails));
+            CreateMap<OrderProgress, Dao.OrderDao.OrderProgressDto>()
+                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.SellerId ?? src.CustomerId ?? src.ShipperId));
             CreateMap<OrderDetail, Dao.OrderDao.OrderDetailDto>()
-                .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name));
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Food.FoodImages.AsQueryable().First().Path))
+                .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name))
+                .ForMember(dest => dest.SellerId, opt => opt.MapFrom(src => src.Food.SellerId));
+
 
         }
         public void OrderProgress()

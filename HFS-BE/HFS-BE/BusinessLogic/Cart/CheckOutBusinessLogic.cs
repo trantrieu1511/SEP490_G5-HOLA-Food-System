@@ -104,16 +104,9 @@ namespace HFS_BE.BusinessLogic.Cart
 
                     // create noti for user and seller.
                     // add new nofition
-                    NotificationAddNewInputDto inputNoti = new NotificationAddNewInputDto
-                    {
-                        CreateDate = DateTime.Now,
-                        SendBy = "System",
-                        Receiver = item.ShopId,
-                        Type = NotificationTypeEnum.GetNotifyValue("System")
-                    };
                     // gen title and content notification
-                    GenerateNotification.GetSingleton().GenNotificationNewOrderSeller(inputNoti, (int)daoOutput.OrderId);
-                    var noti = notifyDao.AddNewNotification(inputNoti);
+                    var notify = GenerateNotification.GetSingleton().GenNotificationNewOrderSeller(item.ShopId, (int)daoOutput.OrderId);
+                    var noti = notifyDao.AddNewNotification(notify);
                     if (!noti.Success)
                     {
                         return this.Output<BaseOutputDto>(Constants.ResultCdFail);

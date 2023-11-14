@@ -4,11 +4,18 @@ import { iServiceBase } from 'src/app/modules/shared-module/shared-module';
 import * as API from '../apiURL';
 import { RoleNames } from 'src/app/utils/roleName';
 import { AuthService } from 'src/app/services/auth.service';
+import { Subject ,  Observable, BehaviorSubject } from 'rxjs';
+import { Notification } from 'src/app/modules/shared-module/models/notification.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
+
+  private notifiesSource = new BehaviorSubject<Notification[]>([]);
+
+  notifiesHandler = this.notifiesSource.asObservable();
+
   constructor(
     private iServiceBase: iServiceBase,
     private authService: AuthService,
@@ -49,22 +56,22 @@ export class NotificationService {
     inputData?: any,
     method: boolean = true,
     ignoreLoading?: boolean
-  ): Promise<any> => {
-    return new Promise((resolve, reject) => {
-      this.hubConnection.on(this.getMethodNameByRole(), async () => {
-        try {
-          const result = await this.loadProdData(
-            service,
-            api,
-            inputData,
-            ignoreLoading,
-            method
-          );
-          resolve(result);
-        } catch (error) {
-          reject(error);
-        }
-      });
+  ) => {
+    
+    this.hubConnection.on(this.getMethodNameByRole(), async () => {
+      try {
+        const result = await this.loadProdData(
+          service,
+          api,
+          inputData,
+          ignoreLoading,
+          method
+        );
+        if (result && result.message === 'Success') 
+          this.notifiesSource.next(result.notifies);
+      } catch (error) {
+        console.error(error);
+      }
     });
   };
 
