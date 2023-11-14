@@ -502,6 +502,15 @@ CREATE TABLE ShipperBan (
     CONSTRAINT FK_ShipperBan_Customer FOREIGN KEY (shipperId) REFERENCES Shipper(shipperId)
 );
 
+CREATE TABLE [dbo].[TransactionHistory](
+	[transactionId] [int] IDENTITY(1,1) NOT NULL primary key,
+	[senderId] [nvarchar](50) not null,
+	[recieverId] [nvarchar](50) null,
+	[TransactionType] [nvarchar](50) not null,
+	[Note] [nvarchar](200) null,
+	[Value] decimal not NULL,
+	[status] [tinyint] NULL)
+
 CREATE TABLE ChatMessage (
     MessageId INT PRIMARY KEY IDENTITY(1,1),
     CustomerId NVARCHAR(50) NOT NULL,
