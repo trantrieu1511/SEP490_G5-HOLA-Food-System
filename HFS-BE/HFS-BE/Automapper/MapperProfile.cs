@@ -59,6 +59,7 @@ namespace HFS_BE.Automapper
             Shop();
             Notification();
             Chat();
+            Google();
 
 		}
 
@@ -386,6 +387,17 @@ namespace HFS_BE.Automapper
 			CreateMap<ChatMessage, MessageDtoOuput>()
                 .ForMember(dest => dest.EmailCustomer, opt => opt.MapFrom(src => src.Customer.Email))
 				 .ForMember(dest => dest.EmailSeller, opt => opt.MapFrom(src => src.Seller.Email)); ;
+		}
+		public void Google()
+		{
+            CreateMap<Seller, LoginGoogleInputDto>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.SellerId));
+			CreateMap<Customer, LoginGoogleInputDto>()
+				.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.CustomerId));
+			CreateMap<PostModerator, LoginGoogleInputDto>()
+			.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
+			CreateMap<MenuModerator, LoginGoogleInputDto>()
+			.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
 		}
 	}
 }

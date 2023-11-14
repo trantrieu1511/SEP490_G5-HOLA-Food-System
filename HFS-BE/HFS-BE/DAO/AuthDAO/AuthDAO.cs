@@ -34,20 +34,21 @@ namespace HFS_BE.Dao.AuthDao
 			
 			if (user == null)
 			{
-				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email hoặc Mật Khẩu sai");
+				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
 			}
 
 			var match = CheckPassword(input.Password, (Customer)user);
 
 			if (!match)
 			{
-				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email hoặc Mật Khẩu sai");
+				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
 			}
 			if (user.IsBanned == true)
 			{
 				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Bạn đã bị ban do vi phạm hãy liên hệ chúng tôi để giải quyết");
 			}
-			JwtSecurityToken token = GenerateSecurityToken((Customer)user);
+			var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(user);
+			JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 			output.Token = new JwtSecurityTokenHandler().WriteToken(token);
 			return output;
 
@@ -93,18 +94,18 @@ namespace HFS_BE.Dao.AuthDao
 		//	return new { token = encrypterToken, username = user.Email };
 		//}
 
-		private JwtSecurityToken GenerateSecurityToken(Customer acc)
+		private JwtSecurityToken GenerateSecurityToken(LoginGoogleInputDto acc)
 		{
 			var conf = new ConfigurationBuilder()
 			.SetBasePath(Directory.GetCurrentDirectory())
 				.AddJsonFile("appsettings.json", true, true)
 				.Build();
-			string role = "CU";
+			string role = acc.UserId.Substring(0, 2); ;
 			var authClaims = new List<Claim>
 			{
 				new Claim(ClaimTypes.Email, acc.Email),
 				new Claim(ClaimTypes.Name, acc.FirstName + acc.LastName),
-				new Claim("userId", acc.CustomerId.ToString()),
+				new Claim("userId", acc.UserId.ToString()),
 			new Claim(ClaimTypes.Role,role)
 			};
 
@@ -161,7 +162,7 @@ namespace HFS_BE.Dao.AuthDao
 			var data5 = context.Admins.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			if (data != null || data2 != null || data3 != null || data4 != null || data5 != null)
 			{
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email đã sử dụng");
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email has been used");
 			}
 			var userCreate = new HFS_BE.Models.Admin
 			{
@@ -465,14 +466,42 @@ namespace HFS_BE.Dao.AuthDao
 
 			var payload = await GoogleJsonWebSignature.ValidateAsync(credential, settings);
 
-			var user = context.Customers.Where(x => x.Email == payload.Email).FirstOrDefault();
+			var user = context.Customers.Where(x => x.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
+			var data2 = context.Sellers.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
+			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
+			var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
+			//var data5 = context.Admins.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
+	
 			if (user != null)
 			{
-				JwtSecurityToken token = GenerateSecurityToken((HFS_BE.Models.Customer)user);
+
+				var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(user);
+				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
 				return output;
 			}
-
+			else if (data2 != null)
+			{
+				var dapmapper = mapper.Map<Seller, LoginGoogleInputDto>(data2);
+				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
+				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+				return output;
+			}
+			else if (data3 != null)
+			{
+				var dapmapper = mapper.Map<PostModerator, LoginGoogleInputDto>(data3);
+				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
+				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+				return output;
+			}
+			else if (data4 != null)
+			{
+				var dapmapper = mapper.Map<MenuModerator, LoginGoogleInputDto>(data4);
+				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
+				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+				return output;
+			}
+			
 			else
 			{
 				var cusall = context.Customers.ToList();
@@ -517,7 +546,9 @@ namespace HFS_BE.Dao.AuthDao
 				{
 					await context.Customers.AddAsync(user1);
 					context.SaveChangesAsync();
-					JwtSecurityToken token = GenerateSecurityToken((HFS_BE.Models.Customer)user1);
+					
+					var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(user1);
+					JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 					output.Token = new JwtSecurityTokenHandler().WriteToken(token);
 					return output;
 				}

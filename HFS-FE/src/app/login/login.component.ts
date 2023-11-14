@@ -33,11 +33,15 @@ declare const FB: any;
 })
 export class LoginComponent extends iComponentBase implements OnInit, AfterViewInit {
   user: User;
+  loading: boolean;
   form: FormGroup;
   isCaptchaTouched = false;
+  isCaptchaTouched1 = false;
   isPasswordTouched=false;
   error: string;
   showLoginForm: boolean = true;
+  unsuccessfulLoginAttempts: number = 0;
+  captchacheck:string;
    captchaImage: string = '';
    captchaText:string;
   private client_Id = environment.clientId;
@@ -60,6 +64,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
     script1.defer = `true`;
     this.renderer.appendChild(document.body, script1);
   }
+
   refreshCaptcha() {
     // Generate a random alphanumeric string for the CAPTCHA
     this.captchaText = this.generateRandomString(6); // Change the length as needed
@@ -97,12 +102,13 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
         // PasswordUpperValidator(),
         // PasswordNumberValidator(),
       ]),
-      captcha:  new FormControl('', [Validators.required])
+      captcha:  new FormControl('')
     });
     this.refreshCaptcha();
   }
   ngOnInit(): void {
-
+    this.captchacheck = localStorage.getItem("captcha");
+    this.unsuccessfulLoginAttempts=parseInt(this.captchacheck);
     localStorage.removeItem('user');
     sessionStorage.clear();
     this.service.error$.subscribe(error => {
@@ -172,10 +178,11 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
     };
   }
   async handleCredentialResponse(response: CredentialResponse) {
-    //debugger;
+    this.loading = true;
     await this.service.logingoogle(response.credential).subscribe(
       (x: any) => {
         this._ngZone.run(() => {
+          this.loading = false;
           switch (this.user.role) {
             case 'AD':
               this.router.navigateByUrl('/HFSBusiness/admin');
@@ -212,8 +219,18 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
 
   async onSubmit() {
     //this.formSubmitAttempt = false;
+    debugger;
+    this.captchacheck = localStorage.getItem("captcha");
+    this.unsuccessfulLoginAttempts=parseInt(this.captchacheck);
+    if (this.form.valid) {
 
-    if (this.form.valid&&this.captchaText==this.form.value.captcha) {
+      if (this.unsuccessfulLoginAttempts>2&& this.captchaText !== this.form.value.captcha) {
+        // Show an error or handle the captcha verification failure
+        this.refreshCaptcha();
+        //window.location.reload();
+        this.showMessage(mType.error, "Notification", "CAPTCHA verification failed. Please try again.", 'app-login');
+        return;
+      }
       try {
         debugger;
         this.service.login(this.form.value).subscribe(
@@ -245,7 +262,8 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
                 break;
 
               default:
-                this.router.navigateByUrl('/login');
+                window.location.reload();
+
             }
           },
           (error) => {
@@ -262,7 +280,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
     } else {
       this.refreshCaptcha();
      // this.error = 'CAPTCHA bạn nhấp sai vui lòng nhập lại.';
-      this.showMessage(mType.error, "Notification", "CAPTCHA bạn nhấp sai vui lòng nhập lại", 'app-login');
+      //this.showMessage(mType.error, "Notification", "CAPTCHA bạn nhấp sai vui lòng nhập lại", 'app-login');
     }
   }
 

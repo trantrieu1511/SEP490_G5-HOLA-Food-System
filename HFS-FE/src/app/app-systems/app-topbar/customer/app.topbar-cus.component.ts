@@ -80,6 +80,14 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
         this.topBarProfileImg = this.profileService.profileImage;
         console.log("Top bar profile img: ");
         console.log( this.topBarProfileImg);
+
+
+        const userChatBox: boolean = JSON.parse(localStorage.getItem('chatboxusers'));
+        if (userChatBox) {
+          this.toggleSellerListEvent.emit();
+        } else {
+
+        }
     }
 
     logOut(event: Event) {

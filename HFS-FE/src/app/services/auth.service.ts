@@ -28,15 +28,26 @@ export class AuthService {
   constructor(private httpClient: HttpClient) { }
 
   login(model: any) {
-    //debugger;
+    debugger;
+
     return this.httpClient.post(this.path + 'home/logincustomer', model).pipe(
       map((res: Tokens) => {
         const token = res;
         if (token.success) {
           this.setCurrentUser(token);
-
+          localStorage.removeItem("captcha");
         } else {
           this.errorSubject.next(token.message.toString());
+          let captchastring = localStorage.getItem("captcha");
+          if (captchastring === null) {
+            captchastring = "1";
+            localStorage.setItem("captcha",captchastring);
+
+          }else{
+             let captcha =parseInt(captchastring,10);
+              captcha++;
+            localStorage.setItem("captcha",captcha.toString());
+          }
 
         }
       })
@@ -50,9 +61,20 @@ export class AuthService {
         //debugger
         if (token.success) {
           this.setCurrentUser(token);
+          localStorage.removeItem("captcha");
 
         } else {
           this.errorSubject.next('Email hoặc mật khẩu không chính xác');
+          let captchastring = localStorage.getItem("captcha");
+          if (captchastring === null) {
+            captchastring = "1";
+            localStorage.setItem("captcha",captchastring);
+
+          }else{
+             let captcha =parseInt(captchastring,10);
+              captcha++;
+            localStorage.setItem("captcha",captcha.toString());
+          }
 
         }
       })

@@ -56,6 +56,16 @@ namespace HFS_BE.Dao.AuthDao
 		public string confirm { get; set; }
 		public string UserId { get; set; }
 	}
+	public class LoginGoogleInputDto : BaseInputDto
+	{
+		public string UserId { get; set; } = null!;
+		public string FirstName { get; set; } = null!;
+		public string LastName { get; set; } = null!;
+		public string? Gender { get; set; }
+		public DateTime? BirthDate { get; set; }
+		public string Email { get; set; } = null!;
+		public bool? IsBanned { get; set; }
+	}
 
 	public class ChangeForgotPasswordInputDto : BaseInputDto
 	{

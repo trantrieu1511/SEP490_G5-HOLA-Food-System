@@ -162,11 +162,14 @@ debugger;
                   this.showForm = showregister;})
               })
             }catch (err) {
-
+              this.showMessage(mType.error, "Notification", err, 'app-register');
             }
           break;
     }
     console.log(this.formregister.value.roleId);
+
+}else{
+  this.showMessage(mType.error, "Notification", "errorregister", 'app-register');
 
 }
 }

@@ -25,16 +25,23 @@ export class SellerListComponent {
   // Phương thức để gửi sự kiện khi nút tắt được nhấn
   onCloseSellerList() {
     this.closeSellerList.emit();
+    localStorage.removeItem('chatboxusers');
   }
   toggleSellerList() {
     this.isSellerListVisible = !this.isSellerListVisible;
 
     console.log(this.isSellerListVisible);
+
   }
   constructor(public presence: PresenceService) { }
 
   ngOnInit(): void {
-
+    const userChatBox: SellerChatBox[] = JSON.parse(localStorage.getItem('chatboxusers'));
+    if (userChatBox) {
+      this.usersOnline = userChatBox;
+    } else {
+      this.usersOnline = [];
+    }
   }
 
   selectUser(user: any) {
@@ -49,6 +56,7 @@ export class SellerListComponent {
         } else {
           this.usersOnline.push(new SellerChatBox(user, 350));
         }
+        localStorage.setItem('chatboxusers', JSON.stringify(this.usersOnline));
         break;
       }
       case 0: {
@@ -59,6 +67,7 @@ export class SellerListComponent {
         } else {
           this.usersOnline.push(new SellerChatBox(user, 350 + 325));
         }
+        localStorage.setItem('chatboxusers', JSON.stringify(this.usersOnline));
         break;
       }
       default: {
@@ -70,6 +79,7 @@ export class SellerListComponent {
 
   removeChatBox(event: string) {
     this.usersOnline = this.usersOnline.filter(x => x.seller.email !== event);
+    localStorage.setItem('chatboxusers', JSON.stringify(this.usersOnline));
   }
 
   miniChatBox(user: any){

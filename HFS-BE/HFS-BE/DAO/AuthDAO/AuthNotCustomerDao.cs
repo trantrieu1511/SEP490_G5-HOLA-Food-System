@@ -29,6 +29,10 @@ namespace HFS_BE.DAO.AuthDAO
 				{
 					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
 				}
+				if (user.IsBanned == true)
+				{
+					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned due to violations, please contact us to resolve!");
+				}
 				JwtSecurityToken token = GenerateSecurityTokenSeller((Seller)user);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
 				return output;
@@ -36,9 +40,17 @@ namespace HFS_BE.DAO.AuthDAO
 			else
 			{
 				var shipper = context.Shippers.Where(s => s.Email == input.Email).FirstOrDefault();
+				if (shipper.IsBanned == true)
+				{
+					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned due to violations, please contact us to resolve!");
+				}
 				if (shipper == null)
 				{
 					var menuModerators = context.MenuModerators.Where(s => s.Email == input.Email).FirstOrDefault();
+					if (menuModerators.IsBanned == true)
+					{
+						return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned due to violations, please contact us to resolve!");
+					}
 					if (menuModerators != null)
 					{
 						var match = CheckPasswordModerator(input.Password, menuModerators);
@@ -54,6 +66,10 @@ namespace HFS_BE.DAO.AuthDAO
 					else
 					{
 						var postModerators = context.PostModerators.Where(s => s.Email == input.Email).FirstOrDefault();
+						if (postModerators.IsBanned == true)
+						{
+							return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned due to violations, please contact us to resolve!");
+						}
 						if (postModerators != null)
 						{
 							var match = CheckPasswordPostM(input.Password, postModerators);
@@ -156,17 +172,7 @@ namespace HFS_BE.DAO.AuthDAO
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email đã sử dụng");
 			}
-			var userCreate = new HFS_BE.Models.Admin
-			{
-				AdminId = paddedString,
-				Email = model.Email,
-				BirthDate = model.BirthDate,
-				FirstName = model.FirstName,
-				LastName = model.LastName,
-				Gender = model.Gender,
-				ConfirmedEmail = true,
-
-			};
+			
 			var user = new HFS_BE.Models.Seller
 			{
 				SellerId = paddedString,
