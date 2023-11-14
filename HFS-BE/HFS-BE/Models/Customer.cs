@@ -9,6 +9,7 @@ namespace HFS_BE.Models
         {
             CartItems = new HashSet<CartItem>();
             ChatMessages = new HashSet<ChatMessage>();
+            Comments = new HashSet<Comment>();
             CustomerBans = new HashSet<CustomerBan>();
             FeedbackReplies = new HashSet<FeedbackReply>();
             FeedbackVotes = new HashSet<FeedbackVote>();
@@ -37,6 +38,7 @@ namespace HFS_BE.Models
 
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual ICollection<ChatMessage> ChatMessages { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<CustomerBan> CustomerBans { get; set; }
         public virtual ICollection<FeedbackReply> FeedbackReplies { get; set; }
         public virtual ICollection<FeedbackVote> FeedbackVotes { get; set; }

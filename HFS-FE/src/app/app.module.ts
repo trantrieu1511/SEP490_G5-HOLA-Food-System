@@ -53,6 +53,8 @@ import { MenuDataService } from './services/menu-data.service';
 import { BusinessRoutingModule } from './modules/business-routing-module/business-routing-module.module';
 import { CustomerListByChatComponent } from './customer-list-by-chat/customer-list-by-chat.component';
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -82,6 +84,7 @@ import { CustomerListByChatComponent } from './customer-list-by-chat/customer-li
     OrderhistoryComponent
 
 
+    
   ],
   imports: [
     BrowserAnimationsModule,

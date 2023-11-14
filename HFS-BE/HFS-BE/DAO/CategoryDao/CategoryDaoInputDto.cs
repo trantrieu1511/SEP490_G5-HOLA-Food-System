@@ -12,4 +12,10 @@
         public string Name { get; set; }
         public byte? Status { get; set; }
     }
+
+    public class GetAllCategoryDaoInputDto
+    {
+        public string Admin { get; set; }
+
+    }
 }

@@ -25,7 +25,7 @@ namespace HFS_BE.DAO.VoucherDao
                         Code = GenerateVoucherCode(10),
                         DiscountAmount = inputDto.DiscountAmount,
                         MinimumOrderValue = inputDto.MinimumOrderValue,
-                        Status = inputDto.Status,
+                        Status = 0,
                         EffectiveDate = inputDto.EffectiveDate,
                         ExpireDate = inputDto.ExpireDate
                     };
@@ -73,7 +73,6 @@ namespace HFS_BE.DAO.VoucherDao
                     return Output<BaseOutputDto>(Constants.ResultCdFail, $"VoucherId: {inputDto.VoucherId} not exist!");
                 }
                 data.DiscountAmount = inputDto.DiscountAmount;
-                data.Status = inputDto.Status;
                 data.EffectiveDate = inputDto.EffectiveDate;
                 data.ExpireDate = inputDto.ExpireDate;
                 context.SaveChanges();

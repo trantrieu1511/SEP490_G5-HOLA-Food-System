@@ -7,8 +7,7 @@ namespace HFS_BE.DAO.VoucherDao
     {
         public string? SellerId { get; set; }
         public decimal DiscountAmount { get; set; }
-        public decimal? MinimumOrderValue { get; set; }
-        public byte? Status { get; set; }
+        public decimal? MinimumOrderValue { get; set; }      
         public DateTime EffectiveDate { get; set; }
         public DateTime ExpireDate { get; set; }
     }
@@ -22,7 +21,6 @@ namespace HFS_BE.DAO.VoucherDao
         public int VoucherId { get; set; }
         public decimal DiscountAmount { get; set; }
         public decimal? MinimumOrderValue { get; set; }
-        public byte? Status { get; set; }
         public DateTime EffectiveDate { get; set; }
         public DateTime ExpireDate { get; set; }
     }
