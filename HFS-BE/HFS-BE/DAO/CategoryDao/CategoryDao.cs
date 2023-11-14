@@ -53,5 +53,25 @@ namespace HFS_BE.DAO.CategoryDao
                 return this.Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
+
+        public ListcategoryOutptuDto GetAllCategory()
+        {
+            try
+            {
+                var data = context.Categories.ToList();
+                if (data == null)
+                {
+                    return this.Output<ListcategoryOutptuDto>(Constants.ResultCdFail);
+                }
+                var output = this.Output<ListcategoryOutptuDto>(Constants.ResultCdSuccess);
+                output.ListCategory = mapper.Map<List<Category>, List<GetCategoryOutputDto>>(data);
+                return output;
+            }
+            catch (Exception)
+            {
+
+                return this.Output<ListcategoryOutptuDto>(Constants.ResultCdFail);
+            }
+        }
     }
 }

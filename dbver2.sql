@@ -529,3 +529,14 @@ CREATE TABLE [ProfileImage] (
 	[path] [nvarchar](max) NOT NULL,
 	[isReplaced] [bit] NOT NULL, -- 0: Tức là hình ảnh vẫn còn đang được sử dụng và chưa bị thay thế. 1: Hình ảnh đã bị thay thế bởi người dùng.
 )
+
+CREATE TABLE [dbo].[Comment](
+    [commentId] [int] IDENTITY(1,1) NOT NULL,
+    [postId] [int] NOT NULL,
+    [customerId] [nvarchar](50) NOT NULL,
+    [commentContent] [nvarchar](1500) NULL,
+    [createdDate] [datetime] NULL,
+    FOREIGN KEY ([postId]) REFERENCES [Post]([postId]),
+    FOREIGN KEY ([customerId]) REFERENCES [Customer]([customerId]),
+    PRIMARY KEY ([commentId])
+)
