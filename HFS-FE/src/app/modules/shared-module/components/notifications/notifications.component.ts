@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, HostListener} from '@angular/core';
 import {
-  iServiceBase
+  iComponentBase,
+  iServiceBase,
+  mType
 } from 'src/app/modules/shared-module/shared-module';
 import { NotificationService } from 'src/app/services/SignalR/notification.service';
 import * as API from "../../../../services/apiURL";
@@ -8,6 +10,10 @@ import { Notification } from '../../models/notification.model';
 import {animate, AnimationEvent, style, transition, trigger} from '@angular/animations';
 import { BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { RoleNames } from '../../../../utils/roleName';
 
 
 @Component({
@@ -26,7 +32,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
     ])
 ]
 })
-export class NotificationsComponent implements OnInit {
+export class NotificationsComponent extends iComponentBase implements OnInit {
   @Input() layoutService : any;
 
   lstNotification: Notification[] = [];
@@ -35,51 +41,19 @@ export class NotificationsComponent implements OnInit {
 
   constructor(
     private iServiceBase: iServiceBase,
-    private signalRService: NotificationService
-  ){
+    private signalRService: NotificationService,
+    public authService: AuthService,
+    private _route: Router,
+    public messageService: MessageService,
     
+  ){
+    super(messageService);
   }
 
   async ngOnInit() {
     if(sessionStorage.getItem('JWT')){
       this.connectSignalR();
       this.getAllNotification();
-
-      this.lstNotification = [
-        {
-          id: 1,
-          sendBy: "a9whjufe",
-          receiver: "efasdf",
-          typeId: 1,
-          typeName: "fasddf",
-          title: "have new order",
-          content: "order 11029 request",
-          createDate: "11/05/2023",
-          isRead: false
-        },
-        {
-          id: 2,
-          sendBy: "a9whjufe",
-          receiver: "efasdf",
-          typeId: 1,
-          typeName: "fasddf",
-          title: "have new order",
-          content: "order 453242329 request",
-          createDate: "11/05/2023",
-          isRead: false
-        },
-        {
-          id: 3,
-          sendBy: "a9whjufe",
-          receiver: "efasdf",
-          typeId: 1,
-          typeName: "fasddf",
-          title: "have new order",
-          content: "order 11021229 request",
-          createDate: "11/05/2023",
-          isRead: true
-        }
-      ]
       // check có tin ch đọc hay ko
       const hasUnreadNotification = this.lstNotification.some(notification => notification.isRead === false);
 
@@ -89,11 +63,15 @@ export class NotificationsComponent implements OnInit {
   }
 
   async connectSignalR() {
-    this.lstNotification = [];
+    
+    const param = {
+      takeNum: 5
+    };
     this.signalRService.startConnection();
     const res = await this.signalRService.addTransferDataListener(
       API.PHAN_HE.NOTIFY,
-      API.API_NOTIFY.GET_ALL_NOTIFIES
+      API.API_NOTIFY.GET_ALL_NOTIFIES,
+      param
     );
     if (res && res.message === 'Success') {
       this.lstNotification = res.notifies;
@@ -110,16 +88,19 @@ export class NotificationsComponent implements OnInit {
     this.signalRService.stopConnection();
   }
 
+
   async getAllNotification(){
     this.lstNotification = [];
-   
-    let response = await this.iServiceBase.getDataAsync(
+    const param = {
+      takeNum: 5
+    };
+    let response = await this.iServiceBase.getDataWithParamsAsync(
       API.PHAN_HE.NOTIFY,
-      API.API_NOTIFY.GET_ALL_NOTIFIES
+      API.API_NOTIFY.GET_ALL_NOTIFIES,
+      param
     );
     if (response && response.message === 'Success') {
       this.lstNotification = response.notifies;
-
       // check có tin ch đọc hay ko
       const hasUnreadNotification = this.lstNotification.some(notification => notification.isRead === false);
       // Đặt isNewNotify thành true if has isRead = true
@@ -132,6 +113,7 @@ export class NotificationsComponent implements OnInit {
     //this.updateNotification(notify);
 
     // move to page read
+    this._route.navigate([`HFSBusiness/notify-management/detail/${notifyId}`]);
   }
 
   async updateNotificationRead(notifyId: number){
@@ -152,6 +134,33 @@ export class NotificationsComponent implements OnInit {
         this.lstNotification[index].isRead = true;
       }
     }
+  }
+
+  onMarkAllRead(){
+    this.markAllNotificationRead();
+  }
+
+  async markAllNotificationRead(){
+    // check have new notify -> mark all read
+    if(this.isNewNotify){
+      let response = await this.iServiceBase.postDataAsync(
+        API.PHAN_HE.NOTIFY,
+        API.API_NOTIFY.MARK_ALL_NOTIFY_READ,
+        null
+      );
+  
+      if (response && response.message === 'Success') {
+        await this.getAllNotification();
+      }else{
+        var messageError = this.iServiceBase.formatMessageError(response);
+        this.showMessage(mType.error, response.message, messageError, 'notify');
+      }
+    }
+  }
+
+  onViewAll(event: any){
+    event.preventDefault();
+    this._route.navigate([`HFSBusiness/notify-management`]);
   }
 
 }

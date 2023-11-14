@@ -11,7 +11,7 @@ namespace HFS_BE.BusinessLogic.Notification
         {
         }
 
-        public NotificationLst GetNotificationByReceiver(NotificationInput inputDto)
+        public NotificationLst GetNotificationByReceiver(NotificationGetInput inputDto)
         {
             try
             {

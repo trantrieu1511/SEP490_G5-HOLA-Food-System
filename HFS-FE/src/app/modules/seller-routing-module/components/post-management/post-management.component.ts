@@ -65,27 +65,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
   }
 
   async ngOnInit() {
-    this.connectSignalR();
     this.getAllPost();
   }
 
-  async connectSignalR() {
-    this.lstPost = [];
-    this.signalRService.startConnection();
-    const res = await this.signalRService.addTransferDataListener(
-      'dataRealTime',
-      API.PHAN_HE.POST,
-      API.API_POST.GET_POST
-    );
-    if (res && res.message === 'Success') {
-      this.lstPost = res.posts;
-    }
-  }
-
-  @HostListener('window:beforeunload', ['$event'])
-  unloadNotification($event: any): void {
-    this.signalRService.stopConnection();
-  }
 
   async getAllPost() {
     this.lstPost = [];

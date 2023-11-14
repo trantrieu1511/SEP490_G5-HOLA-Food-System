@@ -3,6 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.Dao.PostDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using HFS_BE.Utils.Enum;
 using Newtonsoft.Json.Linq;
 using System;
 
@@ -32,31 +33,33 @@ namespace HFS_BE.DAO.NotificationDao
             }
         }
 
-        public NotificationLst GetNotificationByReceiver(NotificationInput inputDto)
+        public NotificationLst GetNotificationByReceiver(NotificationGetInput inputDto)
         {
             try
             {
-                var notifies = context.Notifications
+                var query = context.Notifications
                     .Where(x => x.Receiver.Equals(inputDto.Receiver))
                     .OrderByDescending(x => x.CreateDate)
-                    .Take(5)
                     .Select(x => new NotificationDaoOutputDto
                     {
                         Id = x.Id,
                         SendBy = x.SendBy,
                         Receiver = x.Receiver,
-                        TypeId = x.TypeId,
-                        TypeName = x.Type.Name,
+                        Type = NotificationTypeEnum.GetNotifyString(x.Type),
                         Title = x.Title,
                         Content = x.Content,
                         CreateDate = x.CreateDate.Value.ToString("MM/dd/yyyy hh:mm:ss tt"),
                         IsRead = x.IsRead
-                    })
-                    .ToList();
+                    });
 
+                if (inputDto.TakeNum != 0)
+                {
+                    query = query.Take(inputDto.TakeNum);
+                }
+                    
                 var output = this.Output<NotificationLst>(Constants.ResultCdSuccess);
                 //output.Posts = mapper.Map<List<Post>, List<PostOutputDto>>(data);
-                output.Notifies = notifies;
+                output.Notifies = query.ToList();
 
                 return output;
             }
@@ -67,7 +70,7 @@ namespace HFS_BE.DAO.NotificationDao
             }
         }
 
-        public BaseOutputDto UpdateNotificationReaded(NotificationReadedInput inputDto)
+        public BaseOutputDto UpdateReadNotification(NotificationReadInput inputDto)
         {
             try
             {
@@ -83,6 +86,51 @@ namespace HFS_BE.DAO.NotificationDao
             {
 
                 return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public BaseOutputDto UpdateNotificationAllRead(NotificationInput inputDto)
+        {
+            try
+            {
+                // getall notify unread
+                var output = context.Notifications
+                    .Where(x => x.Receiver.Equals(inputDto.Receiver) && x.IsRead == false)
+                    .ToList();
+                // update all to readed
+                foreach(var noti in output)
+                {
+                    UpdateReadNotification(new NotificationReadInput { NotifyId = noti.Id });
+                }
+
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public NotificationOutputDto GetNotificationById(NotificationReadInput inputDto)
+        {
+            try
+            {
+                var result = context.Notifications.FirstOrDefault(x => x.Id == inputDto.NotifyId);
+
+                if (result == null)
+                    return Output<NotificationOutputDto>(Constants.ResultCdFail,
+                        "Read fail", $"Notify ID: {inputDto.NotifyId} not exist!");
+
+                var output = Output<NotificationOutputDto>(Constants.ResultCdSuccess);
+                output.Notify = mapper.Map<Notification, NotificationDaoOutputDto>(result);
+
+                return output;
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }

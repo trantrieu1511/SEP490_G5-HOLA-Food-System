@@ -1,6 +1,6 @@
 import {Table} from "primeng/table";
 import {AppBreadcrumbService} from "../../../../app-systems/app-breadcrumb/app.breadcrumb.service";
-import { AfterViewInit, Component, ElementRef, OnInit, Renderer2,ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild, HostListener } from '@angular/core';
 import {
     iComponentBase,
     iServiceBase, mType,
@@ -20,6 +20,7 @@ import { AuthService, User } from "src/app/services/auth.service";
 import { OrderProgress } from "../../models/order-progress-shipper.model";
 import { Post } from "src/app/modules/seller-routing-module/models/post.model";
 import { FileRemoveEvent, FileSelectEvent } from "primeng/fileupload";
+import { DataRealTimeService } from "src/app/services/SignalR/data-real-time.service";
 
 @Component({
   selector: 'app-shipper',
@@ -68,11 +69,13 @@ export class ShipperComponent extends iComponentBase implements OnInit {
 
     constructor(private elementRef: ElementRef, private renderer: Renderer2,public messageService: MessageService,
         private confirmationService: ConfirmationService,
-        private iServiceBase: iServiceBase,private authService: AuthService) {
+        private iServiceBase: iServiceBase,private authService: AuthService,
+        private signalRService: DataRealTimeService
+        ) {
         super(messageService);
     }
   
-    ngOnInit(): void {
+    async ngOnInit(){
       this.items = [
         { label: 'Requested', id: '0'},
         { label: 'Shipping', id: '1'},    
@@ -84,9 +87,39 @@ export class ShipperComponent extends iComponentBase implements OnInit {
       this.showCurrentPageReport = true;
 
       this.getAllOrder();
-      
+      this.connectSignalR();
       
     }
+
+    async connectSignalR() {
+      this.lstOrderOfShipper = [];
+      
+      this.signalRService.startConnection();
+
+      this.userId = sessionStorage.getItem('userId');  
+        
+      const param = {
+        "shipperId":this.userId,
+        "Status" : true,
+      };
+
+      const res = await this.signalRService.addTransferDataListener(
+        'orderShipperRealTime',
+        API.PHAN_HE.SHIPPER,
+        API.API_SHIPPER.GET_All, 
+        param,
+        false
+      );
+      if (res && res.message === 'Success' && this.activeItem.id == "0") {
+        this.lstOrderOfShipper = res.orders;
+      }
+    }
+  
+    @HostListener('window:beforeunload', ['$event'])
+    unloadNotification($event: any): void {
+      this.signalRService.stopConnection();
+    }
+  
 
     onChangeTab(activeTab: MenuItem){
         this.activeItem = activeTab;        

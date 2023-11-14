@@ -49,6 +49,7 @@ namespace HFS_BE.Automapper
             OrderHistory();
             Cart();
             UserProfile();
+            ProfileImage();
             File();
             Category();
             FeedBack();
@@ -78,8 +79,8 @@ namespace HFS_BE.Automapper
             CreateMap<LoginInPutDto, Dao.AuthDao.AuthDaoInputDto>();
             CreateMap<RegisterDto, Dao.AuthDao.RegisterDto>();
             CreateMap<AuthDaoOutputDto, LoginOutputDto>();
-			CreateMap<AuthDaoOutputDto, LoginOutputDto>();
-			CreateMap<RegisterInputDto, RegisterDto>();
+            CreateMap<AuthDaoOutputDto, LoginOutputDto>();
+            CreateMap<RegisterInputDto, RegisterDto>();
             //CreateMap<DisplayShopOutputDto, BusinessLogic.Homepage.DisplayShopOutputDto>();
         }
 
@@ -238,7 +239,7 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Food.FoodImages.ToList().First().Path))
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Food.Category.Name));
 
-                    }
+        }
         public void OrderHistory()
         {
             CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>();
@@ -297,6 +298,14 @@ namespace HFS_BE.Automapper
             CreateMap<MenuModerator, UserProfile>()
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
             //.ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => DateOnly.FromDateTime(Convert.ToDateTime(src.BirthDate))));
+
+        }
+
+        public void ProfileImage()
+        {
+            CreateMap<BusinessLogic.ProfileImage.ProfileImageInputDto, DAO.ProfileImage.ProfileImageInputDto>();
+            CreateMap<DAO.ProfileImage.ProfileImageOutputDto, BusinessLogic.ProfileImage.ProfileImageOutputDto>();
+            CreateMap<DAO.ProfileImage.ProfileImageOutputDtoWrapper, BusinessLogic.ProfileImage.ProfileImageOutputDtoWrapper>();
         }
 
         public void File()
@@ -368,6 +377,9 @@ namespace HFS_BE.Automapper
         public void Notification()
         {
             CreateMap<NotificationAddNewInputDto, Notification>();
+            CreateMap<Notification, NotificationDaoOutputDto>()
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => NotificationTypeEnum.GetNotifyString(src.Type)))
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("MM/dd/yyyy hh:mm:ss tt")));
         }
 		public void Chat()
 		{

@@ -46,7 +46,7 @@ import {DatePipe} from '@angular/common';
 import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
 
 @Component({
-  selector: 'app-order-management',
+  selector: 'order-seller',
   templateUrl: './order-management.component.html',
   styleUrls: ['./order-management.component.scss'],
 })

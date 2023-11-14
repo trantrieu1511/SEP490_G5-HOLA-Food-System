@@ -25,7 +25,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [
-    
+    ShipperComponent
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy}

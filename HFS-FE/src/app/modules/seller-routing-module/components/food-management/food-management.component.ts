@@ -23,7 +23,7 @@ import { User } from 'src/app/services/auth.service';
 import { PresenceService } from 'src/app/services/presence.service';
 
 @Component({
-  selector: 'app-food-management',
+  selector: 'food-seller',
   templateUrl: './food-management.component.html',
   styleUrls: ['./food-management.component.scss']
 })
@@ -81,7 +81,6 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
   setCurrentUser(){
     const user: User = JSON.parse(localStorage.getItem('user'));
     const token=sessionStorage.getItem('JWT');
-debugger;
     if(user){
 
       this.presence.createHubConnection(token);

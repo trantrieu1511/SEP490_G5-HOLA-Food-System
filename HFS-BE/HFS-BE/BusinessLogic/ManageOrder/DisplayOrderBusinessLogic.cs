@@ -17,7 +17,7 @@ namespace HFS_BE.BusinessLogic.ManageOrder
 
         public OrderSellerDaoOutputDto ListOrder(OrderSellerByStatusInputDto inputDto)
         {
-            inputDto.UserId = "SE00000001";
+            /*inputDto.UserId = "SE00000001";*/
             // get orders
             var orderDao = CreateDao<OrderDao>();
             var orders = orderDao.GetOrderByStatus(inputDto);

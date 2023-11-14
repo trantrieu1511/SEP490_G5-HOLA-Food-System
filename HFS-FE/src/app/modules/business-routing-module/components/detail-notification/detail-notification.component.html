@@ -1,0 +1,19 @@
+<div class="grid table-demo" >
+    <div class="col-12">
+        <div class="card">
+            <div class="top">
+                <i class="pi pi-volume-up" style="font-size: 2rem"></i>
+                <div class="top-content">
+                    <h3 class="notify-title">{{notification.title}}</h3>
+                    <p class="create-date">{{notification.createDate}}</p>
+                </div>
+            </div>
+            <div class="content">
+                {{notification.content}}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>

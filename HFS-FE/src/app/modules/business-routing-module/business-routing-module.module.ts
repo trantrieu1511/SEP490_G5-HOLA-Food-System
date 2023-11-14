@@ -9,26 +9,41 @@ import { AppComponent } from 'src/app/app.component';
 import { ManagePostComponent } from './components/manage-post/manage-post.component';
 import { SharedModule } from '../shared-module/shared-module.module';
 import { ComponentModule } from '../components-module/component.modules';
+import { ManageNotificationComponent } from './components/manage-notification/manage-notification.component';
+import { DetailNotificationComponent } from './components/detail-notification/detail-notification.component';
+import { ManageFoodComponent } from './components/manage-food/manage-food.component';
+import { ManageOrderComponent } from './components/manage-order/manage-order.component';
 
-const routes: Routes = [
-  {path: 'post-management', component: ManagePostComponent},
-]
+// const routes: Routes = [
+//   {path: 'post-management', component: ManagePostComponent},
+//   {path: 'post-management/detail', component: DetailNotificationComponent},
+// ]
 
 @NgModule({
   declarations: [
-    ManagePostComponent
+    ManagePostComponent,
+    ManageNotificationComponent,
+    DetailNotificationComponent,
+    ManageFoodComponent,
+    ManageOrderComponent
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes),
+    SharedModule,
+    ComponentModule,
+    //RouterModule.forChild(routes),
     SellerRoutingModule,
     PostmoderatorRoutingModule,
-    //MenumoderatorRoutingModule,
-    //ShipperRoutingModule,
+    MenumoderatorRoutingModule,
+    ShipperRoutingModule,
 
   ],
   exports: [
-    ManagePostComponent
+    ManagePostComponent,
+    ManageNotificationComponent,
+    DetailNotificationComponent,
+    ManageFoodComponent,
+    ManageOrderComponent
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy}

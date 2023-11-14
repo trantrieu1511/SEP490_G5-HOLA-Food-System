@@ -18,24 +18,29 @@ import { PresenceService } from 'src/app/services/presence.service';
     animations: [
         trigger('topbarActionPanelAnimation', [
             transition(':enter', [
-                style({opacity: 0, transform: 'scaleY(0.8)'}),
-                animate('.12s cubic-bezier(0, 0, 0.2, 1)', style({opacity: 1, transform: '*'})),
+                style({ opacity: 0, transform: 'scaleY(0.8)' }),
+                animate('.12s cubic-bezier(0, 0, 0.2, 1)', style({ opacity: 1, transform: '*' })),
             ]),
             transition(':leave', [
-                animate('.1s linear', style({opacity: 0}))
+                animate('.1s linear', style({ opacity: 0 }))
             ])
         ])
     ]
 })
 export class AppTopBarComponent extends iComponentBase implements OnInit {
+
   @Output() toggleCustomerListEvent = new EventEmitter<void>();
+
+
+    isLoggedInState = false;
+
     constructor(public layoutService: LayoutService,
-                public app: AppComponent,
-                private router: Router,
-                private iServiceBase: iServiceBase,
-                private shareData: ShareData,
-                public messageService: MessageService,
-                public presence: PresenceService
+        public app: AppComponent,
+        private router: Router,
+        private iServiceBase: iServiceBase,
+        private shareData: ShareData,
+        public messageService: MessageService,
+        public presence: PresenceService
     ) {
         super(messageService);
     }
@@ -53,10 +58,10 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         }
     }
 
-    logOut(event : Event) {
+    logOut(event: Event) {
         //Logout thì xóa đi
         sessionStorage.clear();
-               localStorage.removeItem('user');
+        localStorage.removeItem('user');
         //Xóa hết đi các thứ linh tinh chỉ gán lại các thứ cấn thiết trong localstorage
         this.clearLocalStorage();
 
@@ -64,8 +69,8 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
 
         //this.router.navigate(['/login']);
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.router.navigate(['/login-2']);
-          window.location.reload();
+            this.router.navigate(['/login-2']);
+            window.location.reload();
         });
            this.router.navigate(['/login-2']);
     }
@@ -81,7 +86,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         localStorage.clear();
 
         //Set lại các thứ cần thiết
-        if(IP_API_SERVICE && IP_API_GATEWAY && VERSION && PROJECT_NAME){
+        if (IP_API_SERVICE && IP_API_GATEWAY && VERSION && PROJECT_NAME) {
             localStorage.setItem("APISERVICE", IP_API_SERVICE);
             localStorage.setItem("APIGATEWAY", IP_API_GATEWAY);
             localStorage.setItem("VERSION", VERSION);
@@ -89,12 +94,23 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         }
     }
 
-    viewProfile(){
+    viewProfile() {
         this.router.navigateByUrl('HFSBusiness');
     }
 
     ngOnInit() {
-
+        this.checkLoggedInState();
 
     }
+
+    checkLoggedInState() {
+        if (sessionStorage.getItem("userId") != null) {
+            this.isLoggedInState = true;
+        }
+    }
+
+    goToLoginBusinessPage() {
+        this.router.navigateByUrl('/login-2');
+    }
+
 }

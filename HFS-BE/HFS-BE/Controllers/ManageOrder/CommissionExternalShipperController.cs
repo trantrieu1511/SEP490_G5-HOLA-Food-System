@@ -5,6 +5,7 @@ using HFS_BE.Dao.OrderDao;
 using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -17,6 +18,7 @@ namespace HFS_BE.Controllers.ManageOrder
         }
 
         [HttpPost("orders/externalShipperOrderSeller")]
+        [Authorize]
         public BaseOutputDto CommissionExternal(OrderExternalInputDto input)
         {
             try

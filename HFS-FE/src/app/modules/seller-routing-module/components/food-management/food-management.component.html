@@ -150,7 +150,7 @@
                         </td>
                         <td style="text-align: center">
                             <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
-                                <div class="flex align-items-center justify-content-center">
+                                <div *ngIf="food.status !== 'Ban'" class="flex align-items-center justify-content-center">
                                     <button pButton pRipple icon="pi pi-pencil"
                                             (click)="onUpdateFood(food)"
                                             class="p-button-rounded p-mr-2"></button>

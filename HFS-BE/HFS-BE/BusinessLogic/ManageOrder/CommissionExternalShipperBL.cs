@@ -18,7 +18,7 @@ namespace HFS_BE.BusinessLogic.ManageOrder
         {
             try
             {
-                input.UserId = "SE00000001";
+                /*input.UserId = "SE00000001";*/
 
                 var orderDao = CreateDao<OrderDao>();
 

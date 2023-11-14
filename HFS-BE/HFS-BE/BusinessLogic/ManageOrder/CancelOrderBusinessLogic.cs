@@ -17,7 +17,7 @@ namespace HFS_BE.BusinessLogic.ManageOrder
         {
             try
             {
-                input.UserId = "SE00000001";
+                /*input.UserId = "SE00000001";*/
                 var daoOProgress = CreateDao<OrderProgressDao>();
                 //get orderprogress by inputDto.orderId
                 var orderProgresses = daoOProgress.GetOrderProgresByOrderId(input.OrderId);

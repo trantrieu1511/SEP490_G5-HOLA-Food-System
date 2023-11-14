@@ -8,18 +8,14 @@ import { PrimeNGConfig } from 'primeng/api';
 })
 export class AppComponent  {
   title = 'HFS-FE';
-role:string;
-
-isDivVisible: boolean = true;
+  role: string;
+  isDivVisible: boolean = true;
   constructor(private primengConfig: PrimeNGConfig) {
   }
 
   ngOnInit() {
       this.primengConfig.ripple = true;
-
-  }
-
-  toggleDivVisibility() {
+    this.role = sessionStorage.getItem('role');
     this.isDivVisible = !this.isDivVisible;
   }
-}
+  }

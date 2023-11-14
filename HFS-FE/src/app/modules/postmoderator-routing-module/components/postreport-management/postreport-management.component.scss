@@ -38,7 +38,7 @@
             padding: 1rem;
         }
 
-        .p-datatable-thead>tr>th {
+        .p-datatable-thead > tr > th {
             text-align: left;
         }
 
@@ -48,45 +48,43 @@
     }
 
     .p-datatable.p-datatable-customers:not(.p-datatable-gridlines) {
-        .p-datatable-tbody>tr>td {
+        .p-datatable-tbody > tr > td {
             cursor: auto;
         }
     }
 
     /* Responsive */
-    .p-datatable-customers .p-datatable-tbody>tr>td .p-column-title {
+    .p-datatable-customers .p-datatable-tbody > tr > td .p-column-title {
         display: none;
     }
 
-    .p-fileupload-buttonbar {
+    .p-fileupload-buttonbar{
         .p-button {
             width: auto;
         }
     }
 
-    .dialogimages_image {
-        span {
+    .dialogimages_image{
+        span{
             width: 10rem !important;
-
-            img {
+            img{
                 width: 100%;
                 object-fit: cover;
                 //width: 10rem !important;
             }
 
-            .p-image-mask {
-                .ng-trigger {
-                    text-align: center;
+            .p-image-mask{
+                .ng-trigger{
+                    text-align: center; 
                     padding-top: 3rem;
                     width: 100%;
                     height: 100%;
-
-                    img {
+                    img{
                         object-fit: contain;
                         width: 90%;
                         height: 90%;
                     }
-                }
+                } 
             }
         }
     }
@@ -188,51 +186,49 @@
     font-size: 1rem;
     font-weight: normal;
 
-    .p-float-label input:focus~label {
+    .p-float-label input:focus ~ label {
         font-size: 12px;
     }
 }
 
-.post-content {
+.post-content{
     overflow: hidden;
     text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
+     display:-webkit-box;
+    -webkit-line-clamp:2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-word;
 }
 
-.no-image {
-    font-style: italic;
-    font-size: 0.85rem;
+.no-image{
+    font-style: italic; 
+    font-size: 0.85rem; 
     text-decoration: underline;
 
-    &:hover {
+    &:hover{
         cursor: not-allowed;
     }
 }
 
-.post-content {
-    &:hover {
+.report-content{
+    &:hover{
         cursor: pointer;
-        color: #3498db;
-        /* Thay đổi màu sắc */
+        color: #3498db; /* Thay đổi màu sắc */
         text-decoration: underline;
     }
 }
 
-.post-id {
-    &:hover {
+.post-id{
+    &:hover{
         cursor: pointer;
-        color: #3498db;
-        /* Thay đổi màu sắc */
+        color: #3498db; /* Thay đổi màu sắc */
         text-decoration: underline;
     }
 }
 
-.dialog-content-detail {
+.dialog-content-detail{
     word-break: break-word;
 }
 
@@ -242,16 +238,15 @@
     :host ::ng-deep {
         .p-datatable {
             &.p-datatable-customers {
-
-                .p-datatable-thead>tr>th,
-                .p-datatable-tfoot>tr>td {
+                .p-datatable-thead > tr > th,
+                .p-datatable-tfoot > tr > td {
                     display: none !important;
                 }
 
-                .p-datatable-tbody>tr {
+                .p-datatable-tbody > tr {
                     border-bottom: 1px solid var(--surface-d);
 
-                    >td {
+                    > td {
                         text-align: left;
                         display: block;
                         border: 0 none !important;

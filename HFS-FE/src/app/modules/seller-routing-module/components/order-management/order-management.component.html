@@ -47,25 +47,25 @@
         <ng-template pTemplate="header">
           <tr class="tr-th_background-color">
             <th style="width: 5rem"></th>
-            <th pSortableColumn="name">
+            <th pSortableColumn="orderId">
               OrderId <p-sortIcon field="orderId"></p-sortIcon>
             </th>
-            <th pSortableColumn="Customer">
+            <th pSortableColumn="customerName">
               Customer <p-sortIcon field="customerName"></p-sortIcon>
             </th>
-            <th pSortableColumn="OrderDate">
+            <th pSortableColumn="orderDate">
               OrderDate <p-sortIcon field="orderDate"></p-sortIcon>
             </th>
-            <th pSortableColumn="rating">
+            <th pSortableColumn="shipAddress">
               Ship Address <p-sortIcon field="shipAddress"></p-sortIcon>
             </th>
-            <th pSortableColumn="inventoryStatus">
+            <th pSortableColumn="voucher">
               Voucher <p-sortIcon field="voucher"></p-sortIcon>
             </th>
-            <th pSortableColumn="inventoryStatus">
+            <th pSortableColumn="paymentMethod">
               Payment <p-sortIcon field="paymentMethod"></p-sortIcon>
             </th>
-            <th pSortableColumn="inventoryStatus">
+            <th pSortableColumn="totalPrice">
               Total Price <p-sortIcon field="totalPrice"></p-sortIcon>
             </th>
             <ng-container [ngSwitch]="activeItem.id">
@@ -102,14 +102,23 @@
             <td>{{ order.customerName }}</td>
             <td>{{ order.orderDate }}</td>
             <td>{{ order.shipAddress }}</td>
-            <td>(Id:{{order.voucherId}}) -{{ order.discountAmount | currency : "VND" }}</td>
+            <td *ngIf="order.voucherId; else noneVoucher">(Id:{{order.voucherId}}) -{{ order.discountAmount | currency : "VND" }}</td>
+            <ng-template #noneVoucher>
+              <td class="no-voucher">None</td>
+            </ng-template>
             <td>{{ order.paymentMethod }}</td>
             <td>{{ order.totalPrice | currency : "VND" }}</td>
 
             <ng-container [ngSwitch]="activeItem.id">
-              <ng-container *jrSwitchCases="['2', '3', '4', '5']"
-                ><td>{{ order.shipperId }}</td></ng-container
-              >
+              <ng-container *jrSwitchCases="['2']">
+                <td *ngIf="order.shipperId; else waitExternal">{{ order.shipperId }}</td>
+                <ng-template #waitExternal>
+                  <td class="no-voucher">Wait External</td>
+                </ng-template>
+              </ng-container>
+              <ng-container *jrSwitchCases="['3', '4', '5']">
+                <td>{{ order.shipperId }}</td>
+              </ng-container>
               <ng-container *ngSwitchDefault></ng-container>
             </ng-container>
 

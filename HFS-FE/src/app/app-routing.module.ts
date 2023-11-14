@@ -10,11 +10,16 @@ import { LoginComponent } from './login/login.component';
 import { ChatComponent } from './modules/chat/chat.component';
 import { RegisterComponent } from './register/register.component';
 import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
-import { ManageprofileComponent } from './modules/customer-routing-module/components/manageprofile/manageprofile.component';
 import { ForgotComponent } from './forgot/forgot.component';
 import { LoginNonCustomerComponent } from './login-non-customer/login-non-customer.component';
 import { SellerListComponent } from './seller-list/seller-list.component';
-import { ManagePostComponent } from './modules/business-routing-module/business-routing-mudule';
+import { 
+  DetailNotificationComponent,
+  ManageFoodComponent,
+  ManageNotificationComponent,
+  ManageOrderComponent,
+  ManagePostComponent 
+} from './modules/business-routing-module/business-routing-mudule';
 
 const routes: Routes = [
   // {
@@ -73,13 +78,35 @@ const routes: Routes = [
   },
   {
     path: 'HFSBusiness', 
-    // canActivate: [authGuard],
-    // data: { requiredRole: ['Admin', 'Shipper', 'Seller'] },
+    canActivate: [authGuard],
+    data: { requiredRole: ['Admin', 'Shipper', 'Seller', 'PostModerator', 'MenuModerator'] },
     component: AppManageLayoutComponent,
     children: [
       {
         path: 'post-management',
+        canActivate: [authGuard],
+        data: { requiredRole: ['Seller', 'PostModerator'] },
         component: ManagePostComponent
+      },
+      {
+        path: 'notify-management',
+        component: ManageNotificationComponent,
+      },
+      {
+        path: 'notify-management/detail/:id',
+        component: DetailNotificationComponent,
+      },
+      {
+        path: 'menu-management',
+        canActivate: [authGuard],
+        data: { requiredRole: ['Seller', 'MenuModerator'] },
+        component: ManageFoodComponent,
+      },
+      {
+        path: 'order-management',
+        canActivate: [authGuard],
+        data: { requiredRole: ['Seller', 'Shipper'] },
+        component: ManageOrderComponent,
       },
       {
         path: 'shipper',

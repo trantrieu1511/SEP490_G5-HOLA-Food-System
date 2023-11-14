@@ -2,12 +2,17 @@ import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { iServiceBase } from 'src/app/modules/shared-module/shared-module';
 import * as API from '../apiURL';
+import { RoleNames } from 'src/app/utils/roleName';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
-  constructor(private iServiceBase: iServiceBase) {}
+  constructor(
+    private iServiceBase: iServiceBase,
+    private authService: AuthService,
+    ) {}
 
   private hubConnection: signalR.HubConnection;
 
@@ -46,9 +51,8 @@ export class NotificationService {
     ignoreLoading?: boolean
   ): Promise<any> => {
     return new Promise((resolve, reject) => {
-      this.hubConnection.on('notification', async () => {
+      this.hubConnection.on(this.getMethodNameByRole(), async () => {
         try {
-          console.log("load lai noti")
           const result = await this.loadProdData(
             service,
             api,
@@ -86,5 +90,27 @@ export class NotificationService {
       inputData,
       ignoreLoading
     );
+  }
+
+  
+  getMethodNameByRole(): string{
+    let methodName;
+    switch (RoleNames[this.authService.getRole()]) {
+      case "PostModerator":
+        methodName = "postNotification"
+        break;
+      case "MenuModerator":
+        methodName = "foodNotification"
+        break;
+      case "Seller":
+      case "Customer":
+      case "Shipper":
+        methodName = "notification"
+        break;
+      default:
+        break;
+    }
+
+    return methodName;
   }
 }

@@ -108,7 +108,7 @@ namespace HFS_BE.Dao.PostDao
             }
             catch (Exception e)
             {
-                return this.Output<ListPostOutputSellerDto>(Constants.ResultCdFail);
+                return this.Output<ListPostOutputSellerDto>(Constants.ResultCdFail, e.Message + "\n" + e.Source + "\n" + e.StackTrace + "\n" + e.InnerException);
             }
         }
 
@@ -122,7 +122,7 @@ namespace HFS_BE.Dao.PostDao
                 {
                     CreatedDate = DateTime.Now,
                     PostContent = postDto.PostContent,
-                    Status = 1,
+                    Status = 0,
                     SellerId = postDto.UserDto.UserId
                 };
                 context.Add(post);

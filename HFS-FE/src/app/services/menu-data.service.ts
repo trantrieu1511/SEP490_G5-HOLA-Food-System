@@ -17,7 +17,7 @@ export class MenuDataService {
           {
             label: 'Notification',
             icon: 'pi pi-fw pi-bell',
-            routerLink: ['/HFSBusiness/notification'],
+            routerLink: ['/HFSBusiness/notify-management'],
             badgeClass: 'p-badge-info',
           },
           {
@@ -96,7 +96,7 @@ export class MenuDataService {
           {
             label: 'Notification',
             icon: 'pi pi-fw pi-bell',
-            routerLink: ['/HFSBusiness/notification'],
+            routerLink: ['/HFSBusiness/notify-management'],
             badgeClass: 'p-badge-info',
           },
           {
@@ -125,7 +125,7 @@ export class MenuDataService {
           {
             label: 'Notification',
             icon: 'pi pi-fw pi-bell',
-            routerLink: ['/HFSBusiness/notification'],
+            routerLink: ['/HFSBusiness/notify-management'],
             badgeClass: 'p-badge-info',
           },
           {
@@ -160,7 +160,7 @@ export class MenuDataService {
           {
             label: 'Notification',
             icon: 'pi pi-fw pi-bell',
-            routerLink: ['/HFSBusiness/notification'],
+            routerLink: ['/HFSBusiness/notify-management'],
             badgeClass: 'p-badge-info',
           },
           {
@@ -189,7 +189,7 @@ export class MenuDataService {
           {
             label: 'Notification',
             icon: 'pi pi-fw pi-bell',
-            routerLink: ['/HFSBusiness/notification'],
+            routerLink: ['/HFSBusiness/notify-management'],
             badgeClass: 'p-badge-info',
           },
           {

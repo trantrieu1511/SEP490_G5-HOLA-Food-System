@@ -21,7 +21,7 @@ namespace HFS_BE.Controllers.Profile
             try
             {
                 var business = GetBusinessLogic<EditProfileBusinessLogic>();
-                return business.EditProfile(inputDto);
+                return business.EditProfile(inputDto, GetUserInfor().UserId);
             }
             catch (Exception)
             {

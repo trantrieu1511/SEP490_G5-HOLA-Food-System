@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
+import { iComponentBase } from 'src/app/modules/shared-module/shared-module';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -10,8 +13,19 @@ import { AuthService } from 'src/app/services/auth.service';
       </ng-template> 
     `
 })
-export class ManagePostComponent{
-  constructor(public authService: AuthService){}
+export class ManagePostComponent extends iComponentBase{
+  constructor(
+    public authService: AuthService,
+    public breadcrumbService: AppBreadcrumbService,
+    public messageService: MessageService,
+  ){
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Post Management', routerLink: ['/HFSBusiness/post-management']}
+    ]);
+  }
 /*<ng-template *ngIf="authService.getRole() === 'SE'; else postModerator">
       <app-post-management></app-post-management>
     </ng-template>

@@ -1,0 +1,67 @@
+@media only screen and (max-width: 1200px) {
+    .profilePageContent {
+        width: 1300px;
+    }
+}
+
+.profilePageContent {
+    // width: 45%;
+    display: flex;
+    justify-content: center;
+}
+
+.field-info {
+    opacity: 75%;
+    width: 50%;
+}
+
+.field-title {
+    font-weight: bold;
+    width: 50%;
+}
+
+.profile-sidebar-option:hover {
+    // text-decoration: underline;
+    opacity: 60%;
+    background-color: beige;
+}
+
+.profile-sidebar-option {
+    padding: 10px 65% 10px 10px;
+    border-radius: 10px;
+}
+
+.profile-sidebar-option-selected {
+    // text-decoration: underline;
+    font-weight: bold;
+    background-color: beige;
+    padding: 10px 65% 10px 10px;
+    border-radius: 10px;
+}
+
+.profile-sidebar-option-selected:hover {
+    // text-decoration: underline;
+    font-weight: bold;
+    opacity: 60%;
+    background-color: beige;
+    padding: 10px 65% 10px 10px;
+    border-radius: 10px;
+}
+
+// .profile-sidebar-option-onselected {
+//     text-decoration: underline;
+// }
+
+// .profile-sidebar-option-onselected:hover {
+//     text-decoration: underline;
+//     background-color: grey;
+// }
+
+
+.verify-email-link:hover {
+    opacity: 60%;
+}
+
+.edit-email-link:hover {
+    opacity: 60%;
+}

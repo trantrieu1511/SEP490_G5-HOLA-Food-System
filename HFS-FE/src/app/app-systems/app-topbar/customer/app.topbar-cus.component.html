@@ -102,8 +102,8 @@
             <li *ngIf="isLoggedIn == true" class="layout-topbar-item">
                 <a class="layout-topbar-action flex flex-row justify-content-center align-items-center px-2 rounded-circle"
                     (click)="layoutService.onTopbarItemClick($event, 'profile')" pRipple>
-                    <img src="../../../assets/demo/images/avatar/amyelsner.png" alt="avatar"
-                        style="width: 32px; height: 32px;">
+                    <img src="{{topBarProfileImg.imageBase64 == undefined ? '../../../../assets/image/user.png' : 'data:image/gif;base64,' + topBarProfileImg.imageBase64}}"
+                        alt="avatar" style="width: 32px; height: 32px; border-radius: 50%;">
                 </a>
 
                 <ul class="layout-topbar-action-panel shadow-6" [@topbarActionPanelAnimation]="'visible'"
@@ -115,7 +115,7 @@
                             <span>Profile</span>
                         </a>
                     </li>
-                    <li class="layout-topbar-action-item">
+                    <!-- <li class="layout-topbar-action-item">
                         <a class="flex flex-row align-items-center" pRipple>
                             <i class="pi pi-file-o"
                                 [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>&nbsp;
@@ -128,7 +128,7 @@
                                 [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>&nbsp;
                             <span>Support</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="layout-topbar-action-item">
                         <a class="flex flex-row align-items-center" (click)="logOut($event)" pRipple>
                             <i class="pi pi-power-off"
@@ -138,7 +138,7 @@
                     </li>
                 </ul>
             </li>
-            <li *ngIf="!isLoggedIn" style="padding-top: 10px;">
+            <li *ngIf="!isLoggedIn" class="layout-topbar-item">
                 <a class="layout-topbar-action flex flex-row justify-content-center align-items-center px-2 rounded-circle"
                     (click)="goToLoginPage();" pRipple>
                     Login

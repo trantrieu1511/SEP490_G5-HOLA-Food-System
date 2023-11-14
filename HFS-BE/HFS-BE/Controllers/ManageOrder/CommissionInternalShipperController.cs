@@ -6,6 +6,7 @@ using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using System.Text.RegularExpressions;
@@ -19,6 +20,7 @@ namespace HFS_BE.Controllers.ManageOrder
         }
 
         [HttpPost("orders/internalShipperOrderSeller")]
+        [Authorize]
         public async Task<BaseOutputDto> CommissionInternal(OrderInternalInputDto input)
         {
             try
@@ -32,13 +34,11 @@ namespace HFS_BE.Controllers.ManageOrder
                 {
                     //notify for shipper
                     var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
-
                     await notifyHub.Clients.Group(input.ShipperId).SendAsync("notification");
-                    
 
                     // refresh data of shipperId
                     var dataRealTimeHub = _hubContextFactory.CreateHub<DataRealTimeHub>();
-                    await dataRealTimeHub.Clients.Group(input.ShipperId).SendAsync("shipperRealTime");
+                    await dataRealTimeHub.Clients.Group(input.ShipperId).SendAsync("orderShipperRealTime");
                     //await dataRealTimeHub.Clients.Group("SE00000001").SendAsync("dataRealTime");
 
                 }

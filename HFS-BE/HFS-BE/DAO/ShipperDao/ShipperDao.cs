@@ -17,8 +17,10 @@ namespace HFS_BE.DAO.ShipperDao
 
         public ShipperInforList GetShippersBySellerId(string sellerId)
         {
+            // get shipper of shop
+            // with condition: not ban and verified
             var data = context.Shippers
-                .Where(s => s.ManageBy.Equals(sellerId))
+                .Where(s => s.ManageBy.Equals(sellerId) && s.IsVerified == true && s.IsBanned == false)
                 .Select(s => mapper.Map<Shipper, ShipperInfor>(s))
                 .ToList();
             var output = Output<ShipperInforList>(Constants.ResultCdSuccess);

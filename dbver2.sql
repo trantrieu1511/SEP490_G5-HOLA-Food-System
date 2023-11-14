@@ -214,15 +214,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[NotificationType](
-	[id] [int] IDENTITY(1,1) NOT NULL,
-	[name] [nvarchar](max) NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
 /****** Object:  Table [dbo].[Notification]    Script Date: 09/10/2023 11:11:40 CH ******/
 SET ANSI_NULLS ON
 GO
@@ -232,13 +223,12 @@ CREATE TABLE [dbo].[Notification](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[sendBy] [nvarchar](50) null,
 	[receiver] [nvarchar](50) null,
-	[typeId] [int] NOT NULL,
+	[type] [int] NOT NULL,
 	[title] [nvarchar](50) NULL,
 	[content] [nvarchar](500) NULL,
 	[createDate] [datetime] NULL,
 	[isRead] [bit] NULL,
 	primary key([id]),
-	Foreign Key ([typeId]) REFERENCES [NotificationType]([id]),
 	)
 GO
 
@@ -535,6 +525,7 @@ CREATE TABLE Connections (
 );
 CREATE TABLE [ProfileImage] (
 	[imageId] [int] PRIMARY KEY IDENTITY(1, 1),
-	[userId] [int] NULL,
-	[path] [nvarchar](max) NULL,
+	[userId] NVARCHAR(50) NOT NULL,
+	[path] [nvarchar](max) NOT NULL,
+	[isReplaced] [bit] NOT NULL, -- 0: Tức là hình ảnh vẫn còn đang được sử dụng và chưa bị thay thế. 1: Hình ảnh đã bị thay thế bởi người dùng.
 )
