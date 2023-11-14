@@ -119,5 +119,25 @@ namespace HFS_BE.DAO.PostReportDao
                 return Output<BaseOutputDto>(Constants.ResultCdFail, e.Message + e.Source + e.StackTrace + e.InnerException);
             }
         }
+
+        public BaseOutputDto CancelPostReport(CancelPostReportInputDto inputDto, string customerId)
+        {
+            try
+            {
+                // Lay ra ban ghi report ma customer muon cancel o trong context
+                PostReport? postReport = context.PostReports.Find(new object[] { inputDto.PostId, customerId });
+                if (postReport == null) return Output<BaseOutputDto>(Constants.ResultCdSuccess, $"Cannot find the post report with id: {inputDto.PostId} of user with id: {customerId}");
+                postReport.Status = 3; // Set status to cancel, and the customer cannot undo this action
+                postReport.Note = $"Cancel reason: {inputDto.Note}"; // Reason is required
+                context.SaveChanges();
+
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception e)
+            {
+                return Output<BaseOutputDto>(Constants.ResultCdFail, e.Message + e.Source + e.StackTrace + e.InnerException);
+                throw;
+            }
+        }
     }
 }
