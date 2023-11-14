@@ -13,6 +13,7 @@ import { ShopdetailComponent } from './components/shopdetail/shopdetail.componen
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ManageprofileComponent } from './components/manageprofile/manageprofile.component';
 import { OrderhistoryComponent } from './components/orderhistory/orderhistory.component';
+import { NewfeedComponent } from './components/newfeed/newfeed.component';
 
 
 
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path: "cartdetail", component: CartdetailComponent},
   {path: "checkout", component : CheckoutComponent},
   {path: "profile", component : ManageprofileComponent},
-  {path: "orderhistory", component : OrderhistoryComponent}
+  {path: "orderhistory", component : OrderhistoryComponent},
+  {path: "newfeed", component : NewfeedComponent}
 ]
 
 @NgModule({

@@ -3,18 +3,20 @@ using HFS_BE.Base;
 using HFS_BE.BusinessLogic.OrderShipper;
 using HFS_BE.Dao.OrderDao;
 using HFS_BE.DAO.OrderProgressDao;
+using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace HFS_BE.Controllers.OrderShipper
 {
     //[Authorize(Roles = "4")]
-    public class OrderOnShipperController : BaseController
+    public class OrderOnShipperController : BaseControllerSignalR
     {
-        public OrderOnShipperController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public OrderOnShipperController(SEP490_HFS_2Context context, IMapper mapper, IHubContextFactory hubContextFactory) : base(context, mapper, hubContextFactory)
         {
         }
 
@@ -23,11 +25,8 @@ namespace HFS_BE.Controllers.OrderShipper
         {
             try
             {
-
                 var busi = this.GetBusinessLogic<OrderShipperBusinessLogic>();                
-                return busi.ListOrderShipper(inputDto);
-
-                
+                return busi.ListOrderShipper(inputDto);   
             }
             catch (Exception)
             {
@@ -37,7 +36,7 @@ namespace HFS_BE.Controllers.OrderShipper
 
         [HttpPost("shipper/orderprogress")]
         //[Authorize(Roles = "SH")]
-        public BaseOutputDto CreateOrderProgress([FromForm] OrderProgressControllerInputDto inputDto)
+        public async Task<BaseOutputDto> CreateOrderProgress([FromForm] OrderProgressControllerInputDto inputDto)
         {
             try
             {
@@ -46,7 +45,21 @@ namespace HFS_BE.Controllers.OrderShipper
                 var inputBL = mapper.Map<Controllers.OrderShipper.OrderProgressControllerInputDto,
                     BusinessLogic.OrderShipper.OrderProgressBusinessLogicInputDto>(inputDto);
                 inputBL.UserDto = this.GetUserInfor();
-                return busi.CreateOrderProgress(inputBL);
+                string? customerId = "";
+                List<Models.Admin> admins = new List<Models.Admin>();
+                var output = busi.CreateOrderProgress(inputBL, out customerId, out admins);
+                if (output.Success)
+                {
+                    //notify for customer
+                    var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
+                    await notifyHub.Clients.Group(customerId).SendAsync("notification");
+
+                    foreach(var ad in admins)
+                    {
+                        await notifyHub.Clients.Group(ad.AdminId).SendAsync("notification");
+                    }
+                }
+                return output;
             }
             catch (Exception)
             {

@@ -69,17 +69,10 @@ namespace HFS_BE.BusinessLogic.ManageFood
                 var moderList = moderatorDao.GetAllMenuModerator();
                 foreach(var moder in moderList.data)
                 {
-                    NotificationAddNewInputDto inputNoti = new NotificationAddNewInputDto
-                    {
-                        CreateDate = DateTime.Now,
-                        SendBy = "System",
-                        Receiver = moder.ModId,
-                        Type = NotificationTypeEnum.GetNotifyValue("System")
-                    };
                     // 2. gen title and content notification
-                    GenerateNotification.GetSingleton().GenNotificationAddNewFood(inputNoti, output.FoodId);
+                    var notify = GenerateNotification.GetSingleton().GenNotificationAddNewFood(moder.ModId, output.FoodId);
                     //3. add notify
-                    var noti = notifyDao.AddNewNotification(inputNoti);
+                    var noti = notifyDao.AddNewNotification(notify);
                     if (!noti.Success)
                     {
                         return this.Output<BaseOutputDto>(Constants.ResultCdFail);

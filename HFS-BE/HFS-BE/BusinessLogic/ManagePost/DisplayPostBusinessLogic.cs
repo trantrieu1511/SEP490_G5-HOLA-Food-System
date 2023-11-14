@@ -27,18 +27,23 @@ namespace HFS_BE.BusinessLogic.ManagePost
 
                 var Dao = this.CreateDao<PostDao>();
 
-
-                // Seller
-                Dao.PostDao.ListPostOutputSellerDto daoOutput = Dao.GetAllPostSeller(userDto);
-
-                // post moderator thì gọi method dao khác select thêm shopID nx 
-                // output thêm trường shopId r -> xài dùng output ListPostOutputSellerDto
-                // thiêm truòng j trả về thì thềm vào ListPostOutputSellerDto ở BL, Dao - OK
-
-                // Post moderator
-                if (userDto.UserId.Substring(0, 2).Equals("PM"))
+                Dao.PostDao.ListPostOutputSellerDto daoOutput = new Dao.PostDao.ListPostOutputSellerDto();
+                switch (userDto.UserId.Substring(0, 2)) // Lay user role key
                 {
-                    daoOutput = Dao.GetAllPostPostModerator();
+                    case "SE":
+                        // Seller
+                        daoOutput = Dao.GetAllPostSeller(userDto);
+                        break;
+                    case "PM":
+                        // post moderator thì gọi method dao khác select thêm shopID nx 
+                        // output thêm trường shopId r -> xài dùng output ListPostOutputSellerDto
+                        // thiêm truòng j trả về thì thềm vào ListPostOutputSellerDto ở BL, Dao - OK
+
+                        // Post moderator
+                        daoOutput = Dao.GetAllPostPostModerator();
+                        break;
+                    default:
+                        break;
                 }
                 var output = mapper.Map<Dao.PostDao.ListPostOutputSellerDto, ListPostOutputSellerDto>(daoOutput);
 

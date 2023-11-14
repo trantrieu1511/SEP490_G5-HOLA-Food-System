@@ -26,21 +26,26 @@ namespace HFS_BE.Controllers.Cart
                 var busi = this.GetBusinessLogic<CheckOutBusinessLogic>();
                 var result = busi.CheckOutCart(inputDto);
 
-                if (result.Success)
+                if (!result.Success)
                 {
-                    //notify for seller
-                    var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
-                    // refresh data of seller
-                    var dataRealTimeHub = _hubContextFactory.CreateHub<DataRealTimeHub>();
-
-                    foreach (var shop in inputDto.ListShop)
-                    {
-                        await notifyHub.Clients.Group(shop.ShopId).SendAsync("notification");
-                        await dataRealTimeHub.Clients.Group(shop.ShopId).SendAsync("orderSellerRealTime");
-                    }
+                    var output = Output<BaseOutputDto>(Constants.ResultCdFail);
+                    output.Errors = result.Errors;
+                    output.Message = result.Message;
+                    return output;
                 }
 
-                return result;
+                //notify for seller
+                var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
+                // refresh data of seller
+                var dataRealTimeHub = _hubContextFactory.CreateHub<DataRealTimeHub>();
+
+                foreach (var shop in inputDto.ListShop)
+                {
+                    await notifyHub.Clients.Group(shop.ShopId).SendAsync("notification");
+                    await dataRealTimeHub.Clients.Group(shop.ShopId).SendAsync("orderSellerRealTime");
+                }
+
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
             catch (Exception)
             {

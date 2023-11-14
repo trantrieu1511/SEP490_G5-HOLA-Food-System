@@ -7,6 +7,7 @@ namespace HFS_BE.Models
     {
         public Post()
         {
+            Comments = new HashSet<Comment>();
             PostImages = new HashSet<PostImage>();
             PostReports = new HashSet<PostReport>();
         }
@@ -18,6 +19,7 @@ namespace HFS_BE.Models
         public byte? Status { get; set; }
 
         public virtual Seller Seller { get; set; } = null!;
+        public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<PostImage> PostImages { get; set; }
         public virtual ICollection<PostReport> PostReports { get; set; }
     }

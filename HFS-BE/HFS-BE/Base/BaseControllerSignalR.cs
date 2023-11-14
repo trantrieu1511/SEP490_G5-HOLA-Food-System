@@ -23,7 +23,7 @@ namespace HFS_BE.Base
             this.context = context;
             this.mapper = mapper;
             _hubContextFactory = hubContextFactory;
-            this.context.Database.BeginTransaction();
+            //this.context.Database.BeginTransaction();
         }
 
 
@@ -36,7 +36,8 @@ namespace HFS_BE.Base
         [NonAction]
         public T Output<T>(bool success) where T : BaseOutputDto, new()
         {
-            if (!success) this.context.Database.RollbackTransaction();
+            //if (!success) this.context.Database.RollbackTransaction();
+            //else context.Database.CommitTransaction();
             return new T
             {
                 Message = success ? "Success" : "Fail",
@@ -48,7 +49,8 @@ namespace HFS_BE.Base
         [NonAction]
         public T Output<T>(bool success, string content) where T : BaseOutputDto, new()
         {
-            if (!success) this.context.Database.RollbackTransaction();
+            //if (!success) this.context.Database.RollbackTransaction();
+            //else context.Database.CommitTransaction();
             return new T
             {
                 Message = success ? "Success" : content,

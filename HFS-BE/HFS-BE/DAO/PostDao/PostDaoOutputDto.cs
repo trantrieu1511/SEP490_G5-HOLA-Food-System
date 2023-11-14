@@ -38,4 +38,21 @@ namespace HFS_BE.Dao.PostDao
     {
         public List<PostOutputSellerDto> Posts { get; set; }
     }
+
+    public class PostByCustomerOutputDto
+    {
+        public int PostId { get; set; }
+        public string? SellerId { get; set; }
+        public string? ShopName { get; set; }
+        public string? PostContent { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public byte? Status { get; set; }
+        public List<PostImage> PostImages { get; set; }
+
+    }
+
+    public class ListPostByCustomerOutputDto : BaseOutputDto
+    {
+        public List<PostByCustomerOutputDto> Posts { get; set; }
+    }
 }
