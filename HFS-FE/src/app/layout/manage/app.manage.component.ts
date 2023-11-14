@@ -15,7 +15,11 @@ export class AppManageLayoutComponent implements AfterViewInit, OnInit, OnDestro
 
   constructor(public renderer: Renderer2, private menuService: MenuService,
     public layoutService: LayoutService, private router: Router) { }
+    isCustomerListVisible: boolean = false;
 
+    toggleCustomerList() {
+      this.isCustomerListVisible = !this.isCustomerListVisible;
+    }
   ngOnInit(): void {
     this.layoutService.state.menuActive = this.layoutService.isStatic()
       && !this.layoutService.isMobile();

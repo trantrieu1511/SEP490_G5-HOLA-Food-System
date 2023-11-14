@@ -78,16 +78,23 @@
     </div>
 </p-dialog> -->
 
-<div class="profilePageContent" style="display: flex; justify-content: center;">
-    <div class="card" style="width: 15%;">
-        <a href="javascript:void(0)">Profile</a>
-        <hr>
-        <a href="javascript:void(0)">MyOrder</a>
+
+<div class="profilePageContent">
+    <div class="card profile-sidebar">
+        <a id="profile-option" class="profile-sidebar-option-selected" href="#" onclick="event.preventDefault();">Profile</a>
+        <div class="dash-line"></div>
+        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">Order</a>
+        <div class="dash-line"></div>
+        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">Ship address</a>
+        <div class="dash-line"></div>
+        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">Post report</a>
+        <div class="dash-line"></div>
+        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">Menu report</a>
         <!-- <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">Profile</button><hr>
         <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">MyOrder</button> -->
     </div>
 
-    <div class="card" style="width: 60%;">
+    <div class="card profile-main-body">
         <h2>Manage profile</h2>
         <hr>
         <div class="grid grid-nogutter">
@@ -98,7 +105,7 @@
                 <br><br>
                 <!-- <p-button >import img</p-button> -->
                 <p-fileUpload [files]="uploadedFiles" mode="basic"
-                    [chooseLabel]="profileImage.imageBase64 === null ? 'Add profile image':'Edit profile image'"
+                    [chooseLabel]="profileImage.imageBase64 == undefined ? 'Add profile image':'Edit profile image'"
                     name="demo[]" [showUploadButton]="false" [customUpload]="true" accept="image/*"
                     [maxFileSize]="1000000" (onSelect)="handleFileSelection($event);" [auto]="true"></p-fileUpload>
 
@@ -106,39 +113,60 @@
             </div>
             <div class="col-6 md:col-6">
                 <div style="display: flex;">
-                    <h5 style="width: 50%;">Lastname: </h5>
-                    <p style="width: 50%;">{{profileDisplay.lastName}}</p>
+                    <p class="field-title">Lastname: </p>
+                    <p class="field-info">{{profileDisplay.lastName}}</p>
                 </div>
                 <hr>
                 <div style="display: flex;">
-                    <h5 style="width: 50%;">Firstname: </h5>
-                    <p style="width: 50%;">{{profileDisplay.firstName}}</p>
+                    <p class="field-title">Firstname: </p>
+                    <p class="field-info">{{profileDisplay.firstName}}</p>
                     <!-- Interpolation: Thường được dùng để hiển thị dữ liệu từ file ts lên template. Syntax: {{ expression }} -->
                 </div>
                 <hr>
                 <div style="display: flex;">
-                    <h5 style="width: 50%;">Gender: </h5>
-                    <p style="width: 50%;">{{profileDisplay.gender}}</p>
+                    <p class="field-title">Gender: </p>
+                    <p class="field-info">{{profileDisplay.gender}}</p>
                 </div>
                 <hr>
                 <div style="display: flex;">
-                    <h5 style="width: 50%;">BirthDate: </h5>
-                    <p style="width: 50%;">{{profileDisplay.birthDate}}</p>
+                    <p class="field-title">BirthDate: </p>
+                    <p class="field-info">{{profileDisplay.birthDate}}</p>
                 </div>
                 <hr>
                 <div style="display: flex;">
-                    <h5 style="width: 50%;">Email: </h5>
-                    <p style="width: 50%;">{{profileDisplay.email}}</p>
+                    <p class="field-title">Email: </p>
+                    <div class="field-info" *ngIf="profileDisplay.email != undefined else RegisterEmail">
+                        {{profileDisplay.email}} <i *ngIf="profileDisplay.isVerified" class="pi pi-verified" style="color: green;"></i>
+                        <div>
+                            <a style="color: #6366F1;" class="edit-email-link" href="#" onClick="event.preventDefault();"
+                                (click)="doSomething();">Edit email</a>
+                        </div>
+                        <div>
+                            <a style="color: #6366F1;" class="verify-email-link" href="#" onClick="event.preventDefault();"
+                                (click)="doSomething();">Verify email</a>
+                        </div>
+
+                    </div>
+                    <ng-template #RegisterEmail>
+                        <p class="field-info"><p-button [text]="true">Add an email</p-button></p>
+                    </ng-template>
                 </div>
                 <hr>
                 <div style="display: flex;">
-                    <h5 style="width: 50%;">Phonenumber: </h5>
-                    <p style="width: 50%;">{{profileDisplay.phoneNumber}}</p>
+                    <p class="field-title">Phonenumber: </p>
+                    <p class="field-info" *ngIf="profileDisplay.phoneNumber != undefined else RegisterPhoneNumber">
+                        {{profileDisplay.phoneNumber}}<p-button [text]="true" (onClick)="editPhoneNumber();">Edit
+                            phonenumber</p-button></p>
+                    <ng-template #RegisterPhoneNumber>
+                        <p class="field-info"><p-button [text]="true" (onclick)="doSomething();">Add a
+                                phonenumber</p-button></p>
+                    </ng-template>
+
                     <!-- <a style="width: 50%;">Add a phone number</a> -->
                 </div>
                 <hr>
                 <!-- <div style="display: flex;">
-                    <h5 style="width: 50%;">Walletbalance: </h5>
+                    <p style="width: 50%;">Walletbalance: </p>
                     <p style="width: 50%;">{{profileDisplay.walletBalance == null ? "0": profileDisplay.walletBalance}}
                     </p>
                 </div> -->

@@ -43,12 +43,19 @@ import { ManagePostmoderatorModuleComponent } from './modules/admin-routing-modu
 import { SellerListComponent } from './seller-list/seller-list.component';
 import { FoodManagementComponent } from './modules/menumoderator-routing-module/components/food-management/food-management.component';
 import { VoucherManagementComponent } from './modules/seller-routing-module/components/voucher-management/voucher-management.component';
+import { InvitationShipperComponent } from './modules/seller-routing-module/components/invitation-shipper/invitation-shipper.component';
+import { ManageSellerModuleComponent } from './modules/admin-routing-module/manage-seller-module/manage-seller-module.component';
+import { ManageShipperModuleComponent } from './modules/admin-routing-module/manage-shipper-module/manage-shipper-module.component';
+import { ChatboxComponent } from './chatbox/chatbox.component';
 import { ProfileManagementComponent } from './modules/seller-routing-module/components/profile-management/profile-management.component';
 import { OrderhistoryComponent } from './modules/customer-routing-module/components/orderhistory/orderhistory.component';
 import { MenuDataService } from './services/menu-data.service';
 import { BusinessRoutingModule } from './modules/business-routing-module/business-routing-module.module';
 import { WalletComponent } from './modules/customer-routing-module/components/wallet/wallet.component';
 import { PaymentverifyComponent } from './modules/customer-routing-module/components/paymentverify/paymentverify.component';
+import { CustomerListByChatComponent } from './customer-list-by-chat/customer-list-by-chat.component';
+
+
 
 @NgModule({
   declarations: [
@@ -70,16 +77,21 @@ import { PaymentverifyComponent } from './modules/customer-routing-module/compon
     LoginNonCustomerComponent,
     ManageCustomerModuleComponent,
     ManagePostmoderatorModuleComponent,
-    SellerListComponent,
     VoucherManagementComponent,
+    InvitationShipperComponent,
+    ManageSellerModuleComponent,
+    ManageShipperModuleComponent,
+    ProfileManagementComponent,
     ProfileManagementComponent,
     OrderhistoryComponent,
     WalletComponent,
-    PaymentverifyComponent
+    PaymentverifyComponent,
+    OrderhistoryComponent
+
+
     
   ],
   imports: [
-    BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,

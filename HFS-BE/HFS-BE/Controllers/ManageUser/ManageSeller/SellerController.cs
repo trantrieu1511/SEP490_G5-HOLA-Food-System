@@ -31,5 +31,50 @@ namespace HFS_BE.Controllers.ManageUser.ManageSeller
 				throw;
 			}
 		}
+		[HttpPost("users/banseller")]
+
+		public BaseOutputDto BanSeller(BanSellerDtoInput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<SellerBusinessLogic>();
+				var output = business.BanSeller(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+		[HttpPost("users/activeseller")]
+
+		public BaseOutputDto AciveSeller(ActiveSellerDtoInput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<SellerBusinessLogic>();
+				var output = business.ActiveSeller(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+		[HttpPost("users/bansellerhistory")]
+
+		public BaseOutputDto ListHistoryBanSeller(BanSellerHistoryDtoInput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<SellerBusinessLogic>();
+				var output = business.ListHistoryBanSeller(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
 	}
 }

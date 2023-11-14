@@ -15,6 +15,7 @@ import { ManageprofileComponent } from './components/manageprofile/manageprofile
 import { OrderhistoryComponent } from './components/orderhistory/orderhistory.component';
 import { WalletComponent } from './components/wallet/wallet.component';
 import { PaymentverifyComponent } from './components/paymentverify/paymentverify.component';
+import { NewfeedComponent } from './components/newfeed/newfeed.component';
 
 
 
@@ -27,7 +28,8 @@ const routes: Routes = [
   {path: "profile", component : ManageprofileComponent},
   {path: "orderhistory", component : OrderhistoryComponent},
   {path: "wallet", component : WalletComponent},
-  {path: "paymentverify", component : PaymentverifyComponent}
+  {path: "paymentverify", component : PaymentverifyComponent},
+  {path: "newfeed", component : NewfeedComponent}
 ]
 
 

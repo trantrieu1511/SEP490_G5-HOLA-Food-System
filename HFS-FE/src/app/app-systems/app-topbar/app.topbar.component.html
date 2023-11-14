@@ -25,7 +25,10 @@
                         (click)="layoutService.onTopbarItemClick($event, 'search')" pRipple>
                         <i class="pi pi-search fs-large"></i>
                     </a>
-
+                    <a class="layout-topbar-action rounded-circle"
+                    (click)="toggleCustomerList()" pRipple>
+                    <i class="pi pi-comment fs-large"></i>
+                </a>
                     <div class="layout-search-panel p-inputgroup" [@topbarActionPanelAnimation]="'visible'"
                         *ngIf="layoutService.state.search"
                         (@topbarActionPanelAnimation.done)="onSearchAnimationEnd($event)">
@@ -127,7 +130,7 @@
                                 <span>My profile</span>
                             </a>
                         </li>
-                        <li class="layout-topbar-action-item">
+                        <!-- <li class="layout-topbar-action-item">
                             <a class="flex flex-row align-items-center" pRipple>
                                 <i class="pi pi-file-o"
                                     [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>
@@ -140,7 +143,7 @@
                                     [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>
                                 <span>Support</span>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="layout-topbar-action-item">
                             <a class="flex flex-row align-items-center" (click)="logOut($event)" pRipple>
                                 <i class="pi pi-power-off"
@@ -151,8 +154,7 @@
                     </ul>
                 </li>
                 <li class="layout-topbar-item" *ngIf="!isLoggedInState">
-                    <a class="layout-topbar-action rounded-circle"
-                        (click)="goToLoginBusinessPage();" pRipple>
+                    <a class="layout-topbar-action rounded-circle" (click)="goToLoginBusinessPage();" pRipple>
                         <span class="p-overlay-badge">
                             <!-- <i class="pi pi-sign-in fs-large"></i> -->
                             <span>Login</span>

@@ -1,10 +1,14 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable, throwError} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
+import { Router } from "@angular/router";
 
 @Injectable()
 export class MyHttpInterceptor implements HttpInterceptor {
+
+	constructor(private router: Router) {
+    }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -21,8 +25,10 @@ export class MyHttpInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(
             catchError((err: any) => {
                     if (err.status === 401) {
-                        console.log(401);
-                        return throwError(() => err);
+                        //UnAuthorized
+						this.router.navigateByUrl(`/login`);
+						window.location.reload();
+                        return of(err.message);
                     } else {
                         //console.log("interceptor", err.error);
                         //const error = err.error.message || err.statusText;

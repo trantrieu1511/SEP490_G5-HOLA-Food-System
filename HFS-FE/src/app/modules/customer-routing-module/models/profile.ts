@@ -28,6 +28,7 @@ export class ProfileDisplay {
     shopName: string;
     shopAddress: string;
     isOnline: boolean;
+    isVerified: boolean;
     walletBalance: number;
     manageBy: number;
 }

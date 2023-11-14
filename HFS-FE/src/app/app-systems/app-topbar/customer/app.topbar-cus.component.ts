@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { animate, AnimationEvent, style, transition, trigger } from '@angular/animations';
 import { MegaMenuItem, MessageService } from 'primeng/api';
 import { Router } from "@angular/router";
@@ -33,8 +33,9 @@ import { ProfileImage } from 'src/app/modules/customer-routing-module/models/pro
     providers: [ManageprofileComponent]
 })
 export class AppCustomerTopBarComponent extends iComponentBase implements OnInit {
-
+  @Output() toggleSellerListEvent = new EventEmitter<void>();
     isLoggedIn: boolean = false;
+    // isReloaded: boolean = false;
     topBarProfileImg: ProfileImage = new ProfileImage();
 
     constructor(public layoutService: CustomerLayoutService,
@@ -51,7 +52,9 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
     @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
 
     @ViewChild('topbarmenu') menu!: ElementRef;
-
+    toggleSellerList() {
+      this.toggleSellerListEvent.emit();
+    }
     goToNewsFeedPage() {
         this.router.navigateByUrl('/newsfeed');
     }
@@ -67,11 +70,16 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
         }
     }
 
+    // reloadPage(){
+    //     window.location.reload();
+    // }
+
     async ngOnInit() {
         this.checkUserLoggedInState();
         await this.profileService.getProfileImage();
         this.topBarProfileImg = this.profileService.profileImage;
-        console.log(this.topBarProfileImg);
+        console.log("Top bar profile img: ");
+        console.log( this.topBarProfileImg);
     }
 
     logOut(event: Event) {
@@ -87,6 +95,7 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
             this.router.navigate(['/login']);
             window.location.reload();
         });
+            this.router.navigate(['/login']);
     }
 
     clearLocalStorage() {

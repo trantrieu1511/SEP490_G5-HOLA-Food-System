@@ -19,6 +19,8 @@ import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.ser
 import { Notification } from 'src/app/modules/shared-module/models/notification.model';
 import { ScrollerLazyLoadEvent } from 'primeng/scroller';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { RoleNames } from 'src/app/utils/roleName';
 
 
 
@@ -38,7 +40,8 @@ export class ManageNotificationComponent extends iComponentBase implements OnIni
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private signalRService: DataRealTimeService,
-    private _route: Router
+    private _route: Router,
+    public authService: AuthService
   ){
     super(messageService, breadcrumbService);
 
@@ -96,8 +99,11 @@ export class ManageNotificationComponent extends iComponentBase implements OnIni
   }
 
   onViewDetaialNotify(notifyId: number){
-
+    var url = `/notify-management/detail/${notifyId}`;
+    if(RoleNames[this.authService.getRole()] != 'Customer'){
+      url = 'HFSBusiness' + url;
+    }
     // move to page read
-    this._route.navigate([`HFSBusiness/notify-management/detail/${notifyId}`]);
+    this._route.navigate([url]);
   }
 }

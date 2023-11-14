@@ -93,7 +93,7 @@ namespace HFS_BE.DAO.NotificationDao
         {
             try
             {
-                // getall notify unread
+                // get all notify unread
                 var output = context.Notifications
                     .Where(x => x.Receiver.Equals(inputDto.Receiver) && x.IsRead == false)
                     .ToList();

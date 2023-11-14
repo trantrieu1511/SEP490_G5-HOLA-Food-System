@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -19,7 +19,9 @@ namespace HFS_BE.Models
         public virtual DbSet<Admin> Admins { get; set; } = null!;
         public virtual DbSet<CartItem> CartItems { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
-        public virtual DbSet<Chat> Chats { get; set; } = null!;
+        public virtual DbSet<ChatMessage> ChatMessages { get; set; } = null!;
+        public virtual DbSet<Connection> Connections { get; set; } = null!;
+        public virtual DbSet<Comment> Comments { get; set; } = null!;
         public virtual DbSet<Customer> Customers { get; set; } = null!;
         public virtual DbSet<CustomerBan> CustomerBans { get; set; } = null!;
         public virtual DbSet<Feedback> Feedbacks { get; set; } = null!;
@@ -27,6 +29,8 @@ namespace HFS_BE.Models
         public virtual DbSet<FeedbackVote> FeedbackVotes { get; set; } = null!;
         public virtual DbSet<Food> Foods { get; set; } = null!;
         public virtual DbSet<FoodImage> FoodImages { get; set; } = null!;
+        public virtual DbSet<Group> Groups { get; set; } = null!;
+        public virtual DbSet<Invitation> Invitations { get; set; } = null!;
         public virtual DbSet<MenuModerator> MenuModerators { get; set; } = null!;
         public virtual DbSet<MenuReport> MenuReports { get; set; } = null!;
         public virtual DbSet<Notification> Notifications { get; set; } = null!;
@@ -43,6 +47,7 @@ namespace HFS_BE.Models
         public virtual DbSet<ShipAddress> ShipAddresses { get; set; } = null!;
         public virtual DbSet<Shipper> Shippers { get; set; } = null!;
         public virtual DbSet<TransactionHistory> TransactionHistories { get; set; } = null!;
+        public virtual DbSet<ShipperBan> ShipperBans { get; set; } = null!;
         public virtual DbSet<Voucher> Vouchers { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -61,6 +66,7 @@ namespace HFS_BE.Models
                 entity.ToTable("Admin");
 
                 entity.HasIndex(e => e.Email, "UQ__Admin__AB6E616447215C91")
+                entity.HasIndex(e => e.Email, "UQ__Admin__AB6E616492E66DA9")
                     .IsUnique();
 
                 entity.Property(e => e.AdminId)
@@ -110,7 +116,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<CartItem>(entity =>
             {
                 entity.HasKey(e => new { e.FoodId, e.CartId })
-                    .HasName("PK__CartItem__E3FF5A02BD917230");
+                    .HasName("PK__CartItem__E3FF5A02110EFB72");
 
                 entity.ToTable("CartItem");
 
@@ -148,46 +154,87 @@ namespace HFS_BE.Models
                 entity.Property(e => e.Status).HasColumnName("status");
             });
 
-            modelBuilder.Entity<Chat>(entity =>
+            modelBuilder.Entity<ChatMessage>(entity =>
             {
-                entity.ToTable("Chat");
+                entity.HasKey(e => e.MessageId)
+                    .HasName("PK__ChatMess__C87C0C9C8D6B25DB");
 
-                entity.Property(e => e.ReceiverId).HasMaxLength(50);
+                entity.ToTable("ChatMessage");
 
-                entity.Property(e => e.SenderId).HasMaxLength(50);
+                entity.Property(e => e.CustomerId).HasMaxLength(50);
+
+                entity.Property(e => e.SellerId).HasMaxLength(50);
 
                 entity.Property(e => e.SentAt).HasColumnType("datetime");
 
-                entity.HasOne(d => d.Receiver)
-                    .WithMany(p => p.ChatReceivers)
-                    .HasForeignKey(d => d.ReceiverId)
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.ChatMessages)
+                    .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Chat_Customer_Receiver");
+                    .HasConstraintName("FK_ChatMessage_Customer_Sender");
 
-                entity.HasOne(d => d.ReceiverNavigation)
-                    .WithMany(p => p.ChatReceiverNavigations)
-                    .HasForeignKey(d => d.ReceiverId)
+                entity.HasOne(d => d.Seller)
+                    .WithMany(p => p.ChatMessages)
+                    .HasForeignKey(d => d.SellerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Chat_Seller_Receiver");
+                    .HasConstraintName("FK_ChatMessage_Seller_Receiver");
+            });
 
-                entity.HasOne(d => d.Sender)
-                    .WithMany(p => p.ChatSenders)
-                    .HasForeignKey(d => d.SenderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Chat_Customer_Sender");
+            modelBuilder.Entity<Connection>(entity =>
+            {
+                entity.Property(e => e.ConnectionId).HasMaxLength(50);
 
-                entity.HasOne(d => d.SenderNavigation)
-                    .WithMany(p => p.ChatSenderNavigations)
-                    .HasForeignKey(d => d.SenderId)
+                entity.Property(e => e.Email)
+                    .HasMaxLength(100)
+                    .HasColumnName("email");
+
+                entity.Property(e => e.GroupName).HasMaxLength(150);
+
+                entity.HasOne(d => d.GroupNameNavigation)
+                    .WithMany(p => p.Connections)
+                    .HasForeignKey(d => d.GroupName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Chat_Seller_Sender");
+                    .HasConstraintName("FK_ChatMessage_Groups");
+            });
+
+            modelBuilder.Entity<Comment>(entity =>
+            {
+                entity.ToTable("Comment");
+
+                entity.Property(e => e.CommentId).HasColumnName("commentId");
+
+                entity.Property(e => e.CommentContent)
+                    .HasMaxLength(1500)
+                    .HasColumnName("commentContent");
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("createdDate");
+
+                entity.Property(e => e.CustomerId)
+                    .HasMaxLength(50)
+                    .HasColumnName("customerId");
+
+                entity.Property(e => e.PostId).HasColumnName("postId");
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.Comments)
+                    .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Comment__custome__151B244E");
+
+                entity.HasOne(d => d.Post)
+                    .WithMany(p => p.Comments)
+                    .HasForeignKey(d => d.PostId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Comment__postId__14270015");
             });
 
             modelBuilder.Entity<Customer>(entity =>
             {
                 entity.ToTable("Customer");
 
-                entity.HasIndex(e => e.Email, "UQ__Customer__AB6E61640DC67B7D")
+                entity.HasIndex(e => e.Email, "UQ__Customer__AB6E6164505A0C5D")
                     .IsUnique();
 
                 entity.Property(e => e.CustomerId)
@@ -245,7 +292,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<CustomerBan>(entity =>
             {
                 entity.HasKey(e => e.BanCustomerId)
-                    .HasName("PK__Customer__AA147D2F3D3A0792");
+                    .HasName("PK__Customer__AA147D2F50B363F1");
 
                 entity.ToTable("CustomerBan");
 
@@ -306,7 +353,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FeedbackReply>(entity =>
             {
                 entity.HasKey(e => e.ReplyId)
-                    .HasName("PK__Feedback__36BBF6882CE685A5");
+                    .HasName("PK__Feedback__36BBF68852416E2C");
 
                 entity.ToTable("FeedbackReply");
 
@@ -354,7 +401,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FeedbackVote>(entity =>
             {
                 entity.HasKey(e => e.VoteId)
-                    .HasName("PK__Feedback__78F0B9F3B821B973");
+                    .HasName("PK__Feedback__78F0B9F30CD10B8F");
 
                 entity.ToTable("FeedbackVote");
 
@@ -424,7 +471,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FoodImage>(entity =>
             {
                 entity.HasKey(e => e.ImageId)
-                    .HasName("PK__FoodImag__336E9B55A445BF66");
+                    .HasName("PK__FoodImag__336E9B55193B3388");
 
                 entity.ToTable("FoodImage");
 
@@ -440,14 +487,49 @@ namespace HFS_BE.Models
                     .HasConstraintName("FK__FoodImage__foodI__619B8048");
             });
 
+            modelBuilder.Entity<Group>(entity =>
+            {
+                entity.HasKey(e => e.Name)
+                    .HasName("PK__Groups__737584F7AB167F1A");
+
+                entity.Property(e => e.Name).HasMaxLength(150);
+            });
+
+            modelBuilder.Entity<Invitation>(entity =>
+            {
+                entity.HasKey(e => new { e.SellerId, e.ShipperId });
+
+                entity.ToTable("Invitation");
+
+                entity.Property(e => e.SellerId)
+                    .HasMaxLength(50)
+                    .HasColumnName("SellerID");
+
+                entity.Property(e => e.ShipperId)
+                    .HasMaxLength(50)
+                    .HasColumnName("ShipperID");
+
+                entity.HasOne(d => d.Seller)
+                    .WithMany(p => p.Invitations)
+                    .HasForeignKey(d => d.SellerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Invitation_Seller");
+
+                entity.HasOne(d => d.Shipper)
+                    .WithMany(p => p.Invitations)
+                    .HasForeignKey(d => d.ShipperId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Invitation_Shipper");
+            });
+
             modelBuilder.Entity<MenuModerator>(entity =>
             {
                 entity.HasKey(e => e.ModId)
-                    .HasName("PK__MenuMode__0B7D023B9A2626FF");
+                    .HasName("PK__MenuMode__0B7D023B726EA981");
 
                 entity.ToTable("MenuModerator");
 
-                entity.HasIndex(e => e.Email, "UQ__MenuMode__AB6E6164E6EA9C5B")
+                entity.HasIndex(e => e.Email, "UQ__MenuMode__AB6E6164D2D8FB9C")
                     .IsUnique();
 
                 entity.Property(e => e.ModId)
@@ -498,7 +580,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<MenuReport>(entity =>
             {
                 entity.HasKey(e => new { e.FoodId, e.ReportBy })
-                    .HasName("PK__MenuRepo__C62346BB3DFDE205");
+                    .HasName("PK__MenuRepo__C62346BBF8E9D467");
 
                 entity.ToTable("MenuReport");
 
@@ -637,7 +719,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<OrderDetail>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.FoodId })
-                    .HasName("PK__OrderDet__8F779DFE2CAC96CF");
+                    .HasName("PK__OrderDet__8F779DFE323C4802");
 
                 entity.ToTable("OrderDetail");
 
@@ -747,7 +829,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<PostImage>(entity =>
             {
                 entity.HasKey(e => e.ImageId)
-                    .HasName("PK__PostImag__336E9B55608F621D");
+                    .HasName("PK__PostImag__336E9B553E2CDC1B");
 
                 entity.ToTable("PostImage");
 
@@ -766,11 +848,11 @@ namespace HFS_BE.Models
             modelBuilder.Entity<PostModerator>(entity =>
             {
                 entity.HasKey(e => e.ModId)
-                    .HasName("PK__PostMode__0B7D023BA333BE47");
+                    .HasName("PK__PostMode__0B7D023B0B3CE9A7");
 
                 entity.ToTable("PostModerator");
 
-                entity.HasIndex(e => e.Email, "UQ__PostMode__AB6E6164C0267B8C")
+                entity.HasIndex(e => e.Email, "UQ__PostMode__AB6E61647E258914")
                     .IsUnique();
 
                 entity.Property(e => e.ModId)
@@ -821,7 +903,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<PostReport>(entity =>
             {
                 entity.HasKey(e => new { e.PostId, e.ReportBy })
-                    .HasName("PK__PostRepo__6CC5DF181B41DDD2");
+                    .HasName("PK__PostRepo__6CC5DF18C5E06611");
 
                 entity.ToTable("PostReport");
 
@@ -870,7 +952,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<ProfileImage>(entity =>
             {
                 entity.HasKey(e => e.ImageId)
-                    .HasName("PK__ProfileI__336E9B558A23763C");
+                    .HasName("PK__ProfileI__336E9B556E511241");
 
                 entity.ToTable("ProfileImage");
 
@@ -885,11 +967,25 @@ namespace HFS_BE.Models
                     .HasColumnName("userId");
             });
 
+            modelBuilder.Entity<ProfileImage>(entity =>
+            {
+                entity.HasKey(e => e.ImageId)
+                    .HasName("PK__ProfileI__336E9B5551D1E431");
+
+                entity.ToTable("ProfileImage");
+
+                entity.Property(e => e.ImageId).HasColumnName("imageId");
+
+                entity.Property(e => e.Path).HasColumnName("path");
+
+                entity.Property(e => e.UserId).HasColumnName("userId");
+            });
+
             modelBuilder.Entity<Seller>(entity =>
             {
                 entity.ToTable("Seller");
 
-                entity.HasIndex(e => e.Email, "UQ__Seller__AB6E6164718A4FC6")
+                entity.HasIndex(e => e.Email, "UQ__Seller__AB6E61646997ED06")
                     .IsUnique();
 
                 entity.Property(e => e.SellerId)
@@ -955,7 +1051,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<SellerBan>(entity =>
             {
                 entity.HasKey(e => e.BanSellerId)
-                    .HasName("PK__SellerBa__CC1B046A89E76E08");
+                    .HasName("PK__SellerBa__CC1B046A76A65739");
 
                 entity.ToTable("SellerBan");
 
@@ -979,7 +1075,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<ShipAddress>(entity =>
             {
                 entity.HasKey(e => e.AddressId)
-                    .HasName("PK__ShipAddr__26A111AD37040E80");
+                    .HasName("PK__ShipAddr__26A111AD757D4315");
 
                 entity.ToTable("ShipAddress");
 
@@ -1004,7 +1100,7 @@ namespace HFS_BE.Models
             {
                 entity.ToTable("Shipper");
 
-                entity.HasIndex(e => e.Email, "UQ__Shipper__AB6E61646AE6162C")
+                entity.HasIndex(e => e.Email, "UQ__Shipper__AB6E6164F79DBB70")
                     .IsUnique();
 
                 entity.Property(e => e.ShipperId)
@@ -1069,30 +1165,28 @@ namespace HFS_BE.Models
                     .HasConstraintName("FK_Shiper_Seller");
             });
 
-            modelBuilder.Entity<TransactionHistory>(entity =>
+            modelBuilder.Entity<ShipperBan>(entity =>
             {
-                entity.HasKey(e => e.TransactionId)
-                    .HasName("PK__Transact__9B57CF727E5ED485");
+                entity.HasKey(e => e.BanShipperId)
+                    .HasName("PK__ShipperB__84EFD78C6371B17A");
 
-                entity.ToTable("TransactionHistory");
+                entity.ToTable("ShipperBan");
 
-                entity.Property(e => e.TransactionId).HasColumnName("transactionId");
+                entity.Property(e => e.BanShipperId).HasColumnName("banShipperId");
 
-                entity.Property(e => e.Note).HasMaxLength(200);
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
-                entity.Property(e => e.RecieverId)
+                entity.Property(e => e.Reason).HasMaxLength(255);
+
+                entity.Property(e => e.ShipperId)
                     .HasMaxLength(50)
-                    .HasColumnName("recieverId");
+                    .HasColumnName("shipperId");
 
-                entity.Property(e => e.SenderId)
-                    .HasMaxLength(50)
-                    .HasColumnName("senderId");
-
-                entity.Property(e => e.Status).HasColumnName("status");
-
-                entity.Property(e => e.TransactionType).HasMaxLength(50);
-
-                entity.Property(e => e.Value).HasColumnType("decimal(18, 0)");
+                entity.HasOne(d => d.Shipper)
+                    .WithMany(p => p.ShipperBans)
+                    .HasForeignKey(d => d.ShipperId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ShipperBan_Customer");
             });
 
             modelBuilder.Entity<Voucher>(entity =>

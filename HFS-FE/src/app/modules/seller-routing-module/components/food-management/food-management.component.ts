@@ -36,7 +36,6 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
   foodModel: Food = new Food();
   loading: boolean;
   uploadedFiles: File[] = [];
-
   contentDialog: string;
   visibleDescriptionDialog: boolean = false;
 

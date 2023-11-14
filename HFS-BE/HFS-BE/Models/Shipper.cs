@@ -7,8 +7,10 @@ namespace HFS_BE.Models
     {
         public Shipper()
         {
+            Invitations = new HashSet<Invitation>();
             OrderProgresses = new HashSet<OrderProgress>();
             Orders = new HashSet<Order>();
+            ShipperBans = new HashSet<ShipperBan>();
         }
 
         public string ShipperId { get; set; } = null!;
@@ -28,7 +30,9 @@ namespace HFS_BE.Models
         public bool? IsVerified { get; set; }
 
         public virtual Seller? ManageByNavigation { get; set; }
+        public virtual ICollection<Invitation> Invitations { get; set; }
         public virtual ICollection<OrderProgress> OrderProgresses { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<ShipperBan> ShipperBans { get; set; }
     }
 }

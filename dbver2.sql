@@ -483,21 +483,60 @@ CREATE TABLE CustomerBan (
     CreateDate DATETIME NOT NULL,
     CONSTRAINT FK_CustomerBan_Customer FOREIGN KEY (customerId) REFERENCES Customer(customerId)
 );
-CREATE TABLE Chat (
-    ChatId INT PRIMARY KEY IDENTITY(1,1),
-    SenderId NVARCHAR(50) NOT NULL,
-    ReceiverId NVARCHAR(50) NOT NULL,
-    Message NVARCHAR(MAX) NOT NULL,
-    SentAt DATETIME NOT NULL,
-    CONSTRAINT FK_Chat_Customer_Sender FOREIGN KEY (SenderId) REFERENCES Customer (CustomerId),
-    CONSTRAINT FK_Chat_Customer_Receiver FOREIGN KEY (ReceiverId) REFERENCES Customer (CustomerId),
-    CONSTRAINT FK_Chat_Seller_Sender FOREIGN KEY (SenderId) REFERENCES Seller (SellerId),
-    CONSTRAINT FK_Chat_Seller_Receiver FOREIGN KEY (ReceiverId) REFERENCES Seller (SellerId)
+
+-- Tạo bảng Mời làm Shipper (Invitation)
+CREATE TABLE Invitation (
+    SellerID NVARCHAR(50) NOT NULL,
+    ShipperID NVARCHAR(50) NOT NULL,
+     Accepted TINYINT NOT NULL DEFAULT 0,
+    CONSTRAINT PK_Invitation PRIMARY KEY (SellerID, ShipperID),
+    CONSTRAINT FK_Invitation_Seller FOREIGN KEY (SellerID) REFERENCES Seller(sellerId),
+    CONSTRAINT FK_Invitation_Shipper FOREIGN KEY (ShipperID) REFERENCES Shipper(shipperId)
 );
 
+CREATE TABLE ShipperBan (
+    banShipperId INT PRIMARY KEY IDENTITY(1, 1),
+    shipperId NVARCHAR(50) NOT NULL,
+    Reason NVARCHAR(255),
+    CreateDate DATETIME NOT NULL,
+    CONSTRAINT FK_ShipperBan_Customer FOREIGN KEY (shipperId) REFERENCES Shipper(shipperId)
+);
+
+CREATE TABLE ChatMessage (
+    MessageId INT PRIMARY KEY IDENTITY(1,1),
+    CustomerId NVARCHAR(50) NOT NULL,
+    SellerId NVARCHAR(50) NOT NULL,
+    SenderType BIT NOT NULL,
+    Message NVARCHAR(MAX) NOT NULL,
+    SentAt DATETIME NOT NULL,
+    IsRead BIT NOT NULL DEFAULT 0, -- Thêm cột để đánh dấu tin nhắn đã đọc hay chưa
+    CONSTRAINT FK_ChatMessage_Customer_Sender FOREIGN KEY (CustomerId) REFERENCES Customer (CustomerId),
+    CONSTRAINT FK_ChatMessage_Seller_Receiver FOREIGN KEY (SellerId) REFERENCES Seller (SellerId)
+);
+CREATE TABLE Groups (
+    Name NVARCHAR(150) PRIMARY KEY 
+
+);
+CREATE TABLE Connections (
+    [ConnectionId] NVARCHAR(50) PRIMARY KEY, 
+	[email] NVARCHAR(100) not null,
+	[GroupName] NVARCHAR(150) not null,
+	CONSTRAINT FK_ChatMessage_Groups FOREIGN KEY ([GroupName]) REFERENCES Groups (Name)
+);
 CREATE TABLE [ProfileImage] (
 	[imageId] [int] PRIMARY KEY IDENTITY(1, 1),
 	[userId] NVARCHAR(50) NOT NULL,
 	[path] [nvarchar](max) NOT NULL,
 	[isReplaced] [bit] NOT NULL, -- 0: Tức là hình ảnh vẫn còn đang được sử dụng và chưa bị thay thế. 1: Hình ảnh đã bị thay thế bởi người dùng.
+)
+
+CREATE TABLE [dbo].[Comment](
+    [commentId] [int] IDENTITY(1,1) NOT NULL,
+    [postId] [int] NOT NULL,
+    [customerId] [nvarchar](50) NOT NULL,
+    [commentContent] [nvarchar](1500) NULL,
+    [createdDate] [datetime] NULL,
+    FOREIGN KEY ([postId]) REFERENCES [Post]([postId]),
+    FOREIGN KEY ([customerId]) REFERENCES [Customer]([customerId]),
+    PRIMARY KEY ([commentId])
 )

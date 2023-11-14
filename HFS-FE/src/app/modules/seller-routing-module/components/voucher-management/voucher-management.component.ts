@@ -215,7 +215,6 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
       param.append('sellerId',this.userId);    
       param.append('discountAmount',voucherEntity.discountAmount.toString());
       param.append('minimumOrderValue',voucherEntity.minimumOrderValue.toString());
-      param.append('status',voucherEntity.status.toString());
       param.append('effectiveDate',voucherEntity.effectiveDate.toString());
       param.append('expireDate',voucherEntity.expireDate.toString());
 

@@ -10,15 +10,15 @@ namespace HFS_BE.Dao.OrderDao
         public string? CustomerId { get; set; }
         public string? SellerId { get; set; }
         public DateTime? OrderDate { get; set; }
-        public DateTime? RequiredDate { get; set; }
+        public DateTime? RequiredDate { get; set; } 
         public DateTime? ShippedDate { get; set; }
         public string? ShipAddress { get; set; }
         public string? ShipperId { get; set; }
         public int? VoucherId { get; set; }
         public string? Status { get; set; }
 
-        public List<OrderDetailDto> OrderDetails { get; set; }
-        public List<OrderProgressDto>? OrderProgress { get; set; }
+        public virtual List<OrderDetailDto> OrderDetails { get; set; }
+        public virtual List<OrderProgressDto> OrderProgresses { get; set; }
 
     }
 

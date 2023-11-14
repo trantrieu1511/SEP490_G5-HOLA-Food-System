@@ -1,0 +1,221 @@
+
+<div class="grid table-demo">
+  <div class="col-12">
+      <div class="card">
+          <h5>Shipper Management by Seller</h5>
+
+          <p-table #dt [value]="lstShipper" dataKey="id"
+                   styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
+                   [showCurrentPageReport]="true"
+                   [paginator]="lstShipper.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
+                   currentPageReportTemplate="Total: {totalRecords} foods"
+                   [globalFilterFields]="['shipperName']" responsiveLayout="scroll"
+
+          >
+              <ng-template pTemplate="caption">
+                  <div class="flex flex-row align-items-center flex-wrap justify-content-between ">
+                      <div class="flex-1">
+                          <span class="p-input-icon-left">
+                              <i class="pi pi-search"></i>
+                              <input pInputText type="text"  #textInput
+                                     (input)="dt.filterGlobal(textInput.value, 'contains')"
+                                     placeholder="Search Name by name"/>
+                          </span>
+                      </div>
+
+                      <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
+                          <div class="flex align-items-center justify-content-center">
+                              <button pButton type="button" label="Invitation" icon="pi pi-plus"
+                              (click)="onInvitation()"
+                                      style="width: auto;"></button>
+                          </div>
+                      </div>
+                  </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                  <tr>
+                      <!-- <th style="width: 3rem">
+                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                      </th> -->
+                      <th pSortableColumn="customerId">
+                          <div class="flex justify-content-between align-items-center">
+                              ID
+                              <p-sortIcon field="customerId"></p-sortIcon>
+                              <p-columnFilter type="numeric" field="customerId" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="email">
+                          <div class="flex justify-content-between align-items-center">
+                            Email
+                              <p-sortIcon field="email"></p-sortIcon>
+                              <p-columnFilter type="text" field="email" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="shipperName">
+                          <div class="flex justify-content-between align-items-center">
+                            FullName
+                              <p-sortIcon field="shipperName"></p-sortIcon>
+                              <p-columnFilter type="text" field="shipperName" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="gender">
+                          <div class="flex justify-content-between align-items-center">
+                            Gender
+                              <p-sortIcon field="gender"></p-sortIcon>
+                              <p-columnFilter type="text" field="gender" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="birthDate">
+                          <div class="flex justify-content-between align-items-center">
+                              DOB
+                              <p-sortIcon field="birthDate"></p-sortIcon>
+                              <p-columnFilter type="text" field="birthDate" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+
+                      <th>
+                          <div class="flex justify-content-between align-items-center">
+                              Images
+                          </div>
+                      </th>
+                      <th>
+                        <div class="flex justify-content-between align-items-center">
+                          PhoneNumber
+                        </div>
+                    </th>
+                      <th style="min-width: 8rem">
+                          <div
+                               class="flex justify-content-between align-items-center">
+                              Action
+                          </div>
+                      </th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-user>
+                  <tr class="p-selectable-row">
+                      <!-- <td>
+                          <p-tableCheckbox [value]="post"></p-tableCheckbox>
+                      </td> -->
+                      <td>
+                          <span class="p-column-title">ID</span>
+                          <span class="post-id">{{user.shipperId}}</span>
+                      </td>
+                      <td >
+                        <span class="p-column-title">Email</span>
+                        {{user.email}}
+                    </td>
+                      <td >
+                          <span class="p-column-title">FullName</span>
+                          {{user.shipperName}}
+                      </td>
+                      <td>
+                          <span class="p-column-title">Gender</span>
+                          <span class="post-content" >{{user.gender}}</span>
+                      </td>
+                      <td >
+                          <span class="p-column-title">BirthDate</span>
+                          {{user.birthDate}}
+                      </td>
+
+                      <td>
+                          <span class="p-column-title">Image</span>
+
+                          <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+                      </td>
+                      <td >
+                        <span class="p-column-title">PhoneNumber</span>
+                        <div>
+                          {{user.phoneNumber}}
+                        </div>
+
+                    </td>
+                      <td style="text-align: center">
+                          <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+                              <div class="flex align-items-center justify-content-center">
+                                  <button pButton pRipple icon="pi pi-ban"
+                                  (click)="Delete(user)"
+                                          class="p-button-rounded p-mr-2"></button>
+                              </div>
+
+                          </div>
+                      </td>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                  <tr>
+                      <td colspan="8">No food yet.</td>
+                  </tr>
+              </ng-template>
+          </p-table>
+      </div>
+  </div>
+</div>
+
+<p-dialog [header]="headerDialog" [(visible)]="displayDialogAdd"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '50vw'}"
+          [draggable]="false" [resizable]="false" [maximizable]="true"
+
+          >
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+              <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+                <span class="p-input-icon-left p-float-label" style="width: 100%">
+                    <input type="email" class="w-full"  [(ngModel)]="addShipper"
+                            pInputText/>
+                    <label>Invitation Shipper by Email*</label>
+                </span>
+
+            </div>
+            <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+              <button pButton type="button" label="Invitation" icon="pi pi-plus"
+              (click)="AddShipper()"
+              style="width: auto;"></button>
+
+          </div>
+                  <p-table  [value]="listinvitation" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="banCustomerId">ID<p-sortIcon field="shipperId"></p-sortIcon></th>
+                            <th>Fullname</th>
+                            <th>Email</th>
+                            <th>PhoneNumber</th>
+                            <th>Accept</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-history>
+                        <tr >
+                            <td>{{history.shipperId}}</td>
+                            <td>{{history.shipperName}}</td>
+                            <td>{{history.email}}</td>
+                            <td>{{history.phoneNumber}}</td>
+                            <td>
+                              <span style="color:gray;" *ngIf="history.accepted === 0">Pending</span>
+                              <span style="color:greenyellow;" *ngIf="history.accepted === 1">Accepted</span>
+                              <span style="color:red;" *ngIf="history.accepted === 2">Rejected</span>
+                          </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+
+            </div>
+        </div>
+    </div>
+
+</p-dialog>
+
+
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>
+
+<p-confirmPopup></p-confirmPopup>
+
+<p-confirmDialog key="uhideFood" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<cmis-loading></cmis-loading>

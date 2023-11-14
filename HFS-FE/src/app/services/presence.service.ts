@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 import { Tokens } from "../login/models/token";
 import { Profile } from "../modules/customer-routing-module/models/profile";
 import { Seller } from "../modules/admin-routing-module/models/Seller";
+import { Customer } from "../modules/admin-routing-module/models/Customer";
 @Injectable({
   providedIn: 'root'
 })
@@ -21,6 +22,8 @@ export class PresenceService {
   onlineUserscus$ = this.onlineUsersSourcecus.asObservable();
   private offlineUsersSourcecus = new BehaviorSubject<Seller[]>([]);
   offlineUserscus$ = this.offlineUsersSourcecus.asObservable();
+  private listcusbysellerSource = new BehaviorSubject<Customer[]>([]);
+  listcusbyseller$ = this.listcusbysellerSource.asObservable();
   constructor( private router: Router) { }
 
   createHubConnection(token: string) {
@@ -42,7 +45,6 @@ export class PresenceService {
 
 
       this.hubConnection.on('UserIsOnline', (username: Seller) => {
-        ////debugger;
 
          this.offlineUserscus$.pipe(take(1)).subscribe(usernames => {
           this.offlineUsersSourcecus.next([...usernames.filter(x => x.email !== username.email)])
@@ -64,6 +66,16 @@ export class PresenceService {
         })
         console.log(username.lastName + ' disconnect')
       })
+
+      this.hubConnection.on('ListCus', (cus: Customer[]) => {
+        this.listcusbysellerSource.next(cus);
+
+        })
+        this.hubConnection.on('NewMessageReceived', (username: Customer) => {
+          console.log(username.email)
+        })
+
+
       // this.hubConnection.on('GetOnlineUsers', (usernames: Seller[]) => {
       //   this.onlineUsersSource.next(usernames);
       //  // console.log(usernames )
@@ -74,14 +86,12 @@ export class PresenceService {
       // })
       this.hubConnection.on('GetOnlineAndOfflineUsers', (onlineUsers: Seller[], offlineUsers: Seller[]) => {
         // Xử lý danh sách người dùng trực tuyến (onlineUsers) và người dùng offline (offlineUsers) ở đây
-        //debugger;
+
         this.onlineUsersSource.next(onlineUsers);
         this.offlineUsersSource.next(offlineUsers);
       });
       this.hubConnection.on('GetOnlineAndOfflineUsersCUS', (onlineUsers: Seller[], offlineUsers: Seller[]) => {
         // Xử lý danh sách người dùng trực tuyến (onlineUsers) và người dùng offline (offlineUsers) ở đây
-        //debugger;
-        this.offlineUsersSourcecus.next(onlineUsers);
         this.offlineUsersSourcecus.next(offlineUsers);
       });
 }

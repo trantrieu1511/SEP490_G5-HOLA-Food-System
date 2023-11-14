@@ -64,6 +64,14 @@
                                     class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
+                        <th pSortableColumn="note">
+                            <div class="flex justify-content-between align-items-center">
+                                Note
+                                <p-sortIcon field="status"></p-sortIcon>
+                                <p-columnFilter type="text" field="note" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
                         <th style="min-width: 8rem">
                             <div class="flex justify-content-between align-items-center">
                                 Action
@@ -86,7 +94,8 @@
                         </td>
                         <td>
                             <span class="p-column-title">Report Content</span>
-                            <span class="report-content" (click)="viewContentDetail(postrp)">{{postrp.reportContent}}</span>
+                            <span class="report-content"
+                                (click)="viewContentDetail(postrp)">{{postrp.reportContent}}</span>
                         </td>
                         <td>
                             <span class="p-column-title">Created Date</span>
@@ -95,6 +104,10 @@
                         <td>
                             <span class="p-column-title">Status</span>
                             <p-tag [value]="postrp.status" [severity]="getSeverity(postrp.status)"></p-tag>
+                        </td>
+                        <td>
+                            <span class="p-column-title">Note</span>
+                            {{postrp.note}}
                         </td>
                         <td style="text-align: center">
                             <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
@@ -140,15 +153,24 @@
     <!-- <input type="text" [(ngModel)]="postReport.postId" disabled="true" /><hr>
     <input type="text" [(ngModel)]="postReport.reportBy" disabled="true" /><hr> -->
     <!-- <hr> -->
-    <br>
-    <div class="flex align-items-center">
-        <p-radioButton name="Approved" value="Approved" [(ngModel)]="postReport.status"
-            inputId="Approved"></p-radioButton>
-        <label for="Approved" class="ml-2">Approved</label>
-        &nbsp;&nbsp;
-        <p-radioButton name="NotApproved" value="NotApproved" [(ngModel)]="postReport.status"
-            inputId="NotApproved"></p-radioButton>
-        <label for="NotApproved" class="ml-2">NotApproved</label>
+    <!-- <br> -->
+    <div class="card">
+        <div class="flex align-items-center">
+            <p-radioButton name="Approved" value="Approved" [(ngModel)]="postReport.status"
+                inputId="Approved"></p-radioButton>
+            <label for="Approved" class="ml-2">Approved</label>
+            &nbsp;&nbsp;
+            <p-radioButton name="NotApproved" value="NotApproved" [(ngModel)]="postReport.status"
+                inputId="NotApproved"></p-radioButton>
+            <label for="NotApproved" class="ml-2">NotApproved</label>
+        </div>
+        <br>
+        <br>
+        <span class="p-float-label">
+            <textarea class="w-full" id="float-input" rows="5" cols="40" [(ngModel)]="postReport.note"
+                pInputTextarea></textarea>
+            <label for="float-input">Note (Optional)</label>
+        </span>
     </div>
     <!-- <hr> -->
     <!-- <span class="p-float-label">
@@ -169,13 +191,11 @@
             inputId="NotApproved"></p-radioButton>
         <label for="NotApproved" class="ml-2">NotApproved</label>
     </div> -->
-    <br>
-    <span class="p-float-label">
-        <textarea class="w-full" id="float-input" rows="5" cols="40" [(ngModel)]="postReport.note" pInputTextarea></textarea>
-        <label for="float-input">Note (Optional)</label>
-    </span>
-    <br>
-    <p-button (click)="approveNotApprovePost(postReport)">Save</p-button>
+
+    <div style="display: flex;">
+        <p-button (click)="approveNotApprovePost(postReport)">Save</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <p-button [text]="true" (onClick)="isVisibleApproveNotApproveModal = false">Cancel</p-button>
+    </div>
     <!-- </div> -->
 </p-dialog>
 

@@ -77,5 +77,35 @@ namespace HFS_BE.Controllers.ManageUser.ManageModerator
 				throw;
 			}
 		}
+		[HttpPost("users/banmenumoderator")]
+
+		public BaseOutputDto BanMenuModerator(BanModeratorDtoinput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ModeratorBusinessLogic>();
+				var output = business.BanMenuModerator(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+		[HttpPost("users/banpostmoderator")]
+
+		public BaseOutputDto BanPostModerator(BanModeratorDtoinput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ModeratorBusinessLogic>();
+				var output = business.BanPostModerator(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
 	}
 }

@@ -73,5 +73,35 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageModerator
 				throw;
 			}
 		}
+		public BaseOutputDto BanMenuModerator(BanModeratorDtoinput inputDto)
+		{
+			try
+			{
+				var Dao = this.CreateDao<ModeratorDao>();
+				
+				var daooutput = Dao.BanMenuModerator(inputDto);
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+		public BaseOutputDto BanPostModerator(BanModeratorDtoinput inputDto)
+		{
+			try
+			{
+				var Dao = this.CreateDao<ModeratorDao>();
+
+				var daooutput = Dao.BanPostModerator(inputDto);
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
 	}
 }

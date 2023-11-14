@@ -89,5 +89,18 @@ namespace HFS_BE.DAO.AdminDao
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
 			}
 		}
+
+		public List<Admin>? GetAdmins()
+		{
+			try
+			{
+				return context.Admins.ToList();
+			}
+			catch (Exception)
+			{
+
+				return null;
+			}
+		}
 	}
 }

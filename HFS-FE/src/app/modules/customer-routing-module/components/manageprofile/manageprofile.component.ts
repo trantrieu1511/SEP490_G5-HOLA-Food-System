@@ -15,14 +15,23 @@ import {
 } from "primeng/api";
 import { Profile, ProfileDisplay, ProfileImage } from '../../models/profile';
 import { FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
+import { Router } from '@angular/router';
+import { AppCustomerTopBarComponent } from 'src/app/app-systems/app-topbar/customer/app.topbar-cus.component';
 
 @Component({
   selector: 'app-manageprofile',
   templateUrl: './manageprofile.component.html',
-  styleUrls: ['./manageprofile.component.scss']
+  styleUrls: ['./manageprofile.component.scss'],
+  // providers: [AppCustomerTopBarComponent]
 })
 
 export class ManageprofileComponent extends iComponentBase implements OnInit {
+editPhoneNumber() {
+// throw new Error('Method not implemented.');
+}
+editEmail() {
+// throw new Error('Method not implemented.');
+}
 
   profile: Profile = new Profile();
   profileDisplay: ProfileDisplay = new ProfileDisplay();
@@ -32,12 +41,15 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   uploadedFiles: File[] = [];
   profileImage: ProfileImage = new ProfileImage();
   isLoggedIn: boolean = false;
+  selectedSideBarOption: boolean = true;
 
   constructor(
     private shareData: ShareData,
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
+    private router: Router,
+    // private appCustomerTopBarComponent: AppCustomerTopBarComponent
   ) {
     super(messageService);
     // this.route.queryParams.subscribe(params => {
@@ -49,8 +61,8 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   }
 
   // Check whether the user has logged into Hola Food or not
-  checkUserLoginState(){
-    if(sessionStorage.getItem("userId") != null){
+  checkUserLoginState() {
+    if (sessionStorage.getItem("userId") != null) {
       this.isLoggedIn = true;
     }
   }
@@ -123,7 +135,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   async editProfile() {
     try {
       const inputData = {
-        userId: sessionStorage.getItem("userId"),
+        // userId: sessionStorage.getItem("userId"),
         firstName: this.profile.firstName,
         lastName: this.profile.lastName,
         gender: this.profile.gender,
@@ -143,7 +155,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
         this.getProfileInfo();
 
         //Clear model đã tạo
-        this.profile = new Profile();
+        // this.profile = new Profile();
         // console.log(this.profile);
 
       } else {
@@ -188,6 +200,13 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
 
         //clear file upload
         this.uploadedFiles = [];
+
+        //refresh customer app top bar
+        // this.router.navigate(['/'], { skipLocationChange: true }).then(() => {
+        //   this.router.navigate(['/profile']);
+        // });
+        // this.appCustomerTopBarComponent.reloadPage();
+
       } else {
         this.showMessage(
           mType.error,
@@ -208,6 +227,10 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
 
   hideDialog() {
     this.isVisibleEditProfileDialog = false;
+  }
+
+  doSomething() {
+    // throw new Error('Method not implemented.');
   }
 
   // getSeverity(status: string) {

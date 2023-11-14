@@ -9,7 +9,10 @@ namespace HFS_BE.Dao.PostDao
 
         public UserDto UserDto { get; set; }
     }
-
+    public class PostStatusInputDto
+    {
+        public byte status { get; set; }
+    }
     public class PostEnableDisableInputDto
     {
         public int PostId { get; set; }

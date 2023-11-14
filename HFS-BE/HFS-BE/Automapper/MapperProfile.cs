@@ -32,6 +32,8 @@ using HFS_BE.BusinessLogic.ManageUser;
 using HFS_BE.DAO.VoucherDao;
 using HFS_BE.DAO.NotificationDao;
 using HFS_BE.DAO.PostReportDao;
+using HFS_BE.DAO.ChatMessageDao;
+using HFS_BE.DAO.CommentNewFeedDao;
 
 namespace HFS_BE.Automapper
 {
@@ -57,6 +59,10 @@ namespace HFS_BE.Automapper
             Voucher();
             Shop();
             Notification();
+            Chat();
+
+
+            Comment();
         }
 
         /// <summary>
@@ -95,7 +101,8 @@ namespace HFS_BE.Automapper
             //output
             CreateMap<Dao.PostDao.PostOutputSellerDto, BusinessLogic.ManagePost.PostOutputSellerDto>();
             CreateMap<Dao.PostDao.ListPostOutputSellerDto, BusinessLogic.ManagePost.ListPostOutputSellerDto>();
-
+            CreateMap<Dao.PostDao.PostByCustomerOutputDto, BusinessLogic.ManagePost.PostOutputCustomerDto>();
+            CreateMap<Dao.PostDao.ListPostByCustomerOutputDto, BusinessLogic.ManagePost.ListPostOutputCustomerDto>();
         }
 
         public void Food()
@@ -239,9 +246,16 @@ namespace HFS_BE.Automapper
         }
         public void OrderHistory()
         {
-            CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>();
+            CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>()
+                .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses))
+                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails));
+            CreateMap<OrderProgress, Dao.OrderDao.OrderProgressDto>()
+                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.SellerId ?? src.CustomerId ?? src.ShipperId));
             CreateMap<OrderDetail, Dao.OrderDao.OrderDetailDto>()
-                .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name));
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Food.FoodImages.AsQueryable().First().Path))
+                .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name))
+                .ForMember(dest => dest.SellerId, opt => opt.MapFrom(src => src.Food.SellerId));
+
 
         }
         public void OrderProgress()
@@ -307,6 +321,7 @@ namespace HFS_BE.Automapper
 
         public void File()
         {
+            CreateMap<ImageFileConvert.ImageOutputDto, PostImageOutputCustomerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, PostImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, FoodImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, BusinessLogic.OrderShipper.ImageFoodOutputDto>();
@@ -316,6 +331,7 @@ namespace HFS_BE.Automapper
         {
             CreateMap<CategoryDaoInputDto, Category>();
             CreateMap<Category, CategoryDaoOutputDto>();
+            CreateMap<Category, GetCategoryOutputDto>();
         }
 
         public void Shipper()
@@ -327,15 +343,23 @@ namespace HFS_BE.Automapper
         public void Manage()
         {
             CreateMap<Customer, CustomerDtoOutput>();
-            CreateMap<Seller, SellerDtoOutput>();
-            CreateMap<PostModerator, PostModeratorDtoOutput>();
-            CreateMap<MenuModerator, MenuModeratorDtoOutput>();
-            CreateMap<MenuModerator, MenuModeratorDtoOutput>();
-            CreateMap<CreateModerator, CreateModeratorDaoDtoInput>();
-            CreateMap<CustomerBan, BanHistoryCustomerDtoOutput>();
-
-        }
-
+			CreateMap<Seller, SellerDtoOutput>();
+			CreateMap<PostModerator, PostModeratorDtoOutput>();
+			CreateMap<MenuModerator, MenuModeratorDtoOutput>();
+			CreateMap<MenuModerator, MenuModeratorDtoOutput>();
+			CreateMap<CreateModerator, CreateModeratorDaoDtoInput>();
+			CreateMap<CustomerBan, BanHistoryCustomerDtoOutput>();
+            CreateMap<Invitation, InvitationShipperDtoOutput>()
+                .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.Shipper.FirstName + " " + src.Shipper.LastName))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Shipper.Email))
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Shipper.PhoneNumber))
+                .ForMember(dest => dest.Avatar, opt => opt.MapFrom(src => src.Shipper.Avatar));
+            CreateMap<Shipper, ShipperInforByAdmin>()
+        .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
+			CreateMap<SellerBan, BanHistorySellerDtoOutput>();
+			CreateMap<ShipperBan, BanHistoryShipperDtoOutput>();
+		}
+	
         public void FeedBack()
         {
             CreateMap<Feedback, FeedBackDaoOutputDto>()
@@ -370,6 +394,21 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => NotificationTypeEnum.GetNotifyString(src.Type)))
                 .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("MM/dd/yyyy hh:mm:ss tt")));
         }
-    }
+		public void Chat()
+		{
+			CreateMap<ChatMessage, MessageDtoOuput>()
+                .ForMember(dest => dest.EmailCustomer, opt => opt.MapFrom(src => src.Customer.Email))
+				 .ForMember(dest => dest.EmailSeller, opt => opt.MapFrom(src => src.Seller.Email)); ;
+		}
+	
+
+        public void Comment()
+        {
+            CreateMap<Comment, CommentOutputDto>();
+           
+        }
+   
 }
+}
+
 

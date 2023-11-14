@@ -1,4 +1,6 @@
-﻿namespace HFS_BE.DAO.NotificationDao
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace HFS_BE.DAO.NotificationDao
 {
     public class NotificationAddNewInputDto
     {
@@ -23,6 +25,7 @@
 
     public class NotificationReadInput
     {
+        [Required(ErrorMessage = "NotifyId not empty")]
         public int NotifyId { get; set; }
     }
 }

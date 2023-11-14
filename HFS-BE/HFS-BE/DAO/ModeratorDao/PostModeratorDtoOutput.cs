@@ -12,7 +12,7 @@ namespace HFS_BE.DAO.ModeratorDao
 		public string Email { get; set; } = null!;
 		public long? PhoneNumber { get; set; }
 		public string? Avatar { get; set; }
-		public bool IsOnline { get; set; }
-		public bool ConfirmEmail { get; set; }
+		public bool? IsOnline { get; set; }
+		public bool? IsBanned { get; set; }
 	}
 }

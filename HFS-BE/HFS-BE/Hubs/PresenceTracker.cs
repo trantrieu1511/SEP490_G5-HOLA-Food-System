@@ -3,6 +3,7 @@
 	public class PresenceTracker
 	{
 		private static readonly Dictionary<string, List<string>> OnlineUsers = new Dictionary<string, List<string>>();
+
 		public Task<bool> UserConnected(string email, string connectionId)
 		{
 			bool isOnline = false;

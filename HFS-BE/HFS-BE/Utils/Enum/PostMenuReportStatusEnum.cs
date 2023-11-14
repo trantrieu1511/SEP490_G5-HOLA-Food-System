@@ -6,7 +6,8 @@
         {
             Pending = 0, // KH moi tao report, post/menu mod chua xu ly report.
             Approved = 1, // Post/Menu mod chap nhan to cao va da xu ly xong thuc pham bi to cao.
-            NotApproved = 2 // Post/Menu mod khong chap nhan report (Co le do nguoi report k neu ra duoc noi dung to cao mot cach nghiem tuc)
+            NotApproved = 2, // Post/Menu mod khong chap nhan report (Co le do nguoi report k neu ra duoc noi dung to cao mot cach nghiem tuc)
+            Cancelled = 3 // Khach hang report mot post nao do co the cancel cai report voi ly do cu the
         }
 
         /// <summary>
@@ -24,6 +25,8 @@
                     return "Approved";
                 case (int)PostMenuReportStatus.NotApproved:
                     return "NotApproved";
+                case (int)PostMenuReportStatus.Cancelled:
+                    return "Cancelled";
                 default:
                     return "unknown";
             }

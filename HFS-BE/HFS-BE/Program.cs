@@ -1,6 +1,8 @@
 using AutoMapper;
 using HFS_BE;
 using HFS_BE.Automapper;
+using HFS_BE.DAO.ChatMessageDao;
+using HFS_BE.DAO.CustomerDao;
 using HFS_BE.DAO.SellerDao;
 using HFS_BE.DAO.UserDao;
 using HFS_BE.Hubs;
@@ -142,7 +144,8 @@ builder.Services.AddSingleton<IHubContextFactory, HubContextFactory>();
 builder.Services.AddSignalR();
 builder.Services.AddScoped<PresenceTracker>();
 builder.Services.AddScoped<SellerDao>();
-
+builder.Services.AddScoped<ChatMessageDao>();
+builder.Services.AddScoped<CustomerDao>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -158,6 +161,7 @@ app.UseAuthorization();
 
 app.UseCors("_MainPolicy");
 app.MapHub<PresenceHub>("hubs/presence");
+app.MapHub<MessageHub>("hubs/message");
 app.MapControllers();
 app.MapHub<DataRealTimeHub>("hubs/dataRealTime");
 app.MapHub<NotificationHub>("hubs/notifyRealTime");

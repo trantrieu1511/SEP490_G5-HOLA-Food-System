@@ -10,12 +10,14 @@ import { ShipperComponent } from './components/shipper-management/shipper.compon
 import { PostManagementComponent } from './components/post-management/post-management.component';
 import { FoodManagementComponent } from './components/food-management/food-management.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { InvitationShipperComponent } from './components/invitation-shipper/invitation-shipper.component';
 import { VoucherManagementComponent } from './components/voucher-management/voucher-management.component';
 
 const routes: Routes = [
   {path: 'order-management', component: OrderManagementComponent},
   {path: 'shipper-management', component: ShipperComponent},
   {path: 'post-management', component: PostManagementComponent},
+    {path: 'invitation-shipper', component: InvitationShipperComponent},
   {path: '', component: FoodManagementComponent},
   {path: 'food-management', component: FoodManagementComponent},
   {path: 'voucher-management', component: VoucherManagementComponent},
