@@ -16,8 +16,7 @@ namespace HFS_BE.Base
 
         public T Output<T>(bool success) where T : BaseOutputDto, new()
         {
-            if (!success) this.context.Database.RollbackTransaction();
-            else this.context.Database.CommitTransaction();
+           
             return new T
             {
                 Message = success ? "Success" : "Fail",
@@ -28,8 +27,7 @@ namespace HFS_BE.Base
 
         public T Output<T>(bool success, string content) where T : BaseOutputDto, new()
         {
-            if (!success) this.context.Database.RollbackTransaction();
-            else this.context.Database.CommitTransaction();
+            
             return new T
             {
                 Message = success ? "Success" : content,
@@ -40,8 +38,7 @@ namespace HFS_BE.Base
 
         public T Output<T>(bool success, string content, ICollection<string> errors) where T : BaseOutputDto, new()
         {
-            if (!success) this.context.Database.RollbackTransaction();
-            else this.context.Database.CommitTransaction();
+            
             return new T
             {
                 Message = content,
@@ -55,8 +52,7 @@ namespace HFS_BE.Base
 
         public T Output<T>(bool success, string content, string error) where T : BaseOutputDto, new()
         {
-            if (!success) this.context.Database.RollbackTransaction();
-            else this.context.Database.CommitTransaction();
+           
             var errors = new List<string>();
             errors.Add(error);
             return new T

@@ -26,8 +26,9 @@ namespace HFS_BE.Dao.OrderDao
                     .Where(x => x.ShipperId == inputDto.ShipperId && x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == status)
                     //.Select(x => mapper.Map<Order, OrderDaoOutputDto>(x))
                     .ToList();
+
                 var output = mapper.Map<List<Order>, List<OrderDaoOutputDto>>(data);
-                foreach (var item in data ) 
+                /*foreach (var item in data ) 
                 { 
                     var indexOder = data.IndexOf(item);
                     foreach(var detail in item.OrderDetails)
@@ -38,7 +39,7 @@ namespace HFS_BE.Dao.OrderDao
                         output[indexOder].OrderDetails[indexDetail].FoodName = detail.Food.Name;
                         output[indexOder].OrderDetails[indexDetail].SellerId = detail.Food.SellerId;
                     }
-                }
+                }*/
                 var output1 = this.Output<OrderByShipperDaoOutputDto>(Constants.ResultCdSuccess);
                 output1.Orders = output;
                 return output1;
@@ -242,6 +243,11 @@ namespace HFS_BE.Dao.OrderDao
         public Order? GetOrderByOrderIdAndSellerId(int orderId, string sellerId)
         {
             return context.Orders.FirstOrDefault(o => o.OrderId == orderId && o.SellerId.Equals(sellerId));
+        }
+
+        public Order? GetOrderByOrderId(int orderId)
+        {
+            return context.Orders.FirstOrDefault(o => o.OrderId == orderId);
         }
 
         public GetCustomerOrdersDaoOutputDto GetOrdersCustomer(GetOrdersCustomerDaoInputDto inputDto)

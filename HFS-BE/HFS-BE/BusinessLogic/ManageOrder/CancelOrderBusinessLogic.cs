@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
+using HFS_BE.Dao.OrderDao;
+using HFS_BE.DAO.NotificationDao;
 using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
@@ -13,25 +15,41 @@ namespace HFS_BE.BusinessLogic.ManageOrder
         {
         }
 
-        public BaseOutputDto CancelOrder(OrderProgressCancelInputDto input)
+        public BaseOutputDto CancelOrder(OrderProgressCancelInputDto input, out string? customerId)
         {
-            try
-            {
-                /*input.UserId = "SE00000001";*/
-                var daoOProgress = CreateDao<OrderProgressDao>();
-                //get orderprogress by inputDto.orderId
-                var orderProgresses = daoOProgress.GetOrderProgresByOrderId(input.OrderId);
-                //check orderprogress exist or not
-                if (orderProgresses.FirstOrDefault(x => x.Status == input.Status) != null)
-                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Cancel Failed", $"OrderId: {input.OrderId} has been cancelled");
+            var oProgressDao = CreateDao<OrderProgressDao>();
+            var orderDao = CreateDao<OrderDao>();
+            var notifyDao = CreateDao<NotificationDao>();
 
-                var output = daoOProgress.AddOrderProgressCancelStatus(input);
+            // check orderid input
+            var order = orderDao.GetOrderByOrderIdAndSellerId(input.OrderId, input.UserId);
+            // put customerId
+            customerId = order?.CustomerId;
+            
+            if (order == null)
+                return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Order is not exist");
+            //get orderprogress by inputDto.orderId
+            var orderProgresses = oProgressDao.GetOrderProgresByOrderId(input.OrderId);
+            //check orderprogress exist or not
+            if (orderProgresses.FirstOrDefault(x => x.Status == input.Status) != null)
+                return Output<BaseOutputDto>(Constants.ResultCdFail, "Cancel Failed", $"OrderId: {input.OrderId} has been cancelled");
+
+            var output = oProgressDao.AddOrderProgressCancelStatus(input);
+            if (!output.Success)
+            {
                 return output;
             }
-            catch (Exception)
+
+            // 2. gen title and content notification
+            var notifyBase = GenerateNotification.GetSingleton().GenNotificationCancelOrder(customerId, order.OrderId);
+            //3. add notify
+            var noti = notifyDao.AddNewNotification(notifyBase);
+            if (!noti.Success)
             {
-                return Output<BaseOutputDto>(Constants.ResultCdFail);
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
             }
+
+            return Output<BaseOutputDto>(Constants.ResultCdSuccess);
         }
     }
 }

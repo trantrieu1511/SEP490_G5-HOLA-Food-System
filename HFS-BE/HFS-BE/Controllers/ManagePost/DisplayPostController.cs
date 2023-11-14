@@ -19,7 +19,7 @@ namespace HFS_BE.Controllers.ManagePost
         //[HttpGet("posts/getPostsSeller")]
         [HttpGet("posts/getPosts")]
         [Authorize]
-        public ListPostOutputSellerDto Get()
+        public ListPostOutputSellerDto DisplayPost()
         {
             try
             {

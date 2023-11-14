@@ -20,7 +20,7 @@ namespace HFS_BE.Base
         {
             this.context = context;
             this.mapper = mapper;
-            this.context.Database.BeginTransaction();
+            //this.context.Database.BeginTransaction();
         }
 
         
@@ -45,7 +45,7 @@ namespace HFS_BE.Base
         [NonAction]
         public T Output<T>(bool success, string content) where T : BaseOutputDto, new()
         {
-            if (!success) this.context.Database.RollbackTransaction();
+            //if (!success) this.context.Database.RollbackTransaction();
             return new T
             {
                 Message = success ? "Success" : content,
