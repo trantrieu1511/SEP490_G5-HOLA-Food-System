@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { SellerChatBox } from './models/seller-chatbox';
 import { PresenceService } from '../services/presence.service';
 
@@ -20,9 +20,15 @@ export class SellerListComponent {
     {userName: 'android', displayName:'Android 11'}
   ]
   isSellerListVisible: boolean = false;
+  @Output() closeSellerList = new EventEmitter<void>();
 
+  // Phương thức để gửi sự kiện khi nút tắt được nhấn
+  onCloseSellerList() {
+    this.closeSellerList.emit();
+  }
   toggleSellerList() {
     this.isSellerListVisible = !this.isSellerListVisible;
+
     console.log(this.isSellerListVisible);
   }
   constructor(public presence: PresenceService) { }
@@ -41,7 +47,7 @@ export class SellerListComponent {
           this.usersOnline = this.usersOnline.filter(x => x.seller.email !== user.email);
           this.usersOnline.push(u);
         } else {
-          this.usersOnline.push(new SellerChatBox(user, 250));
+          this.usersOnline.push(new SellerChatBox(user, 350));
         }
         break;
       }
@@ -51,7 +57,7 @@ export class SellerListComponent {
           this.usersOnline = this.usersOnline.filter(x => x.seller.email !== user.email);
           this.usersOnline.push(u);
         } else {
-          this.usersOnline.push(new SellerChatBox(user, 250 + 325));
+          this.usersOnline.push(new SellerChatBox(user, 350 + 325));
         }
         break;
       }
@@ -67,7 +73,7 @@ export class SellerListComponent {
   }
 
   miniChatBox(user: any){
-    this.miniUser.push(new SellerChatBox(user, 250));
+    this.miniUser.push(new SellerChatBox(user, 350));
   }
 
   restoreUser(user: SellerChatBox){

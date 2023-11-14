@@ -15,12 +15,19 @@
         [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
         <ul class="layout-topbar-items">
             <li class="layout-topbar-item">
-                <a class="layout-topbar-action rounded-circle" (click)="goToNewsFeedPage();" pRipple>
+                <a class="layout-topbar-action rounded-circle" (click)="toggleSellerList()" pRipple>
                     <span class="p-overlay-badge">
-                        <i class="pi pi-book fs-large"></i>
+                        <i class="pi pi-comment fs-large"></i>
                     </span>
                 </a>
             </li>
+            <li class="layout-topbar-item">
+              <a class="layout-topbar-action rounded-circle" (click)="goToNewsFeedPage();" pRipple>
+                  <span class="p-overlay-badge">
+                      <i class="pi pi-book fs-large"></i>
+                  </span>
+              </a>
+          </li>
             <app-notifications [layoutService]="layoutService"></app-notifications>
             <li class="layout-topbar-item shoppingcart">
                 <a class="layout-topbar-action rounded-circle"

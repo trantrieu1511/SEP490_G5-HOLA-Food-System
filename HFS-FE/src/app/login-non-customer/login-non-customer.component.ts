@@ -8,26 +8,37 @@ import { AuthService, User } from '../services/auth.service';
 import { Subscription } from 'rxjs';
 import { PasswordLengthValidator, PasswordNumberValidator, PasswordUpperValidator } from '../login/Restricted-login.directive';
 
-
+import {
+  iComponentBase,
+  iServiceBase, mType,
+  ShareData,
+  iFunction
+} from 'src/app/modules/shared-module/shared-module';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-login-non-customer',
   templateUrl: './login-non-customer.component.html',
   styleUrls: ['./login-non-customer.component.scss']
 })
-export class LoginNonCustomerComponent implements OnInit, AfterViewInit {
+export class LoginNonCustomerComponent extends iComponentBase  implements OnInit, AfterViewInit {
   user: User;
   form: FormGroup;
   error: string;
+  isCaptchaTouched = false;
+  isPasswordTouched=false;
+  captchaImage: string = '';
+  captchaText:string;
   showLoginForm: boolean = true;
 
   private client_Id = environment.clientId;
   constructor(private router: Router,
     public renderer: Renderer2,
     private _ngZone: NgZone,
+     public messageService: MessageService,
     private service: AuthService,
     // private cdr: ChangeDetectorRef
   ) {
-
+    super(messageService);
   }
   ngAfterViewInit(): void {
     // this.loadGoogleLibrary();
@@ -42,16 +53,18 @@ export class LoginNonCustomerComponent implements OnInit, AfterViewInit {
   FormFirst() {
     this.form = new FormGroup({
       email: new FormControl('', Validators.email),
-      password: new FormControl('', [Validators.required, Validators.minLength(3), PasswordLengthValidator(),
-      PasswordUpperValidator(), PasswordNumberValidator()])
+      password: new FormControl('', [Validators.required]),
+      captcha: new FormControl('', [Validators.required])
     })
+    this.refreshCaptcha();
   }
   ngOnInit(): void {
 
      localStorage.removeItem('user');
     sessionStorage.clear();
     this.service.error$.subscribe(error => {
-      this.error = error;
+    //  this.error = error;
+    this.showMessage(mType.error, "Notification", error, 'app-non-login');
     })
     this.FormFirst();
     this.loadGoogleLibrary();
@@ -139,10 +152,36 @@ export class LoginNonCustomerComponent implements OnInit, AfterViewInit {
   }
 
 
+  refreshCaptcha() {
+    // Generate a random alphanumeric string for the CAPTCHA
+    this.captchaText = this.generateRandomString(6); // Change the length as needed
 
+    // Create a canvas element and draw the text on it
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d')!;
+    canvas.width = 150;
+    canvas.height = 50;
+
+    // Customize the appearance of the CAPTCHA text
+    ctx.fillStyle = '#000';
+    ctx.font = '30px Arial';
+    ctx.fillText(this.captchaText, 10, 40);
+
+    // Convert the canvas to a data URL and set it as the image source
+    this.captchaImage = canvas.toDataURL();
+  }
+
+  generateRandomString(length: number): string {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+  }
   async onSubmit() {
     //this.formSubmitAttempt = false;
-    if (this.form.valid) {
+    if (this.form.valid&&this.captchaText==this.form.value.captcha) {
 
       try {
         //debugger;
@@ -179,9 +218,10 @@ export class LoginNonCustomerComponent implements OnInit, AfterViewInit {
         }, error => {
           console.log(error);
           if (error.status === 401) {
-            this.error = 'Email hoặc mật khẩu không chính xác.';
+            //this.error = 'Email hoặc mật khẩu không chính xác.';
           } else {
-            this.error = 'Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.';
+           // this.error = 'Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.';
+            this.showMessage(mType.error, "Notification", "Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau", 'app-non-login');
           }
         })
 
@@ -189,11 +229,23 @@ export class LoginNonCustomerComponent implements OnInit, AfterViewInit {
 
       }
     } else {
-      //this.formSubmitAttempt = true;
+      this.refreshCaptcha();
+      this.showMessage(mType.error, "Notification", "CAPTCHA bạn nhấp sai vui lòng nhập lại", 'app-non-login');
     }
   }
 
-
+  showCaptchaError() {
+    const captchanameControl = this.form.get('captcha');
+    if (captchanameControl.value === '' && captchanameControl.touched) {
+      console.log('Captcha is required!');
+    }
+  }
+  showPasswordError() {
+    const passwordControl = this.form.get('password');
+    if (passwordControl.value === '' && passwordControl.touched) {
+      console.log('Password is required!');
+    }
+  }
   //  async loginfb() {
   //    FB.login(async (result:any) => {
   //      //debugger;

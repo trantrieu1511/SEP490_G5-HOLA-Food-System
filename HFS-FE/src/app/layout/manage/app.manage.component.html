@@ -8,10 +8,10 @@
         'layout-topbar-mobile-active': layoutService.state.mobileTopbarActive,
         'layout-rightmenu-active': layoutService.state.rightMenuActive,
         'layout-rtl': layoutService.app.isRTL}"
-        
+
         [class]="'layout-menu-' + layoutService.app.menuTheme + ' layout-topbar-' + layoutService.app.topbarTheme">
 
-    <app-topbar></app-topbar>
+    <app-topbar  (toggleCustomerListEvent)="toggleCustomerList()"></app-topbar>
 
     <!-- <app-rightmenu></app-rightmenu> -->
 
@@ -38,3 +38,7 @@
     <div *ngIf="layoutService.state.mobileMenuActive" class="layout-mask modal-in"></div>
 
 </div>
+<div>
+  <app-customer-list-by-chat *ngIf="isCustomerListVisible"></app-customer-list-by-chat>
+</div>
+

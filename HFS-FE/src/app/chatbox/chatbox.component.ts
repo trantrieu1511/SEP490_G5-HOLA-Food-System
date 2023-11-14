@@ -1,31 +1,59 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
+import { User } from '../services/auth.service';
+import { MessageChatService } from '../services/messagechat.service';
+
+
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-chatbox',
   templateUrl: './chatbox.component.html',
-  styleUrls: ['./chatbox.component.scss']
+  styleUrls: ['./chatbox.component.scss'],
+  providers: [MessageChatService]
 })
-export class ChatboxComponent implements OnInit, AfterViewInit {
+export class ChatboxComponent implements OnInit, AfterViewInit,OnDestroy {
 
   @Input() user: any;//information of chat box
   messageContent: string;
   @Input() right: number;
   @Output() removeChatBox = new EventEmitter();
   @Output() miniChatBox = new EventEmitter();
+  @Output() activedChatBoxEvent = new EventEmitter();
   @ViewChild('messageForm') messageForm: NgForm;
-
-  constructor() { }
+// Inside your component class
+isCollapsed = false;
+isAnimated = true;
+role:string;
+  customer: User;
+  constructor(public messageChatService: MessageChatService) { }
 
   ngOnInit(): void {
+    this.role=sessionStorage.getItem('role');
+    this.customer=JSON.parse(localStorage.getItem('user'));
+    //const user: User = JSON.parse(localStorage.getItem('user'));
+    const token = sessionStorage.getItem('JWT');
+    this.messageChatService.createHubConnection(token, this.user.email);
+  }
+  ngOnDestroy(): void {
+    this.messageChatService.stopHubConnection();
   }
 
   ngAfterViewInit() {
     var chatBox = document.getElementById(this.user.email);
     chatBox.style.right = this.right + "px";
   }
+  @HostListener("scroll", ["$event"])
+  onScroll(event) {
+    let pos = event.target.scrollTop + event.target.offsetHeight;
+    let max = event.target.scrollHeight;
+    //pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
 
+  }
   sendMessage() {
+    this.messageChatService.sendMessage(this.user.email, this.messageContent).then(() => {
+      this.messageForm.reset();
+    })
   }
 
   closeBoxChat() {
@@ -39,10 +67,11 @@ export class ChatboxComponent implements OnInit, AfterViewInit {
 
   onFocusEvent(event: any) {
     //console.log(event.target.value);
+    this.activedChatBox();
   }
 
   activedChatBox() {
-    //this.activedChatBoxEvent.emit(this.user.userName)
+    this.activedChatBoxEvent.emit(this.user.email)
   }
 
 }

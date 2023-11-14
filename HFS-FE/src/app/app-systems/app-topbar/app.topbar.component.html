@@ -25,7 +25,10 @@
                         (click)="layoutService.onTopbarItemClick($event, 'search')" pRipple>
                         <i class="pi pi-search fs-large"></i>
                     </a>
-
+                    <a class="layout-topbar-action rounded-circle"
+                    (click)="toggleCustomerList()" pRipple>
+                    <i class="pi pi-comment fs-large"></i>
+                </a>
                     <div class="layout-search-panel p-inputgroup" [@topbarActionPanelAnimation]="'visible'"
                         *ngIf="layoutService.state.search"
                         (@topbarActionPanelAnimation.done)="onSearchAnimationEnd($event)">

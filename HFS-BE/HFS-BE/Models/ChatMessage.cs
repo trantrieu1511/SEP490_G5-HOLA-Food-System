@@ -11,6 +11,7 @@ namespace HFS_BE.Models
         public bool SenderType { get; set; }
         public string Message { get; set; } = null!;
         public DateTime SentAt { get; set; }
+        public bool IsRead { get; set; }
 
         public virtual Customer Customer { get; set; } = null!;
         public virtual Seller Seller { get; set; } = null!;

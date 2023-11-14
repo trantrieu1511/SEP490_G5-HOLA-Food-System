@@ -1,49 +1,50 @@
-<div class="card friend-list">
+<div class="card friend-list sidebar">
   <div class="card-header">
-      <h4 class="text-primary">Seller list</h4>
-
+    <h4 class="text-primary">Seller list</h4>
+    <a class="btn btn-link close-btn" (click)=" onCloseSellerList()">
+      <i class="pi pi-times"></i>
+    </a>
   </div>
   <div class="card-body">
-      <ul id="contact" style="padding-left: 0px;">
-          <li class="pd-contact" *ngFor="let item of (presence.onlineUserscus$ | async)" (click)="selectUser(item)">
-              <div class="d-flex">
-                  <div class="mr" style="position: relative;">
-                      <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
-                      <!-- <span class="badge label-u label-danger">3</span> -->
-                  </div>
-                  <div>
-                      <div class="displayName">{{item.email}}</div>
-
-                      <div class="label"  class="online">
-                       Online
-                      </div>
-                  </div>
-              </div>
-          </li>
-          <li class="pd-contact" *ngFor="let item1 of (presence.offlineUserscus$ | async)" (click)="selectUser(item1)">
-            <div class="d-flex">
-                <div class="mr" style="position: relative;">
-                    <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
-                    <!-- <span class="badge label-u label-danger">3</span> -->
-                </div>
-                <div>
-                    <div class="displayName">{{item1.email}}</div>
-
-                    <div class="label" class="offline">
-                     Offline
-                    </div>
-                </div>
-            </div>
-        </li>
-      </ul>
+    <ul id="contact" class="list-unstyled">
+      <li class="pd-contact" *ngFor="let item of (presence.onlineUserscus$ | async)" (click)="selectUser(item)">
+        <div class="d-flex align-items-center">
+          <div class="mr-3" style="position: relative;">
+            <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
+            <!-- <span class="badge label-u label-danger">3</span> -->
+          </div>
+          <div>
+            <div class="displayName">{{item.email}}</div>
+            <div class="label online">Online</div>
+          </div>
+          <div class="message-preview">
+            <div class="unread-indicator"></div>
+          </div>
+        </div>
+      </li>
+      <li class="d-flex align-items-center pd-contact" *ngFor="let item1 of (presence.offlineUserscus$ | async)" (click)="selectUser(item1)">
+        <div class="d-flex align-items-center">
+          <div class="mr-3" style="position: relative;">
+            <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
+            <!-- <span class="badge label-u label-danger">3</span> -->
+          </div>
+          <div>
+            <div class="displayName">{{item1.email}}</div>
+            <div class="label offline">Offline</div>
+          </div>
+          <div class="message-preview">
+            <div class="unread-indicator"></div>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
   <div class="card-footer">
-      <div class="text-success text-center">{{(presence.onlineUserscus$ | async).length}} online</div>
+    <div class="text-success text-center">{{(presence.onlineUserscus$ | async).length}} online</div>
   </div>
 </div>
 <div>
   <app-chatbox *ngFor="let item of usersOnline" [right]="item.right" [user]="item.seller"
-  (miniChatBox)="miniChatBox($event)"
-  (removeChatBox)="removeChatBox($event)">
-</app-chatbox>
+    (miniChatBox)="miniChatBox($event)" (removeChatBox)="removeChatBox($event)">
+  </app-chatbox>
 </div>

@@ -22,7 +22,7 @@ namespace HFS_BE.Dao.AuthDao
 	{
 		private const string MailgunApiBaseUrl = "https://api.mailgun.net/v3/";
 		private const string MailgunDomain = "sandbox38179487b9c441e69a66b0ecb5364d85.mailgun.org";
-		private const string MailgunApiKey = "c050ad11536d134d879a655d65baae5d-5465e583-034be4a6";
+		private const string MailgunApiKey = "138645612dfd388290c47d43875d34d6-8c9e82ec-3d2cebe3";
 		public AuthDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
 		{
 		}
@@ -34,14 +34,14 @@ namespace HFS_BE.Dao.AuthDao
 			
 			if (user == null)
 			{
-				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
+				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email hoặc Mật Khẩu sai");
 			}
 
 			var match = CheckPassword(input.Password, (Customer)user);
 
 			if (!match)
 			{
-				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
+				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email hoặc Mật Khẩu sai");
 			}
 			if (user.IsBanned == true)
 			{
@@ -292,6 +292,18 @@ namespace HFS_BE.Dao.AuthDao
 		private string GetForgotPasswordLink(string userId, string confirmationCode)
 		{
 			string baseUrl = "http://localhost:4200/#/forgot";
+			//	var query = new Dictionary<string, string>
+			//{
+			//	{ "userId", userId },
+			//	{ "code", confirmationCode }
+			//};
+			var confirmationLink = baseUrl + "?userId=" + userId + "&code=" + confirmationCode;
+			return confirmationLink;
+		}
+
+		private string GetConfirmEmailLink(string userId, string confirmationCode)
+		{
+			string baseUrl = "http://localhost:4200/#/Confirm";
 			//	var query = new Dictionary<string, string>
 			//{
 			//	{ "userId", userId },

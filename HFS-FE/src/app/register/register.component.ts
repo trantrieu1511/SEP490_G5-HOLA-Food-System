@@ -7,13 +7,21 @@ import { AuthService, User } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { DateOfBirthValidator, PasswordLengthValidator, PasswordMatch, PasswordNumberValidator, PasswordUpperValidator } from '../login/Restricted-login.directive';
 import { RowToggler } from 'primeng/table';
+
+import {
+  iComponentBase,
+  iServiceBase, mType,
+  ShareData,
+  iFunction
+} from 'src/app/modules/shared-module/shared-module';
 import { Register } from './models/register';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit,AfterViewInit {
+export class RegisterComponent extends iComponentBase  implements OnInit,AfterViewInit {
   isFirstnameTouched = false;
   isLastnameTouched = false;
   user:User;
@@ -28,10 +36,11 @@ private client_Id=environment.clientId;
  constructor(private router: Router,
   public renderer: Renderer2,
   private _ngZone: NgZone,
+  public messageService: MessageService,
   private service: AuthService,
  // private cdr: ChangeDetectorRef
 ){
-
+   super(messageService);
  }
   ngAfterViewInit(): void {
     // this.loadGoogleLibrary();
@@ -69,7 +78,10 @@ registerData: Register;
  ngOnInit(): void {
   this.FormFirst();
   this.service.errorregister$.subscribe(errorregister => {
-    this.errorregister = errorregister;})
+   // this.errorregister = errorregister;
+   this.showMessage(mType.error, "Notification", errorregister, 'app-register');
+
+  })
 
   this.roles = [
     {name: 'Customer', id: 3},
@@ -105,6 +117,12 @@ showLastnameError() {
   const lastnameControl = this.formregister.get('lastname');
   if (lastnameControl.value === '' && lastnameControl.touched) {
     console.log('Lastname is required!');
+  }
+}
+showCaptchaError() {
+  const captchanameControl = this.formregister.get('captcha');
+  if (captchanameControl.value === '' && captchanameControl.touched) {
+    console.log('Captcha is required!');
   }
 }
 async onSubmit() {

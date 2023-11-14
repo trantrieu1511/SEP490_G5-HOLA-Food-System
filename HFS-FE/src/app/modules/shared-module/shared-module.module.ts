@@ -13,6 +13,7 @@ import { NotificationsComponent } from 'src/app/modules/shared-module/components
 import { NotificationItemComponent } from './components/notification-item/notification-item.component';
 import { SellerListComponent } from 'src/app/seller-list/seller-list.component';
 import { ChatboxComponent } from 'src/app/chatbox/chatbox.component';
+import { CustomerListByChatComponent } from 'src/app/customer-list-by-chat/customer-list-by-chat.component';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { ChatboxComponent } from 'src/app/chatbox/chatbox.component';
       NotificationsComponent,
       NotificationItemComponent,
       SellerListComponent,
-      ChatboxComponent
+      ChatboxComponent,
+      CustomerListByChatComponent
 
   ],
   exports: [
@@ -44,7 +46,9 @@ import { ChatboxComponent } from 'src/app/chatbox/chatbox.component';
       LoadingComponent,
       OpenPagePopupComponent,
       NotificationsComponent,
-      SellerListComponent
+      SellerListComponent,
+      CustomerListByChatComponent
+
   ],
 })
 

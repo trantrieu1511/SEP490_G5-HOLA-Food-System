@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
+using HFS_BE.DAO.SellerDao;
 using HFS_BE.DAO.UserDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Mailjet.Client.Resources;
+using Microsoft.EntityFrameworkCore;
 
 namespace HFS_BE.DAO.CustomerDao
 {
@@ -76,6 +78,26 @@ namespace HFS_BE.DAO.CustomerDao
 			{
 				return this.Output<ListHistoryBanCustomer>(Constants.ResultCdFail);
 			}
+		}
+		public async Task<CustomerDtoOutput> GetCustoemrAsync(string email)
+		{
+			var user = await context.Customers
+				.FirstOrDefaultAsync(x => x.Email == email);
+
+			var datmapper = mapper.Map<Customer, CustomerDtoOutput>(user);
+			return datmapper;
+		}
+
+
+		public async Task<List<CustomerDtoOutput>> ListCustomersendSellerbySellerAsync(string emailseller)
+		{
+			var user = await context.Customers.Include(s=>s.ChatMessages).ThenInclude(s=>s.Seller).
+				Where(s=>s.ChatMessages.Any(cm => cm.Seller.Email == emailseller))
+	.ToListAsync();
+
+
+			var datmapper = mapper.Map<List<Customer>,List<CustomerDtoOutput>>(user);
+			return datmapper;
 		}
 	}
 }

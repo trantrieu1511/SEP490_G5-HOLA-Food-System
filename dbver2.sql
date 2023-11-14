@@ -516,14 +516,23 @@ CREATE TABLE ChatMessage (
     MessageId INT PRIMARY KEY IDENTITY(1,1),
     CustomerId NVARCHAR(50) NOT NULL,
     SellerId NVARCHAR(50) NOT NULL,
-    SenderType bit NOT NULL,
+    SenderType BIT NOT NULL,
     Message NVARCHAR(MAX) NOT NULL,
     SentAt DATETIME NOT NULL,
+    IsRead BIT NOT NULL DEFAULT 0, -- Thêm cột để đánh dấu tin nhắn đã đọc hay chưa
     CONSTRAINT FK_ChatMessage_Customer_Sender FOREIGN KEY (CustomerId) REFERENCES Customer (CustomerId),
     CONSTRAINT FK_ChatMessage_Seller_Receiver FOREIGN KEY (SellerId) REFERENCES Seller (SellerId)
+);
+CREATE TABLE Groups (
+    Name NVARCHAR(150) PRIMARY KEY 
 
 );
-
+CREATE TABLE Connections (
+    [ConnectionId] NVARCHAR(50) PRIMARY KEY, 
+	[email] NVARCHAR(100) not null,
+	[GroupName] NVARCHAR(150) not null,
+	CONSTRAINT FK_ChatMessage_Groups FOREIGN KEY ([GroupName]) REFERENCES Groups (Name)
+);
 CREATE TABLE [ProfileImage] (
 	[imageId] [int] PRIMARY KEY IDENTITY(1, 1),
 	[userId] [int] NULL,

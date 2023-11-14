@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { animate, AnimationEvent, style, transition, trigger } from '@angular/animations';
 import { MegaMenuItem, MessageService } from 'primeng/api';
 import { Router } from "@angular/router";
@@ -30,7 +30,7 @@ import { AppComponent } from 'src/app/app.component';
     styleUrls: ['./app.topbar-cus.component.scss'],
 })
 export class AppCustomerTopBarComponent extends iComponentBase implements OnInit {
-
+  @Output() toggleSellerListEvent = new EventEmitter<void>();
     isLoggedIn: boolean = false;
 
     constructor(public layoutService: CustomerLayoutService,
@@ -46,7 +46,9 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
     @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
 
     @ViewChild('topbarmenu') menu!: ElementRef;
-
+    toggleSellerList() {
+      this.toggleSellerListEvent.emit();
+    }
     goToNewsFeedPage() {
         this.router.navigateByUrl('/newsfeed');
     }

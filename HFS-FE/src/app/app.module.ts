@@ -51,6 +51,7 @@ import { ProfileManagementComponent } from './modules/seller-routing-module/comp
 import { OrderhistoryComponent } from './modules/customer-routing-module/components/orderhistory/orderhistory.component';
 import { MenuDataService } from './services/menu-data.service';
 import { BusinessRoutingModule } from './modules/business-routing-module/business-routing-module.module';
+import { CustomerListByChatComponent } from './customer-list-by-chat/customer-list-by-chat.component';
 
 @NgModule({
   declarations: [
@@ -76,10 +77,10 @@ import { BusinessRoutingModule } from './modules/business-routing-module/busines
     InvitationShipperComponent,
     ManageSellerModuleComponent,
     ManageShipperModuleComponent,
-    ProfileManagementComponent
-    SellerListComponent,
+    ProfileManagementComponent,
     ProfileManagementComponent,
     OrderhistoryComponent
+
 
   ],
   imports: [

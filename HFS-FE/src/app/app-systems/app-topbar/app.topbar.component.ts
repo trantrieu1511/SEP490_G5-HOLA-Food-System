@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {animate, AnimationEvent, style, transition, trigger} from '@angular/animations';
 import {MegaMenuItem, MessageService} from 'primeng/api';
 import {AppComponent} from '../../app.component';
@@ -28,7 +28,7 @@ import { PresenceService } from 'src/app/services/presence.service';
     ]
 })
 export class AppTopBarComponent extends iComponentBase implements OnInit {
-
+  @Output() toggleCustomerListEvent = new EventEmitter<void>();
     constructor(public layoutService: LayoutService,
                 public app: AppComponent,
                 private router: Router,
@@ -42,7 +42,9 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
 
 
     @ViewChild('searchInput') searchInputViewChild!: ElementRef;
-
+    toggleCustomerList() {
+      this.toggleCustomerListEvent.emit();
+    }
     onSearchAnimationEnd(event: AnimationEvent) {
         switch (event.toState) {
             case 'visible':

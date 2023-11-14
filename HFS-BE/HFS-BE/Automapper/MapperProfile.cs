@@ -32,6 +32,7 @@ using HFS_BE.BusinessLogic.ManageUser;
 using HFS_BE.DAO.VoucherDao;
 using HFS_BE.DAO.NotificationDao;
 using HFS_BE.DAO.PostReportDao;
+using HFS_BE.DAO.ChatMessageDao;
 
 namespace HFS_BE.Automapper
 {
@@ -56,7 +57,9 @@ namespace HFS_BE.Automapper
             Voucher();
             Shop();
             Notification();
-        }
+            Chat();
+
+		}
 
         /// <summary>
         /// dataconvert của màn homepage.
@@ -366,6 +369,12 @@ namespace HFS_BE.Automapper
         {
             CreateMap<NotificationAddNewInputDto, Notification>();
         }
-    }
+		public void Chat()
+		{
+			CreateMap<ChatMessage, MessageDtoOuput>()
+                .ForMember(dest => dest.EmailCustomer, opt => opt.MapFrom(src => src.Customer.Email))
+				 .ForMember(dest => dest.EmailSeller, opt => opt.MapFrom(src => src.Seller.Email)); ;
+		}
+	}
 }
 

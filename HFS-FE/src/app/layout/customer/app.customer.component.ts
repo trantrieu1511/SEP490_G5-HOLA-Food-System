@@ -19,7 +19,11 @@ export class AppCustomerLayoutComponent implements OnDestroy, OnInit {
 
     profileMenuOutsideClickListener: any;
 
+    isSellerListVisible: boolean = false;
 
+    toggleSellerList() {
+      this.isSellerListVisible = !this.isSellerListVisible;
+    }
     @ViewChild(AppCustomerTopBarComponent) appTopbar!: AppCustomerTopBarComponent;
 
 
