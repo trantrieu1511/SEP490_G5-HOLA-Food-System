@@ -7,4 +7,9 @@
         public int? TransactionType { get; set; }
         public decimal? Value { get; set; }
     }
+
+    public class PaymentReturnInputDto
+    {
+        public string? ReturnUrl { get; set; }
+    }
 }

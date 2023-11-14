@@ -13,6 +13,8 @@ import { ShopdetailComponent } from './components/shopdetail/shopdetail.componen
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ManageprofileComponent } from './components/manageprofile/manageprofile.component';
 import { OrderhistoryComponent } from './components/orderhistory/orderhistory.component';
+import { WalletComponent } from './components/wallet/wallet.component';
+import { PaymentverifyComponent } from './components/paymentverify/paymentverify.component';
 
 
 
@@ -23,8 +25,11 @@ const routes: Routes = [
   {path: "cartdetail", component: CartdetailComponent},
   {path: "checkout", component : CheckoutComponent},
   {path: "profile", component : ManageprofileComponent},
-  {path: "orderhistory", component : OrderhistoryComponent}
+  {path: "orderhistory", component : OrderhistoryComponent},
+  {path: "wallet", component : WalletComponent},
+  {path: "paymentverify", component : PaymentverifyComponent}
 ]
+
 
 @NgModule({
   declarations: [

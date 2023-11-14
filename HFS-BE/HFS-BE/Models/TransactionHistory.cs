@@ -9,6 +9,7 @@ namespace HFS_BE.Models
         public string SenderId { get; set; } = null!;
         public string? RecieverId { get; set; }
         public string TransactionType { get; set; } = null!;
+        public string? Note { get; set; }
         public decimal Value { get; set; }
         public byte? Status { get; set; }
     }

@@ -1072,11 +1072,13 @@ namespace HFS_BE.Models
             modelBuilder.Entity<TransactionHistory>(entity =>
             {
                 entity.HasKey(e => e.TransactionId)
-                    .HasName("PK__Transact__9B57CF724CFAF3D1");
+                    .HasName("PK__Transact__9B57CF727E5ED485");
 
                 entity.ToTable("TransactionHistory");
 
                 entity.Property(e => e.TransactionId).HasColumnName("transactionId");
+
+                entity.Property(e => e.Note).HasMaxLength(200);
 
                 entity.Property(e => e.RecieverId)
                     .HasMaxLength(50)

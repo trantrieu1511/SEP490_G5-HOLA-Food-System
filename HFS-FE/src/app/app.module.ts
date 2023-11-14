@@ -47,6 +47,8 @@ import { ProfileManagementComponent } from './modules/seller-routing-module/comp
 import { OrderhistoryComponent } from './modules/customer-routing-module/components/orderhistory/orderhistory.component';
 import { MenuDataService } from './services/menu-data.service';
 import { BusinessRoutingModule } from './modules/business-routing-module/business-routing-module.module';
+import { WalletComponent } from './modules/customer-routing-module/components/wallet/wallet.component';
+import { PaymentverifyComponent } from './modules/customer-routing-module/components/paymentverify/paymentverify.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +73,9 @@ import { BusinessRoutingModule } from './modules/business-routing-module/busines
     SellerListComponent,
     VoucherManagementComponent,
     ProfileManagementComponent,
-    OrderhistoryComponent
+    OrderhistoryComponent,
+    WalletComponent,
+    PaymentverifyComponent
     
   ],
   imports: [
