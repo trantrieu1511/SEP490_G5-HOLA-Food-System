@@ -64,6 +64,14 @@
                                     class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
+                        <th pSortableColumn="note">
+                            <div class="flex justify-content-between align-items-center">
+                                Note
+                                <p-sortIcon field="note"></p-sortIcon>
+                                <p-columnFilter type="text" field="note" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
                         <th style="min-width: 8rem">
                             <div class="flex justify-content-between align-items-center">
                                 Action
@@ -96,9 +104,13 @@
                             <span class="p-column-title">Status</span>
                             <p-tag [value]="foodrp.status" [severity]="getSeverity(foodrp.status)"></p-tag>
                         </td>
+                        <td>
+                            <span class="p-column-title">Note</span>
+                            {{foodrp.note}}
+                        </td>
                         <td style="text-align: center">
                             <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
-                                
+
                                 <div class="flex align-items-center justify-content-center">
                                     <button pButton pRipple icon="pi pi-pencil"
                                         (click)="onOpenApproveNotApproveModal(foodrp)"
@@ -121,27 +133,34 @@
 <p-dialog header="Approve/Not approve food report" [(visible)]="isVisibleApproveNotApproveModal" [modal]="true"
     [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '500px' }" [draggable]="false" [resizable]="false"
     [responsive]="true">
-    <br>
-    <div class="flex align-items-center">
-        <p-radioButton name="Approved" value="Approved" [(ngModel)]="foodReport.status"
-            inputId="Approved"></p-radioButton>
-        <label for="Approved" class="ml-2">Approved</label>
-        &nbsp;&nbsp;
-        <p-radioButton name="NotApproved" value="NotApproved" [(ngModel)]="foodReport.status"
-            inputId="NotApproved"></p-radioButton>
-        <label for="NotApproved" class="ml-2">NotApproved</label>
+    <div class="card">
+        <div class="flex align-items-center">
+            <p-radioButton name="Approved" value="Approved" [(ngModel)]="foodReport.status"
+                inputId="Approved"></p-radioButton>
+            <label for="Approved" class="ml-2">Approved</label>
+            &nbsp;&nbsp;
+            <p-radioButton name="NotApproved" value="NotApproved" [(ngModel)]="foodReport.status"
+                inputId="NotApproved"></p-radioButton>
+            <label for="NotApproved" class="ml-2">NotApproved</label>
+        </div>
+        <br><br>
+        <span class="p-float-label">
+            <textarea class="w-full" id="float-input" rows="5" cols="40" [(ngModel)]="foodReport.note"
+                pInputTextarea></textarea>
+            <label for="float-input">Note (Optional)</label>
+        </span>
     </div>
-    <br>
-    <span class="p-float-label">
-        <textarea class="w-full" id="float-input" rows="5" cols="40" [(ngModel)]="foodReport.note" pInputTextarea></textarea>
-        <label for="float-input">Note (Optional)</label>
-    </span>
-    <br>
-    <p-button (click)="approveNotApproveFood(foodReport)">Save</p-button>
+    <!-- <br> -->
+    <div style="display: flex;">
+        <p-button (click)="approveNotApproveFood(foodReport)">Save</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <p-button [text]="true"(onClick)="isVisibleApproveNotApproveModal = false">Cancel</p-button>
+    </div>
+    
     <!-- </div> -->
 </p-dialog>
 
-<p-dialog header="View report content" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true">
+<p-dialog header="View report content" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}"
+    [maximizable]="true">
     <p class="dialog-content-detail">
         {{contentDialog}}
     </p>
