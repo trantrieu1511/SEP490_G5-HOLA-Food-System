@@ -2,7 +2,7 @@ import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@a
 import {animate, AnimationEvent, style, transition, trigger} from '@angular/animations';
 import {MegaMenuItem, MessageService} from 'primeng/api';
 import {AppComponent} from '../../app.component';
-import {Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
 import {
     iComponentBase,
     iServiceBase,
@@ -46,7 +46,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         private authService: AuthService
     ) {
         super(messageService);
-        if(this.checkRoleCus){
+        if(this.checkLink()){
             this.isCustomer = true;
         }
     }
@@ -82,7 +82,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         this.clearLocalStorage();
 
         event.preventDefault();
-        let urlLogin = this.checkRoleCus ? '/login' : '/login-2';
+        let urlLogin = this.checkRoleCus() ? '/login' : '/login-2';
 
         //this.router.navigate(['/login']);
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
@@ -114,12 +114,17 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     viewProfile() {
-        let urlProfile = this.checkRoleCus ? 'profile' : 'HFSBusiness';
+        let urlProfile = this.checkRoleCus() ? 'profile' : 'HFSBusiness';
         this.router.navigateByUrl(urlProfile);
     }
 
     ngOnInit() {
         this.checkLoggedInState();
+        // this.router.events.subscribe(event => {
+        //     if (event instanceof NavigationEnd) {
+        //       this.changeLayout();
+        //     }
+        // })
 
     }
 
@@ -130,7 +135,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     goToLoginPage() {
-        let urlLogin = this.checkRoleCus ? '/login' : '/login-2';
+        let urlLogin = this.checkRoleCus() ? '/login' : '/login-2';
         this.router.navigateByUrl(urlLogin);
     }
 
@@ -142,4 +147,14 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         this.router.navigateByUrl('/newsfeed');
     }
 
+    onClickLogo(event: any){
+        event.preventDefault();
+        let urlHome = this.checkLink() ? '/' : '/HFSBusiness';
+        this.router.navigateByUrl(urlHome);
+    }
+
+    checkLink(){
+        return this.router.url.indexOf("/HFSBusiness") == 0 ? false : true;
+    }
+    
 }

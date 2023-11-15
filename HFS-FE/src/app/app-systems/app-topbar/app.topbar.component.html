@@ -1,10 +1,10 @@
 <div class="layout-topbar shadow-4">
     <div class="layout-topbar-left">
-        <a class="layout-topbar-logo" routerLink="/HFSBusiness">
+        <a class="layout-topbar-logo" (click)="onClickLogo($event)">
             <img id="app-logo" src="../../../assets/image/Logo2.png" alt="ultima-layout" style="height: 3.75rem">
         </a>
 
-        <a *ngIf="!isCustomer" class="layout-menu-button shadow-6" (click)="layoutService.onMenuButtonClick($event)" pRipple>
+        <a *ngIf="!checkLink()" class="layout-menu-button shadow-6" (click)="layoutService.onMenuButtonClick($event)" pRipple>
             <i class="pi pi-chevron-right"></i>
         </a>
 
@@ -18,7 +18,7 @@
             <!-- <p-megaMenu [model]="model" styleClass="layout-megamenu"></p-megaMenu> -->
         </div>
         <div class="layout-topbar-actions-right">
-                <ul *ngIf="isCustomer == true;else notCus" class="layout-topbar-items">
+                <ul *ngIf="checkRoleCus() == true;else notCus" class="layout-topbar-items">
                     <li class="layout-topbar-item">
                         <a class="layout-topbar-action rounded-circle" (click)="toggleSellerList()" pRipple>
                             <span class="p-overlay-badge">
@@ -159,10 +159,10 @@
                             <i class="pi pi-search fs-large"></i>
                         </a>
                         <a class="layout-topbar-action rounded-circle"
-                        (click)="toggleCustomerList()" pRipple>
-                        <i class="pi pi-comment fs-large"></i>
-                    </a>
-                        <div class="layout-search-panel p-inputgroup" [@topbarActionPanelAnimation]="'visible'"
+                            (click)="toggleCustomerList()" pRipple>
+                            <i class="pi pi-comment fs-large"></i>
+                        </a>
+                        <!-- <div class="layout-search-panel p-inputgroup" [@topbarActionPanelAnimation]="'visible'"
                             *ngIf="layoutService.state.search"
                             (@topbarActionPanelAnimation.done)="onSearchAnimationEnd($event)">
                             <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
@@ -174,79 +174,10 @@
                                     class="p-button-rounded p-button-text p-button-plain"
                                     (click)="layoutService.state.searchClick = false;"></button>
                             </span>
-                        </div>
+                        </div> -->
                     </li>
                     <app-notifications [layoutService]="layoutService"></app-notifications>
-                    <li class="layout-topbar-item shoppingcart">
-                        <a class="layout-topbar-action rounded-circle"
-                            (click)="layoutService.onTopbarItemClick($event, 'shoppingcart')" pRipple>
-                            <span class="p-overlay-badge">
-                                <i class="pi pi-shopping-cart fs-large"></i>
-                                <span class="p-badge p-badge-warning p-badge-dot"></span>
-                            </span>
-                        </a>
-    
-                        <ul class="layout-topbar-action-panel shadow-6" [@topbarActionPanelAnimation]="'visible'"
-                            *ngIf="layoutService.state.activeTopbarItem === 'shoppingcart'">
-    
-                            <li class="layout-topbar-action-item">
-                                <div class="flex flex-row align-items-center">
-                                    <img src="../../../assets/demo/images/avatar/avatar-1.png" />
-                                    <div class="flex flex-column"
-                                        [ngClass]="{'ml-3': !layoutService.app.isRTL, 'mr-3': layoutService.app.isRTL}"
-                                        style="flex-grow: 1;">
-                                        <div class="flex align-items-center justify-content-between mb-1">
-                                            <span class="fs-small font-bold">Jerome Bell</span>
-                                            <small>42 mins ago</small>
-                                        </div>
-                                        <span class="fs-small">How to write content about your photographs?</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="layout-topbar-action-item">
-                                <div class="flex flex-row align-items-center">
-                                    <img src="../../../assets/demo/images/avatar/avatar-2.png" />
-                                    <div class="flex flex-column"
-                                        [ngClass]="{'ml-3': !layoutService.app.isRTL, 'mr-3': layoutService.app.isRTL}"
-                                        style="flex-grow: 1;">
-                                        <div class="flex align-items-center justify-content-between mb-1">
-                                            <span class="fs-small font-bold">Cameron Williamson</span>
-                                            <small>48 mins ago</small>
-                                        </div>
-                                        <span class="fs-small">Start a blog to reach your creative peak.</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="layout-topbar-action-item">
-                                <div class="flex flex-row align-items-center">
-                                    <img src="../../../assets/demo/images/avatar/avatar-3.png" />
-                                    <div class="flex flex-column"
-                                        [ngClass]="{'ml-3': !layoutService.app.isRTL, 'mr-3': layoutService.app.isRTL}"
-                                        style="flex-grow: 1;">
-                                        <div class="flex align-items-center justify-content-between mb-1">
-                                            <span class="fs-small font-bold">Anna Miles</span>
-                                            <small>1 day ago</small>
-                                        </div>
-                                        <span class="fs-small">Caring is the new marketing</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="layout-topbar-action-item">
-                                <div class="flex flex-row align-items-center">
-                                    <img src="../../../assets/demo/images/avatar/avatar-4.png" />
-                                    <div class="flex flex-column"
-                                        [ngClass]="{'ml-3': !layoutService.app.isRTL, 'mr-3': layoutService.app.isRTL}"
-                                        style="flex-grow: 1;">
-                                        <div class="flex align-items-center justify-content-between mb-1">
-                                            <span class="fs-small font-bold">Arlene Mccoy</span>
-                                            <small>4 day ago</small>
-                                        </div>
-                                        <span class="fs-small">Starting your traveling blog with Vasco.</span>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
+                
                     <li *ngIf="isLoggedInState" class="layout-topbar-item">
                         <a class="layout-topbar-action flex flex-row justify-content-center align-items-center px-2 rounded-circle"
                             (click)="layoutService.onTopbarItemClick($event, 'profile')" pRipple>
