@@ -2,7 +2,7 @@ export class FoodReport {
   foodId: number;
   foodName: string;
   shopName: string;
-  reportBy: string
+  reportBy: string;
   reportContent: string;
   reportContents: string[] = [];
   createDate: string;

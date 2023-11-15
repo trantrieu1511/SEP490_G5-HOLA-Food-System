@@ -31,7 +31,7 @@
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" #textInput
                                 (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                placeholder="Search by reportContent" />
+                                placeholder="Search by report content" />
                         </span>
                     </div>
                 </div>
@@ -89,6 +89,12 @@
                 <th>Name of the seller whose post is reported by you: </th>
                 <td>
                     {{contentDialog.sellerName}}
+                </td>
+            </tr>
+            <tr>
+                <th>Their shop's name: </th>
+                <td>
+                    {{contentDialog.shopName}}
                 </td>
             </tr>
             <tr>

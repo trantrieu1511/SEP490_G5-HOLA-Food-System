@@ -1,8 +1,9 @@
 export class PostReport {
   postId: number;
-  sellerName: string
-  postContent: string
-  reportBy: string
+  sellerName: string;
+  shopName: string;
+  postContent: string;
+  reportBy: string;
   reportContent: string;
   createDate: string;
   updateDate: string;

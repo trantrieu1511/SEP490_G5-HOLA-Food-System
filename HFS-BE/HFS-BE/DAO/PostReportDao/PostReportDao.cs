@@ -45,6 +45,7 @@ namespace HFS_BE.DAO.PostReportDao
                             {
                                 PostId = pr.PostId,
                                 SellerName = pr.Post.Seller.LastName + " " + pr.Post.Seller.FirstName,
+                                ShopName = pr.Post.Seller.ShopName,
                                 PostContent = pr.Post.PostContent,
                                 ReportBy = pr.ReportBy,
                                 ReportContent = pr.ReportContent,
