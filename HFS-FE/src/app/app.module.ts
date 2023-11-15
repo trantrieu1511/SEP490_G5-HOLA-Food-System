@@ -54,6 +54,8 @@ import { BusinessRoutingModule } from './modules/business-routing-module/busines
 import { WalletComponent } from './modules/customer-routing-module/components/wallet/wallet.component';
 import { PaymentverifyComponent } from './modules/customer-routing-module/components/paymentverify/paymentverify.component';
 import { CustomerListByChatComponent } from './customer-list-by-chat/customer-list-by-chat.component';
+import { CustomerfoodreportComponent } from './modules/customer-routing-module/components/customerfoodreport/customerfoodreport.component';
+import { CustomerpostreportComponent } from './modules/customer-routing-module/components/customerpostreport/customerpostreport.component';
 
 
 
@@ -86,7 +88,9 @@ import { CustomerListByChatComponent } from './customer-list-by-chat/customer-li
     OrderhistoryComponent,
     WalletComponent,
     PaymentverifyComponent,
-    OrderhistoryComponent
+    OrderhistoryComponent,
+    CustomerfoodreportComponent,
+    CustomerpostreportComponent
 
 
     

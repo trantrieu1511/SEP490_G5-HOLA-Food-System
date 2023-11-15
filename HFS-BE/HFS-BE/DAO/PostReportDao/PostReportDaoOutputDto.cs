@@ -8,6 +8,8 @@ namespace HFS_BE.DAO.PostReportDao
     public class PostReportOutputDto
     {
         public int PostId { get; set; }
+        public string? SellerName { get; set; }
+        public string? PostContent { get; set; }
         public string ReportBy { get; set; } = null!;
         public string ReportContent { get; set; } = null!;
         public DateTime CreateDate { get; set; }

@@ -20,7 +20,7 @@ export class ProfileDisplay {
     firstName: string;
     lastName: string;
     gender: string;
-    birthDate: Date;
+    birthDate: string;
     roleIEd: number;
     email: string;
     phoneNumber: string;

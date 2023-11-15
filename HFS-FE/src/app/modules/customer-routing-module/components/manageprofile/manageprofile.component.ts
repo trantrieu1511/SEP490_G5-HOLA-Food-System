@@ -26,12 +26,6 @@ import { AppCustomerTopBarComponent } from 'src/app/app-systems/app-topbar/custo
 })
 
 export class ManageprofileComponent extends iComponentBase implements OnInit {
-editPhoneNumber() {
-// throw new Error('Method not implemented.');
-}
-editEmail() {
-// throw new Error('Method not implemented.');
-}
 
   profile: Profile = new Profile();
   profileDisplay: ProfileDisplay = new ProfileDisplay();
@@ -48,7 +42,7 @@ editEmail() {
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
-    private router: Router,
+    public router: Router,
     // private appCustomerTopBarComponent: AppCustomerTopBarComponent
   ) {
     super(messageService);
@@ -122,7 +116,21 @@ editEmail() {
         this.profile = response.data;
         this.profile.birthDate = this.profile.birthDate.toString().split('T')[0];
         this.profileDisplay = Object.assign({}, response.data); //Copy profile sang mot entity moi phuc vu cho viec display (Entity do khac dia chi so voi profile nen khong bi anh huong boi two way data binding)
+        
+        // format date sang dd/mm/yyyy
+        const date = new Date(this.profileDisplay.birthDate);
+        const yyyy = date.getFullYear();
+        let mm = date.getMonth() + 1; // Months start at 0!
+        let dd = date.getDate();
+        let ddstr = '';
+        let mmstr = '';
 
+        if (dd < 10) ddstr = '0' + dd;
+        if (mm < 10) mmstr = '0' + mm;
+
+        const formattedDate = dd + '/' + mm + '/' + yyyy;
+        this.profileDisplay.birthDate = formattedDate;
+        
         console.log(this.profile);
         console.log(this.profileDisplay);
 
@@ -187,19 +195,20 @@ editEmail() {
       );
 
       if (response && response.message === 'Success') {
+        console.log("Import new profile image successfully");
         this.showMessage(
           mType.success,
           'Notification',
           'Import new profile image successfully',
           'notify'
         );
-        console.log("Import new profile image successfully");
 
-        //refresh profile image
-        this.getProfileImage();
+        //refresh profile images
+        // this.getProfileImage();
+        window.location.reload();
 
         //clear file upload
-        this.uploadedFiles = [];
+        // this.uploadedFiles = [];
 
         //refresh customer app top bar
         // this.router.navigate(['/'], { skipLocationChange: true }).then(() => {
@@ -229,9 +238,20 @@ editEmail() {
     this.isVisibleEditProfileDialog = false;
   }
 
+  editPhoneNumber() {
+    // throw new Error('Method not implemented.');
+  }
+
+  editEmail() {
+    // throw new Error('Method not implemented.');
+  }
+
   doSomething() {
     // throw new Error('Method not implemented.');
   }
+
+  // ------------------- Navigate to pages in sidebar function ----------------------
+
 
   // getSeverity(status: string) {
   //   switch (status) {

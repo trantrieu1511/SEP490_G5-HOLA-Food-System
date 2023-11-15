@@ -33,7 +33,7 @@ import { ProfileImage } from 'src/app/modules/customer-routing-module/models/pro
     providers: [ManageprofileComponent]
 })
 export class AppCustomerTopBarComponent extends iComponentBase implements OnInit {
-  @Output() toggleSellerListEvent = new EventEmitter<void>();
+    @Output() toggleSellerListEvent = new EventEmitter<void>();
     isLoggedIn: boolean = false;
     // isReloaded: boolean = false;
     topBarProfileImg: ProfileImage = new ProfileImage();
@@ -53,14 +53,15 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
 
     @ViewChild('topbarmenu') menu!: ElementRef;
     toggleSellerList() {
-      this.toggleSellerListEvent.emit();
+        this.toggleSellerListEvent.emit();
     }
     goToNewsFeedPage() {
         this.router.navigateByUrl('/newsfeed');
     }
 
     goToLoginPage() {
-        this.router.navigateByUrl('/login');
+        // debugger;
+        this.router.navigate(['/login']);
     }
 
     //check whether the user has logged in or not to display button login for them to login
@@ -79,7 +80,7 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
         await this.profileService.getProfileImage();
         this.topBarProfileImg = this.profileService.profileImage;
         console.log("Top bar profile img: ");
-        console.log( this.topBarProfileImg);
+        console.log(this.topBarProfileImg);
     }
 
     logOut(event: Event) {
@@ -95,7 +96,7 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
             this.router.navigate(['/login']);
             window.location.reload();
         });
-            this.router.navigate(['/login']);
+        this.router.navigate(['/login']);
     }
 
     clearLocalStorage() {
