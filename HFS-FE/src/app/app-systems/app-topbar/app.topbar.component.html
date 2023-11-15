@@ -117,8 +117,8 @@
                 <li *ngIf="isLoggedInState" class="layout-topbar-item">
                     <a class="layout-topbar-action flex flex-row justify-content-center align-items-center px-2 rounded-circle"
                         (click)="layoutService.onTopbarItemClick($event, 'profile')" pRipple>
-                        <img src="../../../assets/demo/images/avatar/amyelsner.png" alt="avatar"
-                            style="width: 32px; height: 32px;">
+                        <img src="{{topBarProfileImg.imageBase64 == undefined ? '../../../../assets/image/user.png' : 'data:image/gif;base64,' + topBarProfileImg.imageBase64}}" alt="avatar"
+                            style="width: 32px; height: 32px; border-radius: 50%;">
                     </a>
 
                     <ul class="layout-topbar-action-panel shadow-6" [@topbarActionPanelAnimation]="'visible'"

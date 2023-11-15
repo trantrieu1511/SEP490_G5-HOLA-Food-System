@@ -6,7 +6,7 @@ import { PrimeNGConfig } from 'primeng/api';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent  {
+export class AppComponent {
   title = 'HFS-FE';
   role: string;
   isDivVisible: boolean = true;
@@ -14,8 +14,8 @@ export class AppComponent  {
   }
 
   ngOnInit() {
-      this.primengConfig.ripple = true;
+    this.primengConfig.ripple = true;
     this.role = sessionStorage.getItem('role');
     this.isDivVisible = !this.isDivVisible;
   }
-  }
+}

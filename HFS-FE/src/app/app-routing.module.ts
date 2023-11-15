@@ -13,13 +13,14 @@ import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
 import { ForgotComponent } from './forgot/forgot.component';
 import { LoginNonCustomerComponent } from './login-non-customer/login-non-customer.component';
 import { SellerListComponent } from './seller-list/seller-list.component';
-import { 
+import {
   DetailNotificationComponent,
   ManageFoodComponent,
   ManageNotificationComponent,
   ManageOrderComponent,
-  ManagePostComponent 
+  ManagePostComponent
 } from './modules/business-routing-module/business-routing-mudule';
+import { ProfileManagementComponent } from './modules/business-routing-module/components/profile-management/profile-management.component';
 
 const routes: Routes = [
   // {
@@ -85,11 +86,17 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'HFSBusiness', 
+    path: 'HFSBusiness',
     canActivate: [authGuard],
     data: { requiredRole: ['Admin', 'Shipper', 'Seller', 'PostModerator', 'MenuModerator'] },
     component: AppManageLayoutComponent,
     children: [
+      {
+        path: 'profile-management',
+        canActivate: [authGuard],
+        data: { requiredRole: ['Admin', 'Shipper', 'Seller', 'PostModerator', 'MenuModerator'] },
+        component: ProfileManagementComponent
+      },
       {
         path: 'post-management',
         canActivate: [authGuard],

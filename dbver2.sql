@@ -19,7 +19,6 @@ CREATE TABLE [dbo].[Seller](
 	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
-	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL,
 	[walletBalance] [money] NULL,
 	shopName NVARCHAR(50),
@@ -39,7 +38,6 @@ CREATE TABLE [dbo].[Admin](
 	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
-	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL,
 	[walletBalance] [money] NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
@@ -55,7 +53,6 @@ CREATE TABLE [dbo].[PostModerator](
 	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
-	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 	[isBanned] [bit] not null DEFAULT('false')
@@ -71,7 +68,6 @@ CREATE TABLE [dbo].[MenuModerator](
 	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
-	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 	[isBanned] [bit] not null DEFAULT('false')
@@ -87,7 +83,6 @@ CREATE TABLE [dbo].[Customer](
 	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
-	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL DEFAULT('false'),
 	[walletBalance] [money] NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
@@ -104,7 +99,6 @@ CREATE TABLE [dbo].[Shipper](
 	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
-	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL DEFAULT('false'),
 	[manageBy] [nvarchar](50) NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
@@ -150,9 +144,6 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-
-
-
 -- cart item
 CREATE TABLE [dbo].[CartItem](
 	[foodId] [int] NOT NULL,

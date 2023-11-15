@@ -12,15 +12,17 @@ import { FoodManagementComponent } from './components/food-management/food-manag
 import { ReactiveFormsModule } from '@angular/forms';
 import { InvitationShipperComponent } from './components/invitation-shipper/invitation-shipper.component';
 import { VoucherManagementComponent } from './components/voucher-management/voucher-management.component';
+import { ProfileManagementComponent } from '../business-routing-module/components/profile-management/profile-management.component';
 
 const routes: Routes = [
-  {path: 'order-management', component: OrderManagementComponent},
-  {path: 'shipper-management', component: ShipperComponent},
-  {path: 'post-management', component: PostManagementComponent},
-    {path: 'invitation-shipper', component: InvitationShipperComponent},
-  {path: '', component: FoodManagementComponent},
-  {path: 'food-management', component: FoodManagementComponent},
-  {path: 'voucher-management', component: VoucherManagementComponent},
+  { path: 'order-management', component: OrderManagementComponent },
+  { path: 'shipper-management', component: ShipperComponent },
+  { path: 'post-management', component: PostManagementComponent },
+  { path: 'invitation-shipper', component: InvitationShipperComponent },
+  { path: '', component: FoodManagementComponent },
+  { path: 'food-management', component: FoodManagementComponent },
+  { path: 'voucher-management', component: VoucherManagementComponent },
+  { path: 'profile-management', component: ProfileManagementComponent },
 ]
 // food-management
 @NgModule({
@@ -29,7 +31,8 @@ const routes: Routes = [
     ShipperComponent,
     PostManagementComponent,
     FoodManagementComponent,
-    SwitchCasesDirective
+    SwitchCasesDirective,
+    ProfileManagementComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +46,7 @@ const routes: Routes = [
     FoodManagementComponent,
   ],
   providers: [
-    {provide: LocationStrategy, useClass: HashLocationStrategy}
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

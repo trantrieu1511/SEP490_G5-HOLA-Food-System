@@ -47,7 +47,7 @@ import { InvitationShipperComponent } from './modules/seller-routing-module/comp
 import { ManageSellerModuleComponent } from './modules/admin-routing-module/manage-seller-module/manage-seller-module.component';
 import { ManageShipperModuleComponent } from './modules/admin-routing-module/manage-shipper-module/manage-shipper-module.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
-import { ProfileManagementComponent } from './modules/seller-routing-module/components/profile-management/profile-management.component';
+import { ProfileManagementComponent } from './modules/business-routing-module/components/profile-management/profile-management.component';
 import { OrderhistoryComponent } from './modules/customer-routing-module/components/orderhistory/orderhistory.component';
 import { MenuDataService } from './services/menu-data.service';
 import { BusinessRoutingModule } from './modules/business-routing-module/business-routing-module.module';
@@ -83,16 +83,11 @@ import { CustomerpostreportComponent } from './modules/customer-routing-module/c
     InvitationShipperComponent,
     ManageSellerModuleComponent,
     ManageShipperModuleComponent,
-    ProfileManagementComponent,
-    ProfileManagementComponent,
+    // ProfileManagementComponent,
     OrderhistoryComponent,
     WalletComponent,
     PaymentverifyComponent,
     OrderhistoryComponent,
-    CustomerfoodreportComponent,
-    CustomerpostreportComponent
-
-
     
   ],
   imports: [

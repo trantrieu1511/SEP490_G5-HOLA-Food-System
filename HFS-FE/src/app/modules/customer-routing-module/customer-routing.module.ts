@@ -46,7 +46,9 @@ const routes: Routes = [
     ShopdetailComponent,
     CheckoutComponent,
     ManageprofileComponent,
-    SwitchCasesDirective
+    SwitchCasesDirective,
+    CustomerfoodreportComponent,
+    CustomerpostreportComponent
   ],
   imports: [
     CommonModule,

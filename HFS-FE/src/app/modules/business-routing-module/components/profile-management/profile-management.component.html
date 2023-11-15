@@ -42,59 +42,7 @@
     </ng-template>
 </p-dialog>
 
-<!--<p-dialog header="Edit profile" [(visible)]="visible" [modal]="true" [style]="{ width: '500px' }" [draggable]="false"
-    [resizable]="false">
-    <hr>
-    <div class="grid grid-nogutter">
-        <div class="col-12 md:col-12">
-            <div style="display: flex;">
-                <h5 style="width: 50%;">First name: </h5>
-            --><!-- Data binding:  Có 2 loại là property binding và attribute binding. Dùng để bind data của file ts vào property/attributes của DOM(Document object model) của template (vd: Thẻ <input/>). Syntax: [propertyName]="expression". -->
-<!-- Two way binding: <input type="text" [(ngModel)]="tên biến" />. Viết đầy đủ: <input type="text" [ngModel]="tên biến" (ngModelChange)="tên biến = $event"/>. Tên biến ở file ts-->
-<!-- <input type="text" style="width: 50%;" [(ngModel)]="profile.firstName"> 
-            </div>
-            <hr>
-            <div style="display: flex;">
-                <h5 style="width: 50%;">Last name: </h5>
-                <input type="text" style="width: 50%;" [(ngModel)]="profile.lastName">
-            </div>
-            <hr>
-            <div style="display: flex;">
-                <h5 style="width: 50%;">Gender: </h5>
-                <input type="text" style="width: 50%;" [(ngModel)]="profile.gender">
-            </div>
-            <hr>
-            <div style="display: flex;">
-                <h5 style="width: 50%;">Birth date: </h5>
-                <input type="datetime-local" style="width: 50%;" [(ngModel)]="profile.birthDate">
-            </div>
-            <hr>
-            
-            <p-button (click)="editProfile()">Save</p-button>
-        </div>
-    </div>
-</p-dialog> -->
-
-
 <div class="profilePageContent">
-    <div class="card profile-sidebar">
-        <a id="profile-option" class="profile-sidebar-option-selected" href="#"
-            onclick="event.preventDefault();">Profile</a>
-        <div class="dash-line"></div>
-        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">Order</a>
-        <div class="dash-line"></div>
-        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">Ship
-            address</a>
-        <div class="dash-line"></div>
-        <a id="myorder-option" class="profile-sidebar-option" (click)="this.router.navigateByUrl('/postreport')"
-            href="#" onclick="event.preventDefault();">Post report</a>
-        <div class="dash-line"></div>
-        <a id="myorder-option" class="profile-sidebar-option" (click)="this.router.navigateByUrl('/menureport')"
-            href="#" onclick="event.preventDefault();">Menu report</a>
-        <!-- <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">Profile</button><hr>
-        <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">MyOrder</button> -->
-    </div>
-
     <div class="card profile-main-body">
         <h2>Manage profile</h2>
         <hr>
