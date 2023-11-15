@@ -91,12 +91,8 @@ import { AppNavbarComponent } from './app-systems/app-navbar/app-navbar.componen
     WalletComponent,
     PaymentverifyComponent,
     OrderhistoryComponent,
-    // CustomerfoodreportComponent,
-    // CustomerpostreportComponent
     AppNavbarComponent
 
-
-    
   ],
   imports: [
     BrowserAnimationsModule,

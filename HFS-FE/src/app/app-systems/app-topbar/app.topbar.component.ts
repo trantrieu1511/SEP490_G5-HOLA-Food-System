@@ -1,8 +1,8 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { animate, AnimationEvent, style, transition, trigger } from '@angular/animations';
-import { MegaMenuItem, MessageService } from 'primeng/api';
-import { AppComponent } from '../../app.component';
-import { Router } from "@angular/router";
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {animate, AnimationEvent, style, transition, trigger} from '@angular/animations';
+import {MegaMenuItem, MessageService} from 'primeng/api';
+import {AppComponent} from '../../app.component';
+import {NavigationEnd, Router} from "@angular/router";
 import {
     iComponentBase,
     iServiceBase,
@@ -51,7 +51,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         private authService: AuthService
     ) {
         super(messageService);
-        if (this.checkRoleCus()) {
+        if(this.checkLink()){
             this.isCustomer = true;
         }
     }
@@ -154,4 +154,14 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         this.router.navigateByUrl('/newsfeed');
     }
 
+    onClickLogo(event: any){
+        event.preventDefault();
+        let urlHome = this.checkLink() ? '/' : '/HFSBusiness';
+        this.router.navigateByUrl(urlHome);
+    }
+
+    checkLink(){
+        return this.router.url.indexOf("/HFSBusiness") == 0 ? false : true;
+    }
+    
 }

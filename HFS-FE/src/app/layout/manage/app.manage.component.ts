@@ -8,7 +8,7 @@ import {
 import { MenuService } from '../../app-systems/app-menu/app.menu.service';
 import { PrimeNGConfig } from 'primeng/api';
 import { LayoutService } from '../service/app.layout.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { RoleNames } from 'src/app/utils/roleName';
 
@@ -48,14 +48,14 @@ export class AppManageLayoutComponent
   ngOnInit(): void {
     this.layoutService.state.menuActive =
       this.layoutService.isStatic() && !this.layoutService.isMobile();
-
-    if (
-      this.checkRoleCus()
-    ) {
-      this.isCustomer = true;
-      this.layoutService.state.menuActive = false;
-      this.layoutService.app.topbarTheme = "white";
-    }
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.changeLayout();
+      }
+    })
+    this.changeLayout();
+    
+    
 
     const cssFilePaths = [
       'assets/theme/indigo/theme-light.css',
@@ -145,6 +145,21 @@ export class AppManageLayoutComponent
   }
 
   checkRoleCus(){
-    return this.authService.getRole() == null || RoleNames[this.authService.getRole()] == 'Customer'
+    //return this.authService.getRole() == null || RoleNames[this.authService.getRole()] == 'Customer'
+    return this.router.url.indexOf("/HFSBusiness") == 0 ? false : true;
+  }
+
+  changeLayout(){
+    if (
+      this.checkRoleCus()
+    ) {
+      this.isCustomer = true;
+      this.layoutService.state.menuActive = false;
+      this.layoutService.app.topbarTheme = "white";
+    }else{
+      this.isCustomer = false;
+      this.layoutService.state.menuActive = true;
+      this.layoutService.app.topbarTheme = "blue";
+    }
   }
 }
