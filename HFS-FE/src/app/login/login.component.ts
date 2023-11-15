@@ -23,6 +23,8 @@ import {
 } from 'src/app/modules/shared-module/shared-module';
 import { Subscription } from 'rxjs';
 import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
+import { SelectButtonOptionClickEvent } from 'primeng/selectbutton';
 
 declare const FB: any;
 
@@ -41,15 +43,20 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
    captchaImage: string = '';
    captchaText:string;
   private client_Id = environment.clientId;
+
+  valueLang: string;
+
   constructor(
     private router: Router,
     public renderer: Renderer2,
     private _ngZone: NgZone,
     public messageService: MessageService,
-    private service: AuthService
+    private service: AuthService,
+    public translate: TranslateService
   ) // private cdr: ChangeDetectorRef
   {
     super(messageService);
+    console.log(translate.getLangs())
   }
   ngAfterViewInit(): void {
     // this.loadGoogleLibrary();
@@ -59,6 +66,15 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
     script1.async = `true`;
     script1.defer = `true`;
     this.renderer.appendChild(document.body, script1);
+
+    //check lang
+    if(localStorage.getItem("LANG")){
+      this.valueLang = localStorage.getItem("LANG")
+      this.translate.use(this.valueLang);
+    }else{
+      this.valueLang = "vi"
+    }
+
   }
   refreshCaptcha() {
     // Generate a random alphanumeric string for the CAPTCHA
@@ -285,5 +301,11 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
       },
       { scope: 'email' }
     );
+  }
+
+  onOptionLangClick(event: SelectButtonOptionClickEvent){
+    console.log(event)
+    this.translate.use(event.option);
+    localStorage.setItem("LANG", event.option);
   }
 }

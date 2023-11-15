@@ -50,7 +50,7 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   setCurrentUser() {
     const user: User = JSON.parse(localStorage.getItem('user'));
     const token = sessionStorage.getItem('JWT');
-    debugger;
+    //debugger; dcm debugger an l a`
     if (user) {
 
       this.presence.createHubConnection(token);

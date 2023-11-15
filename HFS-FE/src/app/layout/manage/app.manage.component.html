@@ -11,15 +11,15 @@
 
         [class]="'layout-menu-' + layoutService.app.menuTheme + ' layout-topbar-' + layoutService.app.topbarTheme">
 
-    <app-topbar  (toggleCustomerListEvent)="toggleCustomerList()"></app-topbar>
+    <app-topbar  (toggleListEvent)="toggleListEvent()"></app-topbar>
 
     <!-- <app-rightmenu></app-rightmenu> -->
 
-    <div class="menu-wrapper" (click)="layoutService.onMenuClick($event)">
+    <div *ngIf="!isCustomer" class="menu-wrapper" (click)="layoutService.onMenuClick($event)">
         <div class="layout-menu-container">
             <!--            <app-inline-menu *ngIf="app.inlineMenuPosition=='top' || app.inlineMenuPosition=='both'"-->
             <!--                             key="top"></app-inline-menu>-->
-            <app-menu></app-menu>
+            <app-menu ></app-menu>
             <!--            <app-inline-menu-->
             <!--                *ngIf="app.inlineMenuPosition=='bottom' || app.inlineMenuPosition=='both'"-->
             <!--                key="bottom"></app-inline-menu>-->
@@ -27,7 +27,7 @@
     </div>
 
     <div class="layout-main">
-        <app-breadcrumb></app-breadcrumb>
+        <app-breadcrumb *ngIf="!isCustomer"></app-breadcrumb>
 
         <div class="layout-content">
             <router-outlet></router-outlet>
@@ -40,5 +40,8 @@
 </div>
 <div>
   <app-customer-list-by-chat *ngIf="isCustomerListVisible"></app-customer-list-by-chat>
+</div>
+<div *ngIf="isSellerListVisible" style="position: relative;">
+    <app-seller-list  (closeSellerList)="toggleListEvent()" ></app-seller-list>
 </div>
 
