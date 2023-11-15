@@ -111,9 +111,7 @@ const routes: Routes = [
         data: { requiredRole: ['Admin', 'Shipper', 'Seller', 'PostModerator', 'MenuModerator'] },
         children: [
           {
-            path: 'profile-management',
-            canActivate: [authGuard],
-            data: { requiredRole: ['Admin', 'Shipper', 'Seller', 'PostModerator', 'MenuModerator'] },
+            path: 'profile',
             component: ProfileManagementComponent
           },
           {

@@ -51,12 +51,14 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         private authService: AuthService
     ) {
         super(messageService);
-        if (this.checkRoleCus) {
+        if (this.checkRoleCus()) {
             this.isCustomer = true;
         }
     }
 
     checkRoleCus() {
+        // debugger;
+        console.log(this.authService.getRole());
         return this.authService.getRole() == null || RoleNames[this.authService.getRole()] == 'Customer'
     }
 
@@ -87,7 +89,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         this.clearLocalStorage();
 
         event.preventDefault();
-        let urlLogin = this.checkRoleCus ? '/login' : '/login-2';
+        let urlLogin = this.checkRoleCus() ? '/login' : '/login-2';
 
         //this.router.navigate(['/login']);
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
@@ -119,7 +121,8 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     viewProfile() {
-        let urlProfile = this.checkRoleCus ? 'profile' : 'HFSBusiness';
+        let urlProfile = this.checkRoleCus() ? 'profile' : 'HFSBusiness/profile';
+        console.log(urlProfile);
         this.router.navigateByUrl(urlProfile);
     }
 
@@ -130,6 +133,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     async ngOnInit() {
+        // debugger;
         this.checkLoggedInState();
         await this.profileService.getProfileImage();
         this.topBarProfileImg = this.profileService.profileImage;
@@ -138,7 +142,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     goToLoginPage() {
-        let urlLogin = this.checkRoleCus ? '/login' : '/login-2';
+        let urlLogin = this.checkRoleCus() ? '/login' : '/login-2';
         this.router.navigateByUrl(urlLogin);
     }
 

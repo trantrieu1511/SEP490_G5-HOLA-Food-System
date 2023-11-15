@@ -37,11 +37,11 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
   user: User;
   form: FormGroup;
   isCaptchaTouched = false;
-  isPasswordTouched=false;
+  isPasswordTouched = false;
   error: string;
   showLoginForm: boolean = true;
-   captchaImage: string = '';
-   captchaText:string;
+  captchaImage: string = '';
+  captchaText: string;
   private client_Id = environment.clientId;
 
   valueLang: string;
@@ -68,10 +68,10 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
     this.renderer.appendChild(document.body, script1);
 
     //check lang
-    if(localStorage.getItem("LANG")){
+    if (localStorage.getItem("LANG")) {
       this.valueLang = localStorage.getItem("LANG")
       this.translate.use(this.valueLang);
-    }else{
+    } else {
       this.valueLang = "vi"
     }
 
@@ -113,7 +113,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
         // PasswordUpperValidator(),
         // PasswordNumberValidator(),
       ]),
-      captcha:  new FormControl('', [Validators.required])
+      captcha: new FormControl('', [Validators.required])
     });
     this.refreshCaptcha();
   }
@@ -184,7 +184,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
         { theme: 'outline', size: 'large', width: 100 }
       );
       // @ts-ignore
-      google.accounts.id.prompt((notification: PromptMomentNotification) => {});
+      google.accounts.id.prompt((notification: PromptMomentNotification) => { });
     };
   }
   async handleCredentialResponse(response: CredentialResponse) {
@@ -201,7 +201,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
               break;
             case 'CU':
 
-                  this.router.navigate(['/']);
+              this.router.navigate(['/']);
               break;
 
             case 'SH':
@@ -229,9 +229,9 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
   async onSubmit() {
     //this.formSubmitAttempt = false;
 
-    if (this.form.valid&&this.captchaText==this.form.value.captcha) {
+    if (this.form.valid && this.captchaText == this.form.value.captcha) {
       try {
-        debugger;
+        // debugger;
         this.service.login(this.form.value).subscribe(
           (res) => {
             //this.toastr.success('Login success');
@@ -245,7 +245,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
                 this.router.navigateByUrl('/HFSBusiness/seller');
                 break;
               case 'CU':
-                          this.router.navigate(['/']);
+                this.router.navigate(['/']);
 
                 break;
 
@@ -269,15 +269,15 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
             if (error.status === 401) {
               this.error = 'Email hoặc mật khẩu không chính xác.';
             } else {
-             // this.error = 'Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.';
+              // this.error = 'Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.';
               this.showMessage(mType.error, "Notification", "Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau", 'app-login');
             }
           }
         );
-      } catch (err) {}
+      } catch (err) { }
     } else {
       this.refreshCaptcha();
-     // this.error = 'CAPTCHA bạn nhấp sai vui lòng nhập lại.';
+      // this.error = 'CAPTCHA bạn nhấp sai vui lòng nhập lại.';
       this.showMessage(mType.error, "Notification", "CAPTCHA bạn nhấp sai vui lòng nhập lại", 'app-login');
     }
   }
@@ -285,7 +285,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
   async loginfb() {
     FB.login(
       async (result: any) => {
-        debugger;
+        // debugger;
         await this.service
           .loginfacebook(result.authResponse.accessToken)
           .subscribe(
@@ -303,7 +303,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
     );
   }
 
-  onOptionLangClick(event: SelectButtonOptionClickEvent){
+  onOptionLangClick(event: SelectButtonOptionClickEvent) {
     console.log(event)
     this.translate.use(event.option);
     localStorage.setItem("LANG", event.option);

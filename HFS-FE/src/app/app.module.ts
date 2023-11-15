@@ -86,7 +86,7 @@ import { AppNavbarComponent } from './app-systems/app-navbar/app-navbar.componen
     InvitationShipperComponent,
     ManageSellerModuleComponent,
     ManageShipperModuleComponent,
-    // ProfileManagementComponent,
+    ProfileManagementComponent,
     OrderhistoryComponent,
     WalletComponent,
     PaymentverifyComponent,
