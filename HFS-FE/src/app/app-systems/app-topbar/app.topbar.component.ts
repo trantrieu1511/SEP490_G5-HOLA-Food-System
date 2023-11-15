@@ -82,14 +82,15 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     logOut(event: Event) {
-        //Logout thì xóa đi
-        sessionStorage.clear();
         localStorage.removeItem('user');
         //Xóa hết đi các thứ linh tinh chỉ gán lại các thứ cấn thiết trong localstorage
         this.clearLocalStorage();
 
         event.preventDefault();
+        // debugger;
         let urlLogin = this.checkRoleCus() ? '/login' : '/login-2';
+        //Logout thì xóa đi
+        sessionStorage.clear();
 
         //this.router.navigate(['/login']);
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
@@ -161,6 +162,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     checkLink(){
+        // debugger;
         return this.router.url.indexOf("/HFSBusiness") == 0 ? false : true;
     }
     

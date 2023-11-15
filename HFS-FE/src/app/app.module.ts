@@ -17,7 +17,7 @@ import { ComponentModule } from './modules/components-module/component.modules';
 import {
   SharedModule
 } from './modules/shared-module/shared-module.module';
-import {AutoCompleteModule} from 'primeng/autocomplete';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { AppBreadcrumbComponent } from './app-systems/app-breadcrumb/app.breadcrumb.component';
 import { AppTopBarComponent } from './app-systems/app-topbar/app.topbar.component';
 import { AppFooterComponent } from './app-systems/app-footer/app.footer.component';
@@ -107,21 +107,21 @@ import { AppNavbarComponent } from './app-systems/app-navbar/app-navbar.componen
     BusinessRoutingModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter:  () => sessionStorage.getItem('token')
+        tokenGetter: () => sessionStorage.getItem('token')
       }
     }),
     TranslateModule.forRoot({
 
       loader: {
- 
+
         provide: TranslateLoader,
- 
+
         useFactory: httpTranslateLoader,
- 
+
         deps: [HttpClient]
- 
+
       }
- 
+
     })
 
   ],
@@ -129,10 +129,10 @@ import { AppNavbarComponent } from './app-systems/app-navbar/app-navbar.componen
   providers: [
     JwtService,
     MenuDataService,
-    {provide: LocationStrategy, useClass: HashLocationStrategy},
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
     MenuService, AppBreadcrumbService, DatePipe,
-    {provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     ShareData, CacheData,
   ],
   bootstrap: [AppComponent],
@@ -141,5 +141,5 @@ export class AppModule { }
 export function httpTranslateLoader(http: HttpClient) {
 
   return new TranslateHttpLoader(http);
- 
- }
+
+}

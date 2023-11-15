@@ -122,13 +122,13 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
         const yyyy = date.getFullYear();
         let mm = date.getMonth() + 1; // Months start at 0!
         let dd = date.getDate();
-        let ddstr = '';
-        let mmstr = '';
+        let ddstr: string = '';
+        let mmstr: string = '';
 
         if (dd < 10) ddstr = '0' + dd;
         if (mm < 10) mmstr = '0' + mm;
 
-        const formattedDate = dd + '/' + mm + '/' + yyyy;
+        const formattedDate = (ddstr != '' ? ddstr : dd) + '/' + (mmstr != '' ? mmstr : mm) + '/' + yyyy;
         this.profileDisplay.birthDate = formattedDate;
         
         console.log(this.profile);

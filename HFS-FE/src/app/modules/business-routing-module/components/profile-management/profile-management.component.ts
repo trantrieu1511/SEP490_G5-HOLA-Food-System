@@ -115,6 +115,7 @@ export class ProfileManagementComponent extends iComponentBase implements OnInit
         this.profile.birthDate = this.profile.birthDate.toString().split('T')[0];
         this.profileDisplay = Object.assign({}, response.data); //Copy profile sang mot entity moi phuc vu cho viec display (Entity do khac dia chi so voi profile nen khong bi anh huong boi two way data binding)
 
+        // debugger;
         // format date sang dd/mm/yyyy
         const date = new Date(this.profileDisplay.birthDate);
         const yyyy = date.getFullYear();
@@ -123,10 +124,10 @@ export class ProfileManagementComponent extends iComponentBase implements OnInit
         let ddstr: string = '';
         let mmstr: string = '';
 
-        if (dd < 10) ddstr = '0' + dd.toString();
-        if (mm < 10) mmstr = '0' + mm.toString();
+        if (dd < 10) ddstr = '0' + dd;
+        if (mm < 10) mmstr = '0' + mm;
 
-        const formattedDate = ddstr + '/' + mmstr + '/' + yyyy;
+        const formattedDate = (ddstr != '' ? ddstr : dd) + '/' + (mmstr != '' ? mmstr : mm) + '/' + yyyy;
         this.profileDisplay.birthDate = formattedDate;
 
         console.log(this.profile);
