@@ -1,46 +1,82 @@
-import { Component, AfterViewInit, Renderer2, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  Renderer2,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { MenuService } from '../../app-systems/app-menu/app.menu.service';
 import { PrimeNGConfig } from 'primeng/api';
 import { LayoutService } from '../service/app.layout.service';
 import { Router } from '@angular/router';
+import { AuthService } from './../../services/auth.service';
+import { RoleNames } from 'src/app/utils/roleName';
 
 @Component({
   selector: 'app-app.manage',
   templateUrl: './app.manage.component.html',
-  styleUrls: ['./app.manage.component.scss']
+  styleUrls: ['./app.manage.component.scss'],
 })
-export class AppManageLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
-
+export class AppManageLayoutComponent
+  implements AfterViewInit, OnInit, OnDestroy
+{
   documentClickListener: () => void;
+  isCustomer: boolean = false;
+  isCustomerListVisible: boolean = false;
+  isSellerListVisible: boolean = false;
 
-  constructor(public renderer: Renderer2, private menuService: MenuService,
-    public layoutService: LayoutService, private router: Router) { }
-    isCustomerListVisible: boolean = false;
+  constructor(
+    public renderer: Renderer2,
+    private menuService: MenuService,
+    public layoutService: LayoutService,
+    private router: Router,
+    private authService: AuthService
+  ) {
+   
+  }
+  
 
-    toggleCustomerList() {
+  toggleListEvent() {
+    if (
+      this.checkRoleCus()
+    ) {
+      this.isSellerListVisible = !this.isSellerListVisible;
+    }else{
       this.isCustomerListVisible = !this.isCustomerListVisible;
     }
+  }
   ngOnInit(): void {
-    this.layoutService.state.menuActive = this.layoutService.isStatic()
-      && !this.layoutService.isMobile();
+    this.layoutService.state.menuActive =
+      this.layoutService.isStatic() && !this.layoutService.isMobile();
 
-    const cssFilePaths = ['assets/theme/indigo/theme-light.css',
-      'assets/layout/css/layout-light.css'];
+    if (
+      this.checkRoleCus()
+    ) {
+      this.isCustomer = true;
+      this.layoutService.state.menuActive = false;
+      this.layoutService.app.topbarTheme = "white";
+    }
+
+    const cssFilePaths = [
+      'assets/theme/indigo/theme-light.css',
+      'assets/layout/css/layout-light.css',
+    ];
 
     // Xóa các liên kết CSS hiện có trong document.head
-    const existingLinks = document.head.querySelectorAll('link[rel="stylesheet"]');
+    const existingLinks = document.head.querySelectorAll(
+      'link[rel="stylesheet"]'
+    );
     existingLinks.forEach((link: HTMLLinkElement) => {
       document.head.removeChild(link);
     });
 
-    cssFilePaths.forEach(link => {
+    cssFilePaths.forEach((link) => {
       const cssLink = this.renderer.createElement('link');
       this.renderer.setAttribute(cssLink, 'rel', 'stylesheet');
       this.renderer.setAttribute(cssLink, 'type', 'text/css');
       this.renderer.setAttribute(cssLink, 'href', link);
       this.renderer.appendChild(document.head, cssLink);
     });
-
   }
 
   ngAfterViewInit() {
@@ -51,13 +87,17 @@ export class AppManageLayoutComponent implements AfterViewInit, OnInit, OnDestro
         this.layoutService.state.topbarMenuActive = false;
       }
 
-      if (!this.layoutService.state.menuClick &&
-        (this.layoutService.isHorizontal() || this.layoutService.isSlim())) {
+      if (
+        !this.layoutService.state.menuClick &&
+        (this.layoutService.isHorizontal() || this.layoutService.isSlim())
+      ) {
         this.menuService.reset();
       }
 
-      if (this.layoutService.state.configActive
-        && !this.layoutService.state.configClick) {
+      if (
+        this.layoutService.state.configActive &&
+        !this.layoutService.state.configClick
+      ) {
         this.layoutService.state.configActive = false;
       }
 
@@ -78,10 +118,12 @@ export class AppManageLayoutComponent implements AfterViewInit, OnInit, OnDestro
         this.layoutService.state.search = false;
       }
 
-      if (this.layoutService.state.inlineMenuActive[
-        this.layoutService.state.currentInlineMenuKey
-      ] && !this.layoutService.state.inlineMenuClick) {
-
+      if (
+        this.layoutService.state.inlineMenuActive[
+          this.layoutService.state.currentInlineMenuKey
+        ] &&
+        !this.layoutService.state.inlineMenuClick
+      ) {
         this.layoutService.state.inlineMenuActive[
           this.layoutService.state.currentInlineMenuKey
         ] = false;
@@ -100,5 +142,9 @@ export class AppManageLayoutComponent implements AfterViewInit, OnInit, OnDestro
     if (this.documentClickListener) {
       this.documentClickListener();
     }
+  }
+
+  checkRoleCus(){
+    return this.authService.getRole() == null || RoleNames[this.authService.getRole()] == 'Customer'
   }
 }

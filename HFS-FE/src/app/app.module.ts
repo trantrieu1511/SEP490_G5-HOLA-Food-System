@@ -7,7 +7,7 @@ import { AppManageLayoutComponent } from './layout/manage/app.manage.component';
 import { CommonModule, DatePipe, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { MenuService } from './app-systems/app-menu/app.menu.service';
 import { AppBreadcrumbService } from './app-systems/app-breadcrumb/app.breadcrumb.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { MyHttpInterceptor } from './modules/shared-module/Interceptors/MyHttpInterceptor';
 import { LoadingInterceptor } from './modules/shared-module/Interceptors/LoadingInterceptor';
 import { ShareData } from './modules/shared-module/shared-module';
@@ -57,6 +57,9 @@ import { CustomerListByChatComponent } from './customer-list-by-chat/customer-li
 import { CustomerfoodreportComponent } from './modules/customer-routing-module/components/customerfoodreport/customerfoodreport.component';
 import { CustomerpostreportComponent } from './modules/customer-routing-module/components/customerpostreport/customerpostreport.component';
 
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { AppNavbarComponent } from './app-systems/app-navbar/app-navbar.component';
 
 
 @NgModule({
@@ -91,6 +94,7 @@ import { CustomerpostreportComponent } from './modules/customer-routing-module/c
     OrderhistoryComponent,
     CustomerfoodreportComponent,
     CustomerpostreportComponent
+    AppNavbarComponent
 
 
     
@@ -111,6 +115,19 @@ import { CustomerpostreportComponent } from './modules/customer-routing-module/c
         tokenGetter:  () => sessionStorage.getItem('token')
       }
     }),
+    TranslateModule.forRoot({
+
+      loader: {
+ 
+        provide: TranslateLoader,
+ 
+        useFactory: httpTranslateLoader,
+ 
+        deps: [HttpClient]
+ 
+      }
+ 
+    })
 
   ],
 
@@ -126,3 +143,8 @@ import { CustomerpostreportComponent } from './modules/customer-routing-module/c
   bootstrap: [AppComponent],
 })
 export class AppModule { }
+export function httpTranslateLoader(http: HttpClient) {
+
+  return new TranslateHttpLoader(http);
+ 
+ }

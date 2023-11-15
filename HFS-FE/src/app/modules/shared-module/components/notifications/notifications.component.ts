@@ -61,7 +61,9 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
   }
 
   ngOnDestroy() {
-    this.lstNotificationSubscription.unsubscribe();
+    if(this.lstNotificationSubscription){
+      this.lstNotificationSubscription.unsubscribe();
+    }
   }
 
   async connectSignalR() {

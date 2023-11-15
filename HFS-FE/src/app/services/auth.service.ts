@@ -242,10 +242,15 @@ export class AuthService {
 
 
   getRole(){
-    return sessionStorage.getItem("role");
+    let token = sessionStorage.getItem("JWT");
+    if(token){
+      const data = this.getDecodedToken(token);
+      return data['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+    }
+    return null;
   }
-
-
+    
+    
 
 }
 
