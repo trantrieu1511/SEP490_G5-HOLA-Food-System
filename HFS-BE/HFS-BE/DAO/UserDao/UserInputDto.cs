@@ -14,6 +14,8 @@ namespace HFS_BE.DAO.UserDao
         public string LastName { get; set; }
         public string Gender { get; set; }
         public DateTime BirthDate { get; set; }
+        public string? ShopName { get; set; }
+        public string? ShopAddress { get; set; }
     }
 
     public class GetOrderInfoInputDto

@@ -12,7 +12,7 @@ import * as API from 'src/app/services/apiURL';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { PresenceService } from 'src/app/services/presence.service';
 import { ProfileManagementComponent } from 'src/app/modules/business-routing-module/components/profile-management/profile-management.component';
-import { ProfileImage } from 'src/app/modules/seller-routing-module/models/profile';
+import { ProfileImage } from 'src/app/modules/business-routing-module/models/profile';
 import { AuthService } from 'src/app/services/auth.service';
 import { RoleNames } from 'src/app/utils/roleName';
 

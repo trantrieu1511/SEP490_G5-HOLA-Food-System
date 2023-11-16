@@ -1,14 +1,18 @@
-<p-dialog [(visible)]="isVisibleEditProfileDialog" [style]="{ width: '450px' }" header="Profile details" [modal]="true"
-    styleClass="p-fluid">
+<p-dialog [(visible)]="isVisibleOthersEditProfileDialog" [style]="{ width: '450px' }" header="Profile details"
+    [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="profileInfo">
         <div class="formgrid grid">
             <div class="field col">
-                <label for="lastname">Lastname</label>
+                <label for="lastname">Lastname<span style="color: red;">*</span></label>
                 <input type="text" pInputText id="lastname" [(ngModel)]="profile.lastName" required />
+                <small [style.display]="editProfileValidation.isValidLastName ? 'none !important' : 'block !important'"
+                    class="p-error block">{{editProfileValidation.LastNameValidationMessage}}</small>
             </div>
             <div class="field col">
-                <label for="firstname">Firstname</label>
+                <label for="firstname">Firstname<span style="color: red;">*</span></label>
                 <input type="text" pInputText id="firstname" [(ngModel)]="profile.firstName" required />
+                <small [style.display]="editProfileValidation.isValidFirstName ? 'none !important' : 'block !important'"
+                    class="p-error block">{{editProfileValidation.FirstNameValidationMessage}}</small>
             </div>
         </div>
         <div class="field">
@@ -37,7 +41,74 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+            (click)="this.isVisibleOthersEditProfileDialog = false"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="editProfile()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog #sellerEditProfileDialog [(visible)]="isVisibleSellerEditProfileDialog" [style]="{ width: '450px' }"
+    header="Profile details" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="profileInfo">
+        <div class="formgrid grid">
+            <div class="field col">
+                <label for="lastname">Last name<span style="color: red;">*</span></label>
+                <input type="text" pInputText id="lastname" [(ngModel)]="profile.lastName" required />
+                <small [style.display]="editProfileValidation.isValidLastName ? 'none !important' : 'block !important'"
+                    class="p-error block">{{editProfileValidation.LastNameValidationMessage}}</small>
+            </div>
+            <div class="field col">
+                <label for="firstname">First name<span style="color: red;">*</span></label>
+                <input type="text" pInputText id="firstname" [(ngModel)]="profile.firstName" required />
+                <small [style.display]="editProfileValidation.isValidFirstName ? 'none !important' : 'block !important'"
+                    class="p-error block">{{editProfileValidation.FirstNameValidationMessage}}</small>
+            </div>
+        </div>
+        <!-- <div class="formgrid grid"> -->
+        <div class="field">
+            <label class="mb-3" for="birthDate">Birth date</label>
+            <input type="date" pInputText id="birthDate" [(ngModel)]="profile.birthDate" />
+        </div>
+        <!-- </div> -->
+
+        <div class="field">
+            <label class="mb-3">Gender</label>
+            <div class="formgrid grid">
+                <div class="field-radiobutton col-6">
+                    <p-radioButton inputId="male" name="male" value="male" [(ngModel)]="profile.gender"></p-radioButton>
+                    <label for="male">Male</label>
+                </div>
+                <div class="field-radiobutton col-6">
+                    <p-radioButton inputId="female" name="female" value="female"
+                        [(ngModel)]="profile.gender"></p-radioButton>
+                    <label for="female">Female</label>
+                </div>
+                <div class="field-radiobutton col-6">
+                    <p-radioButton inputId="other" name="other" value="other"
+                        [(ngModel)]="profile.gender"></p-radioButton>
+                    <label for="other">Other</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="shopname">Shop name<span style="color: red;">*</span></label>
+            <input type="text" pInputText id="shopname" [(ngModel)]="profile.shopName" required />
+            <small [style.display]="editProfileValidation.isValidShopName ? 'none !important' : 'block !important'"
+                class="p-error block">{{editProfileValidation.ShopNameValidationMessage}}</small>
+        </div>
+        <div class="field">
+            <label for="shopaddress">Shop address<span style="color: red;">*</span></label>
+            <textarea class="w-full" rows="5" cols="60" pInputTextarea maxlength="200" id="shopaddress"
+                [(ngModel)]="profile.shopAddress" required></textarea>
+            <small [style.display]="editProfileValidation.isValidShopAddress ? 'none !important' : 'block !important'"
+                class="p-error block">{{editProfileValidation.ShopAddressValidationMessage}}</small>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+            (click)="this.isVisibleSellerEditProfileDialog = false"></button>
         <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="editProfile()"></button>
     </ng-template>
 </p-dialog>
@@ -115,13 +186,41 @@
                     <!-- <a style="width: 50%;">Add a phone number</a> -->
                 </div>
                 <hr>
+                <div *ngIf="this.authService.getRole() == 'SE'">
+                    <div style="display: flex;">
+                        <p class="field-title">Shop name: </p>
+                        <p class="field-info">{{profileDisplay.shopName}} </p>
+                    </div>
+                    <hr>
+                </div>
+                <div *ngIf="this.authService.getRole() == 'SE'">
+                    <div style="display: flex;">
+                        <p class="field-title">Shop address: </p>
+                        <p class="field-info">{{profileDisplay.shopAddress}} </p>
+                    </div>
+                    <hr>
+                </div>
+                <div *ngIf="this.authService.getRole() == 'SH'">
+                    <div style="display: flex;">
+                        <p class="field-title">Manage by: </p>
+                        <p class="field-info">{{profileDisplay.manageBy}} </p>
+                    </div>
+                    <hr>
+                </div>
+
                 <!-- <div style="display: flex;">
                     <p style="width: 50%;">Walletbalance: </p>
                     <p style="width: 50%;">{{profileDisplay.walletBalance == null ? "0": profileDisplay.walletBalance}}
                     </p>
                 </div> -->
                 <!-- <hr> -->
-                <p-button (click)="openEditProfileDiaglog();">Edit</p-button>
+                <p-button (click)="openSellerEditProfileDiaglog();"
+                    *ngIf="this.authService.getRole() == 'SE' else openOthersEditProfileDialogBtn">Edit</p-button>
+                <ng-template #openOthersEditProfileDialogBtn>
+                    <p-button (click)="openOthersEditProfileDiaglog();">Edit</p-button>
+                </ng-template>
+
+
             </div>
         </div>
     </div>

@@ -1,14 +1,18 @@
-<p-dialog [(visible)]="isVisibleEditProfileDialog" [style]="{ width: '450px' }" header="Profile details" [modal]="true"
-    styleClass="p-fluid">
+<p-dialog [(visible)]="isVisibleEditProfileDialog" [style]="{ width: '450px' }" header="Profile details"
+    [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="profileInfo">
         <div class="formgrid grid">
             <div class="field col">
-                <label for="lastname">Lastname</label>
+                <label for="lastname">Lastname<span style="color: red;">*</span></label>
                 <input type="text" pInputText id="lastname" [(ngModel)]="profile.lastName" required />
+                <small [style.display]="editProfileValidation.isValidLastName ? 'none !important' : 'block !important'"
+                    class="p-error block">{{editProfileValidation.LastNameValidationMessage}}</small>
             </div>
             <div class="field col">
-                <label for="firstname">Firstname</label>
+                <label for="firstname">Firstname<span style="color: red;">*</span></label>
                 <input type="text" pInputText id="firstname" [(ngModel)]="profile.firstName" required />
+                <small [style.display]="editProfileValidation.isValidFirstName ? 'none !important' : 'block !important'"
+                    class="p-error block">{{editProfileValidation.FirstNameValidationMessage}}</small>
             </div>
         </div>
         <div class="field">
@@ -37,7 +41,8 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+            (click)="hideDialog()"></button>
         <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="editProfile()"></button>
     </ng-template>
 </p-dialog>

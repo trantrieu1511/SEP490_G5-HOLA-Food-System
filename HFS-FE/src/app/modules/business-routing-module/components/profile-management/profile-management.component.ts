@@ -13,10 +13,11 @@ import {
   SelectItem,
   TreeNode
 } from "primeng/api";
-import { Profile, ProfileDisplay, ProfileImage } from '../../../seller-routing-module/models/profile';
+import { EditProfileInputValidation, Profile, ProfileDisplay, ProfileImage } from '../../models/profile';
 import { FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
 import { Router } from '@angular/router';
 import { AppCustomerTopBarComponent } from 'src/app/app-systems/app-topbar/customer/app.topbar-cus.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-profile-management',
@@ -28,12 +29,14 @@ export class ProfileManagementComponent extends iComponentBase implements OnInit
   profile: Profile = new Profile();
   profileDisplay: ProfileDisplay = new ProfileDisplay();
   // visible = false;
-  isVisibleEditProfileDialog: boolean = false;
   // minDate: Date = new Date();
   uploadedFiles: File[] = [];
   profileImage: ProfileImage = new ProfileImage();
   isLoggedIn: boolean = false;
   selectedSideBarOption: boolean = true;
+  isVisibleOthersEditProfileDialog: boolean = false;
+  isVisibleSellerEditProfileDialog: boolean = false;
+  editProfileValidation: EditProfileInputValidation = new EditProfileInputValidation();
 
   constructor(
     private shareData: ShareData,
@@ -41,6 +44,7 @@ export class ProfileManagementComponent extends iComponentBase implements OnInit
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     public router: Router,
+    public authService: AuthService
     // private appCustomerTopBarComponent: AppCustomerTopBarComponent
   ) {
     super(messageService);
@@ -139,41 +143,109 @@ export class ProfileManagementComponent extends iComponentBase implements OnInit
     }
   }
 
-  async editProfile() {
-    try {
-      const inputData = {
-        // userId: sessionStorage.getItem("userId"),
-        firstName: this.profile.firstName,
-        lastName: this.profile.lastName,
-        gender: this.profile.gender,
-        birthDate: this.profile.birthDate
-      }
-      let response = await this.iServiceBase.putDataAsync(API.PHAN_HE.USER, API.API_USER.EDITPROFILE, inputData);
 
-      if (response && response.message === 'Success') {
-        console.log(response);
-        console.log(response.message);
-        this.showMessage(mType.success, 'Notification'
-          , 'Profile information updated successfully.', 'notify');
-
-        this.isVisibleEditProfileDialog = false;
-
-        //Tải lại profile info 
-        this.getProfileInfo();
-
-        //Clear model đã tạo
-        // this.profile = new Profile();
-        // console.log(this.profile);
-
-      } else {
-        console.log(response);
-        console.log(response.message);
-        this.showMessage(mType.error, 'Notification'
-          , 'Internal server error, please contact admin for help.', 'notify');
-      }
-    } catch (e) {
-      console.log(e);
+  validateInput(): boolean {
+    var check = true;
+    this.editProfileValidation = new EditProfileInputValidation();
+    if (!this.profile.lastName || this.profile.lastName == '') {
+      this.editProfileValidation.isValidLastName = false;
+      this.editProfileValidation.LastNameValidationMessage = "Last name can not empty";
+      check = false;
     }
+
+    if (!this.profile.firstName || this.profile.firstName == '') {
+      this.editProfileValidation.isValidFirstName = false;
+      this.editProfileValidation.FirstNameValidationMessage = "First name can not empty";
+      check = false;
+    }
+
+    if (this.profile.lastName.length > 50) {
+      this.editProfileValidation.isValidLastName = false;
+      this.editProfileValidation.LastNameValidationMessage = "Last name must be less than 50 characters";
+      check = false;
+    }
+
+    if (this.profile.firstName.length > 50) {
+      this.editProfileValidation.isValidFirstName = false;
+      this.editProfileValidation.FirstNameValidationMessage = "First name must be less than 50 characters";
+      check = false;
+    }
+
+    if (this.authService.getRole() == 'SE') {
+
+      if (!this.profile.shopName || this.profile.shopName == '') {
+        this.editProfileValidation.isValidShopName = false;
+        this.editProfileValidation.ShopNameValidationMessage = "Shop name can not empty";
+        check = false;
+      }
+
+      if (!this.profile.shopAddress || this.profile.shopAddress == '') {
+        this.editProfileValidation.isValidShopAddress = false;
+        this.editProfileValidation.ShopAddressValidationMessage = "Shop address can not empty";
+        check = false;
+      }
+
+      if (this.profile.shopName.length > 50) {
+        this.editProfileValidation.isValidShopName = false;
+        this.editProfileValidation.ShopNameValidationMessage = "Shop name must be less than 50 characters";
+        check = false;
+      }
+
+      // if (this.profile.shopAddress.length > 200) {
+      //   this.editProfileValidation.isValidShopAddress = false;
+      //   this.editProfileValidation.ShopAddressValidationMessage = "Shop address must be less than 200 characters";
+      //   check = false;
+      // }
+
+    }
+
+    console.log(this.editProfileValidation);
+    return check;
+  }
+
+  async editProfile() {
+    if (this.validateInput()) { // validate before continuing to edit
+      try {
+        const inputData = {
+          // userId: sessionStorage.getItem("userId"),
+          firstName: this.profile.firstName,
+          lastName: this.profile.lastName,
+          gender: this.profile.gender,
+          birthDate: this.profile.birthDate,
+          shopName: this.profile.shopName,
+          shopAddress: this.profile.shopAddress
+        }
+        let response = await this.iServiceBase.putDataAsync(API.PHAN_HE.USER, API.API_USER.EDITPROFILE, inputData);
+
+        if (response && response.message === 'Success') {
+          console.log(response);
+          console.log(response.message);
+          this.showMessage(mType.success, 'Notification'
+            , 'Profile information updated successfully.', 'notify');
+
+          this.isVisibleOthersEditProfileDialog = false;
+          this.isVisibleSellerEditProfileDialog = false;
+
+          //Tải lại profile info 
+          this.getProfileInfo();
+
+          //Clear model đã tạo
+          // this.profile = new Profile();
+          // console.log(this.profile);
+
+        } else {
+          console.log(response);
+          console.log(response.message);
+          this.showMessage(mType.error, 'Notification'
+            , 'Internal server error, please contact admin for help.', 'notify');
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    // else{
+
+    // }
   }
 
   async importProfileImage() {
@@ -229,13 +301,17 @@ export class ProfileManagementComponent extends iComponentBase implements OnInit
     }
   }
 
-  openEditProfileDiaglog() {
-    this.isVisibleEditProfileDialog = true;
+  openOthersEditProfileDiaglog() {
+    this.isVisibleOthersEditProfileDialog = true;
   }
 
-  hideDialog() {
-    this.isVisibleEditProfileDialog = false;
+  openSellerEditProfileDiaglog() {
+    this.isVisibleSellerEditProfileDialog = true;
   }
+
+  // hideDialog() {
+  //   this.isVisibleOthersEditProfileDialog = false;
+  // }
 
   editPhoneNumber() {
     // throw new Error('Method not implemented.');
