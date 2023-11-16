@@ -13,6 +13,10 @@ export class Profile {
     isOnline: boolean;
     walletBalance: number;
     manageBy: number;
+    password: string;
+    oldPassword: string;
+    newPassword: string;
+    confirmNewPassword: string;
 }
 
 export class ProfileDisplay {
@@ -32,6 +36,7 @@ export class ProfileDisplay {
     walletBalance: number;
     manageBy: number;
     confirmedEmail:boolean;
+    password: string;
 }
 
 export class ProfileImage {
@@ -52,4 +57,18 @@ export class EditProfileInputValidation {
     ShopNameValidationMessage: string = null;
     isValidShopAddress: boolean = true;
     ShopAddressValidationMessage: string = null;
+    isValidPhoneNumber: boolean = true;
+    PhoneNumberValidationMessage: string = null;
+}
+
+export class ChangePasswordInputValidation {
+    isValidPassword: boolean = true;
+    PasswordValidationMessage: string = null;
+    isValidConfirmPassword: boolean = true;
+    ConfirmPasswordValidationMessage: string = null;
+}
+
+export class VerifyIdentityInputValidation {
+    isValidPassword: boolean = true;
+    PasswordValidationMessage: string = null;
 }

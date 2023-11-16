@@ -38,6 +38,8 @@ export class API_USER {
     public static REGISTER = "register";
     public static GETPROFILE = "profile";
     public static EDITPROFILE = "editprofile";
+    public static VERIFYUSERIDENTITY = "verifyuseridentity";
+    public static CHANGEACCOUNTPASSWORD = "changeaccountpassword";
     public static GET_SHIPPERS_AVAILABLE = "getShippersAvailable";
     public static GET_SHIPPERS_BYSELLER = "listshipperbyseller";
     public static GET_SHIPPERS_INVITATION = "listinvitationshipper";

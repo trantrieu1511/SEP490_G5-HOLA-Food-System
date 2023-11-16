@@ -13,7 +13,7 @@ import {
   SelectItem,
   TreeNode
 } from "primeng/api";
-import { EditProfileInputValidation, Profile, ProfileDisplay, ProfileImage } from '../../models/profile';
+import { ChangePasswordInputValidation, EditProfileInputValidation, Profile, ProfileDisplay, ProfileImage, VerifyIdentityInputValidation } from '../../models/profile';
 import { FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
 import { Router } from '@angular/router';
 import { AppCustomerTopBarComponent } from 'src/app/app-systems/app-topbar/customer/app.topbar-cus.component';
@@ -27,16 +27,24 @@ import { AppCustomerTopBarComponent } from 'src/app/app-systems/app-topbar/custo
 
 export class ManageprofileComponent extends iComponentBase implements OnInit {
 
+  // ------------- Binding variables ------------------
   profile: Profile = new Profile();
   profileDisplay: ProfileDisplay = new ProfileDisplay();
-  // visible = false;
-  isVisibleEditProfileDialog: boolean = false;
   // minDate: Date = new Date();
   uploadedFiles: File[] = [];
   profileImage: ProfileImage = new ProfileImage();
+
+  // ------------- UI component variables ---------------
+  isVisibleChangePasswordModal: boolean = false;
+  isVisibleVerifyYourselfModal: boolean = false;
+  isVisibleEditProfileDialog: boolean = false;
   isLoggedIn: boolean = false;
   selectedSideBarOption: boolean = true;
+
+  // ------------- Validation variables --------------
   editProfileValidation: EditProfileInputValidation = new EditProfileInputValidation();
+  changePasswordValidation: ChangePasswordInputValidation = new ChangePasswordInputValidation();
+  verifyIdentityValidation: VerifyIdentityInputValidation = new VerifyIdentityInputValidation();
 
   constructor(
     private shareData: ShareData,
@@ -116,7 +124,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
 
       if (response && response.message === 'Success') {
         this.profile = response.data;
-        this.profile.birthDate = this.profile.birthDate.toString().split('T')[0];
+        this.profile.birthDate = (response.data.birthDate != undefined ? response.data.birthDate.toString().split('T')[0] : '');
         this.profileDisplay = Object.assign({}, response.data); //Copy profile sang mot entity moi phuc vu cho viec display (Entity do khac dia chi so voi profile nen khong bi anh huong boi two way data binding)
 
         // format date sang dd/mm/yyyy
@@ -131,7 +139,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
         if (mm < 10) mmstr = '0' + mm;
 
         const formattedDate = (ddstr != '' ? ddstr : dd) + '/' + (mmstr != '' ? mmstr : mm) + '/' + yyyy;
-        this.profileDisplay.birthDate = formattedDate;
+        this.profileDisplay.birthDate = (formattedDate == "NaN/NaN/NaN" ? '' : formattedDate); // Dang ky bang gg se bi gap truong hop NaN/NaN/NaN nhu vay
 
         console.log(this.profile);
         console.log(this.profileDisplay);
@@ -142,7 +150,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     }
   }
 
-  validateInput(): boolean {
+  validateEditProfileInput(): boolean {
     var check = true;
     this.editProfileValidation = new EditProfileInputValidation();
     if (!this.profile.lastName || this.profile.lastName == '') {
@@ -155,6 +163,19 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       this.editProfileValidation.isValidFirstName = false;
       this.editProfileValidation.FirstNameValidationMessage = "First name can not empty";
       check = false;
+    }
+
+    if (!this.profile.phoneNumber || this.profile.phoneNumber == '') {
+      this.editProfileValidation.isValidPhoneNumber = false;
+      this.editProfileValidation.PhoneNumberValidationMessage = "Phone number can not empty";
+      check = false;
+    } else {
+      const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+      if (!this.profile.phoneNumber.match(regexPhoneNumber)) {
+        this.editProfileValidation.isValidPhoneNumber = false;
+        this.editProfileValidation.PhoneNumberValidationMessage = "Invalid phone number. Please enter a valid Vietnamese phonenumber.";
+        check = false;
+      }
     }
 
     if (this.profile.lastName.length > 50) {
@@ -174,15 +195,17 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   }
 
   async editProfile() {
-    if (this.validateInput()) { // Validate before continuing to edit
+    if (this.validateEditProfileInput()) { // Validate before continuing to edit
       try {
         const inputData = {
           // userId: sessionStorage.getItem("userId"),
           firstName: this.profile.firstName,
           lastName: this.profile.lastName,
           gender: this.profile.gender,
-          birthDate: this.profile.birthDate
+          birthDate: this.profile.birthDate,
+          phoneNumber: this.profile.phoneNumber
         }
+        // console.log(inputData);
         let response = await this.iServiceBase.putDataAsync(API.PHAN_HE.USER, API.API_USER.EDITPROFILE, inputData);
 
         if (response && response.message === 'Success') {
@@ -273,52 +296,176 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     this.isVisibleEditProfileDialog = false;
   }
 
-  editPhoneNumber() {
-    // throw new Error('Method not implemented.');
-  }
-
-  editEmail() {
-    // throw new Error('Method not implemented.');
-  }
-
-  doSomething() {
-    // throw new Error('Method not implemented.');
-  }
-  async confirm(email:string){
-     this.hideElement();
-    const param= {
+  async confirm(email: string) {
+    this.hideElement();
+    const param = {
       "email": email
     }
     try {
 
       debugger;
-           let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.HOME, API.API_HOME.SEND_CONFIRM_EMAIL,param);
+      let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.HOME, API.API_HOME.SEND_CONFIRM_EMAIL, param);
 
-           if (response && response.message === "Success") {
-            this.showMessage(
-              mType.success,
-              'Notification',
-              'Send to Email successfully',
-              'notify'
-            );
-            this.hideElement();
-           }
-          ;
-       } catch (e) {
-           console.log(e);
+      if (response && response.message === "Success") {
+        this.showMessage(
+          mType.success,
+          'Notification',
+          'Send to Email successfully',
+          'notify'
+        );
+        this.hideElement();
+      }
+      ;
+    } catch (e) {
+      console.log(e);
 
-       }
-       this.hideElement();
+    }
+    this.hideElement();
   }
+
   hideElement() {
     // Sử dụng nativeElement để có thể thao tác trực tiếp với phần tử DOM
     const element = this.el.nativeElement.querySelector('.verify-email-link');
 
     // Kiểm tra xem phần tử có tồn tại không trước khi thực hiện thay đổi
     if (element) {
-        element.style.display = 'none';
+      element.style.display = 'none';
     }
-}
+  }
+
+  async verifyIdentity() {
+    if (this.validateVerifyIdentityInput()) {
+      try {
+        let param = { password: this.profile.oldPassword };
+        let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_USER.VERIFYUSERIDENTITY, param);
+
+        if (response && response.message === 'Success') {
+          this.showMessage(
+            mType.success,
+            'Notification',
+            'Verify your identity successfully',
+            'notify'
+          );
+          console.log(response);
+          this.isVisibleVerifyYourselfModal = false;
+          setTimeout(() => {
+            this.isVisibleChangePasswordModal = true;
+          }, 1000);
+        } else {
+          this.showMessage(
+            mType.error,
+            'Notification',
+            'Wrong password, verify your identity failed. Please try again',
+            'notify'
+          );
+          console.log(response);
+          this.isVisibleVerifyYourselfModal = false;
+        }
+      } catch (e) {
+        console.log(e);
+        this.showMessage(
+          mType.success,
+          'Notification',
+          'System error',
+          'notify'
+        );
+      }
+    }
+  }
+
+  validateVerifyIdentityInput() {
+    var check = true;
+    this.verifyIdentityValidation = new VerifyIdentityInputValidation();
+    if (!this.profile.oldPassword || this.profile.oldPassword == '') {
+      this.verifyIdentityValidation.isValidPassword = false;
+      this.verifyIdentityValidation.PasswordValidationMessage = "Password can not empty";
+      check = false;
+    } else {
+      // const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,30}$\b/g; // / \b /g phuc vu cho cau truc cu phap cua regex
+      // if (!this.profile.oldPassword.match(regexPassword)) {
+      //   this.verifyIdentityValidation.isValidPassword = false;
+      //   this.verifyIdentityValidation.PasswordValidationMessage = "Password must contain at least a uppercase, lower case and number and not contain special characters. Min length: 8. Max length: 30.";
+      //   check = false;
+      // }
+    }
+    return check;
+  }
+
+  async changePassword() {
+    if (this.validateChangePasswordInput()) {
+      try {
+        let param = {
+          newPassword: this.profile.newPassword,
+          confirmPassword: this.profile.confirmNewPassword
+        };
+        let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_USER.CHANGEACCOUNTPASSWORD, param);
+
+        if (response && response.message === 'Success') {
+          this.showMessage(
+            mType.success,
+            'Notification',
+            'Change password successfully',
+            'notify'
+          );
+          console.log(response);
+          this.isVisibleChangePasswordModal = false;
+          // setTimeout(() => {
+          //   this.isVisibleChangePasswordModal = true;
+          // }, 1000);
+        } else {
+          this.showMessage(
+            mType.error,
+            'Notification',
+            'Change password failed',
+            'notify'
+          );
+          console.log(response);
+          this.isVisibleChangePasswordModal = false;
+        }
+      } catch (e) {
+        console.log(e);
+        this.showMessage(
+          mType.success,
+          'Notification',
+          'System error',
+          'notify'
+        );
+      }
+    }
+  }
+  validateChangePasswordInput(): boolean {
+    var check = true;
+    this.changePasswordValidation = new ChangePasswordInputValidation();
+    if (!this.profile.newPassword || this.profile.newPassword == '') {
+      this.changePasswordValidation.isValidPassword = false;
+      this.changePasswordValidation.PasswordValidationMessage = "New password can not empty";
+      check = false;
+    } else {
+      const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,30}$\b/g; // / \b /g phuc vu cho cau truc cu phap cua regex
+      if (!this.profile.newPassword.match(regexPassword)) {
+        this.changePasswordValidation.isValidPassword = false;
+        this.changePasswordValidation.PasswordValidationMessage = "Password must contain at least a uppercase, lower case and number and not contain special characters. Min length: 8. Max length: 30.";
+        check = false;
+      }
+      if (this.profile.newPassword == this.profile.oldPassword) {
+        this.changePasswordValidation.isValidPassword = false;
+        this.changePasswordValidation.PasswordValidationMessage = "New password cannot be the same as the old one. Please enter a different one.";
+        check = false;
+      }
+    }
+    if (!this.profile.confirmNewPassword || this.profile.confirmNewPassword == '') {
+      this.changePasswordValidation.isValidConfirmPassword = false;
+      this.changePasswordValidation.ConfirmPasswordValidationMessage = "Confirm password can not empty";
+      check = false;
+    } else {
+      if (this.profile.confirmNewPassword != this.profile.newPassword) {
+        this.changePasswordValidation.isValidConfirmPassword = false;
+        this.changePasswordValidation.ConfirmPasswordValidationMessage = "Confirm password is not match with new password";
+        check = false;
+      }
+    }
+    return check;
+  }
   // getSeverity(status: string) {
   //   switch (status) {
   //     case 'INSTOCK':

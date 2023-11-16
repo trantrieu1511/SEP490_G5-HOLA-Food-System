@@ -64,7 +64,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
 
     checkRoleCus() {
         // debugger;
-        //console.log(this.authService.getRole());
+        // console.log(this.authService.getRole());
         return this.authService.getRole() == null || RoleNames[this.authService.getRole()] == 'Customer'
     }
     setCurrentUser() {

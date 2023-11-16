@@ -4,6 +4,7 @@ using HFS_BE.Models;
 using HFS_BE.Utils;
 using Mailjet.Client.Resources;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace HFS_BE.DAO.UserDao
 {
@@ -106,6 +107,7 @@ namespace HFS_BE.DAO.UserDao
                         customer.LastName = inputDto.LastName;
                         customer.Gender = inputDto.Gender;
                         customer.BirthDate = inputDto.BirthDate;
+                        customer.PhoneNumber = inputDto.PhoneNumber;
 
                         break;
                     case "SE":
@@ -124,6 +126,7 @@ namespace HFS_BE.DAO.UserDao
                         seller.BirthDate = inputDto.BirthDate;
                         seller.ShopName = inputDto.ShopName;
                         seller.ShopAddress = inputDto.ShopAddress;
+                        seller.PhoneNumber = inputDto.PhoneNumber;
 
                         break;
                     case "SH":
@@ -140,6 +143,7 @@ namespace HFS_BE.DAO.UserDao
                         shipper.LastName = inputDto.LastName;
                         shipper.Gender = inputDto.Gender;
                         shipper.BirthDate = inputDto.BirthDate;
+                        shipper.PhoneNumber = inputDto.PhoneNumber;
 
                         break;
                     case "AD":
@@ -156,6 +160,7 @@ namespace HFS_BE.DAO.UserDao
                         admin.LastName = inputDto.LastName;
                         admin.Gender = inputDto.Gender;
                         admin.BirthDate = inputDto.BirthDate;
+                        admin.PhoneNumber = inputDto.PhoneNumber;
 
                         break;
                     case "PM":
@@ -172,6 +177,7 @@ namespace HFS_BE.DAO.UserDao
                         postModerator.LastName = inputDto.LastName;
                         postModerator.Gender = inputDto.Gender;
                         postModerator.BirthDate = inputDto.BirthDate;
+                        postModerator.PhoneNumber = inputDto.PhoneNumber;
 
                         break;
                     case "MM":
@@ -188,6 +194,7 @@ namespace HFS_BE.DAO.UserDao
                         menuModerator.LastName = inputDto.LastName;
                         menuModerator.Gender = inputDto.Gender;
                         menuModerator.BirthDate = inputDto.BirthDate;
+                        menuModerator.PhoneNumber = inputDto.PhoneNumber;
 
                         break;
                     default:
@@ -204,6 +211,162 @@ namespace HFS_BE.DAO.UserDao
                 //Output ra response body trang thai that bai neu co loi/ngoai le bat ky
                 return Output<BaseOutputDto>(Constants.ResultCdFail);
             }
+        }
+
+        /// <summary>
+        /// Verify the user's identity before continuing to change password
+        /// </summary>
+        /// <param name="inputDto">Contains password inputted by user</param>
+        /// <param name="userId">Id of the user</param>
+        /// <returns>BaseOutputDto</returns>
+        public BaseOutputDto VerifyUsersIdentity(VerifyIdentityInputDto inputDto, string userId)
+        {
+            try
+            {
+                bool result = false;
+                switch (userId.Substring(0, 2))
+                {
+                    case "CU":
+                        var customer = context.Customers.SingleOrDefault(c => c.CustomerId.Equals(userId));
+                        using (HMACSHA256? hmac = new HMACSHA256(customer.PasswordSalt))
+                        {
+                            var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.Password));
+                            result = compute.SequenceEqual(customer.PasswordHash);
+                        }
+                        break;
+                    case "SE":
+                        var seller = context.Customers.SingleOrDefault(c => c.CustomerId.Equals(userId));
+                        using (HMACSHA256? hmac = new HMACSHA256(seller.PasswordSalt))
+                        {
+                            var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.Password));
+                            result = compute.SequenceEqual(seller.PasswordHash);
+                        }
+                        break;
+                    case "SH":
+                        var shipper = context.Customers.SingleOrDefault(c => c.CustomerId.Equals(userId));
+                        using (HMACSHA256? hmac = new HMACSHA256(shipper.PasswordSalt))
+                        {
+                            var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.Password));
+                            result = compute.SequenceEqual(shipper.PasswordHash);
+                        }
+                        break;
+                    case "AD":
+                        var admin = context.Customers.SingleOrDefault(c => c.CustomerId.Equals(userId));
+                        using (HMACSHA256? hmac = new HMACSHA256(admin.PasswordSalt))
+                        {
+                            var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.Password));
+                            result = compute.SequenceEqual(admin.PasswordHash);
+                        }
+                        break;
+                    case "PM":
+                        var postMod = context.Customers.SingleOrDefault(c => c.CustomerId.Equals(userId));
+                        using (HMACSHA256? hmac = new HMACSHA256(postMod.PasswordSalt))
+                        {
+                            var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.Password));
+                            result = compute.SequenceEqual(postMod.PasswordHash);
+                        }
+                        break;
+                    case "MM":
+                        var menuMod = context.Customers.SingleOrDefault(c => c.CustomerId.Equals(userId));
+                        using (HMACSHA256? hmac = new HMACSHA256(menuMod.PasswordSalt))
+                        {
+                            var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.Password));
+                            result = compute.SequenceEqual(menuMod.PasswordHash);
+                        }
+                        break;
+                    default:
+                        return Output<BaseOutputDto>(Constants.ResultCdFail, "There are some errors happened in the system. Debug for more info.");
+                }
+                if (!result)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Password is not match");
+                }
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+            }
+            catch (Exception)
+            {
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+
+        }
+
+        /// <summary>
+        /// Change the user's account password
+        /// </summary>
+        /// <param name="inputDto">Contains new password and confirm password</param>
+        /// <param name="userId">The id of the user</param>
+        /// <returns></returns>
+        public BaseOutputDto ChangeUserAccountPassword(ChangeUserAccountPasswordInputDto inputDto, string userId)
+        {
+            try
+            {
+                if (!inputDto.ConfirmPassword.Equals(inputDto.NewPassword))
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Confirm password is not match with the new password. Please try again.");
+                }
+                switch (userId.Substring(0, 2)) // get rolekey
+                {
+                    case "CU":
+                        var customer = context.Customers.SingleOrDefault(c => c.CustomerId.Equals(userId));
+                        using (HMACSHA256? hmac = new HMACSHA256())
+                        {
+                            customer.PasswordSalt = hmac.Key;
+                            customer.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.NewPassword));
+                        }
+                        break;
+                    case "SE":
+                        var seller = context.Sellers.SingleOrDefault(s => s.SellerId.Equals(userId));
+                        using (HMACSHA256? hmac = new HMACSHA256())
+                        {
+                            seller.PasswordSalt = hmac.Key;
+                            seller.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.NewPassword));
+                        }
+                        break;
+                    case "SH":
+                        var shipper = context.Shippers.SingleOrDefault(sh => sh.ShipperId.Equals(userId));
+                        using (HMACSHA256? hmac = new HMACSHA256())
+                        {
+                            shipper.PasswordSalt = hmac.Key;
+                            shipper.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.NewPassword));
+                        }
+                        break;
+                    case "AD":
+                        var admin = context.Admins.SingleOrDefault(a => a.AdminId.Equals(userId));
+                        using (HMACSHA256? hmac = new HMACSHA256())
+                        {
+                            admin.PasswordSalt = hmac.Key;
+                            admin.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.NewPassword));
+                        }
+                        break;
+                    case "PM":
+                        var postMod = context.PostModerators.SingleOrDefault(pm => pm.ModId.Equals(userId));
+                        using (HMACSHA256? hmac = new HMACSHA256())
+                        {
+                            postMod.PasswordSalt = hmac.Key;
+                            postMod.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.NewPassword));
+                        }
+                        break;
+                    case "MM":
+                        var menuMod = context.MenuModerators.SingleOrDefault(mm => mm.ModId.Equals(userId));
+                        using (HMACSHA256? hmac = new HMACSHA256())
+                        {
+                            menuMod.PasswordSalt = hmac.Key;
+                            menuMod.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.NewPassword));
+                        }
+                        break;
+                    default:
+                        return Output<BaseOutputDto>(Constants.ResultCdFail, "There are some errors happened in the system. Debug for more info.");
+                }
+                context.SaveChanges();
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+            }
+            catch (Exception)
+            {
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+
         }
 
         public GetOrderInfoOutputDto GetUserInfo(GetOrderInfoInputDto inputDto)

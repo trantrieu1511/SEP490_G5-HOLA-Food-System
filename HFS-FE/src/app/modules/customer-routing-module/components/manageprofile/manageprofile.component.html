@@ -1,16 +1,20 @@
-<p-dialog [(visible)]="isVisibleEditProfileDialog" [style]="{ width: '450px' }" header="Profile details"
-    [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="isVisibleEditProfileDialog" [style]="{ width: '450px' }" header="Profile details" [modal]="true"
+    styleClass="p-fluid">
     <ng-template pTemplate="profileInfo">
         <div class="formgrid grid">
             <div class="field col">
-                <label for="lastname">Lastname<span style="color: red;">*</span></label>
-                <input type="text" pInputText id="lastname" [(ngModel)]="profile.lastName" required />
+                <label for="lastname">Lastname <span style="color: red;">*</span></label>
+                <input type="text" pInputText id="lastname" [(ngModel)]="profile.lastName" required
+                    [class.ng-invalid]="!editProfileValidation.isValidLastName"
+                    [class.ng-dirty]="!editProfileValidation.isValidLastName" />
                 <small [style.display]="editProfileValidation.isValidLastName ? 'none !important' : 'block !important'"
                     class="p-error block">{{editProfileValidation.LastNameValidationMessage}}</small>
             </div>
             <div class="field col">
-                <label for="firstname">Firstname<span style="color: red;">*</span></label>
-                <input type="text" pInputText id="firstname" [(ngModel)]="profile.firstName" required />
+                <label for="firstname">Firstname <span style="color: red;">*</span></label>
+                <input type="text" pInputText id="firstname" [(ngModel)]="profile.firstName" required
+                    [class.ng-invalid]="!editProfileValidation.isValidFirstName"
+                    [class.ng-dirty]="!editProfileValidation.isValidFirstName" />
                 <small [style.display]="editProfileValidation.isValidFirstName ? 'none !important' : 'block !important'"
                     class="p-error block">{{editProfileValidation.FirstNameValidationMessage}}</small>
             </div>
@@ -38,14 +42,80 @@
                 </div>
             </div>
         </div>
+        <div class="field">
+            <label for="phonenumber">Phone number <span style="color: red;">*</span></label>
+            <input type="text" pInputText id="firstname" [(ngModel)]="profile.phoneNumber" required
+                [class.ng-invalid]="!editProfileValidation.isValidPhoneNumber"
+                [class.ng-dirty]="!editProfileValidation.isValidPhoneNumber" />
+            <small [style.display]="editProfileValidation.isValidPhoneNumber ? 'none !important' : 'block !important'"
+                class="p-error block">{{editProfileValidation.PhoneNumberValidationMessage}}</small>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="editProfile()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="isVisibleChangePasswordModal" [style]="{ width: '450px' }" header="Change your password"
+    [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="ChangePassword">
+        <!-- <div class="formgrid grid"> -->
+        <div class="field">
+            <label for="newpassword">New password <span style="color: red;">*</span></label>
+            <input type="password" pInputText id="newpassword" [(ngModel)]="profile.newPassword" required
+                [class.ng-invalid]="!changePasswordValidation.isValidPassword"
+                [class.ng-dirty]="!changePasswordValidation.isValidPassword"
+                (keyup)="validateChangePasswordInput()" />
+            <small [style.display]="changePasswordValidation.isValidPassword ? 'none !important' : 'block !important'"
+                class="p-error block">{{changePasswordValidation.PasswordValidationMessage}}</small>
+        </div>
+        <div class="field">
+            <label for="confirmnewpassword">Confirm new password <span style="color: red;">*</span></label>
+            <input type="password" pInputText id="confirmnewpassword" [(ngModel)]="profile.confirmNewPassword" required
+                [class.ng-invalid]="!changePasswordValidation.isValidConfirmPassword"
+                [class.ng-dirty]="!changePasswordValidation.isValidConfirmPassword"
+                (keyup)="validateChangePasswordInput()" />
+            <small
+                [style.display]="changePasswordValidation.isValidConfirmPassword ? 'none !important' : 'block !important'"
+                class="p-error block">{{changePasswordValidation.ConfirmPasswordValidationMessage}}</small>
+        </div>
+        <!-- </div> -->
     </ng-template>
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
-            (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="editProfile()"></button>
+            (click)="this.isVisibleChangePasswordModal = false"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+            (click)="changePassword()"></button>
     </ng-template>
 </p-dialog>
+
+<p-dialog [(visible)]="isVisibleVerifyYourselfModal" [style]="{ width: '450px' }" header="Verify your identity"
+    [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="VerifyIdentity">
+        <!-- <div class="formgrid grid"> -->
+        <div class="field">
+            <label for="oldpassword">Enter your account password <span style="color: red;">*</span></label>
+            <input type="password" pInputText id="oldpassword" [(ngModel)]="profile.oldPassword" required
+                [class.ng-invalid]="!verifyIdentityValidation.isValidPassword"
+                [class.ng-dirty]="!verifyIdentityValidation.isValidPassword" />
+            <small [style.display]="verifyIdentityValidation.isValidPassword ? 'none !important' : 'block !important'"
+                class="p-error block">{{verifyIdentityValidation.PasswordValidationMessage}}
+            </small>
+        </div>
+        <!-- </div> -->
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+            (click)="this.isVisibleVerifyYourselfModal = false"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+            (click)="verifyIdentity();"></button>
+    </ng-template>
+</p-dialog>
+
 
 <!--<p-dialog header="Edit profile" [(visible)]="visible" [modal]="true" [style]="{ width: '500px' }" [draggable]="false"
     [resizable]="false">
@@ -141,35 +211,39 @@
                 <hr>
                 <div style="display: flex;">
                     <p class="field-title">Email: </p>
-                    <div class="field-info" *ngIf="profileDisplay.email != undefined else RegisterEmail">
+                    <!-- <div class="field-info" *ngIf="profileDisplay.email != undefined else RegisterEmail"> -->
+                    <div class="field-info">
                         {{profileDisplay.email}} <i *ngIf="profileDisplay.isVerified" class="pi pi-verified"
                             style="color: green;"></i>
-                        <div>
+                        <!-- <div>
                             <a style="color: #6366F1;" class="edit-email-link" href="#"
                                 onClick="event.preventDefault();" (click)="doSomething();">Edit email</a>
-                        </div>
+                        </div> -->
                         <div *ngIf="!profileDisplay.confirmedEmail">
-                            <a class="verify-email-link"
-                                (click)="confirm(profileDisplay.email);">Verify email</a>
-                        </div> <div *ngIf="profileDisplay.confirmedEmail">
-                          <p style="color: rgb(23, 170, 23);">Email has been verified</p>
-                      </div>
-
+                            <a class="verify-email-link" (click)="confirm(profileDisplay.email);">Verify email</a>
+                        </div>
+                        <div *ngIf="profileDisplay.confirmedEmail">
+                            <p style="color: rgb(23, 170, 23);">Email has been verified</p>
+                        </div>
                     </div>
-                    <ng-template #RegisterEmail>
+                    <!-- <ng-template #RegisterEmail>
                         <p class="field-info"><p-button [text]="true">Add an email</p-button></p>
-                    </ng-template>
+                    </ng-template> -->
                 </div>
                 <hr>
                 <div style="display: flex;">
                     <p class="field-title">Phonenumber: </p>
-                    <p class="field-info" *ngIf="profileDisplay.phoneNumber != undefined else RegisterPhoneNumber">
-                        {{profileDisplay.phoneNumber}}<p-button [text]="true" (onClick)="editPhoneNumber();">Edit
-                            phonenumber</p-button></p>
-                    <ng-template #RegisterPhoneNumber>
+                    <!-- <p class="field-info" *ngIf="profileDisplay.phoneNumber != undefined else RegisterPhoneNumber"> -->
+                    <p class="field-info">
+                        {{profileDisplay.phoneNumber}}
+                        <!-- <p-button [text]="true" (onClick)="editPhoneNumber();">Edit
+                            phonenumber
+                        </p-button> -->
+                    </p>
+                    <!-- <ng-template #RegisterPhoneNumber>
                         <p class="field-info"><p-button [text]="true" (onclick)="doSomething();">Add a
                                 phonenumber</p-button></p>
-                    </ng-template>
+                    </ng-template> -->
 
                     <!-- <a style="width: 50%;">Add a phone number</a> -->
                 </div>
@@ -180,7 +254,8 @@
                     </p>
                 </div> -->
                 <!-- <hr> -->
-                <p-button (click)="openEditProfileDiaglog();">Edit</p-button>
+                <p-button (click)="openEditProfileDiaglog();">Edit</p-button> &nbsp;
+                <p-button (click)="isVisibleVerifyYourselfModal = true" [text]="true">Change your password</p-button>
             </div>
         </div>
     </div>

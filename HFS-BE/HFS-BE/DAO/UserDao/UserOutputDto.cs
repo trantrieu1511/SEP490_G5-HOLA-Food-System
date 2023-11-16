@@ -14,7 +14,7 @@ namespace HFS_BE.DAO.UserDao
         public string? Gender { get; set; }
         public DateTime? BirthDate { get; set; }
         public string Email { get; set; } = null!;
-        public long? PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         public string? Avatar { get; set; }
         public string? ShopName { get; set; }
         public string? ShopAddress { get; set; }
@@ -24,6 +24,8 @@ namespace HFS_BE.DAO.UserDao
         public int? ManageBy { get; set; }
         public bool isBanned { get; set; }
         public bool isVerified { get; set; }
+        public byte[] PasswordSalt { get; set; } = null!;
+        public byte[] PasswordHash { get; set; } = null!;
     }
 
     public class UserProfileOutputDto : BaseOutputDto
