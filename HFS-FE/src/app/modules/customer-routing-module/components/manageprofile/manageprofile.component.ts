@@ -43,7 +43,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
-    private router: Router,
+    public router: Router,
     private el: ElementRef
     // private appCustomerTopBarComponent: AppCustomerTopBarComponent
   ) {

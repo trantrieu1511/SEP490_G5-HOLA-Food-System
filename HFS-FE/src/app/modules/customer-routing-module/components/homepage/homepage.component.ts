@@ -45,17 +45,17 @@ export class HomepageComponent extends iComponentBase implements OnInit {
 
   ngOnInit() {
     this.getAllShop();
-    this.setCurrentUser();
+   // this.setCurrentUser();
   }
-  setCurrentUser() {
-    const user: User = JSON.parse(localStorage.getItem('user'));
-    const token = sessionStorage.getItem('JWT');
-   // debugger;
-    if (user) {
+  // setCurrentUser() {
+  //   const user: User = JSON.parse(localStorage.getItem('user'));
+  //   const token = sessionStorage.getItem('JWT');
+  //  // debugger;
+  //   if (user) {
 
-      this.presence.createHubConnection(token);
-    }
-  }
+  //     this.presence.createHubConnection(token);
+  //   }
+  // }
   async getAllShop() {
     try {
       this.loading = true;
