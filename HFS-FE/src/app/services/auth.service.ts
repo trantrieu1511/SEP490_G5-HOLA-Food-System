@@ -257,10 +257,10 @@ export class AuthService {
 
       this.userSubject.next(this.user);
       localStorage.setItem("user", JSON.stringify(this.user));
-      sessionStorage.setItem("JWT",token.token);
-      sessionStorage.setItem("role",this.user.role.toString());
-      sessionStorage.setItem("timetoken",this.user.exp.toString());
-      sessionStorage.setItem("userId",this.user.userId.toString());
+      sessionStorage.setItem("JWT", token.token);
+      sessionStorage.setItem("role", this.user.role.toString());
+      sessionStorage.setItem("timetoken", this.user.exp.toString());
+      sessionStorage.setItem("userId", this.user.userId.toString());
 
 
     }
@@ -269,9 +269,13 @@ export class AuthService {
     return JSON.parse(atob(token.split('.')[1]));
   }
 
-
-  getRole(){
-    return sessionStorage.getItem("role");
+  getRole() {
+    let token = sessionStorage.getItem("JWT");
+    if (token) {
+      const data = this.getDecodedToken(token);
+      return data['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+    }
+    return null;
   }
 
   confirmemail(model: any) {

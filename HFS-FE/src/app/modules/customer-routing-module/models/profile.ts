@@ -20,7 +20,7 @@ export class ProfileDisplay {
     firstName: string;
     lastName: string;
     gender: string;
-    birthDate: Date;
+    birthDate: string;
     roleIEd: number;
     email: string;
     phoneNumber: string;
@@ -41,4 +41,15 @@ export class ProfileImage {
     isReplaced: boolean;
     imageBase64: string; // Base64 of the image name (with its path: Resource/...)
     size: string;
+}
+
+export class EditProfileInputValidation {
+    isValidLastName: boolean = true;
+    LastNameValidationMessage: string = null;
+    isValidFirstName: boolean = true;
+    FirstNameValidationMessage: string = null;
+    isValidShopName: boolean = true;
+    ShopNameValidationMessage: string = null;
+    isValidShopAddress: boolean = true;
+    ShopAddressValidationMessage: string = null;
 }

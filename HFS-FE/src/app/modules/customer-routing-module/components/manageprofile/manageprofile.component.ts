@@ -13,7 +13,7 @@ import {
   SelectItem,
   TreeNode
 } from "primeng/api";
-import { Profile, ProfileDisplay, ProfileImage } from '../../models/profile';
+import { EditProfileInputValidation, Profile, ProfileDisplay, ProfileImage } from '../../models/profile';
 import { FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
 import { Router } from '@angular/router';
 import { AppCustomerTopBarComponent } from 'src/app/app-systems/app-topbar/customer/app.topbar-cus.component';
@@ -26,12 +26,6 @@ import { AppCustomerTopBarComponent } from 'src/app/app-systems/app-topbar/custo
 })
 
 export class ManageprofileComponent extends iComponentBase implements OnInit {
-editPhoneNumber() {
-// throw new Error('Method not implemented.');
-}
-editEmail() {
-// throw new Error('Method not implemented.');
-}
 
   profile: Profile = new Profile();
   profileDisplay: ProfileDisplay = new ProfileDisplay();
@@ -42,6 +36,7 @@ editEmail() {
   profileImage: ProfileImage = new ProfileImage();
   isLoggedIn: boolean = false;
   selectedSideBarOption: boolean = true;
+  editProfileValidation: EditProfileInputValidation = new EditProfileInputValidation();
 
   constructor(
     private shareData: ShareData,
@@ -124,6 +119,20 @@ editEmail() {
         this.profile.birthDate = this.profile.birthDate.toString().split('T')[0];
         this.profileDisplay = Object.assign({}, response.data); //Copy profile sang mot entity moi phuc vu cho viec display (Entity do khac dia chi so voi profile nen khong bi anh huong boi two way data binding)
 
+        // format date sang dd/mm/yyyy
+        const date = new Date(this.profileDisplay.birthDate);
+        const yyyy = date.getFullYear();
+        let mm = date.getMonth() + 1; // Months start at 0!
+        let dd = date.getDate();
+        let ddstr: string = '';
+        let mmstr: string = '';
+
+        if (dd < 10) ddstr = '0' + dd;
+        if (mm < 10) mmstr = '0' + mm;
+
+        const formattedDate = (ddstr != '' ? ddstr : dd) + '/' + (mmstr != '' ? mmstr : mm) + '/' + yyyy;
+        this.profileDisplay.birthDate = formattedDate;
+
         console.log(this.profile);
         console.log(this.profileDisplay);
 
@@ -133,40 +142,73 @@ editEmail() {
     }
   }
 
+  validateInput(): boolean {
+    var check = true;
+    this.editProfileValidation = new EditProfileInputValidation();
+    if (!this.profile.lastName || this.profile.lastName == '') {
+      this.editProfileValidation.isValidLastName = false;
+      this.editProfileValidation.LastNameValidationMessage = "Last name can not empty";
+      check = false;
+    }
+
+    if (!this.profile.firstName || this.profile.firstName == '') {
+      this.editProfileValidation.isValidFirstName = false;
+      this.editProfileValidation.FirstNameValidationMessage = "First name can not empty";
+      check = false;
+    }
+
+    if (this.profile.lastName.length > 50) {
+      this.editProfileValidation.isValidLastName = false;
+      this.editProfileValidation.LastNameValidationMessage = "Last name must be less than 50 characters";
+      check = false;
+    }
+
+    if (this.profile.firstName.length > 50) {
+      this.editProfileValidation.isValidFirstName = false;
+      this.editProfileValidation.FirstNameValidationMessage = "First name must be less than 50 characters";
+      check = false;
+    }
+
+    console.log(this.editProfileValidation);
+    return check;
+  }
+
   async editProfile() {
-    try {
-      const inputData = {
-        // userId: sessionStorage.getItem("userId"),
-        firstName: this.profile.firstName,
-        lastName: this.profile.lastName,
-        gender: this.profile.gender,
-        birthDate: this.profile.birthDate
+    if (this.validateInput()) { // Validate before continuing to edit
+      try {
+        const inputData = {
+          // userId: sessionStorage.getItem("userId"),
+          firstName: this.profile.firstName,
+          lastName: this.profile.lastName,
+          gender: this.profile.gender,
+          birthDate: this.profile.birthDate
+        }
+        let response = await this.iServiceBase.putDataAsync(API.PHAN_HE.USER, API.API_USER.EDITPROFILE, inputData);
+
+        if (response && response.message === 'Success') {
+          console.log(response);
+          console.log(response.message);
+          this.showMessage(mType.success, 'Notification'
+            , 'Profile information updated successfully.', 'notify');
+
+          this.isVisibleEditProfileDialog = false;
+
+          //Tải lại profile info
+          this.getProfileInfo();
+
+          //Clear model đã tạo
+          // this.profile = new Profile();
+          // console.log(this.profile);
+
+        } else {
+          console.log(response);
+          console.log(response.message);
+          this.showMessage(mType.error, 'Notification'
+            , 'Internal server error, please contact admin for help.', 'notify');
+        }
+      } catch (e) {
+        console.log(e);
       }
-      let response = await this.iServiceBase.putDataAsync(API.PHAN_HE.USER, API.API_USER.EDITPROFILE, inputData);
-
-      if (response && response.message === 'Success') {
-        console.log(response);
-        console.log(response.message);
-        this.showMessage(mType.success, 'Notification'
-          , 'Profile information updated successfully.', 'notify');
-
-        this.isVisibleEditProfileDialog = false;
-
-        //Tải lại profile info
-        this.getProfileInfo();
-
-        //Clear model đã tạo
-        // this.profile = new Profile();
-        // console.log(this.profile);
-
-      } else {
-        console.log(response);
-        console.log(response.message);
-        this.showMessage(mType.error, 'Notification'
-          , 'Internal server error, please contact admin for help.', 'notify');
-      }
-    } catch (e) {
-      console.log(e);
     }
   }
 
@@ -188,19 +230,20 @@ editEmail() {
       );
 
       if (response && response.message === 'Success') {
+        console.log("Import new profile image successfully");
         this.showMessage(
           mType.success,
           'Notification',
           'Import new profile image successfully',
           'notify'
         );
-        console.log("Import new profile image successfully");
 
-        //refresh profile image
-        this.getProfileImage();
+        //refresh profile images
+        // this.getProfileImage();
+        window.location.reload();
 
         //clear file upload
-        this.uploadedFiles = [];
+        // this.uploadedFiles = [];
 
         //refresh customer app top bar
         // this.router.navigate(['/'], { skipLocationChange: true }).then(() => {
@@ -228,6 +271,14 @@ editEmail() {
 
   hideDialog() {
     this.isVisibleEditProfileDialog = false;
+  }
+
+  editPhoneNumber() {
+    // throw new Error('Method not implemented.');
+  }
+
+  editEmail() {
+    // throw new Error('Method not implemented.');
   }
 
   doSomething() {

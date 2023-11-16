@@ -1,10 +1,11 @@
 <div class="layout-topbar shadow-4">
     <div class="layout-topbar-left">
-        <a class="layout-topbar-logo" routerLink="/HFSBusiness">
+        <a class="layout-topbar-logo" (click)="onClickLogo($event)">
             <img id="app-logo" src="../../../assets/image/Logo2.png" alt="ultima-layout" style="height: 3.75rem">
         </a>
 
-        <a class="layout-menu-button shadow-6" (click)="layoutService.onMenuButtonClick($event)" pRipple>
+        <a *ngIf="!checkLink()" class="layout-menu-button shadow-6" (click)="layoutService.onMenuButtonClick($event)"
+            pRipple>
             <i class="pi pi-chevron-right"></i>
         </a>
 
@@ -12,36 +13,26 @@
             <i class="pi pi-ellipsis-v fs-large"></i>
         </a>
     </div>
-
     <div class="layout-topbar-right"
         [ngClass]="{'layout-topbar-mobile-active': layoutService.state.mobileTopbarActive}">
         <div class="layout-topbar-actions-left">
             <!-- <p-megaMenu [model]="model" styleClass="layout-megamenu"></p-megaMenu> -->
         </div>
         <div class="layout-topbar-actions-right">
-            <ul class="layout-topbar-items">
-                <li class="layout-topbar-item layout-search-item">
-                    <a class="layout-topbar-action rounded-circle"
-                        (click)="layoutService.onTopbarItemClick($event, 'search')" pRipple>
-                        <i class="pi pi-search fs-large"></i>
-                    </a>
-                    <a class="layout-topbar-action rounded-circle"
-                    (click)="toggleCustomerList()" pRipple>
-                    <i class="pi pi-comment fs-large"></i>
-                </a>
-                    <div class="layout-search-panel p-inputgroup" [@topbarActionPanelAnimation]="'visible'"
-                        *ngIf="layoutService.state.search"
-                        (@topbarActionPanelAnimation.done)="onSearchAnimationEnd($event)">
-                        <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
-                        <input #searchInput type="text" pInputText placeholder="Search"
-                            (click)="layoutService.state.searchClick = true;"
-                            (keydown)="layoutService.onSearchKeydown($event)">
-                        <span class="p-inputgroup-addon">
-                            <button pButton pRipple type="button" icon="pi pi-times"
-                                class="p-button-rounded p-button-text p-button-plain"
-                                (click)="layoutService.state.searchClick = false;"></button>
+            <ul *ngIf="checkRoleCus() == true;else notCus" class="layout-topbar-items">
+                <li class="layout-topbar-item">
+                    <a class="layout-topbar-action rounded-circle" (click)="toggleSellerList()" pRipple>
+                        <span class="p-overlay-badge">
+                            <i class="pi pi-comment fs-large"></i>
                         </span>
-                    </div>
+                    </a>
+                </li>
+                <li class="layout-topbar-item">
+                    <a class="layout-topbar-action rounded-circle" (click)="goToNewsFeedPage();" pRipple>
+                        <span class="p-overlay-badge">
+                            <i class="pi pi-book fs-large"></i>
+                        </span>
+                    </a>
                 </li>
                 <app-notifications [layoutService]="layoutService"></app-notifications>
                 <li class="layout-topbar-item shoppingcart">
@@ -114,54 +105,132 @@
                         </li>
                     </ul>
                 </li>
-                <li *ngIf="isLoggedInState" class="layout-topbar-item">
+                <li *ngIf="isLoggedInState == true" class="layout-topbar-item">
                     <a class="layout-topbar-action flex flex-row justify-content-center align-items-center px-2 rounded-circle"
                         (click)="layoutService.onTopbarItemClick($event, 'profile')" pRipple>
-                        <img src="../../../assets/demo/images/avatar/amyelsner.png" alt="avatar"
-                            style="width: 32px; height: 32px;">
+                        <img src="{{topBarProfileImg.imageBase64 == undefined ? '../../../../assets/image/user.png' 
+                            : 'data:image/gif;base64,' + topBarProfileImg.imageBase64}}" alt="avatar"
+                            style="width: 32px; height: 32px; border-radius: 50%;">
                     </a>
 
                     <ul class="layout-topbar-action-panel shadow-6" [@topbarActionPanelAnimation]="'visible'"
                         *ngIf="layoutService.state.activeTopbarItem === 'profile'">
                         <li class="layout-topbar-action-item">
-                            <a class="flex flex-row align-items-center" (click)="viewProfile()" pRipple>
+                            <a class="flex flex-row align-items-center" pRipple (click)="viewProfile()">
                                 <i class="pi pi-user"
-                                    [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>
-                                <span>My profile</span>
+                                    [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>&nbsp;
+                                <span>My account</span>
                             </a>
                         </li>
                         <!-- <li class="layout-topbar-action-item">
-                            <a class="flex flex-row align-items-center" pRipple>
-                                <i class="pi pi-file-o"
-                                    [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>
-                                <span>Terms of Usage</span>
-                            </a>
-                        </li>
-                        <li class="layout-topbar-action-item">
-                            <a class="flex flex-row align-items-center" pRipple>
-                                <i class="pi pi-compass"
-                                    [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>
-                                <span>Support</span>
-                            </a>
-                        </li> -->
+                                <a class="flex flex-row align-items-center" pRipple>
+                                    <i class="pi pi-file-o"
+                                        [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>&nbsp;
+                                    <span>Terms of Usage</span>
+                                </a>
+                            </li>
+                            <li class="layout-topbar-action-item">
+                                <a class="flex flex-row align-items-center" pRipple>
+                                    <i class="pi pi-compass"
+                                        [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>&nbsp;
+                                    <span>Support</span>
+                                </a>
+                            </li> -->
                         <li class="layout-topbar-action-item">
                             <a class="flex flex-row align-items-center" (click)="logOut($event)" pRipple>
                                 <i class="pi pi-power-off"
-                                    [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>
+                                    [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>&nbsp;
                                 <span>Logout</span>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="layout-topbar-item" *ngIf="!isLoggedInState">
-                    <a class="layout-topbar-action rounded-circle" (click)="goToLoginBusinessPage();" pRipple>
-                        <span class="p-overlay-badge">
-                            <!-- <i class="pi pi-sign-in fs-large"></i> -->
-                            <span>Login</span>
-                        </span>
+                <li *ngIf="!isLoggedInState" class="layout-topbar-item">
+                    <a class="layout-topbar-action flex flex-row justify-content-center align-items-center px-2 rounded-circle"
+                        (click)="goToLoginPage();" pRipple>
+                        Login
                     </a>
                 </li>
+
             </ul>
+            <ng-template #notCus>
+                <ul class="layout-topbar-items">
+                    <li class="layout-topbar-item layout-search-item">
+                        <a class="layout-topbar-action rounded-circle"
+                            (click)="layoutService.onTopbarItemClick($event, 'search')" pRipple>
+                            <i class="pi pi-search fs-large"></i>
+                        </a>
+                        <a class="layout-topbar-action rounded-circle" (click)="toggleCustomerList()" pRipple>
+                            <i class="pi pi-comment fs-large"></i>
+                        </a>
+                        <!-- <div class="layout-search-panel p-inputgroup" [@topbarActionPanelAnimation]="'visible'"
+                            *ngIf="layoutService.state.search"
+                            (@topbarActionPanelAnimation.done)="onSearchAnimationEnd($event)">
+                            <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
+                            <input #searchInput type="text" pInputText placeholder="Search"
+                                (click)="layoutService.state.searchClick = true;"
+                                (keydown)="layoutService.onSearchKeydown($event)">
+                            <span class="p-inputgroup-addon">
+                                <button pButton pRipple type="button" icon="pi pi-times"
+                                    class="p-button-rounded p-button-text p-button-plain"
+                                    (click)="layoutService.state.searchClick = false;"></button>
+                            </span>
+                        </div> -->
+                    </li>
+                    <app-notifications [layoutService]="layoutService"></app-notifications>
+
+                    <li *ngIf="isLoggedInState" class="layout-topbar-item">
+                        <a class="layout-topbar-action flex flex-row justify-content-center align-items-center px-2 rounded-circle"
+                            (click)="layoutService.onTopbarItemClick($event, 'profile')" pRipple>
+                            <img src="{{topBarProfileImg.imageBase64 == undefined ? '../../../../assets/image/user.png' 
+                            : 'data:image/gif;base64,' + topBarProfileImg.imageBase64}}" alt="avatar"
+                                style="width: 32px; height: 32px; border-radius: 50%;">
+                        </a>
+
+                        <ul class="layout-topbar-action-panel shadow-6" [@topbarActionPanelAnimation]="'visible'"
+                            *ngIf="layoutService.state.activeTopbarItem === 'profile'">
+                            <li class="layout-topbar-action-item">
+                                <a class="flex flex-row align-items-center" (click)="viewProfile()" pRipple>
+                                    <i class="pi pi-user"
+                                        [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>
+                                    <span>My profile</span>
+                                </a>
+                            </li>
+                            <!-- <li class="layout-topbar-action-item">
+                                <a class="flex flex-row align-items-center" pRipple>
+                                    <i class="pi pi-file-o"
+                                        [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>
+                                    <span>Terms of Usage</span>
+                                </a>
+                            </li>
+                            <li class="layout-topbar-action-item">
+                                <a class="flex flex-row align-items-center" pRipple>
+                                    <i class="pi pi-compass"
+                                        [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>
+                                    <span>Support</span>
+                                </a>
+                            </li> -->
+                            <li class="layout-topbar-action-item">
+                                <a class="flex flex-row align-items-center" (click)="logOut($event)" pRipple>
+                                    <i class="pi pi-power-off"
+                                        [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>
+                                    <span>Logout</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="layout-topbar-item" *ngIf="!isLoggedInState">
+                        <a class="layout-topbar-action rounded-circle" (click)="goToLoginPage();" pRipple>
+                            <span class="p-overlay-badge">
+                                <!-- <i class="pi pi-sign-in fs-large"></i> -->
+                                <span>Login</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+
+            </ng-template>
+
         </div>
     </div>
 </div>

@@ -1,0 +1,18 @@
+{
+  "button" : {
+    "add": "Thêm",
+    "signIn": "Đăng nhập",
+    "SignInWith": "Đăng nhập với"
+  },
+
+  "loginScreen": {
+    "welcomeToFUFood": "Chào mừng đến với FU Food",
+    "doNotHaveAnAccount": "Không có tài khoản à",
+    "areYouBusinessMember": "Bạn có phải là đối tác không",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "forgotPassword": "Quên mật khẩu",
+    "createToday": "Tạo mới ngay nào",
+    "clickHere": "Bấm vào đây nào"
+  }
+}

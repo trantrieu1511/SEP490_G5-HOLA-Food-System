@@ -13,13 +13,14 @@ import { ConfirmemailComponent } from './confirmemail/confirmemail.component';
 import { ForgotComponent } from './forgot/forgot.component';
 import { LoginNonCustomerComponent } from './login-non-customer/login-non-customer.component';
 import { SellerListComponent } from './seller-list/seller-list.component';
-import { 
+import {
   DetailNotificationComponent,
   ManageFoodComponent,
   ManageNotificationComponent,
   ManageOrderComponent,
-  ManagePostComponent 
+  ManagePostComponent
 } from './modules/business-routing-module/business-routing-mudule';
+import { ProfileManagementComponent } from './modules/business-routing-module/components/profile-management/profile-management.component';
 
 const routes: Routes = [
   // {
@@ -67,9 +68,28 @@ const routes: Routes = [
   //   component: ManageprofileComponent
   // },
 
+  // {
+  //   path: '', component: AppCustomerLayoutComponent,
+  //   children: [
+  //     {
+  //       path: '',
+  //       loadChildren: () => import('./modules/customer-routing-module/customer-routing.module').then(m => m.CustomerRoutingModule),
+  //     },
+  //     {
+  //       path: 'notify-management',
+  //       component: ManageNotificationComponent,
+  //     },
+  //     {
+  //       path: 'notify-management/detail/:id',
+  //       component: DetailNotificationComponent,
+  //     },
+  //   ]
+  // },
   {
-    path: '', component: AppCustomerLayoutComponent,
+    path: '',
+    component: AppManageLayoutComponent,
     children: [
+      // customer & guest role
       {
         path: '',
         loadChildren: () => import('./modules/customer-routing-module/customer-routing.module').then(m => m.CustomerRoutingModule),
@@ -82,66 +102,73 @@ const routes: Routes = [
         path: 'notify-management/detail/:id',
         component: DetailNotificationComponent,
       },
-    ]
-  },
-  {
-    path: 'HFSBusiness', 
-    canActivate: [authGuard],
-    data: { requiredRole: ['Admin', 'Shipper', 'Seller', 'PostModerator', 'MenuModerator'] },
-    component: AppManageLayoutComponent,
-    children: [
+
+
+      // vip pro role
       {
-        path: 'post-management',
+        path: 'HFSBusiness', 
         canActivate: [authGuard],
-        data: { requiredRole: ['Seller', 'PostModerator'] },
-        component: ManagePostComponent
-      },
-      {
-        path: 'notify-management',
-        component: ManageNotificationComponent,
-      },
-      {
-        path: 'notify-management/detail/:id',
-        component: DetailNotificationComponent,
-      },
-      {
-        path: 'menu-management',
-        canActivate: [authGuard],
-        data: { requiredRole: ['Seller', 'MenuModerator'] },
-        component: ManageFoodComponent,
-      },
-      {
-        path: 'order-management',
-        canActivate: [authGuard],
-        data: { requiredRole: ['Seller', 'Shipper'] },
-        component: ManageOrderComponent,
-      },
-      {
-        path: 'shipper',
-        canActivate: [authGuard],
-        data: { requiredRole: 'Shipper' },
-        loadChildren: () => import('./modules/shipper-routing-module/shipper-routing.module').then(m => m.ShipperRoutingModule),
-      },
-      {
-        path: 'seller',
-        // canActivate: [authGuard],
-        // data: { requiredRole: ['Seller', 'Shipper'] },
-        loadChildren: () => import('./modules/seller-routing-module/seller-routing.module').then(m => m.SellerRoutingModule),
-      },
-      {
-        path: 'admin',
-        canActivate: [authGuard],
-        data: { requiredRole: 'Admin' },
-        loadChildren: () => import('./modules/admin-routing-module/admin-routing.module').then(m => m.AdminRoutingModule),
-      },
-      {
-        path: 'postmoderator',
-        loadChildren: () => import('./modules/postmoderator-routing-module/postmoderator-routing.module').then(m => m.PostmoderatorRoutingModule),
-      },
-      {
-        path: 'menumoderator',
-        loadChildren: () => import('./modules/menumoderator-routing-module/menumoderator-routing.module').then(m => m.MenumoderatorRoutingModule),
+        data: { requiredRole: ['Admin', 'Shipper', 'Seller', 'PostModerator', 'MenuModerator'] },
+        children: [
+          {
+            path: 'profile',
+            component: ProfileManagementComponent
+          },
+          {
+            path: 'post-management',
+            canActivate: [authGuard],
+            data: { requiredRole: ['Seller', 'PostModerator'] },
+            component: ManagePostComponent
+          },
+          {
+            path: 'notify-management',
+            component: ManageNotificationComponent,
+          },
+          {
+            path: 'notify-management/detail/:id',
+            component: DetailNotificationComponent,
+          },
+          {
+            path: 'menu-management',
+            canActivate: [authGuard],
+            data: { requiredRole: ['Seller', 'MenuModerator'] },
+            component: ManageFoodComponent,
+          },
+          {
+            path: 'order-management',
+            canActivate: [authGuard],
+            data: { requiredRole: ['Seller', 'Shipper'] },
+            component: ManageOrderComponent,
+          },
+          {
+            path: 'shipper',
+            canActivate: [authGuard],
+            data: { requiredRole: 'Shipper' },
+            loadChildren: () => import('./modules/shipper-routing-module/shipper-routing.module').then(m => m.ShipperRoutingModule),
+          },
+          {
+            path: 'seller',
+            // canActivate: [authGuard],
+            // data: { requiredRole: ['Seller', 'Shipper'] },
+            loadChildren: () => import('./modules/seller-routing-module/seller-routing.module').then(m => m.SellerRoutingModule),
+          },
+          {
+            path: 'admin',
+            canActivate: [authGuard],
+            data: { requiredRole: 'Admin' },
+            loadChildren: () => import('./modules/admin-routing-module/admin-routing.module').then(m => m.AdminRoutingModule),
+          },
+          {
+            path: 'postmoderator',
+            loadChildren: () => import('./modules/postmoderator-routing-module/postmoderator-routing.module').then(m => m.PostmoderatorRoutingModule),
+          },
+          {
+            path: 'menumoderator',
+            loadChildren: () => import('./modules/menumoderator-routing-module/menumoderator-routing.module').then(m => m.MenumoderatorRoutingModule),
+          }
+        ]
       }
+      
     ]
   },
   { path: 'error', component: AppErrorComponent },

@@ -122,6 +122,8 @@ namespace HFS_BE.DAO.UserDao
                         seller.LastName = inputDto.LastName;
                         seller.Gender = inputDto.Gender;
                         seller.BirthDate = inputDto.BirthDate;
+                        seller.ShopName = inputDto.ShopName;
+                        seller.ShopAddress = inputDto.ShopAddress;
 
                         break;
                     case "SH":

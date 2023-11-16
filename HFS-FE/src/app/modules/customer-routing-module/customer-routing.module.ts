@@ -13,7 +13,11 @@ import { ShopdetailComponent } from './components/shopdetail/shopdetail.componen
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ManageprofileComponent } from './components/manageprofile/manageprofile.component';
 import { OrderhistoryComponent } from './components/orderhistory/orderhistory.component';
+import { WalletComponent } from './components/wallet/wallet.component';
+import { PaymentverifyComponent } from './components/paymentverify/paymentverify.component';
 import { NewfeedComponent } from './components/newfeed/newfeed.component';
+import { CustomerfoodreportComponent } from './components/customerfoodreport/customerfoodreport.component';
+import { CustomerpostreportComponent } from './components/customerpostreport/customerpostreport.component';
 
 
 
@@ -23,10 +27,16 @@ const routes: Routes = [
   {path: "fooddetail", component: FooddetailComponent},
   {path: "cartdetail", component: CartdetailComponent},
   {path: "checkout", component : CheckoutComponent},
-  {path: "profile", component : ManageprofileComponent},
   {path: "orderhistory", component : OrderhistoryComponent},
-  {path: "newfeed", component : NewfeedComponent}
+  {path: "wallet", component : WalletComponent},
+  {path: "paymentverify", component : PaymentverifyComponent},
+  {path: "newfeed", component : NewfeedComponent},
+  // -------------- My account page related routes -----------------
+  {path: "profile", component : ManageprofileComponent},
+  {path: "menureport", component : CustomerfoodreportComponent},
+  {path: "postreport", component : CustomerpostreportComponent},
 ]
+
 
 @NgModule({
   declarations: [
@@ -36,7 +46,9 @@ const routes: Routes = [
     ShopdetailComponent,
     CheckoutComponent,
     ManageprofileComponent,
-    SwitchCasesDirective
+    SwitchCasesDirective,
+    CustomerfoodreportComponent,
+    CustomerpostreportComponent
   ],
   imports: [
     CommonModule,

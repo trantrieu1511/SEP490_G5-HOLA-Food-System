@@ -1,17 +1,18 @@
-<style>
-
-</style>
-<p-dialog [(visible)]="isVisibleEditProfileDialog" [style]="{ width: '450px' }" header="Profile details" [modal]="true"
-    styleClass="p-fluid">
+<p-dialog [(visible)]="isVisibleEditProfileDialog" [style]="{ width: '450px' }" header="Profile details"
+    [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="profileInfo">
         <div class="formgrid grid">
             <div class="field col">
-                <label for="lastname">Lastname</label>
+                <label for="lastname">Lastname<span style="color: red;">*</span></label>
                 <input type="text" pInputText id="lastname" [(ngModel)]="profile.lastName" required />
+                <small [style.display]="editProfileValidation.isValidLastName ? 'none !important' : 'block !important'"
+                    class="p-error block">{{editProfileValidation.LastNameValidationMessage}}</small>
             </div>
             <div class="field col">
-                <label for="firstname">Firstname</label>
+                <label for="firstname">Firstname<span style="color: red;">*</span></label>
                 <input type="text" pInputText id="firstname" [(ngModel)]="profile.firstName" required />
+                <small [style.display]="editProfileValidation.isValidFirstName ? 'none !important' : 'block !important'"
+                    class="p-error block">{{editProfileValidation.FirstNameValidationMessage}}</small>
             </div>
         </div>
         <div class="field">
@@ -40,7 +41,8 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+            (click)="hideDialog()"></button>
         <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="editProfile()"></button>
     </ng-template>
 </p-dialog>
@@ -80,15 +82,25 @@
 
 
 <div class="profilePageContent">
-    <div class="card" style="width: 15%;">
-        <a id="profile-option" class="profile-sidebar-option-selected" href="#" onclick="event.preventDefault();">Profile</a>
-        <hr>
-        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">MyOrder</a>
+    <div class="card profile-sidebar">
+        <a id="profile-option" class="profile-sidebar-option-selected" href="#"
+            onclick="event.preventDefault();">Profile</a>
+        <div class="dash-line"></div>
+        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">Order</a>
+        <div class="dash-line"></div>
+        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">Ship
+            address</a>
+        <div class="dash-line"></div>
+        <a id="myorder-option" class="profile-sidebar-option" (click)="this.router.navigateByUrl('/postreport')"
+            href="#" onclick="event.preventDefault();">Post report</a>
+        <div class="dash-line"></div>
+        <a id="myorder-option" class="profile-sidebar-option" (click)="this.router.navigateByUrl('/menureport')"
+            href="#" onclick="event.preventDefault();">Menu report</a>
         <!-- <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">Profile</button><hr>
         <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">MyOrder</button> -->
     </div>
 
-    <div class="card" style="width: 60%;">
+    <div class="card profile-main-body">
         <h2>Manage profile</h2>
         <hr>
         <div class="grid grid-nogutter">
@@ -130,10 +142,11 @@
                 <div style="display: flex;">
                     <p class="field-title">Email: </p>
                     <div class="field-info" *ngIf="profileDisplay.email != undefined else RegisterEmail">
-                        {{profileDisplay.email}} <i *ngIf="profileDisplay.isVerified" class="pi pi-verified" style="color: green;"></i>
+                        {{profileDisplay.email}} <i *ngIf="profileDisplay.isVerified" class="pi pi-verified"
+                            style="color: green;"></i>
                         <div>
-                            <a class="edit-email-link" href="#" onClick="event.preventDefault();"
-                                (click)="doSomething();">Edit email</a>
+                            <a style="color: #6366F1;" class="edit-email-link" href="#"
+                                onClick="event.preventDefault();" (click)="doSomething();">Edit email</a>
                         </div>
                         <div *ngIf="!profileDisplay.confirmedEmail">
                             <a class="verify-email-link"
@@ -172,4 +185,5 @@
         </div>
     </div>
 </div>
+
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>

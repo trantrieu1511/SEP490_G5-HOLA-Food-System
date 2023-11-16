@@ -3,6 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
+using Microsoft.EntityFrameworkCore;
 
 namespace HFS_BE.DAO.PostReportDao
 {
@@ -37,10 +38,15 @@ namespace HFS_BE.DAO.PostReportDao
                         break;
                     case "CU": // Customer can only see their post reports
                         postReportOutputDtos = context.PostReports
+                            .Include(pr => pr.Post)
+                            .Include(pr => pr.Post.Seller)
                             .Where(pr => pr.ReportBy.Equals(userId))
                             .Select(pr => new PostReportOutputDto
                             {
                                 PostId = pr.PostId,
+                                SellerName = pr.Post.Seller.LastName + " " + pr.Post.Seller.FirstName,
+                                ShopName = pr.Post.Seller.ShopName,
+                                PostContent = pr.Post.PostContent,
                                 ReportBy = pr.ReportBy,
                                 ReportContent = pr.ReportContent,
                                 CreateDate = pr.CreateDate,
@@ -120,24 +126,24 @@ namespace HFS_BE.DAO.PostReportDao
             }
         }
 
-        public BaseOutputDto CancelPostReport(CancelPostReportInputDto inputDto, string customerId)
-        {
-            try
-            {
-                // Lay ra ban ghi report ma customer muon cancel o trong context
-                PostReport? postReport = context.PostReports.Find(new object[] { inputDto.PostId, customerId });
-                if (postReport == null) return Output<BaseOutputDto>(Constants.ResultCdSuccess, $"Cannot find the post report with id: {inputDto.PostId} of user with id: {customerId}");
-                postReport.Status = 3; // Set status to cancel, and the customer cannot undo this action
-                postReport.Note = $"Cancel reason: {inputDto.Note}"; // Reason is required
-                context.SaveChanges();
+        //public BaseOutputDto CancelPostReport(CancelPostReportInputDto inputDto, string customerId)
+        //{
+        //    try
+        //    {
+        //        // Lay ra ban ghi report ma customer muon cancel o trong context
+        //        PostReport? postReport = context.PostReports.Find(new object[] { inputDto.PostId, customerId });
+        //        if (postReport == null) return Output<BaseOutputDto>(Constants.ResultCdSuccess, $"Cannot find the post report with id: {inputDto.PostId} of user with id: {customerId}");
+        //        postReport.Status = 3; // Set status to cancel, and the customer cannot undo this action
+        //        postReport.Note = $"Cancel reason: {inputDto.Note}"; // Reason is required
+        //        context.SaveChanges();
 
-                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
-            }
-            catch (Exception e)
-            {
-                return Output<BaseOutputDto>(Constants.ResultCdFail, e.Message + e.Source + e.StackTrace + e.InnerException);
-                throw;
-            }
-        }
+        //        return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return Output<BaseOutputDto>(Constants.ResultCdFail, e.Message + e.Source + e.StackTrace + e.InnerException);
+        //        throw;
+        //    }
+        //}
     }
 }

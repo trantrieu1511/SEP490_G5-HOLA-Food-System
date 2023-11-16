@@ -3,6 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
+using Microsoft.EntityFrameworkCore;
 
 namespace HFS_BE.DAO.MenuReportDao
 {
@@ -37,10 +38,14 @@ namespace HFS_BE.DAO.MenuReportDao
                         break;
                     case "CU": // Customer can only see their food reports
                         foodReportOutputDtos = context.MenuReports
+                            .Include(mr => mr.Food)
+                            .Include(mr => mr.Food.Seller)
                             .Where(mr => mr.ReportBy.Equals(userId))
                             .Select(mr => new FoodReportOutputDto
                             {
                                 FoodId = mr.FoodId,
+                                FoodName = mr.Food.Name,
+                                ShopName = mr.Food.Seller.ShopName,
                                 ReportBy = mr.ReportBy,
                                 ReportContent = mr.ReportContent,
                                 CreateDate = mr.CreateDate,

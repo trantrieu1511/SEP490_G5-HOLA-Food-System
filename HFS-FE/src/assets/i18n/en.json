@@ -1,0 +1,18 @@
+{
+  "button" : {
+    "add": "Add",
+    "signIn": "Sign In",
+    "SignInWith": "Sign in with"
+  },
+
+  "loginScreen": {
+    "welcomeToFUFood": "Welcome to FU Food",
+    "doNotHaveAnAccount": "Don't have an account",
+    "areYouBusinessMember": "Are you a business member",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password",
+    "createToday": "Create today",
+    "clickHere": "Click here"
+  }
+}
