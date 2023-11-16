@@ -18,10 +18,36 @@ namespace HFS_BE.DAO.SellerDao
 		{
 			try
 			{
-				var user = this.context.Sellers.ToList();
 
+				var user = context.Sellers
+					 .Select(p => new SellerDtoOutput
+					 {
+						 SellerId = p.SellerId,
+						 FirstName = p.FirstName,
+						 LastName = p.LastName,
+						 Gender = p.Gender,
+						 ConfirmedEmail = p.ConfirmedEmail,
+						 BirthDate = p.BirthDate,
+						 Email = p.Email,
+						 IsBanned = p.IsBanned,
+						 IsVerified=p.IsVerified,
+						 IsOnline=p.IsOnline,
+						 Images = context.ProfileImages
+					.Where(pi => pi.UserId == p.SellerId)
+				   .Select(pi => new ImageSellerOutputDto
+				   {
+					   ImageId = pi.ImageId,
+					   UserId = pi.UserId,
+					   Path = pi.Path,
+					   IsReplaced = pi.IsReplaced
+				   })
+				 .ToList()
+
+					 })
+
+					.ToList();
 				var output = this.Output<ListSellerDtoOutput>(Constants.ResultCdSuccess);
-				output.data = mapper.Map<List<Seller>, List<SellerDtoOutput>>(user);
+				output.Sellers = user;
 				return output;
 			}
 			catch (Exception)
@@ -114,12 +140,12 @@ namespace HFS_BE.DAO.SellerDao
 
 
 
-		public async Task<SellerDtoOutput> GetSellersAsync(string email)
+		public async Task<SellerMessageDtoOutput> GetSellersAsync(string email)
 		{
 			var user = await context.Sellers
 				.FirstOrDefaultAsync(x => x.Email == email);
-
-			var datmapper = mapper.Map<Seller, SellerDtoOutput>(user);
+			
+			var datmapper = mapper.Map<Seller, SellerMessageDtoOutput>(user);
 			return datmapper;
 		}
 		//public async Task<List<SellerDtoOutput>> GetUsersOnlineAsync(string currentEmail, string[] userOnline)
@@ -163,17 +189,17 @@ namespace HFS_BE.DAO.SellerDao
 		//		return null;
 		//	}
 		//}
-		public async Task<List<SellerDtoOutput>> GetUsersOnlineAsync(string currentEmail, string[] userOnline)
+		public async Task<List<SellerMessageDtoOutput>> GetUsersOnlineAsync(string currentEmail, string[] userOnline)
 		{
 			try
 			{
-				var listUserOnline = new List<SellerDtoOutput>();
+				var listUserOnline = new List<SellerMessageDtoOutput>();
 
 
 				foreach (var u in userOnline)
 				{
 					var seller = await context.Sellers.Where(s=>s.Email==u).SingleOrDefaultAsync();
-					var datmapper = mapper.Map<Seller, SellerDtoOutput>(seller);
+					var datmapper = mapper.Map<Seller, SellerMessageDtoOutput>(seller);
 					datmapper.IsOnline = true;
 					listUserOnline.Add(datmapper);
 
@@ -188,17 +214,17 @@ namespace HFS_BE.DAO.SellerDao
 			}
 		}
 
-		public async Task<List<SellerDtoOutput>> GetUsersOnlineCustomerAsync( string[] userOnline)
+		public async Task<List<SellerMessageDtoOutput>> GetUsersOnlineCustomerAsync( string[] userOnline)
 		{
 			try
 			{
-				var listUserOnline = new List<SellerDtoOutput>();
+				var listUserOnline = new List<SellerMessageDtoOutput>();
 
 
 				foreach (var u in userOnline)
 				{
 					var seller = await context.Sellers.Where(s => s.Email == u).SingleOrDefaultAsync();
-					var datmapper = mapper.Map<Seller, SellerDtoOutput>(seller);
+					var datmapper = mapper.Map<Seller, SellerMessageDtoOutput>(seller);
 					datmapper.IsOnline = true;
 					listUserOnline.Add(datmapper);
 
@@ -212,13 +238,13 @@ namespace HFS_BE.DAO.SellerDao
 				return null;
 			}
 		}
-		public async Task<List<SellerDtoOutput>> GetUsersOfflineAsync(string currentEmail, List<SellerDtoOutput> sellersOnline)
+		public async Task<List<SellerMessageDtoOutput>> GetUsersOfflineAsync(string currentEmail, List<SellerMessageDtoOutput> sellersOnline)
 		{
 			try
 			{
-				var listUserOffline = new List<SellerDtoOutput>();
-				List<SellerDtoOutput> listseller = await context.Sellers.Where(x => x.IsBanned == false)
-					.Select(s => mapper.Map<Seller, SellerDtoOutput>(s)).ToListAsync();
+				var listUserOffline = new List<SellerMessageDtoOutput>();
+				List<SellerMessageDtoOutput> listseller = await context.Sellers.Where(x => x.IsBanned == false)
+					.Select(s => mapper.Map<Seller, SellerMessageDtoOutput>(s)).ToListAsync();
 
 
 				var differentEmailSellers = listseller
@@ -235,13 +261,13 @@ namespace HFS_BE.DAO.SellerDao
 		}
 
 
-		public async Task<List<SellerDtoOutput>> GetUsersOfflineCustomerAsync(List<SellerDtoOutput> sellersOnline)
+		public async Task<List<SellerMessageDtoOutput>> GetUsersOfflineCustomerAsync(List<SellerMessageDtoOutput> sellersOnline)
 		{
 			try
 			{
-				var listUserOffline = new List<SellerDtoOutput>();
-				List<SellerDtoOutput> listseller = await context.Sellers.Where(x => x.IsBanned == false)
-					.Select(s => mapper.Map<Seller, SellerDtoOutput>(s)).ToListAsync();
+				var listUserOffline = new List<SellerMessageDtoOutput>();
+				List<SellerMessageDtoOutput> listseller = await context.Sellers.Where(x => x.IsBanned == false)
+					.Select(s => mapper.Map<Seller, SellerMessageDtoOutput>(s)).ToListAsync();
 
 
 				var differentEmailSellers = listseller

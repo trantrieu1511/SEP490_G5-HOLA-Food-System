@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   iComponentBase,
   iServiceBase, mType,
@@ -49,6 +49,7 @@ editEmail() {
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private router: Router,
+    private el: ElementRef
     // private appCustomerTopBarComponent: AppCustomerTopBarComponent
   ) {
     super(messageService);
@@ -151,7 +152,7 @@ editEmail() {
 
         this.isVisibleEditProfileDialog = false;
 
-        //Tải lại profile info 
+        //Tải lại profile info
         this.getProfileInfo();
 
         //Clear model đã tạo
@@ -232,7 +233,41 @@ editEmail() {
   doSomething() {
     // throw new Error('Method not implemented.');
   }
+  async confirm(email:string){
+     this.hideElement();
+    const param= {
+      "email": email
+    }
+    try {
 
+      debugger;
+           let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.HOME, API.API_HOME.SEND_CONFIRM_EMAIL,param);
+
+           if (response && response.message === "Success") {
+            this.showMessage(
+              mType.success,
+              'Notification',
+              'Send to Email successfully',
+              'notify'
+            );
+            this.hideElement();
+           }
+          ;
+       } catch (e) {
+           console.log(e);
+
+       }
+       this.hideElement();
+  }
+  hideElement() {
+    // Sử dụng nativeElement để có thể thao tác trực tiếp với phần tử DOM
+    const element = this.el.nativeElement.querySelector('.verify-email-link');
+
+    // Kiểm tra xem phần tử có tồn tại không trước khi thực hiện thay đổi
+    if (element) {
+        element.style.display = 'none';
+    }
+}
   // getSeverity(status: string) {
   //   switch (status) {
   //     case 'INSTOCK':

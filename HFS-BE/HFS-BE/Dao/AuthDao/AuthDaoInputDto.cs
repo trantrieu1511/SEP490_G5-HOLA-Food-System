@@ -78,4 +78,5 @@ namespace HFS_BE.Dao.AuthDao
 		public string ConfirmPassword { get; set; }
 	}
 
+
 }

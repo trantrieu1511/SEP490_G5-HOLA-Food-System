@@ -180,6 +180,7 @@ namespace HFS_BE.DAO.ShipperDao
 			output.data = mapper.Map<List<Invitation>, List<InvitationShipperDtoOutput>>(data); ;
 			return output;
 		}
+		
 		public BaseOutputDto AcceptInvitationShipper(InvitationShipperDtoInput input)//bên shipper accept lời mời đó
 		{
 			var data = context.Shippers.FirstOrDefault(s => s.ManageBy == input.SellerId && s.ShipperId == input.ShipperId);
@@ -210,6 +211,24 @@ namespace HFS_BE.DAO.ShipperDao
 			return output;
 		}
 
+		public BaseOutputDto KickShipper(KickShipperDtoInput input)//bên seller có thể kick shipper ra khỏi quán mình
+		{
+			var data = context.Shippers.FirstOrDefault(s => s.ManageBy == input.SellerId && s.ShipperId == input.ShipperId);
+		
+
+			if (data == null)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "That shipper is not managed by you");
+			}
+			//var datainv = context.Invitations.FirstOrDefault(s => s.SellerId == input.SellerId && s.ShipperId == input.ShipperId);
+			data.ManageBy = null;
+			context.Shippers.Update(data);
+			//context.Invitations.Remove(datainv);
+			context.SaveChanges();
+			var output = Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+			return output;
+		}
 
 	}
 }

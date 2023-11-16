@@ -40,19 +40,17 @@ namespace HFS_BE.DAO.AuthDAO
 			else
 			{
 				var shipper = context.Shippers.Where(s => s.Email == input.Email).FirstOrDefault();
-				if (shipper.IsBanned == true)
-				{
-					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned due to violations, please contact us to resolve!");
-				}
+			
 				if (shipper == null)
 				{
 					var menuModerators = context.MenuModerators.Where(s => s.Email == input.Email).FirstOrDefault();
-					if (menuModerators.IsBanned == true)
-					{
-						return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned due to violations, please contact us to resolve!");
-					}
+					
 					if (menuModerators != null)
 					{
+						if (menuModerators.IsBanned == true)
+						{
+							return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned due to violations, please contact us to resolve!");
+						}
 						var match = CheckPasswordModerator(input.Password, menuModerators);
 
 						if (!match)
@@ -66,12 +64,13 @@ namespace HFS_BE.DAO.AuthDAO
 					else
 					{
 						var postModerators = context.PostModerators.Where(s => s.Email == input.Email).FirstOrDefault();
-						if (postModerators.IsBanned == true)
-						{
-							return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned due to violations, please contact us to resolve!");
-						}
+					
 						if (postModerators != null)
 						{
+							if (postModerators.IsBanned == true)
+							{
+								return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned due to violations, please contact us to resolve!");
+							}
 							var match = CheckPasswordPostM(input.Password, postModerators);
 
 							if (!match)
@@ -108,7 +107,10 @@ namespace HFS_BE.DAO.AuthDAO
 				else
 				{
 					var match = CheckPasswordShipper(input.Password, shipper);
-
+					if (shipper.IsBanned == true)
+					{
+						return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned due to violations, please contact us to resolve!");
+					}
 					if (!match)
 					{
 						return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
@@ -172,7 +174,7 @@ namespace HFS_BE.DAO.AuthDAO
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email đã sử dụng");
 			}
-			
+			model.BirthDate = model.BirthDate.Value.AddDays(1);
 			var user = new HFS_BE.Models.Seller
 			{
 				SellerId = paddedString,
@@ -249,17 +251,18 @@ namespace HFS_BE.DAO.AuthDAO
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email đã sử dụng");
 			}
-			var userCreate = new HFS_BE.Models.Admin
-			{
-				AdminId = paddedString,
-				Email = model.Email,
-				BirthDate = model.BirthDate,
-				FirstName = model.FirstName,
-				LastName = model.LastName,
-				Gender = model.Gender,
-				ConfirmedEmail = true,
+			//var userCreate = new HFS_BE.Models.Admin
+			//{
+			//	AdminId = paddedString,
+			//	Email = model.Email,
+			//	BirthDate = model.BirthDate,
+			//	FirstName = model.FirstName,
+			//	LastName = model.LastName,
+			//	Gender = model.Gender,
+			//	ConfirmedEmail = true,
 
-			};
+			//};
+			model.BirthDate = model.BirthDate.Value.AddDays(1);
 			var user = new HFS_BE.Models.Shipper
 			{
 				ShipperId = paddedString,
@@ -356,7 +359,7 @@ namespace HFS_BE.DAO.AuthDAO
 
 			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddHours(1),
+					expires: DateTime.Now.AddMinutes(1),
 					claims: authClaims,
 					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)); ;
 

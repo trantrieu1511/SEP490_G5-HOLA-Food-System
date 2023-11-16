@@ -52,6 +52,7 @@ import { OrderhistoryComponent } from './modules/customer-routing-module/compone
 import { MenuDataService } from './services/menu-data.service';
 import { BusinessRoutingModule } from './modules/business-routing-module/business-routing-module.module';
 import { CustomerListByChatComponent } from './customer-list-by-chat/customer-list-by-chat.component';
+import { ManageCategoryModuleComponent } from './modules/admin-routing-module/manage-category-module/manage-category-module.component';
 
 
 
@@ -81,7 +82,8 @@ import { CustomerListByChatComponent } from './customer-list-by-chat/customer-li
     ManageShipperModuleComponent,
     ProfileManagementComponent,
     ProfileManagementComponent,
-    OrderhistoryComponent
+    OrderhistoryComponent,
+    ManageCategoryModuleComponent
 
 
     

@@ -18,7 +18,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageSeller
 		}
 		[HttpPost("users/listseller")]
 
-		public ListSellerDtoOutput ListSeller()
+		public ListSellerOutputDtoBS ListSeller()
 		{
 			try
 			{

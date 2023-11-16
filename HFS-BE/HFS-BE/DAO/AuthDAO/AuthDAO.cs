@@ -11,6 +11,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Principal;
@@ -164,20 +165,22 @@ namespace HFS_BE.Dao.AuthDao
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email has been used");
 			}
-			var userCreate = new HFS_BE.Models.Admin
-			{
-				AdminId = paddedString,
-				Email = model.Email,
-				BirthDate = model.BirthDate,
-				FirstName = model.FirstName,
-				LastName = model.LastName,
-				Gender = model.Gender,
-				ConfirmedEmail = true,
+			//var userCreate = new HFS_BE.Models.Admin
+			//{
+			//	AdminId = paddedString,
+			//	Email = model.Email,
+			//	BirthDate = model.BirthDate,
+			//	FirstName = model.FirstName,
+			//	LastName = model.LastName,
+			//	Gender = model.Gender,
+			//	ConfirmedEmail = true,
 
-			};
+			//};
+
+			model.BirthDate = model.BirthDate.Value.AddDays(1);
 			var user = new HFS_BE.Models.Customer
 			{
-				CustomerId=paddedString,
+				CustomerId = paddedString,
 				Email = model.Email,
 				BirthDate = model.BirthDate,
 				FirstName = model.FirstName,
@@ -258,7 +261,7 @@ namespace HFS_BE.Dao.AuthDao
 
 			try
 			{
-				await SendEmail(model.Email, subject, message);
+				await SendEmail2Async(model.Email, subject, message);
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}
 			catch (Exception ex)
@@ -267,7 +270,61 @@ namespace HFS_BE.Dao.AuthDao
 			}
 
 		}
+		public async Task<BaseOutputDto> SendVetifyPasswordtoEmailAsync(ForgotPasswordInputDto model)
+		{
+			string userid = "";
+			string confirmationCode = GenerateConfirmationCode(model.Email);
+			//using (SEP490_HFS_2Context context = new SEP490_HFS_2Context())
+			//{
+			//	var user = context.Users.Where(s => s.Email.ToLower().Equals(toEmail.ToLower())).FirstOrDefault();
 
+			//	if (user == null)
+			//	{
+			//		return BadRequest();
+			//	}
+			//	userid = user.UserId.ToString();
+			//}
+
+			string subject = "Xác nhận thay đổi trạng thái";
+			string message = $"Vui lòng nhấp vào liên kết sau để xác nhận thay đổi trạng thái: {GetConfirmEmailLink("1", confirmationCode)}";
+
+			try
+			{
+				await SendEmail2Async(model.Email, subject, message);
+				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+			}
+			catch (Exception ex)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+			}
+
+		}
+		private async Task<bool> SendEmail2Async(string toEmail,string subject, string content)
+		{
+			try
+			{
+				string from = "holafoodfpt@gmail.com";
+				string pass = "wqsq fqmv iwhu ablr";
+				MailMessage mail = new MailMessage();
+				SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+
+				mail.To.Add(toEmail);
+				mail.From = new MailAddress(from);
+				mail.Subject = subject;
+				mail.Body = "HOLA FOOD:" + content;
+				smtp.EnableSsl = true;
+				smtp.Port = 587;
+				smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+				smtp.Credentials = new NetworkCredential(from, pass);
+				await smtp.SendMailAsync(mail);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+
+		}
 
 		private async Task SendEmail(string toEmail, string subject, string message)
 		{
@@ -304,7 +361,7 @@ namespace HFS_BE.Dao.AuthDao
 
 		private string GetConfirmEmailLink(string userId, string confirmationCode)
 		{
-			string baseUrl = "http://localhost:4200/#/Confirm";
+			string baseUrl = "http://localhost:4200/#/confirm";
 			//	var query = new Dictionary<string, string>
 			//{
 			//	{ "userId", userId },
@@ -326,7 +383,7 @@ namespace HFS_BE.Dao.AuthDao
 			var tokenDescriptor = new SecurityTokenDescriptor
 			{
 				Subject = new ClaimsIdentity(new[] { new Claim("userId", userId) }),
-				Expires = DateTime.UtcNow.AddDays(1),
+				Expires = DateTime.UtcNow.AddMinutes(5),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
 			};
 
@@ -335,7 +392,7 @@ namespace HFS_BE.Dao.AuthDao
 
 			return confirmationCode;
 		}
-		private string ValidateConfirmationCode(string confirmationCode)
+		private string ValidateConfirmationCodeForgot(string confirmationCode)
 		{
 			
 			var conf = new ConfigurationBuilder()
@@ -361,13 +418,28 @@ namespace HFS_BE.Dao.AuthDao
 				using (var context = new SEP490_HFS_2Context())
 				{
 					var data = context.Customers.Where(s => s.Email == email).FirstOrDefault();
-					if (data == null)
-					{
-						return null;
-					}
+					var data1 = context.Sellers.Where(s => s.Email == email).FirstOrDefault();
+					var data2 = context.Shippers.Where(s => s.Email == email).FirstOrDefault();
 				
+					if (data != null)
+					{
+						return email;
+
+
+					}
+					else if (data1 != null)
+					{
+						return email;
+
+					}
+					else if (data2 != null)
+					{
+						return email;
+
+					}
+
 				}
-				return email;
+				return null;
 			}
 			catch
 			{
@@ -398,15 +470,85 @@ namespace HFS_BE.Dao.AuthDao
 
 				var jwtToken = (JwtSecurityToken)validatedToken;
 				string email = jwtToken.Claims.First(c => c.Type == "userId").Value;
-				
-					var data = context.Customers.Where(s => s.Email == email).FirstOrDefault();
-					if (data == null)
-					{
-					return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+
+				var data = context.Customers.Where(s => s.Email == email).FirstOrDefault();
+				var data1 = context.Sellers.Where(s => s.Email == email).FirstOrDefault();
+				var data2 = context.Shippers.Where(s => s.Email == email).FirstOrDefault();
+				if (data != null)
+				{
+					data.ConfirmedEmail = true;
+					context.SaveChanges();
+					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+
+				}
+				else if (data1 != null)
+				{
+					data1.ConfirmedEmail = true;
+					context.SaveChanges();
+					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+				}
+				else if (data2 != null)
+				{
+					data2.ConfirmedEmail = true;
+					context.SaveChanges();
+					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+				}
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+			}
+			catch
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+			}
+		}
+		public BaseOutputDto ValidateConfirmationCodeForgot(ConfirmForgotPasswordInputDto model)
+		{
+
+			var conf = new ConfigurationBuilder()
+		.SetBasePath(Directory.GetCurrentDirectory())
+			.AddJsonFile("appsettings.json", true, true)
+			.Build();
+			var tokenHandler = new JwtSecurityTokenHandler();
+			var key = Encoding.UTF8.GetBytes(conf["JWT:Secret"]);
+
+			try
+			{
+				tokenHandler.ValidateToken(model.confirm, new TokenValidationParameters
+				{
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(key),
+					ValidateIssuer = false,
+					ValidateAudience = false,
+					ClockSkew = TimeSpan.Zero
+				}, out SecurityToken validatedToken);
+
+				var jwtToken = (JwtSecurityToken)validatedToken;
+				string email = jwtToken.Claims.First(c => c.Type == "userId").Value;
+
+				var data = context.Customers.Where(s => s.Email == email).FirstOrDefault();
+				var data1 = context.Sellers.Where(s => s.Email == email).FirstOrDefault();
+				var data2 = context.Shippers.Where(s => s.Email == email).FirstOrDefault();
+				if (data != null)
+				{
+					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+					
+
+				}
+				else if (data1 != null)
+				{
+					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+				}else if (data2 != null) 
+				{
+					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
 				}
 
 
-				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+
 			}
 			catch
 			{
@@ -424,23 +566,47 @@ namespace HFS_BE.Dao.AuthDao
 
 			try
 			{
-				string email = ValidateConfirmationCode(change.confirm);
+				string email = ValidateConfirmationCodeForgot(change.confirm);
 				if (email == null)
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail,"Het hạn token changepassword");
 				}
 				var data = context.Customers.Where(s => s.Email == email).FirstOrDefault();
+				var data1 = context.Sellers.Where(s => s.Email == email).FirstOrDefault();
+				var data2 = context.Shippers.Where(s => s.Email == email).FirstOrDefault();
 				if (change.Password != change.ConfirmPassword)
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "password và confirm password khác nhau");
 				}
-				using (HMACSHA256? hmac = new HMACSHA256())
+				if (data != null)
 				{
-					data.PasswordSalt = hmac.Key;
-					data.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(change.Password));
+					using (HMACSHA256? hmac = new HMACSHA256())
+					{
+						data.PasswordSalt = hmac.Key;
+						data.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(change.Password));
+					}
+					context.Customers.Update(data);
+					context.SaveChanges();
+				}else if (data1 != null)
+				{
+					using (HMACSHA256? hmac = new HMACSHA256())
+					{
+						data1.PasswordSalt = hmac.Key;
+						data1.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(change.Password));
+					}
+					context.Sellers.Update(data1);
+					context.SaveChanges();
+				}else if( data2 != null)
+				{
+					using (HMACSHA256? hmac = new HMACSHA256())
+					{
+						data2.PasswordSalt = hmac.Key;
+						data2.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(change.Password));
+					}
+					context.Shippers.Update(data2);
+					context.SaveChanges();
 				}
-				context.Customers.Update(data);
-				context.SaveChanges(); 
+				
 
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}

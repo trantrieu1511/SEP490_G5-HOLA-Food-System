@@ -98,6 +98,20 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageShipper
 				throw;
 			}
 		}
+		public BaseOutputDto KickShipper(KickShipperDtoInput input)
+		{
+			try
+			{
+				var Dao = this.CreateDao<ShipperDao>();
+				var daooutput = Dao.KickShipper(input);
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
 		public ListHistoryBanShipper ListHistoryBanShipper(BanShipperHistoryDtoInput input)
 		{
 			try

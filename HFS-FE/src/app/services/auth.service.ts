@@ -20,10 +20,12 @@ export class AuthService {
   private errorregisterSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   private showSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   private showforgotSubject: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+  private showconfirmSubject: BehaviorSubject<number> = new BehaviorSubject<number>(null);
   error$: Observable<string> = this.errorSubject.asObservable();
   errorregister$: Observable<string> = this.errorregisterSubject.asObservable();
   showregister$: Observable<boolean> = this.showSubject.asObservable();
   showforgot$: Observable<number> = this.showforgotSubject.asObservable();
+  showconfirm$: Observable<number> = this.showconfirmSubject.asObservable();
   private path = environment.apiUrl
   constructor(private httpClient: HttpClient) { }
 
@@ -113,6 +115,11 @@ export class AuthService {
         }
       })
     )
+  }
+  RefreshToken() {
+    //debugger;
+
+
   }
   registerseller(model: any) {
     //debugger;
@@ -267,7 +274,22 @@ export class AuthService {
     return sessionStorage.getItem("role");
   }
 
-
+  confirmemail(model: any) {
+    //debugger;
+    // https://localhost:7016/home/confirmforgot
+    return this.httpClient.post("https://localhost:7016/home/confirm", model).pipe(
+      map((res: Register) => {
+        const ok = res;
+        //debugger;
+        if (ok.success) {
+          this.showconfirmSubject.next(1);
+        } else {
+          this.errorSubject.next('This email is not in the system');
+          this.showconfirmSubject.next(0);
+        }
+      })
+    )
+  }
 
 }
 

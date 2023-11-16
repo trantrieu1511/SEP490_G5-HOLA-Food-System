@@ -41,6 +41,7 @@ export class API_USER {
     public static GET_SHIPPERS_BYSELLER = "listshipperbyseller";
     public static GET_SHIPPERS_INVITATION = "listinvitationshipper";
     public static ADD_SHIPPERS_INVITATION = "invitationshipper";
+    public static KICK_SHIPPERS = "kickshipper";
 }
 
 // Service Role
@@ -79,6 +80,7 @@ export class API_MANAGE{
     public static ADD_PM = "addpostmoderator";
     public static BAN_PM = "banpostmoderator";
     public static LIST_MM = "listcustomer";
+    public static LIST_CATEGORY = "getallcategory";
 }
 
 // Service QTHT
@@ -116,6 +118,7 @@ export class API_POST {
 
 export class API_HOME {
     public static DISPLAY_SHOP = "displayshop";
+    public static SEND_CONFIRM_EMAIL = "sendconfirm";
 }
 
 export class API_SHOP_DETAIL {

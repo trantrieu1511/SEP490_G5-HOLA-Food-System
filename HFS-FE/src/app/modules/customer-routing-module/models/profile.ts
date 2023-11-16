@@ -31,6 +31,7 @@ export class ProfileDisplay {
     isVerified: boolean;
     walletBalance: number;
     manageBy: number;
+    confirmedEmail:boolean;
 }
 
 export class ProfileImage {

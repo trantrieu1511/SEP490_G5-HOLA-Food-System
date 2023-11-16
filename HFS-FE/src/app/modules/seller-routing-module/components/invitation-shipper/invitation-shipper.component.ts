@@ -61,8 +61,29 @@ const param= {
 
     }
 }
-  Delete(user:Shipper){
+  async Delete(user:Shipper){
+    const param= {
+      "sellerId": sessionStorage.getItem('userId'),
+      "shipperId": user.shipperId
+    }
+    try {
 
+
+      let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.KICK_SHIPPERS,param);
+
+      if (response && response.message === "Success") {
+       this.getAllShipper();
+          this.showMessage(mType.success, "Notification", "Kick successfully", 'notify');
+      }else{
+       debugger;
+       this.showMessage(mType.error, "Notification", response.message, 'notify');
+      }
+
+  } catch (e) {
+      console.log(e);
+      this.showMessage(mType.error, "Notification", "Invitation  failure", 'notify');
+
+  }
   }
   onInvitation(){
     this.headerDialog = 'List Invitation';

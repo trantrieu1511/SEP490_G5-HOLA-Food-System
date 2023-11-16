@@ -40,7 +40,10 @@ namespace HFS_BE.Hubs
 				var groupName = GetGroupName(user2, otherUser);
 				await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 				var messages = await messageDao.GetMessageThread(user2, otherUser);
+				await messageDao.UpdateMessageCustomerIsRead(user2, otherUser);
 				var group = await AddToGroup(groupName);
+				var connections = await _tracker.GetConnectionsForCustomer(user2);
+				await _presenceHub.Clients.Clients(connections).SendAsync("notIsRead", 0, otherUser);
 				await Clients.Caller.SendAsync("ReceiveMessageThread", messages);
 
 			}
@@ -49,7 +52,10 @@ namespace HFS_BE.Hubs
 				var groupName = GetGroupName(user2, otherUser);
 				await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 				var messages = await messageDao.GetMessageThread( otherUser, user2);
+				await messageDao.UpdateMessageSellerIsRead(otherUser, user2);
 				var group = await AddToGroup(groupName);
+				var connections = await _tracker.GetConnectionsForUser(user2);
+				await _presenceHub.Clients.Clients(connections).SendAsync("notIsReadSeller", 0, user2);
 				await Clients.Caller.SendAsync("ReceiveMessageThread", messages);
 			}
 			
@@ -88,13 +94,22 @@ namespace HFS_BE.Hubs
 				checksend=messageDao.AddMessage(chat);
 				if (checksend)
 				{
+					customer.CountMessageNotIsRead = await messageDao.CountMessageSellerNotIsRead(userEmail, seller.Email);
 					var connections = await _tracker.GetConnectionsForUser(seller.Email);
 					await Clients.Group(groupName).SendAsync("NewMessage", _mapper.Map<ChatMessage, MessageDtoOuput>(chat));
+					await messageDao.UpdateMessageCustomerIsRead(userEmail, seller.Email);
+					//	await _presenceHub.Clients.User(customerotherUser.Email).SendAsync("notIsReadSeller", customer.CountMessageNotIsRead,customer.Email);
 					var listcus = await customerDao.ListCustomersendSellerbySellerAsync(seller.Email);
-					await _presenceHub.Clients.All.SendAsync("ListCus", listcus);
+					await messageDao.UpdateMessageCustomerIsRead(userEmail, seller.Email);
+					await _presenceHub.Clients.Clients(connections).SendAsync("ListCus", listcus);
 					if (connections != null)
 					{
-						await _presenceHub.Clients.Clients(connections).SendAsync("NewMessageReceived", customer);
+						var connectionscustomer = await _tracker.GetConnectionsForCustomer(customer.Email);
+						await _presenceHub.Clients.Clients(connectionscustomer).SendAsync("notIsRead", 0, customer.Email);
+						await _presenceHub.Clients.Clients(connections).SendAsync("notIsReadSeller", customer.CountMessageNotIsRead, customer.Email);
+					//	await _presenceHub.Clients.All.SendAsync("NewMessageReceived", seller);
+						//await _presenceHub.Clients.Clients(connections).SendAsync("NewMessageReceived", seller);
+
 					}
 				}
 			}
@@ -114,11 +129,19 @@ namespace HFS_BE.Hubs
 				checksend = messageDao.AddMessage(chat);
 				if (checksend)
 				{
-					var connections = await _tracker.GetConnectionsForUser(customer.Email);
+					seller.CountMessageNotIsRead = await messageDao.CountMessageCustomerNotIsRead(customer.Email, seller.Email);
+					var connections = await _tracker.GetConnectionsForCustomer(customer.Email);
+
 					await Clients.Group(groupName).SendAsync("NewMessage",_mapper.Map<ChatMessage,MessageDtoOuput>(chat));
+					await messageDao.UpdateMessageSellerIsRead(userEmail, seller.Email);
+					//await _presenceHub.Clients.User(customer.Email).SendAsync("notIsReadSeller", customer.CountMessageNotIsRead, customer.Email);
+					//await _presenceHub.Clients.User(seller.Email).SendAsync("notIsRead", seller.CountMessageNotIsRead,seller.Email);
 					if (connections != null)
 					{
-						await _presenceHub.Clients.Clients(connections).SendAsync("NewMessageReceived", seller);
+						var connectionsseller = await _tracker.GetConnectionsForUser(seller.Email);
+						await _presenceHub.Clients.Clients(connectionsseller).SendAsync("notIsReadSeller", 0, seller.Email);
+						await _presenceHub.Clients.Clients(connections).SendAsync("notIsRead", seller.CountMessageNotIsRead, seller.Email);
+					//	await _presenceHub.Clients.All.SendAsync("NewMessageReceivedCustomer", customer);
 					}
 				}
 			}

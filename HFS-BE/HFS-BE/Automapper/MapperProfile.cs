@@ -34,6 +34,8 @@ using HFS_BE.DAO.NotificationDao;
 using HFS_BE.DAO.PostReportDao;
 using HFS_BE.DAO.ChatMessageDao;
 using HFS_BE.DAO.CommentNewFeedDao;
+using HFS_BE.BusinessLogic.ManageUser.ManageCustomer;
+using HFS_BE.BusinessLogic.ManageUser.ManageSeller;
 
 namespace HFS_BE.Automapper
 {
@@ -326,7 +328,10 @@ namespace HFS_BE.Automapper
             CreateMap<ImageFileConvert.ImageOutputDto, PostImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, FoodImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, BusinessLogic.OrderShipper.ImageFoodOutputDto>();
-        }
+		
+			CreateMap<ImageFileConvert.ImageOutputDto, CustomerImageOutputDto>();
+			CreateMap<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>();
+		}
 
         public void Category()
         {
@@ -359,6 +364,10 @@ namespace HFS_BE.Automapper
         .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
 			CreateMap<SellerBan, BanHistorySellerDtoOutput>();
 			CreateMap<ShipperBan, BanHistoryShipperDtoOutput>();
+			CreateMap<CustomerDtoOutput, CustomerDtoBS>();
+			CreateMap<ListCustomerDtoOutput, ListCustomerOutputDtoBS>();
+			CreateMap<SellerDtoOutput, SellerDtoBS>();
+			CreateMap<ListSellerDtoOutput, ListSellerOutputDtoBS>();
 		}
 	
         public void FeedBack()
@@ -399,7 +408,10 @@ namespace HFS_BE.Automapper
 		{
 			CreateMap<ChatMessage, MessageDtoOuput>()
                 .ForMember(dest => dest.EmailCustomer, opt => opt.MapFrom(src => src.Customer.Email))
-				 .ForMember(dest => dest.EmailSeller, opt => opt.MapFrom(src => src.Seller.Email)); ;
+				 .ForMember(dest => dest.EmailSeller, opt => opt.MapFrom(src => src.Seller.Email));
+            CreateMap<Seller, SellerMessageDtoOutput>();
+			CreateMap<Customer, CustomerMessageDtoOutput>()
+				;
 		}
 		public void Google()
 		{

@@ -54,7 +54,7 @@
                 <h5 style="width: 50%;">First name: </h5>
             --><!-- Data binding:  Có 2 loại là property binding và attribute binding. Dùng để bind data của file ts vào property/attributes của DOM(Document object model) của template (vd: Thẻ <input/>). Syntax: [propertyName]="expression". -->
 <!-- Two way binding: <input type="text" [(ngModel)]="tên biến" />. Viết đầy đủ: <input type="text" [ngModel]="tên biến" (ngModelChange)="tên biến = $event"/>. Tên biến ở file ts-->
-<!-- <input type="text" style="width: 50%;" [(ngModel)]="profile.firstName"> 
+<!-- <input type="text" style="width: 50%;" [(ngModel)]="profile.firstName">
             </div>
             <hr>
             <div style="display: flex;">
@@ -72,7 +72,7 @@
                 <input type="datetime-local" style="width: 50%;" [(ngModel)]="profile.birthDate">
             </div>
             <hr>
-            
+
             <p-button (click)="editProfile()">Save</p-button>
         </div>
     </div>
@@ -135,10 +135,12 @@
                             <a class="edit-email-link" href="#" onClick="event.preventDefault();"
                                 (click)="doSomething();">Edit email</a>
                         </div>
-                        <div>
-                            <a class="verify-email-link" href="#" onClick="event.preventDefault();"
-                                (click)="doSomething();">Verify email</a>
-                        </div>
+                        <div *ngIf="!profileDisplay.confirmedEmail">
+                            <a class="verify-email-link"
+                                (click)="confirm(profileDisplay.email);">Verify email</a>
+                        </div> <div *ngIf="profileDisplay.confirmedEmail">
+                          <p style="color: rgb(23, 170, 23);">Email has been verified</p>
+                      </div>
 
                     </div>
                     <ng-template #RegisterEmail>
@@ -170,3 +172,4 @@
         </div>
     </div>
 </div>
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>

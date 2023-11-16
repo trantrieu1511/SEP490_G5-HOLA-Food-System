@@ -110,6 +110,21 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 				throw;
 			}
 		}
+		[HttpPost("users/kickshipper")]
+
+		public BaseOutputDto KickShipper(KickShipperDtoInput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ShipperBusinessLogic>();
+				var output = business.KickShipper(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
 		[HttpPost("users/banshipperhistory")]
 
 		public BaseOutputDto ListHistoryBanShipper(BanShipperHistoryDtoInput input)
