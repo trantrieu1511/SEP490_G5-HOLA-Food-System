@@ -24,15 +24,6 @@ export class AppComponent {
     this.role = sessionStorage.getItem('role');
     this.isDivVisible = !this.isDivVisible;
 
-    this.setCurrentUser();
   }
-  setCurrentUser() {
-    const user: User = JSON.parse(localStorage.getItem('user'));
-    const token = sessionStorage.getItem('JWT');
-   // debugger;
-    if (user) {
 
-      this.presence.createHubConnection(token);
-    }
-  }
 }

@@ -13,6 +13,8 @@ import { CustomerLayoutService } from 'src/app/layout/service/app.layout-cus.ser
 import { AppComponent } from 'src/app/app.component';
 import { ManageprofileComponent } from 'src/app/modules/customer-routing-module/components/manageprofile/manageprofile.component';
 import { ProfileImage } from 'src/app/modules/customer-routing-module/models/profile';
+import { PresenceService } from 'src/app/services/presence.service';
+import { User } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -43,12 +45,21 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
         private router: Router,
         private iServiceBase: iServiceBase,
         private shareData: ShareData,
+        public presence: PresenceService,
         public messageService: MessageService,
         public profileService: ManageprofileComponent
     ) {
         super(messageService);
     }
+    setCurrentUser() {
+      const user: User = JSON.parse(localStorage.getItem('user'));
+      const token = sessionStorage.getItem('JWT');
+     // debugger;
+      if (user) {
 
+        this.presence.createHubConnection(token);
+      }
+    }
     @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
 
     @ViewChild('topbarmenu') menu!: ElementRef;
@@ -76,6 +87,7 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
     // }
 
     async ngOnInit() {
+      this.setCurrentUser();
         this.checkUserLoggedInState();
         await this.profileService.getProfileImage();
         this.topBarProfileImg = this.profileService.profileImage;

@@ -13,7 +13,7 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { PresenceService } from 'src/app/services/presence.service';
 import { ProfileManagementComponent } from 'src/app/modules/business-routing-module/components/profile-management/profile-management.component';
 import { ProfileImage } from 'src/app/modules/business-routing-module/models/profile';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService, User } from 'src/app/services/auth.service';
 import { RoleNames } from 'src/app/utils/roleName';
 
 @Component({
@@ -61,7 +61,15 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         console.log(this.authService.getRole());
         return this.authService.getRole() == null || RoleNames[this.authService.getRole()] == 'Customer'
     }
+    setCurrentUser() {
+      const user: User = JSON.parse(localStorage.getItem('user'));
+      const token = sessionStorage.getItem('JWT');
+     // debugger;
+      if (user) {
 
+        this.presence.createHubConnection(token);
+      }
+    }
 
     @ViewChild('searchInput') searchInputViewChild!: ElementRef;
 
@@ -135,6 +143,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
 
     async ngOnInit() {
         // debugger;
+        this.setCurrentUser();
         this.checkLoggedInState();
         await this.profileService.getProfileImage();
         this.topBarProfileImg = this.profileService.profileImage;
@@ -165,5 +174,5 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         // debugger;
         return this.router.url.indexOf("/HFSBusiness") == 0 ? false : true;
     }
-    
+
 }
