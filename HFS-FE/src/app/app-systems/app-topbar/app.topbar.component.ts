@@ -39,6 +39,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     topBarProfileImg: ProfileImage = new ProfileImage();
     isLoggedInState = false;
     isCustomer: boolean = false;
+    isSeller: boolean = false;
 
     constructor(public layoutService: LayoutService,
         public app: AppComponent,
@@ -53,12 +54,17 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         super(messageService);
         if(this.checkLink()){
             this.isCustomer = true;
+            this.isSeller = false;
+        }else{
+            if(RoleNames[this.authService.getRole()] == 'Seller'){
+                this.isSeller = true;
+            }
         }
     }
 
     checkRoleCus() {
         // debugger;
-        console.log(this.authService.getRole());
+        //console.log(this.authService.getRole());
         return this.authService.getRole() == null || RoleNames[this.authService.getRole()] == 'Customer'
     }
     setCurrentUser() {
@@ -147,8 +153,8 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         this.checkLoggedInState();
         await this.profileService.getProfileImage();
         this.topBarProfileImg = this.profileService.profileImage;
-        console.log("Top bar profile img: ");
-        console.log(this.topBarProfileImg);
+        // console.log("Top bar profile img: ");
+        // console.log(this.topBarProfileImg);
     }
 
     goToLoginPage() {

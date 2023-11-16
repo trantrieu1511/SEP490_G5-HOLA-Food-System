@@ -27,4 +27,11 @@ namespace HFS_BE.DAO.UserDao
     {
         public string? UserId { get; set; }
     }
+
+    public class UpdateRefreshToken
+    {
+        public string? UserId { get; set; }
+        public string? RefreshToken { get; set; }
+
+    }
 }

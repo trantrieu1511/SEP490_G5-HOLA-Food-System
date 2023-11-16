@@ -22,12 +22,13 @@ namespace HFS_BE.Models
         public string? PhoneNumber { get; set; }
         public byte[] PasswordSalt { get; set; } = null!;
         public byte[] PasswordHash { get; set; } = null!;
-        public string? Avatar { get; set; }
         public bool? IsOnline { get; set; }
         public string? ManageBy { get; set; }
         public bool? ConfirmedEmail { get; set; }
         public bool? IsBanned { get; set; }
         public bool? IsVerified { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
 
         public virtual Seller? ManageByNavigation { get; set; }
         public virtual ICollection<Invitation> Invitations { get; set; }

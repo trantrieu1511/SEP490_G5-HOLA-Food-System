@@ -1,4 +1,5 @@
 ﻿using HFS_BE.Base;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace HFS_BE.DAO.UserDao
 {
@@ -46,5 +47,15 @@ namespace HFS_BE.DAO.UserDao
         public int AddressId { get; set; }
         public string AddressInfo { get; set; }
         public bool? IsDefaultAddress { get; set; }
+    }
+
+    public class UserRefreshToken
+    {
+        public string? Id { get; set; }
+        public string? Email { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
     }
 }

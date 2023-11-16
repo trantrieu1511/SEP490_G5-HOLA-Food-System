@@ -13,6 +13,7 @@ import {
 import { AppBreadcrumbService } from '../../../../app-systems/app-breadcrumb/app.breadcrumb.service';
 import { ActivatedRoute } from '@angular/router';
 import { Notification } from 'src/app/modules/shared-module/models/notification.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-detail-notification',
@@ -29,7 +30,8 @@ export class DetailNotificationComponent extends iComponentBase implements OnIni
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public translate: TranslateService
   ){
     super(messageService, breadcrumbService);
 
@@ -52,7 +54,8 @@ export class DetailNotificationComponent extends iComponentBase implements OnIni
 
   async getNofication(){
     const param = {
-      notifyId : this.notifyId
+      notifyId : this.notifyId,
+      lang: this.translate.currentLang
     }
     // Gọi API để cập nhật thông báo
     const response = await this.iServiceBase.getDataWithParamsAsync(

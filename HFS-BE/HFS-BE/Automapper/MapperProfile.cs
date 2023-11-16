@@ -358,8 +358,7 @@ namespace HFS_BE.Automapper
             CreateMap<Invitation, InvitationShipperDtoOutput>()
                 .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.Shipper.FirstName + " " + src.Shipper.LastName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Shipper.Email))
-                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Shipper.PhoneNumber))
-                .ForMember(dest => dest.Avatar, opt => opt.MapFrom(src => src.Shipper.Avatar));
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Shipper.PhoneNumber));
             CreateMap<Shipper, ShipperInforByAdmin>()
         .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
 			CreateMap<SellerBan, BanHistorySellerDtoOutput>();

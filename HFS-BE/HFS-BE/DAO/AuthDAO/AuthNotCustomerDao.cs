@@ -340,7 +340,7 @@ namespace HFS_BE.DAO.AuthDAO
 
 			return result;
 		}
-		private JwtSecurityToken GenerateSecurityTokenSeller(Seller acc)
+        public JwtSecurityToken GenerateSecurityTokenSeller(Seller acc)
 		{
 			var conf = new ConfigurationBuilder()
 			.SetBasePath(Directory.GetCurrentDirectory())
@@ -365,7 +365,7 @@ namespace HFS_BE.DAO.AuthDAO
 
 			return token;
 		}
-		private JwtSecurityToken GenerateSecurityTokenShipper(Shipper acc)
+        public JwtSecurityToken GenerateSecurityTokenShipper(Shipper acc)
 		{
 			var conf = new ConfigurationBuilder()
 			.SetBasePath(Directory.GetCurrentDirectory())
@@ -403,7 +403,7 @@ namespace HFS_BE.DAO.AuthDAO
 			return result;
 		}
 
-		private JwtSecurityToken GenerateSecurityTokenModerator (MenuModerator acc)
+        public JwtSecurityToken GenerateSecurityTokenModerator (MenuModerator acc)
 		{
 			var conf = new ConfigurationBuilder()
 			.SetBasePath(Directory.GetCurrentDirectory())
@@ -428,7 +428,7 @@ namespace HFS_BE.DAO.AuthDAO
 
 			return token;
 		}
-		private JwtSecurityToken GenerateSecurityTokenModerator(PostModerator acc)
+		public JwtSecurityToken GenerateSecurityTokenModerator(PostModerator acc)
 		{
 			var conf = new ConfigurationBuilder()
 			.SetBasePath(Directory.GetCurrentDirectory())
@@ -453,7 +453,7 @@ namespace HFS_BE.DAO.AuthDAO
 
 			return token;
 		}
-		private JwtSecurityToken GenerateSecurityTokenAdmin(Admin acc)
+		public JwtSecurityToken GenerateSecurityTokenAdmin(Admin acc)
 		{
 			var conf = new ConfigurationBuilder()
 			.SetBasePath(Directory.GetCurrentDirectory())

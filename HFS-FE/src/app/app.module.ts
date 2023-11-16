@@ -113,7 +113,6 @@ import { AppNavbarComponent } from './app-systems/app-navbar/app-navbar.componen
       }
     }),
     TranslateModule.forRoot({
-
       loader: {
 
         provide: TranslateLoader,

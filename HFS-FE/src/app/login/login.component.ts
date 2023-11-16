@@ -60,7 +60,6 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
   ) // private cdr: ChangeDetectorRef
   {
     super(messageService);
-    console.log(translate.getLangs())
   }
   ngAfterViewInit(): void {
     // this.loadGoogleLibrary();
