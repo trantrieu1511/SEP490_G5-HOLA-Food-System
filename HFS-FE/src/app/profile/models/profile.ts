@@ -7,13 +7,16 @@ export class Profile {
     roleId: number;
     email: string;
     phoneNumber: string;
-    // avatar: string;
+    avatar: string;
     shopName: string;
     shopAddress: string;
     isOnline: boolean;
-    isVerified: boolean;
     walletBalance: number;
     manageBy: number;
+    password: string;
+    oldPassword: string;
+    newPassword: string;
+    confirmNewPassword: string;
 }
 
 export class ProfileDisplay {
@@ -25,13 +28,15 @@ export class ProfileDisplay {
     roleIEd: number;
     email: string;
     phoneNumber: string;
-    // avatar: string;
+    avatar: string;
     shopName: string;
     shopAddress: string;
     isOnline: boolean;
     isVerified: boolean;
     walletBalance: number;
     manageBy: number;
+    confirmedEmail:boolean;
+    password: string;
 }
 
 export class ProfileImage {
@@ -43,13 +48,29 @@ export class ProfileImage {
     size: string;
 }
 
-export class EditProfileInputValidation{
+export class EditProfileInputValidation {
     isValidLastName: boolean = true;
     LastNameValidationMessage: string = null;
     isValidFirstName: boolean = true;
     FirstNameValidationMessage: string = null;
+    isValidBirthDate: boolean = true;
+    BirthDateValidationMessage: string = null;
     isValidShopName: boolean = true;
     ShopNameValidationMessage: string = null;
     isValidShopAddress: boolean = true;
     ShopAddressValidationMessage: string = null;
-  }
+    isValidPhoneNumber: boolean = true;
+    PhoneNumberValidationMessage: string = null;
+}
+
+export class ChangePasswordInputValidation {
+    isValidPassword: boolean = true;
+    PasswordValidationMessage: string = null;
+    isValidConfirmPassword: boolean = true;
+    ConfirmPasswordValidationMessage: string = null;
+}
+
+export class VerifyIdentityInputValidation {
+    isValidPassword: boolean = true;
+    PasswordValidationMessage: string = null;
+}

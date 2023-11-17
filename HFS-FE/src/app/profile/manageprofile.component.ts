@@ -4,7 +4,7 @@ import {
   iServiceBase, mType,
   ShareData
 } from 'src/app/modules/shared-module/shared-module';
-import * as API from "../../../../services/apiURL";
+import * as API from "../services/apiURL";
 import {
   ConfirmationService,
   LazyLoadEvent,
@@ -13,10 +13,11 @@ import {
   SelectItem,
   TreeNode
 } from "primeng/api";
-import { ChangePasswordInputValidation, EditProfileInputValidation, Profile, ProfileDisplay, ProfileImage, VerifyIdentityInputValidation } from '../../models/profile';
+import { ChangePasswordInputValidation, EditProfileInputValidation, Profile, ProfileDisplay, ProfileImage, VerifyIdentityInputValidation } from './models/profile';
 import { FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
 import { Router } from '@angular/router';
 import { AppCustomerTopBarComponent } from 'src/app/app-systems/app-topbar/customer/app.topbar-cus.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-manageprofile',
@@ -37,7 +38,8 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   // ------------- UI component variables ---------------
   isVisibleChangePasswordModal: boolean = false;
   isVisibleVerifyYourselfModal: boolean = false;
-  isVisibleEditProfileDialog: boolean = false;
+  isVisibleOthersEditProfileDialog: boolean = false;
+  isVisibleSellerEditProfileDialog: boolean = false;
   isLoggedIn: boolean = false;
   selectedSideBarOption: boolean = true;
 
@@ -52,6 +54,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     public router: Router,
+    public authService: AuthService,
     private el: ElementRef
     // private appCustomerTopBarComponent: AppCustomerTopBarComponent
   ) {
@@ -151,6 +154,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   }
 
   validateEditProfileInput(): boolean {
+    console.log(this.profile.birthDate);
     var check = true;
     this.editProfileValidation = new EditProfileInputValidation();
     if (!this.profile.lastName || this.profile.lastName == '') {
@@ -163,6 +167,24 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       this.editProfileValidation.isValidFirstName = false;
       this.editProfileValidation.FirstNameValidationMessage = "First name can not empty";
       check = false;
+    }
+
+    if (this.profile.birthDate != '') {
+      var birthdate = new Date(this.profile.birthDate);
+      var currentDate = new Date();
+      var maxAgeDate = new Date();
+      maxAgeDate.setFullYear(maxAgeDate.getFullYear() - 100);
+      if (birthdate > currentDate) {
+        this.editProfileValidation.isValidBirthDate = false;
+        this.editProfileValidation.BirthDateValidationMessage = "Your birth date cannot be in the future";
+        check = false;
+      }
+
+      if (birthdate <= maxAgeDate) {
+        this.editProfileValidation.isValidBirthDate = false;
+        this.editProfileValidation.BirthDateValidationMessage = "Birth date is less than 100 year olds";
+        check = false;
+      }
     }
 
     if (!this.profile.phoneNumber || this.profile.phoneNumber == '') {
@@ -190,6 +212,34 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       check = false;
     }
 
+    if (this.authService.getRole() == 'SE') {
+
+      if (!this.profile.shopName || this.profile.shopName == '') {
+        this.editProfileValidation.isValidShopName = false;
+        this.editProfileValidation.ShopNameValidationMessage = "Shop name can not empty";
+        check = false;
+      }
+
+      if (!this.profile.shopAddress || this.profile.shopAddress == '') {
+        this.editProfileValidation.isValidShopAddress = false;
+        this.editProfileValidation.ShopAddressValidationMessage = "Shop address can not empty";
+        check = false;
+      }
+
+      if (this.profile.shopName.length > 50) {
+        this.editProfileValidation.isValidShopName = false;
+        this.editProfileValidation.ShopNameValidationMessage = "Shop name must be less than 50 characters";
+        check = false;
+      }
+
+      // if (this.profile.shopAddress.length > 200) {
+      //   this.editProfileValidation.isValidShopAddress = false;
+      //   this.editProfileValidation.ShopAddressValidationMessage = "Shop address must be less than 200 characters";
+      //   check = false;
+      // }
+
+    }
+
     console.log(this.editProfileValidation);
     return check;
   }
@@ -197,13 +247,16 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   async editProfile() {
     if (this.validateEditProfileInput()) { // Validate before continuing to edit
       try {
+        // debugger;
         const inputData = {
           // userId: sessionStorage.getItem("userId"),
           firstName: this.profile.firstName,
           lastName: this.profile.lastName,
           gender: this.profile.gender,
-          birthDate: this.profile.birthDate,
-          phoneNumber: this.profile.phoneNumber
+          birthDate: this.profile.birthDate == '' ? null : this.profile.birthDate,
+          phoneNumber: this.profile.phoneNumber,
+          shopName: this.profile.shopName,
+          shopAddress: this.profile.shopAddress
         }
         // console.log(inputData);
         let response = await this.iServiceBase.putDataAsync(API.PHAN_HE.USER, API.API_USER.EDITPROFILE, inputData);
@@ -214,7 +267,8 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
           this.showMessage(mType.success, 'Notification'
             , 'Profile information updated successfully.', 'notify');
 
-          this.isVisibleEditProfileDialog = false;
+          this.isVisibleOthersEditProfileDialog = false;
+          this.isVisibleSellerEditProfileDialog = false;
 
           //Tải lại profile info
           this.getProfileInfo();
@@ -288,13 +342,16 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     }
   }
 
-  openEditProfileDiaglog() {
-    this.isVisibleEditProfileDialog = true;
+  openOthersEditProfileDiaglog() {
+    this.isVisibleOthersEditProfileDialog = true;
+  }
+  openSellerEditProfileDiaglog() {
+    this.isVisibleSellerEditProfileDialog = true;
   }
 
-  hideDialog() {
-    this.isVisibleEditProfileDialog = false;
-  }
+  // hideDialog() {
+  //   this.isVisibleEditProfileDialog = false;
+  // }
 
   async confirm(email: string) {
     this.hideElement();

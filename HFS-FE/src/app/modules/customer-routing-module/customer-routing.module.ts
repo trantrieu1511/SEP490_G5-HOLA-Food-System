@@ -11,7 +11,7 @@ import { FooddetailComponent } from './components/fooddetail/fooddetail.componen
 import { CartdetailComponent } from './components/cartdetail/cartdetail.component';
 import { ShopdetailComponent } from './components/shopdetail/shopdetail.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
-import { ManageprofileComponent } from './components/manageprofile/manageprofile.component';
+// import { ManageprofileComponent } from '../../profile/manageprofile.component';
 import { OrderhistoryComponent } from './components/orderhistory/orderhistory.component';
 import { WalletComponent } from './components/wallet/wallet.component';
 import { PaymentverifyComponent } from './components/paymentverify/paymentverify.component';
@@ -32,7 +32,7 @@ const routes: Routes = [
   {path: "paymentverify", component : PaymentverifyComponent},
   {path: "newfeed", component : NewfeedComponent},
   // -------------- My account page related routes -----------------
-  {path: "profile", component : ManageprofileComponent},
+  // {path: "profile", component : ManageprofileComponent},
   {path: "menureport", component : CustomerfoodreportComponent},
   {path: "postreport", component : CustomerpostreportComponent},
 ]
@@ -45,7 +45,7 @@ const routes: Routes = [
     CartdetailComponent,
     ShopdetailComponent,
     CheckoutComponent,
-    ManageprofileComponent,
+    // ManageprofileComponent,
     SwitchCasesDirective,
     CustomerfoodreportComponent,
     CustomerpostreportComponent

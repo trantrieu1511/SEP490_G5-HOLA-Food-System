@@ -20,7 +20,7 @@ import {
   ManageOrderComponent,
   ManagePostComponent
 } from './modules/business-routing-module/business-routing-mudule';
-import { ProfileManagementComponent } from './modules/business-routing-module/components/profile-management/profile-management.component';
+import { ManageprofileComponent } from './profile/manageprofile.component';
 
 const routes: Routes = [
   // {
@@ -95,6 +95,10 @@ const routes: Routes = [
         loadChildren: () => import('./modules/customer-routing-module/customer-routing.module').then(m => m.CustomerRoutingModule),
       },
       {
+        path: 'profile',
+        component: ManageprofileComponent
+      },
+      {
         path: 'notify-management',
         component: ManageNotificationComponent,
       },
@@ -112,7 +116,7 @@ const routes: Routes = [
         children: [
           {
             path: 'profile',
-            component: ProfileManagementComponent
+            component: ManageprofileComponent
           },
           {
             path: 'post-management',

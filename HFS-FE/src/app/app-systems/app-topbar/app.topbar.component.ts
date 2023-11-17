@@ -11,10 +11,10 @@ import {
 import * as API from 'src/app/services/apiURL';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { PresenceService } from 'src/app/services/presence.service';
-import { ProfileManagementComponent } from 'src/app/modules/business-routing-module/components/profile-management/profile-management.component';
-import { ProfileImage } from 'src/app/modules/business-routing-module/models/profile';
+import { ProfileImage } from 'src/app/profile/models/profile';
 import { AuthService, User } from 'src/app/services/auth.service';
 import { RoleNames } from 'src/app/utils/roleName';
+import { ManageprofileComponent } from 'src/app/profile/manageprofile.component';
 
 @Component({
     selector: 'app-topbar',
@@ -30,7 +30,7 @@ import { RoleNames } from 'src/app/utils/roleName';
             ])
         ])
     ],
-    providers: [ProfileManagementComponent]
+    providers: [ManageprofileComponent]
 })
 export class AppTopBarComponent extends iComponentBase implements OnInit {
 
@@ -48,7 +48,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         private shareData: ShareData,
         public messageService: MessageService,
         public presence: PresenceService,
-        public profileService: ProfileManagementComponent,
+        public profileService: ManageprofileComponent,
         private authService: AuthService
     ) {
         super(messageService);
@@ -153,8 +153,8 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         this.checkLoggedInState();
         await this.profileService.getProfileImage();
         this.topBarProfileImg = this.profileService.profileImage;
-        // console.log("Top bar profile img: ");
-        // console.log(this.topBarProfileImg);
+        console.log("Top bar profile img: ");
+        console.log(this.topBarProfileImg);
     }
 
     goToLoginPage() {

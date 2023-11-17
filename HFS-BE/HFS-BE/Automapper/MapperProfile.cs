@@ -63,8 +63,6 @@ namespace HFS_BE.Automapper
             Notification();
             Chat();
             Google();
-
-
             Comment();
         }
 

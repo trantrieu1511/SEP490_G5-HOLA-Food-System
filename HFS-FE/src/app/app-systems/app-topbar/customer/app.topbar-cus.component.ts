@@ -11,8 +11,8 @@ import * as API from 'src/app/services/apiURL';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { CustomerLayoutService } from 'src/app/layout/service/app.layout-cus.service';
 import { AppComponent } from 'src/app/app.component';
-import { ManageprofileComponent } from 'src/app/modules/customer-routing-module/components/manageprofile/manageprofile.component';
-import { ProfileImage } from 'src/app/modules/customer-routing-module/models/profile';
+import { ManageprofileComponent } from 'src/app/profile/manageprofile.component';
+import { ProfileImage } from 'src/app/profile/models/profile';
 import { PresenceService } from 'src/app/services/presence.service';
 import { User } from 'src/app/services/auth.service';
 
