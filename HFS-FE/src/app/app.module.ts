@@ -62,7 +62,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppNavbarComponent } from './app-systems/app-navbar/app-navbar.component';
 import { ManageprofileComponent } from './profile/manageprofile.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -246,13 +246,13 @@
         <div class="dash-line"></div>
         <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">Order</a>
         <div class="dash-line"></div>
-        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">Ship
-            address</a>
+        <a id="shipaddress-option" class="profile-sidebar-option" (click)="this.router.navigateByUrl('/shipaddress')"
+            href="#" onclick="event.preventDefault();">Ship address</a>
         <div class="dash-line"></div>
-        <a id="myorder-option" class="profile-sidebar-option" (click)="this.router.navigateByUrl('/postreport')"
+        <a id="postreport-option" class="profile-sidebar-option" (click)="this.router.navigateByUrl('/postreport')"
             href="#" onclick="event.preventDefault();">Post report</a>
         <div class="dash-line"></div>
-        <a id="myorder-option" class="profile-sidebar-option" (click)="this.router.navigateByUrl('/menureport')"
+        <a id="menureport-option" class="profile-sidebar-option" (click)="this.router.navigateByUrl('/menureport')"
             href="#" onclick="event.preventDefault();">Menu report</a>
         <!-- <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">Profile</button><hr>
         <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">MyOrder</button> -->

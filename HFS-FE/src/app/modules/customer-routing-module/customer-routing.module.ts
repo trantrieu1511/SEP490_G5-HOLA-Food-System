@@ -18,6 +18,7 @@ import { PaymentverifyComponent } from './components/paymentverify/paymentverify
 import { NewfeedComponent } from './components/newfeed/newfeed.component';
 import { CustomerfoodreportComponent } from './components/customerfoodreport/customerfoodreport.component';
 import { CustomerpostreportComponent } from './components/customerpostreport/customerpostreport.component';
+import { ManageshipaddressComponent } from './components/shipaddress/manageshipaddress.component';
 
 
 
@@ -35,6 +36,7 @@ const routes: Routes = [
   // {path: "profile", component : ManageprofileComponent},
   {path: "menureport", component : CustomerfoodreportComponent},
   {path: "postreport", component : CustomerpostreportComponent},
+  {path: "shipaddress", component : ManageshipaddressComponent},
 ]
 
 
@@ -48,7 +50,8 @@ const routes: Routes = [
     // ManageprofileComponent,
     SwitchCasesDirective,
     CustomerfoodreportComponent,
-    CustomerpostreportComponent
+    CustomerpostreportComponent,
+    ManageshipaddressComponent
   ],
   imports: [
     CommonModule,
