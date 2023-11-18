@@ -87,8 +87,9 @@ namespace HFS_BE.Automapper
             CreateMap<AuthDaoOutputDto, LoginOutputDto>();
             CreateMap<AuthDaoOutputDto, LoginOutputDto>();
             CreateMap<RegisterInputDto, RegisterDto>();
-            //CreateMap<DisplayShopOutputDto, BusinessLogic.Homepage.DisplayShopOutputDto>();
-        }
+			CreateMap<RegisterSellerInputDto, RegisterSellerDto>();
+			//CreateMap<DisplayShopOutputDto, BusinessLogic.Homepage.DisplayShopOutputDto>();
+		}
 
         public void Post()
         {

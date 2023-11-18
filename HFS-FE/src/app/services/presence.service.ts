@@ -74,11 +74,12 @@ export class PresenceService {
           this.offlineUsersSourcecus.next([...usernames,username])
 
         })
-        console.log(username.lastName + ' disconnect')
+        console.log(username + ' disconnect')
       })
 
       this.hubConnection.on('ListCus', (cus: CustomerMessage[]) => {
         this.listcusbysellerSource.next(cus);
+        console.log(cus)
 
         })
         this.hubConnection.on('notIsRead', (username: number,emailcus:string) => {

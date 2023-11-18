@@ -6,14 +6,19 @@
       <ul id="contact" style="padding-left: 0px;">
           <li class="pd-contact" *ngFor="let item of (presence.listcusbyseller$ | async)" (click)="selectUser(item)">
               <div class="d-flex">
-                  <div class="mr" style="position: relative;">
-                      <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
-                      <!-- <span class="badge label-u label-danger">3</span> -->
-                  </div>
+                <div class="mr-3" style="position: relative;">
+                  <img *ngIf="item.image != null; else noImg1" [src]="'data:image/gif;base64,' + item.image" alt="" class="rounded-circle img-person"  width="50" height="50" style="border-radius: 50%;">
+                   <ng-template #noImg1>
+                   <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
+                  </ng-template>
+                  <!-- <span class="badge label-u label-danger">3</span> -->
+                </div>
                   <div>
                       <div class="displayName">{{item.email}}</div>
-                      <div  *ngIf="(presence.emaisellermessage$ | async)===item.email" class="label text-success">{{(presence.messageUsernameSeller$ | async)}}</div>
-                      <div  *ngIf="(presence.emaisellermessage$ | async)==null" class="label text-success">{{item.countMessageNotIsRead}}</div>
+                      <div  *ngIf="(presence.emaisellermessage$ | async)===item.email&&readmessage!==0" class="label text-success">{{(presence.messageUsernameSeller$ | async)}}</div>
+                      <div  *ngIf="(presence.emaisellermessage$ | async)!==item.email" class="label text-success">{{item.countMessageNotIsRead}}</div>
+
+
                   </div>
               </div>
           </li>

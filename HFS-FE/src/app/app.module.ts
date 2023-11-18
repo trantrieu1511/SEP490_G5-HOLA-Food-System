@@ -61,6 +61,7 @@ import { CustomerpostreportComponent } from './modules/customer-routing-module/c
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppNavbarComponent } from './app-systems/app-navbar/app-navbar.component';
+import { ManageMenumoderatorModuleComponent } from './modules/admin-routing-module/manage-menumoderator-module/manage-menumoderator-module.component';
 
 
 @NgModule({
@@ -93,7 +94,8 @@ import { AppNavbarComponent } from './app-systems/app-navbar/app-navbar.componen
     ManageCategoryModuleComponent,
     WalletComponent,
     PaymentverifyComponent,
-    AppNavbarComponent
+    AppNavbarComponent,
+    ManageMenumoderatorModuleComponent
 
   ],
   imports: [

@@ -13,6 +13,7 @@ namespace HFS_BE.Hubs
 {
 	public class MessageHub:Hub
 	{
+		List<string> chatOnline = new List<string>();
 		IMapper _mapper;
 		IHubContext<PresenceHub> _presenceHub;
 		private readonly ChatMessageDao messageDao;
@@ -102,6 +103,10 @@ namespace HFS_BE.Hubs
 					var listcus = await customerDao.ListCustomersendSellerbySellerAsync(seller.Email);
 					await messageDao.UpdateMessageCustomerIsRead(userEmail, seller.Email);
 					await _presenceHub.Clients.Clients(connections).SendAsync("ListCus", listcus);
+					foreach (var u in listcus)
+					{
+						u.CountMessageNotIsRead = await messageDao.CountMessageSellerNotIsRead(u.Email, seller.Email);
+					}
 					if (connections != null)
 					{
 						var connectionscustomer = await _tracker.GetConnectionsForCustomer(customer.Email);
@@ -140,6 +145,11 @@ namespace HFS_BE.Hubs
 					{
 						var connectionsseller = await _tracker.GetConnectionsForUser(seller.Email);
 						await _presenceHub.Clients.Clients(connectionsseller).SendAsync("notIsReadSeller", 0, seller.Email);
+						var read = new
+						{
+							countMessageNotIsRead = seller.CountMessageNotIsRead,
+							email = seller.Email;
+						};
 						await _presenceHub.Clients.Clients(connections).SendAsync("notIsRead", seller.CountMessageNotIsRead, seller.Email);
 					//	await _presenceHub.Clients.All.SendAsync("NewMessageReceivedCustomer", customer);
 					}

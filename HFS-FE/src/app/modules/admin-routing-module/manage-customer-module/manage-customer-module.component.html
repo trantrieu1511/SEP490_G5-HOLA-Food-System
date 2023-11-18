@@ -70,6 +70,14 @@
                                               class="ml-auto"></p-columnFilter>
                           </div>
                       </th>
+                      <th pSortableColumn="phoneNumber">
+                        <div class="flex justify-content-between align-items-center">
+                          PhoneNumber
+                            <p-sortIcon field="gender"></p-sortIcon>
+                            <p-columnFilter type="text" field="phoneNumber" display="menu"
+                                            class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
                       <th pSortableColumn="birthDate">
                           <div class="flex justify-content-between align-items-center">
                               DOB
@@ -78,14 +86,14 @@
                                               class="ml-auto"></p-columnFilter>
                           </div>
                       </th>
-                      <th pSortableColumn="isOnline">
+                      <!-- <th pSortableColumn="isOnline">
                           <div class="flex justify-content-between align-items-center">
                             Online
                               <p-sortIcon field="isOnline"></p-sortIcon>
                               <p-columnFilter type="numeric" field="isOnline" display="menu"
                                               class="ml-auto"></p-columnFilter>
                           </div>
-                      </th>
+                      </th> -->
                       <th>
                           <div class="flex justify-content-between align-items-center">
                               Images
@@ -129,11 +137,15 @@
                           <span class="p-column-title">Gender</span>
                           <span class="post-content" >{{user.gender}}</span>
                       </td>
+                      <td>
+                        <span class="p-column-title">PhoneNumber</span>
+                        <span class="post-content" >{{user.phoneNumber}}</span>
+                    </td>
                       <td >
                           <span class="p-column-title">BirthDate</span>
-                          {{user.birthDate}}
+                          {{user.birthDate| date:'dd/MM/yyyy'}}
                       </td>
-                      <td >
+                      <!-- <td >
                         <span class="p-column-title">Online</span>
                         <div *ngIf="user.isOnline" style="color:chartreuse;">
                           Online
@@ -141,7 +153,7 @@
                         <div *ngIf="!user.isOnline"  style="color:darkgray;">
                           Offline
                         </div>
-                    </td>
+                    </td> -->
                       <td>
                           <span class="p-column-title">Image</span>
                           <ng-container *ngIf="user.imagesBase64.length !== 0; else noneImage" >

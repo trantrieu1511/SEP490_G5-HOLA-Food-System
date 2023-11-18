@@ -8,13 +8,21 @@
 
             <span class="text-600 font-medium line-height-3">Don't have an account?</span>
             <a href="#/register" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create today!</a>
+            <br>
+            <span class="text-600 font-medium line-height-3">You have an account?</span>
+            <a href="#/login" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Login!</a>
         </div>
 
         <div *ngIf="showForgotForm === 1">
           <form [formGroup]="formforgot" (ngSubmit)="onSubmit()">
-            <label for="email1" class="block text-900 font-medium mb-2">Email</label>
+            <div class="flex items-center">
+              <label for="email1" class="block text-900 font-medium mb-2">Email*</label>
+              <div *ngIf="formforgot.get('email')!.hasError('email')" class="invalid-feedback">-Incorrect Email format!</div>
+
+            </div>
+
             <input id="email1" type="text"  placeholder="Email address" formControlName="email" pInputText class="w-full mb-3">
-                  <div *ngIf="formforgot.get('email')!.hasError('email')" class="invalid-feedback">Incorrect Email format!</div>
+
 
             <!-- <div  *ngIf="form.get('password')!.hasError('minlength')" class="invalid-feedback">Password minimum 3!</div> -->
 
@@ -23,16 +31,7 @@
 
             <button type="submit" pButton pRipple label="Send" icon="pi pi-send" class="w-full" ></button>
 
-            <div class="flex align-items-center flex-column	 mt-8">
-                <div class="text-600 font-medium line-height-3 mb-5">Sign in with</div>
 
-                <div class="flex justify-content-center flex-wrap">
-                  <div id="buttonDiv">
-
-                  </div>
-                </div>
-
-            </div>
           </form>
         </div>
 <div *ngIf="showForgotForm === 0">

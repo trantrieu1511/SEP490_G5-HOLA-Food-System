@@ -28,12 +28,12 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageModerator
 				throw;
 			}
 		}
-		public ListPostModeratorDtoOutput ListMenuModerator()
+		public ListMenuModeratorDtoOutput ListMenuModerator()
 		{
 			try
 			{
 				var Dao = this.CreateDao<ModeratorDao>();
-				var daooutput = Dao.GetAllPostModerator();
+				var daooutput = Dao.GetAllMenuModerator();
 
 				return daooutput;
 			}

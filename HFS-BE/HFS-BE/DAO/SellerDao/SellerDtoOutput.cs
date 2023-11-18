@@ -46,5 +46,6 @@ namespace HFS_BE.DAO.SellerDao
 		public bool? IsBanned { get; set; }
 		public bool? IsVerified { get; set; }
 		public int? CountMessageNotIsRead { get; set; }
+		public string? Image { get; set; }
 	}
 }

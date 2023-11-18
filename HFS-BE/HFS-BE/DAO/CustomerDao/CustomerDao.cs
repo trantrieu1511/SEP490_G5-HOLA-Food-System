@@ -6,6 +6,7 @@ using HFS_BE.DAO.UserDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
+using HFS_BE.Utils.IOFile;
 using Mailjet.Client.Resources;
 using Microsoft.EntityFrameworkCore;
 using Twilio.Rest.Api.V2010.Account;
@@ -57,7 +58,7 @@ namespace HFS_BE.DAO.CustomerDao
 				return this.Output<ListCustomerDtoOutput>(Constants.ResultCdFail);
 			}
 		}
-		
+	
 
 		public BaseOutputDto BanCustomer(BanCustomerDtoInput input)
 		{
@@ -119,14 +120,27 @@ namespace HFS_BE.DAO.CustomerDao
 		}
 
 
-		public async Task<List<CustomerDtoOutput>> ListCustomersendSellerbySellerAsync(string emailseller)
+		public async Task<List<CustomerMessageDtoOutput>> ListCustomersendSellerbySellerAsync(string emailseller)
 		{
 			var user = await context.Customers.Include(s=>s.ChatMessages).ThenInclude(s=>s.Seller).
 				Where(s=>s.ChatMessages.Any(cm => cm.Seller.Email == emailseller))
 	.ToListAsync();
+		
 
+			var datmapper = mapper.Map<List<Customer>,List<CustomerMessageDtoOutput>>(user);
+			foreach (var u in datmapper)
+			{
+				var img = await context.ProfileImages.Where(s => s.UserId == u.CustomerId && s.IsReplaced == false).FirstOrDefaultAsync();
+				ImageFileConvert.ImageOutputDto? imageInfor = null;
+				if (img == null)
+				{
+					break;
 
-			var datmapper = mapper.Map<List<Customer>,List<CustomerDtoOutput>>(user);
+				}
+				imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 2);
+				//	var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>(imageInfor);
+				u.Image = imageInfor.ImageBase64;
+			}
 			return datmapper;
 		}
 	}

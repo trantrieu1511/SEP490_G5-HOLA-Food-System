@@ -80,7 +80,9 @@ export class API_MANAGE{
     public static LIST_PM = "listpostmoderator";
     public static ADD_PM = "addpostmoderator";
     public static BAN_PM = "banpostmoderator";
-    public static LIST_MM = "listcustomer";
+    public static LIST_MM = "listmenumoderator";
+    public static ADD_MM = "addmenumoderator";
+    public static BAN_MM = "banmenumoderator";
     public static LIST_CATEGORY = "getallcategory";
 }
 

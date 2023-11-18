@@ -58,8 +58,13 @@ namespace HFS_BE.Hubs
 				{
 
 					var user = await sellerDao.GetSellersAsync(username);
+					user.CountMessageNotIsRead = await messageDao.CountMessageCustomerNotIsRead(username, user.Email);
 					await Clients.All.SendAsync("UserIsOnline", user);
 					var listcus = await customerDao.ListCustomersendSellerbySellerAsync(username);
+					foreach (var u in listcus)
+					{
+						u.CountMessageNotIsRead = await messageDao.CountMessageSellerNotIsRead(u.Email, username);
+					}
 					await Clients.Client(Context.ConnectionId).SendAsync("ListCus", listcus);
 
 					var currentUsers = await _tracker.GetOnlineUsers();
@@ -88,6 +93,7 @@ namespace HFS_BE.Hubs
 				if (isOffline)
 				{
 					var user = await sellerDao.GetSellersAsync(username);
+					user.CountMessageNotIsRead = await messageDao.CountMessageCustomerNotIsRead(username, user.Email);
 					await Clients.All.SendAsync("UserIsOffline", user);
 
 					usersOnline.Remove(user); // Xóa người dùng khỏi danh sách usersOnline

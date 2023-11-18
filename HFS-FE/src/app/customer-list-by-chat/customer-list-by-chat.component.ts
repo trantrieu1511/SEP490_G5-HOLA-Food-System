@@ -10,7 +10,7 @@ import { PresenceService } from '../services/presence.service';
 export class CustomerListByChatComponent implements OnInit {
   usersOnline: CustomerChatBox[] = [];
   miniUser:CustomerChatBox[] = [];
-
+  readmessage:number;
   dataUser = [
     {userName: 'hoainam10th', displayName:'Nguyen Hoai Nam'},
     {userName: 'ubuntu', displayName:'Tran Hoai Nam'},
@@ -37,6 +37,7 @@ export class CustomerListByChatComponent implements OnInit {
         } else {
           this.usersOnline.push(new CustomerChatBox(user, 250));
         }
+        this.readmessage=0;
         break;
       }
       case 0: {
@@ -47,6 +48,7 @@ export class CustomerListByChatComponent implements OnInit {
         } else {
           this.usersOnline.push(new CustomerChatBox(user, 250 + 325));
         }
+        this.readmessage=0;
         break;
       }
       default: {

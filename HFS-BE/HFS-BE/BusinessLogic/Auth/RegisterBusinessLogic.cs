@@ -27,12 +27,12 @@ namespace HFS_BE.BusinessLogic.Auth
 				throw;
 			}
 		}
-		public BaseOutputDto RegisterSeller(RegisterInputDto inputDto)
+		public BaseOutputDto RegisterSeller(RegisterSellerInputDto inputDto)
 		{
 			try
 			{
 				var Dao = this.CreateDao<AuthNotCustomerDao>();
-				var daoinput = mapper.Map<RegisterInputDto, RegisterDto>(inputDto);
+				var daoinput = mapper.Map<RegisterSellerInputDto, RegisterSellerDto>(inputDto);
 				var daooutput = Dao.RegisterSeller(daoinput);
 
 				return daooutput;

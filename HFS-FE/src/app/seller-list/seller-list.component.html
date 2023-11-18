@@ -10,13 +10,16 @@
       <li class="pd-contact" *ngFor="let item of (presence.onlineUserscus$ | async)" (click)="selectUser(item)">
         <div class="d-flex align-items-center">
           <div class="mr-3" style="position: relative;">
-            <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
+            <img *ngIf="item.image != null; else noImg1" [src]="'data:image/gif;base64,' + item.image" alt="" class="rounded-circle img-person"  width="50" height="50" style="border-radius: 50%;">
+     <ng-template #noImg1>
+    <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
+            </ng-template>
             <!-- <span class="badge label-u label-danger">3</span> -->
           </div>
           <div>
-            <div class="displayName">{{item.email}}</div>
+            <div class="displayName">{{item.shopName}}</div>
             <div class="label online">Online</div>
-            <div *ngIf="(presence.emailcustomermessage$ | async)===item.email" class="label online"></div>
+            <div *ngIf="(presence.emailcustomermessage$ | async)===item.email" class="label online">{{(presence.emailcustomermessage$ | async)}}</div>
           </div>
           <div *ngIf="(presence.emailcustomermessage$ | async)===item.email" class="message-preview">
             <div class="unread-indicator">{{(presence.messageUsername$ | async)}}</div>
@@ -29,17 +32,21 @@
       <li class="d-flex align-items-center pd-contact" *ngFor="let item1 of (presence.offlineUserscus$ | async)" (click)="selectUser(item1)">
         <div class="d-flex align-items-center">
           <div class="mr-3" style="position: relative;">
-            <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
+            <img *ngIf="item1.image != null; else noImg" [src]="'data:image/gif;base64,' + item1.image" alt="" class="rounded-circle img-person" width="50" height="50" style="border-radius: 50%;">
+            <ng-template #noImg>
+           <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
+                   </ng-template>
             <!-- <span class="badge label-u label-danger">3</span> -->
           </div>
           <div>
-            <div class="displayName">{{item1.email}}</div>
+            <div class="displayName">{{item1.shopName}}</div>
             <div class="label offline">Offline</div>
           </div>
 
 
           <div class="message-preview">
-            <div class="unread-indicator">{{item1.countMessageNotIsRead}}</div>
+            <div *ngIf="readmessage!==0" class="unread-indicator">{{item1.countMessageNotIsRead}}</div>
+            <div *ngIf="readmessage===0" class="unread-indicator">0</div>
           </div>
         </div>
       </li>

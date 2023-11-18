@@ -1,17 +1,25 @@
 <div id="{{user.email}}" class="p-panel p-component chat-box">
   <div class="p-panel-header">
     <div class="d-flex align-items-center">
-        <div>
-            <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
+        <div >
+          <img *ngIf="user.image != null;" [src]="'data:image/gif;base64,' + user.image" alt=""   class="rounded-circle img-person"  width="50" height="50" style="border-radius: 50%;">
+            <img *ngIf="user.image == null;" src="assets/image/user.png" alt="" class="rounded-circle img-person">
         </div>
-        <div class="flex-grow-1 ml-3">
+
+        <div  *ngIf="role==='SE'" class="flex-grow-1 ml-3">
             <a href="/" class="text-primary" style="text-decoration: none;">{{user.email}}</a>
-            <div class="text-muted">1 minute ago</div>
+            <div class="text-muted"></div>
         </div>
-        <div class="d-flex align-items-center ml-auto">
-            <button pButton [icon]="!isCollapsed ? 'pi pi-minus':'pi pi-plus'" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseChatBox" class="p-button-text"></button>
-            <button pButton icon="pi pi-times" (click)="closeBoxChat()" class="p-button-text"></button>
+          <div  *ngIf="role==='CU'" class="flex-grow-1 ml-3">
+            <a href="/" class="text-primary" style="text-decoration: none;">{{user.shopName}}</a>
+            <div class="text-muted"></div>
         </div>
+
+        <div class="d-flex justify-content-end align-items-center">
+          <button pButton [icon]="!isCollapsed ? 'pi pi-minus':'pi pi-plus'" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseChatBox" class="p-button-text"></button>
+          <button pButton icon="pi pi-times" (click)="closeBoxChat()" class="p-button-text"></button>
+      </div>
+
     </div>
   </div>
 

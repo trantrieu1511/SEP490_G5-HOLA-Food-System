@@ -39,6 +39,7 @@ export class SellerMessage {
   isBanned: boolean;
   isVerified:boolean;
   countMessageNotIsRead:number;
+  image:string;
 }
 export class  HistoryBanSeller{
   banSellerId: number;

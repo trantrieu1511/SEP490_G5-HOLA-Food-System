@@ -1,12 +1,13 @@
+
 <div class="grid table-demo">
   <div class="col-12">
       <div class="card">
-          <h5>Seller Management</h5>
+          <h5>Menu Moderator Management</h5>
 
-          <p-table #dt [value]="listSeller" dataKey="id"
+          <p-table #dt [value]="lstUser" dataKey="id"
                    styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
                    [showCurrentPageReport]="true"
-                   [paginator]="listSeller.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
+                   [paginator]="lstUser.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
                    currentPageReportTemplate="Total: {totalRecords} foods"
                    [globalFilterFields]="['firstName']" responsiveLayout="scroll"
 
@@ -24,7 +25,9 @@
 
                       <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
                           <div class="flex align-items-center justify-content-center">
-
+                              <button pButton type="button" label="Add new" icon="pi pi-plus"
+                              (click)="onCreatePostM()"
+                                      style="width: auto;"></button>
                           </div>
                       </div>
                   </div>
@@ -34,11 +37,11 @@
                       <!-- <th style="width: 3rem">
                           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                       </th> -->
-                      <th pSortableColumn="customerId">
+                      <th pSortableColumn="modId">
                           <div class="flex justify-content-between align-items-center">
                               ID
                               <p-sortIcon field="customerId"></p-sortIcon>
-                              <p-columnFilter type="numeric" field="customerId" display="menu"
+                              <p-columnFilter type="numeric" field="modId" display="menu"
                                               class="ml-auto"></p-columnFilter>
                           </div>
                       </th>
@@ -58,14 +61,6 @@
                                               class="ml-auto"></p-columnFilter>
                           </div>
                       </th>
-                      <th pSortableColumn="email">
-                        <div class="flex justify-content-between align-items-center">
-                          Email
-                            <p-sortIcon field="email"></p-sortIcon>
-                            <p-columnFilter type="text" field="email" display="menu"
-                                            class="ml-auto"></p-columnFilter>
-                        </div>
-                    </th>
                       <th pSortableColumn="gender">
                           <div class="flex justify-content-between align-items-center">
                             Gender
@@ -74,6 +69,22 @@
                                               class="ml-auto"></p-columnFilter>
                           </div>
                       </th>
+                      <th pSortableColumn="email">
+                        <div class="flex justify-content-between align-items-center">
+                          Email
+                            <p-sortIcon field="email"></p-sortIcon>
+                            <p-columnFilter type="text" field="email" display="menu"
+                                            class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th pSortableColumn="phoneNumber">
+                      <div class="flex justify-content-between align-items-center">
+                        PhoneNumber
+                          <p-sortIcon field="phoneNumber"></p-sortIcon>
+                          <p-columnFilter type="text" field="phoneNumber" display="menu"
+                                          class="ml-auto"></p-columnFilter>
+                      </div>
+                  </th>
                       <th pSortableColumn="birthDate">
                           <div class="flex justify-content-between align-items-center">
                               DOB
@@ -82,14 +93,6 @@
                                               class="ml-auto"></p-columnFilter>
                           </div>
                       </th>
-                      <th pSortableColumn="phoneNumber">
-                        <div class="flex justify-content-between align-items-center">
-                          PhoneNumber
-                            <p-sortIcon field="phoneNumber"></p-sortIcon>
-                            <p-columnFilter type="text" field="phoneNumber" display="menu"
-                                            class="ml-auto"></p-columnFilter>
-                        </div>
-                    </th>
                       <!-- <th pSortableColumn="isOnline">
                           <div class="flex justify-content-between align-items-center">
                             Online
@@ -98,19 +101,11 @@
                                               class="ml-auto"></p-columnFilter>
                           </div>
                       </th> -->
-                      <th pSortableColumn="isVerified">
-                        <div class="flex justify-content-between align-items-center">
-                          Verification
-                            <p-sortIcon field="isVerified"></p-sortIcon>
-                            <p-columnFilter type="numeric" field="isVerified" display="menu"
-                                            class="ml-auto"></p-columnFilter>
-                        </div>
-                    </th>
-                      <th>
+                      <!-- <th>
                           <div class="flex justify-content-between align-items-center">
                               Images
                           </div>
-                      </th>
+                      </th> -->
                       <th>
                         <div class="flex justify-content-between align-items-center">
                             Ban
@@ -131,7 +126,7 @@
                       </td> -->
                       <td>
                           <span class="p-column-title">ID</span>
-                          <span class="post-id">{{user.sellerId}}</span>
+                          <span class="post-id">{{user.modId}}</span>
                       </td>
                       <td>
                           <span class="p-column-title">FirstName</span>
@@ -141,22 +136,22 @@
                           <span class="p-column-title">LastName</span>
                           {{user.lastName}}
                       </td>
-                      <td >
-                        <span class="p-column-title">Email</span>
-                        {{user.email}}
-                    </td>
                       <td>
                           <span class="p-column-title">Gender</span>
                           <span class="post-content" >{{user.gender}}</span>
                       </td>
+                      <td>
+                        <span class="p-column-title">Email</span>
+                        <span class="post-content" >{{user.email}}</span>
+                       </td>
+                       <td>
+                        <span class="p-column-title">PhoneNumber</span>
+                        <span class="post-content" >{{user.phoneNumber}}</span>
+                    </td>
                       <td >
                           <span class="p-column-title">BirthDate</span>
-                          {{user.birthDate}}
+                          {{user.birthDate| date:'dd/MM/yyyy'}}
                       </td>
-                      <td >
-                        <span class="p-column-title">PhoneNumber</span>
-                        {{user.phoneNumber}}
-                    </td>
                       <!-- <td >
                         <span class="p-column-title">Online</span>
                         <div *ngIf="user.isOnline" style="color:chartreuse;">
@@ -166,29 +161,11 @@
                           Offline
                         </div>
                     </td> -->
-                      <td >
-                        <span class="p-column-title">Verification</span>
-                        <div *ngIf="user.isVerified" style="color:chartreuse;">
-                          Verified
-                        </div>
-                        <div *ngIf="!user.isVerified"  style="color:red;">
-                          Not verified
-                        </div>
-                    </td>
 
-                      <td>
-                          <span class="p-column-title">Image</span>
-                          <ng-container *ngIf="user.imagesBase64.length !== 0; else noneImage" >
-                            <button pButton pRipple icon="pi pi-images"
-                                    (click)="onDisplayImagesDialog(user, $event)"
-                                    class="p-button-rounded p-button-text p-button-raised"></button>
-                        </ng-container>
-                          <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
-                      </td>
                       <td >
                         <span class="p-column-title">IsBanned</span>
                         <div *ngIf="user.isBanned" style="color:red;">
-                         <span class="post-content" (click)="onHistoryBan(user.sellerId)">Ban</span>
+                          Ban
                         </div>
                         <div *ngIf="!user.isBanned"  style="color:chartreuse;">
                           Not Ban
@@ -197,13 +174,13 @@
                       <td style="text-align: center">
                           <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
                               <div class="flex align-items-center justify-content-center">
-                                  <button pButton pRipple  [icon]="user.isBanned ? 'pi pi-lock-open' : 'pi pi-ban'"
-                                  (click)="BanSeller(user)"
+                                  <button pButton pRipple icon="pi pi-ban"
+                                  (click)="BanModerator(user)"
                                           class="p-button-rounded p-mr-2"></button>
                               </div>
                               <div class="flex align-items-center justify-content-center">
-                                <button  *ngIf="!user.isVerified" pButton pRipple  label="Verification"
-                                (click)="ActiveSeller(user)"
+                                <button pButton pRipple icon="pi pi-pencil"
+                                (click)="UpdateModerator(user)"
                                         class="p-button-rounded p-mr-2"></button>
                             </div>
                           </div>
@@ -212,14 +189,15 @@
               </ng-template>
               <ng-template pTemplate="emptymessage">
                   <tr>
-                      <td colspan="8">No Seller yet.</td>
+                      <td colspan="8">No food yet.</td>
                   </tr>
               </ng-template>
           </p-table>
       </div>
   </div>
 </div>
-<p-dialog [header]="headerDialog" [(visible)]="displayDialogBan"
+
+<p-dialog [header]="headerDialog" [(visible)]="displayDialogAdd"
           [breakpoints]="{'960px': '75vw'}"
           [style]="{width: '50vw'}"
           [draggable]="false" [resizable]="false" [maximizable]="true"
@@ -230,35 +208,98 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Ban Reason</b>
+                        <b>Post Moderator information</b>
                     </div>
                 </p-divider>
                 <div class="grid">
                   <div class="col-12 mb-2 lg:col-6 mb-lg-0">
                       <span class="p-input-icon-left p-float-label" style="width: 100%">
-                          <input type="hidden" step="5000" min="0"  class="w-full" [(ngModel)]="banseller.sellerId"
+                          <input type="text" step="5000" min="0"  class="w-full" [(ngModel)]="menuM.firstName"
                                   pInputText
                                   />
-
+                          <label>FirstName*</label>
                       </span>
                   </div>
+                  <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                    <span class="p-input-icon-left p-float-label">
+                      <input type="text" step="5000" min="0"  class="w-full" [(ngModel)]="menuM.lastName"
+                      pInputText
+                      />
+                        <label>LastName*</label>
+                    </span>
 
+                </div>
                 <div class="col-12 mb-2 ">
                   <span class="p-input-icon-left p-float-label" style="width: 100%">
-                    <textarea class="w-full" rows="10" cols="60"
-                    pInputTextarea
-                    [(ngModel)]="banseller.reason"
-
-                    ></textarea>
-                      <label>Reason*</label>
+                      <input type="text" step="5000" min="0"  class="w-full" [(ngModel)]="menuM.phoneNumber"
+                              pInputText
+                              />
+                      <label>Phone*</label>
+                  </span>
+              </div>
+                <div class="col-12 mb-2 ">
+                  <span class="p-input-icon-left p-float-label" style="width: 100%">
+                      <input type="email" step="5000" min="0"  class="w-full" [(ngModel)]="menuM.email"
+                              pInputText
+                              />
+                      <label>Email*</label>
                   </span>
               </div>
 
+              <div class="col-12 mb-2 ">
+                <span class="p-input-icon-left p-float-label" style="width: 100%">
+                    <input type="password" step="5000" min="0"  class="w-full" [(ngModel)]="menuM.password"
+                            pInputText
+                            />
+                    <label>Password*</label>
+                </span>
+            </div>
+            <div class="col-12 mb-2 ">
+              <span class="p-input-icon-left p-float-label">
+                <input type="password" step="5000" min="0"  class="w-full" [(ngModel)]="menuM.confirmpassword"
+                pInputText
+                />
+                  <label>CofirmPassword*</label>
+              </span>
+
+          </div>
+          <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+            <label>Dob*</label>
+            <span class="p-input-icon-left p-float-label">
+             <p-calendar class="w-full"  [(ngModel)]="menuM.birthDate" dateFormat="dd/mm/yy"></p-calendar>
+                <label>Dob*</label>
+            </span>
 
 
 
 
+        </div>
+        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+          <span  style="display: flex;">
+            <label>Gender*</label>
+            <div  class="col-3" style="display: flex; align-items: center;">
+              <input type="radio"
+                     class="w-full"
+                     [(ngModel)]="menuM.gender"
+                     name="gender"
+                     value="male"
+                     id="genderMale" />
+              <label for="genderMale" style="margin-left: 10px;">Male</label>
+            </div>
+            <div class="col-3" style="display: flex; align-items: center;">
+              <input type="radio"
+                     class="w-full"
+                     [(ngModel)]="menuM.gender"
+                     name="gender"
+                     value="female"
+                     id="genderFemale" />
+              <label for="genderFemale" style="margin-left: 10px;">Female</label>
+            </div>
 
+
+          </span>
+
+      </div>
 
                 </div>
             </div>
@@ -268,74 +309,19 @@
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
                 <button pButton type="button" label="Save" icon="pi pi-save"
-                        (click)="onSaveBan()"
+                        (click)="onSavePostM()"
                         style="width: 100%;"></button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
                 <button pButton type="button" label="Cancel" icon="pi pi-times"
-                        (click)="onCancelBan()" class="p-button-danger"
+                        (click)="onCancelPostM()" class="p-button-danger"
                         style="width: 100%;"></button>
             </div>
         </div>
     </ng-template>
 </p-dialog>
-<p-dialog header="List Ban History"
-    [(visible)]="visiblebanHistoryDialog"
-    [breakpoints]="{ '960px': '75vw' }"
-    [style]="{ width: '50vw' }"
-    [draggable]="false"
-    [resizable]="false"
-    [maximizable]="true"
-    >
-    <p-table  [value]="listhistoryBan" [paginator]="true" [rows]="5" responsiveLayout="scroll">
-        <ng-template pTemplate="header">
-            <tr>
-                <th pSortableColumn="banCustomerId">ID<p-sortIcon field="banCustomerId"></p-sortIcon></th>
-                <th>Reason</th>
-                <th>Create Date</th>
 
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-history>
-            <tr >
-                <td>{{history.banSellerId}}</td>
-                <td>{{history.reason}}</td>
-                <td>{{history.createDate}}</td>
 
-            </tr>
-        </ng-template>
-    </p-table>
-</p-dialog>
-<p-dialog header="List Image"
-    [(visible)]="visibleImageDialog"
-    [breakpoints]="{ '960px': '75vw' }"
-    [style]="{ width: '50vw' }"
-    [draggable]="false"
-    [resizable]="false"
-    [maximizable]="true"
-    >
-    <p-table [value]="sellerImg.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
-        <ng-template pTemplate="header">
-            <tr>
-                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Size</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-image>
-            <tr >
-                <td>{{image.imageId}}</td>
-                <td><p-image src="data:image/gif;base64,{{image.imageBase64}}" [preview]="true"
-                    [alt]="image.imageId" class="dialogimages_image w-10rem shadow-2"
-                    ></p-image></td>
-                <td>{{image.name}}</td>
-                <td>{{image.size}} KB</td>
-
-            </tr>
-        </ng-template>
-    </p-table>
-</p-dialog>
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>
 
 <p-confirmPopup></p-confirmPopup>
