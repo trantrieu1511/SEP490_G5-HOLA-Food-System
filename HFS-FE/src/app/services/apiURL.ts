@@ -22,6 +22,7 @@ export class PHAN_HE {
     public static PROFILEIMAGE = "profileImage";
     public static PAYMENT = "payment";
     public static NEWFEED = "newfeed";
+    public static CUSTOMER = "customer";
 }
 
 export class API_TEST {
@@ -194,4 +195,12 @@ export class API_PROFILEIMAGE {
 
 export class API_PAYMENT {
     public static GET_URL = "getpaymenturl"
+}
+
+export class API_SHIPADDRESS {
+    public static GETALLSHIPADDRESS = "getallshipaddress";
+    public static CREATENEWSHIPADDRESS = "createnewshipaddress";
+    public static UPDATESHIPADDRESS = "updateshipaddress";
+    public static DELETESHIPADDRESS = "deleteshipaddress";
+    public static SETDEFAULTSHIPADDRESS = "setdefaultshipaddress";
 }

@@ -1,3 +1,90 @@
+<!-- Modals -->
+<p-dialog [(visible)]="isVisibleCreateModal" [style]="{ width: '450px' }" header="Create new ship address"
+    [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="createNewShipAddress">
+        <!-- <div class="formgrid grid"> -->
+        <div class="field">
+            <label for="addressinfo">Address information <span style="color: red;">*</span></label>
+            <input type="text" pInputText id="addressinfo" [(ngModel)]="shipAddress.addressInfo"
+                (keyup)="validateCreateNewShipAddress()" required
+                [class.ng-invalid]="!createNewShipAddressValidation.isValidAddressInfo"
+                [class.ng-dirty]="!createNewShipAddressValidation.isValidAddressInfo" />
+            <small
+                [style.display]="createNewShipAddressValidation.isValidAddressInfo ? 'none !important' : 'block !important'"
+                class="p-error block">{{createNewShipAddressValidation.addressInfoValidationMessage}}
+            </small>
+        </div>
+        <!-- </div> -->
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+            (click)="this.isVisibleCreateModal = false"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" (click)="createNewShipAddress();"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="isVisibleUpdateModal" [style]="{ width: '450px' }" header="Update ship address" [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="updateShipAddress">
+        <!-- <div class="formgrid grid"> -->
+        <!-- <div class="field">
+            <label for="addressid">Address ID <span style="color: red;">*</span></label>
+            <input type="text" pInputText id="addressid" [(ngModel)]="shipAddress.addressId" disabled="true" required
+                [class.ng-invalid]="!updateShipAddressValidation.isValidAddressId"
+                [class.ng-dirty]="!updateShipAddressValidation.isValidAddressId" />
+            <small
+                [style.display]="updateShipAddressValidation.isValidAddressId ? 'none !important' : 'block !important'"
+                class="p-error block">{{updateShipAddressValidation.addressInfoValidationMessage}}
+            </small>
+        </div> -->
+        <div class="field">
+            <label for="addressinfo">Address information <span style="color: red;">*</span></label>
+            <input type="text" pInputText id="addressinfo" [(ngModel)]="shipAddress.addressInfo"
+                (keyup)="validateUpdateNewShipAddress()" required
+                [class.ng-invalid]="!updateShipAddressValidation.isValidAddressInfo"
+                [class.ng-dirty]="!updateShipAddressValidation.isValidAddressInfo" />
+            <small
+                [style.display]="updateShipAddressValidation.isValidAddressInfo ? 'none !important' : 'block !important'"
+                class="p-error block">{{updateShipAddressValidation.addressInfoValidationMessage}}
+            </small>
+        </div>
+        <!-- </div> -->
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+            (click)="this.isVisibleUpdateModal = false"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" (click)="updateShipAddress();"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="isVisibleDeleteModal" [style]="{ width: '450px' }" header="Delete ship address" [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="deleteShipAddress">
+        <div class="delete-shipaddress-message">Are you sure to delete this ship address?</div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+            (click)="this.isVisibleDeleteModal = false"></button>
+        <button pButton pRipple label="Yes" icon="pi pi-check" (click)="deleteShipAddress();"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="isVisibleSetDefaultAddressModal" [style]="{ width: '450px' }" header="Set default ship address"
+    [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="setDefaultShipAddress">
+        <div class="setdefault-shipaddress-message">Are you sure to set this ship address to the default one?</div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+            (click)="this.isVisibleSetDefaultAddressModal = false"></button>
+        <button pButton pRipple label="Yes" icon="pi pi-check" (click)="setDefaultShipAddress();"></button>
+    </ng-template>
+</p-dialog>
+
 <div class="page-content">
     <div class="card sidebar">
         <a id="profile-option" class="sidebar-option" href="#" (click)="this.router.navigateByUrl('/profile');"
@@ -39,44 +126,90 @@
                     class="mr-2 inline-block"></p-fileUpload>
                 <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
                 <button pButton pRipple label="Create new" icon="pi pi-plus" class="p-button-success mr-2"
-                    (click)="this.isVisibleAddModal = true"></button>
+                    (click)="openCreateDialog();"></button>
             </ng-template>
         </p-toolbar>
 
-        <p-table #dt [value]="listShipAddress" [rows]="10" [paginator]="true"
-            [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
-            [tableStyle]="{ 'min-width': '75rem' }" [rowHover]="true" dataKey="id"
+        <p-table #dt [value]="listShipAddress" [rows]="10" [paginator]="listShipAddress.length > 5"
+            [rowsPerPageOptions]="[5,10,25,50]" [filterDelay]="0" styleClass="p-datatable-customers"
+            [globalFilterFields]="['addressInfo']" [rowHover]="false" dataKey="id"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [showCurrentPageReport]="true">
+            [showCurrentPageReport]="true" [loading]="loading" responsiveLayout="scroll">
             <ng-template pTemplate="caption">
                 <div class="flex align-items-center justify-content-between">
-                    <h5 class="m-0">ship address</h5>
+                    <h5 class="m-0">Ship address</h5>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt.filterGlobal($event.target, 'contains')"
-                            placeholder="Search..." />
+                        <input pInputText type="text" #inputText (input)="dt.filterGlobal(inputText.value, 'contains')"
+                            placeholder="Search by address info" />
                     </span>
                 </div>
             </ng-template>
-            <!-- <ng-template pTemplate="header">
+            <ng-template pTemplate="header">
                 <tr>
-                    <th style="width: 4rem">
+                    <!-- <th style="width: 4rem">
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th> -->
+                    <th pSortableColumn="addressInfo" style="min-width:15rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Address info
+                            <p-sortIcon field="addressInfo"></p-sortIcon>
+                            <p-columnFilter type="text" field="addressInfo" display="menu"
+                                class="ml-auto"></p-columnFilter>
+                        </div>
                     </th>
-                    <th pSortableColumn="name" style="min-width:15rem">Name <p-sortIcon field="name"></p-sortIcon></th>
-                    <th>Image</th>
+                    <!-- <th>Image</th>
                     <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
                     <th pSortableColumn="category" style="min-width:10rem">Category <p-sortIcon
                             field="category"></p-sortIcon></th>
                     <th pSortableColumn="rating">Reviews <p-sortIcon field="rating"></p-sortIcon></th>
                     <th pSortableColumn="inventoryStatus" style="min-width:10rem">Status <p-sortIcon
                             field="inventoryStatus"></p-sortIcon></th>
-                    <th></th>
+                    <th></th> -->
                 </tr>
-            </ng-template> -->
+            </ng-template>
             <ng-template pTemplate="body" let-shipaddress>
                 <tr class="p-selectable-row">
-                    <td>{{shipaddress.addressInfo}}</td>
+                    <td>
+                        <div id="shipaddress-info-card">
+                            <div class="address-info-data"
+                                *ngIf="shipaddress.isDefaultAddress == true else notDefaultShipAddress">
+                                <div>
+                                    {{shipaddress.addressInfo}}
+                                </div>
+                                <br />
+                                <br />
+                                <span class="default-address">Is default address</span>
+                            </div>
+
+                            <ng-template #notDefaultShipAddress>
+                                <div class="address-info-data">
+                                    {{shipaddress.addressInfo}}
+                                </div>
+                            </ng-template>
+
+                            <div>
+                                <div class="action-btn-group">
+                                    <a href="#" onclick="event.preventDefault();"
+                                        (click)="openUpdateDialog(shipaddress);">Update</a>&nbsp;&nbsp;
+                                    <a href="#" onclick="event.preventDefault();"
+                                        *ngIf="shipaddress.isDefaultAddress == false"
+                                        (click)="openDeleteDialog(shipaddress.addressId);">Delete</a>
+                                </div>
+                                <div>
+                                    <p-button (onClick)="openSetDefaultDialog(shipaddress.addressId);" [disabled]="true"
+                                        *ngIf="shipaddress.isDefaultAddress == true else notDefaultShipAddressBtn">
+                                        Set default address
+                                    </p-button>
+                                    <ng-template #notDefaultShipAddressBtn>
+                                        <p-button (onClick)="openSetDefaultDialog(shipaddress.addressId);">
+                                            Set default address
+                                        </p-button>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             </ng-template>
             <!-- <ng-template pTemplate="summary">

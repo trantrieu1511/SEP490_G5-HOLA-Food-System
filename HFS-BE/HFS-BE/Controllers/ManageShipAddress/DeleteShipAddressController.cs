@@ -16,7 +16,7 @@ namespace HFS_BE.Controllers.ManageShipAddress
         {
         }
 
-        [HttpDelete("customer/deleteshipaddress")]
+        [HttpPost("customer/deleteshipaddress")]
         [Authorize]
         public BaseOutputDto DeleteShipAddress(DeleteShipAddressInputDto inputDto)
         {

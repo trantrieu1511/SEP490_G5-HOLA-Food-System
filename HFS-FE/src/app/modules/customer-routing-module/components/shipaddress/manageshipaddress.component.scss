@@ -199,8 +199,6 @@
     word-break: break-word;
 }
 
-
-
 @media screen and (max-width: 960px) {
     :host ::ng-deep {
         .p-datatable {
@@ -241,3 +239,30 @@
     }
 
 }
+
+#shipaddress-info-card {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    // border: 1px solid black;
+}
+
+.action-btn-group {
+    text-align: right;
+    padding-bottom: 10px;
+}
+
+.address-info-data {
+    width: 75%;
+}
+
+.default-address {
+    color: #3F51B5;
+    border: 1px solid #3F51B5;
+    padding: 10px;
+}
+
+// .delete-shipaddress-message {}
+
+// .setdefault-shipaddress-message {}

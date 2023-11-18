@@ -16,7 +16,7 @@ namespace HFS_BE.Controllers.ManageShipAddress
         {
         }
 
-        [HttpPost("customer/setdefaultshipaddress")]
+        [HttpPut("customer/setdefaultshipaddress")]
         [Authorize]
         public BaseOutputDto SetDefaultShipAddress(SetDefaultShipAddressInputDto inputDto)
         {

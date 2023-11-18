@@ -791,6 +791,9 @@ export class iServiceBase {
                 case API.PHAN_HE.PAYMENT: {
                     return localStorage.getItem('APISERVICE') + '/payment/';
                 }
+                case API.PHAN_HE.CUSTOMER: {
+                    return localStorage.getItem('APISERVICE') + '/customer/';
+                }
                 default: {
                     return '';
                 }

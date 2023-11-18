@@ -18,6 +18,7 @@ namespace HFS_BE.DAO.ShipAddressDao
             {
                 var shipAddresses = context.ShipAddresses
                     .Where(sa => sa.CustomerId.Equals(userId))
+                    .OrderByDescending(sa => sa.IsDefaultAddress == true)
                     .ToList();
                 var output = Output<ListShipAddressOutputDto>(Constants.ResultCdSuccess);
                 output.ShipAddresses = mapper.Map<List<ShipAddress>, List<ShipAddressOutputDto>>(shipAddresses);
