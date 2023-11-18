@@ -137,7 +137,6 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
 
     viewProfile() {
         let urlProfile = this.checkRoleCus() ? 'profile' : 'HFSBusiness/profile';
-        console.log(urlProfile);
         this.router.navigateByUrl(urlProfile);
     }
 
@@ -172,7 +171,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
 
     onClickLogo(event: any){
         event.preventDefault();
-        let urlHome = this.checkLink() ? '/' : '/HFSBusiness';
+        let urlHome = this.checkLink() ? '/homepage' : '/HFSBusiness';
         this.router.navigateByUrl(urlHome);
     }
 

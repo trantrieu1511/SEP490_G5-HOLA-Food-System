@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
+using HFS_BE.BusinessLogic.Auth;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Mailjet.Client.Resources;
@@ -500,7 +501,9 @@ namespace HFS_BE.DAO.UserDao
                     case "CU":
                         //Tim trong context profile cua user theo id
                         var customer = context.Customers.SingleOrDefault(
-                        cu => cu.CustomerId.Equals(inputDto.UserId));
+                            cu => cu.CustomerId.Equals(inputDto.UserId));
+
+                        if (customer == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
 
                         //Truong hop profile nguoi dung co ton tai thi cap nhat lai cac truong thong tin
                         customer.RefreshToken = inputDto.RefreshToken;
@@ -509,14 +512,18 @@ namespace HFS_BE.DAO.UserDao
                     case "SE":
                         //Tim trong context profile cua user theo id
                         var seller = context.Sellers.SingleOrDefault(
-                        se => se.SellerId.Equals(inputDto.UserId));
+                            se => se.SellerId.Equals(inputDto.UserId));
+
+                        if (seller == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
 
                         seller.RefreshToken = inputDto.RefreshToken;
                         break;
                     case "SH":
                         //Tim trong context profile cua user theo id
                         var shipper = context.Shippers.SingleOrDefault(
-                        sh => sh.ShipperId.Equals(inputDto.UserId));
+                            sh => sh.ShipperId.Equals(inputDto.UserId));
+
+                        if (shipper == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
 
                         shipper.RefreshToken = inputDto.RefreshToken;
 
@@ -524,7 +531,9 @@ namespace HFS_BE.DAO.UserDao
                     case "AD":
                         //Tim trong context profile cua user theo id
                         var admin = context.Admins.SingleOrDefault(
-                        ad => ad.AdminId.Equals(inputDto.UserId));
+                            ad => ad.AdminId.Equals(inputDto.UserId));
+
+                        if (admin == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
 
                         admin.RefreshToken = inputDto.RefreshToken;
 
@@ -532,7 +541,9 @@ namespace HFS_BE.DAO.UserDao
                     case "PM":
                         //Tim trong context profile cua user theo id
                         var postModerator = context.PostModerators.SingleOrDefault(
-                        pm => pm.ModId.Equals(inputDto.UserId));
+                            pm => pm.ModId.Equals(inputDto.UserId));
+
+                        if (postModerator == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
 
                         postModerator.RefreshToken = inputDto.RefreshToken;
 
@@ -540,8 +551,80 @@ namespace HFS_BE.DAO.UserDao
                     case "MM":
                         //Tim trong context profile cua user theo id
                         var menuModerator = context.MenuModerators.SingleOrDefault(
-                        mm => mm.ModId.Equals(inputDto.UserId));
+                            mm => mm.ModId.Equals(inputDto.UserId));
+
+                        if (menuModerator == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
+
                         menuModerator.RefreshToken = inputDto.RefreshToken;
+                        break;
+                    default:
+                        return Output<UserProfileOutputDto>(Constants.ResultCdFail, "Some error occured. Debug BE for more info.");
+                }
+                //Luu thay doi trong context vao db
+                context.SaveChanges();
+
+                //Output ra response body trang thai thanh cong
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+                //Output ra response body trang thai that bai neu co loi/ngoai le bat ky
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public BaseOutputDto RevokeToken(RevokeToken inputDto)
+        {
+            try
+            {
+                switch (inputDto.Role)
+                {
+                    case "CU":
+                        //Tim trong context profile cua user theo id
+                        var customer = context.Customers.SingleOrDefault(
+                            cu => cu.Email.Equals(inputDto.Email));
+                        if (customer == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
+                        //Truong hop profile nguoi dung co ton tai thi cap nhat lai cac truong thong tin
+                        customer.RefreshToken = null;
+
+                        break;
+                    case "SE":
+                        //Tim trong context profile cua user theo id
+                        var seller = context.Sellers.SingleOrDefault(
+                            se => se.Email.Equals(inputDto.Email));
+                        if (seller == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
+                        seller.RefreshToken = null;
+                        break;
+                    case "SH":
+                        //Tim trong context profile cua user theo id
+                        var shipper = context.Shippers.SingleOrDefault(
+                            sh => sh.Email.Equals(inputDto.Email));
+                        if (shipper == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
+                        shipper.RefreshToken = null;
+
+                        break;
+                    case "AD":
+                        //Tim trong context profile cua user theo id
+                        var admin = context.Admins.SingleOrDefault(
+                            ad => ad.Email.Equals(inputDto.Email));
+                        if (admin == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
+                        admin.RefreshToken = null;
+
+                        break;
+                    case "PM":
+                        //Tim trong context profile cua user theo id
+                        var postModerator = context.PostModerators.SingleOrDefault(
+                            pm => pm.Email.Equals(inputDto.Email));
+                        if (postModerator == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
+                        postModerator.RefreshToken = null;
+
+                        break;
+                    case "MM":
+                        //Tim trong context profile cua user theo id
+                        var menuModerator = context.MenuModerators.SingleOrDefault(
+                            mm => mm.Email.Equals(inputDto.Email));
+                        if (menuModerator == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
+                        menuModerator.RefreshToken = null;
                         break;
                     default:
                         return Output<UserProfileOutputDto>(Constants.ResultCdFail, "Some error occured. Debug BE for more info.");

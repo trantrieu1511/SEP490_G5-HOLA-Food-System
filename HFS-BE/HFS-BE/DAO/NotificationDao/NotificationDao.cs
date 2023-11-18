@@ -96,7 +96,7 @@ namespace HFS_BE.DAO.NotificationDao
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Read fail", $"Notification Id : {inputDto.NotifyId} not exist");
                 foreach(var noti in notifies)
                 {
-                    var notify = context.Notifications.FirstOrDefault(x => x.Id == noti.Id && x.Lang.Equals(x.Lang));
+                    var notify = context.Notifications.FirstOrDefault(x => x.Id == noti.Id && x.Lang.Equals(noti.Lang));
                     if (notify == null)
                         continue;
                     notify.IsRead = true;
@@ -139,7 +139,8 @@ namespace HFS_BE.DAO.NotificationDao
         {
             try
             {
-                var result = context.Notifications.FirstOrDefault(x => x.Id == inputDto.NotifyId && x.Lang.Equals(inputDto.Lang));
+                var result = context.Notifications.FirstOrDefault(x => x.Id == inputDto.NotifyId 
+                    && x.Lang == LangTypeEnum.GetLangValue(inputDto.Lang));
 
                 if (result == null)
                     return Output<NotificationOutputDto>(Constants.ResultCdFail,

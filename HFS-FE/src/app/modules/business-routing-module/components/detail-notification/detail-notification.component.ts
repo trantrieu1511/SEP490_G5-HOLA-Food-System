@@ -71,4 +71,12 @@ export class DetailNotificationComponent extends iComponentBase implements OnIni
       this.showMessage(mType.error, response.message, messageError, 'notify');
     }
   }
+
+  onAccept(){
+
+  }
+
+  onDeny(){
+    
+  }
 }

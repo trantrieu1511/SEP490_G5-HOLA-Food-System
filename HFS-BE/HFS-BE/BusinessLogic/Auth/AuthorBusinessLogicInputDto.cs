@@ -30,4 +30,10 @@ namespace HFS_BE.BusinessLogic.Auth
         public string? RefreshToken { get; set; }
 		public UserDto UserDto { get; set; }
     }
+
+	public class RevokeToken
+	{
+		public string? Email { get; set; }
+		public string? Role { get; set; }
+	}
 }

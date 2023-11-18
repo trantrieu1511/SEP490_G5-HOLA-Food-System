@@ -69,15 +69,6 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
     script1.async = `true`;
     script1.defer = `true`;
     this.renderer.appendChild(document.body, script1);
-
-    //check lang
-    if (localStorage.getItem("LANG")) {
-      this.valueLang = localStorage.getItem("LANG")
-      this.translate.use(this.valueLang);
-    } else {
-      this.valueLang = "vi"
-    }
-
   }
 
   refreshCaptcha() {
@@ -199,26 +190,16 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
         this._ngZone.run(() => {
           this.loading = false;
           switch (this.user.role) {
-            case 'AD':
-              this.router.navigateByUrl('/HFSBusiness/admin');
-              break;
-            case 'SE':
-              this.router.navigateByUrl('/HFSBusiness/seller');
-              break;
             case 'CU':
 
-              this.router.navigate(['/']);
+              this.router.navigate(['/homepage']);
               break;
-
+            case 'AD':
+            case 'SE':
             case 'SH':
-              this.router.navigateByUrl('/HFSBusiness/shipper');
-              break;
             case 'PM':
-              this.router.navigateByUrl('/HFSBusiness/postmoderator');
-              break;
-
             case 'MM':
-              this.router.navigateByUrl('/HFSBusiness/menumoderator');
+              this.router.navigateByUrl('/HFSBusiness');
               break;
 
             default:
@@ -254,26 +235,16 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
             // const userData = localStorage.getItem('user');
             // this.user = JSON.parse(userData);
             switch (this.user.role) {
-              case 'AD':
-                this.router.navigateByUrl('/HFSBusiness/admin');
-                break;
-              case 'SE':
-                this.router.navigateByUrl('/HFSBusiness/seller');
-                break;
               case 'CU':
-                this.router.navigate(['/']);
+                this.router.navigate(['/homepage']);
 
                 break;
-
+              case 'AD':
+              case 'SE':
               case 'SH':
-                this.router.navigateByUrl('/HFSBusiness/shipper');
-                break;
               case 'PM':
-                this.router.navigateByUrl('/HFSBusiness/PostModerator');
-                break;
-
               case 'MM':
-                this.router.navigateByUrl('/HFSBusiness/MenuModerator');
+                this.router.navigateByUrl('/HFSBusiness');
                 break;
 
               default:
@@ -321,7 +292,6 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
   }
 
   onOptionLangClick(event: SelectButtonOptionClickEvent) {
-    console.log(event)
     this.translate.use(event.option);
     localStorage.setItem("LANG", event.option);
   }

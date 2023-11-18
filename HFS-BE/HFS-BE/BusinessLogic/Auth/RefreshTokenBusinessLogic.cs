@@ -93,7 +93,6 @@ namespace HFS_BE.BusinessLogic.Auth
                         break;
                 }
 
-
                 var newRefreshToken = authDao.GenerateRefreshToken();
 
                 userDao.EditRefreshToken(new UpdateRefreshToken
@@ -101,6 +100,7 @@ namespace HFS_BE.BusinessLogic.Auth
                     RefreshToken = newRefreshToken,
                     UserId = user.Id
                 });
+
                 var output = Output<TokenApiModelOutput>(Constants.ResultCdSuccess);
                 output.RefreshToken = newRefreshToken;
                 output.Token = newAccessToken;

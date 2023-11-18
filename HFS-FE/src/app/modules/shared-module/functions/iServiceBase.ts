@@ -794,6 +794,12 @@ export class iServiceBase {
                 case API.PHAN_HE.CUSTOMER: {
                     return localStorage.getItem('APISERVICE') + '/customer/';
                 }
+                case API.PHAN_HE.AUTH: {
+                    return localStorage.getItem('APISERVICE') + '/auths/';
+                }
+                case API.PHAN_HE.DASHBOARD: {
+                    return localStorage.getItem('APISERVICE') + '/dashboards/';
+                }
                 default: {
                     return '';
                 }

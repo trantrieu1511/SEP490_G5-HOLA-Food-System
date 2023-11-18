@@ -182,4 +182,9 @@ namespace HFS_BE.Dao.OrderDao
     {
         public List<OrderExternalShipperOutputDto> Orders { get; set; }
     }
+
+    public class DashboardSellerDaoOutput : BaseOutputDto
+    {
+        public ICollection<Order> Orders { get; set; }
+    }
 }

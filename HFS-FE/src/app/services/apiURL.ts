@@ -23,6 +23,8 @@ export class PHAN_HE {
     public static PAYMENT = "payment";
     public static NEWFEED = "newfeed";
     public static CUSTOMER = "customer";
+    public static AUTH = "auth";
+    public static DASHBOARD = "dashboard";
 }
 
 export class API_TEST {
@@ -203,4 +205,12 @@ export class API_SHIPADDRESS {
     public static UPDATESHIPADDRESS = "updateshipaddress";
     public static DELETESHIPADDRESS = "deleteshipaddress";
     public static SETDEFAULTSHIPADDRESS = "setdefaultshipaddress";
+}
+export class API_AUTH {
+    public static REFRESH_TOKEN = "refresh";
+    public static REVOKE_TOKEN = "revoke";
+}
+
+export class API_DASHBOARD {
+    public static DASHBOARD_SELLER = "dashboardSeller";
 }

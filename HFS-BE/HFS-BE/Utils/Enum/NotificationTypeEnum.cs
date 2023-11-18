@@ -7,7 +7,7 @@ namespace HFS_BE.Utils.Enum
         public enum NotificationType
         {
             System = 0,
-            Individual = 1
+            Shipper_Request = 1
         }
 
         public static string GetNotifyString(int type)
@@ -16,8 +16,8 @@ namespace HFS_BE.Utils.Enum
             {
                 case (int)NotificationType.System:
                     return "System";
-                case (int)NotificationType.Individual:
-                    return "Individual";
+                case (int)NotificationType.Shipper_Request:
+                    return "Shipper Request";
                 default:
                     return "unknown";
             }
@@ -29,8 +29,8 @@ namespace HFS_BE.Utils.Enum
             {
                 case "System":
                     return (int)NotificationType.System;
-                case "Individual":
-                    return (int)NotificationType.Individual;
+                case "Shipper Request":
+                    return (int)NotificationType.Shipper_Request;
                 default:
                     return -1;
             }

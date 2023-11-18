@@ -23,15 +23,11 @@ import { ManageshipaddressComponent } from './components/shipaddress/manageshipa
 
 
 const routes: Routes = [
-  {path: "", component: HomepageComponent},
-  {path: "shopdetail", component: ShopdetailComponent},
-  {path: "fooddetail", component: FooddetailComponent},
   {path: "cartdetail", component: CartdetailComponent},
   {path: "checkout", component : CheckoutComponent},
   {path: "orderhistory", component : OrderhistoryComponent},
   {path: "wallet", component : WalletComponent},
   {path: "paymentverify", component : PaymentverifyComponent},
-  {path: "newfeed", component : NewfeedComponent},
   // -------------- My account page related routes -----------------
   // {path: "profile", component : ManageprofileComponent},
   {path: "menureport", component : CustomerfoodreportComponent},

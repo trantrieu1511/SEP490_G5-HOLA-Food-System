@@ -9,7 +9,7 @@
                 <img src="assets/layout/images/pages/404.png" alt=""/>
             </div>
             <div class="pages-detail pb-6">Requested resource is not available.</div>
-            <button pButton pRipple type="button" label="GO BACK TO HOMEPAGE" [routerLink]="['/']" class="p-button-text"></button>
+            <button pButton pRipple type="button" label="GO BACK" (click)="backClicked()" class="p-button-text"></button>
         </div>
     </div>
 </div>
