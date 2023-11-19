@@ -22,35 +22,17 @@ namespace HFS_BE.Controllers.Payment
             {
                 string vnp_HashSecret = "WEEDAMWSSYKXZVVRHGSSPRDZLICKFZMN";
                 // Lấy query string từ URL
-                var queryString = inputDto.ReturnUrl.TrimStart('?');
                 var output = new PaymentReturnOutputDto();
-
-                // Parse query string thành một collection
-                var vnpayData = HttpUtility.ParseQueryString(queryString);
                 VnPayLibrary vnpay = new VnPayLibrary();
 
-                foreach (string s in vnpayData)
-                {
-                    //get all querystring data
-                    if (!string.IsNullOrEmpty(s) && s.StartsWith("vnp_"))
-                    {
-                        vnpay.AddResponseData(s, vnpayData[s]);
-                    }
-                }
-                //vnp_TxnRef: Ma don hang merchant gui VNPAY tai command=pay    
-                //vnp_TransactionNo: Ma GD tai he thong VNPAY
-                //vnp_ResponseCode:Response code from VNPAY: 00: Thanh cong, Khac 00: Xem tai lieu
-                //vnp_SecureHash: HmacSHA512 cua du lieu tra ve
-
-                string orderId = vnpay.GetResponseData("vnp_TxnRef");
-                long vnpayTranId = Convert.ToInt64(vnpay.GetResponseData("vnp_TransactionNo"));
-                string vnp_ResponseCode = vnpay.GetResponseData("vnp_ResponseCode");
-                string vnp_TransactionStatus = vnpay.GetResponseData("vnp_TransactionStatus");
-                string vnp_SecureHash = vnpayData["vnp_SecureHash"];
-                string TerminalID = vnpayData["vnp_TmnCode"];
-                var a = vnpay.GetResponseData("vnp_Amount");
-                long vnp_Amount = Convert.ToInt64(vnpay.GetResponseData("vnp_Amount")) / 100;
-                string bankCode = vnpayData["vnp_BankCode"];
+                string orderId = inputDto.vnp_TxnRef;
+                long vnpayTranId = Convert.ToInt64(inputDto.vnp_TransactionNo);
+                string vnp_ResponseCode = inputDto.vnp_ResponseCode;
+                string vnp_TransactionStatus = inputDto.vnp_TransactionStatus;
+                string vnp_SecureHash = inputDto.vnp_SecureHash;
+                string TerminalID = inputDto.vnp_TmnCode;
+                long vnp_Amount = Convert.ToInt64(inputDto.vnp_Amount) / 100;
+                string bankCode = inputDto.vnp_BankCode;
 
                 bool checkSignature = vnpay.ValidateSignature(vnp_SecureHash, vnp_HashSecret);
                 if (checkSignature)

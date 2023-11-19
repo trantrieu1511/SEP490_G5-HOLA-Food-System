@@ -2,8 +2,9 @@
 
 namespace HFS_BE.DAO.TransantionDao
 {
-    public class TransactionDaoOutputDto
+    public class CreateTransactionDaoOutputDto : BaseOutputDto
     {
+        public int? TransactionId { get; set; }
     }
 
     public class PaymentReturnOutputDto : BaseOutputDto

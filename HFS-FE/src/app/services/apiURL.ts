@@ -189,4 +189,5 @@ export class API_PROFILEIMAGE {
 
 export class API_PAYMENT {
     public static GET_URL = "getpaymenturl"
+    public static VERIFY = "verify"
 }

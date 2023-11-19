@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 import { iComponentBase, iServiceBase } from 'src/app/modules/shared-module/shared-module';
-
+import * as API from '../../../../services/apiURL';
 @Component({
   selector: 'app-paymentverify',
   templateUrl: './paymentverify.component.html',
@@ -31,5 +31,21 @@ implements OnInit{
       this.queryParams = params;
       console.log(this.queryParams);
   })
+
+  this.onPaymentVerify();
+}
+
+async  onPaymentVerify(){
+  try {
+    let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.PAYMENT, API.API_PAYMENT.VERIFY, this.queryParams);
+    if (response) {
+      window.location.href = response.text;
+    }
+    else{
+        //this.router.navigate([response]);
+    }
+} catch (e) {
+    console.log(e);
+}
 }
 }

@@ -22,7 +22,7 @@ namespace HFS_BE.Controllers.Payment
         //[Authorize]
         public IActionResult Payment(CreateTransaction inputDto)
         {
-            try
+            try 
             {
                 //var userInfo = this.GetUserInfor();
                 string vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
@@ -31,6 +31,11 @@ namespace HFS_BE.Controllers.Payment
                 string vnp_HashSecret = "WEEDAMWSSYKXZVVRHGSSPRDZLICKFZMN";
                 string vnp_Returnurl = "http://localhost:4200/#/paymentverify";
                 string ipAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+
+                // Create TransactionHistory
+
+
+
                 //Build URL for VNPAY
                 VnPayLibrary vnpay = new VnPayLibrary();
 
@@ -49,7 +54,7 @@ namespace HFS_BE.Controllers.Payment
                 //    vnpay.AddRequestData("vnp_Locale", "en");
                 //}
                 //vnpay.AddRequestData("vnp_OrderInfo", "Thanh toan don hang:" + userInfo.UserId + " " + DateTime.Now.ToString("yyyyMMddHHmmss"));
-                vnpay.AddRequestData("vnp_OrderInfo", "Thanh toan don hang:" + "CU00000001" + " " + DateTime.Now.ToString("yyyyMMddHHmmss"));
+                vnpay.AddRequestData("vnp_OrderInfo", "Thanh toan:" + "CU00000001" + " " + DateTime.Now.ToString("yyyyMMddHHmmss"));
                 vnpay.AddRequestData("vnp_OrderType", "other"); //default value: other
 
                 vnpay.AddRequestData("vnp_ReturnUrl", vnp_Returnurl);
