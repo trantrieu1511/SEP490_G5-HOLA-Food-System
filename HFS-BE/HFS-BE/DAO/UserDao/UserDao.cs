@@ -236,7 +236,7 @@ namespace HFS_BE.DAO.UserDao
                         }
                         break;
                     case "SE":
-                        var seller = context.Customers.SingleOrDefault(c => c.CustomerId.Equals(userId));
+                        var seller = context.Sellers.SingleOrDefault(s => s.SellerId.Equals(userId));
                         using (HMACSHA256? hmac = new HMACSHA256(seller.PasswordSalt))
                         {
                             var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.Password));
@@ -244,7 +244,7 @@ namespace HFS_BE.DAO.UserDao
                         }
                         break;
                     case "SH":
-                        var shipper = context.Customers.SingleOrDefault(c => c.CustomerId.Equals(userId));
+                        var shipper = context.Shippers.SingleOrDefault(sh => sh.ShipperId.Equals(userId));
                         using (HMACSHA256? hmac = new HMACSHA256(shipper.PasswordSalt))
                         {
                             var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.Password));
@@ -252,7 +252,7 @@ namespace HFS_BE.DAO.UserDao
                         }
                         break;
                     case "AD":
-                        var admin = context.Customers.SingleOrDefault(c => c.CustomerId.Equals(userId));
+                        var admin = context.Admins.SingleOrDefault(ad => ad.AdminId.Equals(userId));
                         using (HMACSHA256? hmac = new HMACSHA256(admin.PasswordSalt))
                         {
                             var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.Password));
@@ -260,7 +260,7 @@ namespace HFS_BE.DAO.UserDao
                         }
                         break;
                     case "PM":
-                        var postMod = context.Customers.SingleOrDefault(c => c.CustomerId.Equals(userId));
+                        var postMod = context.PostModerators.SingleOrDefault(pm => pm.ModId.Equals(userId));
                         using (HMACSHA256? hmac = new HMACSHA256(postMod.PasswordSalt))
                         {
                             var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.Password));
@@ -268,7 +268,7 @@ namespace HFS_BE.DAO.UserDao
                         }
                         break;
                     case "MM":
-                        var menuMod = context.Customers.SingleOrDefault(c => c.CustomerId.Equals(userId));
+                        var menuMod = context.MenuModerators.SingleOrDefault(mm => mm.ModId.Equals(userId));
                         using (HMACSHA256? hmac = new HMACSHA256(menuMod.PasswordSalt))
                         {
                             var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.Password));

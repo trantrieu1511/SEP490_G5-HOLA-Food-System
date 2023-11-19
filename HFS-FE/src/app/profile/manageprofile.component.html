@@ -59,7 +59,7 @@
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
             (click)="this.isVisibleOthersEditProfileDialog = false"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="editProfile()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" (click)="editProfile()"></button>
     </ng-template>
 </p-dialog>
 
@@ -143,7 +143,7 @@
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
             (click)="this.isVisibleSellerEditProfileDialog = false"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="editProfile()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" (click)="editProfile()"></button>
     </ng-template>
 </p-dialog>
 
@@ -175,8 +175,7 @@
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
             (click)="this.isVisibleChangePasswordModal = false"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
-            (click)="changePassword()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" (click)="changePassword()"></button>
     </ng-template>
 </p-dialog>
 
@@ -199,8 +198,7 @@
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
             (click)="this.isVisibleVerifyYourselfModal = false"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
-            (click)="verifyIdentity();"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" (click)="verifyIdentity();"></button>
     </ng-template>
 </p-dialog>
 
@@ -387,7 +385,7 @@
                     <p-button (click)="openOthersEditProfileDiaglog();">Edit</p-button>
                 </ng-template>
                 &nbsp;
-                <p-button (click)="isVisibleVerifyYourselfModal = true" [text]="true">Change password</p-button>
+                <p-button (click)="openVerifyIdentityModal();" [text]="true">Change password</p-button>
             </div>
         </div>
     </div>

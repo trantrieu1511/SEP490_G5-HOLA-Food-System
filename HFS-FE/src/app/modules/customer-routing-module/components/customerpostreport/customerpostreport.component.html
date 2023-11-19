@@ -58,7 +58,9 @@
             <ng-template pTemplate="body" let-postrp>
                 <tr class="p-selectable-row">
                     <td (click)="viewContentDetail(postrp)">
-                        {{postrp.reportContent}}
+                        <div id="reportcontent-data">
+                            {{postrp.reportContent}}
+                        </div>
                     </td>
                 </tr>
             </ng-template>

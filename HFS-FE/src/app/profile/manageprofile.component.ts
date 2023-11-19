@@ -34,6 +34,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   // minDate: Date = new Date();
   uploadedFiles: File[] = [];
   profileImage: ProfileImage = new ProfileImage();
+  profileModal: Profile = new Profile(); // instance dung de bind len modal
 
   // ------------- UI component variables ---------------
   isVisibleChangePasswordModal: boolean = false;
@@ -129,6 +130,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
         this.profile = response.data;
         this.profile.birthDate = (response.data.birthDate != undefined ? response.data.birthDate.toString().split('T')[0] : '');
         this.profileDisplay = Object.assign({}, response.data); //Copy profile sang mot entity moi phuc vu cho viec display (Entity do khac dia chi so voi profile nen khong bi anh huong boi two way data binding)
+        this.profileModal = response.data;
 
         // format date sang dd/mm/yyyy
         const date = new Date(this.profileDisplay.birthDate);
@@ -161,12 +163,24 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       this.editProfileValidation.isValidLastName = false;
       this.editProfileValidation.LastNameValidationMessage = "Last name can not empty";
       check = false;
+    } else {
+      if (this.profile.lastName.length > 50) {
+        this.editProfileValidation.isValidLastName = false;
+        this.editProfileValidation.LastNameValidationMessage = "Last name must be less than 50 characters";
+        check = false;
+      }
     }
 
     if (!this.profile.firstName || this.profile.firstName == '') {
       this.editProfileValidation.isValidFirstName = false;
       this.editProfileValidation.FirstNameValidationMessage = "First name can not empty";
       check = false;
+    } else {
+      if (this.profile.firstName.length > 50) {
+        this.editProfileValidation.isValidFirstName = false;
+        this.editProfileValidation.FirstNameValidationMessage = "First name must be less than 50 characters";
+        check = false;
+      }
     }
 
     if (this.profile.birthDate != '') {
@@ -200,24 +214,18 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       }
     }
 
-    if (this.profile.lastName.length > 50) {
-      this.editProfileValidation.isValidLastName = false;
-      this.editProfileValidation.LastNameValidationMessage = "Last name must be less than 50 characters";
-      check = false;
-    }
-
-    if (this.profile.firstName.length > 50) {
-      this.editProfileValidation.isValidFirstName = false;
-      this.editProfileValidation.FirstNameValidationMessage = "First name must be less than 50 characters";
-      check = false;
-    }
-
     if (this.authService.getRole() == 'SE') {
 
       if (!this.profile.shopName || this.profile.shopName == '') {
         this.editProfileValidation.isValidShopName = false;
         this.editProfileValidation.ShopNameValidationMessage = "Shop name can not empty";
         check = false;
+      } else {
+        if (this.profile.shopName.length > 50) {
+          this.editProfileValidation.isValidShopName = false;
+          this.editProfileValidation.ShopNameValidationMessage = "Shop name must be less than 50 characters";
+          check = false;
+        }
       }
 
       if (!this.profile.shopAddress || this.profile.shopAddress == '') {
@@ -226,18 +234,11 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
         check = false;
       }
 
-      if (this.profile.shopName.length > 50) {
-        this.editProfileValidation.isValidShopName = false;
-        this.editProfileValidation.ShopNameValidationMessage = "Shop name must be less than 50 characters";
-        check = false;
-      }
-
       // if (this.profile.shopAddress.length > 200) {
       //   this.editProfileValidation.isValidShopAddress = false;
       //   this.editProfileValidation.ShopAddressValidationMessage = "Shop address must be less than 200 characters";
       //   check = false;
       // }
-
     }
 
     console.log(this.editProfileValidation);
@@ -343,9 +344,17 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   }
 
   openOthersEditProfileDiaglog() {
+    this.profile = Object.assign({}, this.profileModal);
+
+    this.editProfileValidation = new EditProfileInputValidation();
+
     this.isVisibleOthersEditProfileDialog = true;
   }
   openSellerEditProfileDiaglog() {
+    this.profile = Object.assign({}, this.profileModal);
+
+    this.editProfileValidation = new EditProfileInputValidation();
+
     this.isVisibleSellerEditProfileDialog = true;
   }
 
@@ -389,6 +398,13 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       element.style.display = 'none';
     }
   }
+  openVerifyIdentityModal() {
+    this.profile.oldPassword = '';
+
+    this.verifyIdentityValidation = new VerifyIdentityInputValidation();
+
+    this.isVisibleVerifyYourselfModal = true;
+  }
 
   async verifyIdentity() {
     if (this.validateVerifyIdentityInput()) {
@@ -406,6 +422,9 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
           console.log(response);
           this.isVisibleVerifyYourselfModal = false;
           setTimeout(() => {
+            this.profile.newPassword = '';
+            this.profile.confirmNewPassword = '';
+            this.changePasswordValidation = new ChangePasswordInputValidation();
             this.isVisibleChangePasswordModal = true;
           }, 1000);
         } else {
@@ -509,16 +528,16 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
         this.changePasswordValidation.PasswordValidationMessage = "New password cannot be the same as the old one. Please enter a different one.";
         check = false;
       }
-    }
-    if (!this.profile.confirmNewPassword || this.profile.confirmNewPassword == '') {
-      this.changePasswordValidation.isValidConfirmPassword = false;
-      this.changePasswordValidation.ConfirmPasswordValidationMessage = "Confirm password can not empty";
-      check = false;
-    } else {
-      if (this.profile.confirmNewPassword != this.profile.newPassword) {
+      if (!this.profile.confirmNewPassword || this.profile.confirmNewPassword == '') {
         this.changePasswordValidation.isValidConfirmPassword = false;
-        this.changePasswordValidation.ConfirmPasswordValidationMessage = "Confirm password is not match with new password";
+        this.changePasswordValidation.ConfirmPasswordValidationMessage = "Confirm password can not empty";
         check = false;
+      } else {
+        if (this.profile.confirmNewPassword != this.profile.newPassword) {
+          this.changePasswordValidation.isValidConfirmPassword = false;
+          this.changePasswordValidation.ConfirmPasswordValidationMessage = "Confirm password is not match with new password";
+          check = false;
+        }
       }
     }
     return check;

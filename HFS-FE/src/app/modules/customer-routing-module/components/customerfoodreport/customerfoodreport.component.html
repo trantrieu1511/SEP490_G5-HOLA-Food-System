@@ -58,7 +58,9 @@
             <ng-template pTemplate="body" let-foodrp>
                 <tr class="p-selectable-row">
                     <td (click)="viewContentDetail(foodrp)">
-                        {{foodrp.reportContent}}
+                        <div id="reportcontent-data">
+                            {{foodrp.reportContent}}
+                        </div>
                         <!-- <span class="p-column-title">Report Content</span>
                         <p class="report-content" (click)="viewContentDetail(foodrp)">{{foodrp.reportContent}}</p> -->
                     </td>
