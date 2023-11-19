@@ -26,7 +26,7 @@ export class CustomerListByChatComponent implements OnInit {
   }
 
   selectUser(user: any) {
-    debugger;
+    //dcm dubber casi lon;
     switch ((this.usersOnline.length+1) % 2) {
 
       case 1: {

@@ -50,10 +50,10 @@ export class SellerListComponent {
   }
 
   selectUser(user: any) {
-    debugger
+    //dcm dubber casi lon
     switch ((this.usersOnline.length+1) % 2) {
       case 1: {
-        debugger;
+        //dcm dubber casi lon;
         var u = this.usersOnline.find(x => x.seller.email === user.email);
         if (u) {
           this.usersOnline = this.usersOnline.filter(x => x.seller.email !== user.email);

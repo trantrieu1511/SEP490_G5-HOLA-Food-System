@@ -1,6 +1,6 @@
 <div id="{{user.email}}" class="p-panel p-component chat-box">
   <div class="p-panel-header">
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center chatbox-top">
         <div>
             <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
         </div>
@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <p-panel [collapsed]="isCollapsed" [style]="{'width':'100%'}">
+  <p-panel [collapsed]="isCollapsed" [style]="{'width':'87% !important', 'display': 'block'}">
     <div class="card-body">
       <ul #scrollMe [scrollTop]="scrollMe.scrollHeight" class="chat chat-frame" (scroll)="onScroll($event)" style="height: 350px;">
         <li class="pd-5" *ngFor="let message of (messageChatService.messageThread$ | async)">

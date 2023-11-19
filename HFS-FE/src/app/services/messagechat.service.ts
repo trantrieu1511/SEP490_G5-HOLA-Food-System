@@ -17,7 +17,7 @@ export class MessageChatService {
   messageThread$ = this.messageThreadSource.asObservable();
   constructor(private http: HttpClient) { }
  createHubConnection(token:string, otherUsername: string){
-    debugger;
+    //dcm dubber casi lon;
     this.hubConnection = new HubConnectionBuilder()
     .withUrl(this.hubUrl+ 'message?user=' + otherUsername, {
       accessTokenFactory: ()=> token

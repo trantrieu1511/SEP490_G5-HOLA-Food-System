@@ -44,7 +44,7 @@ export class PresenceService {
       })
       .withAutomaticReconnect()
       .build()
-      //debugger; de cl ma` bug
+      ////dcm dubber casi lon; de cl ma` bug
       this.hubConnection
       .start()
       .then(() => {
@@ -83,7 +83,7 @@ export class PresenceService {
         })
         this.hubConnection.on('notIsRead', (username: number,emailcus:string) => {
           this.messageUsernameSource.next(username)
-          //debugger; de cl ma` bug
+          ////dcm dubber casi lon; de cl ma` bug
           this.emailcustomermessageSource.next(emailcus)
           if(username!=0){
             this.soundService.playAudioMessage();
@@ -93,7 +93,7 @@ export class PresenceService {
         })
         this.hubConnection.on('notIsReadSeller', (username: number,emailseller:string) => {
           this.messageUsernameSellerSource.next(username)
-          //debugger; de cl ma` bug
+          ////dcm dubber casi lon; de cl ma` bug
           this.emaisellermessageSource.next(emailseller)
           if(username!=0){
             this.soundService.playAudioMessage();
