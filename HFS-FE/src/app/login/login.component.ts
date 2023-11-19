@@ -23,6 +23,8 @@ import {
 } from 'src/app/modules/shared-module/shared-module';
 import { Subscription } from 'rxjs';
 import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
+import { SelectButtonOptionClickEvent } from 'primeng/selectbutton';
 
 declare const FB: any;
 
@@ -33,20 +35,28 @@ declare const FB: any;
 })
 export class LoginComponent extends iComponentBase implements OnInit, AfterViewInit {
   user: User;
+  loading: boolean;
   form: FormGroup;
   isCaptchaTouched = false;
+  isCaptchaTouched1 = false;
   isPasswordTouched=false;
   error: string;
   showLoginForm: boolean = true;
+  unsuccessfulLoginAttempts: number = 0;
+  captchacheck:string;
    captchaImage: string = '';
    captchaText:string;
   private client_Id = environment.clientId;
+
+  valueLang: string;
+
   constructor(
     private router: Router,
     public renderer: Renderer2,
     private _ngZone: NgZone,
     public messageService: MessageService,
-    private service: AuthService
+    private service: AuthService,
+    public translate: TranslateService
   ) // private cdr: ChangeDetectorRef
   {
     super(messageService);
@@ -60,6 +70,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
     script1.defer = `true`;
     this.renderer.appendChild(document.body, script1);
   }
+
   refreshCaptcha() {
     // Generate a random alphanumeric string for the CAPTCHA
     this.captchaText = this.generateRandomString(6); // Change the length as needed
@@ -97,12 +108,13 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
         // PasswordUpperValidator(),
         // PasswordNumberValidator(),
       ]),
-      captcha:  new FormControl('', [Validators.required])
+      captcha:  new FormControl('')
     });
     this.refreshCaptcha();
   }
   ngOnInit(): void {
-
+    this.captchacheck = localStorage.getItem("captcha");
+    this.unsuccessfulLoginAttempts=parseInt(this.captchacheck);
     localStorage.removeItem('user');
     sessionStorage.clear();
     this.service.error$.subscribe(error => {
@@ -168,35 +180,26 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
         { theme: 'outline', size: 'large', width: 100 }
       );
       // @ts-ignore
-      google.accounts.id.prompt((notification: PromptMomentNotification) => {});
+      google.accounts.id.prompt((notification: PromptMomentNotification) => { });
     };
   }
   async handleCredentialResponse(response: CredentialResponse) {
-    //debugger;
+    this.loading = true;
     await this.service.logingoogle(response.credential).subscribe(
       (x: any) => {
         this._ngZone.run(() => {
+          this.loading = false;
           switch (this.user.role) {
-            case 'AD':
-              this.router.navigateByUrl('/HFSBusiness/admin');
-              break;
-            case 'SE':
-              this.router.navigateByUrl('/HFSBusiness/seller');
-              break;
             case 'CU':
 
-                  this.router.navigate(['/']);
+              this.router.navigate(['/homepage']);
               break;
-
+            case 'AD':
+            case 'SE':
             case 'SH':
-              this.router.navigateByUrl('/HFSBusiness/shipper');
-              break;
             case 'PM':
-              this.router.navigateByUrl('/HFSBusiness/postmoderator');
-              break;
-
             case 'MM':
-              this.router.navigateByUrl('/HFSBusiness/menumoderator');
+              this.router.navigateByUrl('/HFSBusiness');
               break;
 
             default:
@@ -212,40 +215,41 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
 
   async onSubmit() {
     //this.formSubmitAttempt = false;
+    debugger;
+    this.captchacheck = localStorage.getItem("captcha");
+    this.unsuccessfulLoginAttempts=parseInt(this.captchacheck);
+    if (this.form.valid) {
 
-    if (this.form.valid&&this.captchaText==this.form.value.captcha) {
+      if (this.unsuccessfulLoginAttempts>2&& this.captchaText !== this.form.value.captcha) {
+        // Show an error or handle the captcha verification failure
+        this.refreshCaptcha();
+        //window.location.reload();
+        this.showMessage(mType.error, "Notification", "CAPTCHA verification failed. Please try again.", 'app-login');
+        return;
+      }
       try {
-        debugger;
+        // debugger;
         this.service.login(this.form.value).subscribe(
           (res) => {
             //this.toastr.success('Login success');
             // const userData = localStorage.getItem('user');
             // this.user = JSON.parse(userData);
             switch (this.user.role) {
-              case 'AD':
-                this.router.navigateByUrl('/HFSBusiness/admin');
-                break;
-              case 'SE':
-                this.router.navigateByUrl('/HFSBusiness/seller');
-                break;
               case 'CU':
-                          this.router.navigate(['/']);
+                this.router.navigate(['/homepage']);
 
                 break;
-
+              case 'AD':
+              case 'SE':
               case 'SH':
-                this.router.navigateByUrl('/HFSBusiness/shipper');
-                break;
               case 'PM':
-                this.router.navigateByUrl('/HFSBusiness/PostModerator');
-                break;
-
               case 'MM':
-                this.router.navigateByUrl('/HFSBusiness/MenuModerator');
+                this.router.navigateByUrl('/HFSBusiness');
                 break;
 
               default:
-                this.router.navigateByUrl('/login');
+                window.location.reload();
+
             }
           },
           (error) => {
@@ -253,23 +257,23 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
             if (error.status === 401) {
               this.error = 'Email hoặc mật khẩu không chính xác.';
             } else {
-             // this.error = 'Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.';
+              // this.error = 'Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.';
               this.showMessage(mType.error, "Notification", "Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau", 'app-login');
             }
           }
         );
-      } catch (err) {}
+      } catch (err) { }
     } else {
       this.refreshCaptcha();
      // this.error = 'CAPTCHA bạn nhấp sai vui lòng nhập lại.';
-      this.showMessage(mType.error, "Notification", "CAPTCHA bạn nhấp sai vui lòng nhập lại", 'app-login');
+      //this.showMessage(mType.error, "Notification", "CAPTCHA bạn nhấp sai vui lòng nhập lại", 'app-login');
     }
   }
 
   async loginfb() {
     FB.login(
       async (result: any) => {
-        debugger;
+        // debugger;
         await this.service
           .loginfacebook(result.authResponse.accessToken)
           .subscribe(
@@ -285,5 +289,10 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
       },
       { scope: 'email' }
     );
+  }
+
+  onOptionLangClick(event: SelectButtonOptionClickEvent) {
+    this.translate.use(event.option);
+    localStorage.setItem("LANG", event.option);
   }
 }

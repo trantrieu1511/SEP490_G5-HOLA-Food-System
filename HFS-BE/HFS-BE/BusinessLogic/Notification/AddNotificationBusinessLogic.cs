@@ -18,7 +18,7 @@ namespace HFS_BE.BusinessLogic.Notification
             try
             {
                 var dao = CreateDao<NotificationDao>();
-                return dao.AddNewNotification(inputDto);
+                return null;// dao.AddNewNotification(inputDto);
             }
             catch (Exception)
             {

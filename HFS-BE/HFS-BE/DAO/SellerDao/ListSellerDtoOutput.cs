@@ -4,7 +4,7 @@ namespace HFS_BE.DAO.SellerDao
 {
 	public class ListSellerDtoOutput:BaseOutputDto
 	{
-	public List<SellerDtoOutput> data {  get; set; }
+	public List<SellerDtoOutput> Sellers {  get; set; }
 	}
 	public class BanHistorySellerDtoOutput : BaseOutputDto
 	{

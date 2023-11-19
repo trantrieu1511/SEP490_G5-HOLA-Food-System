@@ -2,3 +2,27 @@
 
   color: #dc3545;
 }
+
+:host ::ng-deep {
+  .lang_select{
+    p-selectButton{
+      .p-selectButton{
+        color: #ffffff;
+       
+        border: 1px solid #2196F3;
+        
+        font-size: 1rem;
+        transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+        border-radius: 3px;
+      }
+
+      .p-button{
+        padding: 0.5rem 1rem !important;
+      }
+
+      .p-highlight{
+        background: #2196F3 !important;
+      }
+    }
+  }
+}

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CloudinaryDotNet.Actions;
 using HFS_BE.Base;
+using HFS_BE.Controllers.Dashboard;
 using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
@@ -171,7 +172,7 @@ namespace HFS_BE.Dao.OrderDao
                 {
                     data = query.Where(x => x.SellerId.Equals(inputDto.UserId)
                             && x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == inputDto.Status
-                            && x.OrderDate >= inputDto.DateFrom && x.OrderDate <= inputDto.DateEnd)
+                            && x.OrderDate.Value.Date >= inputDto.DateFrom && x.OrderDate.Value.Date <= inputDto.DateEnd)
                             .ToList();
                 }
 
@@ -389,6 +390,45 @@ namespace HFS_BE.Dao.OrderDao
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        public DashboardSellerDaoOutput DashboardSeller(DashboardInputDaoDto inputDto, out DateTime beforeRangeDate)
+        {
+            beforeRangeDate = new DateTime();
+            try
+            {
+                var query = context.Orders
+                    .Include(x => x.OrderDetails)
+                    .Include(x => x.Voucher)
+                    .OrderBy(x => x.OrderDate);
+                var data = new List<Order>();
+                // get before date = rangeDate to cal % increase or decrease -> analysis
+                
+                // check from vs to 
+                if (!inputDto.DateFrom.Equals(inputDto.DateEnd))
+                {
+                    var rangeDate = inputDto.DateEnd.Value.Subtract(inputDto.DateFrom.Value);
+                    beforeRangeDate = inputDto.DateFrom.Value.AddDays(-rangeDate.Days);
+                }
+                else
+                {
+                    beforeRangeDate = inputDto.DateEnd.Value.AddDays(-1);
+                }
+                var tempBeforeRangeDate = beforeRangeDate;
+                var a = query.Where(x =>
+                        x.OrderDate.Value.Date == inputDto.DateEnd && x.SellerId.Equals(inputDto.SellerId)).ToList();
+                data = query.Where(x => x.OrderDate.Value.Date >= tempBeforeRangeDate.Date &&
+                        x.OrderDate.Value.Date <= inputDto.DateEnd.Value.Date && x.SellerId.Equals(inputDto.SellerId)).ToList();
+
+                var output = Output<DashboardSellerDaoOutput>(Constants.ResultCdSuccess);
+                output.Orders = data;
+                return output;
+            }
+            catch (Exception)
+            {
+
+                return Output<DashboardSellerDaoOutput>(Constants.ResultCdFail);
             }
         }
     }

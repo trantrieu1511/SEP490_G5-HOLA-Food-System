@@ -1,44 +1,48 @@
 <p-dialog header="Reporting the food: {{fooddetail.name}}" [(visible)]="isVisibleFoodReportModal" [modal]="true"
     [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '500px' }" [draggable]="false" [resizable]="false"
     [responsive]="true">
-    <br>
-    <div class="align-items-center" style="padding-bottom: 5px;">
-        <!-- <input type="text" value="{{fooddetail.foodId}}" [(ngModel)]="foodReport.foodId" disabled /> -->
-        <!-- <hr> -->
-        <div style="padding-bottom: 5px; font-style: italic;">
-            Các lý do phổ biến:
+    <!-- <br> -->
+    <div class="card">
+        <div class="align-items-center" style="padding-bottom: 5px;">
+            <!-- <input type="text" value="{{fooddetail.foodId}}" [(ngModel)]="foodReport.foodId" disabled /> -->
+            <!-- <hr> -->
+            <div style="padding-bottom: 5px; font-style: italic;">
+                Các lý do phổ biến:
+            </div>
+            <div style="padding-bottom: 5px;">
+                <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
+                    value="Đồ ăn không đúng với mô tả" [(ngModel)]="foodReport.reportContents"
+                    inputId="reportContent1"></p-checkbox>
+                <label for="reportContent1" class="ml-2">Đồ ăn không đúng với mô tả</label>
+            </div>
+            <div style="padding-bottom: 5px;">
+                <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
+                    value="Hình ảnh đồ ăn không rõ ràng" [(ngModel)]="foodReport.reportContents"
+                    inputId="reportContent2"></p-checkbox>
+                <label for="reportContent2" class="ml-2">Hình ảnh đồ ăn không rõ ràng</label>
+            </div>
+            <div style="padding-bottom: 5px;">
+                <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
+                    value="Đồ ăn không đảm bảo chất lượng" [(ngModel)]="foodReport.reportContents"
+                    inputId="reportContent3"></p-checkbox>
+                <label for="reportContent3" class="ml-2">Đồ ăn không đảm bảo chất lượng</label>
+            </div>
         </div>
+        <br>
         <div style="padding-bottom: 5px;">
-            <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
-                value="Đồ ăn không đúng với mô tả" [(ngModel)]="foodReport.reportContents"
-                inputId="reportContent1"></p-checkbox>
-            <label for="reportContent1" class="ml-2">Đồ ăn không đúng với mô tả</label>
+            <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportTextArea($event);" value="Other"
+                inputId="reportContentOther"></p-checkbox>
+            <label for="reportContentOther" class="ml-2">Khác</label>
         </div>
-        <div style="padding-bottom: 5px;">
-            <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
-                value="Hình ảnh đồ ăn không rõ ràng" [(ngModel)]="foodReport.reportContents"
-                inputId="reportContent2"></p-checkbox>
-            <label for="reportContent2" class="ml-2">Hình ảnh đồ ăn không rõ ràng</label>
-        </div>
-        <div style="padding-bottom: 5px;">
-            <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
-                value="Đồ ăn không đảm bảo chất lượng" [(ngModel)]="foodReport.reportContents"
-                inputId="reportContent3"></p-checkbox>
-            <label for="reportContent3" class="ml-2">Đồ ăn không đảm bảo chất lượng</label>
-        </div>
+        <span class="">
+            <textarea (change)="addValueToReportContentList();" [disabled]="isDisabledFoodReportTextArea" class="w-full"
+                id="float-input" rows="5" cols="50" [(ngModel)]="foodReport.reportContent" placeholder="Điền lý do khác"
+                pInputTextarea></textarea>
+            <!-- <label for="float-input">Lý do khác</label> -->
+        </span>
     </div>
+    <strong>Lưu ý: Bạn sẽ không thể hủy sau khi đã tố cáo</strong>
     <br>
-    <div style="padding-bottom: 5px;">
-        <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportTextArea($event);" value="Other"
-            inputId="reportContentOther"></p-checkbox>
-        <label for="reportContentOther" class="ml-2">Khác</label>
-    </div>
-    <span class="">
-        <textarea (change)="addValueToReportContentList();" [disabled]="isDisabledFoodReportTextArea" class="w-full"
-            id="float-input" rows="5" cols="50" [(ngModel)]="foodReport.reportContent" placeholder="Điền lý do khác"
-            pInputTextarea></textarea>
-        <!-- <label for="float-input">Lý do khác</label> -->
-    </span>
     <br>
     <p-button [disabled]="isDisabledFoodReportBtnSubmit" (click)="submitReport()">Save</p-button>
 </p-dialog>

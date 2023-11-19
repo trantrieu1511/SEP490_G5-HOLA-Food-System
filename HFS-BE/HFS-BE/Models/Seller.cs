@@ -28,7 +28,6 @@ namespace HFS_BE.Models
         public string? PhoneNumber { get; set; }
         public byte[] PasswordSalt { get; set; } = null!;
         public byte[] PasswordHash { get; set; } = null!;
-        public string? Avatar { get; set; }
         public bool IsOnline { get; set; }
         public decimal? WalletBalance { get; set; }
         public string? ShopName { get; set; }
@@ -36,6 +35,8 @@ namespace HFS_BE.Models
         public bool? ConfirmedEmail { get; set; }
         public bool? IsBanned { get; set; }
         public bool? IsVerified { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
 
         public virtual ICollection<ChatMessage> ChatMessages { get; set; }
         public virtual ICollection<FeedbackReply> FeedbackReplies { get; set; }

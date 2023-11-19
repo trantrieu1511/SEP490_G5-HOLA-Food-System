@@ -26,6 +26,8 @@
     "@fullcalendar/interaction": "^6.1.9",
     "@fullcalendar/timegrid": "^6.1.9",
     "@microsoft/signalr": "^7.0.12",
+    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^8.0.0",
     "@types/google-one-tap": "^1.2.3",
     "angular-captcha": "^3.7.4",
     "chart.js": "^4.4.0",

@@ -17,9 +17,8 @@ import { Post } from '../../models/post.model';
 })
 export class NewfeedComponent extends iComponentBase implements OnInit{
 
-  lstPost: Post[] ;
   loading: boolean;
-
+  listPost:Post []=[];
 
   constructor(
     private shareData: ShareData,
@@ -38,13 +37,17 @@ export class NewfeedComponent extends iComponentBase implements OnInit{
   }
 
   async getAllPost(){
+    this.listPost = [];
     try {
+      const param={
+        "status":0
+      }
       this.loading = true;
 
-      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NEWFEED, API.API_NEWFEED.GETALLPOST, null);
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_NEWFEED.GETALLPOST, param);
       console.log(response)
       if (response && response.message === "Success") {
-        this.lstPost = response.posts;
+        this.listPost = response.posts;
       }
       this.loading = false;
     } catch (e) {

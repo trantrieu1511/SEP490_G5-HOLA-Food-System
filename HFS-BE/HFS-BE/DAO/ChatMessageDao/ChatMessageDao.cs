@@ -106,6 +106,61 @@ namespace HFS_BE.DAO.ChatMessageDao
 			return output;
 		}
 
+		public async Task UpdateMessageCustomerIsRead(string EmailCustomer, string EmailSeller)
+		{
+			var messages = await context.ChatMessages.Include(s => s.Seller).Include(s => s.Customer)
+				.Where(m => m.Customer.Email == EmailCustomer && m.Seller.Email == EmailSeller && m.IsRead == false && m.SenderType == true)
+				.OrderByDescending(m => m.SentAt)
+				.ToListAsync();
+
+			foreach (var mess in messages)
+			{
+				mess.IsRead = true;
+			}
+
+			await context.SaveChangesAsync();
+		}
+		public async Task UpdateMessageSellerIsRead(string EmailCustomer, string EmailSeller)
+		{
+			var messages = await context.ChatMessages.Include(s => s.Seller).Include(s => s.Customer)
+				.Where(m => m.Customer.Email == EmailCustomer && m.Seller.Email == EmailSeller && m.IsRead == false && m.SenderType == false)
+				.OrderByDescending(m => m.SentAt)
+				.ToListAsync();
+
+			foreach (var mess in messages)
+			{
+				mess.IsRead = true;
+			}
+
+			await context.SaveChangesAsync();
+		}
+
+		public async Task<int> CountMessageCustomerNotIsRead(string EmailCustomer, string EmailSeller)//đếm tin nhắn chưa đọc seller gửi
+		{
+			var messageCount = await context.ChatMessages
+	      .Include(s => s.Seller)
+	    .Include(s => s.Customer)
+	     .Where(m => m.Customer.Email == EmailCustomer && m.Seller.Email == EmailSeller && m.IsRead == false&&m.SenderType==true)
+	      .CountAsync();
+
+			
+
+
+			return messageCount;
+		}
+		public async Task<int> CountMessageSellerNotIsRead(string EmailCustomer, string EmailSeller)//đếm tin nhắn chưa đọc customer gửi
+		{
+			var messageCount = await context.ChatMessages
+		  .Include(s => s.Seller)
+		.Include(s => s.Customer)
+		 .Where(m => m.Customer.Email == EmailCustomer && m.Seller.Email == EmailSeller && m.IsRead == false && m.SenderType == false)
+		  .CountAsync();
+
+
+
+
+			return messageCount;
+		}
 		public bool RemoveConnection(Connection connection)
 		{
 			try

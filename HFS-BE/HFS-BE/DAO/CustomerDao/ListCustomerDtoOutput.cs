@@ -3,6 +3,6 @@
 namespace HFS_BE.DAO.CustomerDao
 {
 	public class ListCustomerDtoOutput:BaseOutputDto	{
-		public List<CustomerDtoOutput> data { get; set; }
+		public List<CustomerDtoOutput> Customers { get; set; }
 	}
 }

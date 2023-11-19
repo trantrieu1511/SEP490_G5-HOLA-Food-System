@@ -76,16 +76,16 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
     this.getAllFood();
     this.getAllCategory();
     //console.log(this.foodValidation);
-    this.setCurrentUser();
+   // this.setCurrentUser();
   }
-  setCurrentUser(){
-    const user: User = JSON.parse(localStorage.getItem('user'));
-    const token=sessionStorage.getItem('JWT');
-    if(user){
+  // setCurrentUser(){
+  //   const user: User = JSON.parse(localStorage.getItem('user'));
+  //   const token=sessionStorage.getItem('JWT');
+  //   if(user){
 
-      this.presence.createHubConnection(token);
-    }
-  }
+  //     this.presence.createHubConnection(token);
+  //   }
+  // }
 
   async getAllCategory() {
     // try {

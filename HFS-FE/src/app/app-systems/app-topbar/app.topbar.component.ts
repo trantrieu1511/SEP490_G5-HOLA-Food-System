@@ -2,7 +2,7 @@ import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@a
 import {animate, AnimationEvent, style, transition, trigger} from '@angular/animations';
 import {MegaMenuItem, MessageService} from 'primeng/api';
 import {AppComponent} from '../../app.component';
-import {Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
 import {
     iComponentBase,
     iServiceBase,
@@ -11,6 +11,10 @@ import {
 import * as API from 'src/app/services/apiURL';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { PresenceService } from 'src/app/services/presence.service';
+import { ProfileImage } from 'src/app/profile/models/profile';
+import { AuthService, User } from 'src/app/services/auth.service';
+import { RoleNames } from 'src/app/utils/roleName';
+import { ManageprofileComponent } from 'src/app/profile/manageprofile.component';
 
 @Component({
     selector: 'app-topbar',
@@ -25,14 +29,17 @@ import { PresenceService } from 'src/app/services/presence.service';
                 animate('.1s linear', style({ opacity: 0 }))
             ])
         ])
-    ]
+    ],
+    providers: [ManageprofileComponent]
 })
 export class AppTopBarComponent extends iComponentBase implements OnInit {
 
-  @Output() toggleCustomerListEvent = new EventEmitter<void>();
+    @Output() toggleListEvent = new EventEmitter<void>();
 
-
+    topBarProfileImg: ProfileImage = new ProfileImage();
     isLoggedInState = false;
+    isCustomer: boolean = false;
+    isSeller: boolean = false;
 
     constructor(public layoutService: LayoutService,
         public app: AppComponent,
@@ -40,16 +47,46 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         private iServiceBase: iServiceBase,
         private shareData: ShareData,
         public messageService: MessageService,
-        public presence: PresenceService
+        public presence: PresenceService,
+        public profileService: ManageprofileComponent,
+        private authService: AuthService
     ) {
         super(messageService);
+        if(this.checkLink()){
+            this.isCustomer = true;
+            this.isSeller = false;
+        }else{
+            if(RoleNames[this.authService.getRole()] == 'Seller'){
+                this.isSeller = true;
+            }
+        }
     }
 
+    checkRoleCus() {
+        // debugger;
+        // console.log(this.authService.getRole());
+        return this.authService.getRole() == null || RoleNames[this.authService.getRole()] == 'Customer'
+    }
+    setCurrentUser() {
+      const user: User = JSON.parse(localStorage.getItem('user'));
+      const token = sessionStorage.getItem('JWT');
+     // debugger;
+      if (user) {
+
+        this.presence.createHubConnection(token);
+      }
+    }
 
     @ViewChild('searchInput') searchInputViewChild!: ElementRef;
+
     toggleCustomerList() {
-      this.toggleCustomerListEvent.emit();
+        this.toggleListEvent.emit();
     }
+
+    toggleSellerList() {
+        this.toggleListEvent.emit();
+    }
+
     onSearchAnimationEnd(event: AnimationEvent) {
         switch (event.toState) {
             case 'visible':
@@ -59,20 +96,22 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     logOut(event: Event) {
-        //Logout thì xóa đi
-        sessionStorage.clear();
         localStorage.removeItem('user');
         //Xóa hết đi các thứ linh tinh chỉ gán lại các thứ cấn thiết trong localstorage
         this.clearLocalStorage();
 
         event.preventDefault();
+        // debugger;
+        let urlLogin = this.checkRoleCus() ? '/login' : '/login-2';
+        //Logout thì xóa đi
+        sessionStorage.clear();
 
         //this.router.navigate(['/login']);
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-            this.router.navigate(['/login-2']);
+            this.router.navigate([urlLogin]);
             window.location.reload();
         });
-           this.router.navigate(['/login-2']);
+        this.router.navigate([urlLogin]);
     }
 
     clearLocalStorage() {
@@ -81,6 +120,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         let IP_API_GATEWAY = localStorage.getItem('APIGATEWAY');
         let VERSION = localStorage.getItem('VERSION');
         let PROJECT_NAME = localStorage.getItem('PROJECT_NAME');
+        let LANG = localStorage.getItem("LANG");
 
         //clear
         localStorage.clear();
@@ -91,16 +131,13 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
             localStorage.setItem("APIGATEWAY", IP_API_GATEWAY);
             localStorage.setItem("VERSION", VERSION);
             localStorage.setItem("PROJECT_NAME", PROJECT_NAME);
+            localStorage.setItem("LANG", LANG);
         }
     }
 
     viewProfile() {
-        this.router.navigateByUrl('HFSBusiness');
-    }
-
-    ngOnInit() {
-        this.checkLoggedInState();
-
+        let urlProfile = this.checkRoleCus() ? 'profile' : 'HFSBusiness/profile';
+        this.router.navigateByUrl(urlProfile);
     }
 
     checkLoggedInState() {
@@ -109,8 +146,38 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         }
     }
 
-    goToLoginBusinessPage() {
-        this.router.navigateByUrl('/login-2');
+    async ngOnInit() {
+        // debugger;
+        this.setCurrentUser();
+        this.checkLoggedInState();
+        await this.profileService.getProfileImage();
+        this.topBarProfileImg = this.profileService.profileImage;
+        console.log("Top bar profile img: ");
+        console.log(this.topBarProfileImg);
+    }
+
+    goToLoginPage() {
+        let urlLogin = this.checkRoleCus() ? '/login' : '/login-2';
+        this.router.navigateByUrl(urlLogin);
+    }
+
+    onCartDetail() {
+        this.router.navigate(['/cartdetail']);
+    }
+
+    goToNewsFeedPage() {
+        this.router.navigateByUrl('/newsfeed');
+    }
+
+    onClickLogo(event: any){
+        event.preventDefault();
+        let urlHome = this.checkLink() ? '/homepage' : '/HFSBusiness';
+        this.router.navigateByUrl(urlHome);
+    }
+
+    checkLink(){
+        // debugger;
+        return this.router.url.indexOf("/HFSBusiness") == 0 ? false : true;
     }
 
 }

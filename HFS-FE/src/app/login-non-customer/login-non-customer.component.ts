@@ -26,10 +26,11 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
   error: string;
   isCaptchaTouched = false;
   isPasswordTouched=false;
+  unsuccessfulLoginAttempts: number = 0;
   captchaImage: string = '';
   captchaText:string;
   showLoginForm: boolean = true;
-
+  captchacheck:string;
   private client_Id = environment.clientId;
   constructor(private router: Router,
     public renderer: Renderer2,
@@ -54,12 +55,13 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
     this.form = new FormGroup({
       email: new FormControl('', Validators.email),
       password: new FormControl('', [Validators.required]),
-      captcha: new FormControl('', [Validators.required])
+      captcha: new FormControl('')
     })
     this.refreshCaptcha();
   }
   ngOnInit(): void {
-
+    this.captchacheck = localStorage.getItem("captcha");
+    this.unsuccessfulLoginAttempts=parseInt(this.captchacheck);
      localStorage.removeItem('user');
     sessionStorage.clear();
     this.service.error$.subscribe(error => {
@@ -120,28 +122,17 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
       (x: any) => {
         this._ngZone.run(() => {
           switch (this.user.role) {
-            case "AD":
-              this.router.navigateByUrl('/HFSBusiness/admin');
-              break;
-            case "SE":
-              this.router.navigateByUrl('/HFSBusiness/seller');
-              break;
             case "CU":
-              this.router.navigateByUrl('/');
+              this.router.navigateByUrl('/homepage');
               break;
-
+            case "AD":
+            case "SE":
             case "SH":
-              this.router.navigateByUrl('/HFSBusiness/shipper');
-              break;
             case "PM":
-              this.router.navigateByUrl('/HFSBusiness/PostModerator');
-              break;
-
             case "MM":
-              this.router.navigateByUrl('/HFSBusiness/MenuModerator');
+              this.router.navigateByUrl('/HFSBusiness');
               break;
-
-            default: this.router.navigateByUrl('/login');
+            default: this.router.navigateByUrl('/login-2');
           }
         })
       },
@@ -181,8 +172,15 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
   }
   async onSubmit() {
     //this.formSubmitAttempt = false;
-    if (this.form.valid&&this.captchaText==this.form.value.captcha) {
+    this.captchacheck = localStorage.getItem("captcha");
+    this.unsuccessfulLoginAttempts=parseInt(this.captchacheck);
+    if (this.form.valid) {
+      if (this.unsuccessfulLoginAttempts>2&& this.captchaText !== this.form.value.captcha) {
 
+        this.refreshCaptcha();
+        this.showMessage(mType.error, "Notification", "CAPTCHA verification failed. Please try again.", 'app-login');
+        return;
+      }
       try {
         //debugger;
         this.service.loginnotcus(this.form.value).subscribe(res => {
@@ -190,28 +188,17 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
           // const userData = localStorage.getItem('user');
           // this.user = JSON.parse(userData);
           switch (this.user.role) {
-            case "AD":
-              this.router.navigateByUrl('/HFSBusiness/admin');
-              break;
-            case "SE":
-              this.router.navigateByUrl('/HFSBusiness/seller');
-              break;
             case "CU":
-              this.router.navigateByUrl('/');
+              this.router.navigateByUrl('/homepage');
               break;
-
+            case "AD":
+            case "SE":
             case "SH":
-              this.router.navigateByUrl('/HFSBusiness/shipper');
-              break;
             case "PM":
-              this.router.navigateByUrl('/HFSBusiness/postmoderator');
-              break;
-
             case "MM":
-              this.router.navigateByUrl('/HFSBusiness/menumoderator');
+              this.router.navigateByUrl('/HFSBusiness');
               break;
-
-            default: this.router.navigateByUrl('/login');
+            default: this.router.navigateByUrl('/login-2');
           }
 
 

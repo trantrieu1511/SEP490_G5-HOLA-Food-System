@@ -81,8 +81,10 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     await this.getFoodDetail();
     await this.onGetSimilarFood();
     await this.getFeedBack();
+
     this.checkLoggedIn();
     this.checkUsersReportFoodCapability();
+    // Neu nguoi dung da report thi khong cho report cai food do nua
     if(!this.hasAlreadyReported){
       this.enableDisableFoodReportButtonSubmit();
     }
@@ -278,9 +280,10 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       }
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODREPORT, API.API_FOODREPORT.CREATE_NEW_FOODREPORT, param);
       if (response && response.success === true) {
-        this.showMessage(mType.success, "Notification", `Create new food report successfully`, 'notify');
+        this.showMessage(mType.success, "Notification", `Report the food successfully`, 'notify');
         console.log(response);
         console.log('Create new food report successfully');
+        this.checkUsersReportFoodCapability();
       }
       else {
         this.showMessage(mType.warn, "error", "Internal server error, please contact for admin help!", 'notify');
@@ -345,7 +348,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
 
   // Hàm này kiểm tra khả năng tố cáo bằng cách xem customer đã report cái food với id: cụ thể nào đó chưa.
   async checkUsersReportFoodCapability() {
-    debugger;
+    // debugger;
     try {
       this.loading = true;
 

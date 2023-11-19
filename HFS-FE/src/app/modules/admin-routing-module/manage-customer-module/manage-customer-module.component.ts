@@ -22,8 +22,10 @@ export class ManageCustomerModuleComponent extends iComponentBase implements OnI
   listhistoryBan: HistoryBanCustomer[] = [];
   user:User;
   bancus:BanCustomer=new BanCustomer();
+  cusImg:Customer=new Customer();
   displayDialogBan: boolean = false;
   visiblebanHistoryDialog:boolean=false;
+  visibleImageDialog:boolean=false;
   headerDialog: string = '';
   constructor( private shareData: ShareData,
     public messageService: MessageService,
@@ -53,7 +55,7 @@ export class ManageCustomerModuleComponent extends iComponentBase implements OnI
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.LIST_CUS,"");
 
         if (response && response.message === "Success") {
-            this.lstUser = response.data;
+            this.lstUser = response.customers;
 
         }
        ;
@@ -133,5 +135,9 @@ const param={
         console.log(e);
 
     }
+}
+onDisplayImagesDialog(cus: Customer, event: any) {
+  this.cusImg = cus;
+  this.visibleImageDialog = true;
 }
 }

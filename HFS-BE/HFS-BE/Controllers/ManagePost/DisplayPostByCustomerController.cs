@@ -15,7 +15,7 @@ namespace HFS_BE.Controllers.ManagePost
         public DisplayPostByCustomerController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
-        [HttpPost("getNewFeed")]
+        [HttpPost("users/getNewFeed")]
 
         public ListPostOutputCustomerDto listpost(PostStatusInputDto inputDto)
         {

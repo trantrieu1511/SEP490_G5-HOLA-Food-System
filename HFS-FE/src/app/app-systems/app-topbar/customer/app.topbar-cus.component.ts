@@ -11,8 +11,10 @@ import * as API from 'src/app/services/apiURL';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { CustomerLayoutService } from 'src/app/layout/service/app.layout-cus.service';
 import { AppComponent } from 'src/app/app.component';
-import { ManageprofileComponent } from 'src/app/modules/customer-routing-module/components/manageprofile/manageprofile.component';
-import { ProfileImage } from 'src/app/modules/customer-routing-module/models/profile';
+import { ManageprofileComponent } from 'src/app/profile/manageprofile.component';
+import { ProfileImage } from 'src/app/profile/models/profile';
+import { PresenceService } from 'src/app/services/presence.service';
+import { User } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -33,7 +35,7 @@ import { ProfileImage } from 'src/app/modules/customer-routing-module/models/pro
     providers: [ManageprofileComponent]
 })
 export class AppCustomerTopBarComponent extends iComponentBase implements OnInit {
-  @Output() toggleSellerListEvent = new EventEmitter<void>();
+    @Output() toggleSellerListEvent = new EventEmitter<void>();
     isLoggedIn: boolean = false;
     // isReloaded: boolean = false;
     topBarProfileImg: ProfileImage = new ProfileImage();
@@ -43,24 +45,34 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
         private router: Router,
         private iServiceBase: iServiceBase,
         private shareData: ShareData,
+        public presence: PresenceService,
         public messageService: MessageService,
         public profileService: ManageprofileComponent
     ) {
         super(messageService);
     }
+    setCurrentUser() {
+      const user: User = JSON.parse(localStorage.getItem('user'));
+      const token = sessionStorage.getItem('JWT');
+     // debugger;
+      if (user) {
 
+        this.presence.createHubConnection(token);
+      }
+    }
     @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
 
     @ViewChild('topbarmenu') menu!: ElementRef;
     toggleSellerList() {
-      this.toggleSellerListEvent.emit();
+        this.toggleSellerListEvent.emit();
     }
     goToNewsFeedPage() {
         this.router.navigateByUrl('/newsfeed');
     }
 
     goToLoginPage() {
-        this.router.navigateByUrl('/login');
+        // debugger;
+        this.router.navigate(['/login']);
     }
 
     //check whether the user has logged in or not to display button login for them to login
@@ -75,11 +87,20 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
     // }
 
     async ngOnInit() {
+      this.setCurrentUser();
         this.checkUserLoggedInState();
         await this.profileService.getProfileImage();
         this.topBarProfileImg = this.profileService.profileImage;
         console.log("Top bar profile img: ");
         console.log( this.topBarProfileImg);
+
+
+        const userChatBox: boolean = JSON.parse(localStorage.getItem('chatboxusers'));
+        if (userChatBox) {
+          this.toggleSellerListEvent.emit();
+        } else {
+
+        }
     }
 
     logOut(event: Event) {
@@ -95,7 +116,7 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
             this.router.navigate(['/login']);
             window.location.reload();
         });
-            this.router.navigate(['/login']);
+        this.router.navigate(['/login']);
     }
 
     clearLocalStorage() {

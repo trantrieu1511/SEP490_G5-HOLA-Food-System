@@ -14,7 +14,7 @@ namespace HFS_BE.BusinessLogic.Notification
 
         public NotificationOutputDto DisplayDetailNotificationById(NotificationReadInput inputDto)
         {
-            try
+            try 
             {
                 var dao = CreateDao<NotificationDao>();
                 // update notify isRead = true

@@ -19,7 +19,6 @@ CREATE TABLE [dbo].[Seller](
 	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
-	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL,
 	[walletBalance] [money] NULL,
 	shopName NVARCHAR(50),
@@ -27,6 +26,8 @@ CREATE TABLE [dbo].[Seller](
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 	[isBanned] [bit] not null DEFAULT('false'),
 	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Seller) da duoc admin xac nhan cho phep kinh doanh o HFS chua
+	[refreshToken] [varchar](max),
+	[refreshTokenExpiryTime] [datetime],
 )
 
 CREATE TABLE [dbo].[Admin](
@@ -39,10 +40,11 @@ CREATE TABLE [dbo].[Admin](
 	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
-	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL,
 	[walletBalance] [money] NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
+	[refreshToken] [varchar](max),
+	[refreshTokenExpiryTime] [datetime],
 )
 
 CREATE TABLE [dbo].[PostModerator](
@@ -55,10 +57,11 @@ CREATE TABLE [dbo].[PostModerator](
 	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
-	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
-	[isBanned] [bit] not null DEFAULT('false')
+	[isBanned] [bit] not null DEFAULT('false'),
+	[refreshToken] [varchar](max),
+	[refreshTokenExpiryTime] [datetime],
 )
 
 CREATE TABLE [dbo].[MenuModerator](
@@ -71,10 +74,11 @@ CREATE TABLE [dbo].[MenuModerator](
 	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
-	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
-	[isBanned] [bit] not null DEFAULT('false')
+	[isBanned] [bit] not null DEFAULT('false'),
+	[refreshToken] [varchar](max),
+	[refreshTokenExpiryTime] [datetime],
 )
 
 CREATE TABLE [dbo].[Customer](
@@ -87,11 +91,12 @@ CREATE TABLE [dbo].[Customer](
 	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
-	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL DEFAULT('false'),
 	[walletBalance] [money] NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 	[isBanned] [bit] not null DEFAULT('false'),		
+	[refreshToken] [varchar](max),
+	[refreshTokenExpiryTime] [datetime],
 )
 
 CREATE TABLE [dbo].[Shipper](
@@ -104,12 +109,13 @@ CREATE TABLE [dbo].[Shipper](
 	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
-	[avatar] [nvarchar](100) NULL,
 	[isOnline] [bit] NOT NULL DEFAULT('false'),
 	[manageBy] [nvarchar](50) NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 	[isBanned] [bit] not null DEFAULT('false'),
 	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Shipper) da duoc admin xac nhan cho phep kinh doanh o HFS chua
+	[refreshToken] [varchar](max),
+	[refreshTokenExpiryTime] [datetime],
 	CONSTRAINT FK_Shiper_Seller FOREIGN KEY (manageBy) REFERENCES [Seller]([sellerId]),
 )
 
@@ -150,9 +156,6 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-
-
-
 -- cart item
 CREATE TABLE [dbo].[CartItem](
 	[foodId] [int] NOT NULL,
@@ -220,7 +223,8 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Notification](
-	[id] [int] IDENTITY(1,1) NOT NULL,
+	[id] [int] NOT NULL,
+	[lang] [int] not null,
 	[sendBy] [nvarchar](50) null,
 	[receiver] [nvarchar](50) null,
 	[type] [int] NOT NULL,
@@ -228,7 +232,7 @@ CREATE TABLE [dbo].[Notification](
 	[content] [nvarchar](500) NULL,
 	[createDate] [datetime] NULL,
 	[isRead] [bit] NULL,
-	primary key([id]),
+	primary key([id], [lang]),
 	)
 GO
 

@@ -22,6 +22,9 @@ export class PHAN_HE {
     public static PROFILEIMAGE = "profileImage";
     public static PAYMENT = "payment";
     public static NEWFEED = "newfeed";
+    public static CUSTOMER = "customer";
+    public static AUTH = "auth";
+    public static DASHBOARD = "dashboard";
 }
 
 export class API_TEST {
@@ -38,10 +41,13 @@ export class API_USER {
     public static REGISTER = "register";
     public static GETPROFILE = "profile";
     public static EDITPROFILE = "editprofile";
+    public static VERIFYUSERIDENTITY = "verifyuseridentity";
+    public static CHANGEACCOUNTPASSWORD = "changeaccountpassword";
     public static GET_SHIPPERS_AVAILABLE = "getShippersAvailable";
     public static GET_SHIPPERS_BYSELLER = "listshipperbyseller";
     public static GET_SHIPPERS_INVITATION = "listinvitationshipper";
     public static ADD_SHIPPERS_INVITATION = "invitationshipper";
+    public static KICK_SHIPPERS = "kickshipper";
 }
 
 // Service Role
@@ -80,6 +86,7 @@ export class API_MANAGE{
     public static ADD_PM = "addpostmoderator";
     public static BAN_PM = "banpostmoderator";
     public static LIST_MM = "listcustomer";
+    public static LIST_CATEGORY = "getallcategory";
 }
 
 // Service QTHT
@@ -117,6 +124,7 @@ export class API_POST {
 
 export class API_HOME {
     public static DISPLAY_SHOP = "displayshop";
+    public static SEND_CONFIRM_EMAIL = "sendconfirm";
 }
 
 export class API_SHOP_DETAIL {
@@ -190,4 +198,20 @@ export class API_PROFILEIMAGE {
 export class API_PAYMENT {
     public static GET_URL = "getpaymenturl"
     public static VERIFY = "verify"
+}
+
+export class API_SHIPADDRESS {
+    public static GETALLSHIPADDRESS = "getallshipaddress";
+    public static CREATENEWSHIPADDRESS = "createnewshipaddress";
+    public static UPDATESHIPADDRESS = "updateshipaddress";
+    public static DELETESHIPADDRESS = "deleteshipaddress";
+    public static SETDEFAULTSHIPADDRESS = "setdefaultshipaddress";
+}
+export class API_AUTH {
+    public static REFRESH_TOKEN = "refresh";
+    public static REVOKE_TOKEN = "revoke";
+}
+
+export class API_DASHBOARD {
+    public static DASHBOARD_SELLER = "dashboardSeller";
 }

@@ -3,6 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Notification;
 using HFS_BE.DAO.NotificationDao;
 using HFS_BE.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.Notification
@@ -14,6 +15,7 @@ namespace HFS_BE.Controllers.Notification
         }
 
         [HttpGet("notifies/getDetailNotify")]
+        [Authorize]
         public NotificationOutputDto DisplayDetailNotificationById([FromQuery]NotificationReadInput inputDto)
         {
             try

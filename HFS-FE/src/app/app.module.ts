@@ -7,7 +7,7 @@ import { AppManageLayoutComponent } from './layout/manage/app.manage.component';
 import { CommonModule, DatePipe, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { MenuService } from './app-systems/app-menu/app.menu.service';
 import { AppBreadcrumbService } from './app-systems/app-breadcrumb/app.breadcrumb.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { MyHttpInterceptor } from './modules/shared-module/Interceptors/MyHttpInterceptor';
 import { LoadingInterceptor } from './modules/shared-module/Interceptors/LoadingInterceptor';
 import { ShareData } from './modules/shared-module/shared-module';
@@ -17,7 +17,7 @@ import { ComponentModule } from './modules/components-module/component.modules';
 import {
   SharedModule
 } from './modules/shared-module/shared-module.module';
-import {AutoCompleteModule} from 'primeng/autocomplete';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { AppBreadcrumbComponent } from './app-systems/app-breadcrumb/app.breadcrumb.component';
 import { AppTopBarComponent } from './app-systems/app-topbar/app.topbar.component';
 import { AppFooterComponent } from './app-systems/app-footer/app.footer.component';
@@ -47,15 +47,20 @@ import { InvitationShipperComponent } from './modules/seller-routing-module/comp
 import { ManageSellerModuleComponent } from './modules/admin-routing-module/manage-seller-module/manage-seller-module.component';
 import { ManageShipperModuleComponent } from './modules/admin-routing-module/manage-shipper-module/manage-shipper-module.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
-import { ProfileManagementComponent } from './modules/seller-routing-module/components/profile-management/profile-management.component';
 import { OrderhistoryComponent } from './modules/customer-routing-module/components/orderhistory/orderhistory.component';
 import { MenuDataService } from './services/menu-data.service';
 import { BusinessRoutingModule } from './modules/business-routing-module/business-routing-module.module';
 import { WalletComponent } from './modules/customer-routing-module/components/wallet/wallet.component';
 import { PaymentverifyComponent } from './modules/customer-routing-module/components/paymentverify/paymentverify.component';
 import { CustomerListByChatComponent } from './customer-list-by-chat/customer-list-by-chat.component';
+import { ManageCategoryModuleComponent } from './modules/admin-routing-module/manage-category-module/manage-category-module.component';
+import { CustomerfoodreportComponent } from './modules/customer-routing-module/components/customerfoodreport/customerfoodreport.component';
+import { CustomerpostreportComponent } from './modules/customer-routing-module/components/customerpostreport/customerpostreport.component';
 
-
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { AppNavbarComponent } from './app-systems/app-navbar/app-navbar.component';
+import { ManageprofileComponent } from './profile/manageprofile.component';
 
 @NgModule({
   declarations: [
@@ -81,15 +86,13 @@ import { CustomerListByChatComponent } from './customer-list-by-chat/customer-li
     InvitationShipperComponent,
     ManageSellerModuleComponent,
     ManageShipperModuleComponent,
-    ProfileManagementComponent,
-    ProfileManagementComponent,
     OrderhistoryComponent,
+    ManageCategoryModuleComponent,
     WalletComponent,
     PaymentverifyComponent,
-    OrderhistoryComponent
+    AppNavbarComponent,
+    ManageprofileComponent
 
-
-    
   ],
   imports: [
     BrowserAnimationsModule,
@@ -104,21 +107,38 @@ import { CustomerListByChatComponent } from './customer-list-by-chat/customer-li
     BusinessRoutingModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter:  () => sessionStorage.getItem('token')
+        tokenGetter: () => sessionStorage.getItem('token')
       }
     }),
+    TranslateModule.forRoot({
+      loader: {
+
+        provide: TranslateLoader,
+
+        useFactory: httpTranslateLoader,
+
+        deps: [HttpClient]
+
+      }
+
+    })
 
   ],
 
   providers: [
     JwtService,
     MenuDataService,
-    {provide: LocationStrategy, useClass: HashLocationStrategy},
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
     MenuService, AppBreadcrumbService, DatePipe,
-    {provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     ShareData, CacheData,
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
+export function httpTranslateLoader(http: HttpClient) {
+
+  return new TranslateHttpLoader(http);
+
+}

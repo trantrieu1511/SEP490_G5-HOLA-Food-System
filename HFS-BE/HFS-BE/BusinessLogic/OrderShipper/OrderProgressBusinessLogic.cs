@@ -48,8 +48,8 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                 if (!baseOutputDto.Success)
                     return baseOutputDto;
 
-                NotificationAddNewInputDto notifyCus = new NotificationAddNewInputDto();
-                NotificationAddNewInputDto notifySell = new NotificationAddNewInputDto();
+                var notifyCus = new List<NotificationAddNewInputDto>();
+                var notifySell = new List<NotificationAddNewInputDto>();
                 //shipping
                 if (inputDto.Status.Equals("3"))
                 {

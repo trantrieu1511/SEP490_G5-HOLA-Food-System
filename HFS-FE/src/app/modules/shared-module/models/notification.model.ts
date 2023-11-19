@@ -2,8 +2,7 @@ export class Notification{
   id: number;
   sendBy: string;
   receiver: string;
-  typeId: number;
-  typeName: string;
+  type: string;
   title: string;
   content: string;
   createDate: string;

@@ -20,23 +20,36 @@ export class AuthService {
   private errorregisterSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   private showSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   private showforgotSubject: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+  private showconfirmSubject: BehaviorSubject<number> = new BehaviorSubject<number>(null);
   error$: Observable<string> = this.errorSubject.asObservable();
   errorregister$: Observable<string> = this.errorregisterSubject.asObservable();
   showregister$: Observable<boolean> = this.showSubject.asObservable();
   showforgot$: Observable<number> = this.showforgotSubject.asObservable();
+  showconfirm$: Observable<number> = this.showconfirmSubject.asObservable();
   private path = environment.apiUrl
   constructor(private httpClient: HttpClient) { }
 
   login(model: any) {
-    //debugger;
+    debugger;
+
     return this.httpClient.post(this.path + 'home/logincustomer', model).pipe(
       map((res: Tokens) => {
         const token = res;
         if (token.success) {
           this.setCurrentUser(token);
-
+          localStorage.removeItem("captcha");
         } else {
           this.errorSubject.next(token.message.toString());
+          let captchastring = localStorage.getItem("captcha");
+          if (captchastring === null) {
+            captchastring = "1";
+            localStorage.setItem("captcha",captchastring);
+
+          }else{
+             let captcha =parseInt(captchastring,10);
+              captcha++;
+            localStorage.setItem("captcha",captcha.toString());
+          }
 
         }
       })
@@ -50,9 +63,20 @@ export class AuthService {
         //debugger
         if (token.success) {
           this.setCurrentUser(token);
+          localStorage.removeItem("captcha");
 
         } else {
           this.errorSubject.next('Email hoặc mật khẩu không chính xác');
+          let captchastring = localStorage.getItem("captcha");
+          if (captchastring === null) {
+            captchastring = "1";
+            localStorage.setItem("captcha",captchastring);
+
+          }else{
+             let captcha =parseInt(captchastring,10);
+              captcha++;
+            localStorage.setItem("captcha",captcha.toString());
+          }
 
         }
       })
@@ -91,6 +115,11 @@ export class AuthService {
         }
       })
     )
+  }
+  RefreshToken() {
+    //debugger;
+
+
   }
   registerseller(model: any) {
     //debugger;
@@ -228,10 +257,10 @@ export class AuthService {
 
       this.userSubject.next(this.user);
       localStorage.setItem("user", JSON.stringify(this.user));
-      sessionStorage.setItem("JWT",token.token);
-      sessionStorage.setItem("role",this.user.role.toString());
-      sessionStorage.setItem("timetoken",this.user.exp.toString());
-      sessionStorage.setItem("userId",this.user.userId.toString());
+      sessionStorage.setItem("JWT", token.token);
+      sessionStorage.setItem("role", this.user.role.toString());
+      sessionStorage.setItem("timetoken", this.user.exp.toString());
+      sessionStorage.setItem("userId", this.user.userId.toString());
 
 
     }
@@ -240,12 +269,31 @@ export class AuthService {
     return JSON.parse(atob(token.split('.')[1]));
   }
 
-
-  getRole(){
-    return sessionStorage.getItem("role");
+  getRole() {
+    let token = sessionStorage.getItem("JWT");
+    if (token) {
+      const data = this.getDecodedToken(token);
+      return data['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+    }
+    return null;
   }
 
-
+  confirmemail(model: any) {
+    //debugger;
+    // https://localhost:7016/home/confirmforgot
+    return this.httpClient.post("https://localhost:7016/home/confirm", model).pipe(
+      map((res: Register) => {
+        const ok = res;
+        //debugger;
+        if (ok.success) {
+          this.showconfirmSubject.next(1);
+        } else {
+          this.errorSubject.next('This email is not in the system');
+          this.showconfirmSubject.next(0);
+        }
+      })
+    )
+  }
 
 }
 

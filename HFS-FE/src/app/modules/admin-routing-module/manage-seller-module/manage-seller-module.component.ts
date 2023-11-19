@@ -18,6 +18,8 @@ export class ManageSellerModuleComponent extends iComponentBase implements OnIni
    listSeller:Seller []=[];
   displayDialogBan: boolean = false;
   visiblebanHistoryDialog:boolean=false;
+  visibleImageDialog:boolean=false;
+  sellerImg:Seller=new Seller();
   headerDialog: string = '';
   listhistoryBan:HistoryBanSeller []=[];
   banseller:BanSeller= new BanSeller();
@@ -43,7 +45,7 @@ this.getAllSeller();
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.LIST_SELLER,"");
 
         if (response && response.message === "Success") {
-            this.listSeller = response.data;
+            this.listSeller = response.sellers;
 
         }
        ;
@@ -126,5 +128,10 @@ console.log(this.banseller);
   }
 
 
+  }
+
+  onDisplayImagesDialog(s: Seller, event: any) {
+    this.sellerImg = s;
+    this.visibleImageDialog = true;
   }
 }

@@ -11,9 +11,31 @@
             <div class="content">
                 {{notification.content}}
             </div>
+            <div class="flex justify-content-center align-items-stretch"
+                style="gap: 0.5rem"
+                *ngIf="notification.type != 'System'"
+                >
+                <div class="flex align-items-center justify-content-center">
+                    <button pButton pRipple (click)="onAccept()" 
+                        class="p-button-primary p-mr-2 p-button-raised"
+                    >
+                        Accept
+                    </button>
+                </div>
+                <div class="flex align-items-center justify-content-center">
+                    <button pButton pRipple (click)="onDeny()"
+                    class="p-button-danger p-button-raised"
+                    >
+                        Deny
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
+    
 </div>
+
+    
 
 
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>
