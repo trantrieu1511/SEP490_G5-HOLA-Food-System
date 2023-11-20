@@ -9,7 +9,7 @@ namespace HFS_BE.DAO.TransantionDao
 
     public class PaymentReturnOutputDto : BaseOutputDto
     {
-        public string VNPayTranID { get; set; }
+        public long VNPayTranID { get; set; }
         public decimal Value { get; set; }
         public string BankCode { get; set; }
     }

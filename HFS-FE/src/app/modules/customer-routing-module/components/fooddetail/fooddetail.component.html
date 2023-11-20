@@ -98,7 +98,7 @@
                     <p-divider align="right">
                     </p-divider>
 
-                    <h3>Price: {{fooddetail.unitPrice}}$</h3>
+                    <h3>Price: {{fooddetail.unitPrice | currency:'VND'}}$</h3>
                     <p-divider align="right">
                     </p-divider>
                     <div class="product-grid-item-bottom">
@@ -126,7 +126,7 @@
                         </div>
                         <div>
                             <h5 class="mb-1">{{product.name}}</h5>
-                            <h6 class="mt-0 mb-3">${{product.unitPrice}}</h6>
+                            <h6 class="mt-0 mb-3">${{product.unitPrice | currency:'VND'}}</h6>
                             <!-- <span [class]="'product-badge status-'+product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
                             <div class="my-5">
                                 <button pButton pRipple icon="pi pi-search" class="mr-2 p-button-rounded"></button>

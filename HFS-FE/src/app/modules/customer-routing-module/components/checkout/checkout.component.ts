@@ -102,6 +102,10 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
         if (response.message != "Success"){
           this.showMessage(mType.warn, "", response.message, 'notify');
         }
+        else if (response.message === "Balance not enough!"){
+          this.showMessage(mType.warn, "", "Balance not enough!", 'notify');
+          window.open('google.com', '_blank');
+        }
         else{
           this.showMessage(mType.success, "", "Create Order success!", 'notify');
           this.router.navigate(['/cartdetail'])
@@ -109,7 +113,6 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
       }
       else{
         this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');
-        //this.router.navigate(['/login']);
       }
 
       this.loading = false;
