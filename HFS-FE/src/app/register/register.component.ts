@@ -2,7 +2,7 @@ import { AfterViewInit, Component, NgZone, OnInit, Renderer2 } from '@angular/co
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CredentialResponse } from 'google-one-tap';
 import { DividerModule } from 'primeng/divider';
-import { environment } from 'src/app/environments/environment';
+import { environment } from 'src/environments/environment';
 import { AuthService, User } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { DateOfBirthValidator, PasswordLengthValidator, PasswordMatch, PasswordNumberValidator, PasswordUpperValidator } from '../login/Restricted-login.directive';

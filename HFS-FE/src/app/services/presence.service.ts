@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, ReplaySubject, take } from "rxjs";
-import { environment } from "src/app/environments/environment";
+import { environment } from "src/environments/environment";
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { Router } from "@angular/router";
 import { Tokens } from "../login/models/token";
