@@ -46,12 +46,24 @@ namespace HFS_BE.DAO.ShipperDao
 		public string? Avatar { get; set; }
 		public byte Accepted { get; set; }
 	}
+	public class InvitationSellerDtoOutput
+	{
+		public string? SellerId { get; set; }
+		public string? SellerName { get; set; }
+		public string Email { get; set; } = null!;
+		public string? PhoneNumber { get; set; }
+		public string? Avatar { get; set; }
+		public byte Accepted { get; set; }
+	}
 
 	public class ListInvitationShipperDtoOutput : BaseOutputDto
 	{
 		public List<InvitationShipperDtoOutput>? data { get; set; }
 	}
-
+	public class ListInvitationShipperbyShipperDtoOutput : BaseOutputDto
+	{
+		public List<InvitationSellerDtoOutput>? data { get; set; }
+	}
 	public class BanHistoryShipperDtoOutput : BaseOutputDto
 	{
 		public int BanShipperId { get; set; }

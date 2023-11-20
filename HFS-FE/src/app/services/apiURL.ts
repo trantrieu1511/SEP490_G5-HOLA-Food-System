@@ -69,6 +69,8 @@ export class API_SHIPPER {
     public static GET_All = "order";
     public static CHANGE_STATUS = "orderprogress";
     public static HISTORY = "history";
+    public static LIST_INV = "listinvitationshipperbyshipper";
+    public static ACCEPT = "acceptshipper";
 }
 export class API_MANAGE{
   public static LIST_CUS = "listcustomer";

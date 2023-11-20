@@ -174,13 +174,18 @@ namespace HFS_BE.DAO.ShipperDao
 		{
 			var data = context.Invitations.Include(s => s.Shipper).Where(s => s.SellerId == input.ManageBy).ToList();
 
-
-			
 			var output = Output<ListInvitationShipperDtoOutput>(Constants.ResultCdSuccess);
 			output.data = mapper.Map<List<Invitation>, List<InvitationShipperDtoOutput>>(data); ;
 			return output;
 		}
-		
+		public ListInvitationShipperbyShipperDtoOutput ListInvitationShipperByShipper(ListInvitationShipperDtoInput input)//list ra nhưng lời mời seller gửi cho shipper bên shipepr
+		{
+			var data = context.Invitations.Include(s => s.Seller).Where(e =>e.ShipperId==input.ShipperId&&e.Accepted==0).ToList();
+			var output = Output<ListInvitationShipperbyShipperDtoOutput>(Constants.ResultCdSuccess);
+			output.data = mapper.Map<List<Invitation>, List<InvitationSellerDtoOutput>>(data); ;
+			return output;
+		}
+
 		public BaseOutputDto AcceptInvitationShipper(InvitationShipperDtoInput input)//bên shipper accept lời mời đó
 		{
 			var data = context.Shippers.FirstOrDefault(s => s.ManageBy == input.SellerId && s.ShipperId == input.ShipperId);

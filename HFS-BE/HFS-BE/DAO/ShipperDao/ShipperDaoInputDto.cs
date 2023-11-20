@@ -20,6 +20,11 @@ namespace HFS_BE.DAO.ShipperDao
 		public string ShipperId { get; set; } = null!;
 	
 	}
+	public class ListInvitationShipperDtoInput : BaseInputDto
+	{
+		public string? ShipperId { get; set; } = null!;
+
+	}
 	public class InvitationShipperEmailDtoInput : BaseInputDto
 	{
 		[Required(ErrorMessage = "Email is required")]

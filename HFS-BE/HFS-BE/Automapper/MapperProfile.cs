@@ -369,7 +369,11 @@ namespace HFS_BE.Automapper
             CreateMap<ListCustomerDtoOutput, ListCustomerOutputDtoBS>();
             CreateMap<SellerDtoOutput, SellerDtoBS>();
             CreateMap<ListSellerDtoOutput, ListSellerOutputDtoBS>();
-        }
+			CreateMap<Invitation, InvitationSellerDtoOutput>()
+			 .ForMember(dest => dest.SellerName, opt => opt.MapFrom(src => src.Seller.FirstName + " " + src.Seller.LastName))
+			 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Seller.Email))
+			 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Seller.PhoneNumber));
+		}
 
         public void FeedBack()
         {

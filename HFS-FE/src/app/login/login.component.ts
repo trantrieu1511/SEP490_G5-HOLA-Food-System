@@ -264,7 +264,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
               this.error = 'Email hoặc mật khẩu không chính xác.';
             } else {
               // this.error = 'Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.';
-              this.showMessage(mType.error, "Notification", "CAPTCHA verification failed. Please try again.", 'app-login');
+              this.showMessage(mType.error, "Notification", "Email hoặc mật khẩu không chính xác.", 'app-login');
             }
           }
         );

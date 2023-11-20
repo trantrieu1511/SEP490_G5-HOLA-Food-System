@@ -55,6 +55,20 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageShipper
 				throw;
 			}
 		}
+		public ListInvitationShipperbyShipperDtoOutput ListInvitationShipperbyShipper(ListInvitationShipperDtoInput input)
+		{
+			try
+			{
+				var Dao = this.CreateDao<ShipperDao>();
+				var daooutput = Dao.ListInvitationShipperByShipper(input);
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
 		public BaseOutputDto InvitationShipper(InvitationShipperEmailDtoInput input)
 		{
 			try
@@ -76,6 +90,20 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageShipper
 			{
 				var Dao = this.CreateDao<ShipperDao>();
 				var daooutput = Dao.BanShipper(input);
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+		public BaseOutputDto AcceptShipper(InvitationShipperDtoInput input)
+		{
+			try
+			{
+				var Dao = this.CreateDao<ShipperDao>();
+				var daooutput = Dao.AcceptInvitationShipper(input);
 
 				return daooutput;
 			}
