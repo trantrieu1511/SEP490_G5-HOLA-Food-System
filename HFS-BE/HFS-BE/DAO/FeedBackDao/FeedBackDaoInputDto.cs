@@ -11,5 +11,7 @@
         public string? CustomerId { get; set; }
         public string? FeedbackMessage { get; set; }
         public byte? Star { get; set; }
-    }
+
+		public List<string>? Images { get; set; }
+	}
 }
