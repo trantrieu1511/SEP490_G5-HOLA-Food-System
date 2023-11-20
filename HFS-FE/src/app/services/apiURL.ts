@@ -33,6 +33,8 @@ export class API_TEST {
 
 export class API_NEWFEED {
     public static GETALLPOST = "getNewFeed";
+    public static GetALLCOMMENT = "getcomment";
+    public static CREATECOMMENT = "comment";
 }
 // Service User
 export class API_USER {

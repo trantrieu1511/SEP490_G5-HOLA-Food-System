@@ -16,7 +16,7 @@ namespace HFS_BE.Controllers.CommentNewFeed
         public GetCommentController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
-        [HttpPost("newfeed/getcomment")]
+        [HttpPost("users/getcomment")]
         public GetCommentByPostOutputDto GetComment(GetCommentInputDto inputDto)
         {
             try
