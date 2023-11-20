@@ -553,3 +553,9 @@ CREATE TABLE [dbo].[Comment](
     FOREIGN KEY ([customerId]) REFERENCES [Customer]([customerId]),
     PRIMARY KEY ([commentId])
 )
+CREATE TABLE [dbo].[FeedBackImage](
+	[imagefeedbackId] [int] IDENTITY(1,1) NOT NULL,
+	[feedbackId] [int] NULL,
+	[path] [nvarchar](max) NULL,
+	FOREIGN KEY([feedbackId]) REFERENCES [dbo].[FeedBack] ([feedbackId]),
+)

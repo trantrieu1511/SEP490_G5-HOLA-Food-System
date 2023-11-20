@@ -38,6 +38,8 @@ using HFS_BE.BusinessLogic.ManageUser.ManageCustomer;
 using HFS_BE.BusinessLogic.ManageUser.ManageSeller;
 using HFS_BE.DAO.ShipAddressDao;
 using static HFS_BE.Utils.Enum.CategoryStatusEnum;
+using HFS_BE.BusinessLogic.FeedBackCustomer;
+using HFS_BE.Controllers.FeedBack;
 
 namespace HFS_BE.Automapper
 {
@@ -392,7 +394,13 @@ namespace HFS_BE.Automapper
             CreateMap<GetFeedBackByFoodIdDaoOutputDto, GetFeedBackOutputDto>();
             CreateMap<FeedBackDaoOutputDto, FeedBackOutputDto>();
             CreateMap<FeedBackReplyDaoOutputDto, FeedBackReplyOutputDto>();
-        }
+
+
+			CreateMap<AddFeedBackInputDtoBL, CreateFeedBackDaoInputDto>()
+                .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.UserDto.UserId));
+            CreateMap<AddFeedBackControllerInputDto, AddFeedBackInputDtoBL>();
+		
+		}
 
         public void Voucher()
         {

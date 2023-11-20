@@ -64,6 +64,7 @@ export class API_ORDER {
     public static ACCEPT_ORDER = "acceptOrderSeller";
     public static INTERNAL_ORDER = "internalShipperOrderSeller";
     public static EXTERNAL_ORDER = "externalShipperOrderSeller";
+    public static FEEDBACK = "addnewfeedback";
 
 }
 

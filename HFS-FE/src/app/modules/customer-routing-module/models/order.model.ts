@@ -14,6 +14,11 @@ export class Order{
   orderProgresses: DetailProgress[];
   orderDetails: OrderDetailFoodDto[];
 }
+export class FeedBackInput{
+  foodId: number;
+  feedbackMessage:string;
+  star:number;
+}
 
 export class DetailProgress{
   // imageBase64 : ImageOrderProgress;
