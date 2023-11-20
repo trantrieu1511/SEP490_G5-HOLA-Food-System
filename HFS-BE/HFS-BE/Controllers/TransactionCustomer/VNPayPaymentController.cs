@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CloudinaryDotNet.Actions;
 using HFS_BE.Base;
+using HFS_BE.BusinessLogic.Transaction;
 using HFS_BE.DAO.TransantionDao;
 using HFS_BE.Models;
 using HFS_BE.Services;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json.Linq;
 
-namespace HFS_BE.Controllers.Payment
+namespace HFS_BE.Controllers.TransactionCustomer
 {
     public class VNPayPaymentController : BaseController
     {
@@ -19,12 +20,12 @@ namespace HFS_BE.Controllers.Payment
         }
 
         [HttpPost("payment/getpaymenturl")]
-        //[Authorize]
+        [Authorize]
         public IActionResult Payment(CreateTransaction inputDto)
         {
             try 
             {
-                //var userInfo = this.GetUserInfor();
+                var userInfo = this.GetUserInfor();
                 string vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
                 string vnp_Api = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
                 string vnp_TmnCode = "UL1C3DJ9";
@@ -33,8 +34,12 @@ namespace HFS_BE.Controllers.Payment
                 string ipAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 
                 // Create TransactionHistory
-
-
+                var business = this.GetBusinessLogic<CreatePaymentBusinessLogic>();
+                inputDto.UserId = userInfo.UserId;
+                var transaction = business.CreateTransaction(inputDto);
+                if (!transaction.Success){
+                    return Ok(this.Output<BaseOutputDto>(Constants.ResultCdFail));
+                }
 
                 //Build URL for VNPAY
                 VnPayLibrary vnpay = new VnPayLibrary();
@@ -53,13 +58,13 @@ namespace HFS_BE.Controllers.Payment
                 //{
                 //    vnpay.AddRequestData("vnp_Locale", "en");
                 //}
-                //vnpay.AddRequestData("vnp_OrderInfo", "Thanh toan don hang:" + userInfo.UserId + " " + DateTime.Now.ToString("yyyyMMddHHmmss"));
-                vnpay.AddRequestData("vnp_OrderInfo", "Thanh toan:" + "CU00000001" + " " + DateTime.Now.ToString("yyyyMMddHHmmss"));
+                vnpay.AddRequestData("vnp_OrderInfo", "Thanh toan don hang:" + userInfo.UserId + " " + transaction.TransactionId.ToString());
+                //vnpay.AddRequestData("vnp_OrderInfo", "Thanh toan:" + "CU00000001" + " " + DateTime.Now.ToString("yyyyMMddHHmmss"));
                 vnpay.AddRequestData("vnp_OrderType", "other"); //default value: other
 
                 vnpay.AddRequestData("vnp_ReturnUrl", vnp_Returnurl);
-                //vnpay.AddRequestData("vnp_TxnRef", userInfo.UserId + " " + DateTime.Now.ToString("yyyyMMddHHmmss")); // Mã tham chiếu của giao dịch tại hệ thống của merchant. Mã này là duy nhất dùng để phân biệt các đơn hàng gửi sang VNPAY. Không được trùng lặp trong ngày
-                vnpay.AddRequestData("vnp_TxnRef", "CU00000001" + " " + DateTime.Now.ToString("yyyyMMddHHmmss")); // Mã tham chiếu của giao dịch tại hệ thống của merchant. Mã này là duy nhất dùng để phân biệt các đơn hàng gửi sang VNPAY. Không được trùng lặp trong ngày
+                vnpay.AddRequestData("vnp_TxnRef", transaction.TransactionId.ToString()); // Mã tham chiếu của giao dịch tại hệ thống của merchant. Mã này là duy nhất dùng để phân biệt các đơn hàng gửi sang VNPAY. Không được trùng lặp trong ngày
+                //vnpay.AddRequestData("vnp_TxnRef", "CU00000001" + " " + DateTime.Now.ToString("yyyyMMddHHmmss")); // Mã tham chiếu của giao dịch tại hệ thống của merchant. Mã này là duy nhất dùng để phân biệt các đơn hàng gửi sang VNPAY. Không được trùng lặp trong ngày
 
                 //Add Params of 2.1.0 Version
                 //Billing

@@ -5,10 +5,13 @@ using HFS_BE.Dao.OrderDao;
 using HFS_BE.DAO.CartDao;
 using HFS_BE.DAO.NotificationDao;
 using HFS_BE.DAO.OrderProgressDao;
+using HFS_BE.DAO.TransantionDao;
 using HFS_BE.DAO.UserDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
+using Newtonsoft.Json.Linq;
+using Twilio.Rest.Api.V2010.Account;
 
 namespace HFS_BE.BusinessLogic.Cart
 {
@@ -28,6 +31,7 @@ namespace HFS_BE.BusinessLogic.Cart
                 var userDao = this.CreateDao<UserDao>();
                 var foodDao = this.CreateDao<FoodDao>();
                 var notifyDao = CreateDao<NotificationDao>();
+                var transactionDao = this.CreateDao<TransactionDao>();
                 var user = userDao.GetUserInfo(new GetOrderInfoInputDto()
                 {
                     UserId = inputDto.CustomerId,
@@ -64,12 +68,68 @@ namespace HFS_BE.BusinessLogic.Cart
                         totalPrice += food.Amount.Value * foodInfo.UnitPrice.Value;
                     }
                 }
+                // voucher
+
+                // balance change
 
                 if (totalPrice > user.Balance && inputDto.PaymentMethod.Equals("wallet"))
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdSuccess, "Balance not enough!");
                 }
-                
+                else if (totalPrice <= user.Balance && inputDto.PaymentMethod.Equals("wallet"))
+                {
+                    var input1 = new UpadateWalletBalanceDaoInputDto()
+                    {
+                        UserId = inputDto.CustomerId,
+                        Value = -totalPrice,
+                    };
+                    var output1 = transactionDao.UpdateWalletBalance(input1);
+                    if (!output1.Success)
+                    {
+                        return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                    }
+
+                    // Create Transaction
+                    foreach (var item in inputDto.ListShop)
+                    {
+                        decimal shopPrice = 0;
+                        if (item.CartItems.Count == 0)
+                        {
+                            return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Your CartItems of ShopId " + item.ShopId + " is empty!");
+                        }
+                        foreach (var food in item.CartItems)
+                        {
+                            var foodInfo = foodDao.GetFoodById(new GetFoodByFoodIdDaoInputDto
+                            {
+                                FoodId = food.FoodId,
+                            });
+                            if (foodInfo == null)
+                            {
+                                return this.Output<BaseOutputDto>(Constants.ResultCdFail, "FoodId not exsit!");
+                            }
+
+                            shopPrice += food.Amount.Value * foodInfo.UnitPrice.Value;
+                        }
+
+                        var input2 = new CreateTransaction()
+                        {
+                            UserId = inputDto.CustomerId,
+                            RecieverId = item.ShopId,
+                            TransactionType = 3,
+                            Value = shopPrice,
+                            Note = "Order food",
+                            CreateDate = DateTime.Now,
+                            Status = 1,
+                        };
+
+                        var output2 = transactionDao.Create(input2);
+                        if (!output2.Success)
+                        {
+                            return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                        }
+                    }
+                }
+
                 foreach (ListShopItemInputDto item in inputDto.ListShop)
                 {
                     // create order + order detail

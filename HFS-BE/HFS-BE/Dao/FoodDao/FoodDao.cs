@@ -22,7 +22,7 @@ namespace HFS_BE.Dao.FoodDao
                 var data = this.context.Foods
                     .Include(x => x.FoodImages)
                     .Include(x => x.Category)
-                    .Where(x => x.SellerId.Equals(inputDto.ShopId))
+                    .Where(x => x.SellerId.Equals(inputDto.ShopId) && x.Status == 0)
                     .Select(x => mapper.Map<Food, FoodOutputDto>(x))
                     .ToList();
 
