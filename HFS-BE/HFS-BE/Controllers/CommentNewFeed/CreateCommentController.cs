@@ -16,10 +16,10 @@ namespace HFS_BE.Controllers.CommentNewFeed
         public CreateCommentController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
-        [HttpPost("newfeed/comment")]
+        [HttpPost("users/comment")]
         //[Authorize]
 
-        public BaseOutputDto CreateComent([FromForm] CreateCommentInputDto input)
+        public BaseOutputDto CreateComent( CreateCommentInputDto input)
         {
             try
             {

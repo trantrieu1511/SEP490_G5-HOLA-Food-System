@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.DAO.CartDao;
+using HFS_BE.DAO.VoucherDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace HFS_BE.DAO.CategoryDao
 {
@@ -15,12 +17,22 @@ namespace HFS_BE.DAO.CategoryDao
         {
             try
             {
-                var cate = mapper.Map<CategoryDaoInputDto, Category>(inputDto);
-                context.Add(cate);
-                context.SaveChanges();
-                var output = this.Output<CreateCategoryOutputDto>(Constants.ResultCdSuccess);
-                output.CreateCategory = mapper.Map<Category, CategoryDaoOutputDto>(cate);
-                return output;
+                while (true)
+                {
+                    Category category = new Category()
+                    {
+                        Name = inputDto.Name,
+                        Status = 0
+                    };
+                    var datacheck = context.Categories.Where(x=>x.CategoryId == category.CategoryId).ToList();
+                    if(datacheck.Count == 0)
+                    {
+                        context.Categories.Add(category);
+                        context.SaveChanges();
+                        return this.Output<CreateCategoryOutputDto>(Constants.ResultCdSuccess);
+                    }
+                }
+                
             }
             catch (Exception)
             {
@@ -44,7 +56,7 @@ namespace HFS_BE.DAO.CategoryDao
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail);
                 }
                 data.Name= inputDto.Name;
-                data.Status= inputDto.Status;
+                context.SaveChanges();
                 return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
             catch (Exception)
@@ -52,6 +64,35 @@ namespace HFS_BE.DAO.CategoryDao
 
                 return this.Output<BaseOutputDto>(Constants.ResultCdFail);
             }
+        }
+
+        public BaseOutputDto Enable_Disable_Cate(Enable_Disable_CateInputDto input)
+        {
+            try
+            {
+                var data = context.Categories.FirstOrDefault(x => x.CategoryId == input.CategoryId);
+                if (data == null)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, $"CategoryId: {input.CategoryId} not exist!");
+                }
+                if (input.Type)
+                {
+                    data.Status = 1;
+                    context.SaveChanges();
+                    return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+                }
+                data.Status = 0;
+                context.SaveChanges();
+
+                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+            
+
         }
 
         public ListcategoryOutptuDto GetAllCategory()
@@ -73,5 +114,7 @@ namespace HFS_BE.DAO.CategoryDao
                 return this.Output<ListcategoryOutptuDto>(Constants.ResultCdFail);
             }
         }
+
+
     }
 }

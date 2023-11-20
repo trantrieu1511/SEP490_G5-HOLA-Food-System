@@ -6,6 +6,7 @@ using HFS_BE.Utils;
 using Mailjet.Client.Resources;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
+using static HFS_BE.BusinessLogic.Auth.RegisterSellerInputDto;
 
 namespace HFS_BE.DAO.UserDao
 {

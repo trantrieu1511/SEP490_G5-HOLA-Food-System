@@ -33,6 +33,8 @@ export class API_TEST {
 
 export class API_NEWFEED {
     public static GETALLPOST = "getNewFeed";
+    public static GetALLCOMMENT = "getcomment";
+    public static CREATECOMMENT = "comment";
 }
 // Service User
 export class API_USER {
@@ -83,7 +85,7 @@ export class API_MANAGE{
     public static HIS_SHIPPER = "banshipperhistory";
     public static LIST_SHIPPER = "listshipperbyadmin";
     public static BAN_SHIPPER = "banshipper";
-        public static ACTIVE_SHIPPER = "activeshipper";
+    public static ACTVIVE_SHIPPER = "activeshipper";
     public static LIST_PM = "listpostmoderator";
     public static ADD_PM = "addpostmoderator";
     public static BAN_PM = "banpostmoderator";
@@ -91,6 +93,10 @@ export class API_MANAGE{
     public static ADD_MM = "addmenumoderator";
     public static BAN_MM = "banmenumoderator";
     public static LIST_CATEGORY = "getallcategory";
+    public static EDIT_CATE = "updateCategory";
+    public static ADD_CATE = "createcategory";
+    public static ED_CATE = "edcategory";
+    public static ENABLE_DISABLE_CATE ="edcategory"
 }
 
 // Service QTHT

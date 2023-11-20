@@ -15,7 +15,7 @@ namespace HFS_BE.Controllers.Category
         public UpdateCategoryController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
-        [HttpPost("updateCategory")]
+        [HttpPost("users/updateCategory")]
         public BaseOutputDto UpdateCategory(UpdateCategoryDaoInputDto inputDto)
         {
             try
