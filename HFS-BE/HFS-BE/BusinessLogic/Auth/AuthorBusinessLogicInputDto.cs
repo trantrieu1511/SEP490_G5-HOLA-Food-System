@@ -39,7 +39,7 @@ namespace HFS_BE.BusinessLogic.Auth
 		public string? ShopAddress { get; set; }
 
 
-
+	}
     public class TokenApiModelBL
     {
         public string? AccessToken { get; set; }
