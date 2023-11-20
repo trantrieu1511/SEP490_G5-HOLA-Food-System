@@ -431,7 +431,10 @@ namespace HFS_BE.Automapper
 
         public void Comment()
         {
-            CreateMap<Comment, CommentOutputDto>();
+            CreateMap<Comment, CommentOutputDto>()
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName +" "+ src.Customer.LastName));
+            CreateMap<CommentOutputDto, Customer>()
+                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.CustomerName));
 
         }
 
