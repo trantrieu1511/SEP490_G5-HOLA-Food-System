@@ -6,6 +6,7 @@ using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
 using Mailjet.Client.Resources;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace HFS_BE.Dao.FoodDao
 {
@@ -22,12 +23,39 @@ namespace HFS_BE.Dao.FoodDao
                 var data = this.context.Foods
                     .Include(x => x.FoodImages)
                     .Include(x => x.Category)
+                    .Include(x => x.OrderDetails)
+                    .Include(x => x.Feedbacks)
                     .Where(x => x.SellerId.Equals(inputDto.ShopId) && x.Status == 0)
-                    .Select(x => mapper.Map<Food, FoodOutputDto>(x))
                     .ToList();
 
+                var listfood = new List<FoodOutputDto>();
+                foreach (var item in data)
+                {
+                    int ordered = 0;
+                    decimal star = 0;
+                    foreach (var orderdetail in item.OrderDetails)
+                    {
+                        ordered += orderdetail.Quantity.Value;
+                    }
+
+                    if (item.Feedbacks.Any())
+                    {
+                        int totalStar = 0;
+                        foreach (var feedback in item.Feedbacks)
+                        {
+                            totalStar += feedback.Star.Value;
+                        }
+                        star = (decimal)totalStar / (decimal)item.Feedbacks.Count();
+                    }
+
+                    var food = mapper.Map<Food, FoodOutputDto>(item);
+                    food.AverageStar = Math.Round(star, MidpointRounding.AwayFromZero);
+                    food.NumberOrdered = ordered;
+                    listfood.Add(food);
+                }
+
                 var output = this.Output<FoodShopDaoOutputDto>(Constants.ResultCdSuccess);
-                output.ListFood = data;
+                output.ListFood = listfood;
                 return output;
             }
             catch (Exception)

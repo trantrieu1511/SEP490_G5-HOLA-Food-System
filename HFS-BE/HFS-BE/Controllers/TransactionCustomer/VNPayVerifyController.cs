@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Transaction;
+using HFS_BE.DAO.ChatMessageDao;
 using HFS_BE.DAO.TransantionDao;
 using HFS_BE.Models;
 using HFS_BE.Services;
@@ -29,6 +30,7 @@ namespace HFS_BE.Controllers.TransactionCustomer
                 var userInfo = this.GetUserInfor();
                 VnPayLibrary vnpay = new VnPayLibrary();
 
+
                 string orderId = inputDto.vnp_TxnRef;
                 long vnpayTranId = Convert.ToInt64(inputDto.vnp_TransactionNo);
                 string vnp_ResponseCode = inputDto.vnp_ResponseCode;
@@ -38,6 +40,22 @@ namespace HFS_BE.Controllers.TransactionCustomer
                 long vnp_Amount = Convert.ToInt64(inputDto.vnp_Amount) / 100;
                 string bankCode = inputDto.vnp_BankCode;
                 string vnp_TxnRef = inputDto.vnp_TxnRef;
+
+                vnpay.AddResponseData("vnp_BankCode", inputDto.vnp_BankCode);
+                vnpay.AddResponseData("vnp_Amount", inputDto.vnp_Amount);
+                vnpay.AddResponseData("vnp_TmnCode", inputDto.vnp_TmnCode);
+                vnpay.AddResponseData("vnp_SecureHash", inputDto.vnp_SecureHash);
+                vnpay.AddResponseData("vnp_TransactionStatus", inputDto.vnp_TransactionStatus);
+                vnpay.AddResponseData("vnp_ResponseCode", inputDto.vnp_ResponseCode);
+                vnpay.AddResponseData("vnp_TransactionNo", inputDto.vnp_TransactionNo);
+                vnpay.AddResponseData("vnp_TxnRef", inputDto.vnp_TxnRef);
+                vnpay.AddResponseData("vnp_BankTranNo", inputDto.vnp_BankTranNo);
+                vnpay.AddResponseData("vnp_CardType", inputDto.vnp_CardType);
+                vnpay.AddResponseData("vnp_PayDate", inputDto.vnp_PayDate);
+                vnpay.AddResponseData("vnp_OrderInfo", inputDto.vnp_OrderInfo);
+
+                output.Value = vnp_Amount;
+                output.VNPayTranID = vnpayTranId;
 
                 bool checkSignature = vnpay.ValidateSignature(vnp_SecureHash, vnp_HashSecret);
                 if (checkSignature)
@@ -79,8 +97,8 @@ namespace HFS_BE.Controllers.TransactionCustomer
                             return this.Output<PaymentReturnOutputDto>(Constants.ResultCdFail);
                         }
                     }
-                    output.VNPayTranID = vnpayTranId.ToString();
-                    output.Value = Convert.ToDecimal(vnp_Amount.ToString());
+                    output.VNPayTranID = vnpayTranId;
+                    output.Value = vnp_Amount;
                     output.BankCode = bankCode;
                 }
                 else

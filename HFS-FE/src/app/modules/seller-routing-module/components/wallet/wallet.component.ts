@@ -3,19 +3,19 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 import { iComponentBase, iServiceBase } from 'src/app/modules/shared-module/shared-module';
-import { PaymentInput } from '../../models/PaymentInput.model';
 import * as API from '../../../../services/apiURL';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TabViewChangeEvent } from 'primeng/tabview';
 import { async } from 'rxjs';
 import { GetTransactionHistoryInput } from '../../models/GetTransactionHistoryInput.model';
+import { PaymentInput } from '../../models/PaymentInput.model';
 
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
   styleUrls: ['./wallet.component.scss']
 })
-export class WalletComponent
+export class WalletComponentSeller
   extends iComponentBase
   implements OnInit {
   transactionHistory: any

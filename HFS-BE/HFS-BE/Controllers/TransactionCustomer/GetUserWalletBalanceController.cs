@@ -15,12 +15,13 @@ namespace HFS_BE.Controllers.TransactionCustomer
         {
         }
 
-        [HttpPost("transaction/balance")]
+        [HttpPost("wallet/getbalance")]
         [Authorize]
-        public GetOrderInfoOutputDto GetUserBalance(GetOrderInfoInputDto inputDto)
+        public GetOrderInfoOutputDto GetUserBalance()
         {
             try
             {
+                var inputDto = new GetOrderInfoInputDto();
                 var userInfo = this.GetUserInfor();
                 inputDto.UserId = userInfo.UserId;
                 var busi = this.GetBusinessLogic<GetUserBalanceBusinessLogic>();

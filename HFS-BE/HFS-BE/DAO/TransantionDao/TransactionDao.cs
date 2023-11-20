@@ -88,7 +88,8 @@ namespace HFS_BE.DAO.TransantionDao
             {
                 var transactions = this.context.TransactionHistories
                                     .Where(x => (x.SenderId.Equals(inputDto.UserId) || x.RecieverId.Equals(inputDto.UserId))
-                                                 && x.CreateDate >= inputDto.DateFrom && x.CreateDate <= inputDto.DateTo)
+                                                 && (x.CreateDate == null || (x.CreateDate.Value.Date >= inputDto.DateFrom && x.CreateDate.Value.Date <= inputDto.DateTo)))
+                                    .OrderByDescending(x => x.CreateDate)
                                     .ToList();
                 foreach (var item in transactions)
                 {

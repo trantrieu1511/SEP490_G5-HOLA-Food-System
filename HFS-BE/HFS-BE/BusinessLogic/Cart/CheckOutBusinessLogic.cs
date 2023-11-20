@@ -74,7 +74,7 @@ namespace HFS_BE.BusinessLogic.Cart
 
                 if (totalPrice > user.Balance && inputDto.PaymentMethod.Equals("wallet"))
                 {
-                    return this.Output<BaseOutputDto>(Constants.ResultCdSuccess, "Balance not enough!");
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Balance not enough!");
                 }
                 else if (totalPrice <= user.Balance && inputDto.PaymentMethod.Equals("wallet"))
                 {

@@ -30,12 +30,15 @@ namespace HFS_BE.Controllers.TransactionCustomer
                 string vnp_Api = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
                 string vnp_TmnCode = "UL1C3DJ9";
                 string vnp_HashSecret = "WEEDAMWSSYKXZVVRHGSSPRDZLICKFZMN";
-                string vnp_Returnurl = "http://localhost:4200/#/paymentverify";
+                string vnp_Returnurl = "";
+                if (userInfo.Role.Equals("CU")) vnp_Returnurl = "http://localhost:4200/#/paymentverify";
+                else if (userInfo.Role.Equals("SE")) vnp_Returnurl = "http://localhost:4200/#/HFSBusiness/seller/paymentverify";
                 string ipAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 
                 // Create TransactionHistory
                 var business = this.GetBusinessLogic<CreatePaymentBusinessLogic>();
                 inputDto.UserId = userInfo.UserId;
+                inputDto.Note = "Deposit money";
                 var transaction = business.CreateTransaction(inputDto);
                 if (!transaction.Success){
                     return Ok(this.Output<BaseOutputDto>(Constants.ResultCdFail));

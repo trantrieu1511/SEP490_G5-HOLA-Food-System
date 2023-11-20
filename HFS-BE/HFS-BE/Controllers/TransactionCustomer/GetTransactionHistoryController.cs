@@ -15,7 +15,7 @@ namespace HFS_BE.Controllers.TransactionCustomer
         {
         }
 
-        [HttpPost("transaction/history")]
+        [HttpPost("wallet/history")]
         [Authorize]
         public GetTransactionHistoryDaoOutputDto GetTransaction(GetTransactionHistoryDaoInputDto inputDto)
         {
