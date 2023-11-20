@@ -2,7 +2,7 @@ import { AfterViewInit, Component, NgZone, OnInit, Renderer2 } from '@angular/co
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CredentialResponse } from 'google-one-tap';
-import { environment } from '../../environments/environment';
+import { environment } from '../environments/environment';
 import { AuthService, User } from '../services/auth.service';
 
 import { Subscription } from 'rxjs';

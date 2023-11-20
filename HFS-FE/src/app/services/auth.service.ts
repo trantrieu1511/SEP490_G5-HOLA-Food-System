@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/app/environments/environment';
 import { Tokens } from '../login/models/token';
 import { map } from 'rxjs';
 import { Register } from '../register/models/register';
