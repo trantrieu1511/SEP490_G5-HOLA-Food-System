@@ -800,6 +800,9 @@ export class iServiceBase {
                 case API.PHAN_HE.DASHBOARD: {
                     return localStorage.getItem('APISERVICE') + '/dashboards/';
                 }
+                case API.PHAN_HE.WALLET: {
+                    return localStorage.getItem('APISERVICE') + '/wallet/';
+                }
                 default: {
                     return '';
                 }

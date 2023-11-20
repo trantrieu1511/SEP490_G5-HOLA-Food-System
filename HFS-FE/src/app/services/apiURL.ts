@@ -21,6 +21,7 @@ export class PHAN_HE {
     public static FOODREPORT = "foodreport";
     public static PROFILEIMAGE = "profileImage";
     public static PAYMENT = "payment";
+    public static WALLET = "wallet";
     public static NEWFEED = "newfeed";
     public static CUSTOMER = "customer";
     public static AUTH = "auth";
@@ -207,6 +208,7 @@ export class API_PROFILEIMAGE {
 
 export class API_PAYMENT {
     public static GET_URL = "getpaymenturl"
+    public static VERIFY = "verify"
 }
 
 export class API_SHIPADDRESS {
@@ -223,4 +225,9 @@ export class API_AUTH {
 
 export class API_DASHBOARD {
     public static DASHBOARD_SELLER = "dashboardSeller";
+}
+
+export class API_WALLET {
+    public static GET_BAlANCE = "getbalance"
+    public static HISTORY = "history"
 }

@@ -64,6 +64,7 @@ import { ManageMenumoderatorModuleComponent } from './modules/admin-routing-modu
 import { NewFeedModuleComponent } from './modules/customer-routing-module/components/new-feed-module/new-feed-module.component';
 
 import { ManageprofileComponent } from './profile/manageprofile.component';
+import { WalletComponentSeller } from './modules/seller-routing-module/components/wallet/wallet.component';
 
 @NgModule({
   declarations: [
@@ -99,8 +100,8 @@ import { ManageprofileComponent } from './profile/manageprofile.component';
     OrderhistoryComponent,
     AppNavbarComponent,
     ManageCategoryModuleComponent,
-    NewFeedModuleComponent
-
+    NewFeedModuleComponent,
+    WalletComponentSeller
   ],
   imports: [
     BrowserAnimationsModule,
@@ -130,7 +131,6 @@ import { ManageprofileComponent } from './profile/manageprofile.component';
       }
 
     })
-
   ],
 
   providers: [
