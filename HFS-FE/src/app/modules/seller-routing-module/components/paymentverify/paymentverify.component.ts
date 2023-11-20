@@ -10,7 +10,7 @@ import * as API from '../../../../services/apiURL';
   templateUrl: './paymentverify.component.html',
   styleUrls: ['./paymentverify.component.scss']
 })
-export class PaymentverifyComponent extends iComponentBase
+export class PaymentverifySellerComponent extends iComponentBase
   implements OnInit {
   constructor(
     public breadcrumbService: AppBreadcrumbService,
@@ -64,6 +64,6 @@ export class PaymentverifyComponent extends iComponentBase
   }
 
   onBackToWallet() {
-    this.router.navigate(['/wallet']);
+    this.router.navigate(['/HFSBusiness/seller/wallet']);
   }
 }

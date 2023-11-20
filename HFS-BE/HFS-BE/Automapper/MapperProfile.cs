@@ -37,6 +37,7 @@ using HFS_BE.DAO.CommentNewFeedDao;
 using HFS_BE.BusinessLogic.ManageUser.ManageCustomer;
 using HFS_BE.BusinessLogic.ManageUser.ManageSeller;
 using HFS_BE.DAO.ShipAddressDao;
+using HFS_BE.DAO.TransantionDao;
 using static HFS_BE.Utils.Enum.CategoryStatusEnum;
 using HFS_BE.BusinessLogic.FeedBackCustomer;
 using HFS_BE.Controllers.FeedBack;
@@ -69,6 +70,7 @@ namespace HFS_BE.Automapper
             Google();
             Comment();
             ShipAddress();
+            Transaction();
         }
 
         /// <summary>
@@ -456,6 +458,10 @@ namespace HFS_BE.Automapper
             //CreateMap<List<ShipAddress>, List<ShipAddressOutputDto>>();
         }
 
+        public void Transaction()
+        {
+            CreateMap<TransactionHistory, GetTransactionHistoryDaoDto>();
+        }
     }
 }
 
