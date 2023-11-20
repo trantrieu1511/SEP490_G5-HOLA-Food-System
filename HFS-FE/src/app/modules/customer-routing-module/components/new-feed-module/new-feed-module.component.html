@@ -1,0 +1,44 @@
+<h1>New Feed</h1>
+<h2>FU HOLA</h2>
+
+<div *ngFor="let item of listPost" class="post">
+    <div >      
+        <!-- data:image/gif;base64,{{postImage.imageBase64}} -->
+        <img src="data:image/gif;base64,{{item.imagesBase64[0].imageBase64}}" alt="Ảnh minh họa 1" />
+        <p>{{item.postContent}}</p>
+        <div class="actions">
+          <i class="fas fa-thumbs-up like" data-likes="0"></i>
+          <i class="fas fa-share share" data-shares="0"></i>
+        </div>
+        
+        <div class="comments">
+          <div class="comment">
+            <img src="https://petmaster.vn/petroom/wp-content/uploads/2020/04/meo-anh-1.jpg" alt="Avatar" />
+            <div class="comment-content">
+              <div class="comment-text">
+                <strong>Người dùng A:</strong> Bài viết tuyệt vời!
+              </div>
+              <div class="comment-actions">
+                <i class="far fa-thumbs-up"></i> <i class="far fa-comment-alt"></i> <i class="far fa-share-square"></i>
+              </div>
+            </div>
+          </div>
+          <div class="comment">
+            <img src="https://petmaster.vn/petroom/wp-content/uploads/2020/04/meo-anh-1.jpg" alt="Avatar" />
+            <div class="comment-content">
+              <div class="comment-text">
+                <strong>Người dùng B:</strong> Cảm ơn bạn!
+              </div>
+              <div class="comment-actions">
+                <i class="far fa-thumbs-up"></i> <i class="far fa-comment-alt"></i> <i class="far fa-share-square"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form class="comment-form">
+          <label for="comment">Bình luận của bạn:</label>
+          <textarea id="comment" name="comment" rows="4"></textarea>
+          <button type="submit">Đăng Bình Luận</button>
+        </form>
+    </div>
+</div>

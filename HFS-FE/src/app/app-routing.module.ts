@@ -23,7 +23,7 @@ import {
 import { ManageprofileComponent } from './profile/manageprofile.component';
 import { FooddetailComponent, 
   HomepageComponent, 
-  NewfeedComponent, 
+  NewFeedModuleComponent, 
   ShopdetailComponent 
 } from './modules/customer-routing-module/customer-routing-module';
 
@@ -103,7 +103,7 @@ const routes: Routes = [
       {path: 'homepage', component: HomepageComponent},
       {path: "shopdetail", component: ShopdetailComponent},
       {path: "fooddetail", component: FooddetailComponent},
-      {path: "newfeed", component : NewfeedComponent},
+      {path: "newfeed", component : NewFeedModuleComponent},
       {
         path: '',
         canActivate: [authGuard],

@@ -10,6 +10,8 @@ import { ManageSellerModuleComponent } from './manage-seller-module/manage-selle
 import { ManageShipperModuleComponent } from './manage-shipper-module/manage-shipper-module.component';
 import { ManageMenumoderatorModuleComponent } from './manage-menumoderator-module/manage-menumoderator-module.component';
 //import { ManageCategoryModuleComponent } from './manage-category-module/manage-category-module.component';
+import { ManageCategoryModuleComponent } from './manage-category-module/manage-category-module.component';
+
 
 const routes: Routes = [
   {path: "dd", component: ManageCustomerModuleComponent},
@@ -18,6 +20,7 @@ const routes: Routes = [
   {path: "shipper-manage", component: ManageShipperModuleComponent},
   {path: "", component: ManageMenumoderatorModuleComponent},
   //{path: "manage-category", component: ManageCategoryModuleComponent},
+  {path: "category-manage", component: ManageCategoryModuleComponent},
 ]
 
 

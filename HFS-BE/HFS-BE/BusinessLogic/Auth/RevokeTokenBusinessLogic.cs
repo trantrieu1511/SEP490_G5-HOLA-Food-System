@@ -2,6 +2,7 @@
 using HFS_BE.Base;
 using HFS_BE.DAO.UserDao;
 using HFS_BE.Models;
+using static HFS_BE.BusinessLogic.Auth.RegisterSellerInputDto;
 
 namespace HFS_BE.BusinessLogic.Auth
 {
