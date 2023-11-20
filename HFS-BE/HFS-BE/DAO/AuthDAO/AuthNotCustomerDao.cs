@@ -130,7 +130,7 @@ namespace HFS_BE.DAO.AuthDAO
 
 		}
 
-		public BaseOutputDto RegisterSeller(RegisterDto model)
+		public BaseOutputDto RegisterSeller(RegisterSellerDto model)
 		{
 			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
 			var validationResults = new List<ValidationResult>();
@@ -172,7 +172,7 @@ namespace HFS_BE.DAO.AuthDAO
 			var data5 = context.Admins.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			if (data != null || data2 != null || data3 != null || data4 != null || data5 != null)
 			{
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email đã sử dụng");
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email has been used");
 			}
 			model.BirthDate = model.BirthDate.Value.AddDays(1);
 			var user = new HFS_BE.Models.Seller
@@ -183,6 +183,9 @@ namespace HFS_BE.DAO.AuthDAO
 				FirstName = model.FirstName,
 				LastName = model.LastName,
 				Gender = model.Gender,
+				PhoneNumber = model.PhoneNumber,
+				ShopName=model.ShopName,
+				ShopAddress=model.ShopAddress,
 				ConfirmedEmail = false,
 				IsBanned = false
 

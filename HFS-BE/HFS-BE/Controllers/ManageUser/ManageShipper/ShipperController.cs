@@ -62,6 +62,21 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 				throw;
 			}
 		}
+		[HttpPost("users/listinvitationshipperbyshipper")]
+
+		public ListInvitationShipperbyShipperDtoOutput ListInvitationShipperByShipper(ListInvitationShipperDtoInput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ShipperBusinessLogic>();
+				var output = business.ListInvitationShipperbyShipper(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
 		[HttpPost("users/invitationshipper")]
 
 		public BaseOutputDto InvitationShipper(InvitationShipperEmailDtoInput input)
@@ -78,7 +93,21 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 			}
 		}
 
+		[HttpPost("users/acceptshipper")]
 
+		public BaseOutputDto AcceptShipper(InvitationShipperDtoInput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ShipperBusinessLogic>();
+				var output = business.AcceptShipper(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
 
 		[HttpPost("users/banshipper")]
 

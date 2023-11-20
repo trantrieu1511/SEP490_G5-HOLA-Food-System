@@ -80,8 +80,8 @@
                     <ng-template pTemplate="body" let-orderDetail>
                         <tr>
                             <td>{{orderDetail.foodId}}</td>
-                            <td><p-image src="data:image/gif;base64,{{orderDetail.image}}" [preview]="true"
-                                [alt]="orderDetail.image" class="dialogimages_image w-10rem shadow-2"
+                            <td><p-image src="data:image/gif;base64,{{orderDetail.imageBase64.imageBase64}}" [preview]="true"
+                                [alt]="orderDetail.imageBase64.name" class="dialogimages_image w-10rem shadow-2"
                                 ></p-image></td>                           
                             <td>{{orderDetail.foodName}}</td>
                             <td>{{orderDetail.unitPrice}}</td>
@@ -89,6 +89,20 @@
                         </tr>
                     </ng-template>
                 </p-table>
+                <p style="text-align: right;">Total: </p>
+                <div class="flex">
+                    <div class="w-full md:w-1/4">
+                        <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" [preview]="true" alt="Image" width="250">
+                            <ng-template pTemplate="indicator">
+                                <i class="pi pi-check"></i>
+                            </ng-template>
+                        </p-image> 
+                    </div>
+                    <div class="w-full md:w-3/4">
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>

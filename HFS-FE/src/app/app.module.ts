@@ -60,6 +60,9 @@ import { CustomerpostreportComponent } from './modules/customer-routing-module/c
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppNavbarComponent } from './app-systems/app-navbar/app-navbar.component';
+import { ManageMenumoderatorModuleComponent } from './modules/admin-routing-module/manage-menumoderator-module/manage-menumoderator-module.component';
+import { NewFeedModuleComponent } from './modules/customer-routing-module/components/new-feed-module/new-feed-module.component';
+
 import { ManageprofileComponent } from './profile/manageprofile.component';
 
 @NgModule({
@@ -91,7 +94,12 @@ import { ManageprofileComponent } from './profile/manageprofile.component';
     WalletComponent,
     PaymentverifyComponent,
     AppNavbarComponent,
-    ManageprofileComponent
+    ManageMenumoderatorModuleComponent,
+    ManageprofileComponent,
+    OrderhistoryComponent,
+    AppNavbarComponent,
+    ManageCategoryModuleComponent,
+    NewFeedModuleComponent
 
   ],
   imports: [

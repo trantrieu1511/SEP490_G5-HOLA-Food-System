@@ -196,6 +196,7 @@ namespace HFS_BE.Dao.AuthDao
 				BirthDate = model.BirthDate,
 				FirstName = model.FirstName,
 				LastName = model.LastName,
+				PhoneNumber = model.PhoneNumber,
 				Gender = model.Gender,
 				ConfirmedEmail = false,
 				IsBanned=false
@@ -272,6 +273,7 @@ namespace HFS_BE.Dao.AuthDao
 
 			try
 			{
+				
 				await SendEmail2Async(model.Email, subject, message);
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}
@@ -431,7 +433,8 @@ namespace HFS_BE.Dao.AuthDao
 					var data = context.Customers.Where(s => s.Email == email).FirstOrDefault();
 					var data1 = context.Sellers.Where(s => s.Email == email).FirstOrDefault();
 					var data2 = context.Shippers.Where(s => s.Email == email).FirstOrDefault();
-				
+					//var data3 = context.PostModerators.Where(s => s.Email == email).FirstOrDefault();
+					//var data4 = context.MenuModerators.Where(s => s.Email == email).FirstOrDefault();
 					if (data != null)
 					{
 						return email;
@@ -448,6 +451,16 @@ namespace HFS_BE.Dao.AuthDao
 						return email;
 
 					}
+					//else if (data3 != null)
+					//{
+					//	return email;
+
+					//}
+					//else if (data4 != null)
+					//{
+					//	return email;
+
+					//}
 
 				}
 				return null;

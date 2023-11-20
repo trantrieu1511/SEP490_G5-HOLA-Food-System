@@ -41,5 +41,6 @@ namespace HFS_BE.DAO.CustomerDao
 		public bool ConfirmEmail { get; set; }
 		public bool? IsBanned { get; set; }
 		public int? CountMessageNotIsRead { get; set; }
+		public string? Image { get; set; }
 	}
 }

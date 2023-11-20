@@ -28,7 +28,7 @@ namespace HFS_BE.Controllers.Auth
 			}
 		}
 		[HttpPost("home/registerseller")]
-		public BaseOutputDto RegisterSeller(RegisterInputDto inputDto)
+		public BaseOutputDto RegisterSeller(RegisterSellerInputDto inputDto)
 		{
 			try
 			{

@@ -16,7 +16,7 @@ namespace HFS_BE.Controllers.Category
         public GetAllCategoryController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
-        [HttpPost("getallcategory")]
+        [HttpPost("users/getallcategory")]
         public ListcategoryOutptuDto GetAll()
         {
             try

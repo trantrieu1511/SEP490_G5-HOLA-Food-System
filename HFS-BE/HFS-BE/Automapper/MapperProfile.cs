@@ -38,6 +38,7 @@ using HFS_BE.BusinessLogic.ManageUser.ManageCustomer;
 using HFS_BE.BusinessLogic.ManageUser.ManageSeller;
 using HFS_BE.DAO.ShipAddressDao;
 using HFS_BE.DAO.TransantionDao;
+using static HFS_BE.Utils.Enum.CategoryStatusEnum;
 
 namespace HFS_BE.Automapper
 {
@@ -89,8 +90,9 @@ namespace HFS_BE.Automapper
             CreateMap<AuthDaoOutputDto, LoginOutputDto>();
             CreateMap<AuthDaoOutputDto, LoginOutputDto>();
             CreateMap<RegisterInputDto, RegisterDto>();
-            //CreateMap<DisplayShopOutputDto, BusinessLogic.Homepage.DisplayShopOutputDto>();
-        }
+			CreateMap<RegisterSellerInputDto, RegisterSellerDto>();
+			//CreateMap<DisplayShopOutputDto, BusinessLogic.Homepage.DisplayShopOutputDto>();
+		}
 
         public void Post()
         {
@@ -337,9 +339,9 @@ namespace HFS_BE.Automapper
 
         public void Category()
         {
-            CreateMap<CategoryDaoInputDto, Category>();
             CreateMap<Category, CategoryDaoOutputDto>();
-            CreateMap<Category, GetCategoryOutputDto>();
+            CreateMap<Category, GetCategoryOutputDto>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src=>CategoryStatusEnum.GetStatusString(src.Status)));
         }
 
         public void Shipper()
@@ -370,7 +372,11 @@ namespace HFS_BE.Automapper
             CreateMap<ListCustomerDtoOutput, ListCustomerOutputDtoBS>();
             CreateMap<SellerDtoOutput, SellerDtoBS>();
             CreateMap<ListSellerDtoOutput, ListSellerOutputDtoBS>();
-        }
+			CreateMap<Invitation, InvitationSellerDtoOutput>()
+			 .ForMember(dest => dest.SellerName, opt => opt.MapFrom(src => src.Seller.FirstName + " " + src.Seller.LastName))
+			 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Seller.Email))
+			 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Seller.PhoneNumber));
+		}
 
         public void FeedBack()
         {
@@ -431,7 +437,10 @@ namespace HFS_BE.Automapper
 
         public void Comment()
         {
-            CreateMap<Comment, CommentOutputDto>();
+            CreateMap<Comment, CommentOutputDto>()
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName +" "+ src.Customer.LastName));
+            CreateMap<CommentOutputDto, Customer>()
+                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.CustomerName));
 
         }
 

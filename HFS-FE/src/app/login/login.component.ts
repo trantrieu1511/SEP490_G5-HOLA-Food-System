@@ -113,14 +113,15 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
     this.refreshCaptcha();
   }
   ngOnInit(): void {
+    this.service.error$.subscribe(error => {
+      this.error = error;
+    //this.showMessage(mType.error, "Notification", error, 'app-non-login');
+    })
     this.captchacheck = localStorage.getItem("captcha");
     this.unsuccessfulLoginAttempts=parseInt(this.captchacheck);
     localStorage.removeItem('user');
     sessionStorage.clear();
-    this.service.error$.subscribe(error => {
-      //this.error = error;
-      this.showMessage(mType.error, "Notification", error, 'app-login');
-    });
+
     this.FormFirst();
     this.loadGoogleLibrary();
     this.service.user$.subscribe((user) => {
@@ -220,7 +221,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
     this.unsuccessfulLoginAttempts=parseInt(this.captchacheck);
     if (this.form.valid) {
 
-      if (this.unsuccessfulLoginAttempts>2&& this.captchaText !== this.form.value.captcha) {
+      if (this.unsuccessfulLoginAttempts>6&& this.captchaText !== this.form.value.captcha) {
         // Show an error or handle the captcha verification failure
         this.refreshCaptcha();
         //window.location.reload();
@@ -228,12 +229,16 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
         return;
       }
       try {
-        // debugger;
+         debugger;
         this.service.login(this.form.value).subscribe(
           (res) => {
+            if(res===undefined&&this.user===null){
+              this.showMessage(mType.error, "Notification", this.error, 'app-login');
+            }
             //this.toastr.success('Login success');
             // const userData = localStorage.getItem('user');
             // this.user = JSON.parse(userData);
+            debugger;
             switch (this.user.role) {
               case 'CU':
                 this.router.navigate(['/homepage']);
@@ -251,6 +256,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
                 window.location.reload();
 
             }
+
           },
           (error) => {
             console.log(error);
@@ -258,10 +264,11 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
               this.error = 'Email hoặc mật khẩu không chính xác.';
             } else {
               // this.error = 'Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.';
-              this.showMessage(mType.error, "Notification", "Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau", 'app-login');
+              this.showMessage(mType.error, "Notification", "Email hoặc mật khẩu không chính xác.", 'app-login');
             }
           }
         );
+
       } catch (err) { }
     } else {
       this.refreshCaptcha();

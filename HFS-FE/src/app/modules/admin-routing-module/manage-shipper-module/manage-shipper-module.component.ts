@@ -86,8 +86,7 @@ console.log(this.banshipper);
       "isVerified": !user.isVerified
     }
     try{
-      debugger;
-    let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.ACTIVE_SHIPPER,param);
+    let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.ACTVIVE_SHIPPER,param);
 
     if (response && response.message === "Success") {
      this.getAllShipper();
@@ -104,7 +103,6 @@ console.log(this.banshipper);
    async onSaveBan(){
 
     try{
-      debugger;
     let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.BAN_SHIPPER,this.banshipper);
 
     if (response && response.message === "Success") {

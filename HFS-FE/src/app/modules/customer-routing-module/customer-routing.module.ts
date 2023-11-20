@@ -15,10 +15,10 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { OrderhistoryComponent } from './components/orderhistory/orderhistory.component';
 import { WalletComponent } from './components/wallet/wallet.component';
 import { PaymentverifyComponent } from './components/paymentverify/paymentverify.component';
-import { NewfeedComponent } from './components/newfeed/newfeed.component';
 import { CustomerfoodreportComponent } from './components/customerfoodreport/customerfoodreport.component';
 import { CustomerpostreportComponent } from './components/customerpostreport/customerpostreport.component';
 import { ManageshipaddressComponent } from './components/shipaddress/manageshipaddress.component';
+import { NewFeedModuleComponent } from './components/new-feed-module/new-feed-module.component';
 
 
 
@@ -28,6 +28,7 @@ const routes: Routes = [
   {path: "orderhistory", component : OrderhistoryComponent},
   {path: "wallet", component : WalletComponent},
   {path: "paymentverify", component : PaymentverifyComponent},
+  {path: "newfeed", component : NewFeedModuleComponent},
   // -------------- My account page related routes -----------------
   // {path: "profile", component : ManageprofileComponent},
   {path: "menureport", component : CustomerfoodreportComponent},

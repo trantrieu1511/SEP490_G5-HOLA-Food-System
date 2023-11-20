@@ -86,15 +86,18 @@ namespace HFS_BE.DAO.ModeratorDao
 			var data = context.Customers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
-			if (data != null || data2 != null || data3 != null)
+			var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data5 = context.Admins.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			if (data != null || data2 != null || data3 != null || data4 != null || data5 != null)
 			{
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email đã sử dụng");
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email has been used");
 			}
 			var userCreate = new HFS_BE.Models.MenuModerator
 			{
 				ModId = paddedString,
 				Email = model.Email,
 				BirthDate = model.BirthDate,
+				PhoneNumber = model.PhoneNumber,
 				FirstName = model.FirstName,
 				LastName = model.LastName,
 				Gender = model.Gender,
@@ -159,10 +162,12 @@ namespace HFS_BE.DAO.ModeratorDao
 			}
 			var data = context.Customers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
-			var data3 = context.MenuModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
-			if (data != null||data2!=null||data3!=null)
+			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data5 = context.Admins.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			if (data != null || data2 != null || data3 != null || data4 != null || data5 != null)
 			{
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email đã sử dụng");
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email has been used");
 			}
 			var userCreate = new HFS_BE.Models.PostModerator
 			{
@@ -171,6 +176,7 @@ namespace HFS_BE.DAO.ModeratorDao
 				BirthDate = model.BirthDate,
 				FirstName = model.FirstName,
 				LastName = model.LastName,
+				PhoneNumber = model.PhoneNumber,
 				Gender = model.Gender,
 				ConfirmedEmail = true,
 
@@ -241,6 +247,95 @@ namespace HFS_BE.DAO.ModeratorDao
 				return output;
 			}
 			catch (Exception)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+			}
+		}
+		public BaseOutputDto UpdateMenuModerator(UpdateModeratorDtoinput model)
+		{
+			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
+			var validationResults = new List<ValidationResult>();
+			bool isValid = Validator.TryValidateObject(model, validationContext, validationResults, validateAllProperties: true);
+
+			if (!isValid)
+			{
+				string err = "";
+				foreach (var item in validationResults)
+				{
+					err += item.ToString() + " ";
+				}
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
+			}
+			var data = context.Customers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data5 = context.Admins.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			if (data != null || data2 != null || data3 != null || data4 != null || data5 != null)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email has been used");
+			}
+			var mm = context.MenuModerators.Where(s => s.ModId == model.ModId).SingleOrDefault();
+			mm.FirstName = model.FirstName;
+			mm.PhoneNumber = model.PhoneNumber;
+			mm.LastName = model.LastName;
+			mm.BirthDate = model.BirthDate;
+			mm.Email = model.Email;
+			using (HMACSHA256? hmac = new HMACSHA256())
+			{
+				mm.PasswordSalt = hmac.Key;
+				mm.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(model.Password));
+			}
+
+			try
+			{
+				context.MenuModerators.Update(mm);
+				context.SaveChanges();
+				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+			}
+			catch (Exception ex)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+			}
+		}
+		public BaseOutputDto UpdateMenuModeratorNotPasswood(UpdateModeratorDtoinputNotPassword model)
+		{
+			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
+			var validationResults = new List<ValidationResult>();
+			bool isValid = Validator.TryValidateObject(model, validationContext, validationResults, validateAllProperties: true);
+
+			if (!isValid)
+			{
+				string err = "";
+				foreach (var item in validationResults)
+				{
+					err += item.ToString() + " ";
+				}
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
+			}
+			//var data = context.Customers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			//var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			//var data3 = context.PostModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			//var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			//var data5 = context.Admins.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			//if (data != null || data2 != null || data3 != null || data4 != null || data5 != null)
+			//{
+			//	return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email has been used");
+			//}
+			var mm = context.MenuModerators.Where(s => s.ModId == model.ModId).SingleOrDefault();
+			mm.FirstName = model.FirstName;
+			mm.PhoneNumber = model.PhoneNumber;
+			mm.LastName = model.LastName;
+			mm.BirthDate = model.BirthDate;
+			//mm.Email = model.Email;
+
+			try
+			{
+				context.MenuModerators.Update(mm);
+				context.SaveChanges();
+				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+			}
+			catch (Exception ex)
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
 			}

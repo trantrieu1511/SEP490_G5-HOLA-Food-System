@@ -17,4 +17,11 @@ export class OrderDetailDtoOutput{
     unitPrice : number;
     quantity : number;
     status :boolean;
+    imageBase64:Images;
+}
+
+export class Images{
+    imageBase64:string;
+    name: string;
+    size:string;
 }

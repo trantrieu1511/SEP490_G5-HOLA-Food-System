@@ -9,6 +9,7 @@
   padding: 5px;
   max-width: 80%;
 }
+/* Styles cho chat box trên màn hình điện thoại di động */
 
 .message-send{
   background-color: rgba(73, 73, 250, 0.972);
@@ -39,6 +40,7 @@ img{
   right: 250px;
   bottom: 1px;
 }
+
 
 .small-img{
   max-height: 25px;
@@ -77,3 +79,39 @@ img{
 
 }
 
+.chatbox-top{
+  width: 100%;
+}
+
+@media screen and (max-width: 960px) {
+  .chat-box{
+    top: 0;
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
+    left: 0;
+    margin-top: 8rem !important;
+    z-index: 999;
+  }
+
+  :host ::ng-deep {
+    .p-panel{
+      height: calc(100vh - 8rem) !important;
+    }
+
+    .p-toggleable-content{
+      height: calc(100vh - 8rem) !important;
+      .p-panel-content{
+        height: calc(100vh - 15rem) !important;
+        display: flex;
+        flex-direction: column;
+
+        .card-body{
+          flex-grow: 1;
+        }
+      }
+
+    }
+
+  }
+}

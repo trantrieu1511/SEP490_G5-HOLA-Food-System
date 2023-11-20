@@ -26,7 +26,7 @@ export class CustomerListByChatComponent implements OnInit {
   }
 
   selectUser(user: any) {
-    debugger;
+    //dcm dubber casi lon;
     switch ((this.usersOnline.length+1) % 2) {
 
       case 1: {
@@ -37,6 +37,7 @@ export class CustomerListByChatComponent implements OnInit {
         } else {
           this.usersOnline.push(new CustomerChatBox(user, 250));
         }
+
         break;
       }
       case 0: {
@@ -47,6 +48,7 @@ export class CustomerListByChatComponent implements OnInit {
         } else {
           this.usersOnline.push(new CustomerChatBox(user, 250 + 325));
         }
+
         break;
       }
       default: {

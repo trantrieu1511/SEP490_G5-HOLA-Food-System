@@ -14,3 +14,10 @@ export class Invition{
 	phoneNumber: string;
   accepted:number;
 }
+export class InvitionSeller{
+	sellerId: number;
+	sellerName: string;
+	email: string
+	phoneNumber: string;
+  accepted:number;
+}

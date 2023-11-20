@@ -43,7 +43,7 @@ namespace HFS_BE.Hubs
 				await messageDao.UpdateMessageCustomerIsRead(user2, otherUser);
 				var group = await AddToGroup(groupName);
 				var connections = await _tracker.GetConnectionsForCustomer(user2);
-				await _presenceHub.Clients.Clients(connections).SendAsync("notIsRead", 0, otherUser);
+				await _presenceHub.Clients.Clients(connections).SendAsync("notIsReadCustomer", 0, otherUser);
 				await Clients.Caller.SendAsync("ReceiveMessageThread", messages);
 
 			}
@@ -100,13 +100,17 @@ namespace HFS_BE.Hubs
 					await messageDao.UpdateMessageCustomerIsRead(userEmail, seller.Email);
 					//	await _presenceHub.Clients.User(customerotherUser.Email).SendAsync("notIsReadSeller", customer.CountMessageNotIsRead,customer.Email);
 					var listcus = await customerDao.ListCustomersendSellerbySellerAsync(seller.Email);
+					foreach (var u in listcus)
+					{
+						u.CountMessageNotIsRead = await messageDao.CountMessageSellerNotIsRead(u.Email, seller.Email);
+					}
 					await messageDao.UpdateMessageCustomerIsRead(userEmail, seller.Email);
 					await _presenceHub.Clients.Clients(connections).SendAsync("ListCus", listcus);
 					if (connections != null)
 					{
 						var connectionscustomer = await _tracker.GetConnectionsForCustomer(customer.Email);
-						await _presenceHub.Clients.Clients(connectionscustomer).SendAsync("notIsRead", 0, customer.Email);
-						await _presenceHub.Clients.Clients(connections).SendAsync("notIsReadSeller", customer.CountMessageNotIsRead, customer.Email);
+						await _presenceHub.Clients.Clients(connectionscustomer).SendAsync("notIsReadCustomer", 0, seller.Email);
+						await _presenceHub.Clients.Clients(connections).SendAsync("notIsReadSeller", customer.CountMessageNotIsRead, customer.Email);//gửi cho seller tìm kiếm email để tăng count
 					//	await _presenceHub.Clients.All.SendAsync("NewMessageReceived", seller);
 						//await _presenceHub.Clients.Clients(connections).SendAsync("NewMessageReceived", seller);
 
@@ -139,8 +143,8 @@ namespace HFS_BE.Hubs
 					if (connections != null)
 					{
 						var connectionsseller = await _tracker.GetConnectionsForUser(seller.Email);
-						await _presenceHub.Clients.Clients(connectionsseller).SendAsync("notIsReadSeller", 0, seller.Email);
-						await _presenceHub.Clients.Clients(connections).SendAsync("notIsRead", seller.CountMessageNotIsRead, seller.Email);
+						await _presenceHub.Clients.Clients(connectionsseller).SendAsync("notIsReadSeller", 0, customer.Email);
+						await _presenceHub.Clients.Clients(connections).SendAsync("notIsReadCustomer", seller.CountMessageNotIsRead, seller.Email);
 					//	await _presenceHub.Clients.All.SendAsync("NewMessageReceivedCustomer", customer);
 					}
 				}

@@ -65,8 +65,8 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
      localStorage.removeItem('user');
     sessionStorage.clear();
     this.service.error$.subscribe(error => {
-    //  this.error = error;
-    this.showMessage(mType.error, "Notification", error, 'app-non-login');
+      this.error = error;
+    //this.showMessage(mType.error, "Notification", error, 'app-non-login');
     })
     this.FormFirst();
     this.loadGoogleLibrary();
@@ -178,12 +178,15 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
       if (this.unsuccessfulLoginAttempts>2&& this.captchaText !== this.form.value.captcha) {
 
         this.refreshCaptcha();
-        this.showMessage(mType.error, "Notification", "CAPTCHA verification failed. Please try again.", 'app-login');
+        this.showMessage(mType.error, "Notification", "CAPTCHA verification failed. Please try again.", 'app-non-login');
         return;
       }
       try {
         //debugger;
         this.service.loginnotcus(this.form.value).subscribe(res => {
+          if(res===undefined&&this.user===null){
+            this.showMessage(mType.error, "Notification", this.error, 'app-non-login');
+          }
           //this.toastr.success('Login success');
           // const userData = localStorage.getItem('user');
           // this.user = JSON.parse(userData);
@@ -217,7 +220,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
       }
     } else {
       this.refreshCaptcha();
-      this.showMessage(mType.error, "Notification", "CAPTCHA bạn nhấp sai vui lòng nhập lại", 'app-non-login');
+    //  this.showMessage(mType.error, "Notification", "CAPTCHA verification failed. Please try again", 'app-non-login');
     }
   }
 

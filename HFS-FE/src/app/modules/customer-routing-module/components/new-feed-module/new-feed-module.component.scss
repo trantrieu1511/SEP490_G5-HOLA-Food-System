@@ -116,3 +116,9 @@ body {
     cursor: pointer;
     border-radius: 5px;
   }
+
+  .post-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }

@@ -8,6 +8,7 @@ using HFS_BE.Models;
 using HFS_BE.Utils;
 using System.IdentityModel.Tokens.Jwt;
 using Twilio.Jwt.AccessToken;
+using static HFS_BE.BusinessLogic.Auth.RegisterSellerInputDto;
 
 namespace HFS_BE.BusinessLogic.Auth
 {

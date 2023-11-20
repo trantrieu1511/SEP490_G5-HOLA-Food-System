@@ -82,14 +82,22 @@
                                               class="ml-auto"></p-columnFilter>
                           </div>
                       </th>
-                      <th pSortableColumn="isOnline">
+                      <th pSortableColumn="phoneNumber">
+                        <div class="flex justify-content-between align-items-center">
+                          PhoneNumber
+                            <p-sortIcon field="phoneNumber"></p-sortIcon>
+                            <p-columnFilter type="text" field="phoneNumber" display="menu"
+                                            class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
+                      <!-- <th pSortableColumn="isOnline">
                           <div class="flex justify-content-between align-items-center">
                             Online
                               <p-sortIcon field="isOnline"></p-sortIcon>
                               <p-columnFilter type="numeric" field="isOnline" display="menu"
                                               class="ml-auto"></p-columnFilter>
                           </div>
-                      </th>
+                      </th> -->
                       <th pSortableColumn="isVerified">
                         <div class="flex justify-content-between align-items-center">
                           Verification
@@ -146,6 +154,10 @@
                           {{user.birthDate}}
                       </td>
                       <td >
+                        <span class="p-column-title">PhoneNumber</span>
+                        {{user.phoneNumber}}
+                    </td>
+                      <!-- <td >
                         <span class="p-column-title">Online</span>
                         <div *ngIf="user.isOnline" style="color:chartreuse;">
                           Online
@@ -153,7 +165,7 @@
                         <div *ngIf="!user.isOnline"  style="color:darkgray;">
                           Offline
                         </div>
-                    </td>
+                    </td> -->
                       <td >
                         <span class="p-column-title">Verification</span>
                         <div *ngIf="user.isVerified" style="color:chartreuse;">

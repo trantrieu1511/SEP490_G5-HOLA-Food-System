@@ -3,6 +3,7 @@ import { SellerChatBox } from './models/seller-chatbox';
 import { PresenceService } from '../services/presence.service';
 import { MessageChatService } from '../services/messagechat.service';
 import { SoundService } from '../services/sound.service';
+import { CustomerMessage } from '../modules/admin-routing-module/models/Customer';
 
 @Component({
   selector: 'app-seller-list',
@@ -13,7 +14,8 @@ import { SoundService } from '../services/sound.service';
 export class SellerListComponent {
   usersOnline: SellerChatBox[] = [];
   miniUser:SellerChatBox[] = [];
-
+  chatOnline: string[] = [];
+readmessage:number;
   dataUser = [
     {userName: 'hoainam10th', displayName:'Nguyen Hoai Nam'},
     {userName: 'ubuntu', displayName:'Tran Hoai Nam'},
@@ -50,10 +52,10 @@ export class SellerListComponent {
   }
 
   selectUser(user: any) {
-    debugger
+    //dcm dubber casi lon
     switch ((this.usersOnline.length+1) % 2) {
       case 1: {
-        debugger;
+        //dcm dubber casi lon;
         var u = this.usersOnline.find(x => x.seller.email === user.email);
         if (u) {
           this.usersOnline = this.usersOnline.filter(x => x.seller.email !== user.email);
@@ -61,8 +63,10 @@ export class SellerListComponent {
 
         } else {
           this.usersOnline.push(new SellerChatBox(user, 350));
+          this.readmessage=0;
         }
         localStorage.setItem('chatboxusers', JSON.stringify(this.usersOnline));
+        this.readmessage=0;
 //this.soundService.playAudioMessage();
         break;
       }
@@ -75,6 +79,7 @@ export class SellerListComponent {
           this.usersOnline.push(new SellerChatBox(user, 350 + 325));
         }
         localStorage.setItem('chatboxusers', JSON.stringify(this.usersOnline));
+        this.readmessage=0;
       //  this.soundService.playAudioMessage();
         break;
       }

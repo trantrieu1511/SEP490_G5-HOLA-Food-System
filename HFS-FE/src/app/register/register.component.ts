@@ -24,6 +24,9 @@ import { MessageService } from 'primeng/api';
 export class RegisterComponent extends iComponentBase  implements OnInit,AfterViewInit {
   isFirstnameTouched = false;
   isLastnameTouched = false;
+    isphoneNumberTouched = false;
+  isShopnameTouched = false;
+  isShopAddressTouched = false;
   user:User;
   formregister:FormGroup;
   date;
@@ -31,7 +34,7 @@ export class RegisterComponent extends iComponentBase  implements OnInit,AfterVi
   showForm: boolean = true;
   errorregister: string;
   selectedRole: number = 3;
-
+  selectedRoleId: string = '';
 private client_Id=environment.clientId;
  constructor(private router: Router,
   public renderer: Renderer2,
@@ -66,7 +69,10 @@ private client_Id=environment.clientId;
     ]),
     gender: new FormControl('male', Validators.required),
     birthDate:new FormControl('',DateOfBirthValidator()),
-    roleId:new FormControl('',[Validators.required])
+    roleId:new FormControl('',[Validators.required]),
+    phoneNumber:new FormControl('',[Validators.required]),
+    shopName:  this.selectedRole==2? new FormControl('',[Validators.required]):new FormControl(''),
+    shopAddress:  this.selectedRole==2? new FormControl('',[Validators.required]):new FormControl('')
   });
 }
 
@@ -125,6 +131,52 @@ showCaptchaError() {
     console.log('Captcha is required!');
   }
 }
+showPhoneNumberError() {
+  const captchanameControl = this.formregister.get('phonenumber');
+  if (captchanameControl.value === '' && captchanameControl.touched) {
+    console.log('Phone is required!');
+  }
+}
+showShopNameError() {
+  const captchanameControl = this.formregister.get('shopname');
+  if (captchanameControl.value === '' && captchanameControl.touched) {
+    console.log('Captcha is required!');
+  }
+}
+showShopAddressError() {
+  const captchanameControl = this.formregister.get('shopaddress');
+  if (captchanameControl.value === '' && captchanameControl.touched) {
+    console.log('Captcha is required!');
+  }
+}
+onRoleChange(event: any) {
+    this.selectedRoleId = event.target.value;
+    debugger;
+
+      const roleIdControl = this.formregister.get('roleId');
+      const shopNameControl = this.formregister.get('shopName');
+      const shopAddressControl = this.formregister.get('shopAddress');
+
+
+
+     if (roleIdControl.value === '2') {
+        // Nếu roleId là 2, enable và đặt validators cho shopName và shopAddress
+        shopNameControl.enable();
+        shopNameControl.setValidators([Validators.required]);
+        shopAddressControl.enable();
+        shopAddressControl.setValidators([Validators.required]);
+      }else {
+      shopNameControl.disable();
+      shopNameControl.clearValidators();
+      shopAddressControl.disable();
+      shopAddressControl.clearValidators();
+    }
+
+      // Cập nhật validators và trạng thái của các trường
+      shopNameControl.updateValueAndValidity();
+      shopAddressControl.updateValueAndValidity();
+
+  }
 async onSubmit() {
   if (this.formregister.valid) {
 debugger;
@@ -169,7 +221,7 @@ debugger;
     console.log(this.formregister.value.roleId);
 
 }else{
-  this.showMessage(mType.error, "Notification", "errorregister", 'app-register');
+  this.showMessage(mType.error, "Notification", "If you have missing information, please fill in again", 'app-register');
 
 }
 }

@@ -11,7 +11,7 @@ namespace HFS_BE.Utils.Validation
 			{
 				string phoneNumber = value.ToString();
 
-				if (phoneNumber.Length == 11)
+				if (phoneNumber.Length == 10)
 				{
 				
 					if (Regex.IsMatch(phoneNumber, "^(09|08|03|05)"))

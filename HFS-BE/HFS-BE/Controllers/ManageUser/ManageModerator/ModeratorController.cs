@@ -34,7 +34,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageModerator
 		}
 		[HttpPost("users/listmenumoderator")]
 
-		public ListPostModeratorDtoOutput ListMenuModerator()
+		public ListMenuModeratorDtoOutput ListMenuModerator()
 		{
 			try
 			{

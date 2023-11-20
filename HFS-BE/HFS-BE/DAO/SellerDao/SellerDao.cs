@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
+using HFS_BE.BusinessLogic.ManageUser.ManageSeller;
 using HFS_BE.DAO.CustomerDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using HFS_BE.Utils.IOFile;
 using Mailjet.Client.Resources;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -146,6 +148,17 @@ namespace HFS_BE.DAO.SellerDao
 				.FirstOrDefaultAsync(x => x.Email == email);
 			
 			var datmapper = mapper.Map<Seller, SellerMessageDtoOutput>(user);
+			var img = await context.ProfileImages.Where(s => s.UserId == datmapper.SellerId && s.IsReplaced == false).FirstOrDefaultAsync();
+			ImageFileConvert.ImageOutputDto? imageInfor = null;
+			if (img == null)
+			{
+				return datmapper;
+			
+			}
+			imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 2);
+			
+			//	var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>(imageInfor);
+			datmapper.Image = imageInfor.ImageBase64;
 			return datmapper;
 		}
 		//public async Task<List<SellerDtoOutput>> GetUsersOnlineAsync(string currentEmail, string[] userOnline)
@@ -201,6 +214,18 @@ namespace HFS_BE.DAO.SellerDao
 					var seller = await context.Sellers.Where(s=>s.Email==u).SingleOrDefaultAsync();
 					var datmapper = mapper.Map<Seller, SellerMessageDtoOutput>(seller);
 					datmapper.IsOnline = true;
+					var img = await context.ProfileImages.Where(s => s.UserId == datmapper.SellerId && s.IsReplaced == false).FirstOrDefaultAsync();
+					ImageFileConvert.ImageOutputDto? imageInfor = null;
+					if (img == null)
+					{
+						listUserOnline.Add(datmapper);
+						break;
+					}
+					imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 2);
+					if (imageInfor == null)
+						continue;
+					//	var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>(imageInfor);
+					datmapper.Image = imageInfor.ImageBase64;
 					listUserOnline.Add(datmapper);
 
 				}
@@ -226,6 +251,19 @@ namespace HFS_BE.DAO.SellerDao
 					var seller = await context.Sellers.Where(s => s.Email == u).SingleOrDefaultAsync();
 					var datmapper = mapper.Map<Seller, SellerMessageDtoOutput>(seller);
 					datmapper.IsOnline = true;
+					var img= await context.ProfileImages.Where(s=>s.UserId== datmapper.SellerId&&s.IsReplaced==false).FirstOrDefaultAsync();
+					ImageFileConvert.ImageOutputDto? imageInfor = null;
+					if (img == null)
+					{
+						listUserOnline.Add(datmapper);
+						break;
+					}
+					imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 2);
+					if (imageInfor == null)
+						continue;
+				//	var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>(imageInfor);
+					datmapper.Image = imageInfor.ImageBase64;
+				                 
 					listUserOnline.Add(datmapper);
 
 				}
@@ -251,9 +289,15 @@ namespace HFS_BE.DAO.SellerDao
 		   .Where(s1 => !sellersOnline.Any(s2 => s2.Email == s1.Email))
 		   .Union(sellersOnline.Where(s2 => !listseller.Any(s1 => s1.Email == s2.Email)))
 		   .ToList();
+
 				Console.WriteLine("List" + differentEmailSellers);
+
+				
+
 				return await Task.Run(() => differentEmailSellers.Where(x => x.Email != currentEmail).ToList());
+
 			}
+
 			catch (Exception)
 			{
 				return null;
@@ -275,6 +319,22 @@ namespace HFS_BE.DAO.SellerDao
 		   .Union(sellersOnline.Where(s2 => !listseller.Any(s1 => s1.Email == s2.Email)))
 		   .ToList();
 				Console.WriteLine("List" + differentEmailSellers);
+
+				foreach (var seller in differentEmailSellers)
+				{
+					var img = await context.ProfileImages.Where(s => s.UserId == seller.SellerId && s.IsReplaced == false).FirstOrDefaultAsync();
+					if (img == null)
+					{
+						break;
+					}
+					ImageFileConvert.ImageOutputDto? imageInfor = null;
+					imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 2);
+					if (imageInfor == null)
+						continue;
+					//	var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>(imageInfor);
+					seller.Image = imageInfor.ImageBase64;
+				}
+
 				return await Task.Run(() => differentEmailSellers.ToList());
 			}
 			catch (Exception)

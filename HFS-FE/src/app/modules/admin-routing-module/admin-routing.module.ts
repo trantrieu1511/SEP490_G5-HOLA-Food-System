@@ -8,14 +8,19 @@ import { ManageCustomerModuleComponent } from './manage-customer-module/manage-c
 import { ManagePostmoderatorModuleComponent } from './manage-postmoderator-module/manage-postmoderator-module.component';
 import { ManageSellerModuleComponent } from './manage-seller-module/manage-seller-module.component';
 import { ManageShipperModuleComponent } from './manage-shipper-module/manage-shipper-module.component';
+import { ManageMenumoderatorModuleComponent } from './manage-menumoderator-module/manage-menumoderator-module.component';
 //import { ManageCategoryModuleComponent } from './manage-category-module/manage-category-module.component';
+import { ManageCategoryModuleComponent } from './manage-category-module/manage-category-module.component';
+
 
 const routes: Routes = [
-  {path: "", component: ManageCustomerModuleComponent},
+  {path: "dd", component: ManageCustomerModuleComponent},
   {path: "post-moderator", component: ManagePostmoderatorModuleComponent},
   {path: "seller-manage", component: ManageSellerModuleComponent},
   {path: "shipper-manage", component: ManageShipperModuleComponent},
+  {path: "", component: ManageMenumoderatorModuleComponent},
   //{path: "manage-category", component: ManageCategoryModuleComponent},
+  {path: "category-manage", component: ManageCategoryModuleComponent},
 ]
 
 

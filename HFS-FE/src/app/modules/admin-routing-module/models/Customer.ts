@@ -29,4 +29,10 @@ export class CustomerMessage {
   isOnline: boolean;
   isBanned: boolean;
   countMessageNotIsRead:number;
+  image:string;
+}
+export class CustomerMessageOnline {
+ email: string;
+  countMessageNotIsRead:number;
+
 }
