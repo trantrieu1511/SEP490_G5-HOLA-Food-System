@@ -220,7 +220,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
       }
     } else {
       this.refreshCaptcha();
-      this.showMessage(mType.error, "Notification", "CAPTCHA verification failed. Please try again", 'app-non-login');
+    //  this.showMessage(mType.error, "Notification", "CAPTCHA verification failed. Please try again", 'app-non-login');
     }
   }
 
