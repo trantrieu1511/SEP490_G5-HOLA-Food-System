@@ -88,9 +88,9 @@
                                         <ng-template pTemplate="body" let-orderDetail>
                                             <tr>
                                                 <td>{{ orderDetail.foodId }}</td>
-                                                <td><p-image src="data:image/gif;base64,{{orderDetail.image}}" [preview]="true"
-                                                    [alt]="orderDetail.image" class="dialogimages_image w-10rem shadow-2"
-                                                    ></p-image></td>
+                                                <td><p-image src="data:image/gif;base64,{{orderDetail.imageBase64.imageBase64}}" [preview]="true"
+                                                    [alt]="orderDetail.imageBase64.name" class="dialogimages_image w-10rem shadow-2"
+                                                    ></p-image></td> 
                                                 <td>{{ orderDetail.foodName }}</td>
                                                 <td>{{ orderDetail.unitPrice }}$</td>
                                                 <td>{{ orderDetail.quantity}}</td>
