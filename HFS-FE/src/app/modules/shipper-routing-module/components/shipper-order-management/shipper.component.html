@@ -224,6 +224,7 @@
                               <span style="color:greenyellow;" *ngIf="history.accepted === 1">Accepted</span>
                               <span style="color:red;" *ngIf="history.accepted === 2">Rejected</span>
                           </td>
+                          
                           <td>   <button pButton type="button" label="Accepted" icon="pi pi-check"
                             (click)="UpdateInv(history,1)"
                             style="width: 100%;"></button>

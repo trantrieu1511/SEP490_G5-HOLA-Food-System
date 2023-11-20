@@ -90,7 +90,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
       this.getAllOrder();
       this.connectSignalR();
       this.getAllInvitionbyshipper();
-            debugger;
+          
 
 
     }
