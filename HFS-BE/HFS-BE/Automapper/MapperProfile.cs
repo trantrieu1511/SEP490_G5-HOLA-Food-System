@@ -37,6 +37,7 @@ using HFS_BE.DAO.CommentNewFeedDao;
 using HFS_BE.BusinessLogic.ManageUser.ManageCustomer;
 using HFS_BE.BusinessLogic.ManageUser.ManageSeller;
 using HFS_BE.DAO.ShipAddressDao;
+using static HFS_BE.Utils.Enum.CategoryStatusEnum;
 
 namespace HFS_BE.Automapper
 {
@@ -336,9 +337,9 @@ namespace HFS_BE.Automapper
 
         public void Category()
         {
-            CreateMap<CategoryDaoInputDto, Category>();
             CreateMap<Category, CategoryDaoOutputDto>();
-            CreateMap<Category, GetCategoryOutputDto>();
+            CreateMap<Category, GetCategoryOutputDto>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src=>CategoryStatusEnum.GetStatusString(src.Status)));
         }
 
         public void Shipper()

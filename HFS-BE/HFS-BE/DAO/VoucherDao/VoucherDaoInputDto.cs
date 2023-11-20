@@ -29,4 +29,5 @@ namespace HFS_BE.DAO.VoucherDao
         public int VoucherId { get; set; }
         public bool Type { get; set; }
     }
+
 }

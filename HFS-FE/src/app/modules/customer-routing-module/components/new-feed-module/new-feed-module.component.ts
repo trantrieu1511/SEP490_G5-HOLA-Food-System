@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { DataService } from 'src/app/services/data.service';
 import {
   iComponentBase,
   iServiceBase, mType,
@@ -9,14 +6,16 @@ import {
 } from 'src/app/modules/shared-module/shared-module';
 import * as API from "../../../../services/apiURL";
 import { Post } from '../../models/post.model';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { DataService } from 'src/app/services/data.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
 @Component({
-  selector: 'app-newfeed',
-  templateUrl: './newfeed.component.html',
-  styleUrls: ['./newfeed.component.scss']
+  selector: 'app-new-feed-module',
+  templateUrl: './new-feed-module.component.html',
+  styleUrls: ['./new-feed-module.component.scss']
 })
-export class NewfeedComponent extends iComponentBase implements OnInit{
 
+export class NewFeedModuleComponent extends iComponentBase implements OnInit{
   loading: boolean;
   listPost:Post []=[];
 
@@ -55,5 +54,4 @@ export class NewfeedComponent extends iComponentBase implements OnInit{
       this.loading = false;
     }
   }
-
 }

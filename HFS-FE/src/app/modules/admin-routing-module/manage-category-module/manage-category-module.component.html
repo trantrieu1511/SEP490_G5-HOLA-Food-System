@@ -1,1 +1,179 @@
 <p>manage-category-module works!</p>
+<div class="grid table-demo">
+    <div class="col-12">
+        <div class="card">
+            <h5>Category Management</h5>
+  
+            <p-table #dt [value]="lstCate" dataKey="id"
+                     styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
+                     [showCurrentPageReport]="true"
+                     [paginator]="lstCate.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
+                     currentPageReportTemplate="Total: {totalRecords} vouchers"
+                     [globalFilterFields]="['code']" responsiveLayout="scroll"
+                     [loading]="loading"
+            >
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-row align-items-center flex-wrap justify-content-between ">
+                        <div class="flex-1">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text"  #textInput
+                                       (input)="dt.filterGlobal(textInput.value, 'contains')"
+                                       placeholder="Search Voucher by name"/>
+                            </span>
+                        </div>
+  
+                        <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
+                            <div class="flex align-items-center justify-content-center">
+                                <button pButton type="button" label="Add new" icon="pi pi-plus"
+                                    (click)="onCreateCate()"
+                                        style="width: auto;"></button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="code">
+                            <div class="flex justify-content-between align-items-center">
+                                ID
+                                <p-sortIcon field="categoryId"></p-sortIcon>
+                                <p-columnFilter type="text" field="categoryId" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="discountAmount">
+                            <div class="flex justify-content-between align-items-center">
+                                name
+                                <p-sortIcon field="name"></p-sortIcon>
+                                <p-columnFilter type="text" field="name" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="minimumOrder">
+                            <div class="flex justify-content-between align-items-center">
+                                status
+                                <p-sortIcon field="status"></p-sortIcon>
+                                <p-columnFilter type="text" field="status" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+  
+                        <th style="min-width: 8rem">
+                            <div
+                                 class="flex justify-content-between align-items-center">
+                                Action
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-cate>
+                    <tr class="p-selectable-row">
+  
+                        <td>
+                            <span class="p-column-title">ID</span>
+                            <span class="post-id">{{cate.categoryId}}</span>
+                        </td>
+                        <td>
+                            <span class="p-column-title">name</span>
+                            {{cate.name}}
+                        </td>
+                        <td >
+                            <span class="p-column-title">status</span>
+                            {{cate.status}}
+                        </td>
+  
+  
+                        <td style="text-align: center">
+                            <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+                                <div class="flex align-items-center justify-content-center">
+                                    <button pButton pRipple icon="pi pi-pencil"
+                                            (click)="onUpdateCate(cate)"
+                                            class="p-button-rounded p-mr-2"></button>
+                                </div>
+  
+                                    <div *ngIf="cate.status === 'Display'; else statusHide" class="flex align-items-center justify-content-center">
+                                        <button pButton pRipple icon="pi pi-eye-slash"
+                                                (click)="onHideCate(cate, $event)"
+                                                class="p-button-rounded p-button-danger"></button>
+                                    </div>
+                                    <ng-template #statusHide>
+                                        <div class="flex align-items-center justify-content-center">
+                                            <button pButton pRipple icon="pi pi-eye"
+                                                    (click)="onDisplayCate(cate, $event)"
+                                                    class="p-button-rounded p-button-danger"></button>
+                                        </div>
+                                    </ng-template> 
+  
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">No Category yet.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+  </div>
+<p-dialog [header]="headerDialog" [(visible)]="displayDialogEditAddCate"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '50vw'}"
+          [draggable]="false" [resizable]="false" [maximizable]="true"
+          (onHide)="onHideDialogEditAdd()"
+          >
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <b>Category information</b>
+                    </div>
+                </p-divider>
+                <div class="grid">
+  
+                    <ng-container >
+                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                            <label>Name*</label>
+                            <span class="p-input-icon-left p-float-label" style="width: 100%">
+                                <input type="text" step="5000" min="0"  class="w-full" [(ngModel)] = "cateModel.name"
+                                  pInputText
+                                  />
+  
+                            </span>
+  
+                        </div>
+                        
+                    </ng-container>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-center flex-wrap" style="text-align: center">
+            <div  class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Save" icon="pi pi-save"
+                (click)="onSaveCate()"style="width: 100%;"
+               >
+                </button>
+            </div>
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                (click)="onCancelCate()"class="p-button-danger"
+                        style="width: 100%;"></button>
+            </div>
+        </div>
+    </ng-template>
+  </p-dialog>
+  
+  <p-toast [baseZIndex]="99999" key="notify"></p-toast>
+  
+  <p-confirmPopup></p-confirmPopup>
+  
+  <p-confirmDialog key="uhideFood" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+  
+  <cmis-loading></cmis-loading>
+  

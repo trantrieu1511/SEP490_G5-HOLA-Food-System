@@ -17,7 +17,7 @@ namespace HFS_BE.Controllers.Category
         {
         }
 
-        [HttpPost("createcategory")]
+        [HttpPost("users/createcategory")]
         public BaseOutputDto AddNewCategory(CategoryDaoInputDto inputDto)
         {
             try
