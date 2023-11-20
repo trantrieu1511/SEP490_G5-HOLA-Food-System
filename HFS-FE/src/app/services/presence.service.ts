@@ -25,7 +25,8 @@ export class PresenceService {
   offlineUserscus$ = this.offlineUsersSourcecus.asObservable();
   private listcusbysellerSource = new BehaviorSubject<CustomerMessage[]>([]);
   listcusbyseller$ = this.listcusbysellerSource.asObservable();
-
+  private listcusbysellerMessSource = new BehaviorSubject<CustomerMessage[]>([]);
+  listcusbysellerMess$ = this.listcusbysellerSource.asObservable();
   private messageUsernameSource = new ReplaySubject<number>(1);
   messageUsername$ = this.messageUsernameSource.asObservable();
     private messageUsernameSellerSource = new ReplaySubject<number>(1);
@@ -82,22 +83,54 @@ export class PresenceService {
         console.log(cus)
 
         })
-        this.hubConnection.on('notIsRead', (username: number,emailcus:string) => {
-          this.messageUsernameSource.next(username)
-          debugger;
-          this.emailcustomermessageSource.next(emailcus)
-          if(username!=0){
+        this.hubConnection.on('notIsReadCustomer', (countmess: number,emailcus:string) => {
+          // this.messageUsernameSource.next(countmess)
+          // debugger;
+          // this.emailcustomermessageSource.next(emailcus)
+          const targetEmail =emailcus;
+          const currentUsers = this.onlineUsersSourcecus.getValue();
+         const targetUserIndex = currentUsers.findIndex(user => user.email === targetEmail);
+
+             if (targetUserIndex !== -1) {
+             const targetUser = currentUsers[targetUserIndex];
+               targetUser.countMessageNotIsRead=countmess;
+
+
+                 const updatedUsers = [...currentUsers];
+                   updatedUsers[targetUserIndex] = targetUser;
+
+
+                this.onlineUsersSourcecus.next(updatedUsers);
+
+            } else {
+              console.log('User not found');
+            }
+          if(countmess!=0){
             this.soundService.playAudioMessage();
           }
 
 
         })
-        this.hubConnection.on('notIsReadSeller', (username: number,emailseller:string) => {
-          this.messageUsernameSellerSource.next(username)
-          debugger;
-          this.emaisellermessageSource.next(emailseller)
-          if(username!=0){
-            this.soundService.playAudioMessage();
+        this.hubConnection.on('notIsReadSeller', (countmess: number,emailseller:string) => {
+          const targetEmail = emailseller;
+          const currentUsers = this.listcusbysellerSource.getValue();
+          const targetUser = currentUsers.find(user => user.email === targetEmail);
+
+          if (targetUser) {
+            // Kiểm tra kiểu dữ liệu và giá trị của countmess trước khi cập nhật
+            if (typeof countmess === 'number' && !isNaN(countmess)) {
+              targetUser.countMessageNotIsRead = countmess;
+            } else {
+              console.log('Invalid countmess:', countmess);
+            }
+
+            this.listcusbysellerSource.next([...currentUsers]);
+
+            if (countmess !== 0) {
+              this.soundService.playAudioMessage();
+            }
+          } else {
+            console.log('User not found');
           }
         })
 

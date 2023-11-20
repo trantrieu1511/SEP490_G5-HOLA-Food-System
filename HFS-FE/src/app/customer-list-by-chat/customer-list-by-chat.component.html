@@ -15,8 +15,8 @@
                 </div>
                   <div>
                       <div class="displayName">{{item.email}}</div>
-                      <div  *ngIf="(presence.emaisellermessage$ | async)===item.email&&readmessage!==0" class="label text-success">{{(presence.messageUsernameSeller$ | async)}}</div>
-                      <div  *ngIf="(presence.emaisellermessage$ | async)!==item.email" class="label text-success">{{item.countMessageNotIsRead}}</div>
+
+                      <div  class="label text-success">{{item.countMessageNotIsRead}}</div>
 
 
                   </div>
