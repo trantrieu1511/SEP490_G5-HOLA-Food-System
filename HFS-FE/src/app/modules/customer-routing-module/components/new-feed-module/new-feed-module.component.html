@@ -1,36 +1,99 @@
+<p-dialog header="Reporting the post" [(visible)]="isVisiblePostReportModal" [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '500px' }" [draggable]="false" [resizable]="false"
+  [responsive]="true">
+  <div class="card">
+    <div class="align-items-center" style="padding-bottom: 5px;">
+      <div style="padding-bottom: 5px; font-style: italic;">
+        Các lý do phổ biến:
+      </div>
+      <div style="padding-bottom: 5px;">
+        <p-checkbox name="reportContent" (onChange)="enableDisablePostReportButtonSubmit();"
+          value="Bài viết có nội dung thô tục" [(ngModel)]="postReport.reportContents"
+          inputId="reportContent1"></p-checkbox>
+        <label for="reportContent1" class="ml-2">Bài viết có nội dung thô tục</label>
+      </div>
+      <div style="padding-bottom: 5px;">
+        <p-checkbox name="reportContent" (onChange)="enableDisablePostReportButtonSubmit();"
+          value="Bài viết có hình ảnh không liên quan đến thực phẩm" [(ngModel)]="postReport.reportContents"
+          inputId="reportContent2"></p-checkbox>
+        <label for="reportContent2" class="ml-2">Bài viết có hình ảnh không liên quan đến thực phẩm</label>
+      </div>
+      <div style="padding-bottom: 5px;">
+        <p-checkbox name="reportContent" (onChange)="enableDisablePostReportButtonSubmit();"
+          value="Bài viết có nội dung không liên quan đến thực phẩm" [(ngModel)]="postReport.reportContents"
+          inputId="reportContent3"></p-checkbox>
+        <label for="reportContent3" class="ml-2">Bài viết có nội dung không liên quan đến thực phẩm</label>
+      </div>
+    </div>
+    <br>
+    <div style="padding-bottom: 5px;">
+      <p-checkbox name="reportContent" (onChange)="enableDisablePostReportTextArea($event);" value="Other"
+        inputId="reportContentOther"></p-checkbox>
+      <label for="reportContentOther" class="ml-2">Khác</label>
+    </div>
+    <span class="">
+      <textarea (change)="addValueToReportContentList();" [disabled]="isDisabledPostReportTextArea" class="w-full"
+        id="float-input" rows="5" cols="50" [(ngModel)]="postReport.reportContent" placeholder="Điền lý do khác"
+        pInputTextarea></textarea>
+    </span>
+  </div>
+  <strong>Lưu ý: Bạn sẽ không thể hủy sau khi đã tố cáo</strong>
+  <br>
+  <br>
+  <p-button [disabled]="isDisabledPostReportBtnSubmit" (click)="submitReport()">Save</p-button>
+</p-dialog>
+
+
 <h1>New Feed</h1>
 <h2>FU HOLA</h2>
 
 <div *ngFor="let item of listPost" class="post">
-    <div >      
-        <!-- data:image/gif;base64,{{postImage.imageBase64}} -->
-        <img src="data:image/gif;base64,{{item.imagesBase64[0].imageBase64}}" alt="Ảnh minh họa 1" />
-        <p>{{item.postContent}}</p>
-        <div class="actions">
-          <i class="fas fa-thumbs-up like" data-likes="0"></i>
-          <i class="fas fa-share share" data-shares="0"></i>
+  <div>
+    <!-- data:image/gif;base64,{{postImage.imageBase64}} -->
+    <div>
+      <div *ngIf="isLoggedIn == true && item.isReported" style="text-align: right;">
+        Reported
+      </div>
+      <!-- {{i++;}} -->
+      <!-- <ng-template #reportBtn> -->
+        <div *ngIf="isLoggedIn == true && !item.isReported" style="text-align: right;">
+          <p-button [text]="true" (click)="openPostReportDialog(item.postId);">
+            <i class="pi pi-flag fs-large"></i>&nbsp;Report
+          </p-button>
         </div>
-        <button pButton pRipple label="Comment" (click)="OnCommnent(item)" class="p-button-success" ></button>
-
-        <div *ngIf="lstComment.length > 0"  class="comments">
-          
-          <div *ngFor="let com of lstComment" class="comment">
-            <img src="https://petmaster.vn/petroom/wp-content/uploads/2020/04/meo-anh-1.jpg" alt="Avatar" />
-            <div class="comment-content">
-              <div class="comment-text">
-                <strong>{{com.customerName}}: {{com.commentContent}}</strong> 
-              </div>
-              <div class="comment-actions">
-                <i class="far fa-thumbs-up"></i> <i class="far fa-comment-alt"></i> <i class="far fa-share-square"></i>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-        <form class="comment-form">
-          <label for="comment">Bình luận của bạn:</label>
-          <textarea id="comment" name="comment" [(ngModel)]="commentModel.commentContent" rows="4"></textarea>
-          <button pButton pRipple label="Comment" (click)="OnSaveCommnent()" class="p-button-success" ></button>
-        </form>
+      <!-- </ng-template> -->
+      
     </div>
+    <img src="data:image/gif;base64,{{item.imagesBase64[0] == undefined ? '': item.imagesBase64[0].imageBase64 }}"
+      alt="Ảnh minh họa 1" />
+    <p>{{item.postContent}}</p>
+    <div class="actions">
+      <i class="fas fa-thumbs-up like" data-likes="0"></i>
+      <i class="fas fa-share share" data-shares="0"></i>
+    </div>
+    <button pButton pRipple label="Comment" (click)="OnCommnent(item)" class="p-button-success"></button>
+
+    <div *ngIf="lstComment.length > 0" class="comments">
+
+      <div *ngFor="let com of lstComment" class="comment">
+        <img src="https://petmaster.vn/petroom/wp-content/uploads/2020/04/meo-anh-1.jpg" alt="Avatar" />
+        <div class="comment-content">
+          <div class="comment-text">
+            <strong>{{com.customerName}}: {{com.commentContent}}</strong>
+          </div>
+          <div class="comment-actions">
+            <i class="far fa-thumbs-up"></i> <i class="far fa-comment-alt"></i> <i class="far fa-share-square"></i>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <form class="comment-form">
+      <label for="comment">Bình luận của bạn:</label>
+      <textarea id="comment" name="comment" [(ngModel)]="commentModel.commentContent" rows="4"></textarea>
+      <button pButton pRipple label="Comment" (click)="OnSaveCommnent()" class="p-button-success"></button>
+    </form>
+  </div>
 </div>
+
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>

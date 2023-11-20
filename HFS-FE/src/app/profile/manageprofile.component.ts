@@ -149,8 +149,12 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
         console.log(this.profile);
         console.log(this.profileDisplay);
 
+      } else {
+        this.showMessage(mType.error, 'Error', response.message, 'notify');
+        console.log(response);
       }
     } catch (e) {
+      // this.showMessage(mType.error, 'Error', e.message, 'notify');
       console.log(e);
     }
   }

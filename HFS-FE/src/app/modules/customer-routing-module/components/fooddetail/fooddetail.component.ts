@@ -84,8 +84,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
 
     this.checkLoggedIn();
     this.checkUsersReportFoodCapability();
-    // Neu nguoi dung da report thi khong cho report cai food do nua
-    if(!this.hasAlreadyReported){
+    if(!this.hasAlreadyReported){ // Neu food nay chua bi report thi moi reset nut submit (Tiet kiem tai nguyen may tinh)
       this.enableDisableFoodReportButtonSubmit();
     }
   }
@@ -346,7 +345,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     }
   }
 
-  // Hàm này kiểm tra khả năng tố cáo bằng cách xem customer đã report cái food với id: cụ thể nào đó chưa.
+  // Hàm này kiểm tra khả năng tố cáo bằng cách xem customer đã report cái food với id: cụ thể nào đó chưa. Nếu rồi thì sẽ không sử dụng lại tính năng tố cáo đối với cái food đó nữa.
   async checkUsersReportFoodCapability() {
     // debugger;
     try {

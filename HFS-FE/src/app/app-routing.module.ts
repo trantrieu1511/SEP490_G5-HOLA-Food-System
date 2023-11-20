@@ -112,6 +112,8 @@ const routes: Routes = [
       },
       {
         path: 'profile',
+        canActivate: [authGuard],
+        data: { requiredRole: ['Customer'] },
         component: ManageprofileComponent
       },
       {

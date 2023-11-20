@@ -76,10 +76,9 @@
                         Đã tố cáo
                     </div>
                     <div *ngIf="isLoggedIn == true && hasAlreadyReported == false" style="text-align: right;">
-                        <a href="" (click)="openFoodReportDialog();">
-                            <i class="pi pi-flag fs-large"></i>
-                            Report
-                        </a>
+                        <p-button [text]="true" (click)="openFoodReportDialog();">
+                            <i class="pi pi-flag fs-large"></i>&nbsp;Report
+                        </p-button>
                     </div>
                     <div>
                         <h1>{{fooddetail.name}}</h1>
