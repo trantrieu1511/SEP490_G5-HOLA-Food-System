@@ -11,7 +11,7 @@ namespace HFS_BE.Utils
         {
             internal static readonly GenerateNotification INSTANCE = new GenerateNotification();
         }
-                
+
         private GenerateNotification() { }
 
         public static GenerateNotification GetSingleton()
@@ -19,78 +19,120 @@ namespace HFS_BE.Utils
             return SingletonHelper.INSTANCE;
         }
 
-        public NotificationAddNewInputDto GenNotificationInternalShipper(string receiver, int orderId, string shopName)
+        public List<NotificationAddNewInputDto> GenNotificationInternalShipper(string receiver, int orderId, string shopName)
         {
-            var notifyBase = GenNotificationBase(receiver, "System", "System");
+            var notifyLst = GenNotificationBase(receiver, "System", "System");
+            //english
+            notifyLst[0].Title = "New Order";
+            notifyLst[0].Content = $"Order ID: {orderId} transferred from shop: {shopName} for delivery";
+            //vietnamese
+            notifyLst[1].Title = "Đơn hàng mới";
+            notifyLst[1].Content = $"Đơn hàng ID: {orderId} được chuyển từ cửa hàng: {shopName} để giao hàng";
 
-            notifyBase.Title = "New Order";
-            notifyBase.Content = $"Order ID: {orderId} transferred from shop: {shopName} for delivery";
-            return notifyBase;
+            return notifyLst;
         }
-        public NotificationAddNewInputDto GenNotificationNewOrderSeller(string receiver, int orderId)
+        public List<NotificationAddNewInputDto> GenNotificationNewOrderSeller(string receiver, int orderId)
         {
-            var notifyBase = GenNotificationBase(receiver, "System", "System");
-            notifyBase.Title = "New Order";
-            notifyBase.Content = $"Order ID: {orderId} new orders were requested";
-            return notifyBase;
-        }
-        public NotificationAddNewInputDto GenNotificationAddNewPost(string receiver, int postId)
-        {
-            var notifyBase = GenNotificationBase(receiver, "System", "System");
-            notifyBase.Title = "New Post";
-            notifyBase.Content = $"Post ID: {postId} is waiting for approval";
-            return notifyBase;
-        }
-        public NotificationAddNewInputDto GenNotificationAddNewFood(string receiver, int menuId)
-        {
-            var notifyBase = GenNotificationBase(receiver, "System", "System");
-            notifyBase.Title = "New Menu";
-            notifyBase.Content = $"Menu ID: {menuId} is waiting for approval";
-            return notifyBase;
-        }
+            var notifyLst = GenNotificationBase(receiver, "System", "System");
 
-        public NotificationAddNewInputDto GenNotificationAcceptOrder(string receiver, int orderId)
-        {
-            var notifyBase = GenNotificationBase(receiver, "System", "System");
-            notifyBase.Title = "Update order";
-            notifyBase.Content = $"Order ID: {orderId} has been accepted";
-            return notifyBase;
-        }
+            notifyLst[0].Title = "New Order";
+            notifyLst[0].Content = $"Order ID: {orderId}, there is a new order request";
 
-        public NotificationAddNewInputDto GenNotificationCancelOrder(string receiver, int orderId)
-        {
-            var notifyBase = GenNotificationBase(receiver, "System", "System");
-            notifyBase.Title = "Update order";
-            notifyBase.Content = $"Order ID: {orderId} has been cancelled";
-            return notifyBase;
-        }
+            notifyLst[1].Title = "Đơn hàng mới";
+            notifyLst[1].Content = $"Đơn hàng ID: {orderId}, có một yêu cầu đặt đơn hàng mới";
 
-        public NotificationAddNewInputDto GenNotificationOrderShipping(string receiver, int orderId)
+            return notifyLst;
+        }
+        public List<NotificationAddNewInputDto> GenNotificationAddNewPost(string receiver, int postId)
         {
-            var notifyBase = GenNotificationBase(receiver, "System", "System");
-            notifyBase.Title = "Update order";
-            notifyBase.Content = $"Order ID: {orderId} is on the way";
-            return notifyBase;
+            var notifyLst = GenNotificationBase(receiver, "System", "System");
+
+            notifyLst[0].Title = "New Post";
+            notifyLst[0].Content = $"New Post ID: {postId} is waiting for approval";
+
+            notifyLst[1].Title = "Bài post mới";
+            notifyLst[1].Content = $"Bài post mới ID: {postId} đang chờ để được chấp nhận";
+
+            return notifyLst;
+        }
+        public List<NotificationAddNewInputDto> GenNotificationAddNewFood(string receiver, int menuId)
+        {
+            var notifyLst = GenNotificationBase(receiver, "System", "System");
+            notifyLst[0].Title = "New Menu";
+            notifyLst[0].Content = $"Menu ID: {menuId} is waiting for approval";
+
+            notifyLst[1].Title = "Menu mới";
+            notifyLst[1].Content = $"Menu mới ID: {menuId} đang chờ để được chấp nhận";
+
+            return notifyLst;
         }
 
-        public NotificationAddNewInputDto GenNotificationOrderShippedSuccess(string receiver, int orderId)
+        public List<NotificationAddNewInputDto> GenNotificationAcceptOrder(string receiver, int orderId)
         {
-            var notifyBase = GenNotificationBase(receiver, "System", "System");
-            notifyBase.Title = "Update order";
-            notifyBase.Content = $"Order ID: {orderId} has been delivered successfully";
-            return notifyBase;
+            var notifyLst = GenNotificationBase(receiver, "System", "System");
+
+            notifyLst[0].Title = "Update order";
+            notifyLst[0].Content = $"Order ID: {orderId} has been accepted";
+
+            notifyLst[1].Title = "Cập nhập đơn hàng";
+            notifyLst[1].Content = $"Đơn hàng ID: {orderId} đã được chấp nhận";
+
+            return notifyLst;
         }
 
-        public NotificationAddNewInputDto GenNotificationOrderShippedFail(string receiver, int orderId)
+        public List<NotificationAddNewInputDto> GenNotificationCancelOrder(string receiver, int orderId)
         {
-            var notifyBase = GenNotificationBase(receiver, "System", "System");
-            notifyBase.Title = "Update order";
-            notifyBase.Content = $"Order ID: {orderId} was delivered unsuccessfully";
-            return notifyBase;
+            var notifyLst = GenNotificationBase(receiver, "System", "System"); 
+
+            notifyLst[0].Title = "Update order";
+            notifyLst[0].Content = $"Order ID: {orderId} has been cancelled";
+
+            notifyLst[1].Title = "Cập nhập đơn hàng";
+            notifyLst[1].Content = $"Đơn hàng ID: {orderId} đã bị từ chối";
+
+            return notifyLst;
+        }
+
+        public List<NotificationAddNewInputDto> GenNotificationOrderShipping(string receiver, int orderId)
+        {
+            var notifyLst = GenNotificationBase(receiver, "System", "System");
+
+            notifyLst[0].Title = "Update order";
+            notifyLst[0].Content = $"Order ID: {orderId} is on the way";
+
+            notifyLst[1].Title = "Cập nhập đơn hàng";
+            notifyLst[1].Content = $"Đơn hàng ID: {orderId} đang giao";
+
+            return notifyLst;
+        }
+
+        public List<NotificationAddNewInputDto> GenNotificationOrderShippedSuccess(string receiver, int orderId)
+        {
+            var notifyLst = GenNotificationBase(receiver, "System", "System");
+            notifyLst[0].Title = "Update order";
+            notifyLst[0].Content = $"Order ID: {orderId} has been delivered successfully";
+
+            notifyLst[1].Title = "Cập nhập đơn hàng";
+            notifyLst[1].Content = $"Đơn hàng ID: {orderId} đã giao thành công";
+
+            return notifyLst;
+        }
+
+        public List<NotificationAddNewInputDto> GenNotificationOrderShippedFail(string receiver, int orderId)
+        {
+            var notifyLst = GenNotificationBase(receiver, "System", "System");
+
+            notifyLst[0].Title = "Update order";
+            notifyLst[0].Content = $"Order ID: {orderId} was delivered unsuccessfully";
+
+            notifyLst[1].Title = "Cập nhập đơn hàng";
+            notifyLst[1].Content = $"Đơn hàng ID: {orderId} đã giao không thành công";
+
+            return notifyLst;
         }
 
 
-        private NotificationAddNewInputDto GenNotificationBase(string receiver, string sendBy, string notifyType)
+        private List<NotificationAddNewInputDto> GenNotificationBase(string receiver, string sendBy, string notifyType)
         {
             NotificationAddNewInputDto inputNoti = new NotificationAddNewInputDto
             {
@@ -100,7 +142,27 @@ namespace HFS_BE.Utils
                 Type = NotificationTypeEnum.GetNotifyValue(notifyType)
             };
 
-            return inputNoti;
+            List<NotificationAddNewInputDto> notifications = new List<NotificationAddNewInputDto>
+            {
+                new NotificationAddNewInputDto
+                {
+                    Lang = LangTypeEnum.GetLangValue("English"),
+                    CreateDate = inputNoti.CreateDate,
+                    SendBy = inputNoti.SendBy,
+                    Receiver = inputNoti.Receiver,
+                    Type = inputNoti.Type
+                },
+                new NotificationAddNewInputDto
+                {
+                    Lang = LangTypeEnum.GetLangValue("Vietnamese"),
+                    CreateDate = inputNoti.CreateDate,
+                    SendBy = inputNoti.SendBy,
+                    Receiver = inputNoti.Receiver,
+                    Type = inputNoti.Type
+                }
+            };
+
+            return notifications;
         }
     }
 }

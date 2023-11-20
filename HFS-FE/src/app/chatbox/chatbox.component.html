@@ -23,7 +23,7 @@
     </div>
   </div>
 
-  <p-panel [collapsed]="isCollapsed" [style]="{'width':'100%'}">
+  <p-panel [collapsed]="isCollapsed" [style]="{'width':'87% !important', 'display': 'block'}">
     <div class="card-body">
       <ul #scrollMe [scrollTop]="scrollMe.scrollHeight" class="chat chat-frame" (scroll)="onScroll($event)" style="height: 350px;">
         <li class="pd-5" *ngFor="let message of (messageChatService.messageThread$ | async)">

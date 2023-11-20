@@ -26,6 +26,8 @@ CREATE TABLE [dbo].[Seller](
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 	[isBanned] [bit] not null DEFAULT('false'),
 	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Seller) da duoc admin xac nhan cho phep kinh doanh o HFS chua
+	[refreshToken] [varchar](max),
+	[refreshTokenExpiryTime] [datetime],
 )
 
 CREATE TABLE [dbo].[Admin](
@@ -41,6 +43,8 @@ CREATE TABLE [dbo].[Admin](
 	[isOnline] [bit] NOT NULL,
 	[walletBalance] [money] NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
+	[refreshToken] [varchar](max),
+	[refreshTokenExpiryTime] [datetime],
 )
 
 CREATE TABLE [dbo].[PostModerator](
@@ -55,7 +59,9 @@ CREATE TABLE [dbo].[PostModerator](
 	[PasswordHash] [varbinary](max) NOT NULL,
 	[isOnline] [bit] NOT NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
-	[isBanned] [bit] not null DEFAULT('false')
+	[isBanned] [bit] not null DEFAULT('false'),
+	[refreshToken] [varchar](max),
+	[refreshTokenExpiryTime] [datetime],
 )
 
 CREATE TABLE [dbo].[MenuModerator](
@@ -70,7 +76,9 @@ CREATE TABLE [dbo].[MenuModerator](
 	[PasswordHash] [varbinary](max) NOT NULL,
 	[isOnline] [bit] NOT NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
-	[isBanned] [bit] not null DEFAULT('false')
+	[isBanned] [bit] not null DEFAULT('false'),
+	[refreshToken] [varchar](max),
+	[refreshTokenExpiryTime] [datetime],
 )
 
 CREATE TABLE [dbo].[Customer](
@@ -87,6 +95,8 @@ CREATE TABLE [dbo].[Customer](
 	[walletBalance] [money] NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 	[isBanned] [bit] not null DEFAULT('false'),		
+	[refreshToken] [varchar](max),
+	[refreshTokenExpiryTime] [datetime],
 )
 
 CREATE TABLE [dbo].[Shipper](
@@ -104,6 +114,8 @@ CREATE TABLE [dbo].[Shipper](
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 	[isBanned] [bit] not null DEFAULT('false'),
 	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Shipper) da duoc admin xac nhan cho phep kinh doanh o HFS chua
+	[refreshToken] [varchar](max),
+	[refreshTokenExpiryTime] [datetime],
 	CONSTRAINT FK_Shiper_Seller FOREIGN KEY (manageBy) REFERENCES [Seller]([sellerId]),
 )
 
@@ -211,7 +223,8 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Notification](
-	[id] [int] IDENTITY(1,1) NOT NULL,
+	[id] [int] NOT NULL,
+	[lang] [int] not null,
 	[sendBy] [nvarchar](50) null,
 	[receiver] [nvarchar](50) null,
 	[type] [int] NOT NULL,
@@ -219,7 +232,7 @@ CREATE TABLE [dbo].[Notification](
 	[content] [nvarchar](500) NULL,
 	[createDate] [datetime] NULL,
 	[isRead] [bit] NULL,
-	primary key([id]),
+	primary key([id], [lang]),
 	)
 GO
 

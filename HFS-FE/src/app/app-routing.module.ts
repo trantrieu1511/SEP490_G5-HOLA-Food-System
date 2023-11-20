@@ -20,7 +20,12 @@ import {
   ManageOrderComponent,
   ManagePostComponent
 } from './modules/business-routing-module/business-routing-mudule';
-import { ProfileManagementComponent } from './modules/business-routing-module/components/profile-management/profile-management.component';
+import { ManageprofileComponent } from './profile/manageprofile.component';
+import { FooddetailComponent, 
+  HomepageComponent, 
+  NewfeedComponent, 
+  ShopdetailComponent 
+} from './modules/customer-routing-module/customer-routing-module';
 
 const routes: Routes = [
   // {
@@ -87,19 +92,38 @@ const routes: Routes = [
   // },
   {
     path: '',
+    redirectTo: 'homepage',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
     component: AppManageLayoutComponent,
     children: [
       // customer & guest role
+      {path: 'homepage', component: HomepageComponent},
+      {path: "shopdetail", component: ShopdetailComponent},
+      {path: "fooddetail", component: FooddetailComponent},
+      {path: "newfeed", component : NewfeedComponent},
       {
         path: '',
+        canActivate: [authGuard],
+        data: { requiredRole: ['Customer'] },
         loadChildren: () => import('./modules/customer-routing-module/customer-routing.module').then(m => m.CustomerRoutingModule),
       },
       {
+        path: 'profile',
+        component: ManageprofileComponent
+      },
+      {
         path: 'notify-management',
+        canActivate: [authGuard],
+        data: { requiredRole: ['Customer'] },
         component: ManageNotificationComponent,
       },
       {
         path: 'notify-management/detail/:id',
+        canActivate: [authGuard],
+        data: { requiredRole: ['Customer'] },
         component: DetailNotificationComponent,
       },
 
@@ -112,7 +136,7 @@ const routes: Routes = [
         children: [
           {
             path: 'profile',
-            component: ProfileManagementComponent
+            component: ManageprofileComponent
           },
           {
             path: 'post-management',
@@ -148,8 +172,8 @@ const routes: Routes = [
           },
           {
             path: 'seller',
-            // canActivate: [authGuard],
-            // data: { requiredRole: ['Seller', 'Shipper'] },
+            canActivate: [authGuard],
+            data: { requiredRole: ['Seller', 'Shipper'] },
             loadChildren: () => import('./modules/seller-routing-module/seller-routing.module').then(m => m.SellerRoutingModule),
           },
           {
@@ -174,7 +198,7 @@ const routes: Routes = [
   { path: 'error', component: AppErrorComponent },
   { path: 'accessdeny', component: AppAccessdeniedComponent },
   { path: 'notfound', component: AppNotfoundComponent },
-  // {path: '**', redirectTo: '/notfound'},
+  {path: '**', redirectTo: '/notfound'},
 ];
 
 @NgModule({

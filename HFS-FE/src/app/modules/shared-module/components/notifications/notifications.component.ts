@@ -14,6 +14,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { RoleNames } from '../../../../utils/roleName';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -47,6 +48,7 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
     public authService: AuthService,
     private _route: Router,
     public messageService: MessageService,
+    public translate: TranslateService
     
   ){
     super(messageService);
@@ -57,7 +59,8 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
   }
 
   async ngOnInit() {
-    
+    console.log("lang")
+    console.log(this.translate)
   }
 
   ngOnDestroy() {
@@ -69,7 +72,8 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
   async connectSignalR() {
     
     const param = {
-      takeNum: 5
+      takeNum: 5,
+      lang: this.translate.currentLang
     };
     this.signalRService.startConnection();
     this.signalRService.addTransferDataListener(
@@ -94,7 +98,8 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
   async getAllNotification(){
     this.lstNotification = [];
     const param = {
-      takeNum: 5
+      takeNum: 5,
+      lang: this.translate.currentLang
     };
     let response = await this.iServiceBase.getDataWithParamsAsync(
       API.PHAN_HE.NOTIFY,

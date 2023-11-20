@@ -47,7 +47,6 @@ import { InvitationShipperComponent } from './modules/seller-routing-module/comp
 import { ManageSellerModuleComponent } from './modules/admin-routing-module/manage-seller-module/manage-seller-module.component';
 import { ManageShipperModuleComponent } from './modules/admin-routing-module/manage-shipper-module/manage-shipper-module.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
-import { ProfileManagementComponent } from './modules/business-routing-module/components/profile-management/profile-management.component';
 import { OrderhistoryComponent } from './modules/customer-routing-module/components/orderhistory/orderhistory.component';
 import { MenuDataService } from './services/menu-data.service';
 import { BusinessRoutingModule } from './modules/business-routing-module/business-routing-module.module';
@@ -63,6 +62,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppNavbarComponent } from './app-systems/app-navbar/app-navbar.component';
 import { ManageMenumoderatorModuleComponent } from './modules/admin-routing-module/manage-menumoderator-module/manage-menumoderator-module.component';
 
+import { ManageprofileComponent } from './profile/manageprofile.component';
 
 @NgModule({
   declarations: [
@@ -88,14 +88,13 @@ import { ManageMenumoderatorModuleComponent } from './modules/admin-routing-modu
     InvitationShipperComponent,
     ManageSellerModuleComponent,
     ManageShipperModuleComponent,
-    ProfileManagementComponent,
-    ProfileManagementComponent,
     OrderhistoryComponent,
     ManageCategoryModuleComponent,
     WalletComponent,
     PaymentverifyComponent,
     AppNavbarComponent,
-    ManageMenumoderatorModuleComponent
+    ManageMenumoderatorModuleComponent,
+    ManageprofileComponent
 
   ],
   imports: [
@@ -115,7 +114,6 @@ import { ManageMenumoderatorModuleComponent } from './modules/admin-routing-modu
       }
     }),
     TranslateModule.forRoot({
-
       loader: {
 
         provide: TranslateLoader,

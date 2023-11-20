@@ -4,7 +4,7 @@ import { environment } from "src/environments/environment";
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { Router } from "@angular/router";
 import { Tokens } from "../login/models/token";
-import { Profile } from "../modules/customer-routing-module/models/profile";
+import { Profile } from "../profile/models/profile";
 import { Seller, SellerMessage } from "../modules/admin-routing-module/models/Seller";
 import { Customer, CustomerMessage } from "../modules/admin-routing-module/models/Customer";
 import { SoundService } from "./sound.service";
@@ -45,7 +45,7 @@ export class PresenceService {
       })
       .withAutomaticReconnect()
       .build()
-      debugger;
+      ////dcm dubber casi lon; de cl ma` bug
       this.hubConnection
       .start()
       .then(() => {

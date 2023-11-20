@@ -81,4 +81,12 @@ namespace HFS_BE.Dao.OrderDao
         public int? FoodId { get; set; }
     }
 
+    public class DashboardInputDaoDto
+    {
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateEnd { get; set; }
+
+        public string SellerId { get; set; }
+    }
+
 }

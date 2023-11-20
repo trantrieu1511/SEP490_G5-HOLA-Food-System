@@ -56,7 +56,7 @@
     <div class="text-success text-center">{{(presence.onlineUserscus$ | async).length}} online</div>
   </div>
 </div>
-<div>
+<div style="position: relative;">
   <app-chatbox *ngFor="let item of usersOnline" [right]="item.right" [user]="item.seller"
     (miniChatBox)="miniChatBox($event)" (removeChatBox)="removeChatBox($event)">
   </app-chatbox>

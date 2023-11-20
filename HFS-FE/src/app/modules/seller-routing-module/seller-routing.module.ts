@@ -12,6 +12,7 @@ import { FoodManagementComponent } from './components/food-management/food-manag
 import { ReactiveFormsModule } from '@angular/forms';
 import { InvitationShipperComponent } from './components/invitation-shipper/invitation-shipper.component';
 import { VoucherManagementComponent } from './components/voucher-management/voucher-management.component';
+import { DashboardSellerComponent } from './components/dashboard-seller/dashboard-seller.component';
 // import { ProfileManagementComponent } from '../business-routing-module/components/profile-management/profile-management.component';
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'food-management', component: FoodManagementComponent },
   { path: 'voucher-management', component: VoucherManagementComponent },
   // { path: 'profile-management', component: ProfileManagementComponent },
+  { path: 'dashboard', component: DashboardSellerComponent },
 ]
 // food-management
 @NgModule({
@@ -32,6 +34,7 @@ const routes: Routes = [
     PostManagementComponent,
     FoodManagementComponent,
     SwitchCasesDirective,
+    DashboardSellerComponent
   ],
   imports: [
     CommonModule,
@@ -43,6 +46,7 @@ const routes: Routes = [
     OrderManagementComponent,
     PostManagementComponent,
     FoodManagementComponent,
+    DashboardSellerComponent
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy }

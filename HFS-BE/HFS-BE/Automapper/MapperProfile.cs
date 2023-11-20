@@ -36,6 +36,7 @@ using HFS_BE.DAO.ChatMessageDao;
 using HFS_BE.DAO.CommentNewFeedDao;
 using HFS_BE.BusinessLogic.ManageUser.ManageCustomer;
 using HFS_BE.BusinessLogic.ManageUser.ManageSeller;
+using HFS_BE.DAO.ShipAddressDao;
 
 namespace HFS_BE.Automapper
 {
@@ -63,9 +64,8 @@ namespace HFS_BE.Automapper
             Notification();
             Chat();
             Google();
-
-
             Comment();
+            ShipAddress();
         }
 
         /// <summary>
@@ -329,10 +329,10 @@ namespace HFS_BE.Automapper
             CreateMap<ImageFileConvert.ImageOutputDto, PostImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, FoodImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, BusinessLogic.OrderShipper.ImageFoodOutputDto>();
-		
-			CreateMap<ImageFileConvert.ImageOutputDto, CustomerImageOutputDto>();
-			CreateMap<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>();
-		}
+
+            CreateMap<ImageFileConvert.ImageOutputDto, CustomerImageOutputDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>();
+        }
 
         public void Category()
         {
@@ -350,27 +350,27 @@ namespace HFS_BE.Automapper
         public void Manage()
         {
             CreateMap<Customer, CustomerDtoOutput>();
-			CreateMap<Seller, SellerDtoOutput>();
-			CreateMap<PostModerator, PostModeratorDtoOutput>();
-			CreateMap<MenuModerator, MenuModeratorDtoOutput>();
-			CreateMap<MenuModerator, MenuModeratorDtoOutput>();
-			CreateMap<CreateModerator, CreateModeratorDaoDtoInput>();
-			CreateMap<CustomerBan, BanHistoryCustomerDtoOutput>();
+            CreateMap<Seller, SellerDtoOutput>();
+            CreateMap<PostModerator, PostModeratorDtoOutput>();
+            CreateMap<MenuModerator, MenuModeratorDtoOutput>();
+            CreateMap<MenuModerator, MenuModeratorDtoOutput>();
+            CreateMap<CreateModerator, CreateModeratorDaoDtoInput>();
+            CreateMap<CustomerBan, BanHistoryCustomerDtoOutput>();
             CreateMap<Invitation, InvitationShipperDtoOutput>()
                 .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.Shipper.FirstName + " " + src.Shipper.LastName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Shipper.Email))
-                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Shipper.PhoneNumber))
-                .ForMember(dest => dest.Avatar, opt => opt.MapFrom(src => src.Shipper.Avatar));
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Shipper.PhoneNumber));
+            //.ForMember(dest => dest.Avatar, opt => opt.MapFrom(src => src.Shipper.Avatar));
             CreateMap<Shipper, ShipperInforByAdmin>()
         .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
-			CreateMap<SellerBan, BanHistorySellerDtoOutput>();
-			CreateMap<ShipperBan, BanHistoryShipperDtoOutput>();
-			CreateMap<CustomerDtoOutput, CustomerDtoBS>();
-			CreateMap<ListCustomerDtoOutput, ListCustomerOutputDtoBS>();
-			CreateMap<SellerDtoOutput, SellerDtoBS>();
-			CreateMap<ListSellerDtoOutput, ListSellerOutputDtoBS>();
-		}
-	
+            CreateMap<SellerBan, BanHistorySellerDtoOutput>();
+            CreateMap<ShipperBan, BanHistoryShipperDtoOutput>();
+            CreateMap<CustomerDtoOutput, CustomerDtoBS>();
+            CreateMap<ListCustomerDtoOutput, ListCustomerOutputDtoBS>();
+            CreateMap<SellerDtoOutput, SellerDtoBS>();
+            CreateMap<ListSellerDtoOutput, ListSellerOutputDtoBS>();
+        }
+
         public void FeedBack()
         {
             CreateMap<Feedback, FeedBackDaoOutputDto>()
@@ -405,36 +405,42 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => NotificationTypeEnum.GetNotifyString(src.Type)))
                 .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("MM/dd/yyyy hh:mm:ss tt")));
         }
-		public void Chat()
-		{
-			CreateMap<ChatMessage, MessageDtoOuput>()
+        public void Chat()
+        {
+            CreateMap<ChatMessage, MessageDtoOuput>()
                 .ForMember(dest => dest.EmailCustomer, opt => opt.MapFrom(src => src.Customer.Email))
-				 .ForMember(dest => dest.EmailSeller, opt => opt.MapFrom(src => src.Seller.Email));
+                 .ForMember(dest => dest.EmailSeller, opt => opt.MapFrom(src => src.Seller.Email));
             CreateMap<Seller, SellerMessageDtoOutput>();
-			CreateMap<Customer, CustomerMessageDtoOutput>()
-				;
-		}
-		public void Google()
-		{
+            CreateMap<Customer, CustomerMessageDtoOutput>()
+                ;
+        }
+        public void Google()
+        {
             CreateMap<Seller, LoginGoogleInputDto>()
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.SellerId));
-			CreateMap<Customer, LoginGoogleInputDto>()
-				.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.CustomerId));
-			CreateMap<PostModerator, LoginGoogleInputDto>()
-			.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
-			CreateMap<MenuModerator, LoginGoogleInputDto>()
-			.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
-		}
-	
-	
+            CreateMap<Customer, LoginGoogleInputDto>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.CustomerId));
+            CreateMap<PostModerator, LoginGoogleInputDto>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
+            CreateMap<MenuModerator, LoginGoogleInputDto>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
+        }
+
+
 
         public void Comment()
         {
             CreateMap<Comment, CommentOutputDto>();
-           
+
         }
-   
-}
+
+        private void ShipAddress()
+        {
+            CreateMap<ShipAddress, ShipAddressOutputDto>();
+            //CreateMap<List<ShipAddress>, List<ShipAddressOutputDto>>();
+        }
+
+    }
 }
 
 

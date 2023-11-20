@@ -22,6 +22,9 @@ export class PHAN_HE {
     public static PROFILEIMAGE = "profileImage";
     public static PAYMENT = "payment";
     public static NEWFEED = "newfeed";
+    public static CUSTOMER = "customer";
+    public static AUTH = "auth";
+    public static DASHBOARD = "dashboard";
 }
 
 export class API_TEST {
@@ -38,6 +41,8 @@ export class API_USER {
     public static REGISTER = "register";
     public static GETPROFILE = "profile";
     public static EDITPROFILE = "editprofile";
+    public static VERIFYUSERIDENTITY = "verifyuseridentity";
+    public static CHANGEACCOUNTPASSWORD = "changeaccountpassword";
     public static GET_SHIPPERS_AVAILABLE = "getShippersAvailable";
     public static GET_SHIPPERS_BYSELLER = "listshipperbyseller";
     public static GET_SHIPPERS_INVITATION = "listinvitationshipper";
@@ -194,4 +199,20 @@ export class API_PROFILEIMAGE {
 
 export class API_PAYMENT {
     public static GET_URL = "getpaymenturl"
+}
+
+export class API_SHIPADDRESS {
+    public static GETALLSHIPADDRESS = "getallshipaddress";
+    public static CREATENEWSHIPADDRESS = "createnewshipaddress";
+    public static UPDATESHIPADDRESS = "updateshipaddress";
+    public static DELETESHIPADDRESS = "deleteshipaddress";
+    public static SETDEFAULTSHIPADDRESS = "setdefaultshipaddress";
+}
+export class API_AUTH {
+    public static REFRESH_TOKEN = "refresh";
+    public static REVOKE_TOKEN = "revoke";
+}
+
+export class API_DASHBOARD {
+    public static DASHBOARD_SELLER = "dashboardSeller";
 }

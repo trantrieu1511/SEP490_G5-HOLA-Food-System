@@ -16,7 +16,12 @@ export class AppComponent {
   constructor(private primengConfig: PrimeNGConfig,  public translate: TranslateService,public presence: PresenceService) {
     translate.addLangs(['en', 'vi']);
 
-    translate.setDefaultLang('vi');
+    if(localStorage.getItem("LANG") == undefined || localStorage.getItem("LANG") == null){
+      this.translate.use('vi');
+      localStorage.setItem("LANG", 'vi');
+    }else{
+      translate.use(localStorage.getItem("LANG"))
+    }
   }
 
   ngOnInit() {

@@ -23,7 +23,8 @@ namespace HFS_BE.Controllers.Notification
                 NotificationGetInput input = new NotificationGetInput
                 {
                     Receiver = GetUserInfor().UserId,
-                    TakeNum = inputDto.TakeNum
+                    TakeNum = inputDto.TakeNum,
+                    Lang = inputDto.Lang
                 };
 
                 var business = GetBusinessLogic<GetAllNotificationBusinessLogic>();

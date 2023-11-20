@@ -1,4 +1,5 @@
 ﻿using HFS_BE.Base;
+using HFS_BE.Utils;
 using System.ComponentModel.DataAnnotations;
 
 namespace HFS_BE.BusinessLogic.Auth
@@ -38,5 +39,17 @@ namespace HFS_BE.BusinessLogic.Auth
 		public string? ShopAddress { get; set; }
 
 
+
+    public class TokenApiModelBL
+    {
+        public string? AccessToken { get; set; }
+        public string? RefreshToken { get; set; }
+		public UserDto UserDto { get; set; }
+    }
+
+	public class RevokeToken
+	{
+		public string? Email { get; set; }
+		public string? Role { get; set; }
 	}
 }

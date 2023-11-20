@@ -4,6 +4,7 @@ using HFS_BE.Base;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Mailjet.Client.Resources;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Win32;
@@ -95,7 +96,7 @@ namespace HFS_BE.Dao.AuthDao
 		//	return new { token = encrypterToken, username = user.Email };
 		//}
 
-		private JwtSecurityToken GenerateSecurityToken(LoginGoogleInputDto acc)
+		public JwtSecurityToken GenerateSecurityToken(LoginGoogleInputDto acc)
 		{
 			var conf = new ConfigurationBuilder()
 			.SetBasePath(Directory.GetCurrentDirectory())
@@ -120,6 +121,16 @@ namespace HFS_BE.Dao.AuthDao
 
 			return token;
 		}
+
+		public string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
+        }
 
 		public BaseOutputDto RegisterCustomer(RegisterDto model)
 		{

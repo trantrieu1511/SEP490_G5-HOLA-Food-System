@@ -21,6 +21,7 @@ import { ScrollerLazyLoadEvent } from 'primeng/scroller';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { RoleNames } from 'src/app/utils/roleName';
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -41,7 +42,8 @@ export class ManageNotificationComponent extends iComponentBase implements OnIni
     private iFunction: iFunction,
     private signalRService: DataRealTimeService,
     private _route: Router,
-    public authService: AuthService
+    public authService: AuthService,
+    public translate: TranslateService,
   ){
     super(messageService, breadcrumbService);
 
@@ -53,11 +55,13 @@ export class ManageNotificationComponent extends iComponentBase implements OnIni
 
   ngOnInit(){
     this.getAllNotification();
+    
   }
   
   async getAllNotification(){
     const param = {
-      takeNum: 0
+      takeNum: 0,
+      lang: this.translate.currentLang
     };
     let response = await this.iServiceBase.getDataWithParamsAsync(
       API.PHAN_HE.NOTIFY,

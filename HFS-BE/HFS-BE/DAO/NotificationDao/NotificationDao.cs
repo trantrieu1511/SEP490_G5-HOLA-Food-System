@@ -15,14 +15,28 @@ namespace HFS_BE.DAO.NotificationDao
         {
         }
 
-        public BaseOutputDto AddNewNotification(NotificationAddNewInputDto inputDto)
+        public BaseOutputDto AddNewNotification(List<NotificationAddNewInputDto> inputDto)
         {
             try
             {
-                var inputModel = mapper.Map<NotificationAddNewInputDto, Notification>(inputDto);
-                inputModel.IsRead = false;
-                context.Add(inputModel);
-                context.SaveChanges();
+                // gen notifyId
+                var notify = context.Notifications
+                    .OrderByDescending(x => x.Id)
+                    .GroupBy(x => x.Id)
+                    .Select(x => x.First())
+                    
+                    .ToList().FirstOrDefault();
+
+                var notifyId = notify is null ? 1 : notify.Id + 1;
+
+                foreach (var noti in inputDto)
+                {
+                    var inputModel = mapper.Map<NotificationAddNewInputDto, Notification>(noti);
+                    inputModel.IsRead = false;
+                    inputModel.Id = notifyId;
+                    context.Add(inputModel);
+                    context.SaveChanges();
+                }
 
                 return Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
@@ -38,7 +52,10 @@ namespace HFS_BE.DAO.NotificationDao
             try
             {
                 var query = context.Notifications
-                    .Where(x => x.Receiver.Equals(inputDto.Receiver))
+                    .Where(
+                        x => x.Receiver.Equals(inputDto.Receiver) &&
+                        x.Lang == LangTypeEnum.GetLangValue(inputDto.Lang)
+                    )
                     .OrderByDescending(x => x.CreateDate)
                     .Select(x => new NotificationDaoOutputDto
                     {
@@ -74,12 +91,18 @@ namespace HFS_BE.DAO.NotificationDao
         {
             try
             {
-                var notify = context.Notifications.FirstOrDefault(x => x.Id == inputDto.NotifyId);
-                if(notify == null)
+                var notifies = context.Notifications.Where(x => x.Id == inputDto.NotifyId).ToList();
+                if(notifies == null || notifies.Count < 1)
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Read fail", $"Notification Id : {inputDto.NotifyId} not exist");
-                notify.IsRead = true;
-                context.SaveChanges();
-
+                foreach(var noti in notifies)
+                {
+                    var notify = context.Notifications.FirstOrDefault(x => x.Id == noti.Id && x.Lang.Equals(noti.Lang));
+                    if (notify == null)
+                        continue;
+                    notify.IsRead = true;
+                    context.SaveChanges();
+                }
+                
                 return Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
             catch (Exception)
@@ -116,7 +139,8 @@ namespace HFS_BE.DAO.NotificationDao
         {
             try
             {
-                var result = context.Notifications.FirstOrDefault(x => x.Id == inputDto.NotifyId);
+                var result = context.Notifications.FirstOrDefault(x => x.Id == inputDto.NotifyId 
+                    && x.Lang == LangTypeEnum.GetLangValue(inputDto.Lang));
 
                 if (result == null)
                     return Output<NotificationOutputDto>(Constants.ResultCdFail,

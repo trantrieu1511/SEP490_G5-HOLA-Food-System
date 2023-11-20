@@ -11,30 +11,28 @@ import { FooddetailComponent } from './components/fooddetail/fooddetail.componen
 import { CartdetailComponent } from './components/cartdetail/cartdetail.component';
 import { ShopdetailComponent } from './components/shopdetail/shopdetail.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
-import { ManageprofileComponent } from './components/manageprofile/manageprofile.component';
+// import { ManageprofileComponent } from '../../profile/manageprofile.component';
 import { OrderhistoryComponent } from './components/orderhistory/orderhistory.component';
 import { WalletComponent } from './components/wallet/wallet.component';
 import { PaymentverifyComponent } from './components/paymentverify/paymentverify.component';
 import { NewfeedComponent } from './components/newfeed/newfeed.component';
 import { CustomerfoodreportComponent } from './components/customerfoodreport/customerfoodreport.component';
 import { CustomerpostreportComponent } from './components/customerpostreport/customerpostreport.component';
+import { ManageshipaddressComponent } from './components/shipaddress/manageshipaddress.component';
 
 
 
 const routes: Routes = [
-  {path: "", component: HomepageComponent},
-  {path: "shopdetail", component: ShopdetailComponent},
-  {path: "fooddetail", component: FooddetailComponent},
   {path: "cartdetail", component: CartdetailComponent},
   {path: "checkout", component : CheckoutComponent},
   {path: "orderhistory", component : OrderhistoryComponent},
   {path: "wallet", component : WalletComponent},
   {path: "paymentverify", component : PaymentverifyComponent},
-  {path: "newfeed", component : NewfeedComponent},
   // -------------- My account page related routes -----------------
-  {path: "profile", component : ManageprofileComponent},
+  // {path: "profile", component : ManageprofileComponent},
   {path: "menureport", component : CustomerfoodreportComponent},
   {path: "postreport", component : CustomerpostreportComponent},
+  {path: "shipaddress", component : ManageshipaddressComponent},
 ]
 
 
@@ -45,10 +43,11 @@ const routes: Routes = [
     CartdetailComponent,
     ShopdetailComponent,
     CheckoutComponent,
-    ManageprofileComponent,
+    // ManageprofileComponent,
     SwitchCasesDirective,
     CustomerfoodreportComponent,
-    CustomerpostreportComponent
+    CustomerpostreportComponent,
+    ManageshipaddressComponent
   ],
   imports: [
     CommonModule,
