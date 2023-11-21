@@ -67,8 +67,12 @@
                 case 1:
                     return "food";
                 case 2:
+                    return "orderprogress";
+                case 3:
                     return "profile";
-                default:
+				case 4:
+					return "feedback";
+				default:
                     return "";
             }
         }

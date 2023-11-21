@@ -24,6 +24,7 @@ import { ManageprofileComponent } from './profile/manageprofile.component';
 import { FooddetailComponent, 
   HomepageComponent, 
   NewFeedModuleComponent, 
+  SearchComponent, 
   ShopdetailComponent 
 } from './modules/customer-routing-module/customer-routing-module';
 
@@ -104,6 +105,7 @@ const routes: Routes = [
       {path: "shopdetail", component: ShopdetailComponent},
       {path: "fooddetail", component: FooddetailComponent},
       {path: "newfeed", component : NewFeedModuleComponent},
+      {path: "search", component : SearchComponent},
       {
         path: '',
         canActivate: [authGuard],

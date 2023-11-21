@@ -110,7 +110,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   }
 
   // onUploadProfileImg($event: FileUploadEvent) {
-  //   // debugger;
+  //   // 
 
   //   console.log($event.files);
   //   console.log($event.originalEvent);
@@ -119,7 +119,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
 
   async getProfileInfo() {
     try {
-      // debugger;
+      // 
       // const params = {
       //   userId: sessionStorage.getItem("userId")
       //   // userId: 1
@@ -252,7 +252,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   async editProfile() {
     if (this.validateEditProfileInput()) { // Validate before continuing to edit
       try {
-        // debugger;
+        // 
         const inputData = {
           // userId: sessionStorage.getItem("userId"),
           firstName: this.profile.firstName,
@@ -373,7 +373,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     }
     try {
 
-      debugger;
+      
       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.HOME, API.API_HOME.SEND_CONFIRM_EMAIL, param);
 
       if (response && response.message === "Success") {

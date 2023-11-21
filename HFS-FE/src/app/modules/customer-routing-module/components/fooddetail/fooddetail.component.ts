@@ -166,9 +166,10 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       this.loading = true;
       let getfood = new GetFoodDetail();
       getfood.foodId = this.foodId
-      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODETAIL, API.API_FOODDETAIL.GET_FEEDBACK, getfood);
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_FOODDETAIL.GET_FEEDBACK_IMAGE, getfood);
       if (response && response.success === true) {
         this.feedbacks = response.feedBacks
+        debugger
         this.displayFeedback = this.feedbacks.filter(x => x.star === 5).slice(this.first, this.rows);
       }
       this.loading = false;
@@ -254,7 +255,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     //------------ Lay cac ly do report duoc input boi nguoi dung -------------
     let rpContent: string = "";
     let i = 0;
-    // debugger;
+    // 
     console.log(this.foodReport.reportContents);
     this.foodReport.reportContents.forEach(element => {
       i++;
@@ -294,7 +295,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       console.log(e);
       this.loading = false;
     }
-    
+
     // Làm mới model để không bị ảnh hường bởi two way binding
     this.foodReport = new FoodReport();
     // Tat modal
@@ -326,7 +327,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
 
   // Validate to make this submit button enable whenever the user input some report content
   enableDisableFoodReportButtonSubmit() {
-    // debugger;
+    // 
     // console.log($event.checked);
     // this.foodReport.reportContents.forEach(element => {
     //   console.log(element);
@@ -347,7 +348,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
 
   // Hàm này kiểm tra khả năng tố cáo bằng cách xem customer đã report cái food với id: cụ thể nào đó chưa. Nếu rồi thì sẽ không sử dụng lại tính năng tố cáo đối với cái food đó nữa.
   async checkUsersReportFoodCapability() {
-    // debugger;
+    // 
     try {
       this.loading = true;
 

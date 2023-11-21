@@ -117,7 +117,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
     };
   }
   async handleCredentialResponse(response: CredentialResponse) {
-    //debugger;
+    //
     await this.service.logingoogle(response.credential).subscribe(
       (x: any) => {
         this._ngZone.run(() => {
@@ -182,7 +182,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
         return;
       }
       try {
-        //debugger;
+        //
         this.service.loginnotcus(this.form.value).subscribe(res => {
           if(res===undefined&&this.user===null){
             this.showMessage(mType.error, "Notification", this.error, 'app-non-login');
@@ -238,7 +238,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
   }
   //  async loginfb() {
   //    FB.login(async (result:any) => {
-  //      //debugger;
+  //      //
   //        await this.service.loginfacebook(result.authResponse.accessToken).subscribe(
   //          (x:any) => {
   //            this._ngZone.run(() => {

@@ -104,7 +104,7 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
         }
         else if (response.message === "Balance not enough!"){
           this.showMessage(mType.warn, "", "Balance not enough!", 'notify');
-          window.open('google.com', '_blank');
+          window.open('https://www.google.com/', '_blank');
         }
         else{
           this.showMessage(mType.success, "", "Create Order success!", 'notify');

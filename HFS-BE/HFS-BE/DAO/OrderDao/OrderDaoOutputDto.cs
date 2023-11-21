@@ -115,6 +115,7 @@ namespace HFS_BE.Dao.OrderDao
         public string? Image { get; set; }
         public string? Note { get; set; }
         public string? CreateDate { get; set; }
+        public string? Status { get; set; }
     }
 
     public class OrderSellerDaoOutputDto : BaseOutputDto

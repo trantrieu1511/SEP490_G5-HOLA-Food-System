@@ -47,7 +47,7 @@ export class ManagePostmoderatorModuleComponent extends iComponentBase implement
 
     try {
 
-   debugger;
+   
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.LIST_PM,"");
 
         if (response && response.message === "Success") {
@@ -61,7 +61,7 @@ export class ManagePostmoderatorModuleComponent extends iComponentBase implement
     }
 }
 async BanModerator(user:PostModeratorOutput){
-  debugger;
+  
   const param = {
     "modId":user.modId,
    "isBanned":!user.isBanned
@@ -69,7 +69,7 @@ async BanModerator(user:PostModeratorOutput){
   console.log(param)
 try {
 
-  debugger;
+  
        let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.BAN_PM,param);
 
        if (response && response.message === "Success") {

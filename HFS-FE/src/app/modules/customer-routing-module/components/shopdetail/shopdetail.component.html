@@ -1,12 +1,8 @@
 <div class="col-12 shopdetail-list" >
     <div class="card">
-        <h1>toi ten la duoc</h1>
-        <div id="profile-banner-image">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg" alt="Banner image">
-          </div>
           <div id="profile-d">
             <div id="profile-pic">
-              <img src="https://imagizer.imageshack.com/img921/3072/rqkhIb.jpg">
+              <img [src]="'data:image/png;base64,' + shopInfor.avatar">
             </div>
             <h1 id="u-name">{{shopInfor.shopName}}</h1>
             <h5 id="u-address">{{shopInfor.shopAddress}}</h5>          
@@ -30,12 +26,12 @@
             <ng-template let-product pTemplate="listItem">
                 <div class="col-12">
                     <div class="product-list-item">
-                        <img [src]="'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg'" [alt]="product.name"/>
+                        <img [src]="'data:image/png;base64,' + product.foodImages[0].imageBase64" [alt]="product.name"/>
                         <div class="product-list-detail">
                             <div class="product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</div>
                             <div class="product-description">Ordered: {{product.numberOrdered}}</div>
                             <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>
-                            <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{product.category}}</span>
+                            <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{product.categoryName}}</span>
                         </div>
                         <div class="product-list-action">
                             <span class="product-price">{{product.unitPrice | currency:'VND'}}</span>
@@ -56,7 +52,7 @@
                             <!-- <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
                         </div>
                         <div class="product-grid-item-content">
-                            <img [src]="'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg'" [alt]="product.name"/>
+                            <img [src]="'data:image/png;base64,' + product.foodImages[0].imageBase64" [alt]="product.name"/>
                             <div class="product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</div>
                             <div class="product-description">Ordered: {{product.numberOrdered}}</div>
                             <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>

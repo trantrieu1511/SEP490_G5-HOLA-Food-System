@@ -136,6 +136,8 @@ export class API_POST {
 
 export class API_HOME {
     public static DISPLAY_SHOP = "displayshop";
+    public static HOT_FOOD = "hotfoods";
+    public static SEARCH = "search";
     public static SEND_CONFIRM_EMAIL = "sendconfirm";
 }
 
@@ -182,6 +184,7 @@ export class API_FOODDETAIL {
     public static GET_SIMILARFOOD = "similarfood"
     public static GET_FEEDBACK = "feedbck"
     public static VOTE_FEEDBACK = "vote"
+    public static GET_FEEDBACK_IMAGE = "getfeedback"
 }
 
 export class API_ORDERCUSTOMER {

@@ -2,7 +2,10 @@
 using HFS_BE.Base;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using HFS_BE.Utils.Enum;
+using HFS_BE.Utils.IOFile;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace HFS_BE.DAO.FeedBackDao
 {
@@ -65,6 +68,39 @@ namespace HFS_BE.DAO.FeedBackDao
                 return this.Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
+		public GetFeedBackByFoodIdImageDaoOutputDto GetFeedBackByFoodIdImage(GetFeedBackByFoodIdDaoInputDto inputDto)
+		{
+			try
+			{
+				//			public string? FeedbackMessage { get; set; }
+				//public byte? Star { get; set; }
+				//public DateTime? DisplayDate { get; set; }
+				//public int LikeCount { get; set; }
+				//public int DisLikeCount { get; set; }
+				//public bool? IsLiked { get; set; }
+				//public List<CustomerVoted> ListVoted { get; set; }
+				var data = this.context.Feedbacks
+							.Include(x => x.Customer)
+							.Include(x => x.FeedbackVotes)
+							.Include(x => x.FeedBackImages)
+							.Where(x => x.FoodId == inputDto.FoodId)
+					.ToList();
+				var output = this.Output<GetFeedBackByFoodIdImageDaoOutputDto>(Constants.ResultCdSuccess);
+				output.FeedBacks = mapper.Map<List<Feedback>, List<FeedBackDaoOutputDtoImage>>(data);
+				
+                foreach (var e in output.FeedBacks)
+                {
+                    e.Images = context.FeedBackImages.Where(s => s.FeedbackId == e.FeedbackId).ToList();
+				}
+				
+				return output;
 
-    }
+			}
+			catch (Exception)
+			{
+				return this.Output<GetFeedBackByFoodIdImageDaoOutputDto>(Constants.ResultCdFail);
+			}
+		}
+
+	}
 }
