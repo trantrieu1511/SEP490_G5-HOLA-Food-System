@@ -63,14 +63,14 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     checkRoleCus() {
-        // debugger;
+        // 
         // console.log(this.authService.getRole());
         return this.authService.getRole() == null || RoleNames[this.authService.getRole()] == 'Customer'
     }
     setCurrentUser() {
       const user: User = JSON.parse(localStorage.getItem('user'));
       const token = sessionStorage.getItem('JWT');
-     // debugger;
+     // 
       if (user) {
 
         this.presence.createHubConnection(token);
@@ -101,7 +101,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         this.clearLocalStorage();
 
         event.preventDefault();
-        // debugger;
+        // 
         let urlLogin = this.checkRoleCus() ? '/login' : '/login-2';
         //Logout thì xóa đi
         sessionStorage.clear();
@@ -147,7 +147,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     async ngOnInit() {
-        // debugger;
+        // 
         this.setCurrentUser();
         this.checkLoggedInState();
         await this.profileService.getProfileImage();
@@ -176,7 +176,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     checkLink(){
-        // debugger;
+        // 
         return this.router.url.indexOf("/HFSBusiness") == 0 ? false : true;
     }
 

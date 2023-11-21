@@ -122,7 +122,7 @@ export class PostreportManagementComponent extends iComponentBase implements OnI
 
   onOpenApproveNotApproveModal(postrp) {
     this.postReport = Object.assign({}, postrp);
-    // debugger;
+    // 
     // this.approveNotApproveOption = { optionName: '' };
     // this.approveNotApproveOption.optionName = this.postReport.status;
     // this.postReport.status = this.approveNotApproveOption.optionName;
@@ -180,7 +180,7 @@ export class PostreportManagementComponent extends iComponentBase implements OnI
   async approveNotApprovePost(postrp) {
     // type = true => Unban
     // false => Ban
-    // debugger;
+    // 
     let isApproved = postrp.status == 'Approved' ? true : false;
     const message = isApproved ? "Approved" : "Not approved";
 

@@ -69,7 +69,7 @@
               Total Price <p-sortIcon field="totalPrice"></p-sortIcon>
             </th>
             <ng-container [ngSwitch]="activeItem.id">
-              <ng-container *jrSwitchCases="['2', '3', '4']"
+              <ng-container *jrSwitchCases="['2', '3', '4', '5']"
                 ><th>Shipper</th></ng-container
               >
               <ng-container *ngSwitchDefault></ng-container>
@@ -80,8 +80,12 @@
                 ><th>Action</th></ng-container
               >
               <ng-container *jrSwitchCases="['5', '6']"
-                ><th>Reason</th></ng-container
+                >
+                <th>Reason</th>
+                <th>Action</th>
+              </ng-container
               >
+              
               <ng-container *ngSwitchDefault></ng-container>
             </ng-container>
           </tr>
@@ -186,7 +190,7 @@
                   </div>
                 </td>
               </ng-container>
-              <ng-container *ngSwitchCase="4">
+              <ng-container *jrSwitchCases="['4', '5', '6']">
                 <td style="text-align: center">
                   <div
                     class="flex justify-content-center flex-wrap"
@@ -197,7 +201,7 @@
                         pButton
                         pRipple
                         icon="pi pi-history"
-                        (click)="onCancel(order, $event)"
+                        (click)="onHistory(order, $event)"
                         class="p-button-rounded p-button-secondary p-button-outlined"
                       ></button>
                     </div>
@@ -473,6 +477,63 @@
       </div>
     </div>
   </ng-template>
+</p-dialog>
+
+
+<p-dialog
+  [header]="headerDialog"
+  [(visible)]="displayDialogHistory"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+  [maximizable]="true"
+>
+  <div class="grid p-fluid">
+    <div class="col-12 md:col-12">
+      <div class="card">
+        <div class="grid">
+          <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+            <span class="p-input-icon-left p-float-label" style="width: 100%">
+              <input
+                type="text"
+                class="w-full"
+                [(ngModel)]="orderHistoryInput.orderId"
+                [disabled]="true"
+                pInputText
+              />
+              <label>Order ID*</label>
+            </span>
+          </div>
+          <p-dataView #dv [value]="orderHistoryInput.orderProgresses">
+              <ng-template let-progress pTemplate="listItem">
+                  <div class="col-12">
+                      <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+                          <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                              <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                                  <div class="text-base font-semibold">{{ progress.status }}</div>
+                                  <div class="flex align-items-center ml-5">
+                                      <span class="flex align-items-center">
+                                          <span class="font-normal">Time: {{ progress.createDate }}</span>
+                                      </span>
+                                  </div>
+                                  <div *ngIf="progress.note" class="font-medium text-sm ml-5">*Note: {{ progress.note }}</div>
+                              </div>
+                              <div *ngIf="progress.imageBase64" class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                                <p-image src="data:image/gif;base64,{{progress.imageBase64.imageBase64}}" [preview]="true"
+                                  [alt]="progress.note" class="dialogimages_image w-10rem shadow-2"
+                                  ></p-image>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </ng-template>
+          </p-dataView>
+          
+        </div>
+      </div>
+    </div>
+  </div>
 </p-dialog>
 
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>

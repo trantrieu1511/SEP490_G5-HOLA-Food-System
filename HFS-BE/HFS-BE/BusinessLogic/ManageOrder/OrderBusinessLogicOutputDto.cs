@@ -41,6 +41,7 @@ namespace HFS_BE.BusinessLogic.ManageOrder
         public ImageFoodOutputDto? ImageBase64 { get; set; }
         public string? Note { get; set; }
         public string? CreateDate { get; set; }
+        public string? Status { get; set; }
     }
 
     public class OrderSellerDaoOutputDto : BaseOutputDto

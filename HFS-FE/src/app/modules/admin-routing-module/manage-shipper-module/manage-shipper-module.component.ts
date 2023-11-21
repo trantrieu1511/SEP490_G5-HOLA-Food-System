@@ -61,7 +61,7 @@ this.getAllShipper();
   }
       try {
 
-     debugger;
+     
           let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.HIS_SHIPPER,param);
 
           if (response && response.message === "Success") {

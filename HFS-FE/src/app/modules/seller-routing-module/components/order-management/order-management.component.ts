@@ -72,6 +72,9 @@ export class OrderManagementComponent
   orderCancelValidateInput: OrderCancelInputValidation =
     new OrderCancelInputValidation();
 
+  orderHistoryInput: Order = new Order();
+  displayDialogHistory: boolean = false;
+
   visibleShipperLstDialog: boolean = false;
   lstShipper: Shipper[] = [];
   selectedShipper!: Shipper;
@@ -434,5 +437,14 @@ export class OrderManagementComponent
       console.log(messageError);
       this.showMessage(mType.error, response.message, messageError, 'notify');
     }
+  }
+
+  onHistory(order: Order, event) {
+    this.headerDialog = 'Order History';
+
+    this.orderHistoryInput = new Order();
+    this.orderHistoryInput = order;
+
+    this.displayDialogHistory = true;
   }
 }

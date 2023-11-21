@@ -92,7 +92,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit{
 
   async createComment(comEntity : InputComment){
     try {
-      //debugger;
+      //
       this.userId = sessionStorage.getItem('userId'); 
       const param = {
         'postId':this.postId,

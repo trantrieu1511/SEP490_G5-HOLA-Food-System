@@ -74,7 +74,7 @@ namespace HFS_BE.Utils
             notifyLst[0].Title = "Update order";
             notifyLst[0].Content = $"Order ID: {orderId} has been accepted";
 
-            notifyLst[1].Title = "Cập nhập đơn hàng";
+            notifyLst[1].Title = "Cập nhật đơn hàng";
             notifyLst[1].Content = $"Đơn hàng ID: {orderId} đã được chấp nhận";
 
             return notifyLst;
@@ -87,7 +87,7 @@ namespace HFS_BE.Utils
             notifyLst[0].Title = "Update order";
             notifyLst[0].Content = $"Order ID: {orderId} has been cancelled";
 
-            notifyLst[1].Title = "Cập nhập đơn hàng";
+            notifyLst[1].Title = "Cập nhật đơn hàng";
             notifyLst[1].Content = $"Đơn hàng ID: {orderId} đã bị từ chối";
 
             return notifyLst;
@@ -100,7 +100,7 @@ namespace HFS_BE.Utils
             notifyLst[0].Title = "Update order";
             notifyLst[0].Content = $"Order ID: {orderId} is on the way";
 
-            notifyLst[1].Title = "Cập nhập đơn hàng";
+            notifyLst[1].Title = "Cập nhật đơn hàng";
             notifyLst[1].Content = $"Đơn hàng ID: {orderId} đang giao";
 
             return notifyLst;
@@ -112,7 +112,7 @@ namespace HFS_BE.Utils
             notifyLst[0].Title = "Update order";
             notifyLst[0].Content = $"Order ID: {orderId} has been delivered successfully";
 
-            notifyLst[1].Title = "Cập nhập đơn hàng";
+            notifyLst[1].Title = "Cập nhật đơn hàng";
             notifyLst[1].Content = $"Đơn hàng ID: {orderId} đã giao thành công";
 
             return notifyLst;
@@ -125,7 +125,7 @@ namespace HFS_BE.Utils
             notifyLst[0].Title = "Update order";
             notifyLst[0].Content = $"Order ID: {orderId} was delivered unsuccessfully";
 
-            notifyLst[1].Title = "Cập nhập đơn hàng";
+            notifyLst[1].Title = "Cập nhật đơn hàng";
             notifyLst[1].Content = $"Đơn hàng ID: {orderId} đã giao không thành công";
 
             return notifyLst;

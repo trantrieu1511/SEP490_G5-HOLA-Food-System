@@ -19,6 +19,7 @@ export class DetailProgress{
   imageBase64: ImageOrderProgress;
   note: string;
   createDate: string;
+  status: string;
 }
 
 export class ImageOrderProgress{

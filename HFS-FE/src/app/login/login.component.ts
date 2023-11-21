@@ -147,6 +147,8 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
       this.renderer.setAttribute(cssLink, 'href', link);
       this.renderer.appendChild(document.head, cssLink);
     });
+
+    this.valueLang = this.translate.currentLang;
   }
   showCaptchaError() {
     const captchanameControl = this.form.get('captcha');
@@ -216,7 +218,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
 
   async onSubmit() {
     //this.formSubmitAttempt = false;
-    debugger;
+    
     this.captchacheck = localStorage.getItem("captcha");
     this.unsuccessfulLoginAttempts=parseInt(this.captchacheck);
     if (this.form.valid) {
@@ -229,7 +231,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
         return;
       }
       try {
-         debugger;
+         
         this.service.login(this.form.value).subscribe(
           (res) => {
             if(res===undefined&&this.user===null){
@@ -238,7 +240,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
             //this.toastr.success('Login success');
             // const userData = localStorage.getItem('user');
             // this.user = JSON.parse(userData);
-            debugger;
+            
             switch (this.user.role) {
               case 'CU':
                 this.router.navigate(['/homepage']);
@@ -280,7 +282,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
   async loginfb() {
     FB.login(
       async (result: any) => {
-        // debugger;
+        // 
         await this.service
           .loginfacebook(result.authResponse.accessToken)
           .subscribe(

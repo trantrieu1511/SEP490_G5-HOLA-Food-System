@@ -122,6 +122,7 @@ import { SearchComponent } from './modules/customer-routing-module/components/se
       }
     }),
     TranslateModule.forRoot({
+      defaultLanguage: 'vi',
       loader: {
 
         provide: TranslateLoader,
