@@ -17,7 +17,7 @@ namespace HFS_BE.DAO.CartDao
         public int Amount { get; set; }
         public decimal UnitPrice { get; set; }
         public string? Name { get; set; }
-        public List<FoodImagesDto> foodImages { get; set; }
+        public string? foodImages { get; set; }
     }
 
     public class FoodImagesDto

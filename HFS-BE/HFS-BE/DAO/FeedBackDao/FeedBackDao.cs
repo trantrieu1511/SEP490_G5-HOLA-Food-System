@@ -48,12 +48,23 @@ namespace HFS_BE.DAO.FeedBackDao
 
                 this.context.Add(feedBack);
                 this.context.SaveChanges();
-                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+				foreach (var img in inputDto.Images)
+				{
+					context.Add(new FeedBackImage
+					{
+						FeedbackId = feedBack.FeedbackId,
+						Path = img
+					});
+					context.SaveChanges();
+				}
+				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
             catch (Exception)
             {
                 return this.Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
+
     }
 }

@@ -1,4 +1,10 @@
 :host ::ng-deep {
+	.custom-rating .ui-rating-star:not(.ui-rating-star-on):before {
+		content: '\2605';
+		position: absolute;
+		width: 50%;
+		overflow: hidden;
+	}
 	.p-dropdown {
 		width: 14rem;
 		font-weight: normal;
