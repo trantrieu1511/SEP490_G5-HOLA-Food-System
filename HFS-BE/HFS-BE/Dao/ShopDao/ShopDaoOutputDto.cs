@@ -9,6 +9,8 @@ namespace HFS_BE.Dao.ShopDao
         public string ShopName { get; set; }
         public string ShopAddress { get; set; }
         public string Avatar { get; set; }
+        public decimal? Star { get; set; }
+        public int NumberOrdered { get; set; }
     }
 
     public class DisplayShopDaoOutputDto : BaseOutputDto
