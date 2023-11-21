@@ -183,6 +183,7 @@ export class API_FOODDETAIL {
     public static GET_SIMILARFOOD = "similarfood"
     public static GET_FEEDBACK = "feedbck"
     public static VOTE_FEEDBACK = "vote"
+    public static GET_FEEDBACK_IMAGE = "getfeedback"
 }
 
 export class API_ORDERCUSTOMER {

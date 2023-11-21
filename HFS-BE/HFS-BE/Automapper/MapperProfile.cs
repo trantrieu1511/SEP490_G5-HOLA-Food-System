@@ -338,7 +338,8 @@ namespace HFS_BE.Automapper
 
             CreateMap<ImageFileConvert.ImageOutputDto, CustomerImageOutputDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>();
-        }
+			CreateMap<ImageFileConvert.ImageOutputDto, FeedImageOutputDto>();
+		}
 
         public void Category()
         {
@@ -402,7 +403,14 @@ namespace HFS_BE.Automapper
 			CreateMap<AddFeedBackInputDtoBL, CreateFeedBackDaoInputDto>()
                 .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.UserDto.UserId));
             CreateMap<AddFeedBackControllerInputDto, AddFeedBackInputDtoBL>();
-		
+			CreateMap<Feedback, FeedBackDaoOutputDtoImage>()
+				  .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.LastName))
+				  .ForMember(dest => dest.DisplayDate, opt => opt.MapFrom(src => src.UpdateDate ?? src.CreatedDate))
+				  .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == true).ToList().Count))
+				  .ForMember(dest => dest.DisLikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == false).ToList().Count))
+				  .ForMember(dest => dest.ListVoted, opt => opt.MapFrom(src => src.FeedbackVotes));
+			CreateMap<FeedBackDaoOutputDtoImage, FeedBackDtoBL>();
+			CreateMap<GetFeedBackByFoodIdImageDaoOutputDto, ListFeedBackOutputDtoBS>();
 		}
 
         public void Voucher()

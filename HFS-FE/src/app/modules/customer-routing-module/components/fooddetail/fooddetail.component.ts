@@ -167,9 +167,10 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       this.loading = true;
       let getfood = new GetFoodDetail();
       getfood.foodId = this.foodId
-      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODETAIL, API.API_FOODDETAIL.GET_FEEDBACK, getfood);
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_FOODDETAIL.GET_FEEDBACK_IMAGE, getfood);
       if (response && response.success === true) {
         this.feedbacks = response.feedBacks
+        debugger
         this.displayFeedback = this.feedbacks.filter(x => x.star === 5).slice(this.first, this.rows);
       }
       this.loading = false;
@@ -295,7 +296,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       console.log(e);
       this.loading = false;
     }
-    
+
     // Làm mới model để không bị ảnh hường bởi two way binding
     this.foodReport = new FoodReport();
     // Tat modal

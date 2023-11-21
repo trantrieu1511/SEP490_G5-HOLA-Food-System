@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.FeedBackCustomer;
+using HFS_BE.DAO.FeedBackDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -37,6 +38,27 @@ namespace HFS_BE.Controllers.FeedBack
 			catch (Exception)
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+			}
+		}
+		[HttpPost("users/getFeedback")]
+		
+
+		public ListFeedBackOutputDtoBS GetFeedback(GetFeedBackByFoodIdDaoInputDto input)
+		{
+			try
+			{
+
+				var business = this.GetBusinessLogic<ListFeedBackBL>();
+
+
+				var output = business.ListFeedBack(input);
+
+
+				return output;
+			}
+			catch (Exception)
+			{
+				return this.Output<ListFeedBackOutputDtoBS>(Constants.ResultCdFail);
 			}
 		}
 	}
