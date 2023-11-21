@@ -7,6 +7,7 @@ namespace HFS_BE.Models
     {
         public Feedback()
         {
+            FeedBackImages = new HashSet<FeedBackImage>();
             FeedbackReplies = new HashSet<FeedbackReply>();
             FeedbackVotes = new HashSet<FeedbackVote>();
         }
@@ -22,6 +23,7 @@ namespace HFS_BE.Models
 
         public virtual Customer? Customer { get; set; }
         public virtual Food? Food { get; set; }
+        public virtual ICollection<FeedBackImage> FeedBackImages { get; set; }
         public virtual ICollection<FeedbackReply> FeedbackReplies { get; set; }
         public virtual ICollection<FeedbackVote> FeedbackVotes { get; set; }
     }

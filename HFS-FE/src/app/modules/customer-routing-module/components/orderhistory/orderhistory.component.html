@@ -19,7 +19,7 @@
             <p-tabPanel *ngFor="let item of items" class="line-height-3 m-0"
             [header]="item.label"
           >
-          </p-tabPanel>      
+          </p-tabPanel>
         </p-tabView>
         <p-table
           styleClass="p-datatable-orders"
@@ -74,7 +74,7 @@
                 >
                 <ng-container *ngSwitchDefault></ng-container>
               </ng-container>
-  
+
               <ng-container [ngSwitch]="activeItem.id">
                 <ng-container *ngSwitchCase="'0'"
                   ><th>Action</th></ng-container
@@ -114,7 +114,7 @@
               <td>(Id:{{order.voucherId}}) -{{ order.discountAmount | currency : "VND" }}</td>
               <td>{{ order.paymentMethod }}</td>
               <td>{{ order.totalPrice | currency : "VND" }}</td>
-  
+
               <ng-container [ngSwitch]="activeItem.id">
                 <ng-container *ngSwitchCase="'2'"
                   ><td>{{ order.shipperId }}</td></ng-container
@@ -130,7 +130,7 @@
                 >
                 <ng-container *ngSwitchDefault></ng-container>
               </ng-container>
-  
+
               <ng-container [ngSwitch]="activeItem.id">
                 <ng-container *ngSwitchCase="'5'">
                   <td>
@@ -306,7 +306,7 @@
       </div>
     </div>
   </div>
-  
+
   <p-dialog
     [header]="headerDialog"
     [(visible)]="displayDialogCancelOrder"
@@ -431,6 +431,36 @@
                 <label>Input Feedback message*</label>
               </span>
             </div>
+            <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+              <label>Images*</label>
+    <span class="p-input-icon-left p-float-label" style="width: 100%">
+                  <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
+                      <ng-template pTemplate="content">
+                          <ul *ngIf="foodModel.images.length">
+                          </ul>
+                      </ng-template>
+                  </p-fileUpload> -->
+                  <p-fileUpload class=" w-full"
+                      #fileUploader
+                      [files]="uploadedFiles"
+                      [customUpload]="true"
+                      (onSelect)="handleFileSelection($event)"
+                      (onRemove)="handleFileRemoval($event)"
+                      (onClear)="handleAllFilesClear($event)"
+                      [multiple]="true" accept="image/*" [maxFileSize]="1000000"
+                      [showUploadButton]="false" >
+                      <ng-template pTemplate="content">
+                          <!-- <ul *ngIf="uploadedFiles.length > 0">
+                              <li *ngFor="let file of uploadedFiles">{{ file.name }}</li>
+                          </ul> -->
+                      </ng-template>
+                  </p-fileUpload>
+
+
+                </span>
+
+
+          </div>
           </div>
         </div>
       </div>
@@ -448,7 +478,7 @@
             pButton
             type="button"
             label="Rate"
-            (click)="onSaveRate()"
+            (click)="createFeedback(rateInput)"
             style="width: 100%"
           ></button>
         </div>
@@ -470,6 +500,5 @@
     </ng-template>
   </p-dialog>
   <p-toast [baseZIndex]="99999" key="notify"></p-toast>
-  
+
   <p-confirmPopup></p-confirmPopup>
-  

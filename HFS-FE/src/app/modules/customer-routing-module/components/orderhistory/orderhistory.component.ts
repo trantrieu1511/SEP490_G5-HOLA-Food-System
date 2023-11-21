@@ -14,13 +14,13 @@ import {
   TreeNode,
 } from 'primeng/api';
 import { iComponentBase, iServiceBase, mType } from 'src/app/modules/shared-module/shared-module';
-import { Order, OrderAcceptInput, OrderCancelInput, OrderCancelInputValidation, OrderDetailFoodDto, OrderStatusInput } from '../../models/order.model';
+import { FeedBackInput, Order, OrderAcceptInput, OrderCancelInput, OrderCancelInputValidation, OrderDetailFoodDto, OrderStatusInput } from '../../models/order.model';
 import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 import {DatePipe} from '@angular/common';
 import * as API from '../../../../services/apiURL';
 import { TabView, TabViewChangeEvent } from 'primeng/tabview';
 import { RateInput } from '../../models/RateInput.model';
-
+import { FileRemoveEvent, FileSelectEvent, FileUpload } from 'primeng/fileupload';
 @Component({
   selector: 'app-orderhistory',
   templateUrl: './orderhistory.component.html',
@@ -55,7 +55,7 @@ export class OrderhistoryComponent
   // selectedShipper!: Shipper;
   // loadingShipperLst: boolean;
   orderPreparingSelected: Order = new Order();
-
+  uploadedFiles: File[] = [];
   rangeDates: Date[] | undefined;
   currentDate: Date = new Date();
   isDisableCalendar: boolean = true;
@@ -68,7 +68,7 @@ export class OrderhistoryComponent
     private iServiceBase: iServiceBase,
     private datePipe: DatePipe
   ) {
-    super(messageService);   
+    super(messageService);
   }
 
 
@@ -279,5 +279,65 @@ export class OrderhistoryComponent
   //     },
   //   });
   // }
+
+  handleFileSelection(event: FileSelectEvent) {
+    //console.log("select", event);
+
+    this.uploadedFiles = event.currentFiles;
+
+    //console.log('primeSelect',this.f_upload);
+    console.log("uploadFiles", this.uploadedFiles);
+  }
+
+  handleFileRemoval(event: FileRemoveEvent) {
+    console.log("remove", event.file.name);
+
+    this.uploadedFiles = this.uploadedFiles.filter(f => f.name !== event.file.name);
+    console.log("uploadFiles", this.uploadedFiles);
+  }
+
+  handleAllFilesClear(event: Event) {
+    //console.log("clear", event);
+
+    this.uploadedFiles = [];
+    console.log("uploadFiles", this.uploadedFiles);
+  }
+
+  async createFeedback(rate: RateInput) {
+    debugger
+    rate.images=this.uploadedFiles;
+    const param = new FormData();
+
+    this.uploadedFiles.forEach(file => {
+      param.append('images', file, file.name);
+    });
+
+    Object.keys(rate).forEach(function (key) {
+      param.append(key, rate[key]);
+    });
+
+    const response = await this.iServiceBase
+      .getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_ORDER.FEEDBACK, param);
+    //console.log(response);
+    if (response && response.message === "Success") {
+      this.showMessage(mType.success, "Notification", "New FeedBack added successfully", 'notify');
+
+      this.displayDialogRateOrder = false;
+
+          //lấy lại danh sách All
+          this.getAllOrders();
+
+      //Clear model đã tạo
+      this.rateInput=new RateInput();
+    //  this.foodModel = new Food();
+      //clear file upload too =))
+      this.uploadedFiles = [];
+      this.displayDialogRateOrder = false;
+    } else {
+      var messageError = this.iServiceBase.formatMessageError(response);
+      console.log(messageError);
+      this.showMessage(mType.error, response.message, messageError, 'notify');
+    }
+  }
 }
 
