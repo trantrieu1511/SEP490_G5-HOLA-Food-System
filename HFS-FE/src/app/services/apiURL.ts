@@ -135,6 +135,7 @@ export class API_POST {
 
 export class API_HOME {
     public static DISPLAY_SHOP = "displayshop";
+    public static HOT_FOOD = "hotfoods";
     public static SEND_CONFIRM_EMAIL = "sendconfirm";
 }
 

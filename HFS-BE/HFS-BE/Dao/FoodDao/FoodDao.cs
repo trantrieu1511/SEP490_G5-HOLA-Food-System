@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
+using CloudinaryDotNet.Actions;
 using HFS_BE.Base;
 using HFS_BE.Dao.PostDao;
+using HFS_BE.DAO.UserDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
+using HFS_BE.Utils.IOFile;
 using Mailjet.Client.Resources;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
@@ -25,7 +29,7 @@ namespace HFS_BE.Dao.FoodDao
                     .Include(x => x.Category)
                     .Include(x => x.OrderDetails)
                     .Include(x => x.Feedbacks)
-                    .Where(x => x.SellerId.Equals(inputDto.ShopId) && x.Status == 0)
+                    .Where(x => x.SellerId.Equals(inputDto.ShopId) && x.Status == 1)
                     .ToList();
 
                 var listfood = new List<FoodOutputDto>();
@@ -51,8 +55,18 @@ namespace HFS_BE.Dao.FoodDao
                     var food = mapper.Map<Food, FoodOutputDto>(item);
                     food.AverageStar = Math.Round(star, MidpointRounding.AwayFromZero);
                     food.NumberOrdered = ordered;
+
+
+                    foreach (var img in food.foodImages)
+                    {
+                        var imageInfor = ImageFileConvert.ConvertFileToBase64(inputDto.ShopId, img.Name, 1);
+                        img.Size = imageInfor.Size;
+                        img.ImageBase64 = imageInfor.ImageBase64;
+                    }
+
                     listfood.Add(food);
                 }
+
 
                 var output = this.Output<FoodShopDaoOutputDto>(Constants.ResultCdSuccess);
                 output.ListFood = listfood;
@@ -71,11 +85,20 @@ namespace HFS_BE.Dao.FoodDao
                 var data = this.context.Foods
                     .Include(x => x.FoodImages)
                     .Include(x => x.Category)
-                    .Where(x => x.FoodId == inputDto.FoodId)
+                    .Where(x => x.FoodId == inputDto.FoodId && x.Status == 1)
                     .FirstOrDefault();
 
+                var shopid = data.SellerId;
+
                 var output = this.Output<FoodOutputDto>(Constants.ResultCdSuccess);
-                return output = mapper.Map<Food, FoodOutputDto>(data);
+                output = mapper.Map<Food, FoodOutputDto>(data);
+                foreach (var img in output.foodImages)
+                {
+                    var imageInfor = ImageFileConvert.ConvertFileToBase64(shopid, img.Name, 1);
+                    img.Size = imageInfor.Size;
+                    img.ImageBase64 = imageInfor.ImageBase64;
+                }
+                return output;
             }
             catch (Exception)
             {
@@ -279,12 +302,84 @@ namespace HFS_BE.Dao.FoodDao
                 var data = this.context.Foods
                     .Include(x => x.FoodImages)
                     .Include(x => x.Category)
-                    .Where(x => x.CategoryId.Equals(inputDto.CategoryId))
-                    .Select(x => mapper.Map<Food, FoodOutputDto>(x))
+                    .Where(x => x.CategoryId.Equals(inputDto.CategoryId) && x.Status == 1)
                     .ToList();
 
                 var output = this.Output<FoodShopDaoOutputDto>(Constants.ResultCdSuccess);
-                output.ListFood = data;
+                output.ListFood = new List<FoodOutputDto>();
+                foreach (var item in data)
+                {
+                    var shopId = item.SellerId;
+                    var food = mapper.Map<Food, FoodOutputDto>(item);
+                    foreach (var img in food.foodImages)
+                    {
+                        var imageInfor = ImageFileConvert.ConvertFileToBase64(shopId, img.Name, 1);
+                        img.Size = imageInfor.Size;
+                        img.ImageBase64 = imageInfor.ImageBase64;
+                    }
+
+                    output.ListFood.Add(food);
+                }
+               
+                return output;
+            }
+            catch (Exception)
+            {
+                return this.Output<FoodShopDaoOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public FoodShopDaoOutputDto GetHotFood()
+        {
+            try
+            {
+                var data = this.context.Foods
+                    .Include(x => x.FoodImages)
+                    .Include(x => x.Category)
+                    .Include(x => x.OrderDetails)
+                    .Include(x => x.Feedbacks)
+                    .Where(x => x.Status == 1)
+                    .ToList();
+
+                var listfood = new List<FoodOutputDto>();
+                foreach (var item in data)
+                {
+                    int ordered = 0;
+                    decimal star = 0;
+                    foreach (var orderdetail in item.OrderDetails)
+                    {
+                        ordered += orderdetail.Quantity.Value;
+                    }
+
+                    if (item.Feedbacks.Any())
+                    {
+                        int totalStar = 0;
+                        foreach (var feedback in item.Feedbacks)
+                        {
+                            totalStar += feedback.Star.Value;
+                        }
+                        star = (decimal)totalStar / (decimal)item.Feedbacks.Count();
+                    }
+
+                    var food = mapper.Map<Food, FoodOutputDto>(item);
+                    food.AverageStar = Math.Round(star, MidpointRounding.AwayFromZero);
+                    food.NumberOrdered = ordered;
+
+
+                    foreach (var img in food.foodImages)
+                    {
+                        var imageInfor = ImageFileConvert.ConvertFileToBase64(item.SellerId, img.Name, 1);
+                        img.Size = imageInfor.Size;
+                        img.ImageBase64 = imageInfor.ImageBase64;
+                    }
+
+                    listfood.Add(food);
+                }
+
+                listfood = listfood.OrderByDescending(x => x.NumberOrdered).ThenByDescending(x => x.AverageStar).Take(10).ToList();
+
+                var output = this.Output<FoodShopDaoOutputDto>(Constants.ResultCdSuccess);
+                output.ListFood = listfood;
                 return output;
             }
             catch (Exception)

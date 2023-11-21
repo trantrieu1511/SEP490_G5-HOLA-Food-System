@@ -30,6 +30,7 @@ export class HomepageComponent extends iComponentBase implements OnInit {
 
   loading: boolean;
   lstShop: any[];
+  hotfoods : any[]
 
   constructor(private shareData: ShareData,
     public messageService: MessageService,
@@ -45,6 +46,7 @@ export class HomepageComponent extends iComponentBase implements OnInit {
 
   ngOnInit() {
     this.getAllShop();
+    this.getHotFoods();
    // this.setCurrentUser();
   }
   // setCurrentUser() {
@@ -72,6 +74,22 @@ export class HomepageComponent extends iComponentBase implements OnInit {
     }
   }
 
+  async getHotFoods() {
+    try {
+      this.loading = true;
+
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.HOME, API.API_HOME.HOT_FOOD, null);
+      console.log(response)
+      if (response && response.message === "Success") {
+        this.hotfoods = response.listFood;
+      }
+      this.loading = false;
+    } catch (e) {
+      console.log(e);
+      this.loading = false;
+    }
+  }
+
   onShopDetail(shop: Shop) {
     //console.log(shop);
     this.dataService.setData(shop);
@@ -80,4 +98,22 @@ export class HomepageComponent extends iComponentBase implements OnInit {
     //this._router.navigate(['/shopdetail'], { queryParams: { shopInfor: shop} });
     //this._router.navigate(['/shopdetail/'+ shop ]);
   }
+
+  carouselResponsiveOptions: any[] = [
+    {
+      breakpoint: '1024px',
+      numVisible: 3,
+      numScroll: 3
+    },
+    {
+      breakpoint: '768px',
+      numVisible: 2,
+      numScroll: 2
+    },
+    {
+      breakpoint: '560px',
+      numVisible: 1,
+      numScroll: 1
+    }
+  ];
 }

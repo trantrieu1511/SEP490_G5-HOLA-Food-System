@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using HFS_BE.Automapper;
 using AutoMapper;
 using HFS_BE.Utils;
+using HFS_BE.Utils.IOFile;
 
 namespace HFS_BE.Dao.ShopDao
 {
@@ -19,11 +20,17 @@ namespace HFS_BE.Dao.ShopDao
         {
             try
             {
-                var output = this.context.Sellers.ToList();
+                var output = this.context.Sellers
+                    .Where(x => x.IsVerified == true).ToList();
 
                 DisplayShopDaoOutputDto outputDto = this.Output<DisplayShopDaoOutputDto>(Constants.ResultCdSuccess);
                 //output = this.Paginate(output, inputDto.Pagination);
                 outputDto.ListShop = mapper.Map<List<Seller>, List<ShopDto>>(output);
+                foreach (var item in outputDto.ListShop)
+                {
+                    item.Avatar = ImageFileConvert.ConvertFileToBase64(item.UserId, this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(item.UserId)).Path, 2).ImageBase64;
+                }
+
                 return outputDto;
             }
             catch (Exception ex)
@@ -37,7 +44,7 @@ namespace HFS_BE.Dao.ShopDao
             try
             {
                 var output = this.context.Sellers
-                    .Where(x => x.SellerId.Equals(inputDto.ShopId))
+                    .Where(x => x.SellerId.Equals(inputDto.ShopId) && x.IsVerified == true)
                     .FirstOrDefault();
 
                 var outputDto = this.Output<GetShopDetailDaoOutputDto>(Constants.ResultCdSuccess);

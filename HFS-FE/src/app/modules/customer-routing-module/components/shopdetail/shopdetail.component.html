@@ -30,7 +30,7 @@
             <ng-template let-product pTemplate="listItem">
                 <div class="col-12">
                     <div class="product-list-item">
-                        <img [src]="'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg'" [alt]="product.name"/>
+                        <img [src]="'data:image/png;base64,' + product.foodImages[0].imageBase64" [alt]="product.name"/>
                         <div class="product-list-detail">
                             <div class="product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</div>
                             <div class="product-description">Ordered: {{product.numberOrdered}}</div>
@@ -56,7 +56,7 @@
                             <!-- <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
                         </div>
                         <div class="product-grid-item-content">
-                            <img [src]="'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg'" [alt]="product.name"/>
+                            <img [src]="'data:image/png;base64,' + product.foodImages[0].imageBase64" [alt]="product.name"/>
                             <div class="product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</div>
                             <div class="product-description">Ordered: {{product.numberOrdered}}</div>
                             <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>

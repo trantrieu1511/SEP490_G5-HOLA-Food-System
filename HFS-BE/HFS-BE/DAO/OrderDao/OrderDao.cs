@@ -260,6 +260,8 @@ namespace HFS_BE.Dao.OrderDao
                         .ThenInclude(f => f.Category)
                     .Include(x => x.OrderDetails).ThenInclude(x => x.Food)
                         .ThenInclude(f => f.FoodImages)
+                    .Include(x => x.OrderDetails).ThenInclude(x => x.Food)
+                        .ThenInclude(f => f.Seller)
                     .Include(x => x.OrderProgresses)
                     .Include(x => x.Seller)
                     .Include(x => x.Voucher)

@@ -116,7 +116,8 @@ namespace HFS_BE.Automapper
         {
             CreateMap<Food, Dao.FoodDao.FoodOutputDto>()
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
-            CreateMap<FoodImage, Dao.FoodDao.FoodImageDto>();
+            CreateMap<FoodImage, Dao.FoodDao.FoodImageDto>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Path));
 
             //seller
             //input
@@ -247,7 +248,7 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("MM/dd/yyyy - HH:mm:ss")));
             CreateMap<OrderDetail, OrderDetaiCustomerDto>()
                 .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name))
-                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Food.FoodImages.ToList().First().Path))
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ImageFileConvert.ConvertFileToBase64(src.Food.SellerId, src.Food.FoodImages.ToList().First().Path, 1).ImageBase64))
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Food.Category.Name));
 
         }
@@ -291,14 +292,14 @@ namespace HFS_BE.Automapper
             CreateMap<FoodImage, DAO.CartDao.FoodImagesDto>();
             CreateMap<CartItem, DAO.CartDao.CartItemOutputDto>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Food.Name))
-                .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => src.Food.FoodImages))
+                .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => ImageFileConvert.ConvertFileToBase64(src.Food.SellerId, src.Food.FoodImages.FirstOrDefault().Path, 1).ImageBase64))
                 .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.Food.SellerId))
                 .ForMember(dest => dest.ShopName, opt => opt.MapFrom(src => src.Food.Seller.ShopName))
                 .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.Food.UnitPrice));
             CreateMap<AddCartItemInputDto, CartItem>();
 
             CreateMap<CartItemOutputDto, CartItemDto>()
-                .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => src.foodImages.FirstOrDefault()));
+                .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => src.foodImages));
         }
 
         public void UserProfile()

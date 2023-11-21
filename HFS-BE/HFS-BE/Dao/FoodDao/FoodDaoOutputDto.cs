@@ -20,7 +20,9 @@ namespace HFS_BE.Dao.FoodDao
     public class FoodImageDto
     {
         public int ImageId { get; set; }
-        public string Path { get; set; }
+        public string? ImageBase64 { get; set; }
+        public string? Name { get; set; }
+        public string? Size { get; set; }
     }
 
     public class FoodShopDaoOutputDto : BaseOutputDto

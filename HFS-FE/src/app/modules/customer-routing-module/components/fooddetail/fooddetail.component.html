@@ -58,11 +58,11 @@
                     <p-galleria [value]="foodImages" [responsiveOptions]="galleriaResponsiveOptions"
                         [containerStyle]="{'max-width': '100%', 'margin':'auto'}" [circular]="true">
                         <ng-template pTemplate="item" let-item>
-                            <img [src]="item.path" style="max-width: 100%; display: block; max-height: 100%;" />
+                            <img [src]="'data:image/png;base64,' + item.imageBase64" style="max-width: 100%; display: block; max-height: 100%;" />
                         </ng-template>
                         <ng-template pTemplate="thumbnail" let-item>
                             <div class="grid nogutter justify-center">
-                                <img [src]="item.path" style=" max-width: 50px; display: block; max-height: 30%;" />
+                                <img [src]="'data:image/png;base64,' + item.imageBase64" style=" max-width: 50px; display: block; max-height: 30%;" />
                             </div>
                         </ng-template>
                     </p-galleria>
@@ -121,7 +121,7 @@
                 <ng-template let-product pTemplate="item">
                     <div class="border-round m-2 text-center p-2" style="border: 1px solid var(--surface-d)">
                         <div class="my-5">
-                            <img [src]="product.foodImages[0].path" [alt]="product.name" class="shadow-4"
+                            <img [src]="'data:image/png;base64,' + product.foodImages[0].imageBase64" [alt]="product.name" class="shadow-4"
                                 style="max-width: 30%; max-height: 30%;" />
                         </div>
                         <div>
