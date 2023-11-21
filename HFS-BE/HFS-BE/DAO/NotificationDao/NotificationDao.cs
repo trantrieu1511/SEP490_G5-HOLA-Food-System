@@ -22,10 +22,7 @@ namespace HFS_BE.DAO.NotificationDao
                 // gen notifyId
                 var notify = context.Notifications
                     .OrderByDescending(x => x.Id)
-                    .GroupBy(x => x.Id)
-                    .Select(x => x.First())
-                    
-                    .ToList().FirstOrDefault();
+                    .FirstOrDefault();
 
                 var notifyId = notify is null ? 1 : notify.Id + 1;
 

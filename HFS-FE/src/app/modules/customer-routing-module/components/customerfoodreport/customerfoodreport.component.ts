@@ -68,7 +68,7 @@ export class CustomerfoodreportComponent extends iComponentBase implements OnIni
   }
 
   viewContentDetail(foodrp: FoodReport) {
-    // debugger;
+    // 
     // format date to dd/mm/yyyy
     const date = new Date(foodrp.createDate);
     const yyyy = date.getFullYear();
@@ -118,7 +118,7 @@ export class CustomerfoodreportComponent extends iComponentBase implements OnIni
 
   // // Validate to make this submit button enable whenever the user input some report content
   // enableDisableCancelFoodReportButtonSubmit() {
-  //   // debugger;
+  //   // 
   //   console.log(this.foodReport.reportContents);
   //   console.log("rpContents length: " + this.foodReport.reportContents.length);
   //   if (this.foodReport.reportContents.length < 1) {

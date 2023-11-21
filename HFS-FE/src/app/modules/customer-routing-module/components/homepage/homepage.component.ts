@@ -20,6 +20,7 @@ import { DataService } from 'src/app/services/data.service';
 import { User } from 'src/app/services/auth.service';
 import { PresenceService } from 'src/app/services/presence.service';
 import { DataView } from 'primeng/dataview';
+import { AddToCart } from '../../models/addToCart.model';
 
 @Component({
   selector: 'app-homepage',
@@ -35,6 +36,8 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   sortOptions: SelectItem[];
   sortOrder: number;
   sortField: string;
+  searchText : string;
+  searchOptions : any = "0"
 
   constructor(private shareData: ShareData,
     public messageService: MessageService,
@@ -61,7 +64,7 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   // setCurrentUser() {
   //   const user: User = JSON.parse(localStorage.getItem('user'));
   //   const token = sessionStorage.getItem('JWT');
-  //  // debugger;
+  //  // 
   //   if (user) {
 
   //     this.presence.createHubConnection(token);
@@ -120,8 +123,41 @@ export class HomepageComponent extends iComponentBase implements OnInit {
     }
 }
 
+onFoodDetail(foodId : number){
+  this._router.navigate(['/fooddetail'], { queryParams: { foodId: foodId } });
+}
+
+onSearch(){
+  if (this.searchText.length > 0){
+    this._router.navigate(['/search'], { queryParams: { key: this.searchText, type : this.searchOptions } });
+  }
+}
+
 onFilter(dv: DataView, event: Event) {
   dv.filter((event.target as HTMLInputElement).value);
+}
+
+async onAddToCart(foodId : number){
+  try {
+    this.loading = true;
+    let cartItem = new AddToCart();
+    cartItem.foodId = foodId
+    cartItem.amount = 1
+    let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.ADDTOCART, cartItem);
+    if (response && response.message === "Success") {
+      console.log(response)
+        this.showMessage(mType.success, "", "Add to cart success!", 'notify');      
+    }
+    else{
+      this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');
+      this._router.navigate(['/login']);
+    } 
+
+    this.loading = false;
+} catch (e) {
+    console.log(e);
+    this.loading = false;
+}
 }
 
   carouselResponsiveOptions: any[] = [

@@ -172,7 +172,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
     }
 
     async getAllInvitionbyshipper() {
-      debugger;
+      
       this.listinvitationbyshipper = [];
       try {
         this.loading = true;

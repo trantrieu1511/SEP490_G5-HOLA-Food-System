@@ -16,10 +16,11 @@ namespace HFS_BE.BusinessLogic.OrderShipper
         public OrderProgressBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
-        public BaseOutputDto CreateOrderProgress(OrderProgressBusinessLogicInputDto inputDto, out string? customerId, out List<Models.Admin> admins)
+        public BaseOutputDto CreateOrderProgress(OrderProgressBusinessLogicInputDto inputDto, out string? customerId, out List<Models.Admin> admins, out string? sellerId)
         {
             customerId = null;
             admins = null;
+            sellerId = null;
             try
             {
                 var orderDao = CreateDao<OrderDao>();
@@ -32,8 +33,8 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Order is not exist");
                 // put customerId
                 customerId = order?.CustomerId;
+                sellerId = order?.SellerId;
 
-                inputDto.UserDto.UserId = "SH00000001";
                 string fileNames = null;
                 if (inputDto.Image != null)
                 {
@@ -51,14 +52,14 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                 var notifyCus = new List<NotificationAddNewInputDto>();
                 var notifySell = new List<NotificationAddNewInputDto>();
                 //shipping
-                if (inputDto.Status.Equals("3"))
+                if (inputDto.Status == 3)
                 {
                     //gen title and content notification
                     notifyCus = GenerateNotification.GetSingleton().GenNotificationOrderShipping(customerId, order.OrderId);
                     notifySell = GenerateNotification.GetSingleton().GenNotificationOrderShipping(order.SellerId, order.OrderId);
                 }
                 //completed
-                else if (inputDto.Status.Equals("4"))
+                else if (inputDto.Status == 4)
                 {
                     notifyCus = GenerateNotification.GetSingleton().GenNotificationOrderShippedSuccess(customerId, order.OrderId);
                     notifySell = GenerateNotification.GetSingleton().GenNotificationOrderShippedSuccess(order.SellerId, order.OrderId);
@@ -76,7 +77,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                 if (!notiCus.Success || !notiSel.Success)
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail);
                 // send to admin
-                if (inputDto.Status.Equals("5"))
+                if (inputDto.Status == 5)
                 {
                     var adminLst = adminDao.GetAdmins();
                     admins = adminLst;

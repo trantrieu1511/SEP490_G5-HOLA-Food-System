@@ -36,7 +36,7 @@ namespace HFS_BE.BusinessLogic.ProfileImage
                 var output = mapper.Map<DAO.ProfileImage.ProfileImageOutputDtoWrapper, ProfileImageOutputDtoWrapper>(daoOutput);
 
                 ImageFileConvert.ImageOutputDto? convertedImageInfo = null;
-                convertedImageInfo = ImageFileConvert.ConvertFileToBase64(daoOutput.ProfileImage.UserId, daoOutput.ProfileImage.Path, 2);
+                convertedImageInfo = ImageFileConvert.ConvertFileToBase64(daoOutput.ProfileImage.UserId, daoOutput.ProfileImage.Path, 3);
 
                 output.ProfileImage.ImageBase64 = convertedImageInfo.ImageBase64;
                 //output.ProfileImage.Name = convertedImageInfo.Name;

@@ -31,7 +31,7 @@
                             <div class="product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</div>
                             <div class="product-description">Ordered: {{product.numberOrdered}}</div>
                             <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>
-                            <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{product.category}}</span>
+                            <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{product.categoryName}}</span>
                         </div>
                         <div class="product-list-action">
                             <span class="product-price">{{product.unitPrice | currency:'VND'}}</span>

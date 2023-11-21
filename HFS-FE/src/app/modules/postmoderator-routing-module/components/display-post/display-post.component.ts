@@ -205,7 +205,7 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
   async banUnbanPost(post: Post, isBanned: boolean) {
     // type = true => Unban
     // false => Ban
-    // debugger;
+    // 
     const message = isBanned ? "Banned" : "Unbanned";
 
     try {

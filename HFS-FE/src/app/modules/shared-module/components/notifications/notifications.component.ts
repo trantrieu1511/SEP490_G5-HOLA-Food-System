@@ -59,8 +59,8 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
   }
 
   async ngOnInit() {
-    console.log("lang")
-    console.log(this.translate)
+    // console.log("lang")
+    // console.log(this.translate)
   }
 
   ngOnDestroy() {

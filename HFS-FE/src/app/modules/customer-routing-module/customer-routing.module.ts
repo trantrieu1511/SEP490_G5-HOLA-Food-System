@@ -19,8 +19,7 @@ import { CustomerfoodreportComponent } from './components/customerfoodreport/cus
 import { CustomerpostreportComponent } from './components/customerpostreport/customerpostreport.component';
 import { ManageshipaddressComponent } from './components/shipaddress/manageshipaddress.component';
 import { NewFeedModuleComponent } from './components/new-feed-module/new-feed-module.component';
-
-
+import { SearchComponent } from './components/search/search.component';
 
 const routes: Routes = [
   {path: "cartdetail", component: CartdetailComponent},
@@ -34,6 +33,7 @@ const routes: Routes = [
   {path: "menureport", component : CustomerfoodreportComponent},
   {path: "postreport", component : CustomerpostreportComponent},
   {path: "shipaddress", component : ManageshipaddressComponent},
+  
 ]
 
 
@@ -48,7 +48,7 @@ const routes: Routes = [
     SwitchCasesDirective,
     CustomerfoodreportComponent,
     CustomerpostreportComponent,
-    ManageshipaddressComponent
+    ManageshipaddressComponent,
   ],
   imports: [
     CommonModule,

@@ -151,7 +151,7 @@ showShopAddressError() {
 }
 onRoleChange(event: any) {
     this.selectedRoleId = event.target.value;
-    debugger;
+    
 
       const roleIdControl = this.formregister.get('roleId');
       const shopNameControl = this.formregister.get('shopName');
@@ -179,11 +179,11 @@ onRoleChange(event: any) {
   }
 async onSubmit() {
   if (this.formregister.valid) {
-debugger;
+
     switch(this.formregister.value.roleId.toString()){
       case "3":
         try {
-          debugger;
+          
 
           this.service.register(this.formregister.value).subscribe(res=>{
             this.service.showregister$.subscribe(showregister => {
@@ -195,7 +195,7 @@ debugger;
         break;
         case "2":
           try {
-            debugger;
+            
 
             this.service.registerseller(this.formregister.value).subscribe(res=>{
               this.service.showregister$.subscribe(showregister => {
@@ -207,7 +207,7 @@ debugger;
           break;
           case "4":
             try {
-              debugger;
+              
 
               this.service.registershipper(this.formregister.value).subscribe(res=>{
                 this.service.showregister$.subscribe(showregister => {

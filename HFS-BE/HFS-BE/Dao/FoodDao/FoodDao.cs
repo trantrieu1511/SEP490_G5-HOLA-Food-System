@@ -11,6 +11,8 @@ using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Text;
 
 namespace HFS_BE.Dao.FoodDao
 {
@@ -320,7 +322,7 @@ namespace HFS_BE.Dao.FoodDao
 
                     output.ListFood.Add(food);
                 }
-               
+
                 return output;
             }
             catch (Exception)
@@ -386,6 +388,76 @@ namespace HFS_BE.Dao.FoodDao
             {
                 return this.Output<FoodShopDaoOutputDto>(Constants.ResultCdFail);
             }
+        }
+
+        public FoodShopDaoOutputDto FoodByName(FoodByNameDaoInputDto inputDto)
+        {
+            try
+            {
+                var key = RemoveAccents(inputDto.SearchKey);
+                var data = this.context.Foods
+                    .Include(x => x.FoodImages)
+                    .Include(x => x.Category)
+                    .Include(x => x.OrderDetails)
+                    .Include(x => x.Feedbacks)
+                    .Where(x => x.Status == 1)
+                    .ToList();
+
+                var listfood = new List<FoodOutputDto>();
+                foreach (var item in data)
+                {
+                    if (!RemoveAccents(item.Name).Contains(key))
+                    {
+                        continue;
+                    }
+                    int ordered = 0;
+                    decimal star = 0;
+                    foreach (var orderdetail in item.OrderDetails)
+                    {
+                        ordered += orderdetail.Quantity.Value;
+                    }
+
+                    if (item.Feedbacks.Any())
+                    {
+                        int totalStar = 0;
+                        foreach (var feedback in item.Feedbacks)
+                        {
+                            totalStar += feedback.Star.Value;
+                        }
+                        star = (decimal)totalStar / (decimal)item.Feedbacks.Count();
+                    }
+
+                    var food = mapper.Map<Food, FoodOutputDto>(item);
+                    food.AverageStar = Math.Round(star, MidpointRounding.AwayFromZero);
+                    food.NumberOrdered = ordered;
+
+
+                    foreach (var img in food.foodImages)
+                    {
+                        var imageInfor = ImageFileConvert.ConvertFileToBase64(item.SellerId, img.Name, 1);
+                        img.Size = imageInfor.Size;
+                        img.ImageBase64 = imageInfor.ImageBase64;
+                    }
+
+                    listfood.Add(food);
+                }
+
+
+                var output = this.Output<FoodShopDaoOutputDto>(Constants.ResultCdSuccess);
+                output.ListFood = listfood;
+                return output;
+            }
+            catch (Exception)
+            {
+                return this.Output<FoodShopDaoOutputDto>(Constants.ResultCdFail);
+            }           
+        }
+
+        private string RemoveAccents(string input)
+        {
+            string normalized = input.Normalize(NormalizationForm.FormKD);
+            Regex regex = new Regex("[\\p{Mn}]", RegexOptions.Compiled);
+            return regex.Replace(normalized, string.Empty).ToLower();
         }
     }
 }

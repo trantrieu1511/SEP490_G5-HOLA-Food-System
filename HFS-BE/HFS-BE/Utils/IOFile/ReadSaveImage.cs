@@ -53,7 +53,7 @@ namespace HFS_BE.Utils.IOFile
         public static string SaveImagesOrderProgress(IFormFile image, UserDto user, int type)
         {
             string basePath = $"Resources\\Images\\" +
-                            $"Shipper{user.UserId}\\" +
+                            $"{user.UserId}\\" +
                             $"{GetFolderNameTypeImage(type)}";
             // Đường dẫn cơ sở cho việc lưu hình ảnh
             string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);

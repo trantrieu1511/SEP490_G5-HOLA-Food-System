@@ -98,7 +98,7 @@ export class FoodreportManagementComponent extends iComponentBase implements OnI
   async approveNotApproveFood(foodrp) {
     // type = true => Unban
     // false => Ban
-    // debugger;
+    // 
     let isApproved = foodrp.status == 'Approved' ? true : false;
     const message = isApproved ? "Approved" : "Not approved";
 

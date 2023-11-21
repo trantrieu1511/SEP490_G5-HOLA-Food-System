@@ -17,7 +17,7 @@ export class AppComponent {
     translate.addLangs(['en', 'vi']);
 
     if(localStorage.getItem("LANG") == undefined || localStorage.getItem("LANG") == null){
-      this.translate.use('vi');
+      this.translate.use(this.translate.defaultLang);
       localStorage.setItem("LANG", 'vi');
     }else{
       translate.use(localStorage.getItem("LANG"))

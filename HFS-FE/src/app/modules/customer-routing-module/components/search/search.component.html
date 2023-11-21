@@ -1,0 +1,65 @@
+<div style="display: flex; align-items: center; justify-content: center;">
+    <input type="search" [(ngModel)]="searchText" pInputText placeholder="Search Food by Name" (keyup.enter)="onSearch()">
+    <div class="flex align-items-center">
+        <p-radioButton name="pizza" value="0" [(ngModel)]="searchOptions" inputId="ingredient1"></p-radioButton>
+        <label for="ingredient1" class="ml-2">Food</label>
+    </div>
+    
+    <div class="flex align-items-center">
+        <p-radioButton name="pizza" value="1" [(ngModel)]="searchOptions" inputId="ingredient2"></p-radioButton>
+        <label for="ingredient2" class="ml-2">Shop</label>
+    </div>
+</div>
+<div style="margin-left: 50px; margin-right: 50px;" class="card">
+    <h5>Search List</h5>
+    <p-dataView #dv [value]="searchData" [paginator]="true" [rows]="9" filterBy="name" [sortField]="sortField"
+        [sortOrder]="sortOrder" layout="list">
+        <ng-template pTemplate="header">
+            <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
+                <p-dropdown [options]="sortOptions" placeholder="Sort By"
+                    (onChange)="onSortChange($event)"></p-dropdown>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input type="search" pInputText placeholder="Search by Name" (input)="onFilter(dv, $event)">
+                </span>
+            </div>
+        </ng-template>
+        <ng-template *ngIf="type === '0'" let-product pTemplate="listItem">
+            <div class="col-12">
+                <div class="product-list-item">
+                    <img [src]="'data:image/png;base64,' + product.foodImages[0].imageBase64" [alt]="product.name"/>
+                    <div class="product-list-detail">
+                        <div class="product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</div>
+                        <div class="product-description">Ordered: {{product.numberOrdered}}</div>
+                        <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>
+                        <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{product.categoryName}}</span>
+                    </div>
+                    <div class="product-list-action">
+                        <span class="product-price">{{product.unitPrice | currency:'VND'}}</span>
+                        <p-button icon="pi pi-shopping-cart" label="Add to Cart" (onClick)="onAddToCart(product.foodId)"></p-button>
+                        <!-- <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template *ngIf="type === '1'" let-product pTemplate="listItem">
+            <div class="col-12">
+                <div class="product-list-item">
+                    <img [src]="'data:image/png;base64,' + product.avatar" [alt]="product.shopName"/>
+                    <div class="product-list-detail">
+                        <div class="product-name" (click)="onShopDetail(product)">{{product.shopName}}</div>
+                        <div class="product-description">Ordered: {{product.numberOrdered}}</div>
+                        <div class="product-description">Add: {{product.shopAddress}}</div>
+                        <p-rating [ngModel]="product.star" [readonly]="true" [cancel]="false"></p-rating>
+                    </div>
+                    <div class="product-list-action">                       
+                        <p-button icon="pi pi-search" label="Shop Detail" (onClick)="onShopDetail(product)"></p-button>
+                        <!-- <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-dataView>
+</div>
+
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>
