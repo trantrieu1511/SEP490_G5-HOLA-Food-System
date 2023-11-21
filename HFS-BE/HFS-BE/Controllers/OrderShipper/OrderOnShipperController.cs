@@ -46,17 +46,22 @@ namespace HFS_BE.Controllers.OrderShipper
                     BusinessLogic.OrderShipper.OrderProgressBusinessLogicInputDto>(inputDto);
                 inputBL.UserDto = this.GetUserInfor();
                 string? customerId = "";
+                string? sellerId = "";
                 List<Models.Admin> admins = new List<Models.Admin>();
-                var output = busi.CreateOrderProgress(inputBL, out customerId, out admins);
-                if (output.Success)
+                var output = busi.CreateOrderProgress(inputBL, out customerId, out admins, out sellerId);
+                if (output.Success )
                 {
                     //notify for customer
                     var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
                     await notifyHub.Clients.Group(customerId).SendAsync("notification");
+                    await notifyHub.Clients.Group(sellerId).SendAsync("notification");
 
-                    foreach(var ad in admins)
+                    if (inputDto.Status == 5 && admins is not null && admins.Count > 0)
                     {
-                        await notifyHub.Clients.Group(ad.AdminId).SendAsync("notification");
+                        foreach (var ad in admins)
+                        {
+                            await notifyHub.Clients.Group(ad.AdminId).SendAsync("notification");
+                        }
                     }
                 }
                 return output;

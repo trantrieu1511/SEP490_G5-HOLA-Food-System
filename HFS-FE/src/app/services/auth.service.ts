@@ -30,7 +30,7 @@ export class AuthService {
   constructor(private httpClient: HttpClient) { }
 
   login(model: any) {
-    debugger;
+    
 
     return this.httpClient.post(this.path + 'home/logincustomer', model).pipe(
       map((res: Tokens) => {
@@ -89,7 +89,7 @@ export class AuthService {
 
       map((res: Tokens) => {
         const token = res;
-        //debugger;
+        //
         if (token) {
           this.setCurrentUser(token);
 
@@ -98,13 +98,13 @@ export class AuthService {
     )
   }
   register(model: any) {
-    //debugger;
+    //
 
     return this.httpClient.post(this.path + 'home/registercustomer', model).pipe(
 
       map((res: Register) => {
         const register = res;
-        //debugger;
+        //
         if (register.success) {
           console.log("tao tài khoản thành công");
 
@@ -117,18 +117,18 @@ export class AuthService {
     )
   }
   RefreshToken() {
-    //debugger;
+    //
 
 
   }
   registerseller(model: any) {
-    //debugger;
+    //
 
     return this.httpClient.post(this.path + 'home/registerseller', model).pipe(
 
       map((res: Register) => {
         const register = res;
-        //debugger;
+        //
         if (register.success) {
           console.log("tao tài khoản thành công");
 
@@ -141,13 +141,13 @@ export class AuthService {
     )
   }
   registershipper(model: any) {
-    //debugger;
+    //
 
     return this.httpClient.post(this.path + 'home/registershipper', model).pipe(
 
       map((res: Register) => {
         const register = res;
-        //debugger;
+        //
         if (register.success) {
           console.log("tao tài khoản thành công");
 
@@ -160,13 +160,13 @@ export class AuthService {
     )
   }
   loginfacebook(tokenconfirm: string): Observable<any> {
-    //debugger;
+    //
     const header = new HttpHeaders().set('Content-type', 'application/json');
     return this.httpClient.post("https://localhost:7016/api/Ok/" + "LoginWithFacebook", JSON.stringify(tokenconfirm), { headers: header, withCredentials: true }).pipe(
 
       map((res: Tokens) => {
         const token = res;
-        //debugger;
+        //
         if (token) {
           this.setCurrentUser(token);
 
@@ -176,13 +176,13 @@ export class AuthService {
   }
 
   confirm(tokenconfirm: string): Observable<any> {
-    //debugger;
+    //
     const header = new HttpHeaders().set('Content-type', 'application/json');
     return this.httpClient.post("https://localhost:7016/api/Role/" + "confirmation", JSON.stringify(tokenconfirm), { headers: header, withCredentials: true }).pipe(
 
       map((res: Tokens) => {
         const token = res;
-        //debugger;
+        //
         if (token) {
           console.log("ok");
 
@@ -192,12 +192,12 @@ export class AuthService {
   }
 
   sendforgot(model: any) {
-    //debugger;
+    //
     // https://localhost:7016/home/sendforgot
     return this.httpClient.post(this.path + "home/sendforgot", model).pipe(
       map((res: Tokens) => {
         const token = res;
-        //debugger;
+        //
         if (token.success) {
           this.showforgotSubject.next(0);
 
@@ -209,12 +209,12 @@ export class AuthService {
     )
   }
   confirmforgot(model: any) {
-    //debugger;
+    //
     // https://localhost:7016/home/confirmforgot
     return this.httpClient.post("https://localhost:7016/home/confirmforgot", model).pipe(
       map((res: Register) => {
         const ok = res;
-        //debugger;
+        //
         if (ok.success) {
           this.showforgotSubject.next(2);
 
@@ -226,12 +226,12 @@ export class AuthService {
     )
   }
   changeforgot(model: any) {
-    //debugger;
+    //
     // https://localhost:7016/home/confirmforgot
     return this.httpClient.post(this.path + "home/changepassword", model).pipe(
       map((res: Register) => {
         const ok = res;
-        //debugger;
+        //
         if (ok.success) {
           this.showforgotSubject.next(3);
 
@@ -243,7 +243,7 @@ export class AuthService {
     )
   }
   setCurrentUser(token: Tokens) {
-    //debugger;
+    //
     if (token) {
       const data = this.getDecodedToken(token.token);//copy token to jwt.io see .role
       this.user = {
@@ -279,12 +279,12 @@ export class AuthService {
   }
 
   confirmemail(model: any) {
-    //debugger;
+    //
     // https://localhost:7016/home/confirmforgot
     return this.httpClient.post("https://localhost:7016/home/confirm", model).pipe(
       map((res: Register) => {
         const ok = res;
-        //debugger;
+        //
         if (ok.success) {
           this.showconfirmSubject.next(1);
         } else {

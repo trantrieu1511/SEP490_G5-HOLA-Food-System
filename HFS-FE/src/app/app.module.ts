@@ -119,6 +119,7 @@ import { ManageprofileComponent } from './profile/manageprofile.component';
       }
     }),
     TranslateModule.forRoot({
+      defaultLanguage: 'vi',
       loader: {
 
         provide: TranslateLoader,

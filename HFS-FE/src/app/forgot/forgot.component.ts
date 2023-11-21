@@ -31,7 +31,7 @@ code:string
       // Sử dụng userId và code theo nhu cầu của bạn
       console.log('userId:', userId);
       console.log('code:', code);
-      debugger;
+      
 
       this.code=code;
       if (code === undefined || code === null) {
@@ -83,7 +83,7 @@ code:string
     if (this.formforgot.valid) {
 
       try {
-        debugger;
+        
         this.service.sendforgot(this.formforgot.value).subscribe(res=>{
           this.service.showforgot$.subscribe(showforgot => {
             this.showForgotForm = showforgot;})
@@ -103,7 +103,7 @@ code:string
       if (this.formpassword.valid) {
 
         try {
-          debugger;
+          
           this.service.changeforgot(this.formpassword.value).subscribe(res=>{
             this.service.showforgot$.subscribe(showforgot => {
               this.showForgotForm = showforgot;})

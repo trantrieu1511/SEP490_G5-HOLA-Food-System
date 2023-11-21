@@ -75,7 +75,7 @@ const param= {
        this.getAllShipper();
           this.showMessage(mType.success, "Notification", "Kick successfully", 'notify');
       }else{
-       debugger;
+       
        this.showMessage(mType.error, "Notification", response.message, 'notify');
       }
 
@@ -99,7 +99,7 @@ const param= {
  }
     try {
 
-   debugger;
+   
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.GET_SHIPPERS_INVITATION,param);
 
         if (response && response.message === "Success") {
@@ -127,7 +127,7 @@ const param= {
           this.getInvitation();
              this.showMessage(mType.success, "Notification", "Invitation successfully", 'notify');
          }else{
-          debugger;
+          
           this.showMessage(mType.error, "Notification", response.message, 'notify');
          }
 

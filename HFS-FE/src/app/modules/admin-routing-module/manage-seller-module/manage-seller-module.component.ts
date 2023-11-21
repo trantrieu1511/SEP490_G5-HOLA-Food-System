@@ -41,7 +41,7 @@ this.getAllSeller();
 
     try {
 
-   debugger;
+   
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.LIST_SELLER,"");
 
         if (response && response.message === "Success") {
@@ -63,7 +63,7 @@ this.getAllSeller();
   }
       try {
 
-     debugger;
+     
           let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.HIS_SELLER,param);
 
           if (response && response.message === "Success") {
@@ -85,7 +85,7 @@ console.log(this.banseller);
   async onSaveBan(){
     console.log(this.banseller);
     try{
-      debugger;
+      
     let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.BAN_SELLER,this.banseller);
 
     if (response && response.message === "Success") {
@@ -112,7 +112,7 @@ console.log(this.banseller);
       "isVerified": !user.isVerified
     }
     try{
-      debugger;
+      
     let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.ACTIVE_SELLER,param);
 
     if (response && response.message === "Success") {

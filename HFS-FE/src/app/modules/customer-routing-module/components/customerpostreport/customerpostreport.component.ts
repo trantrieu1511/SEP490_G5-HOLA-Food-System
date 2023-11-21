@@ -66,7 +66,7 @@ export class CustomerpostreportComponent extends iComponentBase implements OnIni
   }
 
   viewContentDetail(postrp: PostReport) {
-    // debugger;
+    // 
     // format date to dd/mm/yyyy
     const date = new Date(postrp.createDate);
     const yyyy = date.getFullYear();

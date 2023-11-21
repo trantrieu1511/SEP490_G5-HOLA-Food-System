@@ -25,7 +25,7 @@ export class ConfirmemailComponent implements OnInit {
         confirm: new FormControl(this.code),
         userId: new FormControl("1")
       })
-      debugger;
+      
       this.service.confirmemail(this.formCofirm.value).subscribe(res=>{
         this.service.showconfirm$.subscribe(show => {
           this.showSuccess = show;})

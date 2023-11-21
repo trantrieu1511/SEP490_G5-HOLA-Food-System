@@ -255,7 +255,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     //------------ Lay cac ly do report duoc input boi nguoi dung -------------
     let rpContent: string = "";
     let i = 0;
-    // debugger;
+    // 
     console.log(this.foodReport.reportContents);
     this.foodReport.reportContents.forEach(element => {
       i++;
@@ -327,7 +327,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
 
   // Validate to make this submit button enable whenever the user input some report content
   enableDisableFoodReportButtonSubmit() {
-    // debugger;
+    // 
     // console.log($event.checked);
     // this.foodReport.reportContents.forEach(element => {
     //   console.log(element);
@@ -348,7 +348,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
 
   // Hàm này kiểm tra khả năng tố cáo bằng cách xem customer đã report cái food với id: cụ thể nào đó chưa.
   async checkUsersReportFoodCapability() {
-    // debugger;
+    // 
     try {
       this.loading = true;
 
