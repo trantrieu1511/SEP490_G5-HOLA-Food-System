@@ -35,15 +35,17 @@
                     </a>
                 </li>
                 <app-notifications [layoutService]="layoutService"></app-notifications>
+                <!-- (click)="layoutService.onTopbarItemClick($event, 'shoppingcart')" -->
                 <li class="layout-topbar-item shoppingcart">
                     <a class="layout-topbar-action rounded-circle"
-                        (click)="layoutService.onTopbarItemClick($event, 'shoppingcart')" pRipple>
+                        (click)="onCartDetail();"
+                         pRipple> 
                         <span class="p-overlay-badge">
                             <i class="pi pi-shopping-cart fs-large"></i>
                             <span class="p-badge p-badge-warning p-badge-dot"></span>
                         </span>
                     </a>
-
+<!-- 
                     <ul class="layout-topbar-action-panel shadow-6" [@topbarActionPanelAnimation]="'visible'"
                         *ngIf="layoutService.state.activeTopbarItem === 'shoppingcart'">
 
@@ -103,7 +105,7 @@
                                 </div>
                             </div>
                         </li>
-                    </ul>
+                    </ul> -->
                 </li>
                 <li *ngIf="isLoggedInState == true" class="layout-topbar-item">
                     <a class="layout-topbar-action flex flex-row justify-content-center align-items-center px-2 rounded-circle"

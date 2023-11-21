@@ -152,8 +152,8 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         this.checkLoggedInState();
         await this.profileService.getProfileImage();
         this.topBarProfileImg = this.profileService.profileImage;
-        console.log("Top bar profile img: ");
-        console.log(this.topBarProfileImg);
+        // console.log("Top bar profile img: ");
+        // console.log(this.topBarProfileImg);
     }
 
     goToLoginPage() {

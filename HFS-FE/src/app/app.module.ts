@@ -65,6 +65,7 @@ import { NewFeedModuleComponent } from './modules/customer-routing-module/compon
 
 import { ManageprofileComponent } from './profile/manageprofile.component';
 import { WalletComponentSeller } from './modules/seller-routing-module/components/wallet/wallet.component';
+import { SearchComponent } from './modules/customer-routing-module/components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import { WalletComponentSeller } from './modules/seller-routing-module/component
     AppNavbarComponent,
     ManageCategoryModuleComponent,
     NewFeedModuleComponent,
-    WalletComponentSeller
+    WalletComponentSeller,
+    SearchComponent,
   ],
   imports: [
     BrowserAnimationsModule,

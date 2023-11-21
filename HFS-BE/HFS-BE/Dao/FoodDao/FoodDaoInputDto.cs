@@ -7,6 +7,11 @@ namespace HFS_BE.Dao.FoodDao
     {
         public string? ShopId { get; set; }
     }
+    public class FoodByNameDaoInputDto : BaseInputDto
+    {
+        public string? SearchKey { get; set; }
+        public string? Type { get; set; }
+    }
 
     public class GetFoodDetailDaoInputDto
     {

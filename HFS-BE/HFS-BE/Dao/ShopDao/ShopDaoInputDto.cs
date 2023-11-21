@@ -5,7 +5,7 @@ namespace HFS_BE.Dao.ShopDao
 {
     public class SearchShopInputDto : BaseInputDto
     {
-        public string name { get; set; }
+        public string Key { get; set; }
     }
 
     public class GetShopDetailDaoInputDto
