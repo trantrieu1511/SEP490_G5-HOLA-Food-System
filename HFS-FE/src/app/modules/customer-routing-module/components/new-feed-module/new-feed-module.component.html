@@ -44,27 +44,39 @@
 </p-dialog>
 
 <div class="app-new-feed">
-  <h1>New Feed</h1>
-  <h2>FU HOLA</h2>
+  <h2 class="title-app">New Feed Newest Yeah Yeah</h2>
 
-  <div *ngFor="let item of listPost" class="post">
+  <div *ngFor="let item of listPost; let j = index" class="post">
     <div class="post-infor">
       <h4 class="shop-name">{{item.shopName}}</h4>
       <p class="post-created-date">{{item.createdDate}}</p>
     </div>
     <div #postContent class="post-content">
       <p class="post-content_con">{{item.postContent}}</p>
-      <a href="#" (click)="OnCommnent($event, item)" class="view-more">View More</a>
+      <button pButton pRipple label="View More" 
+        (click)="onViewMore(j)" 
+        class="p-button-link view-more" 
+        ></button>
+      <button pButton pRipple label="View Less" 
+        (click)="onViewLess(j)" 
+        class="p-button-link view-more" 
+        ></button>
     </div>
     <div *ngIf="item.imagesBase64 && item.imagesBase64.length > 0" class="post-image">
       <ng-container *ngIf="!layoutService.isMobile();else imagesMobile">
-        <div [class.images-list]="item.imagesBase64.length > 1" *ngFor="let img of item.imagesBase64 | slice:0:4; let i = index" >
+        <div [class.images-list]="item.imagesBase64.length > 1" 
+          *ngFor="let img of item.imagesBase64 | slice:0:4; let i = index" >
           <img 
             src="data:image/gif;base64,{{img.imageBase64}}" 
             alt="{{img.name}}" 
-          
+            (click)="onViewImage(j, i)"
+            style="cursor: pointer"
             />
-          <div *ngIf="item.imagesBase64.length > 3 && i == 3" class="more-image">
+          <div (click)="onViewImage(j, i)" 
+            *ngIf="item.imagesBase64.length > 3 && i == 3" 
+            class="more-image"
+            style="cursor: pointer"
+            >
             +{{getRemainingImageCount(item)}}
           </div>
         </div>
@@ -74,8 +86,14 @@
           <img
             src="data:image/gif;base64,{{item.imagesBase64[0].imageBase64}}" 
             alt="{{item.imagesBase64[0].name}}" 
+            (click)="onViewImage(j, 0)"
+            style="cursor: pointer"
             />
-            <div *ngIf="item.imagesBase64.length > 1" class="more-image">
+            <div (click)="onViewImage(j, 0)" 
+              *ngIf="item.imagesBase64.length > 1" 
+              class="more-image"
+              style="cursor: pointer"
+              >
               +{{getRemainingImageCount(item)}}
             </div>
         </div>
@@ -89,9 +107,38 @@
       <button pButton pRipple label="Comment" (click)="OnCommnent($event, item)" class="p-button-link p-comment"
         icon="pi pi-comment"></button>
     </div>
+  </div>
+  
+  <p-galleria
+        [value]="imagesLst"
+        [(visible)]="displayBasic"
+        [(activeIndex)]="activeIndex"
+        [responsiveOptions]="responsiveOptions"
+        [containerStyle]="{ 'max-width': '850px' }"
+        [numVisible]="7"
+        [circular]="true"
+        [fullScreen]="true"
+        [showItemNavigators]="true"
+        [showThumbnails]="false"
+    >
+        <ng-template pTemplate="item" let-item>
+            <img [src]="getImageSrc(item)" style="width: 100%; display: block;" />
+        </ng-template>
+    </p-galleria>
 
-    <div *ngIf="lstComment.length > 0" class="comments">
+  
+  <p-dialog header="Comment Post" 
+    [(visible)]="visibleCommentDialog" 
+    [breakpoints]="{ '960px': '75vw' }" 
+    [style]="{ width: '50vw' }" 
+    [draggable]="false" 
+    [resizable]="false"
+    [maximizable]="true"
+    [style]="{ minHeight: '80vh', minWidth: '50vw'}"
 
+  >
+    <div *ngIf="lstComment.length > 0; else noCommentYet"  class="comments">
+        
       <div *ngFor="let com of lstComment" class="comment">
         <img src="https://petmaster.vn/petroom/wp-content/uploads/2020/04/meo-anh-1.jpg" alt="Avatar" />
         <div class="comment-content">
@@ -107,35 +154,20 @@
       </div>
 
     </div>
-    <!-- <form class="comment-form">
-      <label for="comment">Bình luận của bạn:</label>
-      <textarea id="comment" name="comment" [(ngModel)]="commentModel.commentContent" rows="4"></textarea>
-      <button pButton pRipple label="Comment" (click)="OnSaveCommnent(item.postId)" class="p-button-success" ></button>
-    </form> -->
-  </div>
-  <p-galleria [(visible)]="displayBasic" 
-        [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '50%'}" [numVisible]="9"
-        [circular]="true" [fullScreen]="true" [showItemNavigators]="true">
-        <ng-template pTemplate="item" let-item>
-            <img [src]="item.imageBase64" style="width: 100%; display: block;"/>
-        </ng-template>
-        <ng-template pTemplate="thumbnail" let-item>
-            <div class="grid grid-nogutter justify-content-center">
-                <img [src]="item.imageBase64" style="display: block;"/>
-            </div>
-        </ng-template>
-  </p-galleria>
 
-  
-  <p-dialog header="Comment Post" 
-    [(visible)]="visibleCommentDialog" 
-    [breakpoints]="{ '960px': '75vw' }" 
-    [style]="{ width: '50vw' }" 
-    [draggable]="false" 
-    [resizable]="false"
-    [maximizable]="true"
-  >
-    
+    <ng-template #noCommentYet>
+      <div style="text-align: center; margin-top: 2rem; color: orangered">No comment yet ^^</div>
+    </ng-template>  
+
+    <ng-template *ngIf="isLoggedIn" pTemplate="footer">
+      <div class="comment-form">
+        <span class="p-float-label">
+          <textarea id="float-input" rows="4" pInputTextarea [(ngModel)]="commentModel.commentContent" ></textarea>
+          <label for="float-input">Comment here</label>
+        </span>
+        <button pButton pRipple label="Comment" (click)="OnSaveCommnent(postViewComment.postId)" class="p-button-success" ></button>
+      </div>
+    </ng-template>
   </p-dialog>
   
 
@@ -143,3 +175,4 @@
 </div>
 
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>
+<cmis-loading></cmis-loading>

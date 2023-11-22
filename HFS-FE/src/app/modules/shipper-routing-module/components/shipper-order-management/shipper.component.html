@@ -1,7 +1,7 @@
 <div class="grid table-demo">
     <div class="col-12">
         <div class="card">
-            <h5>All Order</h5>
+            <h5>{{'orderScreen.allOrder' | translate}}</h5>
             <p-tabMenu (activeItemChange)="onChangeTab($event)"[model]="items" [activeItem]="activeItem">
                 <ng-template [scrollable]="true" class="flex flex-row flex-wrap" pTemplate="item" let-item let-i="index">
                     {{item.label}}
@@ -21,7 +21,8 @@
                             <th  pSortableColumn="name">ID <p-sortIcon field="name"></p-sortIcon></th>
                             <th  pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
                             <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
-                            <th pSortableColumn="adress">Address <p-sortIcon field="price"></p-sortIcon></th>
+                            <th pSortableColumn="shipAddress">Address <p-sortIcon field="shipAddress"></p-sortIcon></th>
+                            <th pSortableColumn="phoneNumber">PhoneNumber <p-sortIcon field="phoneNumber"></p-sortIcon></th>
                             <th style="text-align: center" >Action</th>
                         </tr>
                     </ng-template>
@@ -32,9 +33,9 @@
                             </td>
                             <td>{{ order.orderId}}</td>
                             <td>{{order.orderDate}}</td>
-                            <td>{{ order.total}} $</td>
+                            <td>{{ order.total}} VND</td>
                             <td>{{order.shipAddress}}</td>
-
+                            <td>{{order.customerPhone}}</td>
                             <ng-container [ngSwitch]="activeItem.id">
                                 <ng-container *ngSwitchCase = "0">
                                     <td style="text-align: center">

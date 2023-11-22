@@ -14,6 +14,7 @@ import { NotificationItemComponent } from './components/notification-item/notifi
 import { SellerListComponent } from 'src/app/seller-list/seller-list.component';
 import { ChatboxComponent } from 'src/app/chatbox/chatbox.component';
 import { CustomerListByChatComponent } from 'src/app/customer-list-by-chat/customer-list-by-chat.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { CustomerListByChatComponent } from 'src/app/customer-list-by-chat/custo
       CommonModule,
       ReactiveFormsModule,
       StyleClassModule,
-
+      TranslateModule
+    
   ],
   providers: [
       iServiceBase,
@@ -47,7 +49,8 @@ import { CustomerListByChatComponent } from 'src/app/customer-list-by-chat/custo
       OpenPagePopupComponent,
       NotificationsComponent,
       SellerListComponent,
-      CustomerListByChatComponent
+      CustomerListByChatComponent,
+      TranslateModule
 
   ],
 })

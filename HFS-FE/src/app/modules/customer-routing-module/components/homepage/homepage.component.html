@@ -14,7 +14,9 @@
     <div class="card">
         <h5>Hot food</h5>
         <p-carousel [value]="hotfoods" [numVisible]="3" [numScroll]="3" [circular]="true"
-            [responsiveOptions]="carouselResponsiveOptions">
+            [responsiveOptions]="carouselResponsiveOptions"
+            [autoplayInterval]="3000"
+            >
             <ng-template let-product pTemplate="item">
                 <div class="border-round m-2 text-center p-2" style="border: 1px solid var(--surface-d)">
                     <div class="my-5">

@@ -22,6 +22,7 @@ import { Post } from "src/app/modules/seller-routing-module/models/post.model";
 import { FileRemoveEvent, FileSelectEvent } from "primeng/fileupload";
 import { DataRealTimeService } from "src/app/services/SignalR/data-real-time.service";
 import { Invition, InvitionSeller } from "src/app/modules/seller-routing-module/models/shipper.model";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-shipper',
@@ -71,7 +72,8 @@ export class ShipperComponent extends iComponentBase implements OnInit {
     constructor(private elementRef: ElementRef, private renderer: Renderer2,public messageService: MessageService,
         private confirmationService: ConfirmationService,
         private iServiceBase: iServiceBase,private authService: AuthService,
-        private signalRService: DataRealTimeService
+        private signalRService: DataRealTimeService,
+        public translate: TranslateService
         ) {
         super(messageService);
     }
@@ -116,6 +118,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
       );
       if (res && res.message === 'Success' && this.activeItem.id == "0") {
         this.lstOrderOfShipper = res.orders;
+        this.calculatorTotalOrder();
       }
     }
 

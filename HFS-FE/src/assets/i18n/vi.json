@@ -14,5 +14,9 @@
     "forgotPassword": "Quên mật khẩu",
     "createToday": "Tạo mới ngay nào",
     "clickHere": "Bấm vào đây nào"
+  },
+
+  "orderScreen": {
+    "allOrder": "Tất cả hoá đơn"
   }
 }

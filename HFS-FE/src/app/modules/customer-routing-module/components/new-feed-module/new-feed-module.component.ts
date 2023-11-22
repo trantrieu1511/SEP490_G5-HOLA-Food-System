@@ -39,7 +39,8 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
   isReported: boolean = false;
 
   displayBasic: boolean | undefined;
-  imagesLst: any[] = [];
+  activeIndex: number = 0;
+  imagesLst: ImageBase64[] = [];
   responsiveOptions: any[] = [
     {
       breakpoint: '1500px',
@@ -60,6 +61,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
   ];
 
   visibleCommentDialog: boolean = false;
+  postViewComment: Post = new Post();
 
   @ViewChildren('postContent') postContentRefs!: QueryList<ElementRef>;
 
@@ -100,7 +102,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       }
       this.loading = true;
 
-      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_NEWFEED.GETALLPOST, param);
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_NEWFEED.GETALLPOST, param, false);
       if (response && response.message === "Success") {
         this.listPost = response.posts;
       }
@@ -113,8 +115,11 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
 
   OnCommnent(event: any, item: Post) {
     event.preventDefault();
+    this.postViewComment = item;
+    this.visibleCommentDialog = true;
     this.getAllComment(item.postId);
     this.postId = item.postId;
+    
   }
 
   bindingDataCommentModel(): InputComment {
@@ -130,6 +135,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       comment.customerId = this.commentModel.customerId;
       comment.postId = this.commentModel.postId
     }
+    debugger;
     return comment;
   }
   OnSaveCommnent(postId: number) {
@@ -320,13 +326,13 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
 
   checkContentOverflow() {
     if (this.postContentRefs && this.postContentRefs.length > 0) {
-      this.postContentRefs.forEach(ref => {
-
-        if (ref.nativeElement.scrollHeight > ref.nativeElement.clientHeight) {
-          //console.log(ref.nativeElement.scrollHeight + ': ' + ref.nativeElement.clientHeight)
-          ref.nativeElement.children[1].setAttribute("style", "display: block")
+      this.postContentRefs.forEach(ref => 
+        {
+          if(ref.nativeElement.scrollHeight > ref.nativeElement.clientHeight){
+            //console.log(ref.nativeElement.scrollHeight + ': ' + ref.nativeElement.clientHeight)
+            ref.nativeElement.children[1].setAttribute("style", "display: block")
+          }
         }
-      }
       )
     }
   }
@@ -336,5 +342,57 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       return item.imagesBase64.length - 4;
     }
     return item.imagesBase64.length - 1;
+  }
+
+  onViewImage(indexPost: number, indexImage: number){
+    this.imagesLst = this.listPost[indexPost].imagesBase64;
+    this.activeIndex = indexImage;
+    this.displayBasic = true;
+  }
+
+  getImageSrc(item: ImageBase64){
+    return "data:image/gif;base64," + item.imageBase64;
+  }
+
+  onViewMore(index: any){
+    if (this.postContentRefs && this.postContentRefs.length > 0) {
+      // reset max-height of parent
+      this.postContentRefs.get(index)
+        .nativeElement.children[0].parentElement
+        .setAttribute("style", "max-height: 100%; ")
+      // change display this p content
+      this.postContentRefs.get(index)
+        .nativeElement.children[0]
+        .setAttribute("style", "display: block; ")
+      ;
+      // hide view more button
+      this.postContentRefs.get(index)
+        .nativeElement.children[1].setAttribute("style", "display: none")
+      console.log(this.postContentRefs.get(index).nativeElement.children)
+      // display view less button
+      this.postContentRefs.get(index)
+        .nativeElement.children[2].setAttribute("style", "display: block")
+    }
+  }
+
+  onViewLess(index: any){
+    if (this.postContentRefs && this.postContentRefs.length > 0) {
+      // reset max-height of parent
+      this.postContentRefs.get(index)
+        .nativeElement.children[0].parentElement
+        .setAttribute("style", "max-height: 240px; ")
+      // change display this p content
+      this.postContentRefs.get(index)
+        .nativeElement.children[0]
+        .setAttribute("style", "display: -webkit-box; ")
+      ;
+      // display view more button
+      this.postContentRefs.get(index)
+        .nativeElement.children[1].setAttribute("style", "display: block")
+
+      // hide view less button
+      this.postContentRefs.get(index)
+        .nativeElement.children[2].setAttribute("style", "display: none")
+    }
   }
 }
