@@ -11,6 +11,7 @@ namespace HFS_BE.Dao.ShopDao
         public string Avatar { get; set; }
         public decimal? Star { get; set; }
         public int NumberOrdered { get; set; }
+        public List<string> FoodImages { get; set; } = new List<string>();
     }
 
     public class DisplayShopDaoOutputDto : BaseOutputDto

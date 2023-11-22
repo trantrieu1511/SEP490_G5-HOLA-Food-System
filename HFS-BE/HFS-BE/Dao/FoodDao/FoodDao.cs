@@ -334,21 +334,42 @@ namespace HFS_BE.Dao.FoodDao
                     .ToList();
 
                 var output = this.Output<FoodShopDaoOutputDto>(Constants.ResultCdSuccess);
-                output.ListFood = new List<FoodOutputDto>();
+                var listfood = new List<FoodOutputDto>();
                 foreach (var item in data)
                 {
-                    var shopId = item.SellerId;
+                    int ordered = 0;
+                    decimal star = 0;
+                    foreach (var orderdetail in item.OrderDetails)
+                    {
+                        ordered += orderdetail.Quantity.Value;
+                    }
+
+                    if (item.Feedbacks.Any())
+                    {
+                        int totalStar = 0;
+                        foreach (var feedback in item.Feedbacks)
+                        {
+                            totalStar += feedback.Star.Value;
+                        }
+                        star = (decimal)totalStar / (decimal)item.Feedbacks.Count();
+                    }
+
                     var food = mapper.Map<Food, FoodOutputDto>(item);
+                    food.AverageStar = Math.Round(star, MidpointRounding.AwayFromZero);
+                    food.NumberOrdered = ordered;
+
+
                     foreach (var img in food.foodImages)
                     {
-                        var imageInfor = ImageFileConvert.ConvertFileToBase64(shopId, img.Name, 1);
+                        var imageInfor = ImageFileConvert.ConvertFileToBase64(item.SellerId, img.Name, 1);
                         img.Size = imageInfor.Size;
                         img.ImageBase64 = imageInfor.ImageBase64;
                     }
 
-                    output.ListFood.Add(food);
+                    listfood.Add(food);
                 }
 
+                output.ListFood = listfood;
                 return output;
             }
             catch (Exception)

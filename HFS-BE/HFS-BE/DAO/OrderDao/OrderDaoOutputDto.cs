@@ -139,6 +139,7 @@ namespace HFS_BE.Dao.OrderDao
         public string? ShipperName { get; set; }
         public int? VoucherId { get; set; }
         public string? VoucherDisplay { get; set; }
+        public decimal? VoucherDiscount { get; set; }
         public string PaymentMethod { get; set; }
         public decimal? TotalPrice { get; set; }
         public int? Status { get; set; }

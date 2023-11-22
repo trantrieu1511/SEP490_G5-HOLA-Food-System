@@ -323,6 +323,8 @@ namespace HFS_BE.Dao.OrderDao
             try
             {
                 var order = this.context.Orders
+                    .Include(x => x.OrderDetails)
+                    .Include(x => x.Voucher)
                     .FirstOrDefault(x => x.OrderId == inputDto.OrderId
                                         && x.CustomerId.Equals(inputDto.CustomerId));
 
