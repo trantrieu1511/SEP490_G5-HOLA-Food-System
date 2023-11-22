@@ -11,6 +11,8 @@ import { DataService } from 'src/app/services/data.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CommentNewFeed, InputComment } from '../../models/comment.model';
 import { PostReport } from '../../models/postreport.model';
+import { LayoutService } from '../../../../layout/service/app.layout.service';
+
 @Component({
   selector: 'app-new-feed-module',
   templateUrl: './new-feed-module.component.html',
@@ -57,6 +59,8 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
     }
   ];
 
+  visibleCommentDialog: boolean = false;
+
   @ViewChildren('postContent') postContentRefs!: QueryList<ElementRef>;
 
   constructor(
@@ -66,8 +70,9 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
     private iServiceBase: iServiceBase,
     private route: ActivatedRoute,
     private router: Router,
-    private dataService: DataService
-  ) {
+    private dataService: DataService,
+    public layoutService: LayoutService
+  ){
     super(messageService);
   }
 
@@ -324,5 +329,12 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       }
       )
     }
+  }
+
+  getRemainingImageCount(item) {
+    if(!this.layoutService.isMobile()){
+      return item.imagesBase64.length - 4;
+    }
+    return item.imagesBase64.length - 1;
   }
 }

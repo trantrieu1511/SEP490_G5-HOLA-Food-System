@@ -69,7 +69,8 @@
         color: #1c1e21;
         font-weight: bold;
         display: none;  /* Initially hide the view more link */
-        
+        position: absolute;
+        bottom: -2rem;
         padding: 5px 10px;
         text-decoration: none;
       }
@@ -81,6 +82,8 @@
     .post-image{
       display: flex;
       flex-wrap: wrap;
+      position: relative;
+
       img{
         height: 15rem;
         width: 100%;
@@ -88,9 +91,39 @@
         flex-shrink: 1;
       }
 
-      .images{
+      .images-list{
+        position: relative;
         width: calc(100% / var(--columns));
+
+        img{
+          height: 15rem;
+          width: 100%;
+          object-fit: cover;
+          flex-shrink: 1;
+        }
+  
+        .images{
+          
+        }
+  
+        .more-image{
+          color: #fff;
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          top: 0;
+          background-color: #11111159;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+  
+          font-weight: 700;
+          font-size: 2rem;
+        }
       }
+
+      
     }
 
     .actions{

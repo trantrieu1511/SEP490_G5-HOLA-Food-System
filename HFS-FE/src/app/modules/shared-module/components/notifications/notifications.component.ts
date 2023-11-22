@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { RoleNames } from '../../../../utils/roleName';
 import { TranslateService } from '@ngx-translate/core';
+import { NotificationBellService } from 'src/app/services/notification-bell.service';
 
 
 @Component({
@@ -42,19 +43,36 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
 
   lstNotificationSubscription: Subscription;
 
+  isNewNotifySubscription: Subscription;
+
+  readNotifySubscription: Subscription;
+
   constructor(
     private iServiceBase: iServiceBase,
     private signalRService: NotificationService,
     public authService: AuthService,
     private _route: Router,
     public messageService: MessageService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    public notifyService: NotificationBellService
     
   ){
     super(messageService);
     if(sessionStorage.getItem('JWT')){
       this.connectSignalR();
       this.getAllNotification();
+
+      this.isNewNotifySubscription = notifyService.isNewNotifyHandle.subscribe(res => {
+        this.isNewNotify = res;
+      })
+
+      this.readNotifySubscription = notifyService.readNotifyHandle.subscribe(res => {
+        // Cập nhật element tuong ung trong mảng lstNotification
+        const index = this.lstNotification.findIndex(notification => notification.id === res.id);
+        if (index !== -1) {
+          this.lstNotification[index].isRead = true;
+        }
+      })
     }
   }
 
@@ -66,6 +84,10 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
   ngOnDestroy() {
     if(this.lstNotificationSubscription){
       this.lstNotificationSubscription.unsubscribe();
+    }
+
+    if(this.isNewNotifySubscription){
+      this.isNewNotifySubscription.unsubscribe();
     }
   }
 

@@ -12,18 +12,33 @@ namespace HFS_BE.BusinessLogic.Notification
         {
         }
 
-        public NotificationOutputDto DisplayDetailNotificationById(NotificationReadInput inputDto)
+        public NotificationOutputDto DisplayDetailNotificationById(NotificationReadBLInput inputDto)
         {
             try 
             {
                 var dao = CreateDao<NotificationDao>();
                 // update notify isRead = true
-                var outputUpdate = dao.UpdateReadNotification(inputDto);
+                var outputUpdate = dao.UpdateReadNotification(new NotificationReadInput
+                {
+                    NotifyId = inputDto.NotifyId,
+                    Lang = inputDto.Lang
+                });
                 if (!outputUpdate.Success)
                     return Output<NotificationOutputDto>(Constants.ResultCdFail, outputUpdate.Message, outputUpdate.Errors.SystemErrors.ToList().First());
                 // get notificaiton detail
 
-                return dao.GetNotificationById(inputDto);
+                var output = dao.GetNotificationById(new NotificationReadInput
+                {
+                    NotifyId = inputDto.NotifyId,
+                    Lang = inputDto.Lang
+                });
+
+                if (!output.Success)
+                    return output;
+
+                output.isReadYet = dao.CheckNewNotify(inputDto.UserId);
+
+                return output;
             }
             catch (Exception)
             {

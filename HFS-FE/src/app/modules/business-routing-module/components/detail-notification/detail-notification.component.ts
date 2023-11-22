@@ -14,6 +14,7 @@ import { AppBreadcrumbService } from '../../../../app-systems/app-breadcrumb/app
 import { ActivatedRoute } from '@angular/router';
 import { Notification } from 'src/app/modules/shared-module/models/notification.model';
 import { TranslateService } from '@ngx-translate/core';
+import { NotificationBellService } from 'src/app/services/notification-bell.service';
 
 @Component({
   selector: 'app-detail-notification',
@@ -31,7 +32,8 @@ export class DetailNotificationComponent extends iComponentBase implements OnIni
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private activatedRoute: ActivatedRoute,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private notifyService: NotificationBellService
   ){
     super(messageService, breadcrumbService);
 
@@ -65,6 +67,8 @@ export class DetailNotificationComponent extends iComponentBase implements OnIni
     );
     if (response && response.message === 'Success') {
       this.notification = response.notify;
+      this.notifyService.onIsNewNotifyYet(response.isReadYet)
+      this.notifyService.onReadNotify(response.notify);
     }
     else{
       var messageError = this.iServiceBase.formatMessageError(response);
