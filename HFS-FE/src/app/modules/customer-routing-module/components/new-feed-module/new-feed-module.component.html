@@ -12,11 +12,29 @@
       <a href="#" (click)="OnCommnent($event, item)" class="view-more">View More</a>
     </div>
     <div *ngIf="item.imagesBase64 && item.imagesBase64.length > 0" class="post-image">
-      <img *ngFor="let img of item.imagesBase64 | slice:0:4; let i = index" 
-        src="data:image/gif;base64,{{img.imageBase64}}" 
-        alt="{{img.name}}" 
-        [class.images]="item.imagesBase64.length > 1"
-        />
+      <ng-container *ngIf="!layoutService.isMobile();else imagesMobile">
+        <div [class.images-list]="item.imagesBase64.length > 1" *ngFor="let img of item.imagesBase64 | slice:0:4; let i = index" >
+          <img 
+            src="data:image/gif;base64,{{img.imageBase64}}" 
+            alt="{{img.name}}" 
+          
+            />
+          <div *ngIf="item.imagesBase64.length > 3 && i == 3" class="more-image">
+            +{{getRemainingImageCount(item)}}
+          </div>
+        </div>
+      </ng-container >
+      <ng-template #imagesMobile>
+        <div class="images-list">
+          <img
+            src="data:image/gif;base64,{{item.imagesBase64[0].imageBase64}}" 
+            alt="{{item.imagesBase64[0].name}}" 
+            />
+            <div *ngIf="item.imagesBase64.length > 1" class="more-image">
+              +{{getRemainingImageCount(item)}}
+            </div>
+        </div>
+      </ng-template>
     </div>
     <div class="actions">
       <div class="emote">
@@ -64,7 +82,19 @@
                 <img [src]="item.imageBase64" style="display: block;"/>
             </div>
         </ng-template>
-    </p-galleria>
+  </p-galleria>
+
+  
+  <p-dialog header="Comment Post" 
+    [(visible)]="visibleCommentDialog" 
+    [breakpoints]="{ '960px': '75vw' }" 
+    [style]="{ width: '50vw' }" 
+    [draggable]="false" 
+    [resizable]="false"
+    [maximizable]="true"
+  >
+    
+  </p-dialog>
   
 
 </div>
