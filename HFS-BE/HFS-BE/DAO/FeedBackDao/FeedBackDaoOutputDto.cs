@@ -15,6 +15,7 @@ namespace HFS_BE.DAO.FeedBackDao
         public int LikeCount { get; set; }
         public int DisLikeCount { get; set; }
         public bool? IsLiked { get; set; }
+        public List<FeedBackImage> Images { get; set; }
         public List<CustomerVoted> ListVoted { get; set; }
     }
 

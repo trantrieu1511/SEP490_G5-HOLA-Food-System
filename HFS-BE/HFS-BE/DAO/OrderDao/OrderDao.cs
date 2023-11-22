@@ -265,7 +265,7 @@ namespace HFS_BE.Dao.OrderDao
                     .Include(x => x.OrderProgresses)
                     .Include(x => x.Seller)
                     .Include(x => x.Voucher)
-                    .Where(x => x.Status == inputDto.Status 
+                    .Where(x => x.OrderProgresses.OrderByDescending(y => y.CreateDate).FirstOrDefault().Status == inputDto.Status
                                 && x.OrderDate.Value.Date >= inputDto.DateFrom
                                 && x.OrderDate.Value.Date <= inputDto.DateEnd);
 

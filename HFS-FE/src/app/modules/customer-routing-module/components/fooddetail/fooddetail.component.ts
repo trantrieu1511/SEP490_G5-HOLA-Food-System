@@ -165,7 +165,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       this.loading = true;
       let getfood = new GetFoodDetail();
       getfood.foodId = this.foodId
-      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_FOODDETAIL.GET_FEEDBACK_IMAGE, getfood);
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODETAIL, API.API_FOODDETAIL.GET_FEEDBACK, getfood);
       if (response && response.success === true) {
         this.feedbacks = response.feedBacks
         this.displayFeedback = this.feedbacks.filter(x => x.star === 5).slice(this.first, this.rows);
@@ -231,7 +231,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       if (response && response.success === true) {
         debugger
         console.log(response)
-        this.similarFood = response.listFood
+        this.similarFood = response.listFood.filter(x => x.foodId != this.foodId)
       }
       else {
         this.showMessage(mType.warn, "", "There was some problem please try againg or contact for admin help!", 'notify');
@@ -367,6 +367,38 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       console.log(e);
       this.loading = false;
     }
+  }
+
+  onFoodDetail(foodId : number){
+      this._router.routeReuseStrategy.shouldReuseRoute = function () {
+        return false;
+      }
+      this._router.onSameUrlNavigation = 'reload';
+      this._router.navigate(['/fooddetail'], { queryParams: { foodId: foodId } });
+      this.ngOnInit();
+  }
+
+  async onAddToCart2(foodId : number){
+    try {
+      this.loading = true;
+      let cartItem = new AddToCart();
+      cartItem.foodId = foodId
+      cartItem.amount = 1
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.ADDTOCART, cartItem);
+      if (response && response.message === "Success") {
+        console.log(response)
+          this.showMessage(mType.success, "", "Add to cart success!", 'notify');      
+      }
+      else{
+        this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');
+        this._router.navigate(['/login']);
+      } 
+
+      this.loading = false;
+  } catch (e) {
+      console.log(e);
+      this.loading = false;
+  }
   }
 
   galleriaResponsiveOptions: any[] = [

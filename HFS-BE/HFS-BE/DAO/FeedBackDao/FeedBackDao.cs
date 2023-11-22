@@ -22,6 +22,7 @@ namespace HFS_BE.DAO.FeedBackDao
                 var data = this.context.Feedbacks
                     .Include(x => x.Customer)
                     .Include(x => x.FeedbackVotes)
+                    .Include(x => x.FeedBackImages)
                     .Where(x => x.FoodId == inputDto.FoodId)
                     .ToList();
                 var output = this.Output<GetFeedBackByFoodIdDaoOutputDto>(Constants.ResultCdSuccess);
