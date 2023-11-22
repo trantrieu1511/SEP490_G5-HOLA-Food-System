@@ -1,5 +1,5 @@
 <div style="display: flex; align-items: center; justify-content: center;">
-    <input type="search" [(ngModel)]="searchText" pInputText placeholder="Search Food by Name" (keyup.enter)="onSearch()">
+    <input type="search" [(ngModel)]="searchText" pInputText placeholder="Enter to Search" (keyup.enter)="onSearch()">
     <div class="flex align-items-center">
         <p-radioButton name="pizza" value="0" [(ngModel)]="searchOptions" inputId="ingredient1"></p-radioButton>
         <label for="ingredient1" class="ml-2">Food</label>

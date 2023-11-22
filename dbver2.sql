@@ -267,6 +267,7 @@ CREATE TABLE [dbo].[Order](
 	[orderId] [int] IDENTITY(1,1) NOT NULL,
 	[customerId] [nvarchar](50) NULL,
 	[sellerId][nvarchar](50),
+	[customerPhone][nvarchar](50) NULL,
 	[orderDate] [datetime] NULL,
 	[requiredDate] [datetime] NULL,
 	[shippedDate] [datetime] NULL,
@@ -507,13 +508,21 @@ CREATE TABLE ShipperBan (
 );
 
 CREATE TABLE [dbo].[TransactionHistory](
-	[transactionId] [int] IDENTITY(1,1) NOT NULL primary key,
-	[senderId] [nvarchar](50) not null,
-	[recieverId] [nvarchar](50) null,
-	[TransactionType] [nvarchar](50) not null,
-	[Note] [nvarchar](200) null,
-	[Value] decimal not NULL,
-	[status] [tinyint] NULL)
+	[transactionId] [int] IDENTITY(1,1) NOT NULL,
+	[senderId] [nvarchar](50) NOT NULL,
+	[recieverId] [nvarchar](50) NULL,
+	[TransactionType] [nvarchar](50) NOT NULL,
+	[Note] [nvarchar](200) NULL,
+	[Value] [decimal](18, 0) NOT NULL,
+	[CreateDate] [datetime] NULL,
+	[ExpiredDate] [datetime] NULL,
+	[status] [tinyint] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[transactionId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
 CREATE TABLE ChatMessage (
     MessageId INT PRIMARY KEY IDENTITY(1,1),
