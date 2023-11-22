@@ -11,6 +11,7 @@ import { ManageShipperModuleComponent } from './manage-shipper-module/manage-shi
 import { ManageMenumoderatorModuleComponent } from './manage-menumoderator-module/manage-menumoderator-module.component';
 //import { ManageCategoryModuleComponent } from './manage-category-module/manage-category-module.component';
 import { ManageCategoryModuleComponent } from './manage-category-module/manage-category-module.component';
+import { DashboadAdminModuleComponent } from './dashboad-admin-module/dashboad-admin-module.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path: "", component: ManageMenumoderatorModuleComponent},
   //{path: "manage-category", component: ManageCategoryModuleComponent},
   {path: "category-manage", component: ManageCategoryModuleComponent},
+  {path: "dashboad", component: DashboadAdminModuleComponent},
 ]
 
 

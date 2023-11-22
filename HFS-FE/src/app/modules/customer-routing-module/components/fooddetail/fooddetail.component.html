@@ -175,7 +175,7 @@
                                             (click)="onReply(item.feedbackId)"></p-button>
                                         <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
                                             (click)="onLikeReview(item.feedbackId)"></p-button>
-    
+
                                         <!-- Reply form start -->
                                         <div [id]="item.feedbackId" class="reply-form d-none">
                                             <textarea placeholder="Reply to comment" rows="4"></textarea>
@@ -187,6 +187,8 @@
                                         <!-- Reply form end -->
                                     </div>
                                 </div>
+
+
 
                                 <div *ngFor="let replies of item.listReply" class="replies">
                                     <!-- Comment 2 start -->
@@ -214,7 +216,7 @@
                                     </details>
                                     <!-- Comment 2 end -->
                                 </div>
-                            </div>
+                              </div>
                             <!-- Comment 1 end -->
                         </div>
                         <p-paginator (onPageChange)="onPageChange($event, 5)" [first]="first" [rows]="rows"

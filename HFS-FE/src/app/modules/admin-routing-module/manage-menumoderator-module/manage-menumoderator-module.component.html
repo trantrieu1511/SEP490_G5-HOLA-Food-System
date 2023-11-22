@@ -26,7 +26,7 @@
                       <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
                           <div class="flex align-items-center justify-content-center">
                               <button pButton type="button" label="Add new" icon="pi pi-plus"
-                              (click)="onCreatePostM()"
+                              (click)="onCreateMM()"
                                       style="width: auto;"></button>
                           </div>
                       </div>
@@ -189,7 +189,7 @@
               </ng-template>
               <ng-template pTemplate="emptymessage">
                   <tr>
-                      <td colspan="8">No food yet.</td>
+                      <td colspan="8">No MenuModerator yet.</td>
                   </tr>
               </ng-template>
           </p-table>
@@ -208,7 +208,7 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Post Moderator information</b>
+                        <b>Menu Moderator information</b>
                     </div>
                 </p-divider>
                 <div class="grid">
@@ -265,12 +265,17 @@
           </div>
           <div class="col-12 mb-2 lg:col-6 mb-lg-0">
             <label>Dob*</label>
-            <span class="p-input-icon-left p-float-label">
+            <!-- <span class="p-input-icon-left p-float-label">
              <p-calendar class="w-full"  [(ngModel)]="menuM.birthDate" dateFormat="dd/mm/yy"></p-calendar>
                 <label>Dob*</label>
+            </span> -->
+
+            <span style="width: 100%">
+              <input type="date"  class="w-full" [(ngModel)]="menuM.birthDate"
+                      pInputText
+                      />
+
             </span>
-
-
 
 
         </div>
@@ -309,12 +314,12 @@
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
                 <button pButton type="button" label="Save" icon="pi pi-save"
-                        (click)="onSavePostM()"
+                        (click)="onSaveMM()"
                         style="width: 100%;"></button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
                 <button pButton type="button" label="Cancel" icon="pi pi-times"
-                        (click)="onCancelPostM()" class="p-button-danger"
+                        (click)="onCancelMM()" class="p-button-danger"
                         style="width: 100%;"></button>
             </div>
         </div>

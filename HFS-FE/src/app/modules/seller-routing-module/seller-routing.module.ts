@@ -15,6 +15,7 @@ import { VoucherManagementComponent } from './components/voucher-management/vouc
 import { DashboardSellerComponent } from './components/dashboard-seller/dashboard-seller.component';
 import { WalletComponentSeller } from './components/wallet/wallet.component';
 import { PaymentverifySellerComponent } from './components/paymentverify/paymentverify.component';
+import { ListFeedbackBySellerComponent } from './components/list-feedback-by-seller/list-feedback-by-seller.component';
 // import { ProfileManagementComponent } from '../business-routing-module/components/profile-management/profile-management.component';
 
 const routes: Routes = [
@@ -22,13 +23,14 @@ const routes: Routes = [
   { path: 'shipper-management', component: ShipperComponent },
   { path: 'post-management', component: PostManagementComponent },
   { path: 'invitation-shipper', component: InvitationShipperComponent },
-  { path: '', component: FoodManagementComponent },
+  { path: 'food', component: FoodManagementComponent },
   { path: 'food-management', component: FoodManagementComponent },
   { path: 'voucher-management', component: VoucherManagementComponent },
   // { path: 'profile-management', component: ProfileManagementComponent },
   { path: 'dashboard', component: DashboardSellerComponent },
   { path: 'wallet', component: WalletComponentSeller },
   { path: 'paymentverify', component: PaymentverifySellerComponent },
+  { path: '', component: ListFeedbackBySellerComponent },
 ]
 // food-management
 @NgModule({
@@ -39,7 +41,8 @@ const routes: Routes = [
     FoodManagementComponent,
     SwitchCasesDirective,
     DashboardSellerComponent,
-    PaymentverifySellerComponent
+    PaymentverifySellerComponent,
+    ListFeedbackBySellerComponent
   ],
   imports: [
     CommonModule,
@@ -51,7 +54,8 @@ const routes: Routes = [
     OrderManagementComponent,
     PostManagementComponent,
     FoodManagementComponent,
-    DashboardSellerComponent
+    DashboardSellerComponent,
+    ListFeedbackBySellerComponent
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy }

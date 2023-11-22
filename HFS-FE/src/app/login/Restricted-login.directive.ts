@@ -78,7 +78,7 @@ function isOver18YearsOld(dateOfBirth: string): boolean {
   const monthsDiff = today.getMonth() - birthDate.getMonth();
   const daysDiff = today.getDate() - birthDate.getDate();
 
-  if (yearsDiff > 18) {
+  if (yearsDiff > 18&&yearsDiff <100) {
     return true;
   } else if (yearsDiff === 18) {
     if (monthsDiff > 0) {

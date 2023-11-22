@@ -30,7 +30,7 @@ export class AuthService {
   constructor(private httpClient: HttpClient) { }
 
   login(model: any) {
-    
+
 
     return this.httpClient.post(this.path + 'home/logincustomer', model).pipe(
       map((res: Tokens) => {
@@ -251,7 +251,8 @@ export class AuthService {
         role: data['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
         name: data['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
         userId: data['userId'],
-        exp: +data['exp']
+        exp: +data['exp'],
+        jwt:token.token
       };
       console.log(this.user)
 
@@ -303,5 +304,6 @@ export interface User {
   name: string;
   userId: string;
   exp: number;
+  jwt:string;
 }
 

@@ -29,12 +29,13 @@ namespace HFS_BE.DAO.CustomerDao
 						 FirstName = p.FirstName,
 						 LastName = p.LastName,
 						 Gender = p.Gender,
+						 PhoneNumber=p.PhoneNumber,
 						 ConfirmEmail =p.ConfirmedEmail,
 						 BirthDate = p.BirthDate,
 						 Email = p.Email,
 						 IsBanned=p.IsBanned,
 			          	Images = context.ProfileImages
-					.Where(pi => pi.UserId == p.CustomerId)
+					.Where(pi => pi.UserId == p.CustomerId&&pi.IsReplaced==false)
 				   .Select(pi => new ImageCustomerOutputDto
 				   {
 					   ImageId = pi.ImageId,
