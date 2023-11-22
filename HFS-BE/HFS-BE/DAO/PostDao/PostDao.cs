@@ -174,29 +174,53 @@ namespace HFS_BE.Dao.PostDao
             }
         }
 
-        public BaseOutputDto BanUnbanPost(PostBanUnbanInputDto input)
+        public BaseOutputDto BanUnbanPost(PostBanUnbanInputDto input, string userId)
         {
             try
             {
-                // Get post
-                var post = context.Posts.SingleOrDefault(x => x.PostId == input.PostId);
-
-                if (input.isBanned)
+                // Check user role
+                if (userId.Substring(0, 2) != "PM")
                 {
-                    // set status banned
-                    post.Status = 3;
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Please login as a post moderator before using this API");
+                }
+                // Check ban limit (25 per day), neu lon hon 0 thi moi thuc hien viec ban, neu khong thi se khong thuc hien viec ban nua. 
+                // Phong truong hop co nguoi lam nguoi khong lam (BanLimit duoc reset vao 23h59 moi ngay)
+                if (context.PostModerators.SingleOrDefault(pm => pm.ModId.Equals(userId)).BanLimit > 0)
+                {
+                    // Get post
+                    var post = context.Posts.SingleOrDefault(p => p.PostId == input.PostId);
+
+                    // Check if found or not
+                    if (post == null)
+                    {
+                        return Output<BaseOutputDto>(Constants.ResultCdFail, "Post not found");
+                    }
+
+                    if (input.isBanned)
+                    {
+                        // set status banned
+                        post.Status = 3;
+                    }
+                    else
+                    {
+                        //set status display
+                        post.Status = 1;
+                    }
+
+                    // Reduce ban/unban limit
+                    context.PostModerators.SingleOrDefault(pm => pm.ModId.Equals(userId)).BanLimit -= 1;
+
                     context.SaveChanges();
                     return Output<BaseOutputDto>(Constants.ResultCdSuccess);
                 }
-                //set status display
-                post.Status = 1;
-                context.SaveChanges();
-
-                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+                else
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Your limit of banning 25 posts per day have reached.");
+                }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return Output<BaseOutputDto>(Constants.ResultCdFail);
+                return Output<BaseOutputDto>(Constants.ResultCdFail, e.Message + e.Source + e.InnerException + e.StackTrace);
             }
         }
 
@@ -239,13 +263,13 @@ namespace HFS_BE.Dao.PostDao
                     .Select(p => new PostByCustomerOutputDto
                     {
                         PostId = p.PostId,
-                        SellerId=p.SellerId,
+                        SellerId = p.SellerId,
                         ShopName = p.Seller.ShopName,
                         PostContent = p.PostContent,
                         CreatedDate = p.CreatedDate,
                         PostImages = p.PostImages.ToList(),
                         Status = p.Status
-                    }).Where(s=>s.Status==input.status).ToList();
+                    }).Where(s => s.Status == input.status).ToList();
 
                 var output = this.Output<ListPostByCustomerOutputDto>(Constants.ResultCdSuccess);
                 output.Posts = data;

@@ -110,6 +110,31 @@ export class PostreportManagementComponent extends iComponentBase implements OnI
 
       if (response && response.message === "Success") {
         this.lstPostReport = response.postReports;
+        this.lstPostReport.forEach(postrp => {
+          // format date to dd/mm/yyyy
+          const date = new Date(postrp.createDate);
+          const yyyy = date.getFullYear();
+          let mm = date.getMonth() + 1; // Months start at 0!
+          let dd = date.getDate();
+          let hours = date.getHours();
+          let minutes = date.getMinutes();
+          let seconds = date.getSeconds();
+          let ddstr = '';
+          let mmstr = '';
+          let hourstr = '';
+          let minutestr = '';
+          let secondstr = '';
+
+          if (dd < 10) ddstr = '0' + dd;
+          if (mm < 10) mmstr = '0' + mm;
+          if (hours < 10) hourstr = '0' + hours;
+          if (minutes < 10) minutestr = '0' + minutes;
+          if (seconds < 10) secondstr = '0' + seconds;
+
+          const formattedDate = (ddstr != '' ? ddstr : dd) + '/' + (mmstr != '' ? mmstr : mm) + '/' + yyyy;
+          const time = (hourstr != '' ? hourstr : hours) + ':' + (minutestr != '' ? minutestr : minutes) + ':' + (secondstr != '' ? secondstr : seconds);
+          postrp.createDate = formattedDate + ' ' + time;
+        });
         console.log(this.lstPostReport);
       }
       this.loading = false;
@@ -195,18 +220,21 @@ export class PostreportManagementComponent extends iComponentBase implements OnI
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POSTREPORT, API.API_POSTREPORT.APPROVE_NOTAPPROVE_POSTREPORT, param, true);
 
       if (response && response.message === "Success") {
-        this.showMessage(mType.success, "Notification", `${message} postId: ${postrp.postId} of user: ${postrp.reportBy} successfully`, 'notify');
-        console.log(`${message} postId: ${postrp.postId} of user: ${postrp.reportBy} successfully`);
+        this.showMessage(mType.success, "Notification", `${message} post report that has postId: ${postrp.postId} of user: ${postrp.reportBy} successfully`, 'notify');
+        console.log(`${message} post report that has postId: ${postrp.postId} of user: ${postrp.reportBy} successfully`);
         //lấy lại danh sách All 
         this.getAllPostReport();
 
       } else {
-        var messageError = this.iServiceBase.formatMessageError(response);
-        console.log(messageError);
-        this.showMessage(mType.error, response.message, messageError, 'notify');
+        // var messageError = this.iServiceBase.formatMessageError(response);
+        // console.log(messageError);
+        console.log(response);
+        console.log(response.message);
+        this.showMessage(mType.error, "Error", response.message, 'notify');
       }
     } catch (e) {
       console.log(e);
+      this.showMessage(mType.error, "Error", "BE error, please contact admin for further help.", 'notify');
     }
     //hide modal
     this.isVisibleApproveNotApproveModal = false;

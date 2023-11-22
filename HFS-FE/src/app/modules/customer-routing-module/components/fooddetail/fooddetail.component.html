@@ -76,10 +76,9 @@
                         Đã tố cáo
                     </div>
                     <div *ngIf="isLoggedIn == true && hasAlreadyReported == false" style="text-align: right;">
-                        <a href="" (click)="openFoodReportDialog();">
-                            <i class="pi pi-flag fs-large"></i>
-                            Report
-                        </a>
+                        <p-button [text]="true" (click)="openFoodReportDialog();">
+                            <i class="pi pi-flag fs-large"></i>&nbsp;Report
+                        </p-button>
                     </div>
                     <div>
                         <h1>{{fooddetail.name}}</h1>
@@ -107,7 +106,7 @@
                             decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
                             incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" [min]="1" [max]="100"
                             [(ngModel)]="amount"></p-inputNumber>
-                        <p-button icon="pi pi-shopping-cart" (onClick)="onAddToCart(fooddetail.foodId)"></p-button>
+                        &nbsp;&nbsp;<p-button icon="pi pi-shopping-cart" (onClick)="onAddToCart(fooddetail.foodId)"></p-button>
                     </div>
                 </div>
             </div>
@@ -163,32 +162,30 @@
                                                 {{item.likeCount}} Like &bull; {{item.displayDate}}
                                             </p>
                                         </div>
-
-                                          <div class="grid nogutter justify-center">
-                                              <img src="data:image/gif;base64,{{item.imagesBase64[0].imageBase64}}" style=" max-width: 150px; display: block; max-height: 80%;" />
-                                          </div>
-
                                     </div>
                                     <div class="comment-body">
-                                      <p>
-                                          {{item.feedbackMessage}}
-                                      </p>
-                                      <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply"
-                                          type="button" data-toggle="reply-form" data-target="comment-1-reply-form"
-                                          (click)="onReply(item.feedbackId)"></p-button>
-                                      <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
-                                          (click)="onLikeReview(item.feedbackId)"></p-button>
+                                        <div class="grid nogutter justify-center">
+                                            <img src="data:image/gif;base64,{{item.imagesBase64[0].imageBase64}}" style=" max-width: 150px; display: block; max-height: 80%;" />
+                                        </div>
+                                        <p>
+                                            {{item.feedbackMessage}}
+                                        </p>
+                                        <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply"
+                                            type="button" data-toggle="reply-form" data-target="comment-1-reply-form"
+                                            (click)="onReply(item.feedbackId)"></p-button>
+                                        <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
+                                            (click)="onLikeReview(item.feedbackId)"></p-button>
 
-                                      <!-- Reply form start -->
-                                      <div [id]="item.feedbackId" class="reply-form d-none">
-                                          <textarea placeholder="Reply to comment" rows="4"></textarea>
-                                          <p-button label="Submit" [raised]="true"></p-button>
-                                          <p-button label="Cancel" severity="danger" [raised]="true"
-                                              data-toggle="reply-form" data-target="comment-1-reply-form"
-                                              (click)="onCancel(item.feedbackId)"></p-button>
-                                      </div>
-                                      <!-- Reply form end -->
-                                  </div>
+                                        <!-- Reply form start -->
+                                        <div [id]="item.feedbackId" class="reply-form d-none">
+                                            <textarea placeholder="Reply to comment" rows="4"></textarea>
+                                            <p-button label="Submit" [raised]="true"></p-button>
+                                            <p-button label="Cancel" severity="danger" [raised]="true"
+                                                data-toggle="reply-form" data-target="comment-1-reply-form"
+                                                (click)="onCancel(item.feedbackId)"></p-button>
+                                        </div>
+                                        <!-- Reply form end -->
+                                    </div>
                                 </div>
 
 

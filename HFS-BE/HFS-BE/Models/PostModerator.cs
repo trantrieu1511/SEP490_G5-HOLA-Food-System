@@ -24,6 +24,8 @@ namespace HFS_BE.Models
         public bool? IsBanned { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
+        public int? BanLimit { get; set; }
+        public int? ReportApprovalLimit { get; set; }
 
         public virtual ICollection<PostReport> PostReports { get; set; }
     }

@@ -1,0 +1,24 @@
+<a id="profile-option" [class.sidebar-option]="this.currentRoute !== 'profile'"
+    [class.sidebar-option-selected]="this.currentRoute === 'profile'" (click)="this.router.navigateByUrl('/profile')"
+    href="#" onclick="event.preventDefault();">Profile</a>
+<div class="dash-line"></div>
+<a id="myorder-option" [class.sidebar-option]="this.currentRoute !== 'orderhistory'"
+    [class.sidebar-option-selected]="this.currentRoute === 'orderhistory'"
+    (click)="this.router.navigateByUrl('/orderhistory')" href="#" onclick="event.preventDefault();">Order</a>
+<div class="dash-line"></div>
+<a id="shipaddress-option" [class.sidebar-option]="this.currentRoute !== 'shipaddress'"
+    [class.sidebar-option-selected]="this.currentRoute === 'shipaddress'"
+    (click)="this.router.navigateByUrl('/shipaddress')" href="#" onclick="event.preventDefault();">Ship address</a>
+<div class="dash-line"></div>
+<a id="postreport-option" [class.sidebar-option]="this.currentRoute !== 'postreport'"
+    [class.sidebar-option-selected]="this.currentRoute === 'postreport'"
+    (click)="this.router.navigateByUrl('/postreport')" href="#" onclick="event.preventDefault();">Post report</a>
+<div class="dash-line"></div>
+<a id="menureport-option" [class.sidebar-option]="this.currentRoute !== 'menureport'"
+    [class.sidebar-option-selected]="this.currentRoute === 'menureport'"
+    (click)="this.router.navigateByUrl('/menureport')" href="#" onclick="event.preventDefault();">Menu report</a>
+<div class="dash-line"></div>
+<a id="wallet-option" [class.sidebar-option]="this.currentRoute !== 'wallet'"
+    [class.sidebar-option-selected]="this.currentRoute === 'wallet'" (click)="this.router.navigateByUrl('/wallet')"
+    href="#" onclick="event.preventDefault();">Wallet</a>
+<div class="dash-line"></div>

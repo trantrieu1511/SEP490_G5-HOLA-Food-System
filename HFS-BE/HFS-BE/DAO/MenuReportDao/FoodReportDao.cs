@@ -3,6 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
+using Mailjet.Client.Resources;
 using Microsoft.EntityFrameworkCore;
 
 namespace HFS_BE.DAO.MenuReportDao
@@ -23,9 +24,11 @@ namespace HFS_BE.DAO.MenuReportDao
                 {
                     case "MM": // Menu moderator can see all food reports
                         foodReportOutputDtos = context.MenuReports
+                            .Include(mr => mr.Food)
                             .Select(mr => new FoodReportOutputDto
                             {
                                 FoodId = mr.FoodId,
+                                FoodName = mr.Food.Name,
                                 ReportBy = mr.ReportBy,
                                 ReportContent = mr.ReportContent,
                                 CreateDate = mr.CreateDate,
@@ -96,30 +99,42 @@ namespace HFS_BE.DAO.MenuReportDao
         {
             try
             {
-                // Find the food report by foodId and reportBy in the context
-                MenuReport? foodReport = context.MenuReports.Find(new object[] { inputDto.FoodId, inputDto.ReportBy });
-                // Check whether the food report exist or not
-                if (foodReport == null)
+                // Check report approval limit (25 per day), neu lon hon 0 thi moi thuc hien viec approve/not approve. Khong thi khong approve/not approve nua
+                // Phong truong hop co nguoi lam nguoi khong lam (ReportApprovalLimit duoc reset vao 23h59 moi ngay)
+                if (context.MenuModerators.SingleOrDefault(mm => mm.ModId.Equals(updateBy)).ReportApprovalLimit > 0)
                 {
-                    return Output<BaseOutputDto>(Constants.ResultCdFail, $"The food report with foodId = {inputDto.FoodId} and reportBy = {inputDto.ReportBy} is not exist. Please try again.");
-                }
+                    // Find the food report by foodId and reportBy in the context
+                    MenuReport? foodReport = context.MenuReports.Find(new object[] { inputDto.FoodId, inputDto.ReportBy });
+                    // Check whether the food report exist or not
+                    if (foodReport == null)
+                    {
+                        return Output<BaseOutputDto>(Constants.ResultCdFail, $"The food report with foodId = {inputDto.FoodId} and reportBy = {inputDto.ReportBy} is not exist. Please try again.");
+                    }
 
-                // Update status to approve or not approve, and add some note (optional)
-                foodReport.UpdateBy = updateBy;
-                foodReport.UpdateDate = DateTime.Now;
-                if (inputDto.IsApproved)
-                {
-                    foodReport.Status = 1;
+                    // Update status to approve or not approve, and add some note (optional)
+                    foodReport.UpdateBy = updateBy;
+                    foodReport.UpdateDate = DateTime.Now;
+                    if (inputDto.IsApproved)
+                    {
+                        foodReport.Status = 1;
+                    }
+                    else
+                    {
+                        foodReport.Status = 2;
+                    }
+                    foodReport.Note = inputDto.Note; // optional
+                                                     
+                    // Reduce approval limit
+                    context.MenuModerators.SingleOrDefault(mm => mm.ModId.Equals(updateBy)).ReportApprovalLimit -= 1;
+
+                    // Save the changes of the food report entity of the context to the db
+                    context.SaveChanges();
+                    return Output<BaseOutputDto>(Constants.ResultCdSuccess);
                 }
                 else
                 {
-                    foodReport.Status = 2;
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Your limit of approve/not approve 25 food per day have reached.");
                 }
-                foodReport.Note = inputDto.Note; // optional
-
-                // Save the changes of the food report entity of the context to the db
-                context.SaveChanges();
-                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
             catch (Exception e)
             {

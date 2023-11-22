@@ -80,6 +80,32 @@ export class FoodreportManagementComponent extends iComponentBase implements OnI
 
       if (response && response.message === "Success") {
         this.lstFoodReport = response.foodReports;
+        this.lstFoodReport.forEach(foodrp => {
+          // format date to dd/mm/yyyy
+          const date = new Date(foodrp.createDate);
+          const yyyy = date.getFullYear();
+          let mm = date.getMonth() + 1; // Months start at 0!
+          let dd = date.getDate();
+          let hours = date.getHours();
+          let minutes = date.getMinutes();
+          let seconds = date.getSeconds();
+          
+          let ddstr = '';
+          let mmstr = '';
+          let hourstr = '';
+          let minutestr = '';
+          let secondstr = '';
+
+          if (dd < 10) ddstr = '0' + dd;
+          if (mm < 10) mmstr = '0' + mm;
+          if (hours < 10) hourstr = '0' + hours;
+          if (minutes < 10) minutestr = '0' + minutes;
+          if (seconds < 10) secondstr = '0' + seconds;
+
+          const formattedDate = (ddstr != '' ? ddstr : dd) + '/' + (mmstr != '' ? mmstr : mm) + '/' + yyyy;
+          const time = (hourstr != '' ? hourstr : hours) + ':' + (minutestr != '' ? minutestr : minutes) + ':' + (secondstr != '' ? secondstr : seconds);
+          foodrp.createDate = formattedDate + ' ' + time;
+        });
         console.log(this.lstFoodReport);
       }
       this.loading = false;
@@ -113,18 +139,20 @@ export class FoodreportManagementComponent extends iComponentBase implements OnI
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODREPORT, API.API_FOODREPORT.APPROVE_NOTAPPROVE_FOODREPORT, param, true);
 
       if (response && response.message === "Success") {
-        this.showMessage(mType.success, "Notification", `${message} foodId: ${foodrp.foodId} of user: ${foodrp.reportBy} successfully`, 'notify');
-        console.log(`${message} foodId: ${foodrp.foodId} of user: ${foodrp.reportBy} successfully`);
+        this.showMessage(mType.success, "Notification", `${message} food report that has foodId: ${foodrp.foodId} of user: ${foodrp.reportBy} successfully`, 'notify');
+        console.log(`${message} food report that has foodId: ${foodrp.foodId} of user: ${foodrp.reportBy} successfully`);
         //lấy lại danh sách All 
         this.getAllFoodReport();
 
       } else {
         // var messageError = this.iServiceBase.formatMessageError(response);
-        // console.log(messageError);
-        this.showMessage(mType.error, response.message, "internal server error", 'notify');
+        console.log(response);
+        console.log(response.message);
+        this.showMessage(mType.error, "Error", response.message, 'notify');
       }
     } catch (e) {
       console.log(e);
+      this.showMessage(mType.error, "Error", "BE error, please contact admin for further help.", 'notify');
     }
     //hide modal
     this.isVisibleApproveNotApproveModal = false;

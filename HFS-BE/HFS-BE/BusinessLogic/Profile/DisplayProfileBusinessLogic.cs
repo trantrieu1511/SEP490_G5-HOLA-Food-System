@@ -12,13 +12,13 @@ namespace HFS_BE.BusinessLogic.Profile
         {
         }
 
-        public UserProfileOutputDto GetProfile(string? userId) {
+        public UserProfileOutputDto GetProfile(string userId) {
             try
             {
-                if (userId == null)
-                {
-                    return Output<UserProfileOutputDto>(Constants.ResultCdFail, "Please login before using this API.");
-                }
+                //if (userId == null)
+                //{
+                //    return Output<UserProfileOutputDto>(Constants.ResultCdFail, "Please login before using this API.");
+                //}
                 var dao = CreateDao<UserDao>();
                 return dao.GetUserProfileById(userId);
             }

@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TabViewChangeEvent } from 'primeng/tabview';
 import { async } from 'rxjs';
 import { GetTransactionHistoryInput } from '../../models/GetTransactionHistoryInput.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-wallet',
@@ -44,6 +45,7 @@ export class WalletComponent
     private datePipe: DatePipe,
     private route: ActivatedRoute,
     private router: Router,
+    public authService: AuthService,
   ) {
     super(messageService);
   }

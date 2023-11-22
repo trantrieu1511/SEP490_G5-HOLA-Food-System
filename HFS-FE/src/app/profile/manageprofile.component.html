@@ -237,26 +237,16 @@
 </p-dialog> -->
 
 
-<div class="profilePageContent">
-    <div class="card profile-sidebar" *ngIf="this.authService.getRole() == 'CU'">
-        <a id="profile-option" class="profile-sidebar-option-selected" href="#"
-            onclick="event.preventDefault();">Profile</a>
-        <div class="dash-line"></div>
-        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">Order</a>
-        <div class="dash-line"></div>
-        <a id="shipaddress-option" class="profile-sidebar-option" (click)="this.router.navigateByUrl('/shipaddress')"
-            href="#" onclick="event.preventDefault();">Ship address</a>
-        <div class="dash-line"></div>
-        <a id="postreport-option" class="profile-sidebar-option" (click)="this.router.navigateByUrl('/postreport')"
-            href="#" onclick="event.preventDefault();">Post report</a>
-        <div class="dash-line"></div>
-        <a id="menureport-option" class="profile-sidebar-option" (click)="this.router.navigateByUrl('/menureport')"
-            href="#" onclick="event.preventDefault();">Menu report</a>
+<div class="page-content">
+    <div class="card sidebar" *ngIf="this.authService.getRole() == 'CU'">
+        
+        <app-menu-myaccount></app-menu-myaccount>
+
         <!-- <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">Profile</button><hr>
         <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">MyOrder</button> -->
     </div>
 
-    <div class="card profile-main-body">
+    <div class="card main-body">
         <h2>Manage profile</h2>
         <hr>
         <div class="grid grid-nogutter">
@@ -294,7 +284,7 @@
                 <hr>
                 <div style="display: flex;">
                     <p class="field-title">Birth date: </p>
-                    <p class="field-info">{{profileDisplay.birthDate == '' ?
+                    <p class="field-info">{{profileDisplay.birthDate == undefined ?
                         'None. Use the edit function to enter your birth date'
                         : profileDisplay.birthDate}}</p>
                 </div>
@@ -303,8 +293,7 @@
                     <p class="field-title">Email: </p>
                     <!-- <div class="field-info" *ngIf="profileDisplay.email != undefined else RegisterEmail"> -->
                     <div class="field-info">
-                        {{profileDisplay.email}} <i *ngIf="profileDisplay.isVerified" class="pi pi-verified"
-                            style="color: green;"></i>
+                        {{profileDisplay.email}}
                         <!-- <div>
                             <a style="color: #6366F1;" class="edit-email-link" href="#"
                                 onClick="event.preventDefault();" (click)="doSomething();">Edit email</a>
@@ -377,6 +366,21 @@
                             profileDisplay.manageBy}} </p>
                     </div>
                     <hr>
+                </div>
+                <div *ngIf="this.authService.getRole() == 'SE' || this.authService.getRole() == 'SH'">
+                    <div style="display: flex;">
+                        <p class="field-title">Verified: </p>
+                        <!-- <p class="field-info" *ngIf="profileDisplay.phoneNumber != undefined else RegisterPhoneNumber"> -->
+                        <p class="field-info">
+                            <span>
+                                <i *ngIf="profileDisplay.isVerified" class="pi pi-verified"
+                                    style="color: green; font-size: large;"></i>
+                            </span>
+                            <span *ngIf="!profileDisplay.isVerified" style="color: red;">
+                                Not verified
+                            </span>
+                        </p>
+                    </div>
                 </div>
 
                 <p-button (click)="openSellerEditProfileDiaglog();"

@@ -1,6 +1,6 @@
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1500px) {
     .page-content {
-        width: 1300px;
+        width: 1500px;
     }
 }
 
@@ -10,11 +10,11 @@
     justify-content: center;
 }
 
-.report-sidebar {
+.sidebar {
     width: 15%;
 }
 
-.report-main-body {
+.main-body {
     width: 60%;
 }
 
@@ -28,26 +28,26 @@
     width: 50%;
 }
 
-.report-sidebar-option:hover {
+.sidebar-option:hover {
     // text-decoration: underline;
     opacity: 60%;
     color: white;
     background-color: #6366F1;
 }
 
-.report-sidebar-option:active {
+.sidebar-option:active {
     // text-decoration: underline;
     opacity: 40%;
     // background-color: beige;
 }
 
-.report-sidebar-option {
+.sidebar-option {
     display: block;
     padding: 10px 0px 10px 10px;
     border-radius: 10px;
 }
 
-.report-sidebar-option-selected {
+.sidebar-option-selected {
     // text-decoration: underline;
     display: block;
     color: white;
@@ -57,21 +57,21 @@
     border-radius: 10px;
 }
 
-.report-sidebar-option-selected:hover {
+.sidebar-option-selected:hover {
     // text-decoration: underline;
     opacity: 60%;
 }
 
-.report-sidebar-option-selected:active {
+.sidebar-option-selected:active {
     // text-decoration: underline;
     opacity: 40%;
 }
 
-// .report-sidebar-option-onselected {
+// .sidebar-option-onselected {
 //     text-decoration: underline;
 // }
 
-// .report-sidebar-option-onselected:hover {
+// .sidebar-option-onselected:hover {
 //     text-decoration: underline;
 //     background-color: grey;
 // }

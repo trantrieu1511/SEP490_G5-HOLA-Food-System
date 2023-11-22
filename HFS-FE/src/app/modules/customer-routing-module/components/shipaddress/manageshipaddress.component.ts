@@ -16,6 +16,7 @@ import {
 import { FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
 import { Router } from '@angular/router';
 import { CreateNewShipAddressInputValidation, ShipAddress, UpdateShipAddressInputValidation } from '../../models/ShipAddress.modal';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-manageshipaddress',
@@ -42,6 +43,7 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     public router: Router,
+    public authService: AuthService
     // private appCustomerTopBarComponent: AppCustomerTopBarComponent
   ) {
     super(messageService);
