@@ -81,7 +81,7 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
           let shop = new ListShop()
           shop.shopId = x.shopId
           shop.cartItems = []
-          let data = this.items.filter(x => x.shopId == x.shopId);
+          let data = this.items.filter(o => o.shopId == x.shopId);
           data.forEach(x => {
             let cartitem = new AddToCart()
             cartitem.foodId = x.foodId
