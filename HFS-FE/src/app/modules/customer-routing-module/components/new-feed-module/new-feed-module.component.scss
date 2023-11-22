@@ -1,3 +1,191 @@
+
+:host ::ng-deep {
+
+
+  .app-new-feed{
+    width: 55%;
+    margin: 0 auto;
+
+    --columns: 2;
+  }
+
+  .post{
+    background: #fff;
+    color: #1c1e21;
+    display: flex;
+    flex-direction: column;
+    border: 1px #ccc solid;
+    border-radius: 2rem;
+    padding: 2rem 2rem 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+
+    .post-infor{
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+      margin-bottom: 1rem;
+    
+
+      .shop-name{
+        font-weight: bold;
+        color:black;
+        font-size: 1.2rem;
+        margin: 0;
+      }
+
+      .post-created-date{
+        font-weight: 600;
+        color:#65676b;
+        font-size: .9375rem;
+      }
+    }
+
+
+    .post-content{
+      margin-bottom: 0.7rem;
+      padding: 0 1.5em;
+      max-height: 240px;
+      position: relative;
+      p{
+        
+        color: #1c1e21;
+        direction: ltr;
+        line-height: 1.84;
+        font-size: .9375rem;
+
+        /* tránh từ/câu - quá dài/quá lớn làm vỡ giao diện */
+        /*word-break: break-all;*/
+        display: -webkit-box;
+        /* lấy 3 dòng */
+        -webkit-line-clamp: 10;
+        -webkit-box-orient:  vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-word;
+      }
+
+      .view-more {
+        color: #1c1e21;
+        font-weight: bold;
+        display: none;  /* Initially hide the view more link */
+        position: absolute;
+        bottom: -2rem;
+        padding: 5px 10px;
+        text-decoration: none;
+      }
+      .view-more:hover{
+        text-decoration: underline;
+      }
+    }
+
+    .post-image{
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+
+      img{
+        height: 15rem;
+        width: 100%;
+        object-fit: cover;
+        flex-shrink: 1;
+      }
+
+      .images-list{
+        position: relative;
+        width: calc(100% / var(--columns));
+
+        img{
+          height: 15rem;
+          width: 100%;
+          object-fit: cover;
+          flex-shrink: 1;
+        }
+  
+        .images{
+          
+        }
+  
+        .more-image{
+          color: #fff;
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          top: 0;
+          background-color: #11111159;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+  
+          font-weight: 700;
+          font-size: 2rem;
+        }
+      }
+
+      
+    }
+
+    .actions{
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      .emote{
+        display: flex;
+        border-right: 1px solid orangered;
+        
+        i{
+          font-size: 1rem;
+        }
+      }
+      .p-comment{
+        margin: 0 auto;
+      }
+    }
+  }
+
+  @media screen and (max-width: 960px){
+		.app-new-feed{
+      width: 90%;
+      margin: 0 auto;
+  
+      --columns: 1;
+    }
+  
+    .post{
+     
+      .post-content{
+        p{
+          
+        }
+      }
+  
+      .post-image{
+        
+        img{
+          
+        }
+  
+        .images{
+        }
+      }
+  
+      .actions{
+        
+        .emote{
+          display: flex;
+          
+          i{
+            font-size: 1rem;
+          }
+        }
+        .p-comment{
+        }
+      }
+    }
+	}
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -29,32 +217,9 @@ body {
     padding: 20px;
   }
 
-  .post {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 20px;
-    background-color: #fff;
-  }
-
   .post h2 {
     font-size: 24px;
     color: #333;
-  }
-
-  .post p {
-    font-size: 16px;
-    color: #666;
-  }
-
-  .post img {
-    max-width: 100%;
-    height: auto;
-    margin-top: 10px;
-  }
-
-  .actions {
-    margin-top: 10px;
   }
 
   .like,

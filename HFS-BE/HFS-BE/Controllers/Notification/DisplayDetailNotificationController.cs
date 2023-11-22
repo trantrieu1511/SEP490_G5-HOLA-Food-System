@@ -21,7 +21,12 @@ namespace HFS_BE.Controllers.Notification
             try
             {
                 var busi = GetBusinessLogic<DisplayDetailNotificationBusinessLogic>();
-                return busi.DisplayDetailNotificationById(inputDto);
+                return busi.DisplayDetailNotificationById(new NotificationReadBLInput
+                {
+                    Lang = inputDto.Lang,
+                    NotifyId = inputDto.NotifyId,
+                    UserId = GetUserInfor().UserId
+                });
             }
             catch (Exception)
             {

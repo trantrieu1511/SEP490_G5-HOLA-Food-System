@@ -154,5 +154,23 @@ namespace HFS_BE.DAO.NotificationDao
                 throw;
             }
         }
+
+        public bool CheckNewNotify(string userId)
+        {
+            try
+            {
+                var notifies = context.Notifications.Where(
+                        x => x.Receiver.Equals(userId) && x.IsRead == false
+                    ).ToList();
+                // chua doc -> notifies = null
+                // -> checknew -> null => false
+                return notifies.Count == 0 ? false : true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
