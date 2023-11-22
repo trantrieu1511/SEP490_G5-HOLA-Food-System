@@ -5,6 +5,7 @@ export class OrderDaoOutputDto{
         requiredDate : string;
         shippedDate:string;
         shipAddress :string;
+        customerPhone:string;
         voucherId :number;
         status :boolean;
         total: number;  

@@ -1,4 +1,16 @@
 :host ::ng-deep {
+    .p-tabmenu-nav {
+        display: flex;
+        
+        width: 100%;
+        .p-tabmenuitem {
+            flex: 1 ;
+            text-align: center;
+            a {
+                justify-content: center;
+            }
+        }
+    }
     .p-paginator {
         .p-paginator-current {
             margin-left: auto;

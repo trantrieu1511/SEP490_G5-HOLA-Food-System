@@ -8,6 +8,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
         public int OrderId { get; set; }
         public string? CustomerId { get; set; }
         public string? SellerId { get; set; }
+        public string? CustomerPhone { get; set; }
         public DateTime? OrderDate { get; set; }
         public DateTime? RequiredDate { get; set; }
         public DateTime? ShippedDate { get; set; }
