@@ -28,7 +28,11 @@ export class AppComponent {
     this.primengConfig.ripple = true;
     this.role = sessionStorage.getItem('role');
     this.isDivVisible = !this.isDivVisible;
-
+    const user: User = JSON.parse(localStorage.getItem('user'));
+    sessionStorage.setItem("JWT", user.jwt);
+    sessionStorage.setItem("role", user.role.toString());
+    sessionStorage.setItem("timetoken", user.exp.toString());
+    sessionStorage.setItem("userId", user.userId.toString());
   }
 
 }

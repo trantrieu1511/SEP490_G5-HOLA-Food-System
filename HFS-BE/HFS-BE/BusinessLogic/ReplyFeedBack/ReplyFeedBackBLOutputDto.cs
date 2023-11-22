@@ -1,9 +1,9 @@
 ﻿using HFS_BE.Base;
-using HFS_BE.DAO.FeedBackDao;
+using HFS_BE.BusinessLogic.FeedBackCustomer;
 
-namespace HFS_BE.BusinessLogic.FeedBackCustomer
+namespace HFS_BE.BusinessLogic.ReplyFeedBack
 {
-	public class FeedBackDtoBL
+	public class ReplyFeedBackBLOutputDto
 	{
 		public int FeedbackId { get; set; }
 		public int? FoodId { get; set; }
@@ -15,19 +15,19 @@ namespace HFS_BE.BusinessLogic.FeedBackCustomer
 		public DateTime? DisplayDate { get; set; }
 		public int LikeCount { get; set; }
 		public int DisLikeCount { get; set; }
-		public bool? IsLiked { get; set; }
-		public List<CustomerVoted> ListVoted { get; set; }
-		public List<FeedImageOutputDto>? ImagesBase64 { get; set; } = new List<FeedImageOutputDto>();
+
+		public List<FeedSellerImageOutputDto>? ImagesBase64 { get; set; } = new List<FeedSellerImageOutputDto>();
 	}
-	public class FeedImageOutputDto
+
+	public class FeedSellerImageOutputDto
 	{
 		public int ImageId { get; set; }
 		public string? ImageBase64 { get; set; }
 		public string? Name { get; set; }
 		public string? Size { get; set; }
 	}
-	public class ListFeedBackOutputDtoBS : BaseOutputDto
+	public class ListFeedBackbySellerOutputDtoBL : BaseOutputDto
 	{
-		public List<FeedBackDtoBL> FeedBacks { get; set; }
+		public List<ReplyFeedBackBLOutputDto> FeedBacks { get; set; }
 	}
 }

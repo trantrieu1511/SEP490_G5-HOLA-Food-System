@@ -102,5 +102,60 @@ namespace HFS_BE.DAO.AdminDao
 				return null;
 			}
 		}
+
+		public List<DashboadPieAdminOutputDto> GetDashBoadPie()
+		{
+			try
+			{
+				List<DashboadPieAdminOutputDto> list = new List<DashboadPieAdminOutputDto>();
+				int seller = context.Sellers.Where(s => s.IsBanned == false&&s.IsVerified==true).Count();
+				int cus= context.Customers.Where(s => s.IsBanned == false).Count();
+				int shipper= context.Shippers.Where(s => s.IsBanned == false&&s.IsVerified==true).Count();
+				var sellerd= new DashboadPieAdminOutputDto(
+					actor:"Seller",
+					total:seller
+					
+					);
+				var cusd = new DashboadPieAdminOutputDto(
+					actor: "Customer",
+					total: cus
+
+					);
+				var shipperd = new DashboadPieAdminOutputDto(
+					actor: "Shipper",
+					total: shipper
+
+					);
+				list.Add(sellerd);
+				list.Add(cusd);
+				list.Add(shipperd);
+				
+				return list;
+
+			}
+			catch (Exception)
+			{
+
+				return null;
+			}
+		}
+		
+		public List<DashboadPieAdminOutputDto> GetDashBoadAdminOrder(List<DashboadAdminInputOrderDto> input)
+		{
+			try
+			{
+				DateTime date = DateTime.Now;
+				
+               var listr = context.MenuReports.Where(s => s.CreateDate.Month == date.Month).ToList();
+
+				return null;
+
+			}
+			catch (Exception)
+			{
+
+				return null;
+			}
+		}
 	}
 }

@@ -66,6 +66,8 @@ import { NewFeedModuleComponent } from './modules/customer-routing-module/compon
 import { ManageprofileComponent } from './profile/manageprofile.component';
 import { WalletComponentSeller } from './modules/seller-routing-module/components/wallet/wallet.component';
 import { SearchComponent } from './modules/customer-routing-module/components/search/search.component';
+import { DashboadAdminModuleComponent } from './modules/admin-routing-module/dashboad-admin-module/dashboad-admin-module.component';
+import { ListFeedbackBySellerComponent } from './modules/seller-routing-module/components/list-feedback-by-seller/list-feedback-by-seller.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +106,8 @@ import { SearchComponent } from './modules/customer-routing-module/components/se
     NewFeedModuleComponent,
     WalletComponentSeller,
     SearchComponent,
+    DashboadAdminModuleComponent,
+    //ListFeedbackBySellerComponent,
   ],
   imports: [
     BrowserAnimationsModule,

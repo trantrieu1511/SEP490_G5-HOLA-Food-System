@@ -51,6 +51,9 @@ export class API_USER {
     public static GET_SHIPPERS_INVITATION = "listinvitationshipper";
     public static ADD_SHIPPERS_INVITATION = "invitationshipper";
     public static KICK_SHIPPERS = "kickshipper";
+    public static DASHBOAD_ADMIN = "dashboadpie";
+    public static FEEDBACK_SELLER = "sellerFeedBack";
+    public static REPLY_SELLER = "replyfeedback";
 }
 
 // Service Role

@@ -53,8 +53,13 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
     }
     setCurrentUser() {
       const user: User = JSON.parse(localStorage.getItem('user'));
+      sessionStorage.setItem("JWT", user.jwt);
+      sessionStorage.setItem("role", user.role.toString());
+      sessionStorage.setItem("timetoken", user.exp.toString());
+      sessionStorage.setItem("userId", user.userId.toString());
       const token = sessionStorage.getItem('JWT');
-     // 
+      debugger
+     //
       if (user) {
 
         this.presence.createHubConnection(token);
@@ -71,13 +76,16 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
     }
 
     goToLoginPage() {
-        // 
+        //
         this.router.navigate(['/login']);
     }
 
     //check whether the user has logged in or not to display button login for them to login
     checkUserLoggedInState() {
-        if (sessionStorage.getItem('userId') != null) {
+        // if (sessionStorage.getItem('userId') != null) {
+        //     this.isLoggedIn = true;
+        // }
+        if (localStorage.getItem('user') != null) {
             this.isLoggedIn = true;
         }
     }

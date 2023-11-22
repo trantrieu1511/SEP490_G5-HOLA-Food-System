@@ -50,8 +50,8 @@ export class ManageCustomerModuleComponent extends iComponentBase implements OnI
     this.lstUser = [];
 
     try {
+debugger
 
-   
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.LIST_CUS,"");
 
         if (response && response.message === "Success") {
@@ -65,7 +65,7 @@ export class ManageCustomerModuleComponent extends iComponentBase implements OnI
     }
 }
 // async BanCustomer(user:Customer){
-//   
+//
 //   const param = {
 //     "customerId":user.customerId,
 //    "Ban":!user.isBanned
@@ -73,7 +73,7 @@ export class ManageCustomerModuleComponent extends iComponentBase implements OnI
 //   console.log(param)
 // try {
 
-//   
+//
 //        let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.BAN_CUS,param);
 
 //        if (response && response.message === "Success") {
@@ -95,7 +95,7 @@ this.bancus.isBanned=!user.isBanned;
 async onSaveBan(){
   console.log(this.bancus);
   try{
-    
+
   let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.BAN_CUS,this.bancus);
 
   if (response && response.message === "Success") {
@@ -123,7 +123,7 @@ const param={
 }
     try {
 
-   
+
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.HIS_CUS,param);
 
         if (response && response.message === "Success") {
