@@ -16,7 +16,8 @@
                             <th  pSortableColumn="orderId">ID <p-sortIcon field="orderId"></p-sortIcon></th>
                             <th  pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
                             <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th> 
-                            <th pSortableColumn="address">Address <p-sortIcon field="address"></p-sortIcon></th>  
+                            <th pSortableColumn="address">Address <p-sortIcon field="shipAddress"></p-sortIcon></th> 
+                            <th pSortableColumn="phone">PhoneNumber <p-sortIcon field="phoneNumber"></p-sortIcon></th> 
                             <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>                            
                             <th style="text-align: center" >Action</th>
                         </tr>
@@ -26,8 +27,9 @@
                             
                             <td>{{order.orderId}}</td>
                             <td>{{order.orderDate}}</td>
-                            <td>{{order.total}} $</td>
+                            <td>{{order.total}} VND</td>
                             <td>{{order.shipAddress}}</td>
+                            <td>{{order.customerPhone}}</td>
                             <td>{{order.status}}</td>
                             <ng-container >
                                 <td style="text-align: center">
