@@ -1,6 +1,6 @@
 <div class="page-content">
-    <div class="card report-sidebar">
-        <a id="profile-option" class="report-sidebar-option" href="#" (click)="this.router.navigateByUrl('/profile');"
+    <div class="card sidebar" *ngIf="this.authService.getRole() == 'CU'">
+        <!-- <a id="profile-option" class="report-sidebar-option" href="#" (click)="this.router.navigateByUrl('/profile');"
             onclick="event.preventDefault();">Profile</a>
         <div class="dash-line"></div>
         <a id="myorder-option" class="report-sidebar-option" href="#" onclick="event.preventDefault();">Order</a>
@@ -15,12 +15,15 @@
         <a id="menureport-option" class="report-sidebar-option" href="#"
             (click)="this.router.navigateByUrl('/menureport');" onclick="event.preventDefault();">Menu
             report
-        </a>
+        </a> -->
         <!-- <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">Profile</button><hr>
         <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">MyOrder</button> -->
+
+        <app-menu-myaccount></app-menu-myaccount>
+
     </div>
 
-    <div class="card report-main-body">
+    <div class="card main-body">
         <h2>My post report</h2>
         <p-table #dt [value]="lstPostReport" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
             [rows]="10" [showCurrentPageReport]="true" [paginator]="lstPostReport.length > 5" [filterDelay]="0"

@@ -1,4 +1,11 @@
-<div class="grid table-demo">
+<div class="page-content">
+  <div class="card sidebar" *ngIf="this.authService.getRole() == 'CU'">
+
+    <app-menu-myaccount></app-menu-myaccount>
+    
+  </div>
+  
+  <div class="grid table-demo main-body">
     <div class="col-12">
       <div class="card">
         <h5>Customer Order Management</h5>
@@ -306,6 +313,9 @@
       </div>
     </div>
   </div>
+
+</div>
+
 
   <p-dialog
     [header]="headerDialog"

@@ -114,12 +114,12 @@ const routes: Routes = [
         data: { requiredRole: ['Customer'] },
         loadChildren: () => import('./modules/customer-routing-module/customer-routing.module').then(m => m.CustomerRoutingModule),
       },
-      {
-        path: 'profile',
-        canActivate: [authGuard],
-        data: { requiredRole: ['Customer'] },
-        component: ManageprofileComponent
-      },
+      // {
+      //   path: 'profile',
+      //   canActivate: [authGuard],
+      //   data: { requiredRole: ['Customer'] },
+      //   component: ManageprofileComponent
+      // },
       {
         path: 'notify-management',
         canActivate: [authGuard],

@@ -16,6 +16,7 @@ import {
 import { FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
 import { Router } from '@angular/router';
 import { FoodReport } from '../../models/foodreport.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class CustomerfoodreportComponent extends iComponentBase implements OnIni
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     public router: Router,
+    public authService: AuthService
     // private appCustomerTopBarComponent: AppCustomerTopBarComponent
   ) {
     super(messageService);
