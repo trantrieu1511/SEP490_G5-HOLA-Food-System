@@ -390,7 +390,7 @@ namespace HFS_BE.Automapper
         {
             CreateMap<Feedback, FeedBackDaoOutputDto>()
                 .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.LastName))
-                .ForMember(dest => dest.DisplayDate, opt => opt.MapFrom(src => src.UpdateDate ?? src.CreatedDate))
+                .ForMember(dest => dest.DisplayDate, opt => opt.MapFrom(src => ((src.UpdateDate ?? src.CreatedDate)).Value.ToString("MM/dd/yyyy hh:mm")))
                 .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == true).ToList().Count))
                 .ForMember(dest => dest.DisLikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == false).ToList().Count))
                 .ForMember(dest => dest.ListVoted, opt => opt.MapFrom(src => src.FeedbackVotes));
@@ -401,7 +401,8 @@ namespace HFS_BE.Automapper
 
             CreateMap<GetFeedBackByFoodIdDaoOutputDto, GetFeedBackOutputDto>();
             CreateMap<FeedBackDaoOutputDto, FeedBackOutputDto>();
-            CreateMap<FeedBackReplyDaoOutputDto, FeedBackReplyOutputDto>();
+            CreateMap<FeedBackReplyDaoOutputDto, FeedBackReplyOutputDto>()
+                .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.CreatedDate.Value.ToString("MM/dd/yyyy hh:mm")));
 
 
 			CreateMap<AddFeedBackInputDtoBL, CreateFeedBackDaoInputDto>()

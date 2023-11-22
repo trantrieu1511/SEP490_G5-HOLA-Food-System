@@ -138,7 +138,6 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
 
   async onLikeReview(feedbackId: number) {
     try {
-      debugger
       this.loading = true;
       let vote = new VoteFeedBackInputDto();
       vote.FeedBackId = feedbackId
@@ -169,7 +168,6 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_FOODDETAIL.GET_FEEDBACK_IMAGE, getfood);
       if (response && response.success === true) {
         this.feedbacks = response.feedBacks
-        debugger
         this.displayFeedback = this.feedbacks.filter(x => x.star === 5).slice(this.first, this.rows);
       }
       this.loading = false;
@@ -185,7 +183,6 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       let getfood = new GetFoodDetail();
       getfood.foodId = this.foodId
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODETAIL, API.API_FOODDETAIL.GET_FOOD, getfood);
-      debugger
       if (response && response.success === true) {
         this.fooddetail = response;
         console.log(response);
@@ -232,6 +229,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       getSimilarFood.categoryId = this.category
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODETAIL, API.API_FOODDETAIL.GET_SIMILARFOOD, getSimilarFood);
       if (response && response.success === true) {
+        debugger
         console.log(response)
         this.similarFood = response.listFood
       }

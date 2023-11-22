@@ -1,5 +1,5 @@
 <div style="display: flex; align-items: center; justify-content: center;">
-    <input type="search" [(ngModel)]="searchText" pInputText placeholder="Search Food by Name" (keyup.enter)="onSearch()">
+    <input type="search" [(ngModel)]="searchText" pInputText placeholder="Enter to Search" (keyup.enter)="onSearch()">
     <div class="flex align-items-center">
         <p-radioButton name="pizza" value="0" [(ngModel)]="searchOptions" inputId="ingredient1"></p-radioButton>
         <label for="ingredient1" class="ml-2">Food</label>
@@ -20,13 +20,13 @@
             <ng-template let-product pTemplate="item">
                 <div class="border-round m-2 text-center p-2" style="border: 1px solid var(--surface-d)">
                     <div class="my-5">
-                        <img [src]="'data:image/png;base64,' + product.foodImages[0].imageBase64" [alt]="product.name"
+                        <img [src]="'data:image/png;base64,' + product.foodImages[0].imageBase64" [alt]="product.name" (click)="onFoodDetail(product.foodId)"
                             class="shadow-4" width="50%" />
                     </div>
                     <div>
                         <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>
                         <div class="product-description">Ordered: {{product.numberOrdered}}</div>
-                        <h5 class="mb-1">{{product.name}}</h5>
+                        <h5 class="mb-1" (click)="onFoodDetail(product.foodId)">{{product.name}}</h5>
                         <h6 class="mt-0 mb-3">${{product.unitPrice}}</h6>
                         <div class="my-5">
                             <button pButton pRipple icon="pi pi-search" class="mr-2 p-button-rounded" (click)="onFoodDetail(product.foodId)"></button>
