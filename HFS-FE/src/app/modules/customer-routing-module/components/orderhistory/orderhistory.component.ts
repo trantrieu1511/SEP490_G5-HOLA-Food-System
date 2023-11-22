@@ -21,6 +21,8 @@ import * as API from '../../../../services/apiURL';
 import { TabView, TabViewChangeEvent } from 'primeng/tabview';
 import { RateInput } from '../../models/RateInput.model';
 import { FileRemoveEvent, FileSelectEvent, FileUpload } from 'primeng/fileupload';
+import { AuthService } from 'src/app/services/auth.service';
+
 @Component({
   selector: 'app-orderhistory',
   templateUrl: './orderhistory.component.html',
@@ -66,7 +68,8 @@ export class OrderhistoryComponent
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public authService: AuthService
   ) {
     super(messageService);
   }

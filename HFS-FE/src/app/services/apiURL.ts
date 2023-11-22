@@ -196,7 +196,7 @@ export class API_ORDERCUSTOMER {
 export class API_POSTREPORT {
     public static GET_ALL_POSTREPORT = "getallpostreports";
     public static APPROVE_NOTAPPROVE_POSTREPORT = "approvenotapprovepostreport";
-    public static CREATE_NEW_POSTREPORT = "createnewpostreports"
+    public static CREATE_NEW_POSTREPORT = "createnewpostreport"
 }
 
 export class API_FOODREPORT {

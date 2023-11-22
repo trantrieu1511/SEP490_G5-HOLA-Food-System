@@ -16,13 +16,14 @@ import {
 import { FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
 import { Router } from '@angular/router';
 import { PostReport } from '../../models/postreport.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-customerpostreport',
   templateUrl: './customerpostreport.component.html',
   styleUrls: ['./customerpostreport.component.scss']
 })
-export class CustomerpostreportComponent extends iComponentBase implements OnInit{
+export class CustomerpostreportComponent extends iComponentBase implements OnInit {
   lstPostReport: PostReport[] = [];
   contentDialog: PostReport = new PostReport(); // entity used in view report detail
   postReport: PostReport = new PostReport(); // entity used in function cancel report
@@ -37,6 +38,7 @@ export class CustomerpostreportComponent extends iComponentBase implements OnIni
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     public router: Router,
+    public authService: AuthService
     // private appCustomerTopBarComponent: AppCustomerTopBarComponent
   ) {
     super(messageService);
@@ -72,14 +74,24 @@ export class CustomerpostreportComponent extends iComponentBase implements OnIni
     const yyyy = date.getFullYear();
     let mm = date.getMonth() + 1; // Months start at 0!
     let dd = date.getDate();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+
     let ddstr = '';
     let mmstr = '';
+    let hourstr = '';
+    let minutestr = '';
+    let secondstr = '';
 
     if (dd < 10) ddstr = '0' + dd;
     if (mm < 10) mmstr = '0' + mm;
+    if (hours < 10) hourstr = '0' + hours;
+    if (minutes < 10) minutestr = '0' + minutes;
+    if (seconds < 10) secondstr = '0' + seconds;
 
-    const formattedDate = dd + '/' + mm + '/' + yyyy;
-    const time = postrp.createDate.split('T')[1];
+    const formattedDate = (ddstr != '' ? ddstr : dd) + '/' + (mmstr != '' ? mmstr : mm) + '/' + yyyy;
+    const time = (hourstr != '' ? hourstr : hours) + ':' + (minutestr != '' ? minutestr : minutes) + ':' + (secondstr != '' ? secondstr : seconds);
     this.contentDialog = Object.assign({}, postrp); // Để dòng lệnh bên dưới dòng này không bind ngược lại vào postrp
     this.contentDialog.createDate = formattedDate + ' ' + time;
     this.visibleContentDialog = true;

@@ -12,11 +12,11 @@ namespace HFS_BE.BusinessLogic.ManagePost
         {
         }
 
-        public BaseOutputDto BanUnbanPost(PostBanUnbanInputDto inputDto) {
+        public BaseOutputDto BanUnbanPost(PostBanUnbanInputDto inputDto, string userId) {
             try
             {
                 var postDao = CreateDao<PostDao>();
-                return postDao.BanUnbanPost(inputDto);
+                return postDao.BanUnbanPost(inputDto, userId);
             }
             catch (Exception)
             {

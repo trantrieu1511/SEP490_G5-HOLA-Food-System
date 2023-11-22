@@ -216,18 +216,21 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POST, API.API_POST.BAN_UNBAN, param, true);
 
       if (response && response.message === "Success") {
-        this.showMessage(mType.success, "Notification", `${message} postId: ${post.postId} successfully`, 'notify');
         console.log(message + ' postId: ' + post.postId + ' successfully');
+        this.showMessage(mType.success, "Notification", `${message} postId: ${post.postId} successfully`, 'notify');
         //lấy lại danh sách All 
         this.getAllPost();
 
       } else {
-        var messageError = this.iServiceBase.formatMessageError(response);
-        console.log(messageError);
-        this.showMessage(mType.error, response.message, messageError, 'notify');
+        // var messageError = this.iServiceBase.formatMessageError(response);
+        // console.log(messageError);
+        console.log(response);
+        console.log(response.message);
+        this.showMessage(mType.error, "Error", response.message, 'notify');
       }
     } catch (e) {
       console.log(e);
+      this.showMessage(mType.error, "Error", "BE error, please contact admin for further help.", 'notify');
     }
   }
 

@@ -1,0 +1,275 @@
+<!-- <div>All time statistics: </div>
+<p>total post in the system</p>
+<p>total banned post in the system</p>
+<p>total pending post report</p>
+<p>total approved post report</p>
+<p>total not approved post report</p>
+<p>Số post mà post mod này đã ban theo dòng thời gian</p>
+
+<div>Current month statistics: </div>
+<p>total pending post report</p>
+<p>total approved post report</p>
+<p>total not approved post report</p>
+<p>total post in the system</p>
+<p>total banned post in the system</p>
+<p>Số post mà post mod này đã ban theo dòng thời gian</p> -->
+
+<!-- <div class="dashboard-content">
+    <div class="all-time-statistics">
+        <h2>All time statistics: </h2><br>
+        <div class="grid no-gutter">
+            <div class="col-6"></div>
+            <div class="card col-6 md:col-6">
+                <div class="data-card">Total post in the system</div>
+            </div>
+            <div class="card col-6 md:col-6">
+                <div class="data-card">Total banned post in the system</div>
+            </div>
+            <div class="card col-6 md:col-6">
+                <div class="data-card">Total pending post report</div>
+            </div>
+            <div class="card col-6 md:col-6">
+                <div class="data-card">Total approved post report</div>
+            </div>
+            <div class="card col-6 md:col-6">
+                <div class="data-card">Total not approved post report</div>
+            </div>
+        </div>
+        <div class="card">Chart</div>
+    </div>
+    <div class="current-month-statistics">
+        <h3>Current month statistics: </h3>
+        <div class="card">Total post in the system</div>
+        <div class="card">Total banned post in the system</div>
+        <div class="card">Total pending post report</div>
+        <div class="card">Total approved post report</div>
+        <div class="card">Total not approved post report</div>
+        <div class="card">Chart</div>
+    </div>
+
+</div> -->
+
+<div class="grid table-demo">
+    <div class="col-12">
+        <div class="card">
+            <h2>All time statistics: </h2>
+
+            <div class="col-12 md:col-12">
+                <!-- <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+                  <label style="margin-right: 1rem">Data time: </label>
+                  <p-calendar
+                    [(ngModel)]="rangeDates"
+                    selectionMode="range"
+                    [readonlyInput]="true"
+                    [maxDate]="currentDate"
+                    (onClose)="onCloseCalendar($event)"
+                  ></p-calendar>
+                </div> -->
+            </div>
+
+            <div class="overview-list">
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total posts in the system: </div>
+                    </span>
+                    <div class="data">
+                        <span>999</span>
+                        <!-- <div class="data-percent"
+                            [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0"
+                        >
+                            {{data.orderCountPercent}}%
+                        </div> -->
+                        <!-- <div class="data-percent">
+                            999%
+                        </div> -->
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total banned posts in the system: </div>
+                    </span>
+                    <div class="data">
+                        <span>999</span>
+                        <!-- <div class="data-percent"
+                            [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0"
+                        >
+                            {{data.orderCountPercent}}%
+                        </div> -->
+                        <!-- <div class="data-percent">
+                            999%
+                        </div> -->
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total pending post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>999</span>
+                        <!-- <div class="data-percent"
+                            [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0"
+                        >
+                            {{data.orderCountPercent}}%
+                        </div> -->
+                        <!-- <div class="data-percent">
+                            999%
+                        </div> -->
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total approved post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>999</span>
+                        <!-- <div class="data-percent"
+                            [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0"
+                        >
+                            {{data.orderCountPercent}}%
+                        </div> -->
+                        <!-- <div class="data-percent">
+                            999%
+                        </div> -->
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total not approved post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>999</span>
+                        <!-- <div class="data-percent"
+                            [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0"
+                        >
+                            {{data.orderCountPercent}}%
+                        </div> -->
+                        <!-- <div class="data-percent">
+                            999%
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- <p-chart *ngIf="isDisplayChart" type="line" [data]="data" [options]="options"></p-chart> -->
+            <!-- <p-chart type="bar" [data]="data" [options]="options"></p-chart> -->
+
+        </div>
+        <div class="card">
+            <h2>This month's statistics: </h2>
+
+            <div class="col-12 md:col-12">
+                <!-- <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+                  <label style="margin-right: 1rem">Data time: </label>
+                  <p-calendar
+                    [(ngModel)]="rangeDates"
+                    selectionMode="range"
+                    [readonlyInput]="true"
+                    [maxDate]="currentDate"
+                    (onClose)="onCloseCalendar($event)"
+                  ></p-calendar>
+                </div> -->
+            </div>
+
+            <div class="overview-list">
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total posts in the system: </div>
+                    </span>
+                    <div class="data">
+                        <span>999</span>
+                        <!-- <div class="data-percent"
+                            [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0"
+                        >
+                            {{data.orderCountPercent}}%
+                        </div> -->
+                        <!-- <div class="data-percent">
+                            999%
+                        </div> -->
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total banned posts in the system: </div>
+                    </span>
+                    <div class="data">
+                        <span>999</span>
+                        <!-- <div class="data-percent"
+                            [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0"
+                        >
+                            {{data.orderCountPercent}}%
+                        </div> -->
+                        <!-- <div class="data-percent">
+                            999%
+                        </div> -->
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total pending post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>999</span>
+                        <!-- <div class="data-percent"
+                            [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0"
+                        >
+                            {{data.orderCountPercent}}%
+                        </div> -->
+                        <!-- <div class="data-percent">
+                            999%
+                        </div> -->
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total approved post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>999</span>
+                        <!-- <div class="data-percent"
+                            [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0"
+                        >
+                            {{data.orderCountPercent}}%
+                        </div> -->
+                        <!-- <div class="data-percent">
+                            999%
+                        </div> -->
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total not approved post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>999</span>
+                        <!-- <div class="data-percent"
+                            [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0"
+                        >
+                            {{data.orderCountPercent}}%
+                        </div> -->
+                        <!-- <div class="data-percent">
+                            999%
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- <p-chart *ngIf="isDisplayChart" type="line" [data]="data" [options]="options"></p-chart> -->
+            <p-chart type="line" [data]="data" [options]="options"></p-chart>
+
+        </div>
+    </div>
+
+</div>
+<cmis-loading></cmis-loading>

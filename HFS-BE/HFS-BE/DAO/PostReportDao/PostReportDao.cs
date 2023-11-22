@@ -97,28 +97,41 @@ namespace HFS_BE.DAO.PostReportDao
         {
             try
             {
-                // Find the post report by postId and reportBy in the context
-                PostReport? postReport = context.PostReports.Find(new object[] { inputDto.PostId, inputDto.ReportBy });
-                // Check whether post report exist or not
-                if (postReport == null)
+                // Check report approval limit (25 per day), neu lon hon 0 thi moi thuc hien viec approve/not approve. Khong thi khong approve/not approve nua
+                // Phong truong hop co nguoi lam nguoi khong lam (ReportApprovalLimit duoc reset vao 23h59 moi ngay)
+                if (context.PostModerators.SingleOrDefault(pm => pm.ModId.Equals(updateBy)).ReportApprovalLimit > 0)
                 {
-                    return Output<BaseOutputDto>(Constants.ResultCdFail, $"The post report with postId = {inputDto.PostId} and reportBy = {inputDto.ReportBy} is not exist. Please try again.");
-                }
-                // Update status to approve or not approve, and add some note (optional)
-                postReport.UpdateBy = updateBy;
-                postReport.UpdateDate = DateTime.Now;
-                if (inputDto.IsApproved)
-                {
-                    postReport.Status = 1;
+                    // Find the post report by postId and reportBy in the context
+                    PostReport? postReport = context.PostReports.Find(new object[] { inputDto.PostId, inputDto.ReportBy });
+                    // Check whether post report exist or not
+                    if (postReport == null)
+                    {
+                        return Output<BaseOutputDto>(Constants.ResultCdFail, $"The post report with postId = {inputDto.PostId} and reportBy = {inputDto.ReportBy} is not exist. Please try again.");
+                    }
+                    // Update status to approve or not approve, and add some note (optional)
+                    postReport.UpdateBy = updateBy;
+                    postReport.UpdateDate = DateTime.Now;
+                    if (inputDto.IsApproved)
+                    {
+                        postReport.Status = 1;
+                    }
+                    else
+                    {
+                        postReport.Status = 2;
+                    }
+                    postReport.Note = inputDto.Note; // optional
+
+                    // Reduce approval limit
+                    context.PostModerators.SingleOrDefault(pm => pm.ModId.Equals(updateBy)).ReportApprovalLimit -= 1;
+
+                    // Save the changes of the post report entity in the context to the db
+                    context.SaveChanges();
+                    return Output<BaseOutputDto>(Constants.ResultCdSuccess);
                 }
                 else
                 {
-                    postReport.Status = 2;
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Your limit of approve/not approve 25 posts per day have reached.");
                 }
-                postReport.Note = inputDto.Note; // optional
-                // Save the changes of the post report entity in the context to the db
-                context.SaveChanges();
-                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
             catch (Exception e)
             {

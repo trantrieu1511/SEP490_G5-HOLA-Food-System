@@ -6,6 +6,7 @@ export class Post{
     createdDate : Date;
     settatus :string;
     imagesBase64: ImageBase64[] = null;
+    isReported: boolean;
 }
 
 

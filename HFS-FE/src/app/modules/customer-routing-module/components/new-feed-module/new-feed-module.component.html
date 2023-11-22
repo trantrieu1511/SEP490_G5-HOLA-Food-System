@@ -1,3 +1,48 @@
+<p-dialog header="Reporting the post" [(visible)]="isVisiblePostReportModal" [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '500px' }" [draggable]="false" [resizable]="false"
+  [responsive]="true">
+  <div class="card">
+    <div class="align-items-center" style="padding-bottom: 5px;">
+      <div style="padding-bottom: 5px; font-style: italic;">
+        Các lý do phổ biến:
+      </div>
+      <div style="padding-bottom: 5px;">
+        <p-checkbox name="reportContent" (onChange)="enableDisablePostReportButtonSubmit();"
+          value="Bài viết có nội dung thô tục" [(ngModel)]="postReport.reportContents"
+          inputId="reportContent1"></p-checkbox>
+        <label for="reportContent1" class="ml-2">Bài viết có nội dung thô tục</label>
+      </div>
+      <div style="padding-bottom: 5px;">
+        <p-checkbox name="reportContent" (onChange)="enableDisablePostReportButtonSubmit();"
+          value="Bài viết có hình ảnh không liên quan đến thực phẩm" [(ngModel)]="postReport.reportContents"
+          inputId="reportContent2"></p-checkbox>
+        <label for="reportContent2" class="ml-2">Bài viết có hình ảnh không liên quan đến thực phẩm</label>
+      </div>
+      <div style="padding-bottom: 5px;">
+        <p-checkbox name="reportContent" (onChange)="enableDisablePostReportButtonSubmit();"
+          value="Bài viết có nội dung không liên quan đến thực phẩm" [(ngModel)]="postReport.reportContents"
+          inputId="reportContent3"></p-checkbox>
+        <label for="reportContent3" class="ml-2">Bài viết có nội dung không liên quan đến thực phẩm</label>
+      </div>
+    </div>
+    <br>
+    <div style="padding-bottom: 5px;">
+      <p-checkbox name="reportContent" (onChange)="enableDisablePostReportTextArea($event);" value="Other"
+        inputId="reportContentOther"></p-checkbox>
+      <label for="reportContentOther" class="ml-2">Khác</label>
+    </div>
+    <span class="">
+      <textarea (change)="addValueToReportContentList();" [disabled]="isDisabledPostReportTextArea" class="w-full"
+        id="float-input" rows="5" cols="50" [(ngModel)]="postReport.reportContent" placeholder="Điền lý do khác"
+        pInputTextarea></textarea>
+    </span>
+  </div>
+  <strong>Lưu ý: Bạn sẽ không thể hủy sau khi đã tố cáo</strong>
+  <br>
+  <br>
+  <p-button [disabled]="isDisabledPostReportBtnSubmit" (click)="submitReport()">Save</p-button>
+</p-dialog>
+
 <div class="app-new-feed">
   <h1>New Feed</h1>
   <h2>FU HOLA</h2>
@@ -38,32 +83,29 @@
     </div>
     <div class="actions">
       <div class="emote">
-        <i class="pi pi-thumbs-up like" ></i>
-        <i class="pi pi-share-alt share" ></i>  
+        <i class="pi pi-thumbs-up like"></i>
+        <i class="pi pi-share-alt share"></i>
       </div>
-      <button pButton pRipple label="Comment" 
-        (click)="OnCommnent($event, item)" 
-        class="p-button-link p-comment" 
-        icon="pi pi-comment"
-        ></button>
+      <button pButton pRipple label="Comment" (click)="OnCommnent($event, item)" class="p-button-link p-comment"
+        icon="pi pi-comment"></button>
     </div>
 
-    <div *ngIf="lstComment.length > 0"  class="comments">
-      
+    <div *ngIf="lstComment.length > 0" class="comments">
+
       <div *ngFor="let com of lstComment" class="comment">
         <img src="https://petmaster.vn/petroom/wp-content/uploads/2020/04/meo-anh-1.jpg" alt="Avatar" />
         <div class="comment-content">
           <div class="comment-text">
-            <strong>{{com.customerName}}: {{com.commentContent}}</strong> 
+            <strong>{{com.customerName}}: {{com.commentContent}}</strong>
           </div>
           <div class="comment-actions">
-            <i class="far fa-thumbs-up"></i> 
-            <i class="far fa-comment-alt"></i> 
+            <i class="far fa-thumbs-up"></i>
+            <i class="far fa-comment-alt"></i>
             <i class="far fa-share-square"></i>
           </div>
         </div>
       </div>
-      
+
     </div>
     <!-- <form class="comment-form">
       <label for="comment">Bình luận của bạn:</label>
@@ -97,4 +139,7 @@
   </p-dialog>
   
 
+
 </div>
+
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>

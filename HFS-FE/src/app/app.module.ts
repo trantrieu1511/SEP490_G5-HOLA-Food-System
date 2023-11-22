@@ -66,6 +66,7 @@ import { NewFeedModuleComponent } from './modules/customer-routing-module/compon
 import { ManageprofileComponent } from './profile/manageprofile.component';
 import { WalletComponentSeller } from './modules/seller-routing-module/components/wallet/wallet.component';
 import { SearchComponent } from './modules/customer-routing-module/components/search/search.component';
+import { AppMenuMyaccountComponent } from './app-systems/app-menu/myaccount/app-menu-myaccount.component';
 
 @NgModule({
   declarations: [
@@ -91,19 +92,19 @@ import { SearchComponent } from './modules/customer-routing-module/components/se
     InvitationShipperComponent,
     ManageSellerModuleComponent,
     ManageShipperModuleComponent,
-    OrderhistoryComponent,
     ManageCategoryModuleComponent,
-    WalletComponent,
+    // OrderhistoryComponent,
+    // WalletComponent,
     PaymentverifyComponent,
     AppNavbarComponent,
     ManageMenumoderatorModuleComponent,
-    ManageprofileComponent,
-    OrderhistoryComponent,
+    // ManageprofileComponent,
     AppNavbarComponent,
     ManageCategoryModuleComponent,
     NewFeedModuleComponent,
     WalletComponentSeller,
-    SearchComponent,
+    SearchComponent
+    // AppMenuMyaccountComponent
   ],
   imports: [
     BrowserAnimationsModule,

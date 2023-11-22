@@ -26,15 +26,23 @@
                         </th> -->
                         <th pSortableColumn="foodId">
                             <div class="flex justify-content-between align-items-center">
-                                FoodId
+                                Food id
                                 <p-sortIcon field="foodId"></p-sortIcon>
                                 <p-columnFilter type="numeric" field="foodId" display="menu"
                                     class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
+                        <th pSortableColumn="foodName">
+                            <div class="flex justify-content-between align-items-center">
+                                Food name
+                                <p-sortIcon field="foodName"></p-sortIcon>
+                                <p-columnFilter type="text" field="foodName" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
                         <th pSortableColumn="reportBy">
                             <div class="flex justify-content-between align-items-center">
-                                ReportBy
+                                Report by
                                 <p-sortIcon field="reportBy"></p-sortIcon>
                                 <p-columnFilter type="text" field="reportBy" display="menu"
                                     class="ml-auto"></p-columnFilter>
@@ -42,7 +50,7 @@
                         </th>
                         <th pSortableColumn="reportContent">
                             <div class="flex justify-content-between align-items-center">
-                                Report Content
+                                Report content
                                 <p-sortIcon field="reportContent"></p-sortIcon>
                                 <p-columnFilter type="text" field="reportContent" display="menu"
                                     class="ml-auto"></p-columnFilter>
@@ -50,7 +58,7 @@
                         </th>
                         <th pSortableColumn="createDate">
                             <div class="flex justify-content-between align-items-center">
-                                Created Date
+                                Created date
                                 <p-sortIcon field="createDate"></p-sortIcon>
                                 <p-columnFilter type="text" field="createDate" display="menu"
                                     class="ml-auto"></p-columnFilter>
@@ -89,15 +97,19 @@
                             <span class="food-id">{{foodrp.foodId}}</span>
                         </td>
                         <td>
-                            <span class="p-column-title">reportBy</span>
-                            <span class="food-reportBy">{{foodrp.reportBy}}</span>
+                            <span class="p-column-title">foodName</span>
+                            {{foodrp.foodName}}
                         </td>
                         <td>
-                            <span class="p-column-title">Report Content</span>
+                            <span class="p-column-title">reportBy</span>
+                            {{foodrp.reportBy}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">ReportContent</span>
                             <p class="report-content" (click)="viewContentDetail(foodrp)">{{foodrp.reportContent}}</p>
                         </td>
                         <td>
-                            <span class="p-column-title">Created Date</span>
+                            <span class="p-column-title">CreatedDate</span>
                             {{foodrp.createDate}}
                         </td>
                         <td>

@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared-module/shared-module.module';
-import {HashLocationStrategy, LocationStrategy} from '@angular/common';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { SwitchCasesDirective } from './services/switch-case.directive';
-import {AppComponent} from '../../app.component';
+import { AppComponent } from '../../app.component';
 import { ComponentModule } from '../components-module/component.modules';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { FooddetailComponent } from './components/fooddetail/fooddetail.component';
@@ -20,20 +20,22 @@ import { CustomerpostreportComponent } from './components/customerpostreport/cus
 import { ManageshipaddressComponent } from './components/shipaddress/manageshipaddress.component';
 import { NewFeedModuleComponent } from './components/new-feed-module/new-feed-module.component';
 import { SearchComponent } from './components/search/search.component';
+import { AppMenuMyaccountComponent } from 'src/app/app-systems/app-menu/myaccount/app-menu-myaccount.component';
+import { ManageprofileComponent } from 'src/app/profile/manageprofile.component';
 
 const routes: Routes = [
-  {path: "cartdetail", component: CartdetailComponent},
-  {path: "checkout", component : CheckoutComponent},
-  {path: "orderhistory", component : OrderhistoryComponent},
-  {path: "wallet", component : WalletComponent},
-  {path: "paymentverify", component : PaymentverifyComponent},
-  {path: "newfeed", component : NewFeedModuleComponent},
+  { path: "cartdetail", component: CartdetailComponent },
+  { path: "checkout", component: CheckoutComponent },
+  { path: "orderhistory", component: OrderhistoryComponent },
+  { path: "wallet", component: WalletComponent },
+  { path: "paymentverify", component: PaymentverifyComponent },
+  { path: "newfeed", component: NewFeedModuleComponent },
   // -------------- My account page related routes -----------------
-  // {path: "profile", component : ManageprofileComponent},
-  {path: "menureport", component : CustomerfoodreportComponent},
-  {path: "postreport", component : CustomerpostreportComponent},
-  {path: "shipaddress", component : ManageshipaddressComponent},
-  
+  { path: "profile", component: ManageprofileComponent },
+  { path: "menureport", component: CustomerfoodreportComponent },
+  { path: "postreport", component: CustomerpostreportComponent },
+  { path: "shipaddress", component: ManageshipaddressComponent },
+
 ]
 
 
@@ -44,11 +46,14 @@ const routes: Routes = [
     CartdetailComponent,
     ShopdetailComponent,
     CheckoutComponent,
-    // ManageprofileComponent,
     SwitchCasesDirective,
+    OrderhistoryComponent,
+    WalletComponent,
+    ManageprofileComponent,
     CustomerfoodreportComponent,
     CustomerpostreportComponent,
     ManageshipaddressComponent,
+    AppMenuMyaccountComponent
   ],
   imports: [
     CommonModule,
@@ -57,9 +62,10 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [
+    // AppMenuMyaccountComponent
   ],
   providers: [
-    {provide: LocationStrategy, useClass: HashLocationStrategy}
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

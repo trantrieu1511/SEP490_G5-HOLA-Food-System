@@ -62,6 +62,8 @@ CREATE TABLE [dbo].[PostModerator](
 	[isBanned] [bit] not null DEFAULT('false'),
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
+	[banLimit] int default 25, -- Gioi han ban bai viet cua mot post moderator
+	[reportApprovalLimit] int default 25 -- Gioi approve/not approve post report cua mot post moderator
 )
 
 CREATE TABLE [dbo].[MenuModerator](
@@ -79,6 +81,8 @@ CREATE TABLE [dbo].[MenuModerator](
 	[isBanned] [bit] not null DEFAULT('false'),
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
+	[banLimit] int default 25, -- Gioi han ban thuc pham cua mot menu moderator
+	[reportApprovalLimit] int default 25 -- Gioi approve/not approve food report cua mot menu moderator
 )
 
 CREATE TABLE [dbo].[Customer](
@@ -113,7 +117,7 @@ CREATE TABLE [dbo].[Shipper](
 	[manageBy] [nvarchar](50) NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 	[isBanned] [bit] not null DEFAULT('false'),
-	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Shipper) da duoc admin xac nhan cho phep kinh doanh o HFS chua
+	--[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Shipper) da duoc admin xac nhan cho phep kinh doanh o HFS chua
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
 	CONSTRAINT FK_Shiper_Seller FOREIGN KEY (manageBy) REFERENCES [Seller]([sellerId]),
@@ -494,7 +498,7 @@ CREATE TABLE Invitation (
     SellerID NVARCHAR(50) NOT NULL,
     ShipperID NVARCHAR(50) NOT NULL,
      Accepted TINYINT NOT NULL DEFAULT 0,
-    CONSTRAINT PK_Invitation PRIMARY KEY (SellerID, ShipperID),
+    --CONSTRAINT PK_Invitation PRIMARY KEY (SellerID, ShipperID),
     CONSTRAINT FK_Invitation_Seller FOREIGN KEY (SellerID) REFERENCES Seller(sellerId),
     CONSTRAINT FK_Invitation_Shipper FOREIGN KEY (ShipperID) REFERENCES Shipper(shipperId)
 );

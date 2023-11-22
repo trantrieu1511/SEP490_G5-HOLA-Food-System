@@ -5,6 +5,7 @@ export class PostReport {
   postContent: string;
   reportBy: string;
   reportContent: string;
+  reportContents: string[] = [];
   createDate: string;
   updateDate: string;
   updateBy: string;

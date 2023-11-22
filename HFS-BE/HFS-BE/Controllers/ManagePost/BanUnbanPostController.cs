@@ -23,7 +23,7 @@ namespace HFS_BE.Controllers.ManagePost
             try
             {
                 var business = GetBusinessLogic<BanUnbanPostBusinessLogic>();
-                return business.BanUnbanPost(inputDto);
+                return business.BanUnbanPost(inputDto, GetUserInfor().UserId);
             }
             catch (Exception)
             {

@@ -36,37 +36,37 @@ namespace HFS_BE.DAO.UserDao
                     case "CU":
                         var customer = context.Customers.SingleOrDefault(cu => cu.CustomerId.Equals(userId));
                         if (customer == null)
-                            return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found. Please login first.");
+                            return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found.");
                         dataMapper = mapper.Map<Customer, UserProfile>(customer);
                         break;
                     case "SE":
                         var seller = context.Sellers.SingleOrDefault(se => se.SellerId.Equals(userId));
                         if (seller == null)
-                            return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found. Please login first.");
+                            return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found.");
                         dataMapper = mapper.Map<Seller, UserProfile>(seller);
                         break;
                     case "SH":
                         var shipper = context.Shippers.SingleOrDefault(sh => sh.ShipperId.Equals(userId));
                         if (shipper == null)
-                            return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found. Please login first.");
+                            return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found.");
                         dataMapper = mapper.Map<Shipper, UserProfile>(shipper);
                         break;
                     case "AD":
                         var admin = context.Admins.SingleOrDefault(ad => ad.AdminId.Equals(userId));
                         if (admin == null)
-                            return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found. Please login first.");
+                            return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found.");
                         dataMapper = mapper.Map<Admin, UserProfile>(admin);
                         break;
                     case "PM":
                         var postModerator = context.PostModerators.SingleOrDefault(pm => pm.ModId.Equals(userId));
                         if (postModerator == null)
-                            return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found. Please login first.");
+                            return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found.");
                         dataMapper = mapper.Map<PostModerator, UserProfile>(postModerator);
                         break;
                     case "MM":
                         var menuModerator = context.MenuModerators.SingleOrDefault(mm => mm.ModId.Equals(userId));
                         if (menuModerator == null)
-                            return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found. Please login first.");
+                            return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found.");
                         dataMapper = mapper.Map<MenuModerator, UserProfile>(menuModerator);
                         break;
                     default:
