@@ -12,11 +12,11 @@ namespace HFS_BE.BusinessLogic.ManageFood
         {
         }
 
-        public BaseOutputDto BanUnbanFood(FoodBanUnbanInputDto inputDto) {
+        public BaseOutputDto BanUnbanFood(FoodBanUnbanInputDto inputDto, string userId) {
             try
             {
                 var dao = CreateDao<FoodDao>();
-                return dao.BanUnbanFood(inputDto);
+                return dao.BanUnbanFood(inputDto, userId);
             }
             catch (Exception)
             {

@@ -22,7 +22,7 @@ namespace HFS_BE.Controllers.ManageFood
             try
             {
                 var business = GetBusinessLogic<BanUnbanFoodBusinessLogic>();
-                return business.BanUnbanFood(inputDto);
+                return business.BanUnbanFood(inputDto, GetUserInfor().UserId);
             }
             catch (Exception)
             {

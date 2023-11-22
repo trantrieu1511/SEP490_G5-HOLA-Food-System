@@ -26,7 +26,7 @@
                         </th> -->
                         <th pSortableColumn="postId">
                             <div class="flex justify-content-between align-items-center">
-                                PostId
+                                Post id
                                 <p-sortIcon field="postId"></p-sortIcon>
                                 <p-columnFilter type="numeric" field="postId" display="menu"
                                     class="ml-auto"></p-columnFilter>
@@ -34,7 +34,7 @@
                         </th>
                         <th pSortableColumn="reportBy">
                             <div class="flex justify-content-between align-items-center">
-                                ReportBy
+                                Report by
                                 <p-sortIcon field="reportBy"></p-sortIcon>
                                 <p-columnFilter type="text" field="reportBy" display="menu"
                                     class="ml-auto"></p-columnFilter>
@@ -42,7 +42,7 @@
                         </th>
                         <th pSortableColumn="reportContent">
                             <div class="flex justify-content-between align-items-center">
-                                Report Content
+                                Report content
                                 <p-sortIcon field="reportContent"></p-sortIcon>
                                 <p-columnFilter type="text" field="reportContent" display="menu"
                                     class="ml-auto"></p-columnFilter>
@@ -50,7 +50,7 @@
                         </th>
                         <th pSortableColumn="createDate">
                             <div class="flex justify-content-between align-items-center">
-                                Created Date
+                                Created date
                                 <p-sortIcon field="createDate"></p-sortIcon>
                                 <p-columnFilter type="text" field="createDate" display="menu"
                                     class="ml-auto"></p-columnFilter>
@@ -90,15 +90,17 @@
                         </td>
                         <td>
                             <span class="p-column-title">reportBy</span>
-                            <span class="post-reportBy">{{postrp.reportBy}}</span>
+                            <!-- <span class="post-reportBy"> -->
+                                {{postrp.reportBy}}
+                            <!-- </span> -->
                         </td>
                         <td>
-                            <span class="p-column-title">Report Content</span>
+                            <span class="p-column-title">ReportContent</span>
                             <span class="report-content"
                                 (click)="viewContentDetail(postrp)">{{postrp.reportContent}}</span>
                         </td>
                         <td>
-                            <span class="p-column-title">Created Date</span>
+                            <span class="p-column-title">CreatedDate</span>
                             {{postrp.createDate}}
                         </td>
                         <td>

@@ -74,14 +74,25 @@ export class CustomerfoodreportComponent extends iComponentBase implements OnIni
     const yyyy = date.getFullYear();
     let mm = date.getMonth() + 1; // Months start at 0!
     let dd = date.getDate();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+
     let ddstr = '';
     let mmstr = '';
+    let hourstr = '';
+    let minutestr = '';
+    let secondstr = '';
 
     if (dd < 10) ddstr = '0' + dd;
     if (mm < 10) mmstr = '0' + mm;
+    if (hours < 10) hourstr = '0' + hours;
+    if (minutes < 10) minutestr = '0' + minutes;
+    if (seconds < 10) secondstr = '0' + seconds;
 
-    const formattedDate = dd + '/' + mm + '/' + yyyy;
-    const time = foodrp.createDate.split('T')[1];
+
+    const formattedDate = (ddstr != '' ? ddstr : dd) + '/' + (mmstr != '' ? mmstr : mm) + '/' + yyyy;
+    const time = (hourstr != '' ? hourstr : hours) + ':' + (minutestr != '' ? minutestr : minutes) + ':' + (secondstr != '' ? secondstr : seconds);
     // this.contentDialog = foodrp; 
     this.contentDialog = Object.assign({}, foodrp); // Để dòng lệnh bên dưới dòng này không bind ngược lại vào foodrp
     this.contentDialog.createDate = formattedDate + ' ' + time;

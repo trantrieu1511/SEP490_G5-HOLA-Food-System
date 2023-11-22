@@ -93,6 +93,8 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       }
     } catch (e) {
       console.log(e);
+      this.showMessage(mType.error, 'Error'
+            , 'Internal server error, please contact admin for help.', 'notify');
     }
   }
 
@@ -156,6 +158,8 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     } catch (e) {
       // this.showMessage(mType.error, 'Error', e.message, 'notify');
       console.log(e);
+      this.showMessage(mType.error, 'Error'
+            , 'Internal server error, please contact admin for help.', 'notify');
     }
   }
 
@@ -270,7 +274,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
           console.log(response);
           console.log(response.message);
           this.showMessage(mType.success, 'Notification'
-            , 'Profile information updated successfully.', 'notify');
+            , 'Profile information update successfully.', 'notify');
 
           this.isVisibleOthersEditProfileDialog = false;
           this.isVisibleSellerEditProfileDialog = false;
@@ -286,10 +290,12 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
           console.log(response);
           console.log(response.message);
           this.showMessage(mType.error, 'Notification'
-            , 'Internal server error, please contact admin for help.', 'notify');
+            , 'Profile information update failed.', 'notify');
         }
       } catch (e) {
         console.log(e);
+        this.showMessage(mType.error, 'Error'
+            , 'Internal server error, please contact admin for help.', 'notify');
       }
     }
   }
@@ -344,6 +350,8 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       }
     } catch (e) {
       console.log(e);
+      this.showMessage(mType.error, 'Error'
+            , 'Internal server error, please contact admin for help.', 'notify');
     }
   }
 
@@ -388,6 +396,8 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       ;
     } catch (e) {
       console.log(e);
+      this.showMessage(mType.error, 'Error'
+            , 'Internal server error, please contact admin for help.', 'notify');
 
     }
     this.hideElement();

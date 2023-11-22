@@ -7,7 +7,7 @@ namespace HFS_BE.DAO.ShipperDao
         public string? ShipperId { get; set; }
         public string? ShipperName { get; set; }
         public string? Gender { get; set; }
-        public DateTime? BirthDate { get; set; }
+        public string? BirthDate { get; set; }
         public string Email { get; set; } = null!;
 		public string? PhoneNumber { get; set; }
 		public string? Avatar { get; set; }

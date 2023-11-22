@@ -114,11 +114,13 @@
                         </td> -->
                         <td>
                             <span class="p-column-title">ID</span>
-                            <span class="post-id">{{food.foodId}}</span>
+                            <span class="food-id">{{food.foodId}}</span>
                         </td>
                         <td>
                             <span class="p-column-title">SellerID</span>
-                            <span class="post-sellerId">{{food.sellerId}}</span>
+                            <!-- <span class="food-sellerId"> -->
+                                {{food.sellerId}}
+                            <!-- </span> -->
                         </td>
                         <td>
                             <span class="p-column-title">Category</span>
@@ -130,7 +132,7 @@
                         </td>
                         <td>
                             <span class="p-column-title">Description</span>
-                            <span class="post-content" (click)="viewContentDetail(food)">{{food.description}}</span>
+                            <span class="food-content" (click)="viewContentDetail(food)">{{food.description}}</span>
                         </td>
                         <td>
                             <span class="p-column-title">UnitPrice</span>

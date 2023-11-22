@@ -27,6 +27,8 @@ import { FooddetailComponent,
   SearchComponent, 
   ShopdetailComponent 
 } from './modules/customer-routing-module/customer-routing-module';
+import { PostreportManagementComponent } from './modules/postmoderator-routing-module/components/postreport-management/postreport-management.component';
+import { FoodreportManagementComponent } from './modules/menumoderator-routing-module/components/foodreport-management/foodreport-management.component';
 
 const routes: Routes = [
   // {
@@ -169,6 +171,18 @@ const routes: Routes = [
             component: ManageOrderComponent,
           },
           {
+            path: 'postreport-management',
+            canActivate: [authGuard],
+            data: { requiredRole: ['PostModerator'] },
+            component: PostreportManagementComponent,
+          },
+          {
+            path: 'menureport-management',
+            canActivate: [authGuard],
+            data: { requiredRole: ['MenuModerator'] },
+            component: FoodreportManagementComponent,
+          },
+          {
             path: 'shipper',
             canActivate: [authGuard],
             data: { requiredRole: 'Shipper' },
@@ -188,10 +202,14 @@ const routes: Routes = [
           },
           {
             path: 'postmoderator',
+            canActivate: [authGuard],
+            data: { requiredRole: 'PostModerator' },
             loadChildren: () => import('./modules/postmoderator-routing-module/postmoderator-routing.module').then(m => m.PostmoderatorRoutingModule),
           },
           {
             path: 'menumoderator',
+            canActivate: [authGuard],
+            data: { requiredRole: 'MenuModerator' },
             loadChildren: () => import('./modules/menumoderator-routing-module/menumoderator-routing.module').then(m => m.MenumoderatorRoutingModule),
           }
         ]

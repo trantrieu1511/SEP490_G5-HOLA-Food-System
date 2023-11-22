@@ -169,6 +169,12 @@ export class MenuDataService {
             routerLink: ['/HFSBusiness/post-management'],
             badgeClass: 'p-badge-success',
           },
+          {
+            label: 'Post Report Management',
+            icon: 'pi pi-fw pi-list',
+            routerLink: ['/HFSBusiness/postreport-management'],
+            badgeClass: 'p-badge-success',
+          },
         ],
       },
     ];
@@ -196,6 +202,12 @@ export class MenuDataService {
             label: 'Menu Management',
             icon: 'pi pi-fw pi-list',
             routerLink: ['/HFSBusiness/menu-management'],
+            badgeClass: 'p-badge-success',
+          },
+          {
+            label: 'Menu Report Management',
+            icon: 'pi pi-fw pi-list',
+            routerLink: ['/HFSBusiness/menureport-management'],
             badgeClass: 'p-badge-success',
           },
         ],

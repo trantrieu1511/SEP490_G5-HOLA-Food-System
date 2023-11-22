@@ -240,25 +240,49 @@ namespace HFS_BE.Dao.FoodDao
             }
         }
 
-        public BaseOutputDto BanUnbanFood(FoodBanUnbanInputDto input)
+        public BaseOutputDto BanUnbanFood(FoodBanUnbanInputDto input, string userId)
         {
             try
             {
-                // Get food
-                var food = context.Foods.SingleOrDefault(x => x.FoodId == input.FoodId);
-
-                if (input.isBanned)
+                // Check user role
+                if (userId.Substring(0, 2) != "MM")
                 {
-                    // set status banned
-                    food.Status = 3;
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Please login as a menu moderator before using this API");
+                }
+                // Check ban limit (25 per day), neu lon hon 0 thi moi thuc hien viec ban, neu khong thi se khong thuc hien viec ban nua. 
+                // Phong truong hop co nguoi lam nguoi khong lam (BanLimit duoc reset vao 23h59 moi ngay)
+                if (context.MenuModerators.SingleOrDefault(mm => mm.ModId.Equals(userId)).BanLimit > 0)
+                {
+                    // Get food
+                    var food = context.Foods.SingleOrDefault(x => x.FoodId == input.FoodId);
+
+                    // Check food is found or not
+                    if (food == null)
+                    {
+                        return Output<BaseOutputDto>(Constants.ResultCdFail, "Food not found");
+                    }
+
+                    if (input.isBanned)
+                    {
+                        // set status banned
+                        food.Status = 3;
+                    }
+                    else
+                    {
+                        //set status display
+                        food.Status = 1;
+                    }
+
+                    // Reduce ban/unban limit
+                    context.MenuModerators.SingleOrDefault(mm => mm.ModId.Equals(userId)).BanLimit -= 1;
+
                     context.SaveChanges();
                     return Output<BaseOutputDto>(Constants.ResultCdSuccess);
                 }
-                //set status display
-                food.Status = 1;
-                context.SaveChanges();
-
-                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+                else
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Your limit of banning 25 food per day have reached.");
+                }
             }
             catch (Exception)
             {
@@ -450,7 +474,7 @@ namespace HFS_BE.Dao.FoodDao
             catch (Exception)
             {
                 return this.Output<FoodShopDaoOutputDto>(Constants.ResultCdFail);
-            }           
+            }
         }
 
         private string RemoveAccents(string input)

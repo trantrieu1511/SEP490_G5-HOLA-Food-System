@@ -242,7 +242,8 @@
         <a id="profile-option" class="profile-sidebar-option-selected" href="#"
             onclick="event.preventDefault();">Profile</a>
         <div class="dash-line"></div>
-        <a id="myorder-option" class="profile-sidebar-option" href="#" onclick="event.preventDefault();">Order</a>
+        <a id="myorder-option" class="profile-sidebar-option" (click)="this.router.navigateByUrl('/orderhistory')"
+            href="#" onclick="event.preventDefault();">Order</a>
         <div class="dash-line"></div>
         <a id="shipaddress-option" class="profile-sidebar-option" (click)="this.router.navigateByUrl('/shipaddress')"
             href="#" onclick="event.preventDefault();">Ship address</a>
@@ -252,6 +253,10 @@
         <div class="dash-line"></div>
         <a id="menureport-option" class="profile-sidebar-option" (click)="this.router.navigateByUrl('/menureport')"
             href="#" onclick="event.preventDefault();">Menu report</a>
+        <div class="dash-line"></div>
+        <a id="menureport-option" class="profile-sidebar-option" (click)="this.router.navigateByUrl('/wallet')" href="#"
+            onclick="event.preventDefault();">Wallet</a>
+
         <!-- <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">Profile</button><hr>
         <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">MyOrder</button> -->
     </div>
@@ -303,8 +308,7 @@
                     <p class="field-title">Email: </p>
                     <!-- <div class="field-info" *ngIf="profileDisplay.email != undefined else RegisterEmail"> -->
                     <div class="field-info">
-                        {{profileDisplay.email}} <i *ngIf="profileDisplay.isVerified" class="pi pi-verified"
-                            style="color: green;"></i>
+                        {{profileDisplay.email}}
                         <!-- <div>
                             <a style="color: #6366F1;" class="edit-email-link" href="#"
                                 onClick="event.preventDefault();" (click)="doSomething();">Edit email</a>
@@ -377,6 +381,21 @@
                             profileDisplay.manageBy}} </p>
                     </div>
                     <hr>
+                </div>
+                <div *ngIf="this.authService.getRole() == 'SE' || this.authService.getRole() == 'SH'">
+                    <div style="display: flex;">
+                        <p class="field-title">Verified: </p>
+                        <!-- <p class="field-info" *ngIf="profileDisplay.phoneNumber != undefined else RegisterPhoneNumber"> -->
+                        <p class="field-info">
+                            <span>
+                                <i *ngIf="profileDisplay.isVerified" class="pi pi-verified"
+                                    style="color: green; font-size: large;"></i>
+                            </span>
+                            <span *ngIf="!profileDisplay.isVerified" style="color: red;">
+                                Not verified
+                            </span>
+                        </p>
+                    </div>
                 </div>
 
                 <p-button (click)="openSellerEditProfileDiaglog();"

@@ -429,12 +429,15 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
         this.getAllFood();
 
       } else {
-        var messageError = this.iServiceBase.formatMessageError(response);
-        console.log(messageError);
-        this.showMessage(mType.error, response.message, messageError, 'notify');
+        // var messageError = this.iServiceBase.formatMessageError(response);
+        // console.log(messageError);
+        console.log(response);
+        console.log(response.message);
+        this.showMessage(mType.error, "Error", response.message, 'notify');
       }
     } catch (e) {
       console.log(e);
+      this.showMessage(mType.error, "Error", "BE error, please contact admin for further help.", 'notify');
     }
   }
 
