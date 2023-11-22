@@ -210,7 +210,9 @@ namespace HFS_BE.Dao.FoodDao
 
         public Food? GetFoodById(int foodId)
         {
-            return context.Foods.FirstOrDefault(x => x.FoodId == foodId);
+            return context.Foods
+                .Include(x => x.Seller)
+                .FirstOrDefault(x => x.FoodId == foodId);
         }
 
 

@@ -2,21 +2,24 @@
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.FeedBackCustomer;
 using HFS_BE.DAO.FeedBackDao;
+using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace HFS_BE.Controllers.FeedBack
 {
 
-	public class FeedBackController : BaseController
+	public class FeedBackController : BaseControllerSignalR
 	{
-		public FeedBackController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
-		{
-		}
-		[HttpPost("users/addNewFeedback")]
+        public FeedBackController(SEP490_HFS_2Context context, IMapper mapper, IHubContextFactory hubContextFactory) : base(context, mapper, hubContextFactory)
+        {
+        }
+
+        [HttpPost("users/addNewFeedback")]
 		[Authorize]
 
 		public async Task<BaseOutputDto> AddNewFeedback([FromForm] AddFeedBackControllerInputDto input)
@@ -30,10 +33,17 @@ namespace HFS_BE.Controllers.FeedBack
 
 				inputBL.UserDto = this.GetUserInfor();
 
-				var output = business.AddNewFeedback(inputBL);
+				string? sellerId;
+				var output = business.AddNewFeedback(inputBL, out sellerId);
 
-				
-				return output;
+                if (output.Success)
+                {
+                    //notify for customer
+                    var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
+                    await notifyHub.Clients.Group(sellerId).SendAsync("notification");
+                }
+
+                return output;
 			}
 			catch (Exception)
 			{

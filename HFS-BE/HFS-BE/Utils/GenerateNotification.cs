@@ -131,6 +131,45 @@ namespace HFS_BE.Utils
             return notifyLst;
         }
 
+        public List<NotificationAddNewInputDto> GenNotificationOrderFeedBack(string receiver, int foodId)
+        {
+            var notifyLst = GenNotificationBase(receiver, "System", "System");
+
+            notifyLst[0].Title = "New Feedback";
+            notifyLst[0].Content = $"Food ID: {foodId} has additional feedback from buyers";
+
+            notifyLst[1].Title = "Phản hồi mới";
+            notifyLst[1].Content = $"Món ID: {foodId} có thêm phản hồi từ người mua";
+
+            return notifyLst;
+        }
+
+        public List<NotificationAddNewInputDto> GenNotificationFoodReport(string receiver, int foodId, string userId)
+        {
+            var notifyLst = GenNotificationBase(receiver, "System", "System");
+
+            notifyLst[0].Title = "New Report";
+            notifyLst[0].Content = $"Food Id({foodId}) has a new report from user id: {userId}";
+
+            notifyLst[1].Title = "Báo cáo mới";
+            notifyLst[1].Content = $"Food Id({foodId}) có báo cáo mới từ người dùng id: {userId}";
+
+            return notifyLst;
+        }
+
+        public List<NotificationAddNewInputDto> GenNotificationPostReport(string receiver, int postId, string userId)
+        {
+            var notifyLst = GenNotificationBase(receiver, "System", "System");
+
+            notifyLst[0].Title = "New Report";
+            notifyLst[0].Content = $"Post Id({postId}) has a new report from user id: {userId}";
+
+            notifyLst[1].Title = "Báo cáo mới";
+            notifyLst[1].Content = $"Post Id({postId}) có báo cáo mới từ người dùng id: {userId}";
+
+            return notifyLst;
+        }
+
 
         private List<NotificationAddNewInputDto> GenNotificationBase(string receiver, string sendBy, string notifyType)
         {
