@@ -43,6 +43,7 @@ namespace HFS_BE.DAO.FeedBackReplyDao
 				reply.FeedbackId = inputDto.FeedbackId;
 				reply.CustomerId = inputDto.CustomerId;
 				context.FeedbackReplies.Add(reply);
+				context.SaveChanges();
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}
 			catch (Exception)
