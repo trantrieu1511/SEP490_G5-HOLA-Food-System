@@ -116,6 +116,16 @@
                             Ban
                         </div>
                     </th>
+                       <th>
+                        <div class="flex justify-content-between align-items-center">
+                          ShopName
+                        </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                        ShopAddress
+                      </div>
+                  </th>
                       <th style="min-width: 8rem">
                           <div
                                class="flex justify-content-between align-items-center">
@@ -157,6 +167,7 @@
                         <span class="p-column-title">PhoneNumber</span>
                         {{user.phoneNumber}}
                     </td>
+
                       <!-- <td >
                         <span class="p-column-title">Online</span>
                         <div *ngIf="user.isOnline" style="color:chartreuse;">
@@ -194,6 +205,14 @@
                           Not Ban
                         </div>
                     </td>
+                    <td >
+                      <span class="p-column-title">ShopName</span>
+                      {{user.shopName}}
+                    </td>
+                      <td >
+                      <span class="p-column-title">ShopAddress</span>
+                      {{user.shopAddress}}
+                  </td>
                       <td style="text-align: center">
                           <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
                               <div class="flex align-items-center justify-content-center">

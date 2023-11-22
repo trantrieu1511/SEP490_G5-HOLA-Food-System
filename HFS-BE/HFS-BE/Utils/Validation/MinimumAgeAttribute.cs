@@ -5,10 +5,12 @@ namespace HFS_BE.Utils.Validation
 	public class MinimumAgeAttribute : ValidationAttribute
 	{
 		private readonly int _minimumAge;
+		private readonly int _maximumAge;
 
-		public MinimumAgeAttribute(int minimumAge)
+		public MinimumAgeAttribute(int minimumAge, int maximumAge)
 		{
 			_minimumAge = minimumAge;
+			_maximumAge = maximumAge;
 		}
 
 		protected override ValidationResult IsValid(object value, ValidationContext validationContext)
@@ -16,9 +18,9 @@ namespace HFS_BE.Utils.Validation
 			if (value is DateTime birthdate)
 			{
 				var age = CalculateAge(birthdate);
-				if (age < _minimumAge)
+				if (age < _minimumAge || age > _maximumAge)
 				{
-					return new ValidationResult($"You must be at least {_minimumAge} years old.");
+					return new ValidationResult($"Age must be between {_minimumAge} and {_maximumAge} years.");
 				}
 			}
 

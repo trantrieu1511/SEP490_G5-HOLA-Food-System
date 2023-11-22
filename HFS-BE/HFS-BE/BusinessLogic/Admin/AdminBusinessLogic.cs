@@ -5,6 +5,7 @@ using HFS_BE.Dao.AuthDao;
 using HFS_BE.DAO.AdminDao;
 using HFS_BE.DAO.AuthDAO;
 using HFS_BE.Models;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace HFS_BE.BusinessLogic.Admin
 {
@@ -27,6 +28,22 @@ namespace HFS_BE.BusinessLogic.Admin
 			}
 			catch (Exception)
 			{
+				throw;
+			}
+		}
+		public List<DashboadPieAdminOutputDto> GetDashBoadPie()
+		{
+			try
+			{
+				var Dao = this.CreateDao<AdminDao>();
+			
+				var daooutput = Dao.GetDashBoadPie();
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+
 				throw;
 			}
 		}

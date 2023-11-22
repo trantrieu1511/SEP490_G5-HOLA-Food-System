@@ -16,7 +16,7 @@ namespace HFS_BE.DAO.ModeratorDao
 		public string? Gender { get; set; }
 
 		[Required(ErrorMessage = "Birth date is required")]
-		[MinimumAge(18, ErrorMessage = "You must be at least 18 years old")]
+		[MinimumAge(18, 100, ErrorMessage = "You must be at least 18 years old and not older than 100 years old ")]
 		public DateTime? BirthDate { get; set; }
 
 		[PhoneNumber(ErrorMessage = "Invalid phone number.")]
@@ -51,7 +51,7 @@ namespace HFS_BE.DAO.ModeratorDao
 		public string? Gender { get; set; }
 
 		[Required(ErrorMessage = "Birth date is required")]
-		[MinimumAge(18, ErrorMessage = "You must be at least 18 years old")]
+		[MinimumAge(18, 100, ErrorMessage = "You must be at least 18 years old and not older than 100 years old ")]
 		public DateTime? BirthDate { get; set; }
 
 		[PhoneNumber(ErrorMessage = "Invalid phone number.")]
@@ -82,7 +82,7 @@ namespace HFS_BE.DAO.ModeratorDao
 		public string? Gender { get; set; }
 
 		[Required(ErrorMessage = "Birth date is required")]
-		[MinimumAge(18, ErrorMessage = "You must be at least 18 years old")]
+		[MinimumAge(18, 100, ErrorMessage = "You must be at least 18 years old and not older than 100 years old ")]
 		public DateTime? BirthDate { get; set; }
 
 		[PhoneNumber(ErrorMessage = "Invalid phone number.")]

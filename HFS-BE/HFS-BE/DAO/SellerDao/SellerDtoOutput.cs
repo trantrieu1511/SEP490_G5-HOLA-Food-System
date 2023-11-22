@@ -10,7 +10,7 @@ namespace HFS_BE.DAO.SellerDao
 		public string? Gender { get; set; }
 		public DateTime? BirthDate { get; set; }
 		public string Email { get; set; } = null!;
-		public long? PhoneNumber { get; set; }
+		public string? PhoneNumber { get; set; }
 		public string? Avatar { get; set; }
 		public bool IsOnline { get; set; }
 		public decimal? WalletBalance { get; set; }

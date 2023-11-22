@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.FeedBackCustomer;
+using HFS_BE.BusinessLogic.ReplyFeedBack;
 using HFS_BE.DAO.FeedBackDao;
 using HFS_BE.Hubs;
 using HFS_BE.Models;
@@ -71,5 +72,6 @@ namespace HFS_BE.Controllers.FeedBack
 				return this.Output<ListFeedBackOutputDtoBS>(Constants.ResultCdFail);
 			}
 		}
+	
 	}
 }

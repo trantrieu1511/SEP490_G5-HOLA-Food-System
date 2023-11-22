@@ -36,16 +36,16 @@ export class ManageMenumoderatorModuleComponent extends iComponentBase implement
     //    this.user = JSON.parse(userData);
     //    const token=sessionStorage.getItem('JWT');
     // this.presence.createHubConnection(token);
-    this.getAllCustomer();
+    this.getAllMM();
 
   }
 
-  async getAllCustomer() {
+  async getAllMM() {
     this.lstUser = [];
 
     try {
 
-   
+
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.LIST_MM,"");
 
         if (response && response.message === "Success") {
@@ -59,7 +59,7 @@ export class ManageMenumoderatorModuleComponent extends iComponentBase implement
     }
 }
 async BanModerator(user:MenuModeratorOutput){
-  
+
   const param = {
     "modId":user.modId,
    "isBanned":!user.isBanned
@@ -67,11 +67,11 @@ async BanModerator(user:MenuModeratorOutput){
   console.log(param)
 try {
 
-  
+
        let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.BAN_MM,param);
 
        if (response && response.message === "Success") {
-        this.getAllCustomer();
+        this.getAllMM();
         this.showMessage(mType.success, "Notification", "Ban "+user.modId+" successfully", 'notify');
        }
       ;
@@ -80,22 +80,23 @@ try {
        this.showMessage(mType.error, "Notification", e, 'notify');
    }
 }
-onCreatePostM() {
-  this.headerDialog = 'Add New PostModerator';
+onCreateMM() {
+  this.headerDialog = 'Add New Menu Moderator';
 
   this.menuM = new MenuModerator();
 
-
+  debugger;
   this.displayDialogAdd = true;
+  this.getAllMM();
 }
-  async onSavePostM() {
+  async onSaveMM() {
 
 console.log(this.menuM);
 
 let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.ADD_MM,this.menuM);
 try{
 if (response && response.message === "Success") {
- this.getAllCustomer();
+ this.getAllMM();
  this.showMessage(mType.success, "Notification", "Add "+this.menuM.email+" successfully", 'notify');
 }else{
   this.showMessage(mType.error, "Notification", response.message , 'notify');
@@ -107,7 +108,7 @@ this.showMessage(mType.error, "Notification", e, 'notify');
 }
 }
 
-onCancelPostM() {
+onCancelMM() {
   this.menuM = new MenuModerator();
 
 
@@ -115,10 +116,10 @@ onCancelPostM() {
 }
 UpdateModerator(user:MenuModerator){
   this.headerDialog = `Edit MenuModerator ID: ${user.modId}`;
+  debugger;
   this.menuM = user;
   console.log(this.menuM.birthDate)
   this.menuM.birthDate = new Date(this.menuM.birthDate)
-
   this.displayDialogAdd = true;
 }
 UpdateModeratorSucess(){

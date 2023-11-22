@@ -5,21 +5,23 @@ import {
   iServiceBase,
   mType,
 } from 'src/app/modules/shared-module/shared-module';
-import * as API from '../../../../services/apiURL';
+import * as API from '../../../services/apiURL';
 import { MessageService } from 'primeng/api';
-import { DashboardSeller } from '../../models/dashboard-seller.model';
-import { ColorLineChart } from 'src/app/utils/colorLineChart';
 
+import { ColorLineChart } from 'src/app/utils/colorLineChart';
+import { DashboardSeller } from '../../seller-routing-module/models/dashboard-seller.model';
 @Component({
-  selector: 'dashboard-seller',
-  templateUrl: './dashboard-seller.component.html',
-  styleUrls: ['./dashboard-seller.component.scss']
+  selector: 'app-dashboad-admin-module',
+  templateUrl: './dashboad-admin-module.component.html',
+  styleUrls: ['./dashboad-admin-module.component.scss']
 })
-export class DashboardSellerComponent extends iComponentBase implements OnInit{
+export class DashboadAdminModuleComponent extends iComponentBase implements OnInit {
   data: DashboardSeller;
 
   options: any;
+  datatron: any;
 
+  optionstron: any;
   rangeDates: Date[] | undefined;
   currentDate: Date = new Date();
   isDisplayChart: boolean = false;
@@ -37,7 +39,7 @@ export class DashboardSellerComponent extends iComponentBase implements OnInit{
 
   ngOnInit() {
     this.getAllData();
-
+this.bangtron();
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
@@ -121,10 +123,8 @@ export class DashboardSellerComponent extends iComponentBase implements OnInit{
     );
 
     if (response && response.success) {
-      debugger;
       this.data = response;
       if(this.data.datasets){
-
         const documentStyle = getComputedStyle(document.documentElement);
         this.data.datasets = this.data.datasets.map((element, index) => {
           element.borderColor = documentStyle.getPropertyValue(ColorLineChart[index]);
@@ -144,5 +144,40 @@ export class DashboardSellerComponent extends iComponentBase implements OnInit{
     let endDate = this.datePipe.transform(this.rangeDates[1], "yyyy-MM-dd");
     this.isDisplayChart = fromDate != endDate ? true : false;
     this.getAllData();
+  }
+
+  async bangtron(){
+    const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+        let dataFromApi=[];
+        debugger
+        try {
+          dataFromApi = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.DASHBOAD_ADMIN,"");
+         ;
+      } catch (e) {
+          console.log(e);
+
+      }
+        this.datatron = {
+            labels: dataFromApi.map(item => item.actor),
+            datasets: [
+                {
+                    data: dataFromApi.map(item => item.total),
+                    backgroundColor: ['blue', 'orange', 'green'],
+                   hoverBackgroundColor: ['lightblue', 'lightyellow', 'lightgreen']
+                }
+            ]
+        };
+
+        this.optionstron = {
+            plugins: {
+                legend: {
+                    labels: {
+                        usePointStyle: true,
+                        color: textColor
+                    }
+                }
+            }
+        };
   }
 }

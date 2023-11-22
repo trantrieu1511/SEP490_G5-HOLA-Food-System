@@ -166,5 +166,4 @@ app.MapHub<MessageHub>("hubs/message");
 app.MapControllers();
 app.MapHub<DataRealTimeHub>("hubs/dataRealTime");
 app.MapHub<NotificationHub>("hubs/notifyRealTime");
-
 app.Run();

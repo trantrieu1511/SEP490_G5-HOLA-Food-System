@@ -2,6 +2,7 @@
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Admin;
 using HFS_BE.BusinessLogic.Auth;
+using HFS_BE.DAO.AdminDao;
 using HFS_BE.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,20 @@ namespace HFS_BE.Controllers.Admin
 			}
 			catch (Exception ex)
 			{
+				throw;
+			}
+		}
+		[HttpPost("users/dashboadpie")]
+		public List<DashboadPieAdminOutputDto> GetDashBoadPie()
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<AdminBusinessLogic>();
+				return business.GetDashBoadPie();
+			}
+			catch (Exception ex)
+			{
+
 				throw;
 			}
 		}

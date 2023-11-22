@@ -41,6 +41,7 @@ using HFS_BE.DAO.TransantionDao;
 using static HFS_BE.Utils.Enum.CategoryStatusEnum;
 using HFS_BE.BusinessLogic.FeedBackCustomer;
 using HFS_BE.Controllers.FeedBack;
+using HFS_BE.BusinessLogic.ReplyFeedBack;
 
 namespace HFS_BE.Automapper
 {
@@ -340,6 +341,7 @@ namespace HFS_BE.Automapper
             CreateMap<ImageFileConvert.ImageOutputDto, CustomerImageOutputDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>();
 			CreateMap<ImageFileConvert.ImageOutputDto, FeedImageOutputDto>();
+			CreateMap<ImageFileConvert.ImageOutputDto, FeedSellerImageOutputDto>();
 		}
 
         public void Category()
@@ -413,6 +415,14 @@ namespace HFS_BE.Automapper
 				  .ForMember(dest => dest.ListVoted, opt => opt.MapFrom(src => src.FeedbackVotes));
 			CreateMap<FeedBackDaoOutputDtoImage, FeedBackDtoBL>();
 			CreateMap<GetFeedBackByFoodIdImageDaoOutputDto, ListFeedBackOutputDtoBS>();
+			CreateMap<ListFeedBackbySellerDaoOutputDto, ListFeedBackbySellerOutputDtoBL>();
+			CreateMap<FeedBackBySellerDaoOutputDto, ReplyFeedBackBLOutputDto>();
+			CreateMap<Feedback, FeedBackBySellerDaoOutputDto>() 
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.LastName))
+                .ForMember(dest => dest.DisplayDate, opt => opt.MapFrom(src => src.UpdateDate ?? src.CreatedDate))
+				  .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == true).ToList().Count))
+				  .ForMember(dest => dest.DisLikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == false).ToList().Count))
+                  .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name));
 		}
 
         public void Voucher()

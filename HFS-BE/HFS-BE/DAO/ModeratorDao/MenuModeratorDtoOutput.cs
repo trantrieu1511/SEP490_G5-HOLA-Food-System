@@ -14,6 +14,6 @@ namespace HFS_BE.DAO.ModeratorDao
 		public string? Avatar { get; set; }
 		public bool IsOnline { get; set; }
 		public bool ConfirmEmail { get; set; }
-
+		public bool? IsBanned { get; set; }
 	}
 }
