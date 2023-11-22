@@ -57,7 +57,7 @@ import { ManageCategoryModuleComponent } from './modules/admin-routing-module/ma
 import { CustomerfoodreportComponent } from './modules/customer-routing-module/components/customerfoodreport/customerfoodreport.component';
 import { CustomerpostreportComponent } from './modules/customer-routing-module/components/customerpostreport/customerpostreport.component';
 
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppNavbarComponent } from './app-systems/app-navbar/app-navbar.component';
 import { ManageMenumoderatorModuleComponent } from './modules/admin-routing-module/manage-menumoderator-module/manage-menumoderator-module.component';

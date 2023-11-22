@@ -14,5 +14,9 @@
     "forgotPassword": "Forgot password",
     "createToday": "Create today",
     "clickHere": "Click here"
+  },
+
+  "orderScreen": {
+    "allOrder": "All Order"
   }
 }

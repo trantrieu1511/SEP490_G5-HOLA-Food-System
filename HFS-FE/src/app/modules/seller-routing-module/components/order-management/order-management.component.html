@@ -48,16 +48,16 @@
           <tr class="tr-th_background-color">
             <th style="width: 5rem"></th>
             <th pSortableColumn="orderId">
-              OrderId <p-sortIcon field="orderId"></p-sortIcon>
+              Id <p-sortIcon field="orderId"></p-sortIcon>
             </th>
             <th pSortableColumn="customerName">
               Customer <p-sortIcon field="customerName"></p-sortIcon>
             </th>
-            <th pSortableColumn="orderDate">
-              OrderDate <p-sortIcon field="orderDate"></p-sortIcon>
-            </th>
             <th pSortableColumn="shipAddress">
-              Ship Address <p-sortIcon field="shipAddress"></p-sortIcon>
+              Information Ship <p-sortIcon field="shipAddress"></p-sortIcon>
+            </th>
+            <th pSortableColumn="orderDate">
+              Order date <p-sortIcon field="orderDate"></p-sortIcon>
             </th>
             <th pSortableColumn="voucher">
               Voucher <p-sortIcon field="voucher"></p-sortIcon>
@@ -104,8 +104,12 @@
             </td>
             <td>{{ order.orderId }}</td>
             <td>{{ order.customerName }}</td>
+            <td>
+              Phone: <a href="tel:+{{ order.phoneNumber }}">{{ order.phoneNumber }}</a> 
+              <br/>
+              Address: {{ order.shipAddress }}
+            </td>
             <td>{{ order.orderDate }}</td>
-            <td>{{ order.shipAddress }}</td>
             <td *ngIf="order.voucherId; else noneVoucher">(Id:{{order.voucherId}}) -{{ order.discountAmount | currency : "VND" }}</td>
             <ng-template #noneVoucher>
               <td class="no-voucher">None</td>

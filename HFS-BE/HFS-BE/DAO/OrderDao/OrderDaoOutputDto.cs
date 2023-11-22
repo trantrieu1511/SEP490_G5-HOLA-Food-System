@@ -82,6 +82,7 @@ namespace HFS_BE.Dao.OrderDao
         public int? OrderId { get; set; }
         public string? CustomerId { get; set; }
         public string? CustomerName { get; set; }
+        public string? PhoneNumber { get; set; }
         public string? OrderDate { get; set; }
         public string? RequiredDate { get; set; }
         public string? ShippedDate { get; set; }

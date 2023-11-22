@@ -141,6 +141,7 @@ namespace HFS_BE.Dao.OrderDao
             try
             {
                 var query = context.Orders
+                    .OrderByDescending(x => x.OrderDate)
                     .Include(x => x.OrderDetails).ThenInclude(x => x.Food)
                         .ThenInclude(f => f.Category)
                     .Include(x => x.OrderDetails).ThenInclude(x => x.Food)

@@ -2,6 +2,7 @@ export class Order{
   orderId: number;
   customerId: string;
   customerName: string;
+  phoneNumber: string;
   orderDate: string;
   shippedDate: string;
   shipAddress: string;

@@ -1,7 +1,7 @@
 <div class="grid table-demo">
     <div class="col-12">
         <div class="card">
-            <h5>All Order</h5>
+            <h5>{{'orderScreen.allOrder' | translate}}</h5>
             <p-tabMenu (activeItemChange)="onChangeTab($event)"[model]="items" [activeItem]="activeItem">
                 <ng-template [scrollable]="true" class="flex flex-row flex-wrap" pTemplate="item" let-item let-i="index">
                     {{item.label}}

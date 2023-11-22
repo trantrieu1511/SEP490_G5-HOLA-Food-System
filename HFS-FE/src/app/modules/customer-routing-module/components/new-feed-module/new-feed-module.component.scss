@@ -1,6 +1,9 @@
 
 :host ::ng-deep {
-
+  .title-app{
+    padding-left: 2rem;
+    color: #8458B3;
+  }
 
   .app-new-feed{
     width: 55%;
@@ -83,7 +86,7 @@
       display: flex;
       flex-wrap: wrap;
       position: relative;
-
+      margin-top: 2rem;
       img{
         height: 15rem;
         width: 100%;
@@ -111,7 +114,7 @@
           position: absolute;
           left: 0;
           right: 0;
-          bottom: 0;
+          bottom: 0.25rem;
           top: 0;
           background-color: #11111159;
           display: flex;
@@ -144,7 +147,16 @@
     }
   }
 
+  .p-galleria-close{
+    position: absolute !important;
+    
+  }
+
   @media screen and (max-width: 960px){
+    .p-galleria-close{
+      top: 4rem;
+    }
+
 		.app-new-feed{
       width: 90%;
       margin: 0 auto;

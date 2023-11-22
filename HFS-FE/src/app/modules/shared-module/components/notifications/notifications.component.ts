@@ -143,10 +143,10 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
       url = 'HFSBusiness' + url;
     }
 
-    const index = this.lstNotification.findIndex(notification => notification.id === notifyId);
-      if (index !== -1) {
-        this.lstNotification[index].isRead = true;
-      }
+    // const index = this.lstNotification.findIndex(notification => notification.id === notifyId);
+    //   if (index !== -1) {
+    //     this.lstNotification[index].isRead = true;
+    //   }
 
     // move to page read
     this._route.navigate([url]);
