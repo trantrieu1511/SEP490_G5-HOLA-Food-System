@@ -1,36 +1,70 @@
-<h1>New Feed</h1>
-<h2>FU HOLA</h2>
+<div class="app-new-feed">
+  <h1>New Feed</h1>
+  <h2>FU HOLA</h2>
 
-<div *ngFor="let item of listPost" class="post">
-    <div >      
-        <!-- data:image/gif;base64,{{postImage.imageBase64}} -->
-        <img src="data:image/gif;base64,{{item.imagesBase64[0].imageBase64}}" alt="Ảnh minh họa 1" />
-        <p>{{item.postContent}}</p>
-        <div class="actions">
-          <i class="fas fa-thumbs-up like" data-likes="0"></i>
-          <i class="fas fa-share share" data-shares="0"></i>
-        </div>
-        <button pButton pRipple label="Comment" (click)="OnCommnent(item)" class="p-button-success" ></button>
-
-        <div *ngIf="lstComment.length > 0"  class="comments">
-          
-          <div *ngFor="let com of lstComment" class="comment">
-            <img src="https://petmaster.vn/petroom/wp-content/uploads/2020/04/meo-anh-1.jpg" alt="Avatar" />
-            <div class="comment-content">
-              <div class="comment-text">
-                <strong>{{com.customerName}}: {{com.commentContent}}</strong> 
-              </div>
-              <div class="comment-actions">
-                <i class="far fa-thumbs-up"></i> <i class="far fa-comment-alt"></i> <i class="far fa-share-square"></i>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-        <form class="comment-form">
-          <label for="comment">Bình luận của bạn:</label>
-          <textarea id="comment" name="comment" [(ngModel)]="commentModel.commentContent" rows="4"></textarea>
-          <button pButton pRipple label="Comment" (click)="OnSaveCommnent()" class="p-button-success" ></button>
-        </form>
+  <div *ngFor="let item of listPost" class="post">
+    <div class="post-infor">
+      <h4 class="shop-name">{{item.shopName}}</h4>
+      <p class="post-created-date">{{item.createdDate}}</p>
     </div>
+    <div #postContent class="post-content">
+      <p class="post-content_con">{{item.postContent}}</p>
+      <a href="#" (click)="OnCommnent($event, item)" class="view-more">View More</a>
+    </div>
+    <div *ngIf="item.imagesBase64 && item.imagesBase64.length > 0" class="post-image">
+      <img *ngFor="let img of item.imagesBase64 | slice:0:4; let i = index" 
+        src="data:image/gif;base64,{{img.imageBase64}}" 
+        alt="{{img.name}}" 
+        [class.images]="item.imagesBase64.length > 1"
+        />
+    </div>
+    <div class="actions">
+      <div class="emote">
+        <i class="pi pi-thumbs-up like" ></i>
+        <i class="pi pi-share-alt share" ></i>  
+      </div>
+      <button pButton pRipple label="Comment" 
+        (click)="OnCommnent($event, item)" 
+        class="p-button-link p-comment" 
+        icon="pi pi-comment"
+        ></button>
+    </div>
+
+    <div *ngIf="lstComment.length > 0"  class="comments">
+      
+      <div *ngFor="let com of lstComment" class="comment">
+        <img src="https://petmaster.vn/petroom/wp-content/uploads/2020/04/meo-anh-1.jpg" alt="Avatar" />
+        <div class="comment-content">
+          <div class="comment-text">
+            <strong>{{com.customerName}}: {{com.commentContent}}</strong> 
+          </div>
+          <div class="comment-actions">
+            <i class="far fa-thumbs-up"></i> 
+            <i class="far fa-comment-alt"></i> 
+            <i class="far fa-share-square"></i>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <!-- <form class="comment-form">
+      <label for="comment">Bình luận của bạn:</label>
+      <textarea id="comment" name="comment" [(ngModel)]="commentModel.commentContent" rows="4"></textarea>
+      <button pButton pRipple label="Comment" (click)="OnSaveCommnent(item.postId)" class="p-button-success" ></button>
+    </form> -->
+  </div>
+  <p-galleria [(visible)]="displayBasic" 
+        [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '50%'}" [numVisible]="9"
+        [circular]="true" [fullScreen]="true" [showItemNavigators]="true">
+        <ng-template pTemplate="item" let-item>
+            <img [src]="item.imageBase64" style="width: 100%; display: block;"/>
+        </ng-template>
+        <ng-template pTemplate="thumbnail" let-item>
+            <div class="grid grid-nogutter justify-content-center">
+                <img [src]="item.imageBase64" style="display: block;"/>
+            </div>
+        </ng-template>
+    </p-galleria>
+  
+
 </div>

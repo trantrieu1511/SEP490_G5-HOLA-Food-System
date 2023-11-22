@@ -40,14 +40,16 @@ namespace HFS_BE.BusinessLogic.ManageFood
 
                 var foodDao = CreateDao<FoodDao>();
 
-                /*//check exist food name of shop or not
-                var foods = foodDao.GetAllFoodSeller(inputDto.UserDto);
-                var existFoodName = foods.Foods.FirstOrDefault(x => x.Name.Replace(" ", "").ToLower().Equals(inputDto.Name.Replace(" ", "").ToLower()));
+                //check exist food name of shop or not
+                var foods = foodDao.GetAllFoodSeller(inputDto.UserDto)
+                    .Foods.Where(x => x.FoodId != inputDto.FoodId).ToList();
 
-                if (foods.Foods != null &&  existFoodName != null)
+                var existFoodName = foods.FirstOrDefault(x => x.Name.Replace(" ", "").ToLower().Equals(inputDto.Name.Replace(" ", "").ToLower()));
+
+                if (foods != null && existFoodName != null)
                 {
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", "Food name is current used!");
-                }*/
+                }
 
                 var output = foodDao.UpdateFood(
                         mapper.Map<FoodUpdateInputDto, FoodUpdateInforInputDto>(inputDto)

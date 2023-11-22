@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import {
   iComponentBase,
   iServiceBase, mType,
   ShareData
 } from 'src/app/modules/shared-module/shared-module';
 import * as API from "../../../../services/apiURL";
-import { Post } from '../../models/post.model';
+import { ImageBase64, Post } from '../../models/post.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -16,13 +16,37 @@ import { CommentNewFeed, InputComment } from '../../models/comment.model';
   styleUrls: ['./new-feed-module.component.scss']
 })
 
-export class NewFeedModuleComponent extends iComponentBase implements OnInit{
+export class NewFeedModuleComponent extends iComponentBase implements OnInit, AfterViewInit{
   loading: boolean;
   listPost:Post []=[];
   lstComment:CommentNewFeed[] = [];
   commentModel: CommentNewFeed = new CommentNewFeed();
   userId:string ;
   postId:number;
+
+  displayBasic: boolean | undefined;
+  imagesLst: any[] = [];
+  responsiveOptions: any[] = [
+    {
+        breakpoint: '1500px',
+        numVisible: 5
+    },
+    {
+        breakpoint: '1024px',
+        numVisible: 3
+    },
+    {
+        breakpoint: '768px',
+        numVisible: 2
+    },
+    {
+        breakpoint: '560px',
+        numVisible: 1
+    }
+  ];
+
+  @ViewChildren('postContent') postContentRefs!: QueryList<ElementRef>;
+
   constructor(
     private shareData: ShareData,
     public messageService: MessageService,
@@ -48,7 +72,6 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit{
       this.loading = true;
 
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_NEWFEED.GETALLPOST, param);
-      console.log(response)
       if (response && response.message === "Success") {
         this.listPost = response.posts;
       }
@@ -59,7 +82,8 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit{
     }
   }
 
-  OnCommnent(item : Post){
+  OnCommnent(event: any, item : Post){
+    event.preventDefault();
     this.getAllComment(item.postId);
     this.postId = item.postId;
   }
@@ -79,9 +103,9 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit{
     }
     return comment;
   }
-  OnSaveCommnent(){
+  OnSaveCommnent(postId: number){
     let comEntity = this.bindingDataCommentModel();
-    console.log(comEntity);
+    comEntity.postId = postId;
     if (comEntity && comEntity.commentId && comEntity.commentId > 0) {
       //this.updateVoucher(voucherEntity);
     } else {
@@ -95,9 +119,9 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit{
       //
       this.userId = sessionStorage.getItem('userId'); 
       const param = {
-        'postId':this.postId,
-        'customerId':this.userId,
-        'commentContent':comEntity.commentContent
+        'postId': comEntity.postId,
+        'customerId': this.userId,
+        'commentContent': comEntity.commentContent
       }  
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_NEWFEED.CREATECOMMENT,param);
       if (response && response.message === "Success") {
@@ -129,6 +153,27 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit{
     } catch (e) {
       console.log(e);
       this.loading = false;
+    }
+  }
+
+  ngAfterViewInit(){
+    
+    this.postContentRefs.changes.subscribe(() => {
+      this.checkContentOverflow();
+    });
+  }
+
+  checkContentOverflow() {
+    if (this.postContentRefs && this.postContentRefs.length > 0) {
+      this.postContentRefs.forEach(ref => 
+        {
+          
+          if(ref.nativeElement.scrollHeight > ref.nativeElement.clientHeight){
+            //console.log(ref.nativeElement.scrollHeight + ': ' + ref.nativeElement.clientHeight)
+            ref.nativeElement.children[1].setAttribute("style", "display: block")
+          }
+        }
+      )
     }
   }
 }

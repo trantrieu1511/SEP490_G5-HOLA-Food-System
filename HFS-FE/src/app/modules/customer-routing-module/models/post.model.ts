@@ -1,6 +1,7 @@
 export class Post{
     postId :number;
     sellerId :string;
+    shopName: string;
     postContent : string;
     createdDate : Date;
     settatus :string;
