@@ -32,6 +32,7 @@ namespace HFS_BE.DAO.ShipperDao
 		public string Email { get; set; }
 		[Required(ErrorMessage = "SellerId is required")]
 		public string SellerId { get; set; }
+	
 
 	}
 	public class BanShipperDtoInput : BaseInputDto

@@ -20,7 +20,7 @@ export class DashboadAdminModuleComponent extends iComponentBase implements OnIn
 
   options: any;
   datatron: any;
-
+datatotal:any;
   optionstron: any;
   rangeDates: Date[] | undefined;
   currentDate: Date = new Date();
@@ -40,6 +40,7 @@ export class DashboadAdminModuleComponent extends iComponentBase implements OnIn
   ngOnInit() {
     this.getAllData();
 this.bangtron();
+this.bangtotal();
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
@@ -179,5 +180,18 @@ this.bangtron();
                 }
             }
         };
+  }
+  async bangtotal(){
+
+        this.datatotal=[];
+        debugger
+        try {
+          this.datatotal = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.DASHBOAD_ADMINTOTAL,"");
+         ;
+      } catch (e) {
+          console.log(e);
+
+      }
+
   }
 }

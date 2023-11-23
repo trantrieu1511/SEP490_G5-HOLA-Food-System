@@ -66,6 +66,15 @@ namespace HFS_BE.DAO.FeedBackReplyDao
 				foreach (var e in output.FeedBacks)
 				{
 					e.Images = context.FeedBackImages.Where(s => s.FeedbackId == e.FeedbackId).ToList();
+					var check = context.FeedbackReplies.Where(s => s.FeedbackId == e.FeedbackId).Count();
+					if (check > 0)
+					{
+						e.CheckReply = true;
+					}
+					else
+					{
+						e.CheckReply = false;
+					}
 				}
 				return output;
 			}

@@ -218,7 +218,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
 
   async onSubmit() {
     //this.formSubmitAttempt = false;
-    
+
     this.captchacheck = localStorage.getItem("captcha");
     this.unsuccessfulLoginAttempts=parseInt(this.captchacheck);
     if (this.form.valid) {
@@ -231,7 +231,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
         return;
       }
       try {
-         
+
         this.service.login(this.form.value).subscribe(
           (res) => {
             if(res===undefined&&this.user===null){
@@ -240,7 +240,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
             //this.toastr.success('Login success');
             // const userData = localStorage.getItem('user');
             // this.user = JSON.parse(userData);
-            
+
             switch (this.user.role) {
               case 'CU':
                 this.router.navigate(['/homepage']);
@@ -266,7 +266,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
               this.error = 'Email hoặc mật khẩu không chính xác.';
             } else {
               // this.error = 'Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.';
-              this.showMessage(mType.error, "Notification", "Email hoặc mật khẩu không chính xác.", 'app-login');
+              this.showMessage(mType.error, "Notification", "Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.", 'app-login');
             }
           }
         );
@@ -282,7 +282,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
   async loginfb() {
     FB.login(
       async (result: any) => {
-        // 
+        //
         await this.service
           .loginfacebook(result.authResponse.accessToken)
           .subscribe(

@@ -21,26 +21,27 @@
                       <div class="title">Total Seller: </div>
                   </span>
                   <div class="data">
-                      <span>{{data.orderCount}}</span>
+                      <span>{{datatotal.totalSeller}}</span>
                       <div class="data-percent"
                           [class.text-green-500]="data.orderCountPercent > 0"
                           [class.text-red-500]="data.orderCountPercent < 0"
                       >
-                          {{data.orderCountPercent}}%
+                      Ban:{{datatotal.banSeller}}
+                      Vetify:{{datatotal.vetifySeller}}
                       </div>
                   </div>
               </div>
               <div class="overview-item">
                   <span>
-                      <div class="title">Total Customer(đ): </div>
+                      <div class="title">Total Customer: </div>
                   </span>
                   <div class="data">
-                      <span>{{data.amountCount | currency : "VND"}}</span>
+                      <span>{{datatotal.totalCustomer}}</span>
                       <div class="data-percent"
                           [class.text-green-500]="data.amountCountPercent > 0"
                           [class.text-red-500]="data.amountCountPercent < 0"
                       >
-                          {{data.amountCountPercent}}%
+                       Ban:{{datatotal.banCustomer}}
                       </div>
                   </div>
               </div>
@@ -49,12 +50,13 @@
                       <div class="title">Total Shipper: </div>
                   </span>
                   <div class="data">
-                      <span>{{data.soldCount}}</span>
+                      <span>{{datatotal.totalShippper}}</span>
                       <div class="data-percent"
                           [class.text-green-500]="data.soldCountPercent > 0"
                           [class.text-red-500]="data.soldCountPercent < 0"
                       >
-                          {{data.soldCountPercent}}%
+                      Ban:{{datatotal.banShipper}}
+                      Vetify:{{datatotal.vetifyShipper}}
                       </div>
                   </div>
               </div>
