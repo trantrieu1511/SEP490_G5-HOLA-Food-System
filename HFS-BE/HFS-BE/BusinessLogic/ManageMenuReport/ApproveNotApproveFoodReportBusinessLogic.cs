@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
+using HFS_BE.Dao.FoodDao;
 using HFS_BE.DAO.MenuReportDao;
+using HFS_BE.DAO.NotificationDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Twilio.Rest.Api.V2010.Account;
 
 namespace HFS_BE.BusinessLogic.ManageMenuReport
 {
@@ -17,7 +20,26 @@ namespace HFS_BE.BusinessLogic.ManageMenuReport
             try
             {
                 var dao = CreateDao<FoodReportDao>();
-                return dao.ApproveNotApproveFoodReport(inputDto, updateBy);
+                var notifyDao = CreateDao<NotificationDao>();
+                var foodDao = CreateDao<FoodDao>();
+
+                var output = dao.ApproveNotApproveFoodReport(inputDto, updateBy);
+                if (!output.Success)
+                    return output;
+
+                var food = foodDao.GetFoodById(inputDto.FoodId);
+
+                var notifyBase = inputDto.IsApproved ?
+                    GenerateNotification.GetSingleton().GenNotificationApproveReport(inputDto.ReportBy, food.Name, inputDto.Note, 0) :
+                    GenerateNotification.GetSingleton().GenNotificationNotApproveReport(inputDto.ReportBy, food.Name, inputDto.Note, 0);
+                //3. add notify
+                var noti = notifyDao.AddNewNotification(notifyBase);
+                if (!noti.Success)
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                }
+
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
             catch (Exception)
             {

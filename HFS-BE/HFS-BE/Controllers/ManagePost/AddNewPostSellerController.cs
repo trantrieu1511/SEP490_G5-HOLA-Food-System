@@ -50,6 +50,9 @@ namespace HFS_BE.Controllers.ManagePost
                 if (output.Success)
                 {
                     var dataRealTimeHub = _hubContextFactory.CreateHub<DataRealTimeHub>();
+                    var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
+
+                    await notifyHub.Clients.All.SendAsync("postNotification");
                     await dataRealTimeHub.Clients.All.SendAsync("postDataRealTime");
                     //await this._hubContextFactory.Clients.All.SendAsync("dataRealTime");
                 }

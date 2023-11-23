@@ -2,23 +2,25 @@
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.ManageMenuReport;
 using HFS_BE.DAO.MenuReportDao;
+using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace HFS_BE.Controllers.ManageMenuReport
 {
-    public class ApproveNotApproveMenuReportController : BaseController
+    public class ApproveNotApproveMenuReportController : BaseControllerSignalR
     {
-        public ApproveNotApproveMenuReportController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public ApproveNotApproveMenuReportController(SEP490_HFS_2Context context, IMapper mapper, IHubContextFactory hubContextFactory) : base(context, mapper, hubContextFactory)
         {
         }
 
         [HttpPost("menureports/approvenotapprovefoodreport")]
         [Authorize]
-        public BaseOutputDto ApproveNotApproveFoodReport(ApproveNotApproveFoodReportInputDto inputDto)
+        public async Task<BaseOutputDto> ApproveNotApproveFoodReport(ApproveNotApproveFoodReportInputDto inputDto)
         {
             try
             {
@@ -28,7 +30,16 @@ namespace HFS_BE.Controllers.ManageMenuReport
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Please login as a menu moderator before executing this API.");
                 }
                 var business = GetBusinessLogic<ApproveNotApproveFoodReportBusinessLogic>();
-                return business.ApproveNotApproveFoodReport(inputDto, GetUserInfor().UserId);
+
+                var output = business.ApproveNotApproveFoodReport(inputDto, GetUserInfor().UserId);
+
+                if (output.Success)
+                {
+                    var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
+                    await notifyHub.Clients.Group(inputDto.ReportBy).SendAsync("notification");
+                }
+
+                return output;
             }
             catch (Exception)
             {

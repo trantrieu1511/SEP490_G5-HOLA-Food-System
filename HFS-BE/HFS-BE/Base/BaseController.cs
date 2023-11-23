@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Models;
+using HFS_BE.Services;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -18,8 +19,8 @@ namespace HFS_BE.Base
 
         public BaseController(SEP490_HFS_2Context context, IMapper mapper)
         {
-            this.context = context;
-            this.mapper = mapper;
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             //this.context.Database.BeginTransaction();
         }
 

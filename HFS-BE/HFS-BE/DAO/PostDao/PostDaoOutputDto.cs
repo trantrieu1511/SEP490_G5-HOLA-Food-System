@@ -69,4 +69,9 @@ namespace HFS_BE.Dao.PostDao
     {
         public DashboardPostModStatistic Statistics { get; set; } = new DashboardPostModStatistic();
     }
+
+    public class AddNewPostOutput : BaseOutputDto
+    {
+        public int PostId { get; set; }
+    }
 }

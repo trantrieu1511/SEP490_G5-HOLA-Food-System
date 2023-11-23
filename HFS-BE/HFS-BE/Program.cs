@@ -147,6 +147,7 @@ builder.Services.AddScoped<SellerDao>();
 builder.Services.AddScoped<ChatMessageDao>();
 builder.Services.AddScoped<CustomerDao>();
 builder.Services.AddHttpClient<HFS_BE.Controllers.TestController>();
+builder.Services.AddTransient<ITokenService, TokenService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

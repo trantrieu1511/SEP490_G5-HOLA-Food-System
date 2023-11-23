@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.Dao.PostDao;
+using HFS_BE.DAO.ModeratorDao;
+using HFS_BE.DAO.NotificationDao;
 using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
@@ -20,13 +22,8 @@ namespace HFS_BE.BusinessLogic.ManagePost
         {
             try
             {
-                /*inputDto.UserDto = new UserDto
-                {
-                    Email = "test@gmail.com",
-                    Name = "testSeller",
-                    RoleId = 2,
-                    UserId = 1,
-                };*/
+                var notifyDao = CreateDao<NotificationDao>();
+                var moderatorDao = CreateDao<ModeratorDao>();
 
                 if (String.IsNullOrEmpty(inputDto.PostContent))
                 {
@@ -58,6 +55,24 @@ namespace HFS_BE.BusinessLogic.ManagePost
                 }
 
                 var output = Dao.AddNewPost(inputMapper);
+
+                if (!output.Success)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", output.Message);
+
+                // add notify
+                // 1 get all food moderator
+                var moderList = moderatorDao.GetAllPostModerator();
+                foreach (var moder in moderList.data)
+                {
+                    // 2. gen title and content notification
+                    var notify = GenerateNotification.GetSingleton().GenNotificationAddNewPost(moder.ModId, output.PostId);
+                    //3. add notify
+                    var noti = notifyDao.AddNewNotification(notify);
+                    if (!noti.Success)
+                    {
+                        return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                    }
+                }
 
                 return output;
             }
