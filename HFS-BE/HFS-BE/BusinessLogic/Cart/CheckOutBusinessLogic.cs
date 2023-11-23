@@ -7,6 +7,7 @@ using HFS_BE.DAO.NotificationDao;
 using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.DAO.TransantionDao;
 using HFS_BE.DAO.UserDao;
+using HFS_BE.DAO.VoucherDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
@@ -31,11 +32,34 @@ namespace HFS_BE.BusinessLogic.Cart
                 var userDao = this.CreateDao<UserDao>();
                 var foodDao = this.CreateDao<FoodDao>();
                 var notifyDao = CreateDao<NotificationDao>();
+                var voucherDao = CreateDao<VoucherDao>();
                 var transactionDao = this.CreateDao<TransactionDao>();
+                var today = DateTime.Now;
                 var user = userDao.GetUserInfo(new GetOrderInfoInputDto()
                 {
                     UserId = inputDto.CustomerId,
                 });
+
+                // voucher
+                Voucher voucher = new Voucher();
+                if (!string.IsNullOrEmpty(inputDto.Voucher))
+                {
+                    voucher = voucherDao.GetVoucherByCode(inputDto.Voucher);
+                    if (voucher == null)
+                    {
+                        return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Voucher Invalid");
+                    }
+                    
+                    if (voucher.ExpireDate <= today || voucher.EffectiveDate >= today)
+                    {
+                        return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Voucher Invalid");
+                    }
+
+                    if (voucherDao.CheckUsedVoucher(inputDto.CustomerId, voucher.VoucherId))
+                    {
+                        return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You have already used this voucher");
+                    }
+                }
 
                 if (!inputDto.PaymentMethod.Equals("wallet") && !inputDto.PaymentMethod.Equals("cod"))
                 {
@@ -48,12 +72,15 @@ namespace HFS_BE.BusinessLogic.Cart
                 }
 
                 decimal totalPrice = 0;
+                bool useVoucher = false;
                 foreach (var item in inputDto.ListShop)
                 {
                     if (item.CartItems.Count == 0)
                     {
                         return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Your CartItems of ShopId " + item.ShopId + " is empty!");
                     }
+
+                    decimal shopPrice = 0;
                     foreach (var food in item.CartItems)
                     {
                         var foodInfo = foodDao.GetFoodById(new GetFoodByFoodIdDaoInputDto
@@ -65,11 +92,24 @@ namespace HFS_BE.BusinessLogic.Cart
                             return this.Output<BaseOutputDto>(Constants.ResultCdFail, "FoodId not exsit!");
                         }
 
-                        totalPrice += food.Amount.Value * foodInfo.UnitPrice.Value;
+                        shopPrice += food.Amount.Value * foodInfo.UnitPrice.Value;
                     }
-                }
-                // voucher
 
+                    if (item.ShopId.Equals(voucher.SellerId))
+                    {
+                        if (voucher.MinimumOrderValue > shopPrice)
+                        {
+                            return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Your order value of the shop " + item.ShopId + "is not enough!");
+                        }
+
+                        shopPrice -= voucher.DiscountAmount;
+                        useVoucher = true;
+                    }
+
+                    totalPrice+= shopPrice;
+
+                }
+               
                 // balance change
 
                 if (totalPrice > user.Balance && inputDto.PaymentMethod.Equals("wallet"))
@@ -134,10 +174,14 @@ namespace HFS_BE.BusinessLogic.Cart
                 {
                     // create order + order detail
                     CheckOutOrderDaoInputDto orderdaoInput = mapper.Map<ListShopItemInputDto, CheckOutOrderDaoInputDto>(item);
+                    if (item.ShopId.Equals(voucher.SellerId))
+                    {
+                        orderdaoInput.VoucherId = voucher.VoucherId;
+                    }
                     orderdaoInput.CustomerId = inputDto.CustomerId;
                     orderdaoInput.ShipAddress = inputDto.ShipAddress;
-                    orderdaoInput.VoucherId = inputDto.VoucherId;
                     orderdaoInput.Note = inputDto.Note;
+                    orderdaoInput.CustomerPhone = inputDto.Phone;
                     orderdaoInput.PaymentMethod = inputDto.PaymentMethod.Equals("wallet") ? 1 : 0;
 
                     var daoOutput = orderDao.CheckOutOrder(orderdaoInput);

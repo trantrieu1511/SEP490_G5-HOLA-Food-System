@@ -4,6 +4,7 @@ export class CreateOrder{
     public CreateOrder(){
 
     }
+    voucher : string
     shipAddress : string
     voucherId : string
     phone: string

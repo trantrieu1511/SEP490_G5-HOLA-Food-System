@@ -42,6 +42,7 @@ using static HFS_BE.Utils.Enum.CategoryStatusEnum;
 using HFS_BE.BusinessLogic.FeedBackCustomer;
 using HFS_BE.Controllers.FeedBack;
 using HFS_BE.BusinessLogic.ReplyFeedBack;
+using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace HFS_BE.Automapper
 {
@@ -245,8 +246,10 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.OrderDetails.Select(
                         d => d.UnitPrice * d.Quantity
                     ).ToList().Sum() - (src.Voucher != null ? src.Voucher.DiscountAmount : 0))) //* them voucher))
+                .ForMember(dest => dest.VoucherDiscount, opt => opt.MapFrom(src => src.Voucher != null ? src.Voucher.DiscountAmount : 0))
                 .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses.OrderBy(x => x.CreateDate).ToList()))
-                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.OrderBy(x => x.UnitPrice).ToList()));
+                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.OrderBy(x => x.UnitPrice).ToList()))
+                .ForMember(dest => dest.VoucherDisplay, opt => opt.MapFrom(src => src.VoucherId != null ? (src.Voucher.Code + " " + src.Voucher.DiscountAmount) : string.Empty));
             CreateMap<OrderProgress, DetailProgressCustomerDto>()
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
                 .ForMember(dest => dest.Note, opt => opt.MapFrom(src => src.Note))
@@ -393,7 +396,8 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.DisplayDate, opt => opt.MapFrom(src => ((src.UpdateDate ?? src.CreatedDate)).Value.ToString("MM/dd/yyyy hh:mm")))
                 .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == true).ToList().Count))
                 .ForMember(dest => dest.DisLikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == false).ToList().Count))
-                .ForMember(dest => dest.ListVoted, opt => opt.MapFrom(src => src.FeedbackVotes));
+                .ForMember(dest => dest.ListVoted, opt => opt.MapFrom(src => src.FeedbackVotes))
+                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.FeedBackImages));
             CreateMap<FeedbackVote, CustomerVoted>();
             CreateMap<FeedbackReply, FeedBackReplyDaoOutputDto>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.FirstName + " " + src.Customer.LastName : src.Seller.ShopName));

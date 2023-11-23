@@ -27,6 +27,8 @@ namespace HFS_BE.Dao.ShopDao
                 var output = this.context.Sellers
                     .Include(x => x.Foods)
                     .ThenInclude(x => x.Feedbacks)
+                    .Include(x => x.Foods)
+                    .ThenInclude(x => x.FoodImages)
                     .Include(x => x.Orders)
                     .ThenInclude(x => x.OrderDetails)
                     .Where(x => x.IsVerified == true).ToList();
@@ -38,6 +40,8 @@ namespace HFS_BE.Dao.ShopDao
                 {
                     int ordered = 0;
                     decimal star = 0;
+                    int imgCount = 0;
+                    var shop = mapper.Map<Seller, ShopDto>(item);
                     foreach (var order in item.Orders)
                     {
                         foreach (var orderdetail in order.OrderDetails)
@@ -52,6 +56,12 @@ namespace HFS_BE.Dao.ShopDao
                         int totalfeedbacks = 0;
                         foreach (var food in item.Foods)
                         {
+                            foreach (var img in food.FoodImages)
+                            {
+                                if (imgCount == 3) break;
+                                shop.FoodImages.Add(ImageFileConvert.ConvertFileToBase64(item.SellerId, img.Path, 1).ImageBase64);
+                            }
+
                             foreach (var feedback in food.Feedbacks)
                             {
                                 totalStar += feedback.Star.Value;
@@ -61,10 +71,9 @@ namespace HFS_BE.Dao.ShopDao
                         if (totalfeedbacks > 0)
                         {
                             star = (decimal)totalStar / (decimal)totalfeedbacks;
-                        }                   
+                        }
                     }
-
-                    var shop = mapper.Map<Seller, ShopDto>(item);
+                                      
                     shop.Star = Math.Round(star, MidpointRounding.AwayFromZero);
                     shop.NumberOrdered = ordered;
                     if (this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(item.SellerId)) != null)

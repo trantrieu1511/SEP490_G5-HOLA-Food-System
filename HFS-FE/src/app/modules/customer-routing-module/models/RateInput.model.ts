@@ -3,7 +3,7 @@ export class RateInput{
 
     }
     foodId : number
-    feedBackMessage : string;
+    feedBackMessage : string = "";
     star : number;
     images: File[];
 }

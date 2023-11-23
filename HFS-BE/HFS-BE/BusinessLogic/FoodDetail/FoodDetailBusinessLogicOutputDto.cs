@@ -1,4 +1,5 @@
 ﻿using HFS_BE.Base;
+using HFS_BE.Models;
 
 namespace HFS_BE.BusinessLogic.FoodDetail
 {
@@ -14,6 +15,7 @@ namespace HFS_BE.BusinessLogic.FoodDetail
         public int DisLikeCount { get; set; }
         public bool? CanReply { get; set; }
         public bool? IsLiked { get; set; }
+        public List<FeedImageDto> ImagesFeedBack { get; set; } = new List<FeedImageDto>();
         public List<FeedBackReplyOutputDto> ListReply { get; set; }
     }
 
@@ -25,6 +27,14 @@ namespace HFS_BE.BusinessLogic.FoodDetail
         public string? ReplyMessage { get; set; }
         public string? CreatedDate { get; set; }
         public DateTime? UpdateDate { get; set; }
+    }
+
+    public class FeedImageDto
+    {
+        public int ImageId { get; set; }
+        public string? ImageBase64 { get; set; }
+        public string? Name { get; set; }
+        public string? Size { get; set; }
     }
 
     public class GetFeedBackOutputDto : BaseOutputDto

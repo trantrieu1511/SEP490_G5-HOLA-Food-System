@@ -402,7 +402,8 @@ namespace HFS_BE.DAO.UserDao
                         AddressId = x.AddressId,
                         AddressInfo = x.AddressInfo,
                         IsDefaultAddress = x.IsDefaultAddress,
-                    });
+                    })
+                    .OrderByDescending(x => x.IsDefaultAddress);
 
                 var output = this.Output<GetUserAddressDaoOutputDto>(Constants.ResultCdSuccess);
                 output.ListAddress = user.ToList();

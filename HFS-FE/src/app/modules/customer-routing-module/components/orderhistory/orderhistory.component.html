@@ -118,7 +118,7 @@
               <td>{{ order.shopName }}</td>
               <td>{{ order.orderDate }}</td>
               <td>{{ order.shipAddress }}</td>
-              <td>(Id:{{order.voucherId}}) -{{ order.discountAmount | currency : "VND" }}</td>
+              <td>{{ order.voucherDisplay}}đ</td>
               <td>{{ order.paymentMethod }}</td>
               <td>{{ order.totalPrice | currency : "VND" }}</td>
 

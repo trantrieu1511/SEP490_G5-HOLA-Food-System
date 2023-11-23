@@ -2,6 +2,7 @@
 using HFS_BE.Base;
 using HFS_BE.Dao.OrderDao;
 using HFS_BE.DAO.OrderProgressDao;
+using HFS_BE.DAO.TransantionDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using static HFS_BE.Utils.Enum.OrderStatusEnum;
@@ -20,6 +21,7 @@ namespace HFS_BE.BusinessLogic.ManageOrderCustomer
             {
                 var dao = this.CreateDao<OrderDao>();
                 var orderProgressDao = this.CreateDao<OrderProgressDao>();
+                var transactionDao = this.CreateDao<TransactionDao>();
                 var getOrder = dao.GetOrderCustomer(inputDto);
                 if (getOrder == null)
                 {
@@ -40,6 +42,40 @@ namespace HFS_BE.BusinessLogic.ManageOrderCustomer
                     CreateDate = DateTime.Now,
                     Note = inputDto.Note,
                 };
+
+                // refund
+                if (getOrder.PaymentMethod.Equals("Wallet"))
+                {
+                    decimal? refund = getOrder.OrderDetails
+                        .Select(d => d.UnitPrice * d.Quantity).ToList().Sum() - getOrder.VoucherDiscount;
+
+                    // create transaction:
+                    var input2 = new CreateTransaction()
+                    {
+                        UserId = inputDto.CustomerId,
+                        RecieverId = getOrder.SellerId,
+                        TransactionType = 4,
+                        Value = refund,
+                        Note = "Refund Order " + getOrder.OrderId,
+                        CreateDate = DateTime.Now,
+                        Status = 1,
+                    };
+
+                    var output2 = transactionDao.Create(input2);
+
+                    // wallet balance change
+                    var input1 = new UpadateWalletBalanceDaoInputDto()
+                    {
+                        UserId = inputDto.CustomerId,
+                        Value = refund,
+                    };
+                    var output1 = transactionDao.UpdateWalletBalance(input1);
+                    if (!output1.Success)
+                    {
+                        return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                    }
+
+                }
 
                 return orderProgressDao.CreateOrderProgressCustomer(orderProgressInput);
             }

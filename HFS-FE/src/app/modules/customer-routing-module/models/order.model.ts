@@ -8,6 +8,7 @@ export class Order{
   shipperId: string;
   shipperName: string;
   voucherId: string;
+  voucherDisplay : string;
   discountAmount: number;
   paymentMethod: string;
   totalPrice: number;

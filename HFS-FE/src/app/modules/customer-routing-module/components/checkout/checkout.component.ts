@@ -30,12 +30,14 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
   items : CartItem[]
   selectedOption: string = 'default';
   customAddress: string = '';
+  address : any[]
   defaultAddress: string = '';
   paymentOptions: string = 'cod'
   totalPrice : number
   note : string
   phone: string
-  address : any[]
+  voucher : string = ""
+
   constructor(
     private shareData: ShareData,
     public messageService: MessageService,
@@ -48,15 +50,16 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
     super(messageService);	
   }
 
-  ngOnInit(){
-    this.getAddress();
+  async ngOnInit(){
+    await this.getAddress();
     if (this.dataService.getData() != null){
       this.items = this.dataService.getData();
     }
     else{
       this.router.navigate(['/cartdetail']);
     }
-    console.log(this.items)
+    this.defaultAddress = this.address[0].addressInfo;
+    console.log(this.defaultAddress)
     this.calculate();
   }
 
@@ -69,12 +72,22 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
 
   async onCreateOrder(){
     try {
+      debugger
       this.loading = true;
+      if (this.phone.trim().length === 0){
+        this.showMessage(mType.warn, "", "Phone is required!", 'notify');
+        return;
+      }    
       let checkoutInfor = new CreateOrder();
       checkoutInfor.shipAddress = this.selectedOption == 'default' ? this.defaultAddress : this.customAddress
+      if (checkoutInfor.shipAddress.trim().length === 0){
+        this.showMessage(mType.warn, "", "Address is required!", 'notify');
+        return;
+      }
       checkoutInfor.note = this.note
       checkoutInfor.paymentMethod = this.paymentOptions
       checkoutInfor.phone = this.phone
+      checkoutInfor.voucher = this.voucher.trim();
       checkoutInfor.listShop = []
       this.items.forEach(x =>{
         if(checkoutInfor.listShop.filter(e => e.shopId == x.shopId).length == 0){

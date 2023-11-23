@@ -9,6 +9,7 @@ namespace HFS_BE.Dao.OrderDao
         public int OrderId { get; set; }
         public string? CustomerId { get; set; }
         public string? SellerId { get; set; }
+        public string? CustomerPhone { get; set; }
         public DateTime? OrderDate { get; set; }
         public DateTime? RequiredDate { get; set; } 
         public DateTime? ShippedDate { get; set; }
@@ -64,6 +65,7 @@ namespace HFS_BE.Dao.OrderDao
     {
         public int OrderId { get; set; }
         public int? CustomerId { get; set; }
+        public string? CustomerPhone { get; set; }
         public DateTime? OrderDate { get; set; }
         public DateTime? RequiredDate { get; set; }
         public DateTime? ShippedDate { get; set; }
@@ -136,6 +138,8 @@ namespace HFS_BE.Dao.OrderDao
         public string? ShipperId { get; set; }
         public string? ShipperName { get; set; }
         public int? VoucherId { get; set; }
+        public string? VoucherDisplay { get; set; }
+        public decimal? VoucherDiscount { get; set; }
         public string PaymentMethod { get; set; }
         public decimal? TotalPrice { get; set; }
         public int? Status { get; set; }

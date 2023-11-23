@@ -131,5 +131,16 @@ namespace HFS_BE.DAO.VoucherDao
         {
             return context.Vouchers.FirstOrDefault(x => x.VoucherId == voucherId);
         }
+
+        public Voucher? GetVoucherByCode(string code)
+        {
+            return context.Vouchers.FirstOrDefault(x => x.Code.ToLower().Equals(code.ToLower()) && x.Status == 1);
+        }
+
+        public bool CheckUsedVoucher(string customerId, int voucherId)
+        {
+            var data = this.context.Orders.Where(x => x.CustomerId.Equals(customerId) && x.VoucherId == voucherId);
+            return data.Any();
+        }
     }
 }
