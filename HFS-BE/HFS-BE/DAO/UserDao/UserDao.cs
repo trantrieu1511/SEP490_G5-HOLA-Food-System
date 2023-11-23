@@ -375,8 +375,19 @@ namespace HFS_BE.DAO.UserDao
         {
             try
             {
-                var user = this.context.Customers.Include(x => x.ShipAddresses).FirstOrDefault(x => x.CustomerId == inputDto.UserId);
                 var output = this.Output<GetOrderInfoOutputDto>(Constants.ResultCdSuccess);
+                if (inputDto.UserId.Contains("SE"))
+                {
+                    var seller = this.context.Sellers.FirstOrDefault(x => x.SellerId.Equals(inputDto.UserId));
+                    if (seller != null)
+                    {
+                        output.Balance = seller.WalletBalance == null ? 0 : seller.WalletBalance.Value;
+                    }
+                    return output;
+                }
+
+                var user = this.context.Customers.Include(x => x.ShipAddresses).FirstOrDefault(x => x.CustomerId == inputDto.UserId);
+                
                 if (user != null)
                 {
                     output.Balance = user.WalletBalance == null ? 0 : user.WalletBalance.Value;

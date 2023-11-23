@@ -114,10 +114,10 @@ export class WalletComponent
         this.displayTransaction = this.transactionHistory.filter(x => x.status === 2);
         break;
       case 4:
-        this.displayTransaction = this.transactionHistory.filter(x => x.transactionType === "Deposit");
+        this.displayTransaction = this.transactionHistory.filter(x => x.transactionType === "Deposit" || x.transactionType === "OrderRefund");
         break;
       case 5:
-        this.displayTransaction = this.transactionHistory.filter(x => x.transactionType != "Deposit");
+        this.displayTransaction = this.transactionHistory.filter(x => x.transactionType != "Deposit" && x.transactionType != "OrderRefund");
         break;
     }
 

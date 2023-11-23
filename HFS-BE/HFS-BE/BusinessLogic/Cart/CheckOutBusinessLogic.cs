@@ -107,7 +107,6 @@ namespace HFS_BE.BusinessLogic.Cart
                     }
 
                     totalPrice+= shopPrice;
-
                 }
                
                 // balance change
@@ -149,6 +148,22 @@ namespace HFS_BE.BusinessLogic.Cart
                             }
 
                             shopPrice += food.Amount.Value * foodInfo.UnitPrice.Value;
+                        }
+
+                        if (useVoucher && item.ShopId.Equals(voucher.SellerId))
+                        {
+                            shopPrice -= voucher.DiscountAmount;
+                        }
+
+                        var input3 = new UpadateWalletBalanceDaoInputDto()
+                        {
+                            UserId = item.ShopId,
+                            Value = totalPrice,
+                        };
+                        var output3 = transactionDao.UpdateWalletBalanceSeller(input3);
+                        if (!output3.Success)
+                        {
+                            return this.Output<BaseOutputDto>(Constants.ResultCdFail);
                         }
 
                         var input2 = new CreateTransaction()
