@@ -166,7 +166,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     goToNewsFeedPage() {
-        this.router.navigateByUrl('/newsfeed');
+        this.router.navigateByUrl('/newfeed');
     }
 
     onClickLogo(event: any){

@@ -225,6 +225,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       }
       //console.log(this.listPost);
       console.log(this.isReported);
+      // console.log(this.reportedPostIds);
       this.loading = false;
     } catch (e) {
       console.log(e);
