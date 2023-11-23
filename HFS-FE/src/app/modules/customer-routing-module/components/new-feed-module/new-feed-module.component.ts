@@ -89,8 +89,10 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
 
     await this.getAllPost();
 
-    await this.checkUsersReportPostCapability();
-    this.enableDisablePostReportButtonSubmit(); // reset nut submit 
+    if(this.isLoggedIn){
+      await this.checkUsersReportPostCapability();
+      this.enableDisablePostReportButtonSubmit(); // reset nut submit 
+    }
 
   }
 
@@ -202,17 +204,26 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
 
       if (response && response.message === "Success") {
         this.listPostReport = response.postReports;
-        this.listPostReport.forEach(postrp => {
-          this.listPost.forEach((post, index) => {
+        this.listPost.forEach((post, index) => {
+          if(this.listPostReport.length < 1){
+            this.listPost[index].isReported = false;
+            return;
+          }
+
+          this.listPostReport.forEach(postrp => {
             if (postrp.postId == post.postId) { // Da report
               // this.reportedPostIds.push(post.postId);
               // this.isReported = true;
               this.listPost[index].isReported = true;
+              console.log(this.listPost[index].isReported);
+            }else{
+              this.listPost[index].isReported = false;
+              console.log(this.listPost[index].isReported);
             }
           });
         });
       }
-      console.log(this.reportedPostIds);
+      //console.log(this.listPost);
       console.log(this.isReported);
       this.loading = false;
     } catch (e) {
