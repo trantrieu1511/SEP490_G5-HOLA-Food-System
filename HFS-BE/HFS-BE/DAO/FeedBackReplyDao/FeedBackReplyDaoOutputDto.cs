@@ -33,6 +33,7 @@ namespace HFS_BE.DAO.FeedBackReplyDao
 		public DateTime? DisplayDate { get; set; }
 		public int LikeCount { get; set; }
 		public int DisLikeCount { get; set; }
+		public bool CheckReply { get; set; }
 		public List<FeedBackImage> Images { get; set; }
 	}
 	

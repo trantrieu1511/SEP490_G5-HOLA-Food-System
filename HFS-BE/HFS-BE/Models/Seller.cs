@@ -10,6 +10,7 @@ namespace HFS_BE.Models
             ChatMessages = new HashSet<ChatMessage>();
             FeedbackReplies = new HashSet<FeedbackReply>();
             Foods = new HashSet<Food>();
+            Invitations = new HashSet<Invitation>();
             OrderProgresses = new HashSet<OrderProgress>();
             Orders = new HashSet<Order>();
             Posts = new HashSet<Post>();
@@ -40,6 +41,7 @@ namespace HFS_BE.Models
         public virtual ICollection<ChatMessage> ChatMessages { get; set; }
         public virtual ICollection<FeedbackReply> FeedbackReplies { get; set; }
         public virtual ICollection<Food> Foods { get; set; }
+        public virtual ICollection<Invitation> Invitations { get; set; }
         public virtual ICollection<OrderProgress> OrderProgresses { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Post> Posts { get; set; }

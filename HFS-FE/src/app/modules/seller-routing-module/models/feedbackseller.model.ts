@@ -10,6 +10,7 @@ star :number;
 displayDate :Date;
  likeCount :number;
  disLikeCount:number;
+ checkReply :boolean;
  imagesBase64: FeedBackSellerImageBase64[] =null;
 }
 

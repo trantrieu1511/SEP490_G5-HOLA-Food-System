@@ -15,6 +15,18 @@ namespace HFS_BE.DAO.AdminDao
 		public int Total { get; set; }
 
 	}
+	public class DashboadAdminOutputDto
+	{
+		public int TotalSeller { get; set; }
+		public int BanSeller { get; set; }
+		public int VetifySeller { get; set; }
+		public int BanCustomer { get; set; }
+		public int TotalCustomer { get; set; }
+
+		public int TotalShippper { get; set; }
+		public int BanShipper { get; set; }
+		public int VetifyShipper { get; set; }
+	}
 	public class ListDashboadPieAdminOutputDto :BaseOutputDto
 	{
 		public List<DashboadPieAdminOutputDto> Pies { get; set; }

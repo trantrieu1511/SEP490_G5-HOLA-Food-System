@@ -149,13 +149,18 @@ namespace HFS_BE.DAO.ShipperDao
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
 			}
 			var data = context.Shippers.FirstOrDefault(s => s.Email==input.Email);
-			var datainv = context.Invitations.Include(s => s.Shipper).FirstOrDefault(s => s.Shipper.Email == input.Email && s.SellerId == input.SellerId);
+			var datacheckis = context.Shippers.FirstOrDefault(s => s.Email == input.Email&&s.IsBanned==false&&s.IsVerified==true);
+		
+			var datainv = context.Invitations.Include(s => s.Shipper).FirstOrDefault(s => s.Shipper.Email == input.Email && s.SellerId == input.SellerId&&s.Accepted==0);
 			if (data.ManageBy != null)
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Shipper has a manager");
 			}
-
-			if (datainv != null)
+			if (datacheckis==null)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Please wait for the admin to approve the shipper");
+			}
+				if (datainv != null)
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You invited them to be the shipper");
 			}
@@ -189,7 +194,7 @@ namespace HFS_BE.DAO.ShipperDao
 		public BaseOutputDto AcceptInvitationShipper(InvitationShipperDtoInput input)//bên shipper accept lời mời đó
 		{
 			var data = context.Shippers.FirstOrDefault(s => s.ManageBy == input.SellerId && s.ShipperId == input.ShipperId);
-			var datainv = context.Invitations.FirstOrDefault(s => s.SellerId == input.SellerId && s.ShipperId == input.ShipperId);
+			var datainv = context.Invitations.FirstOrDefault(s => s.SellerId == input.SellerId && s.ShipperId == input.ShipperId&&s.Accepted==0);
 			if (data != null)
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Shipper has a manager");
