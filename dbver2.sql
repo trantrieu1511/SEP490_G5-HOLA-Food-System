@@ -495,6 +495,7 @@ CREATE TABLE CustomerBan (
 
 -- Tạo bảng Mời làm Shipper (Invitation)
 CREATE TABLE Invitation (
+    InvitationId INT PRIMARY KEY IDENTITY(1, 1),
     SellerID NVARCHAR(50) NOT NULL,
     ShipperID NVARCHAR(50) NOT NULL,
      Accepted TINYINT NOT NULL DEFAULT 0,

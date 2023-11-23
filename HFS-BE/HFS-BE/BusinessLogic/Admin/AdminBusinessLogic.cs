@@ -47,5 +47,21 @@ namespace HFS_BE.BusinessLogic.Admin
 				throw;
 			}
 		}
+		public DashboadAdminOutputDto GetDashBoadTotal()
+		{
+			try
+			{
+				var Dao = this.CreateDao<AdminDao>();
+
+				var daooutput = Dao.GetDashBoadAdminTotal();
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+		}
 	}
 }

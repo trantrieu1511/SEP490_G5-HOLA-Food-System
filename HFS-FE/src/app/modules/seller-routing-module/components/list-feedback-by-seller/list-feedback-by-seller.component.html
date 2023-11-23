@@ -144,6 +144,8 @@
                               <div class="flex align-items-center justify-content-center">
                                   <button pButton pRipple icon="pi pi-reply"
                                                     (click)="Reply(feed)"
+
+                                                  [disabled]="feed.checkReply"
                                           class="p-button-rounded p-mr-2"></button>
                               </div>
 

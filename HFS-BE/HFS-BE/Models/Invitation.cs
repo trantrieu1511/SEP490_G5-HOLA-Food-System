@@ -5,6 +5,7 @@ namespace HFS_BE.Models
 {
     public partial class Invitation
     {
+        public int InvitationId { get; set; }
         public string SellerId { get; set; } = null!;
         public string ShipperId { get; set; } = null!;
         public byte Accepted { get; set; }
