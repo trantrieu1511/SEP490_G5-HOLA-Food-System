@@ -50,7 +50,7 @@ export class ManageCustomerModuleComponent extends iComponentBase implements OnI
     this.lstUser = [];
 
     try {
-debugger
+
 
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.LIST_CUS,"");
 

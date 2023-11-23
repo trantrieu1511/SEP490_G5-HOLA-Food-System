@@ -36,7 +36,7 @@ export class AppMenuMyaccountComponent implements OnInit {
   }
   
   GetCurrentRoute() { // Get current route for class sidebar-option-selected of html template
-    // debugger;
+    // ;
     // console.log(window.location.href);
     const currentRoute = window.location.href.toString();
     if(currentRoute.includes('profile')){

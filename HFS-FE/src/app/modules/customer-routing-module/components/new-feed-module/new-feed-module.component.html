@@ -46,15 +46,15 @@
 <div class="app-new-feed">
   <h2 class="title-app">
     New Feed Newest 
-    <!-- Yeah Yeah -->
+    Yeah Yeah
   </h2>
 
   <div *ngFor="let item of listPost; let j = index" class="post">
     <div *ngIf="isLoggedIn" class="report-btn">
-      <i *ngIf="item.isReported;else notReport" class="pi pi-flag-fill" style="font-size: 1.5rem"></i>
-      <ng-template #notReport>
-        <i class="pi pi-flag" style="font-size: 1.5rem" (click)="openPostReportDialog(item.postId)"></i>
-      </ng-template>
+      <i *ngIf="item.isReported;" class="pi pi-flag-fill" style="font-size: 1.5rem"></i>
+      <!-- <ng-template #notReport> -->
+        <i *ngIf="!item.isReported;" class="pi pi-flag" style="font-size: 1.5rem" (click)="openPostReportDialog(item.postId)"></i>
+      <!-- </ng-template> -->
     </div>
     <div class="post-infor">
       <h4 class="shop-name">{{item.shopName}}</h4>

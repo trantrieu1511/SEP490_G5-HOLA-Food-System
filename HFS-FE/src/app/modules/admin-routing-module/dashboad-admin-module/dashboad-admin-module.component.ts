@@ -151,7 +151,7 @@ this.bangtotal();
     const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
         let dataFromApi=[];
-        debugger
+        
         try {
           dataFromApi = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.DASHBOAD_ADMIN,"");
          ;
@@ -184,7 +184,6 @@ this.bangtotal();
   async bangtotal(){
 
         this.datatotal=[];
-        debugger
         try {
           this.datatotal = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.DASHBOAD_ADMINTOTAL,"");
          ;

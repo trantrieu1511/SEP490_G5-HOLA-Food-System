@@ -158,7 +158,7 @@ namespace HFS_BE.DAO.SellerDao
 				return datmapper;
 			
 			}
-			imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 2);
+			imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 3);
 			
 			//	var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>(imageInfor);
 			datmapper.Image = imageInfor.ImageBase64;

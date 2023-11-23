@@ -72,7 +72,7 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
 
   async onCreateOrder(){
     try {
-      debugger
+      
       this.loading = true;
       if (this.phone.trim().length === 0){
         this.showMessage(mType.warn, "", "Phone is required!", 'notify');

@@ -121,7 +121,7 @@ export class DashboardSellerComponent extends iComponentBase implements OnInit{
     );
 
     if (response && response.success) {
-      debugger;
+      ;
       this.data = response;
       if(this.data.datasets){
 

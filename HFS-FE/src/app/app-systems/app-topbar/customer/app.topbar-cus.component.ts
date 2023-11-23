@@ -58,7 +58,7 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
       sessionStorage.setItem("timetoken", user.exp.toString());
       sessionStorage.setItem("userId", user.userId.toString());
       const token = sessionStorage.getItem('JWT');
-      debugger
+      
      //
       if (user) {
 

@@ -99,7 +99,7 @@ const param= {
  }
     try {
 
-debugger;
+;
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.GET_SHIPPERS_INVITATION,param);
 
         if (response && response.message === "Success") {
@@ -123,7 +123,7 @@ debugger;
   }
      try {
 
-      debugger;
+      ;
 
          let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.ADD_SHIPPERS_INVITATION,param);
 

@@ -123,7 +123,7 @@ namespace HFS_BE.BusinessLogic.Dashboard
 
             decimal CalculatePercentage(dynamic inRage, dynamic beforeRange)
             {
-                if(inRage == 0 && beforeRange == 0)
+                if ((inRage == 0 && beforeRange == 0) || inRage == beforeRange)
                 {
                     return 0;
                 }
@@ -138,7 +138,9 @@ namespace HFS_BE.BusinessLogic.Dashboard
                     return 100;
                 }
 
-                return Math.Round((inRage - beforeRange) / beforeRange * 100, 2);
+                decimal result = (inRage - beforeRange) / beforeRange * 100;
+
+                return Math.Round(result, 2); // có khói r
             }
 
             ICollection<string> CalculateLabels(DateTime dateFrom, DateTime dateEnd)
