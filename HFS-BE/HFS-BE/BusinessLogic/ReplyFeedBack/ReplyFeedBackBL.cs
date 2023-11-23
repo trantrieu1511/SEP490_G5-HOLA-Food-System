@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.DAO.FeedBackReplyDao;
+using HFS_BE.DAO.NotificationDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.IOFile;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Hosting;
 
 namespace HFS_BE.BusinessLogic.ReplyFeedBack
 {
@@ -56,8 +59,23 @@ namespace HFS_BE.BusinessLogic.ReplyFeedBack
 			try
 			{
 				var Dao = this.CreateDao<FeedBackReplyDao>();
-				var daooutput = Dao.CreateReplyByFeedBackBySeller(input);
-				return daooutput;
+				var notifyDao = CreateDao<NotificationDao>();
+
+
+                var daooutput = Dao.CreateReplyByFeedBackBySeller(input);
+
+				if (!daooutput.Success)
+                    return daooutput;
+
+                var notifyBase = GenerateNotification.GetSingleton().GenNotificationReplyFeedBack(input.CustomerId, input.ReplyMessage);
+                //3. add notify
+                var noti = notifyDao.AddNewNotification(notifyBase);
+                if (!noti.Success)
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                }
+
+                return daooutput;
 			}
 			catch (Exception)
 			{

@@ -113,7 +113,7 @@ namespace HFS_BE.Dao.PostDao
             }
         }
 
-        public BaseOutputDto AddNewPost(PostCreateInputDto postDto)
+        public AddNewPostOutput AddNewPost(PostCreateInputDto postDto)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace HFS_BE.Dao.PostDao
                 {
                     CreatedDate = DateTime.Now,
                     PostContent = postDto.PostContent,
-                    Status = 0,
+                    Status = 1,
                     SellerId = postDto.UserDto.UserId
                 };
                 context.Add(post);
@@ -141,11 +141,14 @@ namespace HFS_BE.Dao.PostDao
                         context.SaveChanges();
                     }
                 }
-                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+                var output = this.Output<AddNewPostOutput>(Constants.ResultCdSuccess);
+                output.PostId = post.PostId;
+                return output;
             }
             catch (Exception e)
             {
-                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                return this.Output<AddNewPostOutput>(Constants.ResultCdFail);
             }
         }
 
@@ -250,7 +253,7 @@ namespace HFS_BE.Dao.PostDao
 
         public Post? GetPostById(int postId)
         {
-            return context.Posts.FirstOrDefault(x => x.PostId == postId);
+            return context.Posts.Include(x=>x.Seller).FirstOrDefault(x => x.PostId == postId);
         }
 
         public ListPostByCustomerOutputDto ListPostsByCustomer(PostStatusInputDto input)

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Models;
+using HFS_BE.Services;
 using HFS_BE.Utils;
 
 namespace HFS_BE.Base
@@ -10,8 +11,8 @@ namespace HFS_BE.Base
         public readonly IMapper mapper;
         public BaseDao(SEP490_HFS_2Context context, IMapper mapper)
         {
-            this.context = context;
-            this.mapper = mapper;
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public T Output<T>(bool success) where T : BaseOutputDto, new()
