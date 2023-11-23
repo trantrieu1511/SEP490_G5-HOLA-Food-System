@@ -52,8 +52,8 @@ namespace HFS_BE.BusinessLogic.ManageOrderCustomer
                     // create transaction:
                     var input2 = new CreateTransaction()
                     {
-                        UserId = inputDto.CustomerId,
-                        RecieverId = getOrder.SellerId,
+                        UserId = getOrder.SellerId,
+                        RecieverId = inputDto.CustomerId,
                         TransactionType = 4,
                         Value = refund,
                         Note = "Refund Order " + getOrder.OrderId,
@@ -75,6 +75,17 @@ namespace HFS_BE.BusinessLogic.ManageOrderCustomer
                         return this.Output<BaseOutputDto>(Constants.ResultCdFail);
                     }
 
+                    // wallet balance change
+                    var input3 = new UpadateWalletBalanceDaoInputDto()
+                    {
+                        UserId = getOrder.SellerId,
+                        Value = -refund,
+                    };
+                    var output3 = transactionDao.UpdateWalletBalanceSeller(input3);
+                    if (!output1.Success)
+                    {
+                        return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                    }
                 }
 
                 return orderProgressDao.CreateOrderProgressCustomer(orderProgressInput);
