@@ -887,4 +887,29 @@ export class iServiceBase {
         }
         return message.trim();
     }
+
+    formatDatetime(dateArgument: string) {
+        const date = new Date(dateArgument);
+        const yyyy = date.getFullYear();
+        let mm = date.getMonth() + 1; // Months start at 0!
+        let dd = date.getDate();
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let seconds = date.getSeconds();
+        let ddstr = '';
+        let mmstr = '';
+        let hourstr = '';
+        let minutestr = '';
+        let secondstr = '';
+    
+        if (dd < 10) ddstr = '0' + dd;
+        if (mm < 10) mmstr = '0' + mm;
+        if (hours < 10) hourstr = '0' + hours;
+        if (minutes < 10) minutestr = '0' + minutes;
+        if (seconds < 10) secondstr = '0' + seconds;
+    
+        const formattedDate = (ddstr != '' ? ddstr : dd) + '/' + (mmstr != '' ? mmstr : mm) + '/' + yyyy;
+        const time = (hourstr != '' ? hourstr : hours) + ':' + (minutestr != '' ? minutestr : minutes) + ':' + (secondstr != '' ? secondstr : seconds);
+        return formattedDate + ' ' + time;
+      }
 }

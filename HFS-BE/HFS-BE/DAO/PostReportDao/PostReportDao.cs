@@ -34,6 +34,7 @@ namespace HFS_BE.DAO.PostReportDao
                                 Status = PostMenuReportStatusEnum.GetStatusString(pr.Status),
                                 Note = pr.Note
                             })
+                            .OrderByDescending(pr => pr.CreateDate)
                             .ToList();
                         break;
                     case "CU": // Customer can only see their post reports
@@ -55,6 +56,7 @@ namespace HFS_BE.DAO.PostReportDao
                                 Status = PostMenuReportStatusEnum.GetStatusString(pr.Status),
                                 Note = pr.Note
                             })
+                            .OrderByDescending(pr => pr.CreateDate)
                             .ToList();
                         break;
                 }
