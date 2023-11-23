@@ -91,7 +91,7 @@
                                                 <td>{{ orderDetail.foodId }}</td>
                                                 <td><p-image src="data:image/gif;base64,{{orderDetail.imageBase64.imageBase64}}" [preview]="true"
                                                     [alt]="orderDetail.imageBase64.name" class="dialogimages_image w-10rem shadow-2"
-                                                    ></p-image></td> 
+                                                    ></p-image></td>
                                                 <td>{{ orderDetail.foodName }}</td>
                                                 <td>{{ orderDetail.unitPrice }}$</td>
                                                 <td>{{ orderDetail.quantity}}</td>
@@ -225,11 +225,11 @@
                               <span style="color:greenyellow;" *ngIf="history.accepted === 1">Accepted</span>
                               <span style="color:red;" *ngIf="history.accepted === 2">Rejected</span>
                           </td>
-                          
-                          <td>   <button pButton type="button" label="Accepted" icon="pi pi-check"
+
+                          <td>   <button pButton type="button" label="Accept" icon="pi pi-check"
                             (click)="UpdateInv(history,1)"
                             style="width: 100%;"></button>
-                            <button pButton type="button" label="Rejected" icon="pi pi-times"
+                            <button pButton type="button" label="Reject" icon="pi pi-times"
                             (click)="UpdateInv(history,2)" class="p-button-danger"
                             style="width: 100%;"></button></td>
                         </tr>

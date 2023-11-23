@@ -158,7 +158,7 @@ namespace HFS_BE.DAO.SellerDao
 				return datmapper;
 			
 			}
-			imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 2);
+			imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 3);
 			
 			//	var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>(imageInfor);
 			datmapper.Image = imageInfor.ImageBase64;
@@ -224,7 +224,7 @@ namespace HFS_BE.DAO.SellerDao
 						listUserOnline.Add(datmapper);
 						break;
 					}
-					imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 2);
+					imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 3);
 					if (imageInfor == null)
 						continue;
 					//	var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>(imageInfor);
@@ -261,7 +261,7 @@ namespace HFS_BE.DAO.SellerDao
 						listUserOnline.Add(datmapper);
 						break;
 					}
-					imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 2);
+					imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 3);
 					if (imageInfor == null)
 						continue;
 				//	var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>(imageInfor);
@@ -331,7 +331,7 @@ namespace HFS_BE.DAO.SellerDao
 						break;
 					}
 					ImageFileConvert.ImageOutputDto? imageInfor = null;
-					imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 2);
+					imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 3);
 					if (imageInfor == null)
 						continue;
 					//	var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>(imageInfor);

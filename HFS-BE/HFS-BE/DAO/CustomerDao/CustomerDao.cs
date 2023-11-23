@@ -138,7 +138,7 @@ namespace HFS_BE.DAO.CustomerDao
 					break;
 
 				}
-				imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 2);
+				imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 3);
 				//	var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>(imageInfor);
 				u.Image = imageInfor.ImageBase64;
 			}

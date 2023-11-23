@@ -9,6 +9,13 @@ export class Shipper {
   confirmedEmail:boolean;
   isBanned: boolean;
   isVerified:boolean;
+  imagesBase64: ShipperImageBase64[] = null;
+}
+export interface ShipperImageBase64 {
+  imageId: number;
+  imageBase64: string;
+  name: string;
+  size: string;
 }
 export class  HistoryBanShipper{
   banShipperId: number;

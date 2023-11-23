@@ -34,7 +34,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 
 		[HttpPost("users/listshipperbyadmin")]
 
-		public ShipperInforListByAdmin ListShipperbyAdmin()
+		public ListShipperbyAdminOutputDtoBS ListShipperbyAdmin()
 		{
 			try
 			{

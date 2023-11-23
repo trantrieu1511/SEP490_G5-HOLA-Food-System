@@ -17,7 +17,9 @@ import { Router } from '@angular/router';
 export class ManageShipperModuleComponent extends iComponentBase implements OnInit {
   listShipper:Shipper []=[];
   displayDialogBan: boolean = false;
+  visibleImageDialog:boolean=false;
   visiblebanHistoryDialog:boolean=false;
+  shipperImg:Shipper =new Shipper();
   headerDialog: string = '';
   listhistoryBan:HistoryBanShipper []=[];
   banshipper:BanShipper= new BanShipper();
@@ -61,7 +63,7 @@ this.getAllShipper();
   }
       try {
 
-     
+
           let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.HIS_SHIPPER,param);
 
           if (response && response.message === "Success") {
@@ -123,5 +125,8 @@ console.log(this.banshipper);
     this.banshipper = new BanShipper();
     this.displayDialogBan = false;
   }
-
+  onDisplayImagesDialog(s: Shipper, event: any) {
+    this.shipperImg = s;
+    this.visibleImageDialog = true;
+  }
 }

@@ -30,6 +30,14 @@ namespace HFS_BE.DAO.ShipperDao
 		public bool? ConfirmedEmail { get; set; }
 		public bool? IsBanned { get; set; }
 		public bool? IsVerified { get; set; }
+		public List<ImageShipperOutputDto>? Images { get; set; }
+	}
+	public class ImageShipperOutputDto
+	{
+		public int ImageId { get; set; }
+		public string UserId { get; set; } = null!;
+		public string Path { get; set; } = null!;
+		public bool IsReplaced { get; set; }
 	}
 
 	public class ShipperInforListByAdmin : BaseOutputDto

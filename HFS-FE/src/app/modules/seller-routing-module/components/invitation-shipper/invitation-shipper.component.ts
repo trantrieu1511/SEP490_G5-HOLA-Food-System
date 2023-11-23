@@ -137,7 +137,7 @@ debugger;
 
      } catch (e) {
          console.log(e);
-         this.showMessage(mType.error, "Notification", "Invitation  failure", 'notify');
+         this.showMessage(mType.error, "Notification", "Invitation failure", 'notify');
 
      }
 }

@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.Dao.OrderDao;
+using HFS_BE.DAO.CustomerDao;
 using HFS_BE.DAO.NotificationDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace HFS_BE.DAO.ShipperDao
 {
@@ -41,11 +43,46 @@ namespace HFS_BE.DAO.ShipperDao
         {
             return context.Shippers.FirstOrDefault(x => x.ShipperId.Equals(shipperId) && x.ManageBy.Equals(sellerId));
         }
-
-        public ShipperInforListByAdmin GetShipperAll()//chua mapper
+		//public string? ShipperId { get; set; }
+		//public string? ShipperName { get; set; }
+		//public string? Gender { get; set; }
+		//public DateTime? BirthDate { get; set; }
+		//public string Email { get; set; } = null!;
+		//public string? PhoneNumber { get; set; }
+		//public string? Avatar { get; set; }
+		//public string? ManageBy { get; set; }
+		//public bool? ConfirmedEmail { get; set; }
+		//public bool? IsBanned { get; set; }
+		//public bool? IsVerified { get; set; }
+		public ShipperInforListByAdmin GetShipperAll()//chua mapper
 		{
 			var data = context.Shippers
-				.Select(s => mapper.Map<Shipper, ShipperInforByAdmin>(s))
+				.Select(s =>new ShipperInforByAdmin
+				{
+					ShipperId = s.ShipperId,
+					ShipperName=s.FirstName+" "+s.LastName,
+					Gender=s.Gender,
+					BirthDate=s.BirthDate,
+					Email=s.Email,
+					PhoneNumber=s.PhoneNumber,
+					ManageBy=s.ManageBy,
+					ConfirmedEmail=s.ConfirmedEmail,
+					IsBanned=s.IsBanned,
+					IsVerified=s.IsVerified,
+					Images= context.ProfileImages
+					.Where(pi => pi.UserId == s.ShipperId && pi.IsReplaced == false)
+				   .Select(pi => new ImageShipperOutputDto
+				   {
+					   ImageId = pi.ImageId,
+					   UserId = pi.UserId,
+					   Path = pi.Path,
+					   IsReplaced = pi.IsReplaced
+				   })
+				 .ToList()
+				}
+				
+					
+					)
 				.ToList();
 			var output = Output<ShipperInforListByAdmin>(Constants.ResultCdSuccess);
 			output.Shippers = data;
@@ -136,44 +173,53 @@ namespace HFS_BE.DAO.ShipperDao
 
 		public BaseOutputDto InvitationShipper(InvitationShipperEmailDtoInput input)//bên seller gửi lời mời đến shipper
 		{
-			var validationContext = new ValidationContext(input, serviceProvider: null, items: null);
-			var validationResults = new List<ValidationResult>();
-			bool isValid = Validator.TryValidateObject(input, validationContext, validationResults, validateAllProperties: true);
-			if (!isValid)
+			try
 			{
-				string err = "";
-				foreach (var item in validationResults)
+				var validationContext = new ValidationContext(input, serviceProvider: null, items: null);
+				var validationResults = new List<ValidationResult>();
+				bool isValid = Validator.TryValidateObject(input, validationContext, validationResults, validateAllProperties: true);
+				if (!isValid)
 				{
-					err += item.ToString() + " ";
+					string err = "";
+					foreach (var item in validationResults)
+					{
+						err += item.ToString() + " ";
+					}
+					return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
 				}
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
-			}
-			var data = context.Shippers.FirstOrDefault(s => s.Email==input.Email);
-			var datacheckis = context.Shippers.FirstOrDefault(s => s.Email == input.Email&&s.IsBanned==false&&s.IsVerified==true);
-		
-			var datainv = context.Invitations.Include(s => s.Shipper).FirstOrDefault(s => s.Shipper.Email == input.Email && s.SellerId == input.SellerId&&s.Accepted==0);
-			if (data.ManageBy != null)
-			{
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Shipper has a manager");
-			}
-			if (datacheckis==null)
-			{
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Please wait for the admin to approve the shipper");
-			}
+				var data = context.Shippers.FirstOrDefault(s => s.Email == input.Email);
+				var datacheckis = context.Shippers.FirstOrDefault(s => s.Email == input.Email && s.IsBanned == false && s.IsVerified == true);
+
+				var datainv = context.Invitations.Include(s => s.Shipper).FirstOrDefault(s => s.Shipper.Email == input.Email && s.SellerId == input.SellerId && s.Accepted == 0);
+				if (data.ManageBy != null)
+				{
+					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Shipper has a manager");
+				}
+				if (datacheckis == null)
+				{
+					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Please wait for the admin to approve the shipper");
+				}
 				if (datainv != null)
-			{
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You invited them to be the shipper");
-			}
+				{
+					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You invited them to be the shipper");
+				}
 				Invitation inv = new Invitation();
-				inv.ShipperId =data.ShipperId;
+				inv.ShipperId = data.ShipperId;
 				inv.SellerId = input.SellerId;
 				inv.Accepted = 0;
 				context.Invitations.Add(inv);
-				context.SaveChanges();	
+				context.SaveChanges();
 
-			var output = Output<BaseOutputDto>(Constants.ResultCdSuccess);
-			
-			return output;
+				var output = Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+				return output;
+
+			}catch(Exception ex)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "No shipper uses this email in the system");
+
+			}
+		
 		}
 		public ListInvitationShipperDtoOutput ListInvitationShipper(ShipperInforDtoInputbySellerId input)//list ra nhưng lời mời seller gửi 
 		{
@@ -214,11 +260,16 @@ namespace HFS_BE.DAO.ShipperDao
 				shipper.ManageBy = input.SellerId;
 				context.Shippers.Update(shipper);
 				context.SaveChanges();
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Accept successfully");
+			}
+			else
+			{
+			//	var output = Output<BaseOutputDto>(Constants.ResultCdSuccess, "Reject successfully");
+
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Reject successfully");
 			}
 			
-			var output = Output<BaseOutputDto>(Constants.ResultCdSuccess);
-
-			return output;
+			
 		}
 
 		public BaseOutputDto KickShipper(KickShipperDtoInput input)//bên seller có thể kick shipper ra khỏi quán mình

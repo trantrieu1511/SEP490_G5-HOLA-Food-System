@@ -274,6 +274,7 @@ namespace HFS_BE.DAO.AuthDAO
 				FirstName = model.FirstName,
 				LastName = model.LastName,
 				Gender = model.Gender,
+				PhoneNumber = model.PhoneNumber,
 				ConfirmedEmail = false,
 				IsBanned = false
 
