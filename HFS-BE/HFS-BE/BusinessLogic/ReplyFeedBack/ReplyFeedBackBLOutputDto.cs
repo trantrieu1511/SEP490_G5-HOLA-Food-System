@@ -15,7 +15,7 @@ namespace HFS_BE.BusinessLogic.ReplyFeedBack
 		public DateTime? DisplayDate { get; set; }
 		public int LikeCount { get; set; }
 		public int DisLikeCount { get; set; }
-
+		public bool CheckReply { get; set; }
 		public List<FeedSellerImageOutputDto>? ImagesBase64 { get; set; } = new List<FeedSellerImageOutputDto>();
 	}
 

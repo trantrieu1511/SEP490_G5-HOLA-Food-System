@@ -140,15 +140,34 @@ namespace HFS_BE.DAO.AdminDao
 			}
 		}
 		
-		public List<DashboadPieAdminOutputDto> GetDashBoadAdminOrder(List<DashboadAdminInputOrderDto> input)
+		public DashboadAdminOutputDto GetDashBoadAdminTotal()
 		{
 			try
-			{
-				DateTime date = DateTime.Now;
-				
-               var listr = context.MenuReports.Where(s => s.CreateDate.Month == date.Month).ToList();
 
-				return null;
+			{
+				DashboadAdminOutputDto outputDto = new DashboadAdminOutputDto();
+				int sellervetify = context.Sellers.Where(s => s.IsVerified == true).Count();
+				int sellerban = context.Sellers.Where(s => s.IsBanned == true).Count();
+				int totalseller = context.Sellers.Count();
+				int totalcus = context.Customers.Count();
+				int seller = context.Sellers.Where(s => s.IsBanned == false && s.IsVerified == true).Count();
+				int cusban = context.Customers.Where(s => s.IsBanned == true).Count();
+				int shipper = context.Shippers.Where(s => s.IsBanned == false && s.IsVerified == true).Count();
+				int shipperban = context.Shippers.Where(s => s.IsBanned == true).Count();
+				int shippervetify = context.Shippers.Where(s => s.IsVerified == true).Count();
+				int totalshipper= context.Shippers.Count();
+				outputDto.BanCustomer = cusban;
+				outputDto.BanShipper = shipperban;
+				outputDto.BanSeller = sellerban;
+				outputDto.TotalCustomer = totalcus;
+				outputDto.TotalSeller = totalseller;
+				outputDto.TotalShippper = totalshipper;
+				outputDto.VetifySeller = sellervetify;
+				outputDto.VetifyShipper = shippervetify;
+
+
+
+				return outputDto;
 
 			}
 			catch (Exception)

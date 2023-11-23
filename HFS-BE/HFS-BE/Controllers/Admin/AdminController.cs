@@ -43,5 +43,19 @@ namespace HFS_BE.Controllers.Admin
 				throw;
 			}
 		}
+		[HttpPost("users/dashboadtotal")]
+		public DashboadAdminOutputDto GetDashBoadTotal()
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<AdminBusinessLogic>();
+				return business.GetDashBoadTotal();
+			}
+			catch (Exception ex)
+			{
+
+				throw;
+			}
+		}
 	}
 }
