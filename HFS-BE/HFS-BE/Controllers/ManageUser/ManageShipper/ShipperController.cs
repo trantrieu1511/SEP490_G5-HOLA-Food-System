@@ -5,6 +5,7 @@ using HFS_BE.BusinessLogic.ManageUser.ManageShipper;
 using HFS_BE.DAO.SellerDao;
 using HFS_BE.DAO.ShipperDao;
 using HFS_BE.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 		{
 		}
 		[HttpPost("users/listshipperbyseller")]
-
+		[Authorize(Roles = "SE")]
 		public ShipperInforList ListShipper(ShipperInforDtoInputbySellerId input)
 		{
 			try
@@ -33,7 +34,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 		}
 
 		[HttpPost("users/listshipperbyadmin")]
-
+		[Authorize(Roles = "AD")]
 		public ListShipperbyAdminOutputDtoBS ListShipperbyAdmin()
 		{
 			try
@@ -48,7 +49,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 			}
 		}
 		[HttpPost("users/listinvitationshipper")]
-
+		[Authorize(Roles = "AD")]
 		public ListInvitationShipperDtoOutput ListInvitationShipper(ShipperInforDtoInputbySellerId input)
 		{
 			try
@@ -63,7 +64,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 			}
 		}
 		[HttpPost("users/listinvitationshipperbyshipper")]
-
+		[Authorize(Roles = "SH")]
 		public ListInvitationShipperbyShipperDtoOutput ListInvitationShipperByShipper(ListInvitationShipperDtoInput input)
 		{
 			try
@@ -78,7 +79,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 			}
 		}
 		[HttpPost("users/invitationshipper")]
-
+		[Authorize(Roles = "SE")]
 		public BaseOutputDto InvitationShipper(InvitationShipperEmailDtoInput input)
 		{
 			try
@@ -94,7 +95,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 		}
 
 		[HttpPost("users/acceptshipper")]
-
+		[Authorize(Roles = "SH")]
 		public BaseOutputDto AcceptShipper(InvitationShipperDtoInput input)
 		{
 			try
@@ -110,7 +111,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 		}
 
 		[HttpPost("users/banshipper")]
-
+		[Authorize(Roles = "AD")]
 		public BaseOutputDto Banhipper(BanShipperDtoInput input)
 		{
 			try
@@ -125,7 +126,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 			}
 		}
 		[HttpPost("users/activeshipper")]
-
+		[Authorize(Roles = "AD")]
 		public BaseOutputDto AciveShipper(ActiveShipperDtoInput input)
 		{
 			try
@@ -140,7 +141,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 			}
 		}
 		[HttpPost("users/kickshipper")]
-
+		[Authorize(Roles = "SE")]
 		public BaseOutputDto KickShipper(KickShipperDtoInput input)
 		{
 			try
@@ -155,7 +156,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 			}
 		}
 		[HttpPost("users/banshipperhistory")]
-
+		[Authorize(Roles = "AD")]
 		public BaseOutputDto ListHistoryBanShipper(BanShipperHistoryDtoInput input)
 		{
 			try
