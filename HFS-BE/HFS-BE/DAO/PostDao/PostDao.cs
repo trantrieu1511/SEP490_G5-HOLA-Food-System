@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.Dao.FoodDao;
+using HFS_BE.Dao.OrderDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
@@ -112,7 +113,7 @@ namespace HFS_BE.Dao.PostDao
             }
         }
 
-        public BaseOutputDto AddNewPost(PostCreateInputDto postDto)
+        public AddNewPostOutput AddNewPost(PostCreateInputDto postDto)
         {
             try
             {
@@ -122,7 +123,7 @@ namespace HFS_BE.Dao.PostDao
                 {
                     CreatedDate = DateTime.Now,
                     PostContent = postDto.PostContent,
-                    Status = 0,
+                    Status = 1,
                     SellerId = postDto.UserDto.UserId
                 };
                 context.Add(post);
@@ -140,11 +141,14 @@ namespace HFS_BE.Dao.PostDao
                         context.SaveChanges();
                     }
                 }
-                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+                var output = this.Output<AddNewPostOutput>(Constants.ResultCdSuccess);
+                output.PostId = post.PostId;
+                return output;
             }
             catch (Exception e)
             {
-                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                return this.Output<AddNewPostOutput>(Constants.ResultCdFail);
             }
         }
 
@@ -249,7 +253,7 @@ namespace HFS_BE.Dao.PostDao
 
         public Post? GetPostById(int postId)
         {
-            return context.Posts.FirstOrDefault(x => x.PostId == postId);
+            return context.Posts.Include(x=>x.Seller).FirstOrDefault(x => x.PostId == postId);
         }
 
         public ListPostByCustomerOutputDto ListPostsByCustomer(PostStatusInputDto input)
@@ -279,6 +283,50 @@ namespace HFS_BE.Dao.PostDao
             {
 
                 return this.Output<ListPostByCustomerOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public DashboardPostModStatisticOutput GetAllTimeStatistics(string userId)
+        {
+            try
+            {
+                var allTimeStatistics = new DashboardPostModStatistic
+                {
+                    TotalPosts = context.Posts.Count(),
+                    TotalBannedPosts = context.Posts.Where(p => p.Status == 3).Count(),
+                    TotalPendingPostReports = context.PostReports.Where(pr => pr.Status == 0).Count(),
+                    TotalApprovedPostReports = context.PostReports.Where(pr => pr.Status == 1).Count(),
+                    TotalNotapprovedPostReports = context.PostReports.Where(pr => pr.Status == 2).Count()
+                };
+                var output = Output<DashboardPostModStatisticOutput>(Constants.ResultCdSuccess);
+                output.Statistics = allTimeStatistics;
+                return output;
+            }
+            catch (Exception e)
+            {
+                return this.Output<DashboardPostModStatisticOutput>(Constants.ResultCdFail, e.Message + e.Source + e.InnerException + e.StackTrace);
+            }
+        }
+        
+        public DashboardPostModStatisticOutput GetThisMonthStatistics(string userId)
+        {
+            try
+            {
+                var thisMonthStatistics = new DashboardPostModStatistic
+                {
+                    TotalPosts = context.Posts.Where(p => Convert.ToDateTime(p.CreatedDate).Month == DateTime.Now.Month).Count(),
+                    TotalBannedPosts = context.Posts.Where(p => Convert.ToDateTime(p.CreatedDate).Month == DateTime.Now.Month && p.Status == 3).Count(),
+                    TotalPendingPostReports = context.PostReports.Where(pr => Convert.ToDateTime(pr.CreateDate).Month == DateTime.Now.Month && pr.Status == 0).Count(),
+                    TotalApprovedPostReports = context.PostReports.Where(pr => Convert.ToDateTime(pr.CreateDate).Month == DateTime.Now.Month && pr.Status == 1).Count(),
+                    TotalNotapprovedPostReports = context.PostReports.Where(pr => Convert.ToDateTime(pr.CreateDate).Month == DateTime.Now.Month && pr.Status == 2).Count()
+                };
+                var output = Output<DashboardPostModStatisticOutput>(Constants.ResultCdSuccess);
+                output.Statistics = thisMonthStatistics;
+                return output;
+            }
+            catch (Exception e)
+            {
+                return this.Output<DashboardPostModStatisticOutput>(Constants.ResultCdFail, e.Message + e.Source + e.InnerException + e.StackTrace);
             }
         }
     }

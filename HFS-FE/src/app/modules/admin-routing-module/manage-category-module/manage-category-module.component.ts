@@ -89,7 +89,7 @@ export class ManageCategoryModuleComponent extends iComponentBase implements OnI
 
   async updateCate(cateEntity : CategoryInput){
     try {
-      debugger
+      
       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.EDIT_CATE,cateEntity);
       if (response && response.message === "Success") {
         this.getAllCate();

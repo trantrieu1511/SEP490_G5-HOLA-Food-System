@@ -6,7 +6,7 @@ import { SharedModule } from '../shared-module/shared-module.module';
 import { ComponentModule } from '../components-module/component.modules';
 import { DisplayPostComponent } from './components/display-post/display-post.component';
 import { PostreportManagementComponent } from './components/postreport-management/postreport-management.component';
-import { DashboardPostmodComponent } from './dashboard-postmod/dashboard-postmod.component';
+import { DashboardPostmodComponent } from './components/dashboard-postmod/dashboard-postmod.component';
 
 const routes: Routes = [
   {path: 'post-management', component: DisplayPostComponent},

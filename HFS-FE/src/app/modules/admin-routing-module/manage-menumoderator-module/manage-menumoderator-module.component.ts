@@ -85,7 +85,7 @@ onCreateMM() {
 
   this.menuM = new MenuModerator();
 
-  debugger;
+  ;
   this.displayDialogAdd = true;
   this.getAllMM();
 }
@@ -116,7 +116,7 @@ onCancelMM() {
 }
 UpdateModerator(user:MenuModerator){
   this.headerDialog = `Edit MenuModerator ID: ${user.modId}`;
-  debugger;
+  ;
   this.menuM = user;
   console.log(this.menuM.birthDate)
   this.menuM.birthDate = new Date(this.menuM.birthDate)

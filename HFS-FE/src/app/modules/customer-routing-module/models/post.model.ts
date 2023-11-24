@@ -1,12 +1,12 @@
-export class Post{
-    postId :number;
-    sellerId :string;
-    shopName: string;
-    postContent : string;
-    createdDate : Date;
-    settatus :string;
-    imagesBase64: ImageBase64[] = null;
-    isReported: boolean;
+export class Post {
+  postId: number;
+  sellerId: string;
+  shopName: string;
+  postContent: string;
+  createdDate: Date;
+  settatus: string;
+  imagesBase64: ImageBase64[] = null;
+  isReported: boolean = false;
 }
 
 

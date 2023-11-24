@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.Dao.OrderDao;
+using HFS_BE.DAO.NotificationDao;
 using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.DAO.TransantionDao;
 using HFS_BE.Models;
@@ -15,13 +16,16 @@ namespace HFS_BE.BusinessLogic.ManageOrderCustomer
         {
         }
 
-        public BaseOutputDto CancelOrder(OrderCustomerDaoInputDto inputDto)
+        public BaseOutputDto CancelOrder(OrderCustomerDaoInputDto inputDto, out string? sellerId)
         {
+            sellerId = null;
             try
             {
                 var dao = this.CreateDao<OrderDao>();
                 var orderProgressDao = this.CreateDao<OrderProgressDao>();
                 var transactionDao = this.CreateDao<TransactionDao>();
+                var notifyDao = CreateDao<NotificationDao>();
+
                 var getOrder = dao.GetOrderCustomer(inputDto);
                 if (getOrder == null)
                 {
@@ -52,8 +56,8 @@ namespace HFS_BE.BusinessLogic.ManageOrderCustomer
                     // create transaction:
                     var input2 = new CreateTransaction()
                     {
-                        UserId = inputDto.CustomerId,
-                        RecieverId = getOrder.SellerId,
+                        UserId = getOrder.SellerId,
+                        RecieverId = inputDto.CustomerId,
                         TransactionType = 4,
                         Value = refund,
                         Note = "Refund Order " + getOrder.OrderId,
@@ -75,6 +79,25 @@ namespace HFS_BE.BusinessLogic.ManageOrderCustomer
                         return this.Output<BaseOutputDto>(Constants.ResultCdFail);
                     }
 
+                    // wallet balance change
+                    var input3 = new UpadateWalletBalanceDaoInputDto()
+                    {
+                        UserId = getOrder.SellerId,
+                        Value = -refund,
+                    };
+                    var output3 = transactionDao.UpdateWalletBalanceSeller(input3);
+                    if (!output1.Success)
+                    {
+                        return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                    }
+                }
+                sellerId = getOrder.SellerId;
+                var notifyBase = GenerateNotification.GetSingleton().GenNotificationOrderCustomerCancel(sellerId, inputDto.OrderId, inputDto.Note);
+                //3. add notify
+                var noti = notifyDao.AddNewNotification(notifyBase);
+                if (!noti.Success)
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
                 }
 
                 return orderProgressDao.CreateOrderProgressCustomer(orderProgressInput);

@@ -229,7 +229,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       getSimilarFood.categoryId = this.category
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODETAIL, API.API_FOODDETAIL.GET_SIMILARFOOD, getSimilarFood);
       if (response && response.success === true) {
-        debugger
+        
         console.log(response)
         this.similarFood = response.listFood.filter(x => x.foodId != this.foodId)
       }

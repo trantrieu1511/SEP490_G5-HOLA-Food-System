@@ -82,6 +82,26 @@ namespace HFS_BE.DAO.TransantionDao
             }
         }
 
+        public BaseOutputDto UpdateWalletBalanceSeller(UpadateWalletBalanceDaoInputDto inputDto)
+        {
+            try
+            {
+                var user = this.context.Sellers.FirstOrDefault(x => x.SellerId.Equals(inputDto.UserId));
+                if (user != null)
+                {
+                    user.WalletBalance = user.WalletBalance == null ? inputDto.Value : user.WalletBalance + inputDto.Value;
+                    this.context.Update(user);
+                    this.context.SaveChanges();
+                }
+
+                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
         public GetTransactionHistoryDaoOutputDto GetTransactionList(GetTransactionHistoryDaoInputDto inputDto)
         {
             try

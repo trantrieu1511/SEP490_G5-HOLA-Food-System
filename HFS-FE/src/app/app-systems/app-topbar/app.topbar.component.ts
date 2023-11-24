@@ -101,7 +101,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         this.clearLocalStorage();
 
         event.preventDefault();
-        // debugger;
+        // ;
         let urlLogin = this.checkRoleCus() ? '/login' : '/login-2';
         //Logout thì xóa đi
         sessionStorage.clear();
@@ -147,7 +147,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     async ngOnInit() {
-        // debugger;
+        // ;
         this.setCurrentUser();
         this.checkLoggedInState();
         await this.profileService.getProfileImage();
@@ -166,7 +166,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     goToNewsFeedPage() {
-        this.router.navigateByUrl('/newsfeed');
+        this.router.navigateByUrl('/newfeed');
     }
 
     onClickLogo(event: any){
@@ -176,7 +176,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     checkLink(){
-        // debugger;
+        // ;
         return this.router.url.indexOf("/HFSBusiness") == 0 ? false : true;
     }
 

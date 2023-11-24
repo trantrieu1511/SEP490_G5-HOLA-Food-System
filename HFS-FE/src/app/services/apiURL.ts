@@ -233,6 +233,8 @@ export class API_AUTH {
 
 export class API_DASHBOARD {
     public static DASHBOARD_SELLER = "dashboardSeller";
+    public static DASHBOARD_POSTMOD_ALLTIMESTATISTICS = "getalltimestatisticspostmoderator";
+    public static DASHBOARD_POSTMOD_THISMONTHSTATISTICS = "getalltimestatisticspostmoderator";
 }
 
 export class API_WALLET {

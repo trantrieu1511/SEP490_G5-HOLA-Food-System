@@ -36,7 +36,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
   isLoggedIn: boolean = false;
   listPostReport: PostReport[] = [];
   reportedPostIds: number[] = []; // List luu tru id cua nhung post nao da bi report boi khach hang
-  isReported: boolean = false;
+  // isReported: boolean = false;
 
   displayBasic: boolean | undefined;
   activeIndex: number = 0;
@@ -74,7 +74,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
     private router: Router,
     private dataService: DataService,
     public layoutService: LayoutService
-  ){
+  ) {
     super(messageService);
   }
 
@@ -89,7 +89,8 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
 
     await this.getAllPost();
 
-    if(this.isLoggedIn){
+    if (this.isLoggedIn) {
+      // ;
       await this.checkUsersReportPostCapability();
       this.enableDisablePostReportButtonSubmit(); // reset nut submit 
     }
@@ -121,7 +122,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
     this.visibleCommentDialog = true;
     this.getAllComment(item.postId);
     this.postId = item.postId;
-    
+
   }
 
   bindingDataCommentModel(): InputComment {
@@ -137,7 +138,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       comment.customerId = this.commentModel.customerId;
       comment.postId = this.commentModel.postId
     }
-    debugger;
+    ;
     return comment;
   }
   OnSaveCommnent(postId: number) {
@@ -195,7 +196,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
 
   // Hàm này kiểm tra khả năng tố cáo bằng cách xem customer đã report cái post với id: cụ thể nào đó chưa. Nếu rồi thì sẽ không sử dụng lại tính năng tố cáo đối với cái post đó nữa.
   async checkUsersReportPostCapability() {
-    // debugger;
+    // ;
     try {
       this.loading = true;
       this.reportedPostIds = [];
@@ -205,7 +206,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       if (response && response.message === "Success") {
         this.listPostReport = response.postReports;
         this.listPost.forEach((post, index) => {
-          if(this.listPostReport.length < 1){
+          if (this.listPostReport.length < 1) {
             this.listPost[index].isReported = false;
             return;
           }
@@ -214,17 +215,19 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
             if (postrp.postId == post.postId) { // Da report
               // this.reportedPostIds.push(post.postId);
               // this.isReported = true;
-              this.listPost[index].isReported = true;
-              console.log(this.listPost[index].isReported);
-            }else{
-              this.listPost[index].isReported = false;
-              console.log(this.listPost[index].isReported);
+              post.isReported = true;
+              // console.log(this.listPost[index].isReported);
             }
+            // else{
+            // this.listPost[index].isReported = false;
+            // console.log(this.listPost[index].isReported);
+            // }
           });
         });
       }
       //console.log(this.listPost);
-      console.log(this.isReported);
+      // console.log(this.isReported);
+      // console.log(this.reportedPostIds);
       this.loading = false;
     } catch (e) {
       console.log(e);
@@ -245,7 +248,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
     //------------ Lay cac ly do report duoc input boi nguoi dung -------------
     let rpContent: string = "";
     let i = 0;
-    // debugger;
+    // ;
     console.log(this.postReport.reportContents);
     this.postReport.reportContents.forEach(element => {
       i++;
@@ -318,7 +321,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
   }
 
   enableDisablePostReportButtonSubmit() {
-    // debugger;
+    // ;
     console.log(this.postReport.reportContents);
     console.log("rpContents length: " + this.postReport.reportContents.length);
     if (this.postReport.reportContents.length < 1) {
@@ -337,35 +340,34 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
 
   checkContentOverflow() {
     if (this.postContentRefs && this.postContentRefs.length > 0) {
-      this.postContentRefs.forEach(ref => 
-        {
-          if(ref.nativeElement.scrollHeight > ref.nativeElement.clientHeight){
-            //console.log(ref.nativeElement.scrollHeight + ': ' + ref.nativeElement.clientHeight)
-            ref.nativeElement.children[1].setAttribute("style", "display: block")
-          }
+      this.postContentRefs.forEach(ref => {
+        if (ref.nativeElement.scrollHeight > ref.nativeElement.clientHeight) {
+          //console.log(ref.nativeElement.scrollHeight + ': ' + ref.nativeElement.clientHeight)
+          ref.nativeElement.children[1].setAttribute("style", "display: block")
         }
+      }
       )
     }
   }
 
   getRemainingImageCount(item) {
-    if(!this.layoutService.isMobile()){
+    if (!this.layoutService.isMobile()) {
       return item.imagesBase64.length - 4;
     }
     return item.imagesBase64.length - 1;
   }
 
-  onViewImage(indexPost: number, indexImage: number){
+  onViewImage(indexPost: number, indexImage: number) {
     this.imagesLst = this.listPost[indexPost].imagesBase64;
     this.activeIndex = indexImage;
     this.displayBasic = true;
   }
 
-  getImageSrc(item: ImageBase64){
+  getImageSrc(item: ImageBase64) {
     return "data:image/gif;base64," + item.imageBase64;
   }
 
-  onViewMore(index: any){
+  onViewMore(index: any) {
     if (this.postContentRefs && this.postContentRefs.length > 0) {
       // reset max-height of parent
       this.postContentRefs.get(index)
@@ -375,7 +377,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       this.postContentRefs.get(index)
         .nativeElement.children[0]
         .setAttribute("style", "display: block; ")
-      ;
+        ;
       // hide view more button
       this.postContentRefs.get(index)
         .nativeElement.children[1].setAttribute("style", "display: none")
@@ -386,7 +388,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
     }
   }
 
-  onViewLess(index: any){
+  onViewLess(index: any) {
     if (this.postContentRefs && this.postContentRefs.length > 0) {
       // reset max-height of parent
       this.postContentRefs.get(index)
@@ -396,7 +398,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       this.postContentRefs.get(index)
         .nativeElement.children[0]
         .setAttribute("style", "display: -webkit-box; ")
-      ;
+        ;
       // display view more button
       this.postContentRefs.get(index)
         .nativeElement.children[1].setAttribute("style", "display: block")

@@ -56,11 +56,11 @@ export class AuthService {
     )
   }
   loginnotcus(model: any) {
-    //debugger
+    //
     return this.httpClient.post(this.path + 'home/loginnotcustomer', model).pipe(
       map((res: Tokens) => {
         const token = res;
-        //debugger
+        //
         if (token.success) {
           this.setCurrentUser(token);
           localStorage.removeItem("captcha");

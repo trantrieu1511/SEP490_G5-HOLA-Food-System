@@ -55,4 +55,23 @@ namespace HFS_BE.Dao.PostDao
     {
         public List<PostByCustomerOutputDto> Posts { get; set; }
     }
+
+    public class DashboardPostModStatistic
+    {
+        public int TotalPosts { get; set; } // total posts in the system
+        public int TotalBannedPosts { get; set; } // total posts in the system which has been banned
+        public int TotalPendingPostReports { get; set; } // total pending post reports in the system
+        public int TotalApprovedPostReports { get; set; } // total approved posts of the post mod in the system
+        public int TotalNotapprovedPostReports { get; set; } // total not approved posts of the post mod in the system
+    }
+    
+    public class DashboardPostModStatisticOutput : BaseOutputDto
+    {
+        public DashboardPostModStatistic Statistics { get; set; } = new DashboardPostModStatistic();
+    }
+
+    public class AddNewPostOutput : BaseOutputDto
+    {
+        public int PostId { get; set; }
+    }
 }

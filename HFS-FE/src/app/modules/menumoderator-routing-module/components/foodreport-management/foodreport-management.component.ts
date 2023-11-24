@@ -82,29 +82,12 @@ export class FoodreportManagementComponent extends iComponentBase implements OnI
         this.lstFoodReport = response.foodReports;
         this.lstFoodReport.forEach(foodrp => {
           // format date to dd/mm/yyyy
-          const date = new Date(foodrp.createDate);
-          const yyyy = date.getFullYear();
-          let mm = date.getMonth() + 1; // Months start at 0!
-          let dd = date.getDate();
-          let hours = date.getHours();
-          let minutes = date.getMinutes();
-          let seconds = date.getSeconds();
-          
-          let ddstr = '';
-          let mmstr = '';
-          let hourstr = '';
-          let minutestr = '';
-          let secondstr = '';
-
-          if (dd < 10) ddstr = '0' + dd;
-          if (mm < 10) mmstr = '0' + mm;
-          if (hours < 10) hourstr = '0' + hours;
-          if (minutes < 10) minutestr = '0' + minutes;
-          if (seconds < 10) secondstr = '0' + seconds;
-
-          const formattedDate = (ddstr != '' ? ddstr : dd) + '/' + (mmstr != '' ? mmstr : mm) + '/' + yyyy;
-          const time = (hourstr != '' ? hourstr : hours) + ':' + (minutestr != '' ? minutestr : minutes) + ':' + (secondstr != '' ? secondstr : seconds);
-          foodrp.createDate = formattedDate + ' ' + time;
+          if(foodrp.createDate == '' || foodrp.createDate != undefined){
+            foodrp.createDate = this.iServiceBase.formatDatetime(foodrp.createDate);
+          }
+          if(foodrp.updateDate == '' || foodrp.updateDate != undefined){
+            foodrp.updateDate = this.iServiceBase.formatDatetime(foodrp.updateDate);
+          }
         });
         console.log(this.lstFoodReport);
       }

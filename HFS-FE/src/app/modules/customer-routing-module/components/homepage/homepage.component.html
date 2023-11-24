@@ -1,9 +1,9 @@
 <div style="display: flex; align-items: center; justify-content: center;">
-    <input type="search" [(ngModel)]="searchText" pInputText placeholder="Enter to Search" (keyup.enter)="onSearch()">
+    <input type="search" [(ngModel)]="searchText" pInputText placeholder="Enter to Search" (keyup.enter)="onSearch()">&nbsp;&nbsp;
     <div class="flex align-items-center">
         <p-radioButton name="pizza" value="0" [(ngModel)]="searchOptions" inputId="ingredient1"></p-radioButton>
         <label for="ingredient1" class="ml-2">Food</label>
-    </div>
+    </div>&nbsp;&nbsp;
     
     <div class="flex align-items-center">
         <p-radioButton name="pizza" value="1" [(ngModel)]="searchOptions" inputId="ingredient2"></p-radioButton>
