@@ -469,7 +469,9 @@ namespace HFS_BE.Automapper
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
             CreateMap<MenuModerator, LoginGoogleInputDto>()
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
-        }
+			CreateMap<Shipper, LoginGoogleInputDto>()
+		.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ShipperId));
+		}
 
 
 

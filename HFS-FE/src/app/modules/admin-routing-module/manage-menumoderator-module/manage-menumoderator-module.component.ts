@@ -7,7 +7,7 @@ import {
   iFunction
 } from 'src/app/modules/shared-module/shared-module';
 import { User } from 'src/app/services/auth.service';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import * as API from "../../../services/apiURL";
 @Component({
@@ -23,6 +23,7 @@ export class ManageMenumoderatorModuleComponent extends iComponentBase implement
   menuM:MenuModerator=new MenuModerator();
   constructor( private shareData: ShareData,
     public messageService: MessageService,
+    private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
@@ -58,7 +59,38 @@ export class ManageMenumoderatorModuleComponent extends iComponentBase implement
 
     }
 }
-async BanModerator(user:MenuModeratorOutput){
+async BanModerator(user:MenuModeratorOutput,event){
+  if(user.isBanned===false){
+    this.confirmationService.confirm({
+      target: event.target,
+      message: `Are you sure to Closed Account id: ${user.modId} ?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //confirm action
+        this.BanModeratorMM(user);
+      },
+      reject: () => {
+        //reject action
+      },
+    });
+  }else{
+    this.confirmationService.confirm({
+      target: event.target,
+      message: `Are you sure to Unlock id: ${user.modId} ?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //confirm action
+        this.BanModeratorMM(user);
+      },
+      reject: () => {
+        //reject action
+      },
+    });
+  }
+
+
+}
+async BanModeratorMM(user:MenuModeratorOutput){
 
   const param = {
     "modId":user.modId,
@@ -72,7 +104,7 @@ try {
 
        if (response && response.message === "Success") {
         this.getAllMM();
-        this.showMessage(mType.success, "Notification", "Ban "+user.modId+" successfully", 'notify');
+        this.showMessage(mType.success, "Notification", "Update"+user.modId+" successfully", 'notify');
        }
       ;
    } catch (e) {

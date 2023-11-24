@@ -143,19 +143,19 @@
                           <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
                       </td>
                       <td >
-                        <span class="p-column-title">IsBanned</span>
+                        <span class="p-column-title">Status</span>
                         <div *ngIf="user.isBanned" style="color:red;">
-                          Ban
+                          Closed
                         </div>
                         <div *ngIf="!user.isBanned"  style="color:chartreuse;">
-                          Not Ban
+                          Active
                         </div>
                     </td>
                       <td style="text-align: center">
                           <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
                               <div class="flex align-items-center justify-content-center">
-                                  <button pButton pRipple icon="pi pi-ban"
-                                  (click)="BanModerator(user)"
+                                  <button pButton pRipple [icon]="user.isBanned ? 'pi pi-lock-open' : 'pi pi-ban'"
+                                  (click)="BanModerator(user,$event)"
                                           class="p-button-rounded p-mr-2"></button>
                               </div>
 

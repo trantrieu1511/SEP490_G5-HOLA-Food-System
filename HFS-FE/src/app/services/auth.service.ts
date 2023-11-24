@@ -66,7 +66,7 @@ export class AuthService {
           localStorage.removeItem("captcha");
 
         } else {
-          this.errorSubject.next('Email hoặc mật khẩu không chính xác');
+          this.errorSubject.next('Email Or Password Was Invalid');
           let captchastring = localStorage.getItem("captcha");
           if (captchastring === null) {
             captchastring = "1";
@@ -89,10 +89,12 @@ export class AuthService {
 
       map((res: Tokens) => {
         const token = res;
-        //
-        if (token) {
+      debugger
+        if (token.success) {
           this.setCurrentUser(token);
 
+        }else {
+          this.errorSubject.next(token.message.toString());
         }
       })
     )

@@ -47,7 +47,7 @@ namespace HFS_BE.Dao.AuthDao
 			}
 			if (user.IsBanned == true)
 			{
-				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Bạn đã bị ban do vi phạm hãy liên hệ chúng tôi để giải quyết");
+				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned, please contact us to resolve");
 			}
 			var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(user);
 			JwtSecurityToken token = GenerateSecurityToken(dapmapper);
@@ -554,6 +554,8 @@ namespace HFS_BE.Dao.AuthDao
 				var data = context.Customers.Where(s => s.Email == email).FirstOrDefault();
 				var data1 = context.Sellers.Where(s => s.Email == email).FirstOrDefault();
 				var data2 = context.Shippers.Where(s => s.Email == email).FirstOrDefault();
+				var data3 = context.PostModerators.Where(s => s.Email == email).FirstOrDefault();
+				var data4 = context.MenuModerators.Where(s => s.Email == email).FirstOrDefault();
 				if (data != null)
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
@@ -565,6 +567,16 @@ namespace HFS_BE.Dao.AuthDao
 					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 
 				}else if (data2 != null) 
+				{
+					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+				}
+				else if (data3 != null)
+				{
+					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+				}
+				else if (data4 != null)
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 
@@ -593,14 +605,16 @@ namespace HFS_BE.Dao.AuthDao
 				string email = ValidateConfirmationCodeForgot(change.confirm);
 				if (email == null)
 				{
-					return this.Output<BaseOutputDto>(Constants.ResultCdFail,"Het hạn token changepassword");
+					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Token expires to change password");
 				}
 				var data = context.Customers.Where(s => s.Email == email).FirstOrDefault();
 				var data1 = context.Sellers.Where(s => s.Email == email).FirstOrDefault();
 				var data2 = context.Shippers.Where(s => s.Email == email).FirstOrDefault();
+				var data3 = context.PostModerators.Where(s => s.Email == email).FirstOrDefault();
+				var data4 = context.MenuModerators.Where(s => s.Email == email).FirstOrDefault();
 				if (change.Password != change.ConfirmPassword)
 				{
-					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "password và confirm password khác nhau");
+					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "password and confirm password are different");
 				}
 				if (data != null)
 				{
@@ -611,7 +625,9 @@ namespace HFS_BE.Dao.AuthDao
 					}
 					context.Customers.Update(data);
 					context.SaveChanges();
-				}else if (data1 != null)
+					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+				}
+				else if (data1 != null)
 				{
 					using (HMACSHA256? hmac = new HMACSHA256())
 					{
@@ -620,7 +636,9 @@ namespace HFS_BE.Dao.AuthDao
 					}
 					context.Sellers.Update(data1);
 					context.SaveChanges();
-				}else if( data2 != null)
+					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+				}
+				else if( data2 != null)
 				{
 					using (HMACSHA256? hmac = new HMACSHA256())
 					{
@@ -629,8 +647,34 @@ namespace HFS_BE.Dao.AuthDao
 					}
 					context.Shippers.Update(data2);
 					context.SaveChanges();
+					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 				}
-				
+				else if (data3 != null)
+				{
+					using (HMACSHA256? hmac = new HMACSHA256())
+					{
+						data3.PasswordSalt = hmac.Key;
+						data3.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(change.Password));
+					}
+					context.PostModerators.Update(data3);
+					context.SaveChanges();
+					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+				}
+				else if (data4 != null)
+				{
+					using (HMACSHA256? hmac = new HMACSHA256())
+					{
+						data4.PasswordSalt = hmac.Key;
+						data4.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(change.Password));
+					}
+					context.MenuModerators.Update(data4);
+					context.SaveChanges();
+					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+				}
+				else
+				{
+					return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+				}
 
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}
@@ -657,6 +701,7 @@ namespace HFS_BE.Dao.AuthDao
 			var payload = await GoogleJsonWebSignature.ValidateAsync(credential, settings);
 
 			var user = context.Customers.Where(x => x.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
+			var data5 = context.Shippers.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
 			var data2 = context.Sellers.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
 			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
 			var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
@@ -664,6 +709,10 @@ namespace HFS_BE.Dao.AuthDao
 	
 			if (user != null)
 			{
+				if (user.IsBanned == true)
+				{
+					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned, please contact us to resolve");
+				}
 
 				var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(user);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
@@ -672,6 +721,10 @@ namespace HFS_BE.Dao.AuthDao
 			}
 			else if (data2 != null)
 			{
+				if (data2.IsBanned == true)
+				{
+					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned, please contact us to resolve");
+				}
 				var dapmapper = mapper.Map<Seller, LoginGoogleInputDto>(data2);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
@@ -679,6 +732,10 @@ namespace HFS_BE.Dao.AuthDao
 			}
 			else if (data3 != null)
 			{
+				if (data3.IsBanned == true)
+				{
+					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned, please contact us to resolve");
+				}
 				var dapmapper = mapper.Map<PostModerator, LoginGoogleInputDto>(data3);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
@@ -686,12 +743,26 @@ namespace HFS_BE.Dao.AuthDao
 			}
 			else if (data4 != null)
 			{
+				if (data4.IsBanned == true)
+				{
+					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned, please contact us to resolve");
+				}
 				var dapmapper = mapper.Map<MenuModerator, LoginGoogleInputDto>(data4);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
 				return output;
 			}
-			
+			else if (data5 != null)
+			{
+				if (data5.IsBanned == true)
+				{
+					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned, please contact us to resolve");
+				}
+				var dapmapper = mapper.Map<Shipper, LoginGoogleInputDto>(data5);
+				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
+				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+				return output;
+			}
 			else
 			{
 				var cusall = context.Customers.ToList();
@@ -716,10 +787,10 @@ namespace HFS_BE.Dao.AuthDao
 				paddedString = "CU" + paddedString.Substring(2);
 
 				string[] FullName = payload.Name.Split(" ");
-				var user1 = new HFS_BE.Models.Customer {CustomerId= paddedString, Email = payload.Email, FirstName = FullName[0], LastName = FullName[1], Gender = "Null", };
+				var user1 = new HFS_BE.Models.Customer {CustomerId= paddedString, Email = payload.Email, FirstName = FullName[0], LastName = FullName[1], Gender = "Null", ConfirmedEmail=true};
 				if (FullName.Length == 3)
 				{
-					user1 = new HFS_BE.Models.Customer { CustomerId = paddedString, Email = payload.Email, FirstName = FullName[0], LastName = FullName[1] + FullName[2], Gender = "Null" };
+					user1 = new HFS_BE.Models.Customer { CustomerId = paddedString, Email = payload.Email, FirstName = FullName[0], LastName = FullName[1] + FullName[2], Gender = "Null", ConfirmedEmail = true };
 
 				}
 
