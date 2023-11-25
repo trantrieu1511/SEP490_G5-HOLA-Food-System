@@ -8,7 +8,7 @@
                    [showCurrentPageReport]="true"
                    [paginator]="listShipper.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
                    currentPageReportTemplate="Total: {totalRecords} foods"
-                   [globalFilterFields]="['firstName']" responsiveLayout="scroll"
+                   [globalFilterFields]="['shipperName']" responsiveLayout="scroll"
 
           >
               <ng-template pTemplate="caption">
@@ -22,13 +22,13 @@
                           </span>
                       </div>
 
-                      <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
+                      <!-- <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
                           <div class="flex align-items-center justify-content-center">
                               <button pButton type="button" label="Add new" icon="pi pi-plus"
 
                                       style="width: auto;"></button>
                           </div>
-                      </div>
+                      </div> -->
                   </div>
               </ng-template>
               <ng-template pTemplate="header">
@@ -47,7 +47,7 @@
 
                       <th pSortableColumn="shipperName">
                           <div class="flex justify-content-between align-items-center">
-                            ShipperName
+                            FullName
                               <p-sortIcon field="lastName"></p-sortIcon>
                               <p-columnFilter type="text" field="shipperName" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -114,7 +114,7 @@
                           <span class="post-id">{{user.shipperId}}</span>
                       </td>
                       <td >
-                          <span class="p-column-title">LastName</span>
+                          <span class="p-column-title">FullName</span>
                           {{user.shipperName}}
                       </td>
                       <td >

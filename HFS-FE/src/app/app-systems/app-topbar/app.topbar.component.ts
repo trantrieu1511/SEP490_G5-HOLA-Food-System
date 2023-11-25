@@ -63,14 +63,14 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     checkRoleCus() {
-        // 
+        //
         // console.log(this.authService.getRole());
         return this.authService.getRole() == null || RoleNames[this.authService.getRole()] == 'Customer'
     }
     setCurrentUser() {
       const user: User = JSON.parse(localStorage.getItem('user'));
       const token = sessionStorage.getItem('JWT');
-     // 
+     //
       if (user) {
 
         this.presence.createHubConnection(token);
@@ -81,10 +81,12 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
 
     toggleCustomerList() {
         this.toggleListEvent.emit();
+        localStorage.removeItem('chatboxusers')
     }
 
     toggleSellerList() {
         this.toggleListEvent.emit();
+        localStorage.removeItem('chatboxusers')
     }
 
     onSearchAnimationEnd(event: AnimationEvent) {
@@ -154,6 +156,12 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         this.topBarProfileImg = this.profileService.profileImage;
         // console.log("Top bar profile img: ");
         // console.log(this.topBarProfileImg);
+        const userChatBox: boolean = JSON.parse(localStorage.getItem('chatboxusers'));
+        if (userChatBox) {
+          this.toggleListEvent.emit();
+        } else {
+
+        }
     }
 
     goToLoginPage() {
@@ -181,7 +189,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     goToCartDetail(){
-        
+
     }
 
 }

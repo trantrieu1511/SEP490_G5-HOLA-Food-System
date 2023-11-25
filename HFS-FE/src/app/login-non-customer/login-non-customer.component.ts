@@ -63,6 +63,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
     this.captchacheck = localStorage.getItem("captcha");
     this.unsuccessfulLoginAttempts=parseInt(this.captchacheck);
      localStorage.removeItem('user');
+     localStorage.removeItem('chatboxusers')
     sessionStorage.clear();
     this.service.error$.subscribe(error => {
       this.error = error;
@@ -120,6 +121,9 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
     //
     await this.service.logingoogle(response.credential).subscribe(
       (x: any) => {
+        if(x===undefined){
+          this.showMessage(mType.error, "Notification", "You have been banned due to violations, please contact us to resolve", 'app-non-login');
+        }
         this._ngZone.run(() => {
           switch (this.user.role) {
             case "CU":

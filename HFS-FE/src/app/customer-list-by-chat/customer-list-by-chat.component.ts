@@ -23,6 +23,12 @@ export class CustomerListByChatComponent implements OnInit {
   constructor(public presence: PresenceService) { }
 
   ngOnInit(): void {
+    const userChatBox: CustomerChatBox[] = JSON.parse(localStorage.getItem('chatboxusers'));
+    if (userChatBox) {
+      this.usersOnline = userChatBox;
+    } else {
+      this.usersOnline = [];
+    }
   }
 
   selectUser(user: any) {
@@ -37,7 +43,7 @@ export class CustomerListByChatComponent implements OnInit {
         } else {
           this.usersOnline.push(new CustomerChatBox(user, 250));
         }
-
+        localStorage.setItem('chatboxusers', JSON.stringify(this.usersOnline));
         break;
       }
       case 0: {
@@ -48,7 +54,7 @@ export class CustomerListByChatComponent implements OnInit {
         } else {
           this.usersOnline.push(new CustomerChatBox(user, 250 + 325));
         }
-
+        localStorage.setItem('chatboxusers', JSON.stringify(this.usersOnline));
         break;
       }
       default: {
@@ -60,6 +66,7 @@ export class CustomerListByChatComponent implements OnInit {
 
   removeChatBox(event: string) {
     this.usersOnline = this.usersOnline.filter(x => x.customer.email !== event);
+    localStorage.setItem('chatboxusers', JSON.stringify(this.usersOnline));
   }
 
   miniChatBox(user: any){

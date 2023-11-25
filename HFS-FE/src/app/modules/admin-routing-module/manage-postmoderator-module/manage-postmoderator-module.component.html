@@ -9,7 +9,7 @@
                    [showCurrentPageReport]="true"
                    [paginator]="lstUser.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
                    currentPageReportTemplate="Total: {totalRecords} foods"
-                   [globalFilterFields]="['firstName']" responsiveLayout="scroll"
+                   [globalFilterFields]="['firstName','lastName']" responsiveLayout="scroll"
 
           >
               <ng-template pTemplate="caption">
@@ -47,20 +47,20 @@
                       </th>
                       <th pSortableColumn="firstName">
                           <div class="flex justify-content-between align-items-center">
-                            FirstName
+                            FullName
                               <p-sortIcon field="firstName"></p-sortIcon>
                               <p-columnFilter type="text" field="firstName" display="menu"
                                               class="ml-auto"></p-columnFilter>
                           </div>
                       </th>
-                      <th pSortableColumn="lastName">
+                      <!-- <th pSortableColumn="lastName">
                           <div class="flex justify-content-between align-items-center">
                             LastName
                               <p-sortIcon field="lastName"></p-sortIcon>
                               <p-columnFilter type="text" field="lastName" display="menu"
                                               class="ml-auto"></p-columnFilter>
                           </div>
-                      </th>
+                      </th> -->
                       <th pSortableColumn="gender">
                           <div class="flex justify-content-between align-items-center">
                             Gender
@@ -113,13 +113,13 @@
                           <span class="post-id">{{user.modId}}</span>
                       </td>
                       <td>
-                          <span class="p-column-title">FirstName</span>
-                          {{user.firstName}}
+                          <span class="p-column-title">FullName</span>
+                          {{user.firstName}} {{user.lastName}}
                       </td>
-                      <td >
+                      <!-- <td >
                           <span class="p-column-title">LastName</span>
                           {{user.lastName}}
-                      </td>
+                      </td> -->
                       <td>
                           <span class="p-column-title">Gender</span>
                           <span class="post-content" >{{user.gender}}</span>
@@ -165,7 +165,7 @@
               </ng-template>
               <ng-template pTemplate="emptymessage">
                   <tr>
-                      <td colspan="8">No food yet.</td>
+                      <td colspan="8">No PostModerator yet.</td>
                   </tr>
               </ng-template>
           </p-table>

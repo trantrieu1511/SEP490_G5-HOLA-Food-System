@@ -7,7 +7,7 @@ import {
 } from 'src/app/modules/shared-module/shared-module';
 import { Router } from '@angular/router';
 import * as API from "../../../../services/apiURL";
-import {MessageService } from 'primeng/api';
+import {ConfirmationService, MessageService } from 'primeng/api';
 import { PostModerator } from 'src/app/modules/admin-routing-module/models/PostModerator';
 import { Customer } from 'src/app/modules/admin-routing-module/models/Customer';
 import { User } from 'src/app/services/auth.service';
@@ -28,6 +28,7 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
   postM:PostModerator=new PostModerator();
   constructor( private shareData: ShareData,
     public messageService: MessageService,
+    private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
@@ -61,7 +62,21 @@ const param= {
 
     }
 }
-  async Delete(user:Shipper){
+ Delete(user:Shipper,event){
+  this.confirmationService.confirm({
+    target: event.target,
+    message: `Are you sure to Kick  id: ${user.shipperId} ?`,
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      //confirm action
+      this.DeleteS(user);
+    },
+    reject: () => {
+      //reject action
+    },
+  });
+}
+  async DeleteS(user:Shipper){
     const param= {
       "sellerId": sessionStorage.getItem('userId'),
       "shipperId": user.shipperId
@@ -87,16 +102,16 @@ const param= {
   }
   onInvitation(){
     this.headerDialog = 'List Invitation';
-
-
     this.displayDialogAdd = true;
+    debugger
     this.getInvitation();
   }
   async getInvitation() {
+    debugger
     this.listinvitation = [];
- const param= {
+    const param= {
   "manageBy": sessionStorage.getItem('userId'),
- }
+  }
     try {
 
 ;
@@ -105,10 +120,7 @@ const param= {
         if (response && response.message === "Success") {
             this.listinvitation = response.data;
 
-        }else{
-
-          this.showMessage(mType.error, "Notification", response.message, 'notify');
-         }
+        }
        ;
     } catch (e) {
         console.log(e);

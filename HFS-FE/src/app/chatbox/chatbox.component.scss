@@ -61,6 +61,7 @@ img{
 .align-items-center {
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .ml-auto {
@@ -93,7 +94,10 @@ img{
     margin-top: 8rem !important;
     z-index: 999;
   }
-
+  .chat-frame{
+    max-height: 100%;
+    overflow-y: scroll;
+  }
   :host ::ng-deep {
     .p-panel{
       height: calc(100vh - 8rem) !important;
@@ -108,9 +112,13 @@ img{
 
         .card-body{
           flex-grow: 1;
+          max-height: 92%;
         }
       }
 
+    }
+    #button-thu-nho{
+      display: none;
     }
 
   }
