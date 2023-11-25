@@ -1,4 +1,5 @@
 ﻿using HFS_BE.Base;
+using HFS_BE.Models;
 
 namespace HFS_BE.DAO.PostReportDao
 {
@@ -26,5 +27,10 @@ namespace HFS_BE.DAO.PostReportDao
     public class ListPostReportOutputDto : BaseOutputDto
     {
         public List<PostReportOutputDto> PostReports { get; set; } = new List<PostReportOutputDto>();
+    }
+
+    public class DashboardPostmodPostReportDataDaoOutputDto : BaseOutputDto
+    {
+        public List<PostReport> PostReports { get; set; } = new List<PostReport>();
     }
 }

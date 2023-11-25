@@ -30,20 +30,60 @@ namespace HFS_BE.Controllers.Dashboard.Postmoderator
                 return Output<DashboardPostModStatisticOutput>(Constants.ResultCdFail);
             }
         }
-        
-        [HttpGet("dashboards/getthismonthstatisticspostmoderator")]
+
+        [HttpGet("dashboards/getMyStatisticsPostmod")]
         [Authorize]
-        public DashboardPostModStatisticOutput GetThisMonthStatistics()
+        public DashboardPostmodOutput GetMyStatisticsFromDateRange([FromQuery] DashboardInputDto inputDto)
         {
             try
             {
                 var business = GetBusinessLogic<DashboardPostmodBusinessLogic>();
-                return business.GetThisMonthStatistics(GetUserInfor().UserId);
+                return business.GetMyStatisticsFromDateRange(new DAO.PostReportDao.DashboardPostModInputDto
+                {
+                    DateFrom = inputDto.DateFrom,
+                    DateEnd = inputDto.DateEnd,
+                    ModId = GetUserInfor().UserId
+                });
             }
             catch (Exception)
             {
-                return Output<DashboardPostModStatisticOutput>(Constants.ResultCdFail);
+                return Output<DashboardPostmodOutput>(Constants.ResultCdFail);
             }
         }
+        
+        [HttpGet("dashboards/getSystemStatisticsPostmod")]
+        [Authorize]
+        public DashboardPostmodOutput GetSystemStatisticsFromDateRange([FromQuery] DashboardInputDto inputDto)
+        {
+            try
+            {
+                var business = GetBusinessLogic<DashboardPostmodBusinessLogic>();
+                return business.GetSystemStatisticsFromDateRange(new DAO.PostReportDao.DashboardPostModInputDto
+                {
+                    DateFrom = inputDto.DateFrom,
+                    DateEnd = inputDto.DateEnd,
+                    ModId = GetUserInfor().UserId
+                });
+            }
+            catch (Exception)
+            {
+                return Output<DashboardPostmodOutput>(Constants.ResultCdFail);
+            }
+        }
+
+        //[HttpGet("dashboards/getthismonthstatisticspostmoderator")]
+        //[Authorize]
+        //public DashboardPostModStatisticOutput GetThisMonthStatistics()
+        //{
+        //    try
+        //    {
+        //        var business = GetBusinessLogic<DashboardPostmodBusinessLogic>();
+        //        return business.GetThisMonthStatistics(GetUserInfor().UserId);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return Output<DashboardPostModStatisticOutput>(Constants.ResultCdFail);
+        //    }
+        //}
     }
 }

@@ -160,5 +160,38 @@ namespace HFS_BE.DAO.PostReportDao
         //        throw;
         //    }
         //}
+
+        public DashboardPostmodPostReportDataDaoOutputDto GetAllPostReportsByModId(DashboardPostModInputDto inputDto)
+        {
+            try
+            {
+                var postReports = context.PostReports
+                    .Where(pr => pr.UpdateBy.Equals(inputDto.ModId))
+                    .ToList();
+                var output = Output<DashboardPostmodPostReportDataDaoOutputDto>(Constants.ResultCdSuccess);
+                output.PostReports = postReports;
+                return output;
+            }
+            catch (Exception e)
+            {
+                return this.Output<DashboardPostmodPostReportDataDaoOutputDto>(Constants.ResultCdFail, e.Message + e.Source + e.InnerException + e.StackTrace);
+            }
+        }
+        
+        public DashboardPostmodPostReportDataDaoOutputDto GetAllPostReports()
+        {
+            try
+            {
+                var postReports = context.PostReports
+                    .ToList();
+                var output = Output<DashboardPostmodPostReportDataDaoOutputDto>(Constants.ResultCdSuccess);
+                output.PostReports = postReports;
+                return output;
+            }
+            catch (Exception e)
+            {
+                return this.Output<DashboardPostmodPostReportDataDaoOutputDto>(Constants.ResultCdFail, e.Message + e.Source + e.InnerException + e.StackTrace);
+            }
+        }
     }
 }

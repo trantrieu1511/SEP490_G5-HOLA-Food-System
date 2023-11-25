@@ -24,4 +24,16 @@ namespace HFS_BE.Controllers.Dashboard
         public decimal SoldCountPercent { get; set; }
 
     }
+    
+    public class DashboardPostmodOutput : BaseOutputDto
+    {
+        public ICollection<string>? Labels { get; set; }
+        public ICollection<DashboardDataSets>? Datasets { get; set; }
+        public int? TotalPosts { get; set; } = 0;
+        public int? TotalBannedPosts { get; set; } = 0;
+        public int? TotalPostReports { get; set; } = 0;
+        public int? TotalPendingPostReports { get; set; } = 0;
+        public int? TotalApprovedPostReports { get; set; } = 0;
+        public int? TotalNotApprovedPostReports { get; set; } = 0;
+    }
 }

@@ -22,4 +22,12 @@
         //public bool IsCancelled { get; set; }
         public string? Note { get; set; } // Viet ly do cancel to cao
     }
+
+    public class DashboardPostModInputDto
+    {
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateEnd { get; set; }
+
+        public string? ModId { get; set; }
+    }
 }
