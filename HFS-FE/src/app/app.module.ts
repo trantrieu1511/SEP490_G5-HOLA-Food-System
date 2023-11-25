@@ -10,7 +10,7 @@ import { AppBreadcrumbService } from './app-systems/app-breadcrumb/app.breadcrum
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { MyHttpInterceptor } from './modules/shared-module/Interceptors/MyHttpInterceptor';
 import { LoadingInterceptor } from './modules/shared-module/Interceptors/LoadingInterceptor';
-import { ShareData } from './modules/shared-module/shared-module';
+import { ShareData, iFunction } from './modules/shared-module/shared-module';
 import { CacheData } from './modules/shared-module/shared-data-services/cachedata.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ComponentModule } from './modules/components-module/component.modules';
@@ -120,11 +120,11 @@ import { AppMenuMyaccountComponent } from './app-systems/app-menu/myaccount/app-
     ReactiveFormsModule,
     FormsModule,
     BusinessRoutingModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: () => sessionStorage.getItem('token')
-      }
-    }),
+    // JwtModule.forRoot({
+    //   config: {
+    //     tokenGetter: () => sessionStorage.getItem('token')
+    //   }
+    // }),
     TranslateModule.forRoot({
       defaultLanguage: 'vi',
       loader: {
@@ -141,7 +141,6 @@ import { AppMenuMyaccountComponent } from './app-systems/app-menu/myaccount/app-
   ],
 
   providers: [
-    JwtService,
     MenuDataService,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     MenuService, AppBreadcrumbService, DatePipe,

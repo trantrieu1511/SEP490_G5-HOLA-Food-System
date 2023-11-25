@@ -38,11 +38,12 @@ export class ShipperHistoryManagementComponent extends iComponentBase implements
   }
 
   ngOnInit(): void {
+    this.userId = this.authService.getUserInfor().userId;
     this.getAllOrder();
   }
 
   async getAllOrder(){
-    this.userId = sessionStorage.getItem('userId'); 
+    // this.userId = sessionStorage.getItem('userId'); 
     const param = {
       "shipperId":this.userId,
 

@@ -10,7 +10,7 @@ import * as API from "../../../../services/apiURL";
 import {MessageService } from 'primeng/api';
 import { PostModerator } from 'src/app/modules/admin-routing-module/models/PostModerator';
 import { Customer } from 'src/app/modules/admin-routing-module/models/Customer';
-import { User } from 'src/app/services/auth.service';
+import { AuthService, User } from 'src/app/services/auth.service';
 import { Invition, Shipper } from '../../models/shipper.model';
 
 @Component({
@@ -31,21 +31,24 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
+    private authSerivce: AuthService
   ){
     super(messageService);
 
   }
 
   ngOnInit(): void {
-this.getAllShipper();
+    this.getAllShipper();
+    this.user = this.authSerivce.getUserInfor();
   }
 
 
   async getAllShipper() {
     this.lstShipper = [];
-const param= {
-  "manageBy": sessionStorage.getItem('userId'),
-}
+  const param = {
+    //"manageBy": sessionStorage.getItem('userId'),
+    "manageBy": this.user.userId
+  }
     try {
 
 
@@ -63,7 +66,8 @@ const param= {
 }
   async Delete(user:Shipper){
     const param= {
-      "sellerId": sessionStorage.getItem('userId'),
+      //"sellerId": sessionStorage.getItem('userId'),
+      "sellerId": this.user.userId,
       "shipperId": user.shipperId
     }
     try {
@@ -94,9 +98,10 @@ const param= {
   }
   async getInvitation() {
     this.listinvitation = [];
- const param= {
-  "manageBy": sessionStorage.getItem('userId'),
- }
+    const param= {
+      //"manageBy": sessionStorage.getItem('userId'),
+      "manageBy": this.user.userId
+    }
     try {
 
 ;
@@ -119,7 +124,8 @@ const param= {
   console.log(this.addShipper)
   const param= {
     "email":this.addShipper,
-   "sellerId": sessionStorage.getItem('userId'),
+    //"sellerId": sessionStorage.getItem('userId'),
+    "sellerId": this.user.userId
   }
      try {
 

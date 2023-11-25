@@ -36,8 +36,9 @@ export class AppAccessdeniedComponent implements OnInit{
   }
 
   backClicked() {
-    if(this.authService.getRole() == null || 
-      RoleNames[this.authService.getRole()] == 'Customer'){
+    const role = this.authService.getUserInfor().role;
+    if(role== null || 
+      RoleNames[role] == 'Customer'){
         this.router.navigateByUrl('');
     }else{
       this.router.navigateByUrl('HFSBusiness');

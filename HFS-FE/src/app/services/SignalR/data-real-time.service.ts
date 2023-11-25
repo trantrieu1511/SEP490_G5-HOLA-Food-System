@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { iServiceBase } from 'src/app/modules/shared-module/shared-module';
+import { iFunction, iServiceBase } from 'src/app/modules/shared-module/shared-module';
 import * as API from '../apiURL';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataRealTimeService {
-  constructor(private iServiceBase: iServiceBase) {}
+  constructor(
+    private iServiceBase: iServiceBase,
+    private iFunction: iFunction
+    ) {}
 
   private hubConnection: signalR.HubConnection;
 
@@ -16,7 +19,8 @@ export class DataRealTimeService {
 
     const url = `${service}${API.API_HUB.DATA_REALTIME}`;
 
-    const jwt = sessionStorage.getItem('JWT');
+    //const jwt = sessionStorage.getItem('JWT');
+    const jwt = this.iFunction.getCookie('token');
     //.withUrl(url, { accessTokenFactory: () => jwt })
     /*
     .withUrl(url, {

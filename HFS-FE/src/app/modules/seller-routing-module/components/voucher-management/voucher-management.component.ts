@@ -11,6 +11,7 @@ import {
   iFunction,
 } from 'src/app/modules/shared-module/shared-module';
 import { Voucher, VoucherDisplayHideInputDto, VoucherInput} from '../../models/voucher.model';
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-voucher-management',
   templateUrl: './voucher-management.component.html',
@@ -33,12 +34,16 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
-    private signalRService: DataRealTimeService
+    private signalRService: DataRealTimeService,
+    private authService: AuthService
   ) {
     super(messageService, breadcrumbService);
   }
   ngOnInit(): void {
+    this.userId = this.authService.getUserInfor().userId;
+
     this.GetAllVoucher();
+    
   }
   
 
@@ -47,7 +52,7 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
 
     try {
       this.loading = true;
-      this.userId = sessionStorage.getItem('userId');  
+      //this.userId = sessionStorage.getItem('userId');  
 
         const param = {
           "sellerId":this.userId
@@ -211,7 +216,7 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
     try {
       
       const param = new FormData();  
-      this.userId = sessionStorage.getItem('userId');  
+      //this.userId = sessionStorage.getItem('userId');  
       param.append('sellerId',this.userId);    
       param.append('discountAmount',voucherEntity.discountAmount.toString());
       param.append('minimumOrderValue',voucherEntity.minimumOrderValue.toString());

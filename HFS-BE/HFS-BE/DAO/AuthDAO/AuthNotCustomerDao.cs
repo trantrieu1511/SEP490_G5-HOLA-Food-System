@@ -2,6 +2,7 @@
 using HFS_BE.Base;
 using HFS_BE.Dao.AuthDao;
 using HFS_BE.Models;
+using HFS_BE.Services;
 using HFS_BE.Utils;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
@@ -14,10 +15,11 @@ namespace HFS_BE.DAO.AuthDAO
 {
 	public class AuthNotCustomerDao : BaseDao
 	{
-		public AuthNotCustomerDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
-		{
-		}
-		public AuthDaoOutputDto LoginNotCustomer(AuthDaoInputDto input)
+        public AuthNotCustomerDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        {
+        }
+
+        public AuthDaoOutputDto LoginNotCustomer(AuthDaoInputDto input)
 		{
 			var output = new AuthDaoOutputDto();
 			var user = context.Sellers.Where(s => s.Email == input.Email).FirstOrDefault();
@@ -35,6 +37,7 @@ namespace HFS_BE.DAO.AuthDAO
 				}
 				JwtSecurityToken token = GenerateSecurityTokenSeller((Seller)user);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+				output.UserId = user.SellerId;
 				return output;
 			}
 			else
@@ -59,7 +62,8 @@ namespace HFS_BE.DAO.AuthDAO
 						}
 						JwtSecurityToken token = GenerateSecurityTokenModerator(menuModerators);
 						output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-						return output;
+                        output.UserId = menuModerators.ModId;
+                        return output;
 					}
 					else
 					{
@@ -79,7 +83,8 @@ namespace HFS_BE.DAO.AuthDAO
 							}
 							JwtSecurityToken token = GenerateSecurityTokenModerator(postModerators);
 							output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-							return output;
+                            output.UserId = menuModerators.ModId;
+                            return output;
 						}
 						else
 						{
@@ -94,7 +99,8 @@ namespace HFS_BE.DAO.AuthDAO
 								}
 								JwtSecurityToken token = GenerateSecurityTokenAdmin(admin);
 								output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-								return output;
+                                output.UserId = admin.AdminId;
+                                return output;
 							}
 							else
 							{
@@ -117,7 +123,8 @@ namespace HFS_BE.DAO.AuthDAO
 					}
 					JwtSecurityToken token = GenerateSecurityTokenShipper(shipper);
 					output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-					return output;
+                    output.UserId = shipper.ShipperId;
+                    return output;
 				}
 				
 
@@ -360,11 +367,12 @@ namespace HFS_BE.DAO.AuthDAO
 
 			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(conf["JWT:Secret"]));
 
-			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
+			var token = new JwtSecurityToken(
+					issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddMinutes(20),
+					expires: DateTime.Now.AddMinutes(15),
 					claims: authClaims,
-					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)); ;
+					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
 			return token;
 		}
@@ -387,9 +395,9 @@ namespace HFS_BE.DAO.AuthDAO
 
 			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddHours(1),
+					expires: DateTime.Now.AddMinutes(15),
 					claims: authClaims,
-					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)); ;
+					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
 			return token;
 		}
@@ -425,9 +433,9 @@ namespace HFS_BE.DAO.AuthDAO
 
 			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddHours(1),
-					claims: authClaims,
-					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)); ;
+					expires: DateTime.Now.AddMinutes(15),
+                    claims: authClaims,
+					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
 			return token;
 		}
@@ -450,9 +458,9 @@ namespace HFS_BE.DAO.AuthDAO
 
 			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddHours(1),
-					claims: authClaims,
-					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)); ;
+					expires: DateTime.Now.AddMinutes(15),
+                    claims: authClaims,
+					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
 			return token;
 		}
@@ -475,9 +483,9 @@ namespace HFS_BE.DAO.AuthDAO
 
 			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddHours(1),
-					claims: authClaims,
-					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)); ;
+					expires: DateTime.Now.AddMinutes(15),
+                    claims: authClaims,
+					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
 			return token;
 		}

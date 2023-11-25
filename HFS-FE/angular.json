@@ -79,6 +79,9 @@
             },
             "development": {
               "browserTarget": "HFS-FE:build:development"
+            },
+            "options": {
+              "allowedHosts": ["*"]
             }
           },
           "defaultConfiguration": "development"

@@ -12,6 +12,7 @@ namespace HFS_BE.Base
 {
     [ApiController]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
+    [ServiceFilter(typeof(JwtExpirationAuthorizationFilter))]
     public class BaseControllerSignalR : ControllerBase
     {
         private readonly SEP490_HFS_2Context context;

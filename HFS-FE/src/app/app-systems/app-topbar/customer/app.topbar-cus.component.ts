@@ -4,6 +4,7 @@ import { MegaMenuItem, MessageService } from 'primeng/api';
 import { Router } from "@angular/router";
 import {
     iComponentBase,
+    iFunction,
     iServiceBase,
     ShareData
 } from 'src/app/modules/shared-module/shared-module';
@@ -14,7 +15,7 @@ import { AppComponent } from 'src/app/app.component';
 import { ManageprofileComponent } from 'src/app/profile/manageprofile.component';
 import { ProfileImage } from 'src/app/profile/models/profile';
 import { PresenceService } from 'src/app/services/presence.service';
-import { User } from 'src/app/services/auth.service';
+import { AuthService, User } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -47,22 +48,25 @@ export class AppCustomerTopBarComponent extends iComponentBase implements OnInit
         private shareData: ShareData,
         public presence: PresenceService,
         public messageService: MessageService,
-        public profileService: ManageprofileComponent
+        public profileService: ManageprofileComponent,
+        private authSerice: AuthService,
+        private iFunction: iFunction
     ) {
         super(messageService);
     }
     setCurrentUser() {
-      const user: User = JSON.parse(localStorage.getItem('user'));
-      sessionStorage.setItem("JWT", user.jwt);
-      sessionStorage.setItem("role", user.role.toString());
-      sessionStorage.setItem("timetoken", user.exp.toString());
-      sessionStorage.setItem("userId", user.userId.toString());
-      const token = sessionStorage.getItem('JWT');
-      
+    //   const user: User = JSON.parse(localStorage.getItem('user'));
+    //   sessionStorage.setItem("JWT", user.jwt);
+    //   sessionStorage.setItem("role", user.role.toString());
+    //   sessionStorage.setItem("timetoken", user.exp.toString());
+    //   sessionStorage.setItem("userId", user.userId.toString());
+    //   const token = sessionStorage.getItem('JWT');
+        
+      const user = this.authSerice.getUserInfor().userId;
      //
       if (user) {
 
-        this.presence.createHubConnection(token);
+        this.presence.createHubConnection(this.iFunction.getCookie("token"));
       }
     }
     @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;

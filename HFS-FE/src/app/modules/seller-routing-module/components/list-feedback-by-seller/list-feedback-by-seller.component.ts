@@ -6,7 +6,7 @@ import {
   iFunction
 } from 'src/app/modules/shared-module/shared-module';
 import * as API from "../../../../services/apiURL";
-import { User } from 'src/app/services/auth.service';
+import { AuthService, User } from 'src/app/services/auth.service';
 import { MessageService } from 'primeng/api';
 import { FeedBackSeller, ReplySeller } from '../../models/feedbackseller.model';
 import { Router } from '@angular/router';
@@ -32,13 +32,15 @@ export class ListFeedbackBySellerComponent extends iComponentBase implements OnI
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
+    private authSerice: AuthService
   ){
     super(messageService);
 
   }
 
   ngOnInit(): void {
-this.getAllFeedback();
+    this.getAllFeedback();
+    this.user = this.authSerice.getUserInfor();
   }
 
 
@@ -66,7 +68,8 @@ this.getAllFeedback();
     this.displayDialogReply = true;
     this.contentDialog="Reply "+feed.feedbackId
     this.feedreply.customerId=feed.customerId;
-    this.feedreply.sellerId=sessionStorage.getItem('userId');
+    //this.feedreply.sellerId=sessionStorage.getItem('userId');
+    this.feedreply.sellerId = this.user.userId
     this.feedreply.feedbackId=feed.feedbackId;
 }
   async onSave(){

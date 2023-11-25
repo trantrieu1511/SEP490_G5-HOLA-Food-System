@@ -5,16 +5,18 @@ using HFS_BE.Dao.AuthDao;
 using HFS_BE.DAO.AuthDAO;
 using HFS_BE.DAO.UserDao;
 using HFS_BE.Models;
+using HFS_BE.Services;
 using HFS_BE.Utils;
+using Mailjet.Client.Resources;
 using System.IdentityModel.Tokens.Jwt;
 using Twilio.Jwt.AccessToken;
 using static HFS_BE.BusinessLogic.Auth.RegisterSellerInputDto;
 
 namespace HFS_BE.BusinessLogic.Auth
 {
-    public class RefreshTokenBusinessLogic : BaseBusinessLogic
+    public class RefreshTokenBusinessLogic : BaseBusinessLogicAuth
     {
-        public RefreshTokenBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public RefreshTokenBusinessLogic(SEP490_HFS_2Context context, IMapper mapper, ITokenService tokenService) : base(context, mapper, tokenService)
         {
         }
 
@@ -26,16 +28,14 @@ namespace HFS_BE.BusinessLogic.Auth
                 var authDao = CreateDao<AuthDao>();
                 var authNotCus = this.CreateDao<AuthNotCustomerDao>();
 
-                string accessToken = inputDto.AccessToken;
                 string refreshToken = inputDto.RefreshToken;
 
-                var email = inputDto.UserDto.Email; //this is mapped to the Name claim by default
-                var user = userDao.GetUserRefreshToken(inputDto.UserDto.Email, inputDto.UserDto.Role);
+                var user = userDao.GetUserRefreshToken(refreshToken);
 
                 if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
                     return Output<TokenApiModelOutput>(Constants.ResultCdFail, "Invalid client request");
                 string newAccessToken = "";
-                switch (inputDto.UserDto.Role)
+                switch (user.Id.Substring(0, 2))
                 {
                     case "CU":
 
@@ -94,13 +94,18 @@ namespace HFS_BE.BusinessLogic.Auth
                         break;
                 }
 
-                var newRefreshToken = authDao.GenerateRefreshToken();
+                var newRefreshToken = _tokenService.GenerateRefreshToken();
 
-                userDao.EditRefreshToken(new UpdateRefreshToken
+                var outputEditToken = userDao.EditRefreshToken(new UpdateRefreshToken
                 {
-                    RefreshToken = newRefreshToken,
+                    RefreshToken = newRefreshToken.Token,
                     UserId = user.Id
                 });
+
+                if (!outputEditToken.Success)
+                {
+                    return Output<TokenApiModelOutput>(Constants.ResultCdFail);
+                }
 
                 var output = Output<TokenApiModelOutput>(Constants.ResultCdSuccess);
                 output.RefreshToken = newRefreshToken;

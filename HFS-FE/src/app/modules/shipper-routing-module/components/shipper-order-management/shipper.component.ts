@@ -86,7 +86,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
 
       this.activeItem = this.items[0];
 
-
+      this.userId = this.authService.getUserInfor().userId;
       this.showCurrentPageReport = true;
 
       this.getAllOrder();
@@ -102,7 +102,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
 
       this.signalRService.startConnection();
 
-      this.userId = sessionStorage.getItem('userId');
+      // this.userId = sessionStorage.getItem('userId');
 
       const param = {
         "shipperId":this.userId,
@@ -135,7 +135,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
       }
 
     async onUpdateOrder(order:OrderDaoOutputDto){
-      this.userId = sessionStorage.getItem('userId');
+      // this.userId = sessionStorage.getItem('userId');
       const param = new FormData();
       param.append('orderId', order.orderId.toString());
       param.append('status', "3");
@@ -152,7 +152,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
       this.lstOrderOfShipper = [];
       try {
         this.loading = true;
-        this.userId = sessionStorage.getItem('userId');
+        // this.userId = sessionStorage.getItem('userId');
 
         const param = {
             "shipperId":this.userId,
@@ -179,7 +179,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
       this.listinvitationbyshipper = [];
       try {
         this.loading = true;
-        this.userId = sessionStorage.getItem('userId');
+        // this.userId = sessionStorage.getItem('userId');
 
         const param = {
             "shipperId":this.userId,
@@ -310,7 +310,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
     async UpdateInv(seller:InvitionSeller,so:number){
       try {
         this.loading = true;
-        this.userId = sessionStorage.getItem('userId');
+        // this.userId = sessionStorage.getItem('userId');
 
         const param = {
             "sellerId":seller.sellerId,

@@ -1,5 +1,5 @@
 <div class="page-content">
-  <div class="card sidebar" *ngIf="this.authService.getRole() == 'CU'">
+  <div class="card sidebar" *ngIf="this.authService.getUserInfor().role == 'CU'">
 
     <app-menu-myaccount></app-menu-myaccount>
     

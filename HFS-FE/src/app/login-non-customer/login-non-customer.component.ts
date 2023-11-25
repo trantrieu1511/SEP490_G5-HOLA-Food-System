@@ -62,7 +62,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
   ngOnInit(): void {
     this.captchacheck = localStorage.getItem("captcha");
     this.unsuccessfulLoginAttempts=parseInt(this.captchacheck);
-     localStorage.removeItem('user');
+    //localStorage.removeItem('user');
     sessionStorage.clear();
     this.service.error$.subscribe(error => {
       this.error = error;
@@ -186,22 +186,23 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
         this.service.loginnotcus(this.form.value).subscribe(res => {
           if(res===undefined&&this.user===null){
             this.showMessage(mType.error, "Notification", this.error, 'app-non-login');
-          }
+          }else{
           //this.toastr.success('Login success');
           // const userData = localStorage.getItem('user');
           // this.user = JSON.parse(userData);
-          switch (this.user.role) {
-            case "CU":
-              this.router.navigateByUrl('/homepage');
-              break;
-            case "AD":
-            case "SE":
-            case "SH":
-            case "PM":
-            case "MM":
-              this.router.navigateByUrl('/HFSBusiness');
-              break;
-            default: this.router.navigateByUrl('/login-2');
+            switch (this.user.role) {
+              case "CU":
+                this.router.navigateByUrl('/homepage');
+                break;
+              case "AD":
+              case "SE":
+              case "SH":
+              case "PM":
+              case "MM":
+                this.router.navigateByUrl('/HFSBusiness');
+                break;
+              default: this.router.navigateByUrl('/login-2');
+            }
           }
 
 

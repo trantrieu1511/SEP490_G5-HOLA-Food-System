@@ -2,10 +2,12 @@
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Auth;
 using HFS_BE.Models;
+using HFS_BE.Services;
 using HFS_BE.Utils;
 using Mailjet.Client.Resources;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
+using Twilio.Rest.Trunking.V1;
 using static HFS_BE.BusinessLogic.Auth.RegisterSellerInputDto;
 
 namespace HFS_BE.DAO.UserDao
@@ -427,76 +429,107 @@ namespace HFS_BE.DAO.UserDao
             }
         }
 
-        public UserRefreshToken? GetUserRefreshToken(string email, string role)
+        public UserRefreshToken? GetUserRefreshToken(string refreshToken)
         {
             try
             {
-                switch (role)
+                //CU
+                var user = context.Customers.Select(x => new UserRefreshToken
                 {
-                    case "CU":
-                        return context.Customers.Select(x => new UserRefreshToken{
-                            Id = x.CustomerId,
-                            RefreshToken = x.RefreshToken,
-                            Email = x.Email,
-                            FirstName = x.FirstName,
-                            LastName = x.LastName,
-                            RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
-                        })
-                        .SingleOrDefault(cu => cu.Email.Equals(email));
-                    case "SE":
-                        return context.Sellers.Select(x => new UserRefreshToken
-                        {
-                            Id = x.SellerId,
-                            RefreshToken = x.RefreshToken,
-                            Email = x.Email,
-                            FirstName = x.FirstName,
-                            LastName = x.LastName,
-                            RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
-                        }).SingleOrDefault(se => se.Email.Equals(email));
-                    case "SH":
-                        return context.Shippers.Select(x => new UserRefreshToken
-                        {
-                            Id = x.ShipperId,
-                            RefreshToken = x.RefreshToken,
-                            Email = x.Email,
-                            FirstName = x.FirstName,
-                            LastName = x.LastName,
-                            RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
-                        }).SingleOrDefault(sh => sh.Email.Equals(email));
-                    case "AD":
-                        return context.Admins.Select(x => new UserRefreshToken
-                        {
-                            Id = x.AdminId,
-                            RefreshToken = x.RefreshToken,
-                            Email = x.Email,
-                            FirstName = x.FirstName,
-                            LastName = x.LastName,
-                            RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
-                        }).SingleOrDefault(ad => ad.Email.Equals(email));
-                    case "PM":
-                        return context.PostModerators.Select(x => new UserRefreshToken
-                        {
-                            Id = x.ModId,
-                            RefreshToken = x.RefreshToken,
-                            Email = x.Email,
-                            FirstName = x.FirstName,
-                            LastName = x.LastName,
-                            RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
-                        }).SingleOrDefault(pm => pm.Email.Equals(email));
-                    case "MM":
-                        return context.MenuModerators.Select(x => new UserRefreshToken
-                        {
-                            Id = x.ModId,
-                            RefreshToken = x.RefreshToken,
-                            Email = x.Email,
-                            FirstName = x.FirstName,
-                            LastName = x.LastName,
-                            RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
-                        }).SingleOrDefault(mm => mm.Email.Equals(email));
-                    default:
-                        return null;
-                   
+                    Id = x.CustomerId,
+                    RefreshToken = x.RefreshToken,
+                    Email = x.Email,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
+                })
+                        .SingleOrDefault(cu => cu.RefreshToken.Equals(refreshToken));
+
+                if(user is not null)
+                {
+                    return user;
                 }
+
+
+                //SE
+                user = context.Sellers.Select(x => new UserRefreshToken
+                {
+                    Id = x.SellerId,
+                    RefreshToken = x.RefreshToken,
+                    Email = x.Email,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
+                }).SingleOrDefault(se => se.RefreshToken.Equals(refreshToken));
+
+                if (user is not null)
+                {
+                    return user;
+                }
+
+                //SH
+                user = context.Shippers.Select(x => new UserRefreshToken
+                {
+                    Id = x.ShipperId,
+                    RefreshToken = x.RefreshToken,
+                    Email = x.Email,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
+                }).SingleOrDefault(sh => sh.RefreshToken.Equals(refreshToken));
+
+                if (user is not null)
+                {
+                    return user;
+                }
+
+                //AD
+                user = context.Admins.Select(x => new UserRefreshToken
+                {
+                    Id = x.AdminId,
+                    RefreshToken = x.RefreshToken,
+                    Email = x.Email,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
+                }).SingleOrDefault(ad => ad.RefreshToken.Equals(refreshToken));
+                if (user is not null)
+                {
+                    return user;
+                }
+
+                //PM
+                user = context.PostModerators.Select(x => new UserRefreshToken
+                {
+                    Id = x.ModId,
+                    RefreshToken = x.RefreshToken,
+                    Email = x.Email,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
+                }).SingleOrDefault(pm => pm.RefreshToken.Equals(refreshToken));
+                if (user is not null)
+                {
+                    return user;
+                }
+
+                //MM
+                user = context.MenuModerators.Select(x => new UserRefreshToken
+                {
+                    Id = x.ModId,
+                    RefreshToken = x.RefreshToken,
+                    Email = x.Email,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
+                }).SingleOrDefault(mm => mm.RefreshToken.Equals(refreshToken));
+                if (user is not null)
+                {
+                    return user;
+                }
+
+                return null;
+
             }
             catch (Exception)
             {
@@ -595,7 +628,7 @@ namespace HFS_BE.DAO.UserDao
                     case "CU":
                         //Tim trong context profile cua user theo id
                         var customer = context.Customers.SingleOrDefault(
-                            cu => cu.Email.Equals(inputDto.Email));
+                            cu => cu.CustomerId.Equals(inputDto.Id));
                         if (customer == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
                         //Truong hop profile nguoi dung co ton tai thi cap nhat lai cac truong thong tin
                         customer.RefreshToken = null;
@@ -604,14 +637,14 @@ namespace HFS_BE.DAO.UserDao
                     case "SE":
                         //Tim trong context profile cua user theo id
                         var seller = context.Sellers.SingleOrDefault(
-                            se => se.Email.Equals(inputDto.Email));
+                            se => se.SellerId.Equals(inputDto.Id));
                         if (seller == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
                         seller.RefreshToken = null;
                         break;
                     case "SH":
                         //Tim trong context profile cua user theo id
                         var shipper = context.Shippers.SingleOrDefault(
-                            sh => sh.Email.Equals(inputDto.Email));
+                            sh => sh.ShipperId.Equals(inputDto.Id));
                         if (shipper == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
                         shipper.RefreshToken = null;
 
@@ -619,7 +652,7 @@ namespace HFS_BE.DAO.UserDao
                     case "AD":
                         //Tim trong context profile cua user theo id
                         var admin = context.Admins.SingleOrDefault(
-                            ad => ad.Email.Equals(inputDto.Email));
+                            ad => ad.AdminId.Equals(inputDto.Id));
                         if (admin == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
                         admin.RefreshToken = null;
 
@@ -627,7 +660,7 @@ namespace HFS_BE.DAO.UserDao
                     case "PM":
                         //Tim trong context profile cua user theo id
                         var postModerator = context.PostModerators.SingleOrDefault(
-                            pm => pm.Email.Equals(inputDto.Email));
+                            pm => pm.ModId.Equals(inputDto.Id));
                         if (postModerator == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
                         postModerator.RefreshToken = null;
 
@@ -635,7 +668,7 @@ namespace HFS_BE.DAO.UserDao
                     case "MM":
                         //Tim trong context profile cua user theo id
                         var menuModerator = context.MenuModerators.SingleOrDefault(
-                            mm => mm.Email.Equals(inputDto.Email));
+                            mm => mm.ModId.Equals(inputDto.Id));
                         if (menuModerator == null) return Output<BaseOutputDto>(Constants.ResultCdFail);
                         menuModerator.RefreshToken = null;
                         break;
@@ -653,6 +686,63 @@ namespace HFS_BE.DAO.UserDao
                 //Output ra response body trang thai that bai neu co loi/ngoai le bat ky
                 return Output<BaseOutputDto>(Constants.ResultCdFail);
             }
+        }
+
+        public BaseOutputDto AddRefreshToken(AddRefreshToken inputDto)
+        {
+            try
+            {
+                dynamic? user = null;
+                switch (inputDto.Role)
+                {
+                    case "CU":
+                        user = context.Customers.FirstOrDefault(
+                                x => x.CustomerId.Equals(inputDto.UserId)
+                            );
+                        break;
+                    case "SE":
+                        user = context.Sellers.FirstOrDefault(
+                                x => x.SellerId.Equals(inputDto.UserId)
+                            );
+                        break;
+                    case "SH":
+                        user = context.Shippers.FirstOrDefault(
+                                x => x.ShipperId.Equals(inputDto.UserId)
+                            );
+                        break;
+                    case "AD":
+                        user = context.Admins.FirstOrDefault(
+                                x => x.AdminId.Equals(inputDto.UserId)
+                            );
+                        break;
+                    case "PM":
+                        user = context.PostModerators.FirstOrDefault(
+                                x => x.ModId.Equals(inputDto.UserId)
+                            );
+                        break;
+                    case "MM":
+                        user = context.MenuModerators.FirstOrDefault(
+                                x => x.ModId.Equals(inputDto.UserId)
+                            );
+                        break;
+                }
+
+                if (user == null)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail);
+                }
+                user.RefreshToken = inputDto.RefreshToken;
+                user.RefreshTokenExpiryTime = inputDto.RefreshTokenExpiryTime;
+
+                context.SaveChanges();
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+            
         }
     }
 }

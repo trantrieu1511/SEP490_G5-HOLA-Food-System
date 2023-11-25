@@ -49,6 +49,8 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   changePasswordValidation: ChangePasswordInputValidation = new ChangePasswordInputValidation();
   verifyIdentityValidation: VerifyIdentityInputValidation = new VerifyIdentityInputValidation();
 
+  role: string;
+
   constructor(
     private shareData: ShareData,
     public messageService: MessageService,
@@ -70,12 +72,16 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
 
   // Check whether the user has logged into Hola Food or not
   checkUserLoginState() {
-    if (sessionStorage.getItem("userId") != null) {
+    // if (sessionStorage.getItem("userId") != null) {
+    //   this.isLoggedIn = true;
+    // }
+    if (this.authService.getUserInfor().userId != null) {
       this.isLoggedIn = true;
     }
   }
 
   ngOnInit(): void {
+    this.role = this.authService.getUserInfor().role;
     this.checkUserLoginState();
     this.getProfileInfo();
     // this.minDate.setFullYear(new Date().getFullYear() - 80); // Cho người dùng nhập tối đa đến 80 năm tuổi
@@ -222,7 +228,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       }
     }
 
-    if (this.authService.getRole() == 'SE') {
+    if (this.authService.getUserInfor().role == 'SE') {
 
       if (!this.profile.shopName || this.profile.shopName == '') {
         this.editProfileValidation.isValidShopName = false;

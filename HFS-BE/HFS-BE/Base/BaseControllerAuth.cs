@@ -3,9 +3,6 @@ using HFS_BE.Models;
 using HFS_BE.Services;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace HFS_BE.Base
@@ -13,29 +10,31 @@ namespace HFS_BE.Base
     [ApiController]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     [ServiceFilter(typeof(JwtExpirationAuthorizationFilter))]
-    public class BaseController : ControllerBase
+    public class BaseControllerAuth : ControllerBase
     {
         private readonly SEP490_HFS_2Context context;
         public readonly IMapper mapper;
+        protected readonly ITokenService _tokenService;
 
-        public BaseController(SEP490_HFS_2Context context, IMapper mapper)
+        public BaseControllerAuth(SEP490_HFS_2Context context, IMapper mapper, ITokenService tokenService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
             //this.context.Database.BeginTransaction();
         }
 
-        
-        public T GetBusinessLogic<T>() where T : BaseBusinessLogic
+
+        public T GetBusinessLogic<T>() where T : BaseBusinessLogicAuth
         {
 
-            return (T)Activator.CreateInstance(typeof(T), context, mapper);
+            return (T)Activator.CreateInstance(typeof(T), context, mapper, _tokenService);
         }
 
         [NonAction]
         public T Output<T>(bool success) where T : BaseOutputDto, new()
         {
-        //    if (!success) this.context.Database.RollbackTransaction();
+            //    if (!success) this.context.Database.RollbackTransaction();
             return new T
             {
                 Message = success ? "Success" : "Fail",
@@ -74,10 +73,9 @@ namespace HFS_BE.Base
                 var roleId = identity.FindFirst(ClaimTypes.Role)?.Value;
                 var name = identity.FindFirst(ClaimTypes.Name)?.Value;
                 var userid = identity.FindFirst("userId")?.Value;
-                return new UserDto { Email = email, Name = name , UserId = userid, Role = roleId};
+                return new UserDto { Email = email, Name = name, UserId = userid, Role = roleId };
             }
             return null;
         }
-		
-	}
+    }
 }

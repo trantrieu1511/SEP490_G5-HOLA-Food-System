@@ -8,6 +8,7 @@ using HFS_BE.DAO.UserDao;
 using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Services;
+using HFS_BE.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -91,41 +92,26 @@ builder.Services.AddAuthentication(options =>
     {
         OnMessageReceived = context =>
         {
-            if (context.Request.Path.ToString().StartsWith("/hubs/"))
-                context.Token = context.Request.Query["access_token"];
+            var accessToken = context.Request.Query["access_token"];
+
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+            {
+                context.Token = accessToken;
+            }
+
             return Task.CompletedTask;
         }
     };
 
     options.SaveToken = true;
-	options.RequireHttpsMetadata = false;
-	options.TokenValidationParameters = new TokenValidationParameters()
-	{
-		ValidateIssuer = true,
-		ValidateAudience = true,
-		ValidAudience = configuration["JWT:ValidAudience"],
-		ValidIssuer = configuration["JWT:ValidIssuer"],
-		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
-	};
-	options.Events = new JwtBearerEvents
-	{
-		OnMessageReceived = context =>
-		{
-			var accessToken = context.Request.Query["access_token"];
-
-			var path = context.HttpContext.Request.Path;
-			if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
-			{
-				context.Token = accessToken;
-			}
-
-			return Task.CompletedTask;
-		}
-	};
+    options.RequireHttpsMetadata = false;
     options.TokenValidationParameters = new TokenValidationParameters()
     {
         ValidateIssuer = true,
         ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
         ValidAudience = configuration["JWT:ValidAudience"],
         ValidIssuer = configuration["JWT:ValidIssuer"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
@@ -148,6 +134,8 @@ builder.Services.AddScoped<ChatMessageDao>();
 builder.Services.AddScoped<CustomerDao>();
 builder.Services.AddHttpClient<HFS_BE.Controllers.TestController>();
 builder.Services.AddTransient<ITokenService, TokenService>();
+builder.Services.AddScoped<JwtExpirationAuthorizationFilter>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

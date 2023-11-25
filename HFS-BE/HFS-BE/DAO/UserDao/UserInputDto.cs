@@ -46,6 +46,13 @@ namespace HFS_BE.DAO.UserDao
     {
         public string? UserId { get; set; }
         public string? RefreshToken { get; set; }
+    }
 
+    public class AddRefreshToken
+    {
+        public string? UserId { get; set; }
+        public string? Role { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
     }
 }

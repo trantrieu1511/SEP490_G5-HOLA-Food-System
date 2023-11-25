@@ -28,7 +28,6 @@ export class iFunction {
         let caLen: number = ca.length;
         let cookieName = `${name}=`;
         let c: string;
-
         for (let i: number = 0; i < caLen; i += 1) {
             c = ca[i].replace(/^\s+/g, '');
             if (c.indexOf(cookieName) == 0) {
@@ -42,11 +41,22 @@ export class iFunction {
         this.setCookie(name, "", -1);
     }
 
+    deleteCookieAllToken(){
+        this.deleteCookie('token')
+        this.deleteCookie('refreshToken')
+    }
+
     //Gán giá trị cho 1 cookie
-    setCookie(name: string, value: string, expireDays: number, path: string = "") {
-        let d: Date = new Date();
-        d.setTime(d.getTime() + expireDays * 24 * 60 * 60 * 1000);
-        let expires: string = "expires=" + d.toUTCString();
+    setCookie(name: string, value: string, expireDays: Date | number, path: string = "") {
+        
+        let expires: string
+        if(expireDays instanceof Date){
+            expires = "expires=" + expireDays.toUTCString();
+        }else{
+            let d: Date = new Date();
+            d.setTime(d.getTime() + expireDays * 24 * 60 * 60 * 1000);
+            expires = "expires=" + d.toUTCString();
+        }
         document.cookie = name + "=" + value + "; " + expires + (path.length > 0 ? "; path=" + path : "");
     }
 
