@@ -126,15 +126,15 @@
                                             class="p-button-rounded p-mr-2"></button>
                                 </div> -->
                                 <ng-container>
-                                    <div *ngIf="post.status === 'Display' || post.status === 'NotApproved' || post.status === 'Hidden' else statusBan"
+                                    <div *ngIf="post.status === 'Display' || post.status === 'NotApproved' || post.status === 'Hidden' else statusUnban"
                                         class="flex align-items-center justify-content-center">
                                         <button pButton pRipple icon="pi pi-ban" (click)="onBanPost(post, $event)"
                                             class="p-button-rounded p-button-danger"></button>
                                     </div>
-                                    <ng-template #statusBan>
+                                    <ng-template #statusUnban>
                                         <div class="flex align-items-center justify-content-center">
-                                            <button pButton pRipple icon="pi pi-ban" (click)="onUnbanPost(post, $event)"
-                                                class="p-button-rounded p-button-danger"></button>
+                                            <button pButton pRipple icon="pi pi-circle" (click)="onUnbanPost(post, $event)"
+                                                class="p-button-rounded p-button-success"></button>
                                         </div>
                                     </ng-template>
                                 </ng-container>

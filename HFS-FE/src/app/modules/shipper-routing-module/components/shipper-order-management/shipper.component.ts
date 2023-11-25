@@ -92,7 +92,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
       this.getAllOrder();
       this.connectSignalR();
       this.getAllInvitionbyshipper();
-          
+
 
 
     }
@@ -175,7 +175,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
     }
 
     async getAllInvitionbyshipper() {
-      
+
       this.listinvitationbyshipper = [];
       try {
         this.loading = true;
@@ -321,10 +321,14 @@ export class ShipperComponent extends iComponentBase implements OnInit {
        let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_SHIPPER.ACCEPT, param);
         if (response && response.message === "Success") {
 
-            this.showMessage(mType.success, "Notification", "Accept successfully", 'notify');
+            this.showMessage(mType.success, "Notification", response.message, 'notify');
             this.ListinvitationDialog=false;
 
 
+        }else{
+
+          this.showMessage(mType.success, "Notification", response.message, 'notify');
+          this.ListinvitationDialog=false;
         }
 
         this.loading = false;

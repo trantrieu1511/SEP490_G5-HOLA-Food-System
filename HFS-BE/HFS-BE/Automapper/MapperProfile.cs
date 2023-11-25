@@ -43,6 +43,7 @@ using HFS_BE.BusinessLogic.FeedBackCustomer;
 using HFS_BE.Controllers.FeedBack;
 using HFS_BE.BusinessLogic.ReplyFeedBack;
 using Microsoft.AspNetCore.Routing.Constraints;
+using HFS_BE.BusinessLogic.ManageUser.ManageShipper;
 
 namespace HFS_BE.Automapper
 {
@@ -346,6 +347,7 @@ namespace HFS_BE.Automapper
             CreateMap<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>();
 			CreateMap<ImageFileConvert.ImageOutputDto, FeedImageOutputDto>();
 			CreateMap<ImageFileConvert.ImageOutputDto, FeedSellerImageOutputDto>();
+			CreateMap<ImageFileConvert.ImageOutputDto, ShipperImageOutputDto>();
 		}
 
         public void Category()
@@ -383,6 +385,8 @@ namespace HFS_BE.Automapper
             CreateMap<ListCustomerDtoOutput, ListCustomerOutputDtoBS>();
             CreateMap<SellerDtoOutput, SellerDtoBS>();
             CreateMap<ListSellerDtoOutput, ListSellerOutputDtoBS>();
+			CreateMap<ShipperInforByAdmin, ShipperOutputDtoBL>();
+			CreateMap<ShipperInforListByAdmin, ListShipperbyAdminOutputDtoBS>();
 			CreateMap<Invitation, InvitationSellerDtoOutput>()
 			 .ForMember(dest => dest.SellerName, opt => opt.MapFrom(src => src.Seller.FirstName + " " + src.Seller.LastName))
 			 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Seller.Email))
@@ -465,7 +469,9 @@ namespace HFS_BE.Automapper
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
             CreateMap<MenuModerator, LoginGoogleInputDto>()
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
-        }
+			CreateMap<Shipper, LoginGoogleInputDto>()
+		.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ShipperId));
+		}
 
 
 

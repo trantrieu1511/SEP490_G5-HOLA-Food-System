@@ -4,6 +4,7 @@ using HFS_BE.BusinessLogic.Admin;
 using HFS_BE.BusinessLogic.Auth;
 using HFS_BE.DAO.AdminDao;
 using HFS_BE.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace HFS_BE.Controllers.Admin
 		{
 		}
 		[HttpPost("home/registeradmin")]
+
 		public BaseOutputDto RegisterAdmin(RegisterInputDto inputDto)
 		{
 			try
@@ -30,6 +32,7 @@ namespace HFS_BE.Controllers.Admin
 			}
 		}
 		[HttpPost("users/dashboadpie")]
+		[Authorize(Roles = "AD")]
 		public List<DashboadPieAdminOutputDto> GetDashBoadPie()
 		{
 			try
@@ -44,6 +47,7 @@ namespace HFS_BE.Controllers.Admin
 			}
 		}
 		[HttpPost("users/dashboadtotal")]
+		[Authorize(Roles = "AD")]
 		public DashboadAdminOutputDto GetDashBoadTotal()
 		{
 			try

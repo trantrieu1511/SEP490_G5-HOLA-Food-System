@@ -119,7 +119,7 @@
                         <td>
                             <span class="p-column-title">SellerID</span>
                             <!-- <span class="food-sellerId"> -->
-                                {{food.sellerId}}
+                            {{food.sellerId}}
                             <!-- </span> -->
                         </td>
                         <td>
@@ -171,14 +171,12 @@
                                 <ng-container *ngIf="food.status !== 'NotApproved'">
                                     <div *ngIf="food.status === 'Ban'; else statusBannable"
                                         class="flex align-items-center justify-content-center">
-                                        <button pButton pRipple icon="pi pi-ban"
-                                            (click)="onUnbanFood(food, $event)"
-                                            class="p-button-rounded p-button-danger"></button>
+                                        <button pButton pRipple icon="pi pi-circle" (click)="onUnbanFood(food, $event)"
+                                            class="p-button-rounded p-button-success"></button>
                                     </div>
                                     <ng-template #statusBannable>
                                         <div class="flex align-items-center justify-content-center">
-                                            <button pButton pRipple icon="pi pi-ban"
-                                                (click)="onBanFood(food, $event)"
+                                            <button pButton pRipple icon="pi pi-ban" (click)="onBanFood(food, $event)"
                                                 class="p-button-rounded p-button-danger"></button>
                                         </div>
                                     </ng-template>

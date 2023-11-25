@@ -6,7 +6,7 @@ import {
   ShareData,
   iFunction
 } from 'src/app/modules/shared-module/shared-module';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import * as API from "../../../services/apiURL";
 import { User } from 'src/app/services/auth.service';
@@ -25,6 +25,7 @@ export class ManagePostmoderatorModuleComponent extends iComponentBase implement
   postM:PostModerator=new PostModerator();
   constructor( private shareData: ShareData,
     public messageService: MessageService,
+    private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
@@ -47,7 +48,7 @@ export class ManagePostmoderatorModuleComponent extends iComponentBase implement
 
     try {
 
-   
+
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.LIST_PM,"");
 
         if (response && response.message === "Success") {
@@ -60,8 +61,39 @@ export class ManagePostmoderatorModuleComponent extends iComponentBase implement
 
     }
 }
-async BanModerator(user:PostModeratorOutput){
-  
+async BanModerator(user:PostModeratorOutput,event){
+  if(user.isBanned===false){
+    this.confirmationService.confirm({
+      target: event.target,
+      message: `Are you sure to Closed Account id: ${user.modId} ?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //confirm action
+        this.BanModeratorPM(user);
+      },
+      reject: () => {
+        //reject action
+      },
+    });
+  }else{
+    this.confirmationService.confirm({
+      target: event.target,
+      message: `Are you sure to Unlock id: ${user.modId} ?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //confirm action
+        this.BanModeratorPM(user);
+      },
+      reject: () => {
+        //reject action
+      },
+    });
+  }
+
+
+}
+async BanModeratorPM(user:PostModeratorOutput){
+
   const param = {
     "modId":user.modId,
    "isBanned":!user.isBanned
@@ -69,7 +101,7 @@ async BanModerator(user:PostModeratorOutput){
   console.log(param)
 try {
 
-  
+
        let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.BAN_PM,param);
 
        if (response && response.message === "Success") {
@@ -100,7 +132,7 @@ if (response && response.message === "Success") {
  this.getAllCustomer();
  this.showMessage(mType.success, "Notification", "Update "+this.postM.email+" successfully", 'notify');
 }else{
-  this.showMessage(mType.error, "Notification", "Update "+response.message+" failure", 'notify');
+  this.showMessage(mType.error, "Notification", response.message, 'notify');
 }
 ;
 } catch (e) {

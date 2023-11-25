@@ -190,6 +190,9 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
     this.loading = true;
     await this.service.logingoogle(response.credential).subscribe(
       (x: any) => {
+        if(x===undefined){
+          this.showMessage(mType.error, "Notification", "You have been banned due to violations, please contact us to resolve", 'app-login');
+        }
         this._ngZone.run(() => {
           this.loading = false;
           switch (this.user.role) {
@@ -208,8 +211,12 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
             default:
               this.router.navigateByUrl('/login');
           }
-        });
-      },
+        }
+
+        );
+
+      }
+      ,
       (error: any) => {
         console.log(error);
       }
@@ -267,7 +274,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
               this.error = 'Email hoặc mật khẩu không chính xác.';
             } else {
               // this.error = 'Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.';
-              this.showMessage(mType.error, "Notification", "Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.", 'app-login');
+              this.showMessage(mType.error, "Notification", "An error occurred while logging in. Please try again later.", 'app-login');
             }
           }
         );

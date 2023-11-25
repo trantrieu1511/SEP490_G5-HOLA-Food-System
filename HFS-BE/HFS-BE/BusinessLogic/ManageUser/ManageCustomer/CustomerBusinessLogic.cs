@@ -36,7 +36,7 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageCustomer
 					{
 						ImageFileConvert.ImageOutputDto? imageInfor = null;
 						
-								imageInfor = ImageFileConvert.ConvertFileToBase64(cus.CustomerId, img.Path, 2);
+								imageInfor = ImageFileConvert.ConvertFileToBase64(cus.CustomerId, img.Path, 3);
 						if (imageInfor == null)
 							continue;
 						var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, CustomerImageOutputDto>(imageInfor);

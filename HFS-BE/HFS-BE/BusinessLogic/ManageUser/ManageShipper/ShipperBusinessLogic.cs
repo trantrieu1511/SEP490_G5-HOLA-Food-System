@@ -4,6 +4,7 @@ using HFS_BE.DAO.CustomerDao;
 using HFS_BE.DAO.ShipperDao;
 using HFS_BE.DAO.UserDao;
 using HFS_BE.Models;
+using HFS_BE.Utils.IOFile;
 using System.Buffers.Text;
 
 namespace HFS_BE.BusinessLogic.ManageUser.ManageShipper
@@ -13,14 +14,38 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageShipper
 		public ShipperBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
 		{
 		}
-		public ShipperInforListByAdmin ListShipperbyAdmin()
+		public ListShipperbyAdminOutputDtoBS ListShipperbyAdmin()
 		{
 			try
 			{
 				var Dao = this.CreateDao<ShipperDao>();
 				var daooutput = Dao.GetShipperAll();
+				var outputBL = mapper.Map<ShipperInforListByAdmin, ListShipperbyAdminOutputDtoBS>(daooutput);//chua map
+				foreach (var ship in daooutput.Shippers)
+				{
+					// get current index
+					var index = daooutput.Shippers.IndexOf(ship);
 
-				return daooutput;
+					if (ship.Images == null || ship.Images.Count < 1)
+					{
+						continue;
+					}
+
+					foreach (var img in ship.Images)
+					{
+						ImageFileConvert.ImageOutputDto? imageInfor = null;
+
+						imageInfor = ImageFileConvert.ConvertFileToBase64(ship.ShipperId, img.Path, 3);
+						if (imageInfor == null)
+							continue;
+						var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, ShipperImageOutputDto>(imageInfor);//chưa map
+						imageMapper.ImageId = img.ImageId;
+
+						// add to ouput list
+						outputBL.Shippers[index].ImagesBase64.Add(imageMapper);
+					}
+				}
+				return outputBL;
 			}
 			catch (Exception)
 			{

@@ -6,6 +6,7 @@ using HFS_BE.BusinessLogic.ManageUser.ManageModerator;
 using HFS_BE.Dao.AuthDao;
 using HFS_BE.DAO.ModeratorDao;
 using HFS_BE.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageModerator
 		{
 		}
 		[HttpPost("users/listpostmoderator")]
-
+		[Authorize(Roles = "AD")]
 		public ListPostModeratorDtoOutput ListPostModerator()
 		{
 			try
@@ -33,7 +34,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageModerator
 			}
 		}
 		[HttpPost("users/listmenumoderator")]
-
+		[Authorize(Roles = "AD")]
 		public ListMenuModeratorDtoOutput ListMenuModerator()
 		{
 			try
@@ -48,7 +49,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageModerator
 			}
 		}
 		[HttpPost("users/addpostmoderator")]
-
+		[Authorize(Roles = "AD")]
 		public BaseOutputDto AddPostModerator(CreateModerator input)
 		{
 			try
@@ -63,7 +64,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageModerator
 			}
 		}
 		[HttpPost("users/addmenumoderator")]
-
+		[Authorize(Roles = "AD")]
 		public BaseOutputDto AddMenuModerator(CreateModerator input)
 		{
 			try
@@ -78,7 +79,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageModerator
 			}
 		}
 		[HttpPost("users/banmenumoderator")]
-
+		[Authorize(Roles = "AD")]
 		public BaseOutputDto BanMenuModerator(BanModeratorDtoinput input)
 		{
 			try

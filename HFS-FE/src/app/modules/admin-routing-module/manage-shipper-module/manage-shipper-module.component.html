@@ -127,7 +127,7 @@
                       </td>
                       <td >
                           <span class="p-column-title">BirthDate</span>
-                          {{user.birthDate}}
+                          {{user.birthDate| date:'dd/MM/yyyy'}}
                       </td>
                       <td >
                         <span class="p-column-title">Verification</span>
@@ -141,7 +141,11 @@
                     </td>
                       <td>
                           <span class="p-column-title">Image</span>
-
+                          <ng-container *ngIf="user.imagesBase64.length !== 0; else noneImage" >
+                            <button pButton pRipple icon="pi pi-images"
+                                    (click)="onDisplayImagesDialog(user, $event)"
+                                    class="p-button-rounded p-button-text p-button-raised"></button>
+                        </ng-container>
                           <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
                       </td>
 
@@ -262,6 +266,37 @@
                 <td>{{history.banShipperId}}</td>
                 <td>{{history.reason}}</td>
                 <td>{{history.createDate}}</td>
+
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+
+<p-dialog header="List Image"
+    [(visible)]="visibleImageDialog"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    [maximizable]="true"
+    >
+    <p-table [value]="shipperImg.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Size</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-image>
+            <tr >
+                <td>{{image.imageId}}</td>
+                <td><p-image src="data:image/gif;base64,{{image.imageBase64}}" [preview]="true"
+                    [alt]="image.imageId" class="dialogimages_image w-10rem shadow-2"
+                    ></p-image></td>
+                <td>{{image.name}}</td>
+                <td>{{image.size}} KB</td>
 
             </tr>
         </ng-template>

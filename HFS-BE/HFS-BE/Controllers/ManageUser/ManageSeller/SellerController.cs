@@ -5,6 +5,7 @@ using HFS_BE.BusinessLogic.ManageUser.ManageSeller;
 using HFS_BE.DAO.CustomerDao;
 using HFS_BE.DAO.SellerDao;
 using HFS_BE.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageSeller
 		{
 		}
 		[HttpPost("users/listseller")]
-
+		[Authorize(Roles ="AD")]
 		public ListSellerOutputDtoBS ListSeller()
 		{
 			try
@@ -32,7 +33,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageSeller
 			}
 		}
 		[HttpPost("users/banseller")]
-
+		[Authorize(Roles = "AD")]
 		public BaseOutputDto BanSeller(BanSellerDtoInput input)
 		{
 			try
@@ -47,7 +48,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageSeller
 			}
 		}
 		[HttpPost("users/activeseller")]
-
+		[Authorize(Roles = "AD")]
 		public BaseOutputDto AciveSeller(ActiveSellerDtoInput input)
 		{
 			try
@@ -62,7 +63,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageSeller
 			}
 		}
 		[HttpPost("users/bansellerhistory")]
-
+		[Authorize(Roles = "AD")]
 		public BaseOutputDto ListHistoryBanSeller(BanSellerHistoryDtoInput input)
 		{
 			try

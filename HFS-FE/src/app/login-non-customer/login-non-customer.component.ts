@@ -212,7 +212,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
             //this.error = 'Email hoặc mật khẩu không chính xác.';
           } else {
            // this.error = 'Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.';
-            this.showMessage(mType.error, "Notification", "Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau", 'app-non-login');
+            this.showMessage(mType.error, "Notification", "An error occurred while logging in. Please try again later.", 'app-non-login');
           }
         })
 

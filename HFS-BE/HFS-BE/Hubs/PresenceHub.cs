@@ -35,6 +35,7 @@ namespace HFS_BE.Hubs
 
 			var username = Context.User.GetEmail();
 		   var role = Context.User.FindFirst(c => c.Type == ClaimTypes.Role)?.Value;
+			
 			if (role == "CU")
 			{
 				var isOnline = await _tracker.CustomerConnected(username, Context.ConnectionId);
