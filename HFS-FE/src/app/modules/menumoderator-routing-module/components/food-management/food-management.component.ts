@@ -235,7 +235,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
     });
   }
 
-  onDisplayFood(food: Food, event) {
+  onDisplayFood(food: Food, event) { // Approve the food for display
     this.confirmationService.confirm({
       target: event.target,
       message: `Are you sure to Display this food id: ${food.foodId} to the guests and customers?`,

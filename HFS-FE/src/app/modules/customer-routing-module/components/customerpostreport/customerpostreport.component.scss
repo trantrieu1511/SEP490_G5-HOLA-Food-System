@@ -257,4 +257,8 @@
 #reportcontent-data {
     padding-top: 2%;
     padding-bottom: 2%;
+    width: 50vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
