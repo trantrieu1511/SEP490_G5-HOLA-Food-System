@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
+using HFS_BE.Controllers.Dashboard;
 using HFS_BE.Dao.FoodDao;
 using HFS_BE.Dao.OrderDao;
+using HFS_BE.DAO.PostReportDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
@@ -16,40 +18,58 @@ namespace HFS_BE.Dao.PostDao
         {
         }
 
-        public ListPostOutputDto ListAllPosts()
+        //public ListPostOutputDto ListAllPosts()
+        //{
+        //    try
+        //    {
+        //        /*var data = (from post in context.Posts
+        //                    join user in context.Users
+        //                    on post.UserId equals user.UserId
+        //                    join postImg in context.PostImages
+        //                    on post.PostId equals postImg.PostId
+        //                    select new PostOutputDto
+        //                    {
+        //                        PostId = post.PostId,
+        //                        UserId = post.UserId,
+        //                        UserFirstName = user.FirstName,
+        //                        PostContent = post.PostContent,
+        //                        Status = post.Status,
+        //                        CreatedDate = post.CreatedDate,
+        //                        postImages = context.PostImages.Where(pi => pi.PostId == post.PostId).ToList()
+        //                    }).ToList();*/
+        //        List<PostOutputDto> data = context.Posts
+        //            .Include(p => p.Seller)
+        //            .Include(p => p.PostImages)
+        //            .Select(p => new PostOutputDto
+        //            {
+        //                PostId = p.PostId,
+        //                //UserId = p.SellerId,
+        //                UserFirstName = p.Seller.FirstName,
+        //                PostContent = p.PostContent,
+        //                CreatedDate = p.CreatedDate,
+        //                //Status = p.Status,
+        //                PostImages = p.PostImages.ToList()
+        //            }).ToList();
+
+        //        var output = this.Output<ListPostOutputDto>(Constants.ResultCdSuccess);
+        //        //output.Posts = mapper.Map<List<Post>, List<PostOutputDto>>(data);
+        //        output.Posts = data;
+        //        return output;
+        //    }
+        //    catch (Exception e)
+        //    {
+
+        //        return this.Output<ListPostOutputDto>(Constants.ResultCdFail);
+        //    }
+        //}
+
+        public DashboardPostmodPostDataDaoOutputDto GetAllPosts()
         {
             try
             {
-                /*var data = (from post in context.Posts
-                            join user in context.Users
-                            on post.UserId equals user.UserId
-                            join postImg in context.PostImages
-                            on post.PostId equals postImg.PostId
-                            select new PostOutputDto
-                            {
-                                PostId = post.PostId,
-                                UserId = post.UserId,
-                                UserFirstName = user.FirstName,
-                                PostContent = post.PostContent,
-                                Status = post.Status,
-                                CreatedDate = post.CreatedDate,
-                                postImages = context.PostImages.Where(pi => pi.PostId == post.PostId).ToList()
-                            }).ToList();*/
-                List<PostOutputDto> data = context.Posts
-                    .Include(p => p.Seller)
-                    .Include(p => p.PostImages)
-                    .Select(p => new PostOutputDto
-                    {
-                        PostId = p.PostId,
-                        //UserId = p.SellerId,
-                        UserFirstName = p.Seller.FirstName,
-                        PostContent = p.PostContent,
-                        CreatedDate = p.CreatedDate,
-                        //Status = p.Status,
-                        PostImages = p.PostImages.ToList()
-                    }).ToList();
+                List<Post> data = context.Posts.ToList();
 
-                var output = this.Output<ListPostOutputDto>(Constants.ResultCdSuccess);
+                var output = this.Output<DashboardPostmodPostDataDaoOutputDto>(Constants.ResultCdSuccess);
                 //output.Posts = mapper.Map<List<Post>, List<PostOutputDto>>(data);
                 output.Posts = data;
                 return output;
@@ -57,7 +77,7 @@ namespace HFS_BE.Dao.PostDao
             catch (Exception e)
             {
 
-                return this.Output<ListPostOutputDto>(Constants.ResultCdFail);
+                return this.Output<DashboardPostmodPostDataDaoOutputDto>(Constants.ResultCdFail, e.Message + e.Source + e.InnerException + e.StackTrace);
             }
         }
 
@@ -253,7 +273,7 @@ namespace HFS_BE.Dao.PostDao
 
         public Post? GetPostById(int postId)
         {
-            return context.Posts.Include(x=>x.Seller).FirstOrDefault(x => x.PostId == postId);
+            return context.Posts.Include(x => x.Seller).FirstOrDefault(x => x.PostId == postId);
         }
 
         public ListPostByCustomerOutputDto ListPostsByCustomer(PostStatusInputDto input)
@@ -294,34 +314,19 @@ namespace HFS_BE.Dao.PostDao
                 {
                     TotalPosts = context.Posts.Count(),
                     TotalBannedPosts = context.Posts.Where(p => p.Status == 3).Count(),
+                    TotalPostReports = context.PostReports.Count(),
                     TotalPendingPostReports = context.PostReports.Where(pr => pr.Status == 0).Count(),
                     TotalApprovedPostReports = context.PostReports.Where(pr => pr.Status == 1).Count(),
                     TotalNotapprovedPostReports = context.PostReports.Where(pr => pr.Status == 2).Count()
                 };
-                var output = Output<DashboardPostModStatisticOutput>(Constants.ResultCdSuccess);
-                output.Statistics = allTimeStatistics;
-                return output;
-            }
-            catch (Exception e)
-            {
-                return this.Output<DashboardPostModStatisticOutput>(Constants.ResultCdFail, e.Message + e.Source + e.InnerException + e.StackTrace);
-            }
-        }
-        
-        public DashboardPostModStatisticOutput GetThisMonthStatistics(string userId)
-        {
-            try
-            {
-                var thisMonthStatistics = new DashboardPostModStatistic
+                var myAllTimeStatistics = new DashboardPostModStatistic
                 {
-                    TotalPosts = context.Posts.Where(p => Convert.ToDateTime(p.CreatedDate).Month == DateTime.Now.Month).Count(),
-                    TotalBannedPosts = context.Posts.Where(p => Convert.ToDateTime(p.CreatedDate).Month == DateTime.Now.Month && p.Status == 3).Count(),
-                    TotalPendingPostReports = context.PostReports.Where(pr => Convert.ToDateTime(pr.CreateDate).Month == DateTime.Now.Month && pr.Status == 0).Count(),
-                    TotalApprovedPostReports = context.PostReports.Where(pr => Convert.ToDateTime(pr.CreateDate).Month == DateTime.Now.Month && pr.Status == 1).Count(),
-                    TotalNotapprovedPostReports = context.PostReports.Where(pr => Convert.ToDateTime(pr.CreateDate).Month == DateTime.Now.Month && pr.Status == 2).Count()
+                    TotalApprovedPostReports = context.PostReports.Where(pr => pr.Status == 1 && pr.UpdateBy.Equals(userId)).Count(),
+                    TotalNotapprovedPostReports = context.PostReports.Where(pr => pr.Status == 2 && pr.UpdateBy.Equals(userId)).Count()
                 };
                 var output = Output<DashboardPostModStatisticOutput>(Constants.ResultCdSuccess);
-                output.Statistics = thisMonthStatistics;
+                output.Statistics = allTimeStatistics;
+                output.MyStatistics = myAllTimeStatistics;
                 return output;
             }
             catch (Exception e)
@@ -329,5 +334,27 @@ namespace HFS_BE.Dao.PostDao
                 return this.Output<DashboardPostModStatisticOutput>(Constants.ResultCdFail, e.Message + e.Source + e.InnerException + e.StackTrace);
             }
         }
+
+        //public DashboardPostModStatisticOutput GetThisMonthStatistics(string userId)
+        //{
+        //    try
+        //    {
+        //        var thisMonthStatistics = new DashboardPostModStatistic
+        //        {
+        //            TotalPosts = context.Posts.Where(p => Convert.ToDateTime(p.CreatedDate).Month == DateTime.Now.Month).Count(),
+        //            TotalBannedPosts = context.Posts.Where(p => Convert.ToDateTime(p.CreatedDate).Month == DateTime.Now.Month && p.Status == 3).Count(),
+        //            TotalPendingPostReports = context.PostReports.Where(pr => Convert.ToDateTime(pr.CreateDate).Month == DateTime.Now.Month && pr.Status == 0).Count(),
+        //            TotalApprovedPostReports = context.PostReports.Where(pr => Convert.ToDateTime(pr.CreateDate).Month == DateTime.Now.Month && pr.Status == 1).Count(),
+        //            TotalNotapprovedPostReports = context.PostReports.Where(pr => Convert.ToDateTime(pr.CreateDate).Month == DateTime.Now.Month && pr.Status == 2).Count()
+        //        };
+        //        var output = Output<DashboardPostModStatisticOutput>(Constants.ResultCdSuccess);
+        //        output.Statistics = thisMonthStatistics;
+        //        return output;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return this.Output<DashboardPostModStatisticOutput>(Constants.ResultCdFail, e.Message + e.Source + e.InnerException + e.StackTrace);
+        //    }
+        //}
     }
 }

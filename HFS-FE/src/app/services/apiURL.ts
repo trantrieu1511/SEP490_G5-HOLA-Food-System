@@ -233,8 +233,18 @@ export class API_AUTH {
 
 export class API_DASHBOARD {
     public static DASHBOARD_SELLER = "dashboardSeller";
+
+    // ---------------- Post moderator ------------------
     public static DASHBOARD_POSTMOD_ALLTIMESTATISTICS = "getalltimestatisticspostmoderator";
-    public static DASHBOARD_POSTMOD_THISMONTHSTATISTICS = "getalltimestatisticspostmoderator";
+    // public static DASHBOARD_POSTMOD_THISMONTHSTATISTICS = "getthismonthstatisticspostmoderator";
+    public static DASHBOARD_POSTMOD_MYSTATISTICS = "getMyStatisticsPostmod";
+    public static DASHBOARD_POSTMOD_SYSTEMSTATISTICS = "getSystemStatisticsPostmod";
+    
+    // ---------------- Menu moderator ------------------
+    public static DASHBOARD_MENUMOD_ALLTIMESTATISTICS = "getAllTimeStatisticsMenuModerator";
+    public static DASHBOARD_MENUMOD_MYSTATISTICS = "getMyStatisticsMenumod";
+    public static DASHBOARD_MENUMOD_SYSTEMSTATISTICS = "getSystemStatisticsMenumod";
+    
 }
 
 export class API_WALLET {

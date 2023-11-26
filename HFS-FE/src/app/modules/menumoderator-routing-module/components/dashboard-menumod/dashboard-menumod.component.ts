@@ -17,23 +17,22 @@ import { FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
 import { Router } from '@angular/router';
 import { AppCustomerTopBarComponent } from 'src/app/app-systems/app-topbar/customer/app.topbar-cus.component';
 import { AuthService } from 'src/app/services/auth.service';
-import { DashboardPostModStatistic } from '../../models/dashboard-postmod.model';
+import { DashboardMenuModStatistic } from '../../../menumoderator-routing-module/models/dashboard-menumod.model';
 import { DatePipe } from '@angular/common';
 import { ColorLineChart } from 'src/app/utils/colorLineChart';
 
 @Component({
-    selector: 'app-dashboard-postmod',
-    templateUrl: './dashboard-postmod.component.html',
-    styleUrls: ['./dashboard-postmod.component.scss']
+    selector: 'app-dashboard-menumod',
+    templateUrl: './dashboard-menumod.component.html',
+    styleUrls: ['./dashboard-menumod.component.scss']
 })
-export class DashboardPostmodComponent extends iComponentBase implements OnInit {
+export class DashboardMenumodComponent extends iComponentBase implements OnInit {
 
     myData: any;
     systemData: any;
     options: any;
-    allTimeStatistics: DashboardPostModStatistic = new DashboardPostModStatistic();
-    myStatistics: DashboardPostModStatistic = new DashboardPostModStatistic();
-    // thisMonthStatistics: DashboardPostModStatistic = new DashboardPostModStatistic();
+    allTimeStatistics: DashboardMenuModStatistic = new DashboardMenuModStatistic();
+    myStatistics: DashboardMenuModStatistic = new DashboardMenuModStatistic();
 
     systemCalendarRangeDates: Date[] | undefined;
     myCalendarRangeDates: Date[] | undefined;
@@ -82,7 +81,7 @@ export class DashboardPostmodComponent extends iComponentBase implements OnInit 
 
     async getAllTimeStatistics() {
         try {
-            let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.DASHBOARD, API.API_DASHBOARD.DASHBOARD_POSTMOD_ALLTIMESTATISTICS);
+            let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.DASHBOARD, API.API_DASHBOARD.DASHBOARD_MENUMOD_ALLTIMESTATISTICS);
 
             if (response && response.message === "Success") {
                 this.allTimeStatistics = response.statistics;
@@ -174,7 +173,7 @@ export class DashboardPostmodComponent extends iComponentBase implements OnInit 
 
         let response = await this.iServiceBase.getDataWithParamsAsync(
             API.PHAN_HE.DASHBOARD,
-            API.API_DASHBOARD.DASHBOARD_POSTMOD_SYSTEMSTATISTICS,
+            API.API_DASHBOARD.DASHBOARD_MENUMOD_SYSTEMSTATISTICS,
             param,
             false
         );
@@ -215,7 +214,7 @@ export class DashboardPostmodComponent extends iComponentBase implements OnInit 
 
         let response = await this.iServiceBase.getDataWithParamsAsync(
             API.PHAN_HE.DASHBOARD,
-            API.API_DASHBOARD.DASHBOARD_POSTMOD_MYSTATISTICS,
+            API.API_DASHBOARD.DASHBOARD_MENUMOD_MYSTATISTICS,
             param,
             false
         );

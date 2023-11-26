@@ -1,4 +1,5 @@
 ﻿using HFS_BE.Base;
+using HFS_BE.Models;
 
 namespace HFS_BE.DAO.MenuReportDao
 {
@@ -25,5 +26,10 @@ namespace HFS_BE.DAO.MenuReportDao
     public class ListFoodReportOutputDto : BaseOutputDto
     {
         public List<FoodReportOutputDto> FoodReports { get; set; } = new List<FoodReportOutputDto>();
+    }
+
+    public class DashboardMenumodFoodReportDataDaoOutputDto : BaseOutputDto
+    {
+        public List<MenuReport> FoodReports { get; set; } = new List<MenuReport>();
     }
 }

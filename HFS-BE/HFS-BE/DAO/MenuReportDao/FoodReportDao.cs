@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
+using HFS_BE.DAO.PostReportDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
@@ -141,6 +142,39 @@ namespace HFS_BE.DAO.MenuReportDao
             catch (Exception e)
             {
                 return Output<BaseOutputDto>(Constants.ResultCdFail, e.Message + e.Source + e.StackTrace + e.InnerException);
+            }
+        }
+
+        public DashboardMenumodFoodReportDataDaoOutputDto GetAllFoodReportsByModId(DashboardMenuModInputDto inputDto)
+        {
+            try
+            {
+                var foodReports = context.MenuReports
+                    .Where(pr => pr.UpdateBy.Equals(inputDto.ModId))
+                    .ToList();
+                var output = Output<DashboardMenumodFoodReportDataDaoOutputDto>(Constants.ResultCdSuccess);
+                output.FoodReports = foodReports;
+                return output;
+            }
+            catch (Exception e)
+            {
+                return this.Output<DashboardMenumodFoodReportDataDaoOutputDto>(Constants.ResultCdFail, e.Message + e.Source + e.InnerException + e.StackTrace);
+            }
+        }
+
+        public DashboardMenumodFoodReportDataDaoOutputDto GetAllFoodReports()
+        {
+            try
+            {
+                var foodReports = context.MenuReports
+                    .ToList();
+                var output = Output<DashboardMenumodFoodReportDataDaoOutputDto>(Constants.ResultCdSuccess);
+                output.FoodReports = foodReports;
+                return output;
+            }
+            catch (Exception e)
+            {
+                return this.Output<DashboardMenumodFoodReportDataDaoOutputDto>(Constants.ResultCdFail, e.Message + e.Source + e.InnerException + e.StackTrace);
             }
         }
     }
