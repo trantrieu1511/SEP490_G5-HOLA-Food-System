@@ -223,7 +223,7 @@ namespace HFS_BE.DAO.ShipperDao
 		}
 		public ListInvitationShipperDtoOutput ListInvitationShipper(ShipperInforDtoInputbySellerId input)//list ra nhưng lời mời seller gửi 
 		{
-			var data = context.Invitations.Include(s => s.Shipper).Where(s => s.SellerId == input.ManageBy).ToList();
+			var data = context.Invitations.Include(s => s.Shipper).Where(s => s.SellerId == input.ManageBy).OrderByDescending(s => s.InvitationId).ToList();
 
 			var output = Output<ListInvitationShipperDtoOutput>(Constants.ResultCdSuccess);
 			output.data = mapper.Map<List<Invitation>, List<InvitationShipperDtoOutput>>(data); ;
@@ -231,7 +231,7 @@ namespace HFS_BE.DAO.ShipperDao
 		}
 		public ListInvitationShipperbyShipperDtoOutput ListInvitationShipperByShipper(ListInvitationShipperDtoInput input)//list ra nhưng lời mời seller gửi cho shipper bên shipepr
 		{
-			var data = context.Invitations.Include(s => s.Seller).Where(e =>e.ShipperId==input.ShipperId&&e.Accepted==0).ToList();
+			var data = context.Invitations.Include(s => s.Seller).Where(e =>e.ShipperId==input.ShipperId&&e.Accepted==0).OrderByDescending(s=>s.InvitationId).ToList();
 			var output = Output<ListInvitationShipperbyShipperDtoOutput>(Constants.ResultCdSuccess);
 			output.data = mapper.Map<List<Invitation>, List<InvitationSellerDtoOutput>>(data); ;
 			return output;

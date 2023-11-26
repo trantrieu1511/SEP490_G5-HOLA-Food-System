@@ -39,17 +39,21 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
   }
 
   ngOnInit(): void {
-    this.getAllShipper();
     this.user = this.authSerivce.getUserInfor();
+    this.getAllShipper();
+    debugger
+   // this.user = this.authSerivce.getUserInfor();
   }
 
 
   async getAllShipper() {
     this.lstShipper = [];
+    debugger
   const param = {
-    "manageBy": sessionStorage.getItem('userId'),
-  //  "manageBy": this.user.userId
+   // "manageBy": sessionStorage.getItem('userId'),
+    "manageBy": this.user.userId
   }
+  debugger
     try {
 
 
@@ -81,10 +85,11 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
 }
   async DeleteS(user:Shipper){
     const param= {
-      "sellerId": sessionStorage.getItem('userId'),
-     // "sellerId": this.user.userId,
+      //"sellerId": sessionStorage.getItem('userId'),
+      "sellerId": this.user.userId,
       "shipperId": user.shipperId
     }
+    debugger
     try {
 
 
