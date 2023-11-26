@@ -13,4 +13,12 @@
         public bool IsApproved { get; set; }
         public string? Note { get; set; }
     }
+
+    public class DashboardMenuModInputDto
+    {
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateEnd { get; set; }
+
+        public string? ModId { get; set; }
+    }
 }

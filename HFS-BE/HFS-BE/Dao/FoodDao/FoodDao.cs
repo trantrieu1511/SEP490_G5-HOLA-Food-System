@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Text;
+using HFS_BE.Controllers.Dashboard;
 
 namespace HFS_BE.Dao.FoodDao
 {
@@ -505,6 +506,52 @@ namespace HFS_BE.Dao.FoodDao
             string normalized = input.Normalize(NormalizationForm.FormKD);
             Regex regex = new Regex("[\\p{Mn}]", RegexOptions.Compiled);
             return regex.Replace(normalized, string.Empty).ToLower();
+        }
+
+        public DashboardMenuModStatisticOutput GetAllTimeStatistics(string userId)
+        {
+            try
+            {
+                var allTimeStatistics = new DashboardMenuModStatistic
+                {
+                    TotalFood = context.Foods.Count(),
+                    TotalBannedFood = context.Foods.Where(p => p.Status == 3).Count(),
+                    TotalFoodReports = context.MenuReports.Count(),
+                    TotalPendingFoodReports = context.MenuReports.Where(pr => pr.Status == 0).Count(),
+                    TotalApprovedFoodReports = context.MenuReports.Where(pr => pr.Status == 1).Count(),
+                    TotalNotapprovedFoodReports = context.MenuReports.Where(pr => pr.Status == 2).Count()
+                };
+                var myAllTimeStatistics = new DashboardMenuModStatistic
+                {
+                    TotalApprovedFoodReports = context.MenuReports.Where(pr => pr.Status == 1 && pr.UpdateBy.Equals(userId)).Count(),
+                    TotalNotapprovedFoodReports = context.MenuReports.Where(pr => pr.Status == 2 && pr.UpdateBy.Equals(userId)).Count()
+                };
+                var output = Output<DashboardMenuModStatisticOutput>(Constants.ResultCdSuccess);
+                output.Statistics = allTimeStatistics;
+                output.MyStatistics = myAllTimeStatistics;
+                return output;
+            }
+            catch (Exception e)
+            {
+                return this.Output<DashboardMenuModStatisticOutput>(Constants.ResultCdFail, e.Message + e.Source + e.InnerException + e.StackTrace);
+            }
+        }
+
+        public DashboardMenumodFoodDataDaoOutputDto GetAllFood()
+        {
+            try
+            {
+                List<Food> data = context.Foods.ToList();
+
+                var output = this.Output<DashboardMenumodFoodDataDaoOutputDto>(Constants.ResultCdSuccess);
+                output.Foods = data;
+                return output;
+            }
+            catch (Exception e)
+            {
+
+                return this.Output<DashboardMenumodFoodDataDaoOutputDto>(Constants.ResultCdFail, e.Message + e.Source + e.InnerException + e.StackTrace);
+            }
         }
     }
 }

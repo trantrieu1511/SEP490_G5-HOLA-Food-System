@@ -125,7 +125,7 @@ namespace HFS_BE.BusinessLogic.Dashboard.Postmoderator
                 var output = Output<DashboardPostmodOutput>(Constants.ResultCdSuccess);
 
                 /*
-                 * 0. get total approve/not approve post report follow range Date input
+                 * 0. get system statistics follow range Date input
                  * 1. datefrom == dateEnd -> ko can lay labels va dataSets
                     return 
                  * 2. datefrom != dateEnd -> get labels and dataSets

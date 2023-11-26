@@ -83,7 +83,7 @@ namespace HFS_BE.DAO.AuthDAO
 							}
 							JwtSecurityToken token = GenerateSecurityTokenModerator(postModerators);
 							output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-                            output.UserId = menuModerators.ModId;
+                            output.UserId = postModerators.ModId;
                             return output;
 						}
 						else

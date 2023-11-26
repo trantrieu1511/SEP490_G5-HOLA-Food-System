@@ -53,6 +53,7 @@
     <div class="col-12">
         <div class="card">
             <h2>System statistics</h2>
+            <hr>
             <div class="statistic-type">All time</div>
 
             <div class="overview-list">
@@ -136,9 +137,9 @@
                         >
                             {{data.orderCountPercent}}%
                         </div> -->
-                        <!-- <div class="data-percent">
-                            999%
-                        </div> -->
+                        <div class="data-percent">
+                            My data: {{myStatistics.totalApprovedPostReports}}
+                        </div>
                     </div>
                 </div>
                 <div class="overview-item">
@@ -153,15 +154,16 @@
                         >
                             {{data.orderCountPercent}}%
                         </div> -->
-                        <!-- <div class="data-percent">
-                            999%
-                        </div> -->
+                        <div class="data-percent">
+                            My data: {{myStatistics.totalNotapprovedPostReports}}
+                        </div>
                     </div>
                 </div>
             </div>
             <!-- <p-chart type="bar" [data]="data" [options]="options"></p-chart> -->
 
-            <div class="statistic-type">Date range statistics</div>
+            <hr>
+            <div class="statistic-type">From date to date</div>
             <div class="col-12 md:col-12">
                 <div class="col-12 mb-2 lg:col-4 mb-lg-0">
                     <label style="margin-right: 1rem">Data time: </label>

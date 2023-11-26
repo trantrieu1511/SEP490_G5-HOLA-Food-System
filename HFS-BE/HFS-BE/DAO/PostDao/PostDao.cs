@@ -77,7 +77,7 @@ namespace HFS_BE.Dao.PostDao
             catch (Exception e)
             {
 
-                return this.Output<DashboardPostmodPostDataDaoOutputDto>(Constants.ResultCdFail);
+                return this.Output<DashboardPostmodPostDataDaoOutputDto>(Constants.ResultCdFail, e.Message + e.Source + e.InnerException + e.StackTrace);
             }
         }
 
