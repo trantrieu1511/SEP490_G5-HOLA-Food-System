@@ -15,23 +15,23 @@
                <label for="firstname" class="block text-900 font-medium mb-2">FirstName*</label>
                <div *ngIf="isFirstnameTouched && formregister.get('firstName').errors?.required" class="invalid-feedback">-Firstname is required!</div>
             </div>
-            <input id="firstname" formControlName="firstName" type="text" placeholder="FirstName" pInputText class="w-full mb-3"(focus)="isFirstnameTouched = true" (blur)="showFirstnameError()">
+            <input autocomplete="new-first-field" id="firstname" formControlName="firstName" type="text" placeholder="FirstName" pInputText class="w-full mb-3"(focus)="isFirstnameTouched = true" (blur)="showFirstnameError()">
             <div class="flex items-center">
               <label for="lastname"  class="block text-900 font-medium mb-2">LastName*</label>
               <div *ngIf="isLastnameTouched && formregister.get('lastName').errors?.required" class="invalid-feedback">-LastName is required!</div>
             </div>
-            <input id="lastname" type="text" formControlName="lastName" placeholder="LastName" pInputText class="w-full mb-3" (focus)="isLastnameTouched = true" (blur)="showLastnameError()">
+            <input autocomplete="new-last-field" id="lastname" type="text" formControlName="lastName" placeholder="LastName" pInputText class="w-full mb-3" (focus)="isLastnameTouched = true" (blur)="showLastnameError()">
             <div class="flex items-center">
               <label for="phone"  class="block text-900 font-medium mb-2">PhoneNumber*</label>
               <div *ngIf="isphoneNumberTouched && formregister.get('phoneNumber').errors?.required" class="invalid-feedback">-Phone is required!</div>
             </div>
-            <input id="phoneNumber" type="text" formControlName="phoneNumber" placeholder="PhoneNumber" pInputText class="w-full mb-3" (focus)="isphoneNumberTouched = true" (blur)="showPhoneNumberError()">
+            <input autocomplete="new-phone-field" id="phoneNumber" type="text" formControlName="phoneNumber" placeholder="PhoneNumber" pInputText class="w-full mb-3" (focus)="isphoneNumberTouched = true" (blur)="showPhoneNumberError()">
 
             <div class="flex items-center">
               <label for="email1" class="block text-900 font-medium mb-2">Email*</label>
             <div *ngIf="formregister.get('email')!.hasError('email')" class="invalid-feedback">-Incorrect Email format!</div>
             </div>
-            <input id="email1" type="text"  placeholder="Email address" formControlName="email" pInputText class="w-full mb-3">
+            <input id="email1" type="text"  placeholder="Email address" formControlName="email" pInputText class="w-full mb-3" autocomplete="new-email-field">
             <label for="password1" class="block text-900 font-medium mb-2">Password*</label>
             <input id="password1" type="password"  placeholder="Password" formControlName="password" pInputText class="w-full mb-3">
             <div *ngIf="formregister.get('password')!.hasError('invalidPasswordLength')" class="invalid-feedback">-Password minimum 8!</div>

@@ -120,6 +120,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
     this.captchacheck = localStorage.getItem("captcha");
     this.unsuccessfulLoginAttempts=parseInt(this.captchacheck);
     //localStorage.removeItem('user');
+    localStorage.removeItem('chatboxusers')
     sessionStorage.clear();
 
     this.FormFirst();

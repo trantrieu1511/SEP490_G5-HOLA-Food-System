@@ -7,7 +7,7 @@ import {
 } from 'src/app/modules/shared-module/shared-module';
 import { Router } from '@angular/router';
 import * as API from "../../../../services/apiURL";
-import {MessageService } from 'primeng/api';
+import {ConfirmationService, MessageService } from 'primeng/api';
 import { PostModerator } from 'src/app/modules/admin-routing-module/models/PostModerator';
 import { Customer } from 'src/app/modules/admin-routing-module/models/Customer';
 import { AuthService, User } from 'src/app/services/auth.service';
@@ -28,6 +28,7 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
   postM:PostModerator=new PostModerator();
   constructor( private shareData: ShareData,
     public messageService: MessageService,
+    private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
@@ -46,8 +47,8 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
   async getAllShipper() {
     this.lstShipper = [];
   const param = {
-    //"manageBy": sessionStorage.getItem('userId'),
-    "manageBy": this.user.userId
+    "manageBy": sessionStorage.getItem('userId'),
+  //  "manageBy": this.user.userId
   }
     try {
 
@@ -64,10 +65,24 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
 
     }
 }
-  async Delete(user:Shipper){
+ Delete(user:Shipper,event){
+  this.confirmationService.confirm({
+    target: event.target,
+    message: `Are you sure to Kick  id: ${user.shipperId} ?`,
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      //confirm action
+      this.DeleteS(user);
+    },
+    reject: () => {
+      //reject action
+    },
+  });
+}
+  async DeleteS(user:Shipper){
     const param= {
-      //"sellerId": sessionStorage.getItem('userId'),
-      "sellerId": this.user.userId,
+      "sellerId": sessionStorage.getItem('userId'),
+     // "sellerId": this.user.userId,
       "shipperId": user.shipperId
     }
     try {
@@ -91,12 +106,12 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
   }
   onInvitation(){
     this.headerDialog = 'List Invitation';
-
-
     this.displayDialogAdd = true;
+    debugger
     this.getInvitation();
   }
   async getInvitation() {
+    debugger
     this.listinvitation = [];
     const param= {
       //"manageBy": sessionStorage.getItem('userId'),
@@ -110,10 +125,7 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
         if (response && response.message === "Success") {
             this.listinvitation = response.data;
 
-        }else{
-
-          this.showMessage(mType.error, "Notification", response.message, 'notify');
-         }
+        }
        ;
     } catch (e) {
         console.log(e);

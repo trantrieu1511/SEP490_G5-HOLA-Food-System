@@ -49,7 +49,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 			}
 		}
 		[HttpPost("users/listinvitationshipper")]
-		[Authorize(Roles = "AD")]
+		[Authorize(Roles = "SE")]
 		public ListInvitationShipperDtoOutput ListInvitationShipper(ShipperInforDtoInputbySellerId input)
 		{
 			try
