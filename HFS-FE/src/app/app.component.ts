@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class AppComponent {
   title = 'HFS-FE';
   role: string;
-  isDivVisible: boolean = true;
+  //isDivVisible: boolean = true;
   constructor(private primengConfig: PrimeNGConfig,  public translate: TranslateService,public presence: PresenceService) {
     translate.addLangs(['en', 'vi']);
 
@@ -26,13 +26,13 @@ export class AppComponent {
 
   ngOnInit() {
     this.primengConfig.ripple = true;
-    this.role = sessionStorage.getItem('role');
-    this.isDivVisible = !this.isDivVisible;
-    const user: User = JSON.parse(localStorage.getItem('user'));
-    sessionStorage.setItem("JWT", user.jwt);
-    sessionStorage.setItem("role", user.role.toString());
-    sessionStorage.setItem("timetoken", user.exp.toString());
-    sessionStorage.setItem("userId", user.userId.toString());
+    //this.role = sessionStorage.getItem('role');
+    //this.isDivVisible = !this.isDivVisible;
+    // const user: User = JSON.parse(localStorage.getItem('user'));
+    // sessionStorage.setItem("JWT", user.jwt);
+    // sessionStorage.setItem("role", user.role.toString());
+    // sessionStorage.setItem("timetoken", user.exp.toString());
+    // sessionStorage.setItem("userId", user.userId.toString());
   }
 
 }

@@ -21,6 +21,7 @@ import { FileRemoveEvent, FileSelectEvent, FileUpload } from 'primeng/fileupload
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-food-management',
@@ -60,7 +61,8 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
     private iFunction: iFunction,
     private fb: FormBuilder,
     private router: Router,
-    private signalRService: DataRealTimeService
+    private signalRService: DataRealTimeService,
+    private authService: AuthService
   ) {
     super(messageService, breadcrumbService);
     this.foodForm = this.fb.group({
@@ -74,7 +76,8 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
 
   // Not allow the user to access the page if they are not menu moderator
   checkUserAccessPermission() {
-    let userRoleName = sessionStorage.getItem("userId").substring(0, 2);
+    //let userRoleName = sessionStorage.getItem("userId").substring(0, 2);
+    let userRoleName = this.authService.getUserInfor().userId.substring(0, 2);
     if (userRoleName !== "MM") {
       this.router.navigateByUrl('/HFSBusiness');
       alert('You cannot access this page unless you are a menu moderator');

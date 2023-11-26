@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import {
     iComponentBase,
     iServiceBase, mType,
@@ -8,6 +7,7 @@ import {
 import * as API from "../../services/apiURL";
 import { MenuDataService } from 'src/app/services/menu-data.service';
 import { RoleNames } from '../../utils/roleName';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -24,9 +24,8 @@ export class AppMenuComponent implements OnInit {
   model: any[];
 
   constructor(
-    private iServiceBase: iServiceBase,
-    private jwtHelper: JwtHelperService,
-    private menuService: MenuDataService
+    private menuService: MenuDataService,
+    private authService: AuthService
   ) {
     this.model = [];
   }
@@ -39,8 +38,8 @@ export class AppMenuComponent implements OnInit {
 
 
     //this.getRole();
-    var role = sessionStorage.getItem("role");
-
+    //var role = sessionStorage.getItem("role");
+    var role = this.authService.getUserInfor().role;
     switch (RoleNames[role]) {
         case null:
             

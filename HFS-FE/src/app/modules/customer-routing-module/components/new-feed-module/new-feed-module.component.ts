@@ -12,6 +12,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { CommentNewFeed, InputComment } from '../../models/comment.model';
 import { PostReport } from '../../models/postreport.model';
 import { LayoutService } from '../../../../layout/service/app.layout.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-new-feed-module',
@@ -73,13 +74,18 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
     private route: ActivatedRoute,
     private router: Router,
     private dataService: DataService,
-    public layoutService: LayoutService
+    public layoutService: LayoutService,
+    private authService: AuthService
   ) {
     super(messageService);
   }
 
   checkLoggedIn() {
-    if (sessionStorage.getItem('userId') != null) {
+    // if (sessionStorage.getItem('userId') != null) {
+    //   this.isLoggedIn = true;
+    // }
+    this.userId = this.authService.getUserInfor().userId;
+    if (this.userId != null) {
       this.isLoggedIn = true;
     }
   }
@@ -155,7 +161,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
   async createComment(comEntity: InputComment) {
     try {
       //
-      this.userId = sessionStorage.getItem('userId');
+      //this.userId = sessionStorage.getItem('userId');
       const param = {
         'postId': comEntity.postId,
         'customerId': this.userId,

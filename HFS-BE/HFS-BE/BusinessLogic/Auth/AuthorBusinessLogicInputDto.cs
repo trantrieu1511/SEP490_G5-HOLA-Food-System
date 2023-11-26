@@ -42,14 +42,12 @@ namespace HFS_BE.BusinessLogic.Auth
 
     public class TokenApiModelBL
     {
-        public string? AccessToken { get; set; }
         public string? RefreshToken { get; set; }
-		public UserDto UserDto { get; set; }
     }
 
 	public class RevokeToken
 	{
-		public string? Email { get; set; }
+		public string? Id { get; set; }
 		public string? Role { get; set; }
 	}
 }

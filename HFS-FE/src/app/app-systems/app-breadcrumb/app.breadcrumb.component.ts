@@ -20,7 +20,9 @@ export class AppBreadcrumbComponent implements OnDestroy {
         this.subscription = breadcrumbService.itemsHandler.subscribe(response => {
             this.items = response;
         });
-        if(authService.getRole() == null || authService.getRole() == 'CU'){
+        const role = authService.getUserInfor().role
+
+        if(role == null || role == 'CU'){
             this.home = { icon: 'pi pi-home', routerLink: '/' };
         }else{
             this.home = { icon: 'pi pi-home', routerLink: '/HFSBusiness/' };

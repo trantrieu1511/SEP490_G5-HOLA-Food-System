@@ -119,7 +119,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
     })
     this.captchacheck = localStorage.getItem("captcha");
     this.unsuccessfulLoginAttempts=parseInt(this.captchacheck);
-    localStorage.removeItem('user');
+    //localStorage.removeItem('user');
     localStorage.removeItem('chatboxusers')
     sessionStorage.clear();
 
@@ -244,27 +244,28 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
           (res) => {
             if(res===undefined&&this.user===null){
               this.showMessage(mType.error, "Notification", this.error, 'app-login');
-            }
+            }else{
             //this.toastr.success('Login success');
             // const userData = localStorage.getItem('user');
             // this.user = JSON.parse(userData);
 
-            switch (this.user.role) {
-              case 'CU':
-                this.router.navigate(['/homepage']);
+              switch (this.user.role) {
+                case 'CU':
+                  this.router.navigate(['/homepage']);
 
-                break;
-              case 'AD':
-              case 'SE':
-              case 'SH':
-              case 'PM':
-              case 'MM':
-                this.router.navigateByUrl('/HFSBusiness');
-                break;
+                  break;
+                case 'AD':
+                case 'SE':
+                case 'SH':
+                case 'PM':
+                case 'MM':
+                  this.router.navigateByUrl('/HFSBusiness');
+                  break;
 
-              default:
-                window.location.reload();
+                default:
+                  window.location.reload();
 
+              }
             }
 
           },

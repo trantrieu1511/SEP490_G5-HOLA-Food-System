@@ -1,5 +1,5 @@
 <div class="page-content">
-    <div class="card sidebar" *ngIf="this.authService.getRole() == 'CU'">
+    <div class="card sidebar" *ngIf="this.authService.getUserInfor().role == 'CU'">
         <!-- <a id="profile-option" class="report-sidebar-option" href="#" (click)="this.router.navigateByUrl('/profile');"
             onclick="event.preventDefault();">Profile</a>
         <div class="dash-line"></div>

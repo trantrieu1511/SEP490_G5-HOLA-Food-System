@@ -15,19 +15,14 @@ namespace HFS_BE.Controllers.Auth
         {
         }
 
-        [HttpPost, Authorize]
+        [HttpPost]
         [Route("auths/revoke")]
-        public BaseOutputDto Revoke()
+        public BaseOutputDto Revoke(TokenApiModel tokenApiModel)
         {
-            var param = new RevokeToken
-            {
-                Email = GetUserInfor().Email,
-                Role = GetUserInfor().Role
-            };
-
+           
             var busi = GetBusinessLogic<RevokeTokenBusinessLogic>();
 
-            return busi.RevokeToken(param);
+            return busi.RevokeToken(tokenApiModel);
         }
     }
 }

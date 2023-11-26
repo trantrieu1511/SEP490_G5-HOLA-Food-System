@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, HostListener, OnDestroy} from '@angular/core';
 import {
   iComponentBase,
+  iFunction,
   iServiceBase,
   mType
 } from 'src/app/modules/shared-module/shared-module';
@@ -47,6 +48,8 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
 
   readNotifySubscription: Subscription;
 
+  role: string;
+
   constructor(
     private iServiceBase: iServiceBase,
     private signalRService: NotificationService,
@@ -54,11 +57,12 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
     private _route: Router,
     public messageService: MessageService,
     public translate: TranslateService,
-    public notifyService: NotificationBellService
+    public notifyService: NotificationBellService,
+    private iFunction: iFunction
     
   ){
     super(messageService);
-    if(sessionStorage.getItem('JWT')){
+    if(iFunction.getCookie("token")){
       this.connectSignalR();
       this.getAllNotification();
 
@@ -79,6 +83,9 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
   async ngOnInit() {
     // console.log("lang")
     // console.log(this.translate)
+    const user = this.authService.getUserInfor();
+    if(user != null)
+      this.role = this.authService.getUserInfor().role;
   }
 
   ngOnDestroy() {
@@ -139,7 +146,7 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
     //this.updateNotification(notify);
   
     var url = `/notify-management/detail/${notifyId}`;
-    if(RoleNames[this.authService.getRole()] != 'Customer'){
+    if(RoleNames[this.role] != 'Customer'){
       url = 'HFSBusiness' + url;
     }
 
@@ -197,7 +204,7 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
   onViewAll(event: any){
     event.preventDefault();
     var url = `/notify-management`;
-    if(RoleNames[this.authService.getRole()] != 'Customer'){
+    if(RoleNames[this.role] != 'Customer'){
       url = 'HFSBusiness' + url;
     }
 

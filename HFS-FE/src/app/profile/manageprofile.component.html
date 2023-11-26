@@ -238,7 +238,7 @@
 
 
 <div class="page-content">
-    <div class="card sidebar" *ngIf="this.authService.getRole() == 'CU'">
+    <div class="card sidebar" *ngIf="role == 'CU'">
         
         <app-menu-myaccount></app-menu-myaccount>
 
@@ -298,14 +298,14 @@
                             <a style="color: #6366F1;" class="edit-email-link" href="#"
                                 onClick="event.preventDefault();" (click)="doSomething();">Edit email</a>
                         </div> -->
-                        <div *ngIf="!profileDisplay.confirmedEmail && this.authService.getRole() == 'CU' || 
-                            !profileDisplay.confirmedEmail && this.authService.getRole() == 'SE' || 
-                            !profileDisplay.confirmedEmail && this.authService.getRole() == 'SH'">
+                        <div *ngIf="!profileDisplay.confirmedEmail && role == 'CU' || 
+                            !profileDisplay.confirmedEmail && role == 'SE' || 
+                            !profileDisplay.confirmedEmail && role == 'SH'">
                             <a class="verify-email-link" (click)="confirm(profileDisplay.email);">Verify email</a>
                         </div>
-                        <div *ngIf="profileDisplay.confirmedEmail && this.authService.getRole() == 'CU' 
-                            || profileDisplay.confirmedEmail && this.authService.getRole() == 'SE' 
-                            || profileDisplay.confirmedEmail && this.authService.getRole() == 'SH'">
+                        <div *ngIf="profileDisplay.confirmedEmail && role == 'CU' 
+                            || profileDisplay.confirmedEmail && role == 'SE' 
+                            || profileDisplay.confirmedEmail && role == 'SH'">
                             <p style="color: rgb(23, 170, 23);">Email has been verified</p>
                         </div>
                     </div>
@@ -340,7 +340,7 @@
                 </div> -->
                 <!-- <hr> -->
 
-                <div *ngIf="this.authService.getRole() == 'SE'">
+                <div *ngIf="role == 'SE'">
                     <div style="display: flex;">
                         <p class="field-title">Shop name: </p>
                         <p class="field-info">{{profileDisplay.shopName == undefined ?
@@ -349,7 +349,7 @@
                     </div>
                     <hr>
                 </div>
-                <div *ngIf="this.authService.getRole() == 'SE'">
+                <div *ngIf="role == 'SE'">
                     <div style="display: flex;">
                         <p class="field-title">Shop address: </p>
                         <p class="field-info">{{profileDisplay.shopAddress == undefined ?
@@ -358,7 +358,7 @@
                     </div>
                     <hr>
                 </div>
-                <div *ngIf="this.authService.getRole() == 'SH'">
+                <div *ngIf="role == 'SH'">
                     <div style="display: flex;">
                         <p class="field-title">Manage by: </p>
                         <p class="field-info">{{profileDisplay.manageBy == undefined ?
@@ -367,7 +367,7 @@
                     </div>
                     <hr>
                 </div>
-                <div *ngIf="this.authService.getRole() == 'SE' || this.authService.getRole() == 'SH'">
+                <div *ngIf="role == 'SE' || role == 'SH'">
                     <div style="display: flex;">
                         <p class="field-title">Verified: </p>
                         <!-- <p class="field-info" *ngIf="profileDisplay.phoneNumber != undefined else RegisterPhoneNumber"> -->
@@ -384,7 +384,7 @@
                 </div>
 
                 <p-button (click)="openSellerEditProfileDiaglog();"
-                    *ngIf="this.authService.getRole() == 'SE' else openOthersEditProfileDialogBtn">Edit</p-button>
+                    *ngIf="role == 'SE' else openOthersEditProfileDialogBtn">Edit</p-button>
                 <ng-template #openOthersEditProfileDialogBtn>
                     <p-button (click)="openOthersEditProfileDiaglog();">Edit</p-button>
                 </ng-template>

@@ -104,7 +104,7 @@ export class ManageNotificationComponent extends iComponentBase implements OnIni
 
   onViewDetaialNotify(notifyId: number){
     var url = `/notify-management/detail/${notifyId}`;
-    if(RoleNames[this.authService.getRole()] != 'Customer'){
+    if(RoleNames[this.authService.getUserInfor().role] != 'Customer'){
       url = 'HFSBusiness' + url;
     }
     // move to page read

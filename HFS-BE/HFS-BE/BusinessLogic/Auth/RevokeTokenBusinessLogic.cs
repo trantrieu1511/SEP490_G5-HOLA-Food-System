@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
+using HFS_BE.Controllers.Auth;
 using HFS_BE.DAO.UserDao;
 using HFS_BE.Models;
 using static HFS_BE.BusinessLogic.Auth.RegisterSellerInputDto;
@@ -12,12 +13,20 @@ namespace HFS_BE.BusinessLogic.Auth
         {
         }
 
-        public BaseOutputDto RevokeToken(RevokeToken inputDto)
+        public BaseOutputDto RevokeToken(TokenApiModel tokenApiModel)
         {
             try
             {
                 var dao = CreateDao<UserDao>();
-                return dao.RevokeToken(inputDto);
+                var userDao = CreateDao<UserDao>();
+
+                var user = userDao.GetUserRefreshToken(tokenApiModel.RefreshToken);
+
+                return dao.RevokeToken(new Auth.RevokeToken
+                {
+                    Id = user.Id,
+                    Role = user.Id.Substring(0, 2)
+                });
             }
             catch (Exception)
             {

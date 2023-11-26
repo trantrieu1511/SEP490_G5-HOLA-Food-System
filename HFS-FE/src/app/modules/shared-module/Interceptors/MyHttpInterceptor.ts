@@ -1,13 +1,13 @@
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Injectable, Injector} from '@angular/core';
-import {Observable, of, throwError} from 'rxjs';
-import {catchError} from 'rxjs/operators';
+import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
+import {catchError, filter, switchMap, take} from 'rxjs/operators';
 import { Router } from "@angular/router";
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthenticatedResponse } from '../models/authenticated-response.model';
-import { iServiceBase } from '../shared-module';
+import { iFunction, iServiceBase } from '../shared-module';
 import * as API from '../../../services/apiURL';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { JwtService } from 'src/app/services/app.jwt.service';
 
 
 @Injectable()
@@ -45,77 +45,119 @@ export class MyHttpInterceptor implements HttpInterceptor {
   //           ),
   //       );
   //   }
+  private timesRefresh = 0;
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private refreshHandle = this.refreshTokenSubject.asObservable();
+
   constructor(private router: Router,
     private inject: Injector,
     private iServiceBase: iServiceBase,
-    private jwtHelper: JwtHelperService
+    private jwtService: JwtService,
+    private iFunction: iFunction,
+    private authService: AuthService
     ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = sessionStorage.getItem('JWT');
+    // const token = sessionStorage.getItem('JWT');
 
-    if (!!token) {
-      const timetoken = Number(sessionStorage.getItem('timetoken'));
-      const currentTime = Date.now() / 1000;
+    // if (!!token) {
+    //   const timetoken = Number(sessionStorage.getItem('timetoken'));
+    //   const currentTime = Date.now() / 1000;
 
-      if (timetoken < currentTime) {
-        let service = this.inject.get(AuthService);
-        this.router.navigate(['/login']);
-        return throwError('Token expired');
-      }
-
-      // const token = localStorage.getItem("jwt");
-      // if (token && this.jwtHelper.isTokenExpired(token)){
-      //   const isRefreshSuccess = this.tryRefreshingTokens(token); 
-      //   if (!isRefreshSuccess) { 
-      //     this.router.navigate(["login"]); 
-      //   }
+      // if (timetoken < currentTime) {
+      //   let service = this.inject.get(AuthService);
+      //   this.router.navigate(['/login']);
+      //   return throwError('Token expired');
       // }
+      this.refreshHandle.subscribe(res => {
+        if(res != null){
+          next.handle(this.addTokenHeader(request, res.token));
+        }
+      })
+
+      const token = this.iFunction.getCookie("token");
+      if(token && token != ""){
+        request = request.clone({
+          setHeaders: {
+            Authorization: `Bearer ${token}`
+          },
+        });
+      }
       
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        },
-      });
-    }
+    //}
 
     return next.handle(request).pipe(
-      catchError((error) => {
-        if (error.status === 401 && error.error === 'Token expired') {
+      catchError(err => {
+        debugger
+        if (err instanceof HttpErrorResponse &&  err.status === 401 || err.statusText == 'Unknown Error') {
           // Xử lý token hết hạn sau khi gửi request
-          this.router.navigate(['/login']);
+          return this.handleAuthError(request, next, err);
         }
-        return throwError(error);
+        return throwError(err);
+        
       })
     );
   }
 
-  private async tryRefreshingTokens(token: string) {
-    const refreshToken: string = localStorage.getItem("refreshToken");
-    if (!token || !refreshToken) { 
-      return false;
-    }
+  private handleAuthError(request: HttpRequest<any>, next: HttpHandler, err: any){
     
-    const credentials = { 
-      accessToken: token, 
-      refreshToken: refreshToken 
-    };
-    let isRefreshSuccess: boolean;
+    if(!request.url.includes('auths/refresh')){
+      this.refreshTokenSubject.next(null);
+      const refreshToken: string = this.iFunction.getCookie("refreshToken");
+      if (!refreshToken) { 
+        localStorage.removeItem('user');
+        this.router.navigate(['/login']);
+        
+        return of(err.message);
+      
+      }
+      
+      const credentials = { 
+        refreshToken: refreshToken 
+      };
+      this.authService.refreshToken(credentials).subscribe({
+        next: (x : any) => {
+          
+          this.jwtService.saveTokenResponse(x);
 
-    const response = await this.iServiceBase.postDataAsync(
-      API.PHAN_HE.AUTH,
-      API.API_AUTH.REFRESH_TOKEN,
-      credentials,
-      true
-    );
-
-    if (response && response.message === 'Success') {
-      localStorage.setItem("jwt", response.token);
-      localStorage.setItem("refreshToken", response.refreshToken);
-      isRefreshSuccess = true;
-    } else {
-      isRefreshSuccess = false;
+          this.refreshTokenSubject.next(x.token);
+          
+          return next.handle(this.addTokenHeader(request, x.token))
+        },
+        error: (err: any) => {
+          this.iServiceBase.postData(
+            API.PHAN_HE.AUTH,
+            API.API_AUTH.REVOKE_TOKEN,
+            credentials,
+            false
+          ).subscribe({
+            next: (a: any) => {
+              this.router.navigate(['/login']);
+              localStorage.removeItem('user');
+              return throwError(err);
+            }
+          })
+        }
+      })
+      //return of("Refresh token loading..")
     }
-    return isRefreshSuccess;
+    else{
+      return throwError(() => new Error('Non Authentications Error'));
+    }
+
+    return this.refreshTokenSubject.pipe(
+      filter(token => token !== null),
+      take(1),
+      switchMap((token) => next.handle(this.addTokenHeader(request, token)))
+    );
+  }
+
+  private addTokenHeader(request: HttpRequest<any>, token: string){
+    
+    return request.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`
+      },
+    });
   }
 }

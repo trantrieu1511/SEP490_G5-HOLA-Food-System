@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-manage-food',
   template: `
-      <food-seller *ngIf="authService.getRole() == 'SE'; else foodModerator"></food-seller>
+      <food-seller *ngIf="authService.getUserInfor().role == 'SE'; else foodModerator"></food-seller>
       <ng-template #foodModerator>
         <app-food-management></app-food-management>
       </ng-template> 

@@ -10,7 +10,7 @@
         </span>
     </a>
 
-    <div *ngIf="!authService.getRole(); else loggedin">
+    <div *ngIf="!role; else loggedin">
         <ul class="layout-topbar-action-panel shadow-6" 
             [@topbarActionPanelAnimation]="'visible'"
             *ngIf="layoutService.state.activeTopbarItem === 'notifications'">

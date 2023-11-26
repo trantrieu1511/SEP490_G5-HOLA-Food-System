@@ -80,7 +80,6 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
         API.API_POST.GET_POST
       );
       // let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.POST, API.API_POST.GET_POST);
-
       if (response && response.message === 'Success') {
         this.lstPost = response.posts;
         //console.log(this.lstPost);

@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-manage-order',
   template: `
-      <order-seller *ngIf="authService.getRole() == 'SE'; else orderShipper"></order-seller>
+      <order-seller *ngIf="authService.getUserInfor().role == 'SE'; else orderShipper"></order-seller>
       <ng-template #orderShipper>
         <app-shipper></app-shipper>
       </ng-template> 

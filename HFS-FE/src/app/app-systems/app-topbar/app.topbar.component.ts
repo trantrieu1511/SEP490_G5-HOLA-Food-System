@@ -5,6 +5,7 @@ import {AppComponent} from '../../app.component';
 import {NavigationEnd, Router} from "@angular/router";
 import {
     iComponentBase,
+    iFunction,
     iServiceBase,
     ShareData
 } from 'src/app/modules/shared-module/shared-module';
@@ -40,6 +41,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     isLoggedInState = false;
     isCustomer: boolean = false;
     isSeller: boolean = false;
+    user: any;
 
     constructor(public layoutService: LayoutService,
         public app: AppComponent,
@@ -49,27 +51,35 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         public messageService: MessageService,
         public presence: PresenceService,
         public profileService: ManageprofileComponent,
-        private authService: AuthService
+        private authService: AuthService,
+        private iFunction: iFunction
     ) {
         super(messageService);
         if(this.checkLink()){
             this.isCustomer = true;
             this.isSeller = false;
         }else{
-            if(RoleNames[this.authService.getRole()] == 'Seller'){
+            if(RoleNames[this.authService.getUserInfor().role] == 'Seller'){
                 this.isSeller = true;
             }
         }
+        this.user = this.authService.getUserInfor();
     }
 
     checkRoleCus() {
         //
         // console.log(this.authService.getRole());
-        return this.authService.getRole() == null || RoleNames[this.authService.getRole()] == 'Customer'
+        if(!this.user)
+            return true;
+        const role = this.user.role
+        return role == null || RoleNames[role] == 'Customer'
     }
     setCurrentUser() {
       const user: User = JSON.parse(localStorage.getItem('user'));
-      const token = sessionStorage.getItem('JWT');
+    //  const token = sessionStorage.getItem('JWT');
+     //
+      //const token = sessionStorage.getItem('JWT');
+      const token = this.iFunction.getCookie('token');
      //
       if (user) {
 
@@ -107,6 +117,7 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         let urlLogin = this.checkRoleCus() ? '/login' : '/login-2';
         //Logout thì xóa đi
         sessionStorage.clear();
+        this.iFunction.deleteCookieAllToken();
 
         //this.router.navigate(['/login']);
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
@@ -143,9 +154,17 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
     }
 
     checkLoggedInState() {
-        if (sessionStorage.getItem("userId") != null) {
+        // if (sessionStorage.getItem("userId") != null) {
+        //     this.isLoggedInState = true;
+        // }
+
+        const user = this.authService.getUserInfor();
+        if(user != null)
             this.isLoggedInState = true;
-        }
+
+        // if (this.authService.getUserInfor().userId != null) {
+        //     this.isLoggedInState = true;
+        // }
     }
 
     async ngOnInit() {

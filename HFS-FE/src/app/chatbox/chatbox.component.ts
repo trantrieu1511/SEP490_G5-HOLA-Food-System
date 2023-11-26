@@ -1,8 +1,9 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { User } from '../services/auth.service';
+import { AuthService, User } from '../services/auth.service';
 import { MessageChatService } from '../services/messagechat.service';
+import { iFunction } from '../modules/shared-module/shared-module';
 
 
 @Component({
@@ -26,13 +27,20 @@ isCollapsed = false;
 isAnimated = true;
 role:string;
   customer: User;
-  constructor(public messageChatService: MessageChatService) { }
+  constructor(
+    public messageChatService: MessageChatService, 
+    private authService: AuthService,
+    private iFunction: iFunction
+    ) { }
 
   ngOnInit(): void {
-    this.role=sessionStorage.getItem('role');
-    this.customer=JSON.parse(localStorage.getItem('user'));
+    //this.role=sessionStorage.getItem('role');
+    this.role = this.authService.getUserInfor().role;
+    //this.customer=JSON.parse(localStorage.getItem('user'));
+    this.customer= this.authService.getUserInfor();
     //const user: User = JSON.parse(localStorage.getItem('user'));
-    const token = sessionStorage.getItem('JWT');
+    //const token = sessionStorage.getItem('JWT');
+    const token = this.iFunction.getCookie('token');
     this.messageChatService.createHubConnection(token, this.user.email);
   }
   ngOnDestroy(): void {

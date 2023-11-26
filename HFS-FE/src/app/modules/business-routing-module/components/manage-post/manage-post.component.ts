@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-manage-post',
   template: `
-      <post-seller *ngIf="authService.getRole() == 'SE'; else postModerator"></post-seller>
+      <post-seller *ngIf="authService.getUserInfor().role == 'SE'; else postModerator"></post-seller>
       <ng-template #postModerator>
         <app-display-post></app-display-post>
       </ng-template> 

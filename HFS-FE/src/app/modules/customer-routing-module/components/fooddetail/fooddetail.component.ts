@@ -24,6 +24,7 @@ import { VoteFeedBackInputDto } from '../../models/VoteFeedBackInputDto.model';
 import { TabView, TabViewChangeEvent } from 'primeng/tabview';
 import { FoodReport } from 'src/app/modules/menumoderator-routing-module/models/foodreport.model';
 import { CheckboxChangeEvent } from 'primeng/checkbox';
+import { AuthService } from 'src/app/services/auth.service';
 interface PageEvent {
   first?: number;
   rows?: number;
@@ -44,7 +45,8 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     private _router: Router,
     private _route: ActivatedRoute,
     private dataService: DataService,
-    public presence: PresenceService
+    public presence: PresenceService,
+    private authService: AuthService
   ) {
     super(messageService);
   }
@@ -70,9 +72,12 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
   hasAlreadyReported: boolean = false; // Bien de check xem food nay da duoc report chua
 
   checkLoggedIn() {
-    if (sessionStorage.getItem('userId') != null) {
-      this.isLoggedIn = true;
-    }
+    // if (sessionStorage.getItem('userId') != null) {
+    //   this.isLoggedIn = true;
+    // }
+    if (this.authService.getUserInfor().userId != null) {
+        this.isLoggedIn = true;
+      }
   }
 
   async ngOnInit() {

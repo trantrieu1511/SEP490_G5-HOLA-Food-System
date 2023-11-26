@@ -2,6 +2,7 @@
 using Google.Apis.Auth;
 using HFS_BE.Base;
 using HFS_BE.Models;
+using HFS_BE.Services;
 using HFS_BE.Utils;
 using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.Components.Forms;
@@ -25,11 +26,12 @@ namespace HFS_BE.Dao.AuthDao
 		private const string MailgunApiBaseUrl = "https://api.mailgun.net/v3/";
 		private const string MailgunDomain = "sandbox38179487b9c441e69a66b0ecb5364d85.mailgun.org";
 		private const string MailgunApiKey = "138645612dfd388290c47d43875d34d6-8c9e82ec-3d2cebe3";
-		public AuthDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
-		{
-		}
 
-		public AuthDaoOutputDto Login(AuthDaoInputDto input)
+        public AuthDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        {
+        }
+
+        public AuthDaoOutputDto Login(AuthDaoInputDto input)
 		{
 			var output = new AuthDaoOutputDto();
 			var user = context.Customers.Where(s => s.Email == input.Email).FirstOrDefault();
@@ -52,7 +54,10 @@ namespace HFS_BE.Dao.AuthDao
 			var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(user);
 			JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 			output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-			return output;
+			output.UserId = user.CustomerId;
+
+
+            return output;
 
 		}
 		
@@ -115,22 +120,12 @@ namespace HFS_BE.Dao.AuthDao
 
 			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddHours(1),
+					expires: DateTime.Now.AddMinutes(15), 
 					claims: authClaims,
 					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)); ;
 
 			return token;
 		}
-
-		public string GenerateRefreshToken()
-        {
-            var randomNumber = new byte[32];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(randomNumber);
-                return Convert.ToBase64String(randomNumber);
-            }
-        }
 
 		public BaseOutputDto RegisterCustomer(RegisterDto model)
 		{

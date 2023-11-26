@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { iServiceBase } from 'src/app/modules/shared-module/shared-module';
+import { iFunction, iServiceBase } from 'src/app/modules/shared-module/shared-module';
 import * as API from '../apiURL';
 import { RoleNames } from 'src/app/utils/roleName';
 import { AuthService } from 'src/app/services/auth.service';
@@ -19,6 +19,7 @@ export class NotificationService {
   constructor(
     private iServiceBase: iServiceBase,
     private authService: AuthService,
+    private iFunction: iFunction
     ) {}
 
   private hubConnection: signalR.HubConnection;
@@ -28,8 +29,8 @@ export class NotificationService {
 
     const url = `${service}${API.API_HUB.NOTIFY_REALTIME}`;
 
-    const jwt = sessionStorage.getItem('JWT');
-
+    //const jwt = sessionStorage.getItem('JWT');
+    const jwt = this.iFunction.getCookie('token');
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(url, {
         skipNegotiation: true,
@@ -102,7 +103,7 @@ export class NotificationService {
   
   getMethodNameByRole(): string{
     let methodName;
-    switch (RoleNames[this.authService.getRole()]) {
+    switch (RoleNames[this.authService.getUserInfor().role]) {
       case "PostModerator":
         methodName = "postNotification"
         break;
