@@ -277,7 +277,8 @@ namespace HFS_BE.Dao.OrderDao
                     {
                         var feedbacks = this.context.Feedbacks
                             .Where(x => x.FoodId == details.FoodId
-                                    && x.CustomerId == inputDto.CustomerId)
+                                    && x.CustomerId == inputDto.CustomerId
+                                    && x.OrderId == details.OrderId)
                             .ToList();
 
                         if (feedbacks.Any())
