@@ -12,6 +12,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
 import { CateDisplayHideInputDto, Category, CategoryInput } from '../models/Category';
 import { C } from '@fullcalendar/core/internal-common';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-manage-category-module',
   templateUrl: './manage-category-module.component.html',
@@ -31,6 +32,7 @@ export class ManageCategoryModuleComponent extends iComponentBase implements OnI
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
+    public translate: TranslateService,
     private signalRService: DataRealTimeService
   ) {
     super(messageService, breadcrumbService);

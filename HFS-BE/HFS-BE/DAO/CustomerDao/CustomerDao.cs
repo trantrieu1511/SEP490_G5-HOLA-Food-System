@@ -33,7 +33,7 @@ namespace HFS_BE.DAO.CustomerDao
 						 ConfirmEmail =p.ConfirmedEmail,
 						 BirthDate = p.BirthDate,
 						 Email = p.Email,
-						 IsBanned=p.IsBanned,
+						 //IsBanned=p.IsBanned,
 			          	Images = context.ProfileImages
 					.Where(pi => pi.UserId == p.CustomerId&&pi.IsReplaced==false)
 				   .Select(pi => new ImageCustomerOutputDto
@@ -76,7 +76,7 @@ namespace HFS_BE.DAO.CustomerDao
 					ban.CustomerId = user.CustomerId;
 					ban.Reason = input.Reason;
 				    ban.CreateDate = DateTime.Now;
-					user.IsBanned = input.IsBanned;
+					//user.IsBanned = input.IsBanned;
 					context.Customers.Update(user);
 					context.CustomerBans.Add(ban);
 					context.SaveChanges();

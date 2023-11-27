@@ -33,7 +33,7 @@ namespace HFS_BE.Models
         public bool? IsOnline { get; set; }
         public decimal? WalletBalance { get; set; }
         public bool? ConfirmedEmail { get; set; }
-        public bool? IsBanned { get; set; }
+        public int NumberOfViolations { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
 

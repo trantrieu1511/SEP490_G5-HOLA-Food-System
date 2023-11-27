@@ -744,5 +744,21 @@ namespace HFS_BE.DAO.UserDao
             }
             
         }
+
+        internal BaseOutputDto UpdateInComplete(string? customerId)
+        {
+            try
+            {
+                var data = context.Customers.FirstOrDefault(x => x.CustomerId == customerId);
+                data.NumberOfViolations += 1;
+                context.SaveChanges();
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
     }
 }

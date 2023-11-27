@@ -436,5 +436,21 @@ namespace HFS_BE.Dao.OrderDao
                 return Output<DashboardSellerDaoOutput>(Constants.ResultCdFail);
             }
         }
+
+        internal BaseOutputDto UpdateOrderShipDate(int orderId)
+        {
+            try
+            {
+                var data = context.Orders.FirstOrDefault(x => x.OrderId == orderId);
+                data.ShippedDate = DateTime.Now;
+                context.SaveChanges();
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
     }
 }
