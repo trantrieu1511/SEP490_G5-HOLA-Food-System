@@ -27,6 +27,7 @@ namespace HFS_BE.Models
         public DateTime? RefreshTokenExpiryTime { get; set; }
         public int? BanLimit { get; set; }
         public int? ReportApprovalLimit { get; set; }
+        public DateTime? CreateDate { get; set; }
 
         public virtual ICollection<PostReport> PostReports { get; set; }
         public virtual ICollection<Post> Posts { get; set; }

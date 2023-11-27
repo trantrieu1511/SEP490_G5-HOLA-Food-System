@@ -37,6 +37,7 @@ namespace HFS_BE.Models
         public bool? IsVerified { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
+        public DateTime? CreateDate { get; set; }
 
         public virtual ICollection<ChatMessage> ChatMessages { get; set; }
         public virtual ICollection<FeedbackReply> FeedbackReplies { get; set; }

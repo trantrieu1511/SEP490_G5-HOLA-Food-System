@@ -4,6 +4,7 @@ namespace HFS_BE.BusinessLogic.FeedBackCustomer
 {
 	public class AddFeedBackInputDtoBL
 	{
+		public int? OrderId { get; set; }
 		public int? FoodId { get; set; }
 		public string? FeedbackMessage { get; set; }
 		public byte? Star { get; set; }

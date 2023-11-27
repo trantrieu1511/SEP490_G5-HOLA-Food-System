@@ -43,6 +43,7 @@ namespace HFS_BE.DAO.FeedBackDao
             {
                 var feedBack = new Feedback()
                 {
+                    OrderId = inputDto.OrderId,
                     CustomerId = inputDto.CustomerId,
                     FoodId = inputDto.FoodId,
                     FeedbackMessage = inputDto.FeedbackMessage,
