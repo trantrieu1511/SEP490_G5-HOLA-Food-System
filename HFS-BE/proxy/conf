@@ -1,0 +1,8 @@
+server {
+    listen       80;
+    server_name  be.holafood.click;
+    location / {
+        proxy_pass   http://HFS-BE:8000;
+    }
+
+}
