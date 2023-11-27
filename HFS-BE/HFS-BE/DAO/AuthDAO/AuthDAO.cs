@@ -47,10 +47,10 @@ namespace HFS_BE.Dao.AuthDao
 			{
 				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
 			}
-			if (user.IsBanned == true)
-			{
-				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned, please contact us to resolve");
-			}
+			//if (user.IsBanned == true)
+			//{
+			//	return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned, please contact us to resolve");
+			//}
 			var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(user);
 			JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 			output.Token = new JwtSecurityTokenHandler().WriteToken(token);
@@ -194,7 +194,7 @@ namespace HFS_BE.Dao.AuthDao
 				PhoneNumber = model.PhoneNumber,
 				Gender = model.Gender,
 				ConfirmedEmail = false,
-				IsBanned=false
+				//IsBanned=false
 				
 			};
 
@@ -708,10 +708,10 @@ namespace HFS_BE.Dao.AuthDao
 	
 			if (user != null)
 			{
-				if (user.IsBanned == true)
-				{
-					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned, please contact us to resolve");
-				}
+				//if (user.IsBanned == true)
+				//{
+				//	return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned, please contact us to resolve");
+				//}
 
 				var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(user);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);

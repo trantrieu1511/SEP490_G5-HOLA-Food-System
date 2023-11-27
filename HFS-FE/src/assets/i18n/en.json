@@ -16,7 +16,56 @@
     "clickHere": "Click here"
   },
 
-  "orderScreen": {
-    "allOrder": "All Order"
+  "shipperScreen": {
+    "allOrder": "All Order",
+    "request": "Request",
+    "shipping": "Shipping",
+    "id": "ID",
+    "date": "Date",
+    "price": "Price",
+    "address": "Address",
+    "phoneNumber": "Phone Number",
+    "action": "Action",
+    "emptymessage":"There are no orders yet.",
+    "total": "Total",
+    "orderonthisstatus":"order on this status",
+    "foodId": "ID",
+    "image": "Image",
+    "foodName": "FoodName",
+    "unitPrice": "UnitPrice",
+    "quantity": "Quantity"
+  },
+
+  "shipperhistoryScreen": {
+    "allOrderhistory": "Delivery history",
+    "id": "ID",
+    "date": "Date",
+    "price": "Price",
+    "address": "Address",
+    "phoneNumber": "Phone Number",
+    "status": "Status",
+    "action": "Action",
+    "foodId": "ID",
+    "image": "Image",
+    "foodName": "FoodName",
+    "unitPrice": "UnitPrice",
+    "quantity": "Quantity",
+    "detail":"Detail"
+  },
+
+  "categoryScreen": {
+    "cate": "Category Management",
+    "total": "Total",
+    "category": "category",
+    "addnew": "Add new",
+    "id": "ID",
+    "name": "Name",
+    "status": "Status",
+    "action":"Action",
+    "emptymessage":"No Category yet.",
+    "cateInformation": "Category information",
+    "name1": "Name*",
+    "save":"Save",
+    "cancal":"Cancal"
   }
 }
