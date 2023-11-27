@@ -13,6 +13,7 @@ namespace HFS_BE.Models
         }
 
         public int FeedbackId { get; set; }
+        public int? OrderId { get; set; }
         public int? FoodId { get; set; }
         public string? CustomerId { get; set; }
         public string? FeedbackMessage { get; set; }
@@ -23,6 +24,7 @@ namespace HFS_BE.Models
 
         public virtual Customer? Customer { get; set; }
         public virtual Food? Food { get; set; }
+        public virtual Order? Order { get; set; }
         public virtual ICollection<FeedBackImage> FeedBackImages { get; set; }
         public virtual ICollection<FeedbackReply> FeedbackReplies { get; set; }
         public virtual ICollection<FeedbackVote> FeedbackVotes { get; set; }

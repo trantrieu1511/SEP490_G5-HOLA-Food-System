@@ -8,6 +8,7 @@ namespace HFS_BE.Models
         public PostModerator()
         {
             PostReports = new HashSet<PostReport>();
+            Posts = new HashSet<Post>();
         }
 
         public string ModId { get; set; } = null!;
@@ -28,5 +29,6 @@ namespace HFS_BE.Models
         public int? ReportApprovalLimit { get; set; }
 
         public virtual ICollection<PostReport> PostReports { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }

@@ -7,6 +7,7 @@ namespace HFS_BE.Models
     {
         public MenuModerator()
         {
+            Foods = new HashSet<Food>();
             MenuReports = new HashSet<MenuReport>();
         }
 
@@ -27,6 +28,7 @@ namespace HFS_BE.Models
         public int? BanLimit { get; set; }
         public int? ReportApprovalLimit { get; set; }
 
+        public virtual ICollection<Food> Foods { get; set; }
         public virtual ICollection<MenuReport> MenuReports { get; set; }
     }
 }

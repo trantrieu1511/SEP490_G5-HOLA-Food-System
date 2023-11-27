@@ -47,7 +47,7 @@ namespace HFS_BE.Dao.ShopDao
                         foreach (var orderdetail in order.OrderDetails)
                         {
                             ordered += orderdetail.Quantity.Value;
-                        }                           
+                        }
                     }
 
                     if (item.Foods.Any())
@@ -67,21 +67,22 @@ namespace HFS_BE.Dao.ShopDao
                             {
                                 totalStar += feedback.Star.Value;
                                 totalfeedbacks++;
-                            }                            
+                            }
                         }
+
                         if (totalfeedbacks > 0)
                         {
                             star = (decimal)totalStar / (decimal)totalfeedbacks;
                         }
                     }
-                                      
+
                     shop.Star = Math.Round(star, MidpointRounding.AwayFromZero);
                     shop.NumberOrdered = ordered;
                     if (this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(item.SellerId)) != null)
                     {
                         shop.Avatar = ImageFileConvert.ConvertFileToBase64(item.SellerId, this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(item.SellerId) && x.IsReplaced == false).Path, 3).ImageBase64;
                     }
-                    
+
                     listshop.Add(shop);
                 }
 
@@ -111,9 +112,9 @@ namespace HFS_BE.Dao.ShopDao
                     if (this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(output.SellerId)) != null)
                     {
                         outputDto.Avatar = ImageFileConvert.ConvertFileToBase64(output.SellerId, this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(output.SellerId) && x.IsReplaced == false).Path, 3).ImageBase64;
-                    } 
+                    }
                 }
-                
+
                 return outputDto;
             }
             catch (Exception ex)
@@ -178,7 +179,7 @@ namespace HFS_BE.Dao.ShopDao
                     {
                         shop.Avatar = ImageFileConvert.ConvertFileToBase64(item.SellerId, this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(item.SellerId)).Path, 3).ImageBase64;
                     }
-                    
+
                     listshop.Add(shop);
                 }
 
