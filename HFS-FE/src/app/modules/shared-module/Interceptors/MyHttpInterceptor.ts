@@ -88,7 +88,7 @@ export class MyHttpInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError(err => {
-        debugger
+        
         if (err instanceof HttpErrorResponse &&  err.status === 401 || err.statusText == 'Unknown Error') {
           // Xử lý token hết hạn sau khi gửi request
           return this.handleAuthError(request, next, err);

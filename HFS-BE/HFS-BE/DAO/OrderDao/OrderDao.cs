@@ -244,7 +244,7 @@ namespace HFS_BE.Dao.OrderDao
 
         public Order? GetOrderByOrderIdAndSellerId(int orderId, string sellerId)
         {
-            return context.Orders.FirstOrDefault(o => o.OrderId == orderId && o.SellerId.Equals(sellerId));
+            return context.Orders.Include(x => x.OrderProgresses).FirstOrDefault(o => o.OrderId == orderId && o.SellerId.Equals(sellerId));
         }
 
         public Order? GetOrderByOrderId(int orderId)

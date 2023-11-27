@@ -7,6 +7,7 @@ using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
 using Microsoft.AspNetCore.Components.Forms;
+using static HFS_BE.Utils.Enum.OrderStatusEnum;
 
 namespace HFS_BE.BusinessLogic.ManageOrder
 {
@@ -29,7 +30,10 @@ namespace HFS_BE.BusinessLogic.ManageOrder
             customerId = order?.CustomerId;
             //check order
             if (order == null)
-                return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Order is not exist");
+                return Output<BaseOutputDto>(Constants.ResultCdFail, "Accept Failed", "Order is not exist");
+            //check status order
+            if(order.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 6)
+                return Output<BaseOutputDto>(Constants.ResultCdFail, "Accept Failed", "Order is canceled by customer");
 
             //get orderprogress by inputDto.orderId
             var data = oProgressDao.GetOrderProgresByOrderId(input.OrderId);

@@ -96,6 +96,7 @@ namespace HFS_BE.Dao.PostDao
                                             Status = PostMenuStatusEnum.GetStatusString(p.Status),
                                             Images = p.PostImages.ToList()
                                         })
+                                        .OrderBy(p => p.CreatedDate)
                                         .ToList();
                 var output = this.Output<ListPostOutputSellerDto>(Constants.ResultCdSuccess);
                 output.Posts = postsModel;

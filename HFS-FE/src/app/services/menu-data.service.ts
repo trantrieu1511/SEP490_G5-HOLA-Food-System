@@ -54,7 +54,7 @@ export class MenuDataService {
           {
             label: 'Wallet Management',
             icon: 'pi pi-fw pi-dollar',
-            routerLink: ['/favorites/dashboardanalytics'],
+            routerLink: ['/HFSBusiness/seller/wallet'],
             badgeClass: 'p-badge-success',
           },
           // {

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { CommonModule, LocationStrategy, HashLocationStrategy, PathLocationStrategy } from '@angular/common';
 import { SellerRoutingModule } from '../seller-routing-module/seller-routing.module';
 import { PostmoderatorRoutingModule } from '../postmoderator-routing-module/postmoderator-routing.module';
 import { ShipperRoutingModule } from '../shipper-routing-module/shipper-routing.module';
@@ -46,7 +46,7 @@ import { ManageOrderComponent } from './components/manage-order/manage-order.com
     ManageOrderComponent
   ],
   providers: [
-    {provide: LocationStrategy, useClass: HashLocationStrategy}
+    {provide: LocationStrategy, useClass: PathLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })

@@ -60,6 +60,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
     this.refreshCaptcha();
   }
   ngOnInit(): void {
+    this.checkLoggedIn();
     this.captchacheck = localStorage.getItem("captcha");
     this.unsuccessfulLoginAttempts=parseInt(this.captchacheck);
     // localStorage.removeItem('user');
@@ -257,4 +258,33 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
   //    }, { scope: 'email' });
 
   //  }
+
+  checkLoggedIn(){
+    const user = this.service.getUserInfor();
+    console.log(user)
+    if(user == null)
+      return;
+    const role = this.service.getUserInfor().role;
+
+    this.redirectToPageByRole(role);
+  }
+
+  redirectToPageByRole(role: string){
+    switch (this.user.role) {
+      case 'CU':
+        this.router.navigate(['/homepage']);
+        break;
+      case 'AD':
+      case 'SE':
+      case 'SH':
+      case 'PM':
+      case 'MM':
+        this.router.navigateByUrl('/HFSBusiness');
+        break;
+
+      default:
+        window.location.reload();
+
+    }
+  }
 }

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared-module/shared-module.module';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { SwitchCasesDirective } from './services/switch-case.directive';
 import { AppComponent } from '../../app.component';
 import { ComponentModule } from '../components-module/component.modules';
@@ -65,7 +65,7 @@ const routes: Routes = [
     // AppMenuMyaccountComponent
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
+    { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })
