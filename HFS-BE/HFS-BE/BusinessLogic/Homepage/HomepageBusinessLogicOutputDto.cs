@@ -10,6 +10,7 @@ namespace HFS_BE.BusinessLogic.Homepage
         public string Avatar { get; set; }
         public decimal? Star { get; set; }
         public int NumberOrdered { get; set; }
+        public List<string> FoodImages { get; set; } = new List<string>();
     }
 
     /// <summary>
