@@ -394,6 +394,7 @@ namespace HFS_BE.DAO.UserDao
                 {
                     output.Balance = user.WalletBalance == null ? 0 : user.WalletBalance.Value;
                     output.Address = user.ShipAddresses.FirstOrDefault() == null ? "" : user.ShipAddresses.FirstOrDefault().AddressInfo;
+                    output.ConfirmEmail = user.ConfirmedEmail;
                 }
 
                 return output;

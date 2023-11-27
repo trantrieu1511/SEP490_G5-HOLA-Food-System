@@ -102,17 +102,58 @@ namespace HFS_BE.Dao.ShopDao
             try
             {
                 var output = this.context.Sellers
+                    .Include(x => x.Foods)
+                    .ThenInclude(x => x.Feedbacks)
+                    .Include(x => x.Foods)
+                    .ThenInclude(x => x.FoodImages)
+                    .Include(x => x.Orders)
+                    .ThenInclude(x => x.OrderDetails)
                     .Where(x => x.SellerId.Equals(inputDto.ShopId) && x.IsVerified == true)
                     .FirstOrDefault();
 
+                
                 var outputDto = this.Output<GetShopDetailDaoOutputDto>(Constants.ResultCdSuccess);
                 if (output != null)
                 {
+                    int ordered = 0;
+                    decimal star = 0;
+                    int imgCount = 0;
+                    foreach (var order in output.Orders)
+                    {
+                        foreach (var orderdetail in order.OrderDetails)
+                        {
+                            ordered += orderdetail.Quantity.Value;
+                        }
+                    }
+
+                    if (output.Foods.Any())
+                    {
+                        int totalStar = 0;
+                        int totalfeedbacks = 0;
+                        foreach (var food in output.Foods)
+                        {
+                            foreach (var feedback in food.Feedbacks)
+                            {
+                                totalStar += feedback.Star.Value;
+                                totalfeedbacks++;
+                            }
+                        }
+
+                        if (totalfeedbacks > 0)
+                        {
+                            star = (decimal)totalStar / (decimal)totalfeedbacks;
+                        }
+                    }
+
                     outputDto = mapper.Map<Seller, GetShopDetailDaoOutputDto>(output);
                     if (this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(output.SellerId)) != null)
                     {
                         outputDto.Avatar = ImageFileConvert.ConvertFileToBase64(output.SellerId, this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(output.SellerId) && x.IsReplaced == false).Path, 3).ImageBase64;
                     }
+
+                    outputDto.AverageStar = Math.Round(star, MidpointRounding.AwayFromZero);
+                    outputDto.NumberOrdered = ordered;
+                    outputDto.TotalFood = output.Foods.Where(x => x.SellerId.Equals(inputDto.ShopId) && x.Status == 1).Count();
                 }
 
                 return outputDto;

@@ -37,6 +37,7 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
   note : string
   phone: string
   voucher : string = ""
+  displayConfirmOrder : boolean = true
 
   constructor(
     private shareData: ShareData,
