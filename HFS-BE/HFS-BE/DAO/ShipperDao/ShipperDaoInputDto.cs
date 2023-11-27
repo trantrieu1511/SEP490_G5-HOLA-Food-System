@@ -53,4 +53,14 @@ namespace HFS_BE.DAO.ShipperDao
 	{
 		public string ShipperId { get; set; }
 	}
+	public class DashBoardShipperInputDto : BaseInputDto
+	{
+		public List<DateTime>? dates { get; set; }
+		public string ShipperId { get; set; } = null!;
+	}
+	public class DashBoardShipperTotalInputDto : BaseInputDto
+	{
+		public string ShipperId { get; set; } = null!;
+	}
+
 }

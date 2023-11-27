@@ -84,5 +84,27 @@ namespace HFS_BE.DAO.ShipperDao
 	{
 		public List<BanHistoryShipperDtoOutput> data { get; set; }
 	}
-
+	public class DashBoardShipperOutputDto
+	{
+		public DateTime CreateDate { get; set; }
+		public int Data { get; set; }
+	 	public int Status { get; set; }
+	}
+	public class DashBoardShipperTotalOutputDto
+	{
+		public int Total { get; set; }
+		public int OrderDay { get; set; }
+		public int OrderDayCom { get; set; }
+		public int OrderDayInCom { get; set; }
+		public decimal? AmoutDay { get; set; }
+		public int TotalMonth { get; set; }
+		public int OrderMonth { get; set; }
+		public int OrderMothCom { get; set; }
+		public int OrderMothInCom { get; set; }
+		public decimal? AmoutMonth { get; set; }
+	}
+	public class ListDashBoardShipperOutputDto 
+	{
+		public List<DashBoardShipperOutputDto> data { get; set; }
+	}
 }

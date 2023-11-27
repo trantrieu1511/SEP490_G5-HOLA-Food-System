@@ -69,6 +69,7 @@ import { SearchComponent } from './modules/customer-routing-module/components/se
 import { DashboadAdminModuleComponent } from './modules/admin-routing-module/dashboad-admin-module/dashboad-admin-module.component';
 import { ListFeedbackBySellerComponent } from './modules/seller-routing-module/components/list-feedback-by-seller/list-feedback-by-seller.component';
 import { AppMenuMyaccountComponent } from './app-systems/app-menu/myaccount/app-menu-myaccount.component';
+import { DashboadShipperModuleComponent } from './modules/shipper-routing-module/components/dashboad-shipper-module/dashboad-shipper-module.component';
 
 @NgModule({
   declarations: [
@@ -107,6 +108,7 @@ import { AppMenuMyaccountComponent } from './app-systems/app-menu/myaccount/app-
     WalletComponentSeller,
     SearchComponent,
     DashboadAdminModuleComponent,
+    DashboadShipperModuleComponent,
     //ListFeedbackBySellerComponent,
   ],
   imports: [

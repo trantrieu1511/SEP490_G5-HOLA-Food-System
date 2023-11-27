@@ -180,5 +180,35 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageShipper
 				throw;
 			}
 		}
+		public List<DashBoardShipperOutputDto> DashBoardShipper(DashBoardShipperInputDto input)
+		{
+			try
+			{
+				var Dao = this.CreateDao<ShipperDashboardDao>();
+
+				var daooutput = Dao.DashBoardShipper(input);
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+		public DashBoardShipperTotalOutputDto DashBoardShipperTotal(DashBoardShipperTotalInputDto input)
+		{
+			try
+			{
+				var Dao = this.CreateDao<ShipperDashboardDao>();
+
+				var daooutput = Dao.DashBoardShipperTotal(input);
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
 	}
 }

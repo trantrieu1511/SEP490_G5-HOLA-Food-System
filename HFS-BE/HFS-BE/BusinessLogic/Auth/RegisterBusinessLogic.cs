@@ -11,13 +11,13 @@ namespace HFS_BE.BusinessLogic.Auth
 		public RegisterBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
 		{
 		}
-		public BaseOutputDto Register(RegisterInputDto inputDto)
+		public async Task<BaseOutputDto> Register(RegisterInputDto inputDto)
 		{
 			try
 			{
 				var Dao = this.CreateDao<AuthDao>();
 				var daoinput = mapper.Map<RegisterInputDto,RegisterDto>(inputDto);
-				var daooutput = Dao.RegisterCustomer(daoinput);
+				var daooutput = await Dao.RegisterCustomer(daoinput);
 			
 
 				return daooutput;

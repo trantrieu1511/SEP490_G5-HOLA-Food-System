@@ -14,13 +14,13 @@ namespace HFS_BE.Controllers.Auth
 		}
 
 		[HttpPost("home/registercustomer")]
-		public BaseOutputDto RegisterCustomer(RegisterInputDto inputDto)
+		public async Task<BaseOutputDto> RegisterCustomer(RegisterInputDto inputDto)
 		{
 			try
 			{
 				var business = this.GetBusinessLogic<RegisterBusinessLogic>();
 
-				return business.Register(inputDto);
+				return await business.Register(inputDto);
 			}
 			catch (Exception ex)
 			{

@@ -110,6 +110,39 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 			}
 		}
 
+		[HttpPost("users/dashboardshipper")]
+		[Authorize(Roles = "SH")]
+		public List<DashBoardShipperOutputDto> DashboardShipper(DashBoardShipperInputDto input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ShipperBusinessLogic>();
+				input.ShipperId = this.GetUserInfor().UserId;
+				var output = business.DashBoardShipper(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+		[HttpPost("users/dashboardshippertotal")]
+		[Authorize(Roles = "SH")]
+		public DashBoardShipperTotalOutputDto DashboardShipperTotal()
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ShipperBusinessLogic>();
+				DashBoardShipperTotalInputDto input = new DashBoardShipperTotalInputDto();
+				input.ShipperId = this.GetUserInfor().UserId;
+				var output = business.DashBoardShipperTotal(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
 		[HttpPost("users/banshipper")]
 		[Authorize(Roles = "AD")]
 		public BaseOutputDto Banhipper(BanShipperDtoInput input)
@@ -117,6 +150,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 			try
 			{
 				var business = this.GetBusinessLogic<ShipperBusinessLogic>();
+
 				var output = business.BanShipper(input);
 				return output;
 			}

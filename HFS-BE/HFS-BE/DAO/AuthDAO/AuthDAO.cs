@@ -127,7 +127,7 @@ namespace HFS_BE.Dao.AuthDao
 			return token;
 		}
 
-		public BaseOutputDto RegisterCustomer(RegisterDto model)
+		public async Task<BaseOutputDto> RegisterCustomer(RegisterDto model)
 		{
 			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
 			var validationResults = new List<ValidationResult>();
@@ -209,7 +209,11 @@ namespace HFS_BE.Dao.AuthDao
 			try
 			{
 				context.Customers.Add(user);
+
 				context.SaveChanges();
+				ForgotPasswordInputDto forgot = new ForgotPasswordInputDto();
+				forgot.Email = user.Email;
+				await SendVetifyPasswordtoEmailAsync(forgot);
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}
 			catch (Exception ex)

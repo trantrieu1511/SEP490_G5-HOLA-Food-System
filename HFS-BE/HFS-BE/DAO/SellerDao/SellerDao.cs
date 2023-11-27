@@ -148,7 +148,7 @@ namespace HFS_BE.DAO.SellerDao
 		public async Task<SellerMessageDtoOutput> GetSellersAsync(string email)
 		{
 			var user = await context.Sellers
-				.FirstOrDefaultAsync(x => x.Email == email);
+				.FirstOrDefaultAsync(x => x.Email == email && x.IsVerified == true && x.IsBanned == false);
 			
 			var datmapper = mapper.Map<Seller, SellerMessageDtoOutput>(user);
 			var img = await context.ProfileImages.Where(s => s.UserId == datmapper.SellerId && s.IsReplaced == false).FirstOrDefaultAsync();
@@ -284,7 +284,7 @@ namespace HFS_BE.DAO.SellerDao
 			try
 			{
 				var listUserOffline = new List<SellerMessageDtoOutput>();
-				List<SellerMessageDtoOutput> listseller = await context.Sellers.Where(x => x.IsBanned == false)
+				List<SellerMessageDtoOutput> listseller = await context.Sellers.Where(x => x.IsBanned == false && x.IsVerified == true)
 					.Select(s => mapper.Map<Seller, SellerMessageDtoOutput>(s)).ToListAsync();
 
 
@@ -313,7 +313,7 @@ namespace HFS_BE.DAO.SellerDao
 			try
 			{
 				var listUserOffline = new List<SellerMessageDtoOutput>();
-				List<SellerMessageDtoOutput> listseller = await context.Sellers.Where(x => x.IsBanned == false)
+				List<SellerMessageDtoOutput> listseller = await context.Sellers.Where(x => x.IsBanned == false&& x.IsVerified == true)
 					.Select(s => mapper.Map<Seller, SellerMessageDtoOutput>(s)).ToListAsync();
 
 
