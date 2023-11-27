@@ -16,7 +16,57 @@
     "clickHere": "Bấm vào đây nào"
   },
 
-  "orderScreen": {
-    "allOrder": "Tất cả hoá đơn"
+  "shipperScreen": {
+    "allOrder": "Tất cả hoá đơn",
+    "request": "Đơn cần giao",
+    "shipping": "Đang Giao",
+    "id": "ID",
+    "date": "Ngày",
+    "price": "Tiền",
+    "address": "Địa chỉ",
+    "phoneNumber": "SĐT",
+    "action": "Thao Tác",
+    "emptymessage":"Chưa có đơn đặt hàng nào.",
+    "total": "Tổng",
+    "orderonthisstatus":"đặt hàng ở trạng thái này",
+    "foodId": "ID",
+    "image": "Ảnh",
+    "foodName": "Tên",
+    "unitPrice": "Giá",
+    "quantity": "Số Lượng"
+  },
+
+  "shipperhistoryScreen": {
+    "allOrderhistory": "Lịch Sử Giao Hàng",
+    "id": "ID",
+    "date": "Ngày",
+    "price": "Tiền",
+    "address": "Địa chỉ",
+    "phoneNumber": "SĐT",
+    "status":"Trạng Thái",
+    "action": "Thao Tác",
+    "foodId": "ID",
+    "image": "Ảnh",
+    "foodName": "Tên",
+    "unitPrice": "Giá",
+    "quantity": "Số Lượng",
+    "detail":"Chi Tiết"
+  },
+
+  "categoryScreen": {
+    "cate": "Quản lý danh mục",
+    "total": "Tổng",
+    "category": "danh mục",
+    "addnew": "Thêm mới",
+    "id": "ID",
+    "name": " Tên",
+    "status": "Trạng thái",
+    "action":"Hành động",
+    "emptymessage":"Chưa có danh mục nào.",
+    "cateInformation": "Thông tin danh mục",
+    "name1": "Tên*",
+    "save":"Lưu",
+    "cancal":"Hủy"
   }
+
 }

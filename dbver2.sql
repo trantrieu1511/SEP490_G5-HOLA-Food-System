@@ -86,22 +86,25 @@ CREATE TABLE [dbo].[MenuModerator](
 )
 
 CREATE TABLE [dbo].[Customer](
-	[customerId] [nvarchar](50) NOT NULL primary key,
-	[firstName] [nvarchar](50) NOT NULL,
-	[lastName] [nvarchar](50) NOT NULL,
-	[gender] [nvarchar](10) NULL,
-	[birthDate] [date] NULL,
-	[email] [nvarchar](100) UNIQUE NOT NULL,
-	[phoneNumber] [nvarchar](11) NULL,
-	[PasswordSalt] [varbinary](max) NOT NULL,
-	[PasswordHash] [varbinary](max) NOT NULL,
-	[isOnline] [bit] NOT NULL DEFAULT('false'),
-	[walletBalance] [money] NULL,
-	[confirmedEmail] [bit] not NULL DEFAULT('false'),
-	[isBanned] [bit] not null DEFAULT('false'),		
-	[refreshToken] [varchar](max),
-	[refreshTokenExpiryTime] [datetime],
-)
+    [customerId] [nvarchar](50) NOT NULL PRIMARY KEY,
+    [firstName] [nvarchar](50) NOT NULL,
+    [lastName] [nvarchar](50) NOT NULL,
+    [gender] [nvarchar](10) NULL,
+    [birthDate] [date] NULL,
+    [email] [nvarchar](100) UNIQUE NOT NULL,
+    [phoneNumber] [nvarchar](11) NULL,
+    [PasswordSalt] [varbinary](max) NOT NULL,
+    [PasswordHash] [varbinary](max) NOT NULL,
+    [isOnline] [bit] NOT NULL DEFAULT('false'),
+    [walletBalance] [money] NULL,
+    [confirmedEmail] [bit] NOT NULL DEFAULT('false'),
+    --[banStartTime] [datetime] NULL,
+    --[banEndTime] [datetime] NULL,
+    [numberOfViolations] [int] NOT NULL DEFAULT(0),
+    [refreshToken] [varchar](max),
+    [refreshTokenExpiryTime] [datetime]
+	--CONSTRAINT CK_S_Dates CHECK ([banStartTime] < [banEndTime]),
+);
 
 CREATE TABLE [dbo].[Shipper](
 	[shipperId] [nvarchar](50) NOT NULL primary key,
