@@ -1,4 +1,36 @@
 :host ::ng-deep {
+	#profile-d{
+		display: flex;
+		flex-wrap: wrap;
+		align-items: end;
+		
+
+		#profile-pic{
+			height: 20rem;
+			width: 20rem;
+			padding: 4px;
+			
+
+			img{
+				border-radius: 50%;
+				max-width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+		}
+
+		#u-name{
+			margin: 1rem 0 1rem 2rem;
+		}
+	}
+
+	#u-address{
+		margin: 1rem auto !important;
+		text-align: center;
+		font-weight: 400;
+
+	}
+
 	.custom-rating .ui-rating-star:not(.ui-rating-star-on):before {
 		content: '\2605';
 		position: absolute;
@@ -113,10 +145,83 @@
 		}
 	}
 
-	@media screen and (max-width: 960px){
+	.p-dataview-list{
+		.p-dataview-content{
+			.grid{
+				display: block !important;
+
+				div{
+					width: 100%;
+					.product-list-item{
+						.product-list-action{
+							align-items: end;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@media screen and (max-width: 1400.01px){
+		.shopdetail-list{
+			width: 100%;
+			margin: auto;
+		}
+
+		#profile-d{
+			flex-wrap: nowrap;
+			flex-direction: column;
+			align-items: start;
+
+			#profile-pic{
+				height: 10rem;
+				width: 10rem;
+				padding: 2px;
+				
+				#u-name{
+					margin: 1rem;
+				}
+			}
+		
+			#u-address{
+				text-align: center;
+				margin: 0 !important;
+			}
+		}
 		.p-grid{
 	
 			--columns: 2;
+
+			.col-12{
+				.product-grid-item {
+					
+	
+					img {
+						height: 17rem;
+					}
+				}
+			}
+		}
+		
+		p-rating{
+			div{
+				justify-content: center;
+			}
+		}
+	}
+
+	@media screen and (max-width: 960.01px){
+		.p-grid{
+	
+			--columns: 1;
+
+			.col-12{
+				.product-grid-item {
+					img {
+						height: 15rem;
+					}
+				}
+			}
 		}
 	}
 }
@@ -161,6 +266,8 @@
 			width: 75%;
 			margin: 2rem 0;
 		}
+
+		
 
 		.product-list-detail {
 			text-align: center;

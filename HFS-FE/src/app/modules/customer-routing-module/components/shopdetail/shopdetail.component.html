@@ -1,12 +1,13 @@
 <div class="col-12 shopdetail-list" >
     <div class="card">
-          <div id="profile-d">
-            <div id="profile-pic">
-              <img [src]="'data:image/png;base64,' + shopInfor.avatar">
+            <div id="profile-d">
+                <div id="profile-pic">
+                    <img [src]="'data:image/png;base64,' + shopInfor.avatar">
+                </div>
+                <h3 id="u-name">{{shopInfor.shopName}}</h3>
+                        
             </div>
-            <h1 id="u-name">{{shopInfor.shopName}}</h1>
-            <h5 id="u-address">{{shopInfor.shopAddress}}</h5>          
-          </div>
+            <h5 id="u-address">{{shopInfor.shopAddress}}</h5>  
     </div>
 </div>
 <div class="col-12 shopdetail-list" >
@@ -14,12 +15,27 @@
         <h5>Menu</h5>
         <p-dataView #dv [value]="foods" [paginator]="true" [rows]="9" filterBy="name" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
             <ng-template pTemplate="header">
-                <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
-                    <p-dropdown [options]="sortOptions" placeholder="Sort By Price" (onChange)="onSortChange($event)"></p-dropdown>
-                    <span class="p-input-icon-left">
-                        <i class="pi pi-search"></i>
-                        <input type="search" pInputText placeholder="Search by Name" (input)="onFilter(dv, $event)">
-                    </span>	
+                <div class="grid">
+                    
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-input-icon-left p-float-label" style="width: 100%">
+                            <p-dropdown [options]="sortOptions" 
+                                        [showClear]="false"
+                                        [autoDisplayFirst]="false"
+                                        (onChange)="onSortChange($event)"
+                                        [style]="{'width': '100%'}"
+                                        ></p-dropdown>
+                            <label>Sort By Price</label>
+                        </span>
+                    </div>
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-input-icon-left p-float-label" style="width: 100%">
+                            <i class="pi pi-search"></i>
+                            <input style="width: 100%" type="search" pInputText placeholder="Search by Name" (input)="onFilter(dv, $event)">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-12 mb-2 lg:col-12 mb-lg-0 ml-auto">
                     <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
                 </div>
             </ng-template>
