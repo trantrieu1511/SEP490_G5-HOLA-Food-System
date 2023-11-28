@@ -27,13 +27,13 @@ namespace HFS_BE.BusinessLogic.Auth
 				throw;
 			}
 		}
-		public BaseOutputDto RegisterSeller(RegisterSellerInputDto inputDto)
+		public async Task<BaseOutputDto> RegisterSeller(RegisterSellerInputDto inputDto)
 		{
 			try
 			{
 				var Dao = this.CreateDao<AuthNotCustomerDao>();
 				var daoinput = mapper.Map<RegisterSellerInputDto, RegisterSellerDto>(inputDto);
-				var daooutput = Dao.RegisterSeller(daoinput);
+				var daooutput = await Dao.RegisterSeller(daoinput);
 
 				return daooutput;
 			}
@@ -42,13 +42,13 @@ namespace HFS_BE.BusinessLogic.Auth
 				throw;
 			}
 		}
-		public BaseOutputDto RegisterShipper(RegisterInputDto inputDto)
+		public async Task<BaseOutputDto> RegisterShipper(RegisterInputDto inputDto)
 		{
 			try
 			{
 				var Dao = this.CreateDao<AuthNotCustomerDao>();
 				var daoinput = mapper.Map<RegisterInputDto, RegisterDto>(inputDto);
-				var daooutput = Dao.RegisterShipper(daoinput);
+				var daooutput = await Dao.RegisterShipper(daoinput);
 
 
 				return daooutput;

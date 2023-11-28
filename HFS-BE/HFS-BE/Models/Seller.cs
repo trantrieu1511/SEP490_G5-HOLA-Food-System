@@ -15,6 +15,7 @@ namespace HFS_BE.Models
             Orders = new HashSet<Order>();
             Posts = new HashSet<Post>();
             SellerBans = new HashSet<SellerBan>();
+            SellerReports = new HashSet<SellerReport>();
             Shippers = new HashSet<Shipper>();
             Vouchers = new HashSet<Voucher>();
         }
@@ -47,6 +48,7 @@ namespace HFS_BE.Models
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<SellerBan> SellerBans { get; set; }
+        public virtual ICollection<SellerReport> SellerReports { get; set; }
         public virtual ICollection<Shipper> Shippers { get; set; }
         public virtual ICollection<Voucher> Vouchers { get; set; }
     }

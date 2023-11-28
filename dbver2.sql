@@ -89,6 +89,23 @@ CREATE TABLE [dbo].[MenuModerator](
 	[createDate][datetime] null,
 )
 
+--CREATE TABLE [dbo].[Customer](
+--	[customerId] [nvarchar](50) NOT NULL primary key,
+--	[firstName] [nvarchar](50) NOT NULL,
+--	[lastName] [nvarchar](50) NOT NULL,
+--	[gender] [nvarchar](10) NULL,
+--	[birthDate] [date] NULL,
+--	[email] [nvarchar](100) UNIQUE NOT NULL,
+--	[phoneNumber] [nvarchar](11) NULL,
+--	[PasswordSalt] [varbinary](max) NOT NULL,
+--	[PasswordHash] [varbinary](max) NOT NULL,
+--	[isOnline] [bit] NOT NULL DEFAULT('false'),
+--	[walletBalance] [money] NULL,
+--	[confirmedEmail] [bit] not NULL DEFAULT('false'),
+--	[isBanned] [bit] not null DEFAULT('false'),		
+--	[refreshToken] [varchar](max),
+--	[refreshTokenExpiryTime] [datetime],
+--)
 CREATE TABLE [dbo].[Customer](
     [customerId] [nvarchar](50) NOT NULL PRIMARY KEY,
     [firstName] [nvarchar](50) NOT NULL,
@@ -575,4 +592,55 @@ CREATE TABLE [dbo].[FeedBackImage](
 	[feedbackId] [int] NULL,
 	[path] [nvarchar](max) NULL,
 	FOREIGN KEY([feedbackId]) REFERENCES [dbo].[FeedBack] ([feedbackId]),
+)
+
+
+CREATE TABLE [dbo].[ShipperReport](
+	[shipperId] [nvarchar](50) NOT NULL,
+	[reportBy] [nvarchar](50) NOT NULL,
+	[reportContent] [nvarchar](max) NOT NULL,
+	[createDate] [datetime] NOT NULL,
+	[updateDate] [datetime] NULL,
+	[updateBy] [nvarchar](50) NULL,
+	[status] [tinyint] NOT NULL, -- 0: Pending: KH moi tao report, post mod chua xu ly report, 1: Approved - Post mod chap nhan to cao va da xu ly xong bai viet bi to cao, 2: NotApproved: Post mod khong chap nhan report (Co le do nguoi report k neu ra duoc noi dung to cao mot cach nghiem tuc)
+	[note] [nvarchar](MAX) NULL,
+	FOREIGN KEY([reportBy]) REFERENCES [dbo].[Seller] ([sellerId]),
+	FOREIGN KEY([updateBy]) REFERENCES [dbo].[Admin] ([adminId]),
+	FOREIGN KEY([shipperId]) REFERENCES [dbo].[Shipper] ([shipperId]),
+	);
+
+	--CREATE TABLE [dbo].[ShipperReport](
+	--[shipperId] [nvarchar](50) NOT NULL,
+	--[reportBy] [nvarchar](50) NOT NULL,
+	--[reportContent] [nvarchar](max) NOT NULL,
+	--[createDate] [datetime] NOT NULL,
+	--[updateDate] [datetime] NULL,
+	--[updateBy] [nvarchar](50) NULL,
+	--[status] [tinyint] NOT NULL, -- 0: Pending: KH moi tao report, post mod chua xu ly report, 1: Approved - Post mod chap nhan to cao va da xu ly xong bai viet bi to cao, 2: NotApproved: Post mod khong chap nhan report (Co le do nguoi report k neu ra duoc noi dung to cao mot cach nghiem tuc)
+	--[note] [nvarchar](MAX) NULL,
+	--FOREIGN KEY([reportBy]) REFERENCES [dbo].[Seller] ([sellerId]),
+	--FOREIGN KEY([updateBy]) REFERENCES [dbo].[Admin] ([adminId]),
+	--FOREIGN KEY([shipperId]) REFERENCES [dbo].[Shipper] ([shipperId]),
+	--);
+
+	CREATE TABLE [dbo].[SellerReport](
+	[sellerReportId] [int] IDENTITY(1,1) NOT NULL  PRIMARY KEY,
+	[sellerId] [nvarchar](50) NOT NULL,
+	[reportBy] [nvarchar](50) NOT NULL,
+	[reportContent] [nvarchar](max) NOT NULL,
+	[createDate] [datetime] NOT NULL,
+	[updateDate] [datetime] NULL,
+	[updateBy] [nvarchar](50) NULL,
+	[status] [tinyint] NOT NULL, -- 0: Pending: KH moi tao report, post mod chua xu ly report, 1: Approved - Post mod chap nhan to cao va da xu ly xong bai viet bi to cao, 2: NotApproved: Post mod khong chap nhan report (Co le do nguoi report k neu ra duoc noi dung to cao mot cach nghiem tuc)
+	[note] [nvarchar](MAX) NULL,
+	FOREIGN KEY([reportBy]) REFERENCES [dbo].[Customer] ([customerId]),
+	FOREIGN KEY([updateBy]) REFERENCES [dbo].[Admin] ([adminId]),
+	FOREIGN KEY([sellerId]) REFERENCES [dbo].[Seller] ([sellerId]),
+	);
+
+	CREATE TABLE [dbo].[SellerReportImage](
+	[imageSellerReportId] [int] IDENTITY(1,1) NOT NULL  PRIMARY KEY,
+	[sellerReportId] [int] NULL,
+	[path] [nvarchar](max) NULL,
+	FOREIGN KEY([sellerReportId]) REFERENCES [dbo].[SellerReport] ([sellerReportId]),
 )

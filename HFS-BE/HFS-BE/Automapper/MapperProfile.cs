@@ -44,6 +44,8 @@ using HFS_BE.Controllers.FeedBack;
 using HFS_BE.BusinessLogic.ReplyFeedBack;
 using Microsoft.AspNetCore.Routing.Constraints;
 using HFS_BE.BusinessLogic.ManageUser.ManageShipper;
+using HFS_BE.DAO.SellerReportDao;
+using HFS_BE.BusinessLogic.SellerReportBL;
 
 namespace HFS_BE.Automapper
 {
@@ -74,7 +76,9 @@ namespace HFS_BE.Automapper
             Comment();
             ShipAddress();
             Transaction();
-        }
+            ReportSeller();
+
+		}
 
         /// <summary>
         /// dataconvert của màn homepage.
@@ -346,10 +350,11 @@ namespace HFS_BE.Automapper
 
             CreateMap<ImageFileConvert.ImageOutputDto, CustomerImageOutputDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>();
-            CreateMap<ImageFileConvert.ImageOutputDto, FeedImageOutputDto>();
-            CreateMap<ImageFileConvert.ImageOutputDto, FeedSellerImageOutputDto>();
-            CreateMap<ImageFileConvert.ImageOutputDto, ShipperImageOutputDto>();
-        }
+			CreateMap<ImageFileConvert.ImageOutputDto, FeedImageOutputDto>();
+			CreateMap<ImageFileConvert.ImageOutputDto, FeedSellerImageOutputDto>();
+			CreateMap<ImageFileConvert.ImageOutputDto, ShipperImageOutputDto>();
+			CreateMap<ImageFileConvert.ImageOutputDto, SellerReportImageOutputDto>();
+		}
 
         public void Category()
         {
@@ -495,7 +500,16 @@ namespace HFS_BE.Automapper
         {
             CreateMap<TransactionHistory, GetTransactionHistoryDaoDto>();
         }
-    }
+
+		public void ReportSeller()
+        {
+            CreateMap<SellerReportBLInputDto, SellerReportInputDto>();
+			CreateMap<SellerReportOutputDto, SellerReportBLOutputDto>();
+			CreateMap<ListSellerReportOutputDto, ListSellerReportOutputDtoBL>();
+			CreateMap<SellerReportOutputDto, SellerReportBLByCustomerOutputDto>();
+			CreateMap<ListSellerReportOutputDto, ListSellerReportByCustomerOutputDtoBL>();
+		}
+	}
 }
 
 

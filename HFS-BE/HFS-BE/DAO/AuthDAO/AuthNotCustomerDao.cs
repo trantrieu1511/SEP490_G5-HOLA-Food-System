@@ -4,9 +4,12 @@ using HFS_BE.Dao.AuthDao;
 using HFS_BE.Models;
 using HFS_BE.Services;
 using HFS_BE.Utils;
+using Microsoft.Data.SqlClient.Server;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Mail;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -15,8 +18,12 @@ namespace HFS_BE.DAO.AuthDAO
 {
 	public class AuthNotCustomerDao : BaseDao
 	{
-        public AuthNotCustomerDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+	
+
+
+		public AuthNotCustomerDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
+
         }
 
         public AuthDaoOutputDto LoginNotCustomer(AuthDaoInputDto input)
@@ -133,7 +140,7 @@ namespace HFS_BE.DAO.AuthDAO
 
 		}
 
-		public BaseOutputDto RegisterSeller(RegisterSellerDto model)
+		public async Task<BaseOutputDto> RegisterSeller(RegisterSellerDto model)
 		{
 			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
 			var validationResults = new List<ValidationResult>();
@@ -206,6 +213,9 @@ namespace HFS_BE.DAO.AuthDAO
 			{
 				context.Sellers.Add(user);
 				context.SaveChanges();
+				ForgotPasswordInputDto forgot = new ForgotPasswordInputDto();
+				forgot.Email = user.Email;
+				await SendVetifyPasswordtoEmailAsync(forgot);
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}
 			catch (Exception ex)
@@ -213,7 +223,7 @@ namespace HFS_BE.DAO.AuthDAO
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
 			}
 		}
-		public BaseOutputDto RegisterShipper(RegisterDto model)
+		public async Task<BaseOutputDto> RegisterShipper(RegisterDto model)
 		{
 			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
 			var validationResults = new List<ValidationResult>();
@@ -292,6 +302,9 @@ namespace HFS_BE.DAO.AuthDAO
 			{
 				context.Shippers.Add(user);
 				context.SaveChanges();
+				ForgotPasswordInputDto forgot = new ForgotPasswordInputDto();
+				forgot.Email = user.Email;
+				await SendVetifyPasswordtoEmailAsync(forgot);
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}
 			catch (Exception ex)
@@ -486,5 +499,94 @@ namespace HFS_BE.DAO.AuthDAO
 
 			return token;
 		}
+		private string GetConfirmEmailLink(string userId, string confirmationCode)
+		{
+			string baseUrl = "http://localhost:4200/#/confirm";
+			//	var query = new Dictionary<string, string>
+			//{
+			//	{ "userId", userId },
+			//	{ "code", confirmationCode }
+			//};
+			var confirmationLink = baseUrl + "?userId=" + userId + "&code=" + confirmationCode;
+			return confirmationLink;
+		}
+		private string GenerateConfirmationCode(string userId)//tạo ra mã đễ 
+
+		{
+			var conf = new ConfigurationBuilder()
+		.SetBasePath(Directory.GetCurrentDirectory())
+			.AddJsonFile("appsettings.json", true, true)
+			.Build();
+			var tokenHandler = new JwtSecurityTokenHandler();
+			var key = Encoding.UTF8.GetBytes(conf["JWT:Secret"]);
+
+			var tokenDescriptor = new SecurityTokenDescriptor
+			{
+				Subject = new ClaimsIdentity(new[] { new Claim("userId", userId) }),
+				Expires = DateTime.UtcNow.AddMinutes(5),
+				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+			};
+
+			var token = tokenHandler.CreateToken(tokenDescriptor);
+			var confirmationCode = tokenHandler.WriteToken(token);
+
+			return confirmationCode;
+		}
+		public async Task<BaseOutputDto> SendVetifyPasswordtoEmailAsync(ForgotPasswordInputDto model)
+		{
+			string userid = "";
+			string confirmationCode = GenerateConfirmationCode(model.Email);
+			//using (SEP490_HFS_2Context context = new SEP490_HFS_2Context())
+			//{
+			//	var user = context.Users.Where(s => s.Email.ToLower().Equals(toEmail.ToLower())).FirstOrDefault();
+
+			//	if (user == null)
+			//	{
+			//		return BadRequest();
+			//	}
+			//	userid = user.UserId.ToString();
+			//}
+
+			string subject = "Xác nhận thay đổi trạng thái";
+			string message = $"Vui lòng nhấp vào liên kết sau để xác nhận thay đổi trạng thái: {GetConfirmEmailLink("1", confirmationCode)}";
+
+			try
+			{
+				await SendEmail2Async(model.Email, subject, message);
+				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+			}
+			catch (Exception ex)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+			}
+
+		}
+		private async Task<bool> SendEmail2Async(string toEmail, string subject, string content)
+		{
+			try
+			{
+				string from = "holafoodfpt@gmail.com";
+				string pass = "wqsq fqmv iwhu ablr";
+				MailMessage mail = new MailMessage();
+				SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+
+				mail.To.Add(toEmail);
+				mail.From = new MailAddress(from);
+				mail.Subject = subject;
+				mail.Body = "HOLA FOOD:" + content;
+				smtp.EnableSsl = true;
+				smtp.Port = 587;
+				smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+				smtp.Credentials = new NetworkCredential(from, pass);
+				await smtp.SendMailAsync(mail);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+
+		}
+
 	}
 }

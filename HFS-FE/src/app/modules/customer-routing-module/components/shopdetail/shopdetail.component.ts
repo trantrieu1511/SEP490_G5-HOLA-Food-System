@@ -16,6 +16,10 @@ import { MenuInput } from '../../models/menuInput.model';
 import { AddToCart } from '../../models/addToCart.model';
 import { DataView } from 'primeng/dataview';
 import { GetShopInforInputDto } from '../../models/GetShopInforInputDto.model';
+import { PostReport } from '../../models/postreport.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
+import { SellerReport } from '../../models/sellerReport.model';
 
 
 @Component({
@@ -25,13 +29,20 @@ import { GetShopInforInputDto } from '../../models/GetShopInforInputDto.model';
 })
 export class ShopdetailComponent extends iComponentBase implements OnInit {
   foods: any[];
-  sortOptions: SelectItem[];
+   sortOptions: SelectItem[];
   sortOrder: number;
   loading: boolean;
   sortField: string;
+  isLoggedIn:boolean =false;
 	menuInput = new MenuInput();
   shopid : string;
+  userId: string;
   shopInfor : any
+  isVisiblePostReportModal = false; // Bien phuc vu cho viec bat tat modal post report
+  sellerReport: SellerReport = new SellerReport();
+  isDisabledPostReportBtnSubmit: boolean = true; // Trạng thái disable của nút submit của modal post report
+  isDisabledPostReportTextArea: boolean = true; // Trạng thái disable của text area của modal post report
+  uploadedFiles: File[] = [];
   constructor(
     private shareData: ShareData,
     public messageService: MessageService,
@@ -39,13 +50,23 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
     private iServiceBase: iServiceBase,
     private route: ActivatedRoute,
     private router: Router,
-    private dataService: DataService
+    private dataService: DataService,
+    private authService: AuthService
   ){
     super(messageService);
   }
-
+  checkLoggedIn() {
+    // if (sessionStorage.getItem('userId') != null) {
+    //   this.isLoggedIn = true;
+    // }
+    this.userId = this.authService.getUserInfor().userId;
+    if (this.userId != null) {
+      this.isLoggedIn = true;
+    }
+  }
 
   ngOnInit(){
+    this.checkLoggedIn();
     this.route.queryParams.subscribe(params => {
       this.shopid = params['shopid'];
       // console.log(id);
@@ -81,7 +102,7 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
 
         let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.SHOP_DETAIL, API.API_SHOP_DETAIL.DISPLAY_MENU, menuInput);
         if (response && response.success == true) {
-            this.foods = response.listFood;            
+            this.foods = response.listFood;
         }
 
 		console.log(this.foods);
@@ -99,7 +120,7 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
         shopInforInput.ShopId = this.shopid
         let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.SHOP_DETAIL, API.API_SHOP_DETAIL.DISPLAY_INFOR, shopInforInput);
         if (response && response.success === true) {
-            this.shopInfor = response;            
+            this.shopInfor = response;
         }
 
 		console.log(this.foods);
@@ -123,12 +144,12 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.ADDTOCART, cartItem);
       if (response && response.message === "Success") {
         console.log(response)
-          this.showMessage(mType.success, "", "Add to cart success!", 'notify');      
+          this.showMessage(mType.success, "", "Add to cart success!", 'notify');
       }
       else{
         this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');
         this.router.navigate(['/login']);
-      } 
+      }
 
       this.loading = false;
   } catch (e) {
@@ -140,4 +161,130 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
   onFoodDetail(foodId : number){
     this.router.navigate(['/fooddetail'], { queryParams: { foodId: foodId } });
   }
+
+
+  enableDisableReportTextArea($event: any) {
+    if ($event.checked == 'Other') {
+      this.isDisabledPostReportTextArea = false;
+    } else {
+      this.isDisabledPostReportTextArea = true;
+    }
+  }
+
+  enableDisableReportButtonSubmit() {
+    // ;
+    //console.log(this.postReport.reportContents);
+    //console.log("rpContents length: " + this.postReport.reportContents.length);
+    if (this.sellerReport.reportContents.length < 1) {
+      this.isDisabledPostReportBtnSubmit = true;
+    } else {
+      this.isDisabledPostReportBtnSubmit = false;
+    }
+  }
+
+  addValueToReportContentList() {
+    console.log(this.sellerReport.reportContent);
+    if (this.sellerReport.reportContent == '') {
+      this.sellerReport.reportContents.pop();
+      console.log("poped!");
+    } else {
+      this.sellerReport.reportContents.push(this.sellerReport.reportContent);
+      console.log("pushed!");
+    }
+    this.enableDisableReportButtonSubmit();
+  }
+  async submitReport() {
+    //------------ Lay cac ly do report duoc input boi nguoi dung -------------
+    let rpContent: string = "";
+    let i = 0;
+    // ;
+    console.log(this.sellerReport.reportContents);
+    this.sellerReport.reportContents.forEach(element => {
+      i++;
+      console.log("element" + i + ": " + element);
+      if (element == this.sellerReport.reportContents[this.sellerReport.reportContents.length - 1]) { //the last element in the array
+        rpContent += element;
+      } else {
+        rpContent += element + ", ";
+      }
+    });
+    // rpContent += ", " + this.postReport.reportContent;
+    debugger
+    this.sellerReport.reportContent = rpContent;
+    console.log("Full rp content: " + this.sellerReport.reportContent);
+    debugger
+    // ------------------ Commit vao db --------------------
+    try {
+     this.sellerReport.images=this.uploadedFiles;
+    const param22 = new FormData();
+this.loading = true;
+param22.append('sellerId',   this.sellerReport.sellerId);
+param22.append('reportContent',   this.sellerReport.reportContent);
+this.uploadedFiles.forEach(file => {
+  param22.append('images', file, file.name);
+});
+
+// Object.keys(this.sellerReport).forEach(function (key) {
+//   param.append(key, this.sellerReport[key]);
+// });
+
+    debugger
+      let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.REPORT_SELLER, param22);
+      if (response && response.success === true) {
+        this.showMessage(mType.success, "Notification", `Report the food successfully`, 'notify');
+        console.log(response);
+        console.log('Create new food report successfully');
+      }
+      else {
+        // this.showMessage(mType.warn, "Error", this.iServiceBase.formatMessageError(response.message), 'notify');
+        this.showMessage(mType.warn, "Error", "Internal server error, please contact for admin help!", 'notify');
+        console.log(response);
+        console.log('Internal server error, please contact for admin help!');
+      }
+      this.loading = false;
+      //this.checkUsersReportPostCapability();
+    } catch (e) {
+      console.log(e);
+      this.loading = false;
+     // this.checkUsersReportPostCapability();
+    }
+
+    // Làm mới model để không bị ảnh hường bởi two way binding
+    this.sellerReport = new SellerReport();
+    // Tat modal
+    this.isVisiblePostReportModal = false;
+    // Refresh nut submit
+    this.enableDisableReportButtonSubmit();
+  }
+  openPostReportDialog(sellerId: string) {
+    this.sellerReport = new SellerReport();
+    this.enableDisableReportButtonSubmit(); // reset nut submit
+
+    this.sellerReport.sellerId = sellerId;
+    this.isVisiblePostReportModal = true;
+    // event.preventDefault();
+  }
+  handleFileSelection(event: FileSelectEvent) {
+    //console.log("select", event);
+
+    this.uploadedFiles = event.currentFiles;
+
+    //console.log('primeSelect',this.f_upload);
+    console.log("uploadFiles", this.uploadedFiles);
+  }
+
+  handleFileRemoval(event: FileRemoveEvent) {
+    console.log("remove", event.file.name);
+
+    this.uploadedFiles = this.uploadedFiles.filter(f => f.name !== event.file.name);
+    console.log("uploadFiles", this.uploadedFiles);
+  }
+
+  handleAllFilesClear(event: Event) {
+    //console.log("clear", event);
+
+    this.uploadedFiles = [];
+    console.log("uploadFiles", this.uploadedFiles);
+  }
+
 }

@@ -55,6 +55,7 @@ export class API_USER {
     public static DASHBOAD_ADMINTOTAL = "dashboadtotal";
     public static FEEDBACK_SELLER = "sellerFeedBack";
     public static REPLY_SELLER = "replyfeedback";
+     public static REPORT_SELLER = "reportseller";
 }
 
 // Service Role
@@ -103,6 +104,8 @@ export class API_MANAGE{
     public static ADD_CATE = "createcategory";
     public static ED_CATE = "edcategory";
     public static ENABLE_DISABLE_CATE ="edcategory"
+    public static LIST_REPORT = "listreportseller";
+    public static REPLY_REPORT = "updatereportseller";
 }
 
 // Service QTHT
