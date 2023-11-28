@@ -44,6 +44,8 @@ using HFS_BE.Controllers.FeedBack;
 using HFS_BE.BusinessLogic.ReplyFeedBack;
 using Microsoft.AspNetCore.Routing.Constraints;
 using HFS_BE.BusinessLogic.ManageUser.ManageShipper;
+using HFS_BE.DAO.SellerReportDao;
+using HFS_BE.BusinessLogic.SellerReportBL;
 
 namespace HFS_BE.Automapper
 {
@@ -74,7 +76,9 @@ namespace HFS_BE.Automapper
             Comment();
             ShipAddress();
             Transaction();
-        }
+            ReportSeller();
+
+		}
 
         /// <summary>
         /// dataconvert của màn homepage.
@@ -95,9 +99,9 @@ namespace HFS_BE.Automapper
             CreateMap<AuthDaoOutputDto, LoginOutputDto>();
             CreateMap<AuthDaoOutputDto, LoginOutputDto>();
             CreateMap<RegisterInputDto, RegisterDto>();
-			CreateMap<RegisterSellerInputDto, RegisterSellerDto>();
-			//CreateMap<DisplayShopOutputDto, BusinessLogic.Homepage.DisplayShopOutputDto>();
-		}
+            CreateMap<RegisterSellerInputDto, RegisterSellerDto>();
+            //CreateMap<DisplayShopOutputDto, BusinessLogic.Homepage.DisplayShopOutputDto>();
+        }
 
         public void Post()
         {
@@ -294,7 +298,8 @@ namespace HFS_BE.Automapper
         public void Shop()
         {
             CreateMap<Seller, GetShopDetailDaoOutputDto>()
-                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.SellerId));
+                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.SellerId))
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("dd/MM/yyyy")));
         }
 
         public void Cart()
@@ -349,13 +354,14 @@ namespace HFS_BE.Automapper
 			CreateMap<ImageFileConvert.ImageOutputDto, FeedImageOutputDto>();
 			CreateMap<ImageFileConvert.ImageOutputDto, FeedSellerImageOutputDto>();
 			CreateMap<ImageFileConvert.ImageOutputDto, ShipperImageOutputDto>();
+			CreateMap<ImageFileConvert.ImageOutputDto, SellerReportImageOutputDto>();
 		}
 
         public void Category()
         {
             CreateMap<Category, CategoryDaoOutputDto>();
             CreateMap<Category, GetCategoryOutputDto>()
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src=>CategoryStatusEnum.GetStatusString(src.Status)));
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => CategoryStatusEnum.GetStatusString(src.Status)));
         }
 
         public void Shipper()
@@ -386,13 +392,13 @@ namespace HFS_BE.Automapper
             CreateMap<ListCustomerDtoOutput, ListCustomerOutputDtoBS>();
             CreateMap<SellerDtoOutput, SellerDtoBS>();
             CreateMap<ListSellerDtoOutput, ListSellerOutputDtoBS>();
-			CreateMap<ShipperInforByAdmin, ShipperOutputDtoBL>();
-			CreateMap<ShipperInforListByAdmin, ListShipperbyAdminOutputDtoBS>();
-			CreateMap<Invitation, InvitationSellerDtoOutput>()
-			 .ForMember(dest => dest.SellerName, opt => opt.MapFrom(src => src.Seller.FirstName + " " + src.Seller.LastName))
-			 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Seller.Email))
-			 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Seller.PhoneNumber));
-		}
+            CreateMap<ShipperInforByAdmin, ShipperOutputDtoBL>();
+            CreateMap<ShipperInforListByAdmin, ListShipperbyAdminOutputDtoBS>();
+            CreateMap<Invitation, InvitationSellerDtoOutput>()
+             .ForMember(dest => dest.SellerName, opt => opt.MapFrom(src => src.Seller.FirstName + " " + src.Seller.LastName))
+             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Seller.Email))
+             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Seller.PhoneNumber));
+        }
 
         public void FeedBack()
         {
@@ -414,26 +420,26 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.CreatedDate.Value.ToString("MM/dd/yyyy hh:mm")));
 
 
-			CreateMap<AddFeedBackInputDtoBL, CreateFeedBackDaoInputDto>()
+            CreateMap<AddFeedBackInputDtoBL, CreateFeedBackDaoInputDto>()
                 .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.UserDto.UserId));
             CreateMap<AddFeedBackControllerInputDto, AddFeedBackInputDtoBL>();
-			CreateMap<Feedback, FeedBackDaoOutputDtoImage>()
-				  .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.LastName))
-				  .ForMember(dest => dest.DisplayDate, opt => opt.MapFrom(src => src.UpdateDate ?? src.CreatedDate))
-				  .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == true).ToList().Count))
-				  .ForMember(dest => dest.DisLikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == false).ToList().Count))
-				  .ForMember(dest => dest.ListVoted, opt => opt.MapFrom(src => src.FeedbackVotes));
-			CreateMap<FeedBackDaoOutputDtoImage, FeedBackDtoBL>();
-			CreateMap<GetFeedBackByFoodIdImageDaoOutputDto, ListFeedBackOutputDtoBS>();
-			CreateMap<ListFeedBackbySellerDaoOutputDto, ListFeedBackbySellerOutputDtoBL>();
-			CreateMap<FeedBackBySellerDaoOutputDto, ReplyFeedBackBLOutputDto>();
-			CreateMap<Feedback, FeedBackBySellerDaoOutputDto>() 
+            CreateMap<Feedback, FeedBackDaoOutputDtoImage>()
+                  .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.LastName))
+                  .ForMember(dest => dest.DisplayDate, opt => opt.MapFrom(src => src.UpdateDate ?? src.CreatedDate))
+                  .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == true).ToList().Count))
+                  .ForMember(dest => dest.DisLikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == false).ToList().Count))
+                  .ForMember(dest => dest.ListVoted, opt => opt.MapFrom(src => src.FeedbackVotes));
+            CreateMap<FeedBackDaoOutputDtoImage, FeedBackDtoBL>();
+            CreateMap<GetFeedBackByFoodIdImageDaoOutputDto, ListFeedBackOutputDtoBS>();
+            CreateMap<ListFeedBackbySellerDaoOutputDto, ListFeedBackbySellerOutputDtoBL>();
+            CreateMap<FeedBackBySellerDaoOutputDto, ReplyFeedBackBLOutputDto>();
+            CreateMap<Feedback, FeedBackBySellerDaoOutputDto>()
                 .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.LastName))
                 .ForMember(dest => dest.DisplayDate, opt => opt.MapFrom(src => src.UpdateDate ?? src.CreatedDate))
-				  .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == true).ToList().Count))
-				  .ForMember(dest => dest.DisLikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == false).ToList().Count))
+                  .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == true).ToList().Count))
+                  .ForMember(dest => dest.DisLikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == false).ToList().Count))
                   .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name));
-		}
+        }
 
         public void Voucher()
         {
@@ -470,16 +476,16 @@ namespace HFS_BE.Automapper
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
             CreateMap<MenuModerator, LoginGoogleInputDto>()
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
-			CreateMap<Shipper, LoginGoogleInputDto>()
-		.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ShipperId));
-		}
+            CreateMap<Shipper, LoginGoogleInputDto>()
+        .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ShipperId));
+        }
 
 
 
         public void Comment()
         {
             CreateMap<Comment, CommentOutputDto>()
-                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName +" "+ src.Customer.LastName));
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.LastName));
             CreateMap<CommentOutputDto, Customer>()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.CustomerName));
 
@@ -495,7 +501,16 @@ namespace HFS_BE.Automapper
         {
             CreateMap<TransactionHistory, GetTransactionHistoryDaoDto>();
         }
-    }
+
+		public void ReportSeller()
+        {
+            CreateMap<SellerReportBLInputDto, SellerReportInputDto>();
+			CreateMap<SellerReportOutputDto, SellerReportBLOutputDto>();
+			CreateMap<ListSellerReportOutputDto, ListSellerReportOutputDtoBL>();
+			CreateMap<SellerReportOutputDto, SellerReportBLByCustomerOutputDto>();
+			CreateMap<ListSellerReportOutputDto, ListSellerReportByCustomerOutputDtoBL>();
+		}
+	}
 }
 
 

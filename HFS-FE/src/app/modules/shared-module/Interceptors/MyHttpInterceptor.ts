@@ -31,7 +31,7 @@ export class MyHttpInterceptor implements HttpInterceptor {
   //       return next.handle(request).pipe(
   //           catchError((err: any) => {
   //                   if (err.status === 401) {
-  //                     
+  //
   //                       //UnAuthorized
 	// 					this.router.navigateByUrl(`/login`);
 	// 					window.location.reload();
@@ -83,46 +83,45 @@ export class MyHttpInterceptor implements HttpInterceptor {
           },
         });
       }
-      
+
     //}
 
     return next.handle(request).pipe(
       catchError(err => {
-        
         if (err instanceof HttpErrorResponse &&  err.status === 401 || err.statusText == 'Unknown Error') {
           // Xử lý token hết hạn sau khi gửi request
           return this.handleAuthError(request, next, err);
         }
         return throwError(err);
-        
+
       })
     );
   }
 
   private handleAuthError(request: HttpRequest<any>, next: HttpHandler, err: any){
-    
+
     if(!request.url.includes('auths/refresh')){
       this.refreshTokenSubject.next(null);
       const refreshToken: string = this.iFunction.getCookie("refreshToken");
-      if (!refreshToken) { 
+      if (!refreshToken) {
         localStorage.removeItem('user');
         this.router.navigate(['/login']);
         window.location.reload();
         
         return of(err.message);
-      
+
       }
-      
-      const credentials = { 
-        refreshToken: refreshToken 
+
+      const credentials = {
+        refreshToken: refreshToken
       };
       this.authService.refreshToken(credentials).subscribe({
         next: (x : any) => {
-          
+
           this.jwtService.saveTokenResponse(x);
 
           this.refreshTokenSubject.next(x.token);
-          
+
           return next.handle(this.addTokenHeader(request, x.token))
         },
         error: (err: any) => {
@@ -155,7 +154,7 @@ export class MyHttpInterceptor implements HttpInterceptor {
   }
 
   private addTokenHeader(request: HttpRequest<any>, token: string){
-    
+
     return request.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`

@@ -44,6 +44,8 @@ namespace HFS_BE.Models
         public virtual DbSet<ProfileImage> ProfileImages { get; set; } = null!;
         public virtual DbSet<Seller> Sellers { get; set; } = null!;
         public virtual DbSet<SellerBan> SellerBans { get; set; } = null!;
+        public virtual DbSet<SellerReport> SellerReports { get; set; } = null!;
+        public virtual DbSet<SellerReportImage> SellerReportImages { get; set; } = null!;
         public virtual DbSet<ShipAddress> ShipAddresses { get; set; } = null!;
         public virtual DbSet<Shipper> Shippers { get; set; } = null!;
         public virtual DbSet<TransactionHistory> TransactionHistories { get; set; } = null!;
@@ -54,7 +56,7 @@ namespace HFS_BE.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=localhost;database=SEP490_HFS_2;Integrated security=true;TrustServerCertificate=true;");
+                optionsBuilder.UseSqlServer("server =localhost; database =SEP490_HFS_2;uid=sa;pwd=123456;");
             }
         }
 
@@ -1146,6 +1148,75 @@ namespace HFS_BE.Models
                     .HasForeignKey(d => d.SellerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SellerBan_Seller");
+            });
+
+            modelBuilder.Entity<SellerReport>(entity =>
+            {
+                entity.ToTable("SellerReport");
+
+                entity.Property(e => e.SellerReportId).HasColumnName("sellerReportId");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("createDate");
+
+                entity.Property(e => e.Note).HasColumnName("note");
+
+                entity.Property(e => e.ReportBy)
+                    .HasMaxLength(50)
+                    .HasColumnName("reportBy");
+
+                entity.Property(e => e.ReportContent).HasColumnName("reportContent");
+
+                entity.Property(e => e.SellerId)
+                    .HasMaxLength(50)
+                    .HasColumnName("sellerId");
+
+                entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.Property(e => e.UpdateBy)
+                    .HasMaxLength(50)
+                    .HasColumnName("updateBy");
+
+                entity.Property(e => e.UpdateDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("updateDate");
+
+                entity.HasOne(d => d.ReportByNavigation)
+                    .WithMany(p => p.SellerReports)
+                    .HasForeignKey(d => d.ReportBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__SellerRep__repor__4F47C5E3");
+
+                entity.HasOne(d => d.Seller)
+                    .WithMany(p => p.SellerReports)
+                    .HasForeignKey(d => d.SellerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__SellerRep__selle__51300E55");
+
+                entity.HasOne(d => d.UpdateByNavigation)
+                    .WithMany(p => p.SellerReports)
+                    .HasForeignKey(d => d.UpdateBy)
+                    .HasConstraintName("FK__SellerRep__updat__503BEA1C");
+            });
+
+            modelBuilder.Entity<SellerReportImage>(entity =>
+            {
+                entity.HasKey(e => e.ImageSellerReportId)
+                    .HasName("PK__SellerRe__1975343549B35606");
+
+                entity.ToTable("SellerReportImage");
+
+                entity.Property(e => e.ImageSellerReportId).HasColumnName("imageSellerReportId");
+
+                entity.Property(e => e.Path).HasColumnName("path");
+
+                entity.Property(e => e.SellerReportId).HasColumnName("sellerReportId");
+
+                entity.HasOne(d => d.SellerReport)
+                    .WithMany(p => p.SellerReportImages)
+                    .HasForeignKey(d => d.SellerReportId)
+                    .HasConstraintName("FK__SellerRep__selle__540C7B00");
             });
 
             modelBuilder.Entity<ShipAddress>(entity =>

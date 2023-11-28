@@ -309,7 +309,6 @@ export class OrderhistoryComponent
   }
 
   async createFeedback(rate: RateInput) {
-    debugger
     rate.images=this.uploadedFiles;
     const param = new FormData();
 
