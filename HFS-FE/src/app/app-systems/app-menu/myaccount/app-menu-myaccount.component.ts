@@ -52,6 +52,9 @@ export class AppMenuMyaccountComponent implements OnInit {
     if(currentRoute.includes('menureport')){
       this.currentRoute = 'menureport';
     }
+    if(currentRoute.includes('sellerreport')){
+      this.currentRoute = 'sellerreport';
+    }
     if(currentRoute.includes('wallet')){
       this.currentRoute = 'wallet';
     }

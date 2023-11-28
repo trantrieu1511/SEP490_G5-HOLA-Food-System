@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Text;
 using HFS_BE.Controllers.Dashboard;
+using Microsoft.Extensions.Hosting;
 
 namespace HFS_BE.Dao.FoodDao
 {
@@ -272,11 +273,15 @@ namespace HFS_BE.Dao.FoodDao
                     {
                         // set status banned
                         food.Status = 3;
+                        food.BanBy = userId;
+                        food.BanDate = DateTime.Now;
                     }
                     else
                     {
                         //set status display
                         food.Status = 1;
+                        food.BanBy = null;
+                        food.BanDate = null;
                     }
 
                     // Reduce ban/unban limit

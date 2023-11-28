@@ -57,7 +57,8 @@ const routes: Routes = [
     CustomerfoodreportComponent,
     CustomerpostreportComponent,
     ManageshipaddressComponent,
-    AppMenuMyaccountComponent
+    AppMenuMyaccountComponent,
+    ReportSellerComponent
   ],
   imports: [
     CommonModule,

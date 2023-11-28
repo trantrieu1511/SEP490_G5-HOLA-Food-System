@@ -113,7 +113,7 @@ import { AddressSelectorComponent } from './modules/customer-routing-module/addr
     DashboadAdminModuleComponent,
     DashboadShipperModuleComponent,
     SellerReportModuleComponent,
-    ReportSellerComponent,
+    // ReportSellerComponent,
     AddressSelectorComponent,
     //ListFeedbackBySellerComponent,
   ],
