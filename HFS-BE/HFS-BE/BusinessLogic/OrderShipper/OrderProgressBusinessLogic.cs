@@ -87,8 +87,12 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                 // incompleted
                 else
                 {
-                    var cusId = userDao.UpdateInComplete(customerId);
-                    
+                    // ly do tai customer.
+                    if (inputDto.BecauseOf == 1)
+                    {
+                        var cusId = userDao.UpdateInComplete(customerId);
+                    }
+                               
                     notifyCus = GenerateNotification.GetSingleton().GenNotificationOrderShippedFail(customerId, order.OrderId);
                     notifySell = GenerateNotification.GetSingleton().GenNotificationOrderShippedFail(order.SellerId, order.OrderId);
                 }
@@ -115,6 +119,11 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                     {
                         decimal? refund = getOrder.OrderDetails
                         .Select(d => d.UnitPrice * d.Quantity).ToList().Sum() - getOrder.VoucherDiscount;
+
+                        if (inputDto.BecauseOf == 1)
+                        {
+                            refund = refund * (decimal)0.5;
+                        }
 
                         // create transaction:
                         var input2 = new CreateTransaction()

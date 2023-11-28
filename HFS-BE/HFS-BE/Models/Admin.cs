@@ -19,5 +19,6 @@ namespace HFS_BE.Models
         public bool? ConfirmedEmail { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
+        public DateTime? CreateDate { get; set; }
     }
 }

@@ -61,56 +61,56 @@ namespace HFS_BE.DAO.CustomerDao
 		}
 	
 
-		public BaseOutputDto BanCustomer(BanCustomerDtoInput input)
-		{
-			try
-			{
-				CustomerBan ban = new CustomerBan();
-				var user = context.Customers.FirstOrDefault(s=>s.CustomerId==input.CustomerId);
-				if (user == null)
-				{
-					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Customer is not in data ");
-				}
+		//public BaseOutputDto BanCustomer(BanCustomerDtoInput input)
+		//{
+		//	try
+		//	{
+		//		CustomerBan ban = new CustomerBan();
+		//		var user = context.Customers.FirstOrDefault(s=>s.CustomerId==input.CustomerId);
+		//		if (user == null)
+		//		{
+		//			return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Customer is not in data ");
+		//		}
 				
 				
-					ban.CustomerId = user.CustomerId;
-					ban.Reason = input.Reason;
-				    ban.CreateDate = DateTime.Now;
-					//user.IsBanned = input.IsBanned;
-					context.Customers.Update(user);
-					context.CustomerBans.Add(ban);
-					context.SaveChanges();
+		//			ban.CustomerId = user.CustomerId;
+		//			ban.Reason = input.Reason;
+		//		    ban.CreateDate = DateTime.Now;
+		//			//user.IsBanned = input.IsBanned;
+		//			context.Customers.Update(user);
+		//			context.CustomerBans.Add(ban);
+		//			context.SaveChanges();
 				
 			
 				
-				var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+		//		var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 				
-				return output;
-			}
-			catch (Exception)
-			{
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
-			}
-		}
-		public ListHistoryBanCustomer ListHistoryCustomer(BanCustomerHistoryDtoInput cusId)
-		{
-			try
-			{
+		//		return output;
+		//	}
+		//	catch (Exception)
+		//	{
+		//		return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+		//	}
+		//}
+		//public ListHistoryBanCustomer ListHistoryCustomer(BanCustomerHistoryDtoInput cusId)
+		//{
+		//	try
+		//	{
 
-				var user = context.CustomerBans.Where(s=>s.CustomerId==cusId.CustomerId).ToList();
+		//		var user = context.CustomerBans.Where(s=>s.CustomerId==cusId.CustomerId).ToList();
 
-				var output = this.Output<ListHistoryBanCustomer>(Constants.ResultCdSuccess);
-				output.data = mapper.Map<List<CustomerBan>, List<BanHistoryCustomerDtoOutput>>(user);
+		//		var output = this.Output<ListHistoryBanCustomer>(Constants.ResultCdSuccess);
+		//		output.data = mapper.Map<List<CustomerBan>, List<BanHistoryCustomerDtoOutput>>(user);
 
 
 
-				return output;
-			}
-			catch (Exception)
-			{
-				return this.Output<ListHistoryBanCustomer>(Constants.ResultCdFail);
-			}
-		}
+		//		return output;
+		//	}
+		//	catch (Exception)
+		//	{
+		//		return this.Output<ListHistoryBanCustomer>(Constants.ResultCdFail);
+		//	}
+		//}
 		public async Task<CustomerMessageDtoOutput> GetCustoemrAsync(string email)
 		{
 			var user = await context.Customers

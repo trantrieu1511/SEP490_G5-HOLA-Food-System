@@ -22,7 +22,7 @@ namespace HFS_BE.DAO.ShipperDao
             // get shipper of shop
             // with condition: not ban and verified
             var data = context.Shippers
-                .Where(s => s.ManageBy.Equals(sellerId) && s.IsVerified == true && s.IsBanned == false)
+                .Where(s => s.ManageBy.Equals(sellerId) && s.IsVerified == true)
                 .Select(s => mapper.Map<Shipper, ShipperInfor>(s))
                 .ToList();
             var output = Output<ShipperInforList>(Constants.ResultCdSuccess);
@@ -67,7 +67,6 @@ namespace HFS_BE.DAO.ShipperDao
 					PhoneNumber=s.PhoneNumber,
 					ManageBy=s.ManageBy,
 					ConfirmedEmail=s.ConfirmedEmail,
-					IsBanned=s.IsBanned,
 					IsVerified=s.IsVerified,
 					Images= context.ProfileImages
 					.Where(pi => pi.UserId == s.ShipperId && pi.IsReplaced == false)
@@ -89,44 +88,44 @@ namespace HFS_BE.DAO.ShipperDao
 			return output;
 		}
 
-		public BaseOutputDto BanShipper(BanShipperDtoInput input)
-		{
-			var validationContext = new ValidationContext(input, serviceProvider: null, items: null);
-			var validationResults = new List<ValidationResult>();
-			bool isValid = Validator.TryValidateObject(input, validationContext, validationResults, validateAllProperties: true);
-			if (!isValid)
-			{
-				string err = "";
-				foreach (var item in validationResults)
-				{
-					err += item.ToString() + " ";
-				}
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
-			}
-			try
-			{
-				ShipperBan ban = new ShipperBan();
-				var user = this.context.Shippers.FirstOrDefault(s => s.ShipperId == input.ShipperId);
-				if (user == null)
-				{
-					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Shipper is not in data ");
-				}
-				ban.ShipperId = user.ShipperId;
-				ban.Reason = input.Reason;
-				user.IsBanned = input.IsBanned;
-				ban.CreateDate = DateTime.Now;
-				context.Shippers.Update(user);
-				context.ShipperBans.Add(ban);
-				context.SaveChanges();
-				var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+		//public BaseOutputDto BanShipper(BanShipperDtoInput input)
+		//{
+		//	var validationContext = new ValidationContext(input, serviceProvider: null, items: null);
+		//	var validationResults = new List<ValidationResult>();
+		//	bool isValid = Validator.TryValidateObject(input, validationContext, validationResults, validateAllProperties: true);
+		//	if (!isValid)
+		//	{
+		//		string err = "";
+		//		foreach (var item in validationResults)
+		//		{
+		//			err += item.ToString() + " ";
+		//		}
+		//		return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
+		//	}
+		//	try
+		//	{
+		//		ShipperBan ban = new ShipperBan();
+		//		var user = this.context.Shippers.FirstOrDefault(s => s.ShipperId == input.ShipperId);
+		//		if (user == null)
+		//		{
+		//			return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Shipper is not in data ");
+		//		}
+		//		ban.ShipperId = user.ShipperId;
+		//		ban.Reason = input.Reason;
+		//		user.IsBanned = input.IsBanned;
+		//		ban.CreateDate = DateTime.Now;
+		//		context.Shippers.Update(user);
+		//		context.ShipperBans.Add(ban);
+		//		context.SaveChanges();
+		//		var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 
-				return output;
-			}
-			catch (Exception)
-			{
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
-			}
-		}
+		//		return output;
+		//	}
+		//	catch (Exception)
+		//	{
+		//		return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+		//	}
+		//}
 
 		public BaseOutputDto ActiveShipper(ActiveShipperDtoInput input)
 		{
@@ -150,25 +149,25 @@ namespace HFS_BE.DAO.ShipperDao
 			}
 		}
 
-		public ListHistoryBanShipper ListHistoryShipper(BanShipperHistoryDtoInput Id)
-		{
-			try
-			{
+		//public ListHistoryBanShipper ListHistoryShipper(BanShipperHistoryDtoInput Id)
+		//{
+		//	try
+		//	{
 
-				var user = this.context.ShipperBans.Where(s => s.ShipperId == Id.ShipperId).ToList();
+		//		var user = this.context.ShipperBans.Where(s => s.ShipperId == Id.ShipperId).ToList();
 
-				var output = this.Output<ListHistoryBanShipper>(Constants.ResultCdSuccess);
-				output.data = mapper.Map<List<ShipperBan>, List<BanHistoryShipperDtoOutput>>(user);
+		//		var output = this.Output<ListHistoryBanShipper>(Constants.ResultCdSuccess);
+		//		output.data = mapper.Map<List<ShipperBan>, List<BanHistoryShipperDtoOutput>>(user);
 
 
 
-				return output;
-			}
-			catch (Exception)
-			{
-				return this.Output<ListHistoryBanShipper>(Constants.ResultCdFail);
-			}
-		}
+		//		return output;
+		//	}
+		//	catch (Exception)
+		//	{
+		//		return this.Output<ListHistoryBanShipper>(Constants.ResultCdFail);
+		//	}
+		//}
 
 
 		public BaseOutputDto InvitationShipper(InvitationShipperEmailDtoInput input)//bên seller gửi lời mời đến shipper
@@ -188,7 +187,7 @@ namespace HFS_BE.DAO.ShipperDao
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
 				}
 				var data = context.Shippers.FirstOrDefault(s => s.Email == input.Email);
-				var datacheckis = context.Shippers.FirstOrDefault(s => s.Email == input.Email && s.IsBanned == false && s.IsVerified == true);
+				var datacheckis = context.Shippers.FirstOrDefault(s => s.Email == input.Email && s.IsVerified == true);
 
 				var datainv = context.Invitations.Include(s => s.Shipper).FirstOrDefault(s => s.Shipper.Email == input.Email && s.SellerId == input.SellerId && s.Accepted == 0);
 				if (data.ManageBy != null)
