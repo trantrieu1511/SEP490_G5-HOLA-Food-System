@@ -39,6 +39,7 @@ namespace HFS_BE.Dao.FoodDao
         public string? Description { get; set; }
         public int? CategoryId { get; set; }
         public string? CategoryName { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public List<FoodImage> Images { get; set; }
         public virtual List<Feedback> Feedbacks { get; set; }
         public string? Status { get; set; }

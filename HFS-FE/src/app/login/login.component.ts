@@ -317,7 +317,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
 
   checkLoggedIn(){
     const user = this.authService.getUserInfor();
-    if(user == null)
+    if(!user)
       return;
     const role = this.authService.getUserInfor().role;
 
@@ -325,7 +325,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
   }
 
   redirectToPageByRole(role: string){
-    switch (this.user.role) {
+    switch (role) {
       case 'CU':
         this.router.navigate(['/homepage']);
         break;

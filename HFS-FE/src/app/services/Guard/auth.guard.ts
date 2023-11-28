@@ -22,6 +22,7 @@ export const authGuard: CanActivateFn = async (route, state) => {
     const isRefreshSuccess = await jwtService.tryRefreshingTokens(); 
     if (!isRefreshSuccess) { 
       router.navigate(['/login']);
+      window.location.reload();
       return false;
     }
   }

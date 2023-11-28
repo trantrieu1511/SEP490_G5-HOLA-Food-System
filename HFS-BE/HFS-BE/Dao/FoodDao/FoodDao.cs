@@ -121,7 +121,8 @@ namespace HFS_BE.Dao.FoodDao
                     UnitPrice = inputDto.UnitPrice,
                     Description = inputDto.Description,
                     CategoryId = inputDto.CategoryId,
-                    Status = 0
+                    Status = 0,
+                    CreateDate = DateTime.Now
                 };
                 context.Add(food);
                 context.SaveChanges();
@@ -163,9 +164,11 @@ namespace HFS_BE.Dao.FoodDao
                                             CategoryId = p.CategoryId,
                                             CategoryName = p.Category.Name,
                                             Status = PostMenuStatusEnum.GetStatusString(p.Status),
+                                            CreatedDate = p.CreateDate,
                                             Images = p.FoodImages.ToList(),
                                             Feedbacks = p.Feedbacks.ToList(),
                                         })
+                                        .OrderBy(p => p.CreatedDate)
                                         .ToList();
                 var output = this.Output<ListFoodOutputSellerDto>(Constants.ResultCdSuccess);
                 output.Foods = foodsModel;

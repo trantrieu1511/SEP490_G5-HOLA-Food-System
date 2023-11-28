@@ -23,6 +23,7 @@ namespace HFS_BE.Dao.ShopDao
     {
         public int? TotalFood { get; set; }
         public decimal? AverageStar { get; set; }
+        public int? NumberOrdered { get; set; }
         public string? CreateDate { get; set; }
         public string ShopId { get; set; }
         public long? PhoneNumber { get; set; }  
@@ -30,5 +31,6 @@ namespace HFS_BE.Dao.ShopDao
         public string? ShopName { get; set; }
         public string? ShopAddress { get; set; }
         public bool IsOnline { get; set; }
+        public int NumberOrdered { get; set; }
     }
 }

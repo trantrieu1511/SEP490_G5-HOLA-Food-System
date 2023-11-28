@@ -30,11 +30,15 @@ namespace HFS_BE.Controllers.ManagePostReport
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Please login as a post moderator before executing this API.");
                 }
                 var business = GetBusinessLogic<ApproveNotApprovePostReportBusinessLogic>();
-                var output = business.ApproveNotApprovePostReport(inputDto, GetUserInfor().UserId);
+
+                string? sellerId;
+                var output = business.ApproveNotApprovePostReport(inputDto, GetUserInfor().UserId,out sellerId);
                 if (output.Success)
                 {
                     var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
                     await notifyHub.Clients.Group(inputDto.ReportBy).SendAsync("notification");
+
+                    await notifyHub.Clients.Group(sellerId).SendAsync("notification");
                 }
                 return output;
             }

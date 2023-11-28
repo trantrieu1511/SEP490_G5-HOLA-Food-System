@@ -106,7 +106,8 @@ export class MyHttpInterceptor implements HttpInterceptor {
       if (!refreshToken) {
         localStorage.removeItem('user');
         this.router.navigate(['/login']);
-
+        window.location.reload();
+        
         return of(err.message);
 
       }
@@ -132,6 +133,7 @@ export class MyHttpInterceptor implements HttpInterceptor {
           ).subscribe({
             next: (a: any) => {
               this.router.navigate(['/login']);
+              window.location.reload();
               localStorage.removeItem('user');
               return throwError(err);
             }

@@ -16,8 +16,9 @@ namespace HFS_BE.BusinessLogic.ManagePostReport
         {
         }
 
-        public BaseOutputDto ApproveNotApprovePostReport(ApproveNotApprovePostReportInputDto inputDto, string updateBy)
+        public BaseOutputDto ApproveNotApprovePostReport(ApproveNotApprovePostReportInputDto inputDto, string updateBy, out string? sellerId)
         {
+            sellerId = null;
             try
             {
                 var dao = CreateDao<PostReportDao>();
@@ -38,6 +39,16 @@ namespace HFS_BE.BusinessLogic.ManagePostReport
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail);
                 }
+
+                // add post for seller
+               /* sellerId = post.SellerId;
+                var notify2 = GenerateNotification.GetSingleton().GenNotificationPostReportSeller(post.SellerId, inputDto.PostId, inputDto.ReportContent);
+                var noti2 = notifyDao.AddNewNotification(notify2);
+
+                if (!noti2.Success)
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                }*/
 
                 return Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }

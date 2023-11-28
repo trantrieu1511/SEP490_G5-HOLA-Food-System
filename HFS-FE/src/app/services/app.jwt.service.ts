@@ -40,10 +40,10 @@ export class JwtService {
     }
   
     saveTokenResponse(res: LoginDto){
-      console.log(res);
       const exp = this.getExpirationDate(res.token);
+      console.log(exp + ':' + new Date(res.refreshToken.expired))
       this.iFunction.setCookie('token', res.token, exp)
-      this.iFunction.setCookie('refreshToken', res.refreshToken.token, res.refreshToken.expired)
+      this.iFunction.setCookie('refreshToken', res.refreshToken.token, new Date(res.refreshToken.expired))
     }
   
     async tryRefreshingTokens() {
