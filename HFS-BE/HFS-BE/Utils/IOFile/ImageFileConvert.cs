@@ -72,6 +72,8 @@
                     return "profile";
 				case 4:
 					return "feedback";
+				case 5:
+					return "reportseller";
 				default:
                     return "";
             }

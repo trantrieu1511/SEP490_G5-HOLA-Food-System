@@ -609,21 +609,22 @@ CREATE TABLE [dbo].[ShipperReport](
 	FOREIGN KEY([shipperId]) REFERENCES [dbo].[Shipper] ([shipperId]),
 	);
 
-	CREATE TABLE [dbo].[ShipperReport](
-	[shipperId] [nvarchar](50) NOT NULL,
-	[reportBy] [nvarchar](50) NOT NULL,
-	[reportContent] [nvarchar](max) NOT NULL,
-	[createDate] [datetime] NOT NULL,
-	[updateDate] [datetime] NULL,
-	[updateBy] [nvarchar](50) NULL,
-	[status] [tinyint] NOT NULL, -- 0: Pending: KH moi tao report, post mod chua xu ly report, 1: Approved - Post mod chap nhan to cao va da xu ly xong bai viet bi to cao, 2: NotApproved: Post mod khong chap nhan report (Co le do nguoi report k neu ra duoc noi dung to cao mot cach nghiem tuc)
-	[note] [nvarchar](MAX) NULL,
-	FOREIGN KEY([reportBy]) REFERENCES [dbo].[Seller] ([sellerId]),
-	FOREIGN KEY([updateBy]) REFERENCES [dbo].[Admin] ([adminId]),
-	FOREIGN KEY([shipperId]) REFERENCES [dbo].[Shipper] ([shipperId]),
-	);
+	--CREATE TABLE [dbo].[ShipperReport](
+	--[shipperId] [nvarchar](50) NOT NULL,
+	--[reportBy] [nvarchar](50) NOT NULL,
+	--[reportContent] [nvarchar](max) NOT NULL,
+	--[createDate] [datetime] NOT NULL,
+	--[updateDate] [datetime] NULL,
+	--[updateBy] [nvarchar](50) NULL,
+	--[status] [tinyint] NOT NULL, -- 0: Pending: KH moi tao report, post mod chua xu ly report, 1: Approved - Post mod chap nhan to cao va da xu ly xong bai viet bi to cao, 2: NotApproved: Post mod khong chap nhan report (Co le do nguoi report k neu ra duoc noi dung to cao mot cach nghiem tuc)
+	--[note] [nvarchar](MAX) NULL,
+	--FOREIGN KEY([reportBy]) REFERENCES [dbo].[Seller] ([sellerId]),
+	--FOREIGN KEY([updateBy]) REFERENCES [dbo].[Admin] ([adminId]),
+	--FOREIGN KEY([shipperId]) REFERENCES [dbo].[Shipper] ([shipperId]),
+	--);
 
 	CREATE TABLE [dbo].[SellerReport](
+	[sellerReportId] [int] IDENTITY(1,1) NOT NULL  PRIMARY KEY,
 	[sellerId] [nvarchar](50) NOT NULL,
 	[reportBy] [nvarchar](50) NOT NULL,
 	[reportContent] [nvarchar](max) NOT NULL,
@@ -636,3 +637,10 @@ CREATE TABLE [dbo].[ShipperReport](
 	FOREIGN KEY([updateBy]) REFERENCES [dbo].[Admin] ([adminId]),
 	FOREIGN KEY([sellerId]) REFERENCES [dbo].[Seller] ([sellerId]),
 	);
+
+	CREATE TABLE [dbo].[SellerReportImage](
+	[imageSellerReportId] [int] IDENTITY(1,1) NOT NULL  PRIMARY KEY,
+	[sellerReportId] [int] NULL,
+	[path] [nvarchar](max) NULL,
+	FOREIGN KEY([sellerReportId]) REFERENCES [dbo].[SellerReport] ([sellerReportId]),
+)

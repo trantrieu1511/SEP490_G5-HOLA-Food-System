@@ -18,6 +18,7 @@ namespace HFS_BE.Models
             OrderProgresses = new HashSet<OrderProgress>();
             Orders = new HashSet<Order>();
             PostReports = new HashSet<PostReport>();
+            SellerReports = new HashSet<SellerReport>();
             ShipAddresses = new HashSet<ShipAddress>();
         }
 
@@ -48,6 +49,7 @@ namespace HFS_BE.Models
         public virtual ICollection<OrderProgress> OrderProgresses { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<PostReport> PostReports { get; set; }
+        public virtual ICollection<SellerReport> SellerReports { get; set; }
         public virtual ICollection<ShipAddress> ShipAddresses { get; set; }
     }
 }

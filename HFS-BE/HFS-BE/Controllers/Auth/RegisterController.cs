@@ -28,13 +28,13 @@ namespace HFS_BE.Controllers.Auth
 			}
 		}
 		[HttpPost("home/registerseller")]
-		public BaseOutputDto RegisterSeller(RegisterSellerInputDto inputDto)
+		public async Task<BaseOutputDto> RegisterSeller(RegisterSellerInputDto inputDto)
 		{
 			try
 			{
 				var business = this.GetBusinessLogic<RegisterBusinessLogic>();
 
-				return business.RegisterSeller(inputDto);
+				return await business.RegisterSeller(inputDto);
 			}
 			catch (Exception ex)
 			{
@@ -42,13 +42,13 @@ namespace HFS_BE.Controllers.Auth
 			}
 		}
 		[HttpPost("home/registershipper")]
-		public BaseOutputDto RegisterShipper(RegisterInputDto inputDto)
+		public async Task<BaseOutputDto> RegisterShipper(RegisterInputDto inputDto)
 		{
 			try
 			{
 				var business = this.GetBusinessLogic<RegisterBusinessLogic>();
 
-				return business.RegisterShipper(inputDto);
+				return await business.RegisterShipper(inputDto);
 			}
 			catch (Exception ex)
 			{
