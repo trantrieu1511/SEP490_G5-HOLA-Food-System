@@ -209,10 +209,10 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
       }
     });
     // rpContent += ", " + this.postReport.reportContent;
-    debugger
+   // debugger
     this.sellerReport.reportContent = rpContent;
     console.log("Full rp content: " + this.sellerReport.reportContent);
-    debugger
+   // debugger
     // ------------------ Commit vao db --------------------
     try {
      this.sellerReport.images=this.uploadedFiles;
@@ -228,7 +228,7 @@ this.uploadedFiles.forEach(file => {
 //   param.append(key, this.sellerReport[key]);
 // });
 
-    debugger
+   // debugger
       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.REPORT_SELLER, param22);
       if (response && response.success === true) {
         this.showMessage(mType.success, "Notification", `Report the food successfully`, 'notify');
@@ -237,9 +237,9 @@ this.uploadedFiles.forEach(file => {
       }
       else {
         // this.showMessage(mType.warn, "Error", this.iServiceBase.formatMessageError(response.message), 'notify');
-        this.showMessage(mType.warn, "Error", "Internal server error, please contact for admin help!", 'notify');
-        console.log(response);
-        console.log('Internal server error, please contact for admin help!');
+        this.showMessage(mType.warn, "Error", response.message, 'notify');
+        // console.log(response);
+        // console.log('Internal server error, please contact for admin help!');
       }
       this.loading = false;
       //this.checkUsersReportPostCapability();

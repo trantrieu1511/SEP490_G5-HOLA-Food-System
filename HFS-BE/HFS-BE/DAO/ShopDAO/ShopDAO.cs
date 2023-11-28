@@ -152,7 +152,7 @@ namespace HFS_BE.Dao.ShopDao
                     }
 
                     outputDto.AverageStar = Math.Round(star, MidpointRounding.AwayFromZero);
-                    outputDto.NumberOrdered = ordered;
+                  //  outputDto.NumberOrdered = ordered;
                     outputDto.TotalFood = output.Foods.Where(x => x.SellerId.Equals(inputDto.ShopId) && x.Status == 1).Count();
                 }
 

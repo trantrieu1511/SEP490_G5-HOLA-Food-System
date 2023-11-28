@@ -31,7 +31,7 @@ namespace HFS_BE.BusinessLogic.SellerReportBL
 
 				var output = report.CreateReportSeller(inputMapper);
 				if (!output.Success)
-					return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Add Failed");
+					return Output<BaseOutputDto>(Constants.ResultCdFail,output.Message);
 
 
 				return Output<BaseOutputDto>(Constants.ResultCdSuccess);
@@ -101,12 +101,12 @@ namespace HFS_BE.BusinessLogic.SellerReportBL
 				return Output<ListSellerReportOutputDtoBL>(Constants.ResultCdFail);
 			}
 		}
-		public ListSellerReportByCustomerOutputDtoBL GetAllSellerReportByCustomer()
+		public ListSellerReportByCustomerOutputDtoBL GetAllSellerReportByCustomer(SellerReportByCustomerInputDto inputDto)
 		{
 			try
 			{
 				var report = CreateDao<SellerReportDao>();
-				var daooutput = report.GetAllSellerReport();
+				var daooutput = report.GetAllSellerReportByCustomer(inputDto);
 				var outputBL = mapper.Map<ListSellerReportOutputDto, ListSellerReportByCustomerOutputDtoBL>(daooutput);//
 				foreach (var p in daooutput.data)
 				{

@@ -41,19 +41,19 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
   ngOnInit(): void {
     this.user = this.authSerivce.getUserInfor();
     this.getAllShipper();
-    debugger
+    //debugger
    // this.user = this.authSerivce.getUserInfor();
   }
 
 
   async getAllShipper() {
     this.lstShipper = [];
-    debugger
+  //  debugger
   const param = {
    // "manageBy": sessionStorage.getItem('userId'),
     "manageBy": this.user.userId
   }
-  debugger
+//  debugger
     try {
 
 
@@ -89,7 +89,7 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
       "sellerId": this.user.userId,
       "shipperId": user.shipperId
     }
-    debugger
+    //debugger
     try {
 
 
@@ -112,11 +112,11 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
   onInvitation(){
     this.headerDialog = 'List Invitation';
     this.displayDialogAdd = true;
-    debugger
+   // debugger
     this.getInvitation();
   }
   async getInvitation() {
-    debugger
+   // debugger
     this.listinvitation = [];
     const param= {
       //"manageBy": sessionStorage.getItem('userId'),

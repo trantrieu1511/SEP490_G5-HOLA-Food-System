@@ -177,7 +177,7 @@ export class OrderhistoryComponent
   }
 
   onRate(food: OrderDetailFoodDto, event) {
-    debugger
+
     this.rateInput = new RateInput();
     this.rateInput.foodId = food.foodId;
     this.rateInput.star = 5;

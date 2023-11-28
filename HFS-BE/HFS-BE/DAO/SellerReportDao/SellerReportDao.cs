@@ -18,6 +18,11 @@ namespace HFS_BE.DAO.SellerReportDao
 		{
 			try
 			{
+				var datacheck = context.SellerReports.FirstOrDefault(s => s.SellerId == inputDto.SellerId && s.Status == 0);
+					
+					if(datacheck!=null){
+					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Please do not spam, we have received your report information, please wait for the administrator to respond to your report");
+				}
 				var report = new SellerReport()
 				{
 					SellerId = inputDto.SellerId,
@@ -101,6 +106,7 @@ namespace HFS_BE.DAO.SellerReportDao
 											UpdateBy = p.UpdateBy,
 											UpdateDate = p.UpdateDate,
 											SellerName = p.Seller.FirstName + " " + p.Seller.LastName,
+											ShopName = p.Seller.ShopName,
 											ReportByName = p.ReportByNavigation.FirstName + " " + p.ReportByNavigation.LastName,
 											Images = p.SellerReportImages.ToList()
 										}).OrderByDescending(s => s.CreateDate)

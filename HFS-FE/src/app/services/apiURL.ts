@@ -56,6 +56,7 @@ export class API_USER {
     public static FEEDBACK_SELLER = "sellerFeedBack";
     public static REPLY_SELLER = "replyfeedback";
      public static REPORT_SELLER = "reportseller";
+     public static REPORT_SELLERCUS = "listreportsellerbyCustomer";
 }
 
 // Service Role

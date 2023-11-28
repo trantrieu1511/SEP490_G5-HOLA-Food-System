@@ -1,0 +1,181 @@
+<div class="page-content">
+  <div class="card sidebar" *ngIf="this.authService.getUserInfor().role == 'CU'">
+      <!-- <a id="profile-option" class="report-sidebar-option" href="#" (click)="this.router.navigateByUrl('/profile');"
+          onclick="event.preventDefault();">Profile</a>
+      <div class="dash-line"></div>
+      <a id="myorder-option" class="report-sidebar-option" href="#" onclick="event.preventDefault();">Order</a>
+      <div class="dash-line"></div>
+      <a id="shipaddress-option" class="report-sidebar-option" (click)="this.router.navigateByUrl('/shipaddress')"
+          href="#" onclick="event.preventDefault();">Ship address</a>
+      <div class="dash-line"></div>
+      <a id="postreport-option" class="report-sidebar-option" href="#"
+          (click)="this.router.navigateByUrl('/postreport');" onclick="event.preventDefault();">Post
+          report
+      </a>
+      <div class="dash-line"></div>
+      <a id="menureport-option" class="report-sidebar-option-selected" href="#" onclick="event.preventDefault();">Menu
+          report
+      </a> -->
+      <!-- <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">Profile</button><hr>
+      <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">MyOrder</button> -->
+      <!-- <app-menu-myaccount></app-menu-myaccount> -->
+
+  </div>
+
+  <div class="card main-body">
+      <h2>Seller report</h2>
+      <p-table #dt [value]="lstReport" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+          [rows]="10" [showCurrentPageReport]="true" [paginator]="lstReport.length > 5" [filterDelay]="0"
+          [rowsPerPageOptions]="[5,10,25,50]" currentPageReportTemplate="Total: {totalRecords} food reports"
+          [globalFilterFields]="['reportContent']" responsiveLayout="scroll" [loading]="loading">
+          <ng-template pTemplate="caption">
+              <div class="flex flex-row align-items-center flex-wrap justify-content-between ">
+                  <div class="flex-1">
+                      <span class="p-input-icon-left">
+                          <i class="pi pi-search"></i>
+                          <input pInputText type="text" #textInput
+                              (input)="dt.filterGlobal(textInput.value, 'contains')"
+                              placeholder="Search by report content" />
+                      </span>
+                  </div>
+              </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+              <tr>
+                  <th pSortableColumn="reportContent">
+                      <div class="flex justify-content-between align-items-center">
+                          Report Content
+                          <p-sortIcon field="reportContent"></p-sortIcon>
+                          <p-columnFilter type="text" field="reportContent" display="menu"
+                              class="ml-auto"></p-columnFilter>
+                      </div>
+                  </th>
+                  <!-- <th style="min-width: 8rem">
+                      <div class="flex justify-content-between align-items-center">
+                          Action
+                      </div>
+                  </th> -->
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rp>
+              <tr class="p-selectable-row">
+                  <td (click)="viewContentDetail(rp)">
+                      <div id="reportcontent-data">
+                          {{rp.reportContent}}
+                      </div>
+                      <!-- <span class="p-column-title">Report Content</span>
+                      <p class="report-content" (click)="viewContentDetail(foodrp)">{{foodrp.reportContent}}</p> -->
+                  </td>
+                  <!-- <td style="text-align: center">
+                      <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+
+                          <div class="flex align-items-center justify-content-center">
+                              <button pButton pRipple icon="pi pi-times" (click)="openCancelModal(foodrp)"
+                                  class="p-button-rounded p-mr-2"></button>
+                          </div>
+                      </div>
+                  </td> -->
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+              <tr>
+                  <td colspan="8">No seller report yet.</td>
+              </tr>
+          </ng-template>
+      </p-table>
+  </div>
+</div>
+
+<p-dialog header="Report detail" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true"
+  [modal]="true">
+  <!-- <p class="dialog-content-detail">
+      {{contentDialog.reportContent}}
+  </p> -->
+  <table class="table-report-detail">
+      <tbody>
+          <tr>
+              <th>You created this report on: </th>
+              <td>
+                  {{contentDialog.createDate}}
+              </td>
+          </tr>
+          <tr>
+              <th>Your report content: </th>
+              <td>
+                  {{contentDialog.reportContent}}
+              </td>
+          </tr>
+          <tr>
+              <th>Name of the shop: </th>
+              <td>
+                  {{contentDialog.shopName}}
+              </td>
+          </tr>
+          <tr>
+
+          </tr>
+          <tr>
+              <th>Current report status: </th>
+              <td>
+                <div *ngIf="contentDialog.status===0" style="color:darkgray;">
+                  <span class="post-content">Pending</span>
+                 </div>
+                 <div *ngIf="contentDialog.status===1"  style="color:chartreuse;">
+                  Solved
+                 </div>
+                 <div *ngIf="contentDialog.status===2"  style="color:red;">
+                  Reject
+                 </div>
+              </td>
+          </tr>
+          <tr>
+              <th>Reply: </th>
+              <td>
+                  {{contentDialog.note}}
+              </td>
+          </tr>
+          <tr>
+            <th>Proof: </th>
+            <td>
+
+                <button pButton pRipple icon="pi pi-images"
+                        (click)="onDisplayImagesDialog(contentDialog, $event)"
+                        class="p-button-rounded p-button-text p-button-raised"></button>
+
+
+            </td>
+        </tr>
+      </tbody>
+  </table>
+</p-dialog>
+<p-dialog header="List Image"
+    [(visible)]="visibleImageDialog"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    [maximizable]="true"
+    >
+    <p-table [value]="reportImg.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Size</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-image>
+            <tr >
+                <td>{{image.imageId}}</td>
+                <td><p-image src="data:image/gif;base64,{{image.imageBase64}}" [preview]="true"
+                    [alt]="image.imageId" class="dialogimages_image w-10rem shadow-2"
+                    ></p-image></td>
+                <td>{{image.name}}</td>
+                <td>{{image.size}} KB</td>
+
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>

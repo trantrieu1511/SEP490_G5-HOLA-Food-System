@@ -49,7 +49,24 @@ namespace HFS_BE.Controllers.ReportSeller
 				throw;
 			}
 		}
+		[HttpPost("users/listreportsellerbyCustomer")]
 
+		public ListSellerReportByCustomerOutputDtoBL ListSellerReportbyCustomer()
+		{
+			try
+			{
+
+				var business = this.GetBusinessLogic<SellerReportBL>();
+				SellerReportByCustomerInputDto inputDto = new SellerReportByCustomerInputDto();
+				inputDto.ReportBy = GetUserInfor().UserId;
+				var output = business.GetAllSellerReportByCustomer(inputDto);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
 		[HttpPost("users/updatereportseller")]
 
 		public BaseOutputDto UpdateSellerReport(SellerReportByAdminInputDto inputDto)

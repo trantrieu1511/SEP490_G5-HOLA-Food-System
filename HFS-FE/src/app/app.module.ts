@@ -71,6 +71,8 @@ import { ListFeedbackBySellerComponent } from './modules/seller-routing-module/c
 import { AppMenuMyaccountComponent } from './app-systems/app-menu/myaccount/app-menu-myaccount.component';
 import { DashboadShipperModuleComponent } from './modules/shipper-routing-module/components/dashboad-shipper-module/dashboad-shipper-module.component';
 import { SellerReportModuleComponent } from './modules/admin-routing-module/seller-report-module/seller-report-module.component';
+import { ReportSellerComponent } from './modules/customer-routing-module/components/report-seller/report-seller.component';
+import { AddressSelectorComponent } from './modules/customer-routing-module/address-selector/address-selector.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +113,8 @@ import { SellerReportModuleComponent } from './modules/admin-routing-module/sell
     DashboadAdminModuleComponent,
     DashboadShipperModuleComponent,
     SellerReportModuleComponent,
+    ReportSellerComponent,
+    AddressSelectorComponent,
     //ListFeedbackBySellerComponent,
   ],
   imports: [
