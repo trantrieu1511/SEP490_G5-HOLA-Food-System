@@ -1,4 +1,6 @@
 :host ::ng-deep {
+	
+
 	.custom-rating .ui-rating-star:not(.ui-rating-star-on):before {
 		content: '\2605';
 		position: absolute;
@@ -16,10 +18,6 @@
 		&:hover{
             cursor: pointer;
         }
-	}
-
-	.product-description {
-		margin: 0 0 1rem 0;
 	}
 
 	.product-category-icon {
@@ -88,17 +86,111 @@
 		img {
 			width: 75%;
 			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-			margin: 2rem 0;
 		}
 
 		.product-grid-item-content {
 			text-align: center;
+
+			.food-images{
+				
+			}
 		}
 
 		.product-price {
 			font-size: 1.5rem;
 			font-weight: 600;
 		}
+	}
+
+	.p-carousel-items-container{
+		.p-carousel-item{
+			.product-content{
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				flex-grow: 1;
+
+				.product-top{
+					
+					/* card-bottom cố định -> grow để chiếm hết phần còn lại */
+					flex-grow: 1;
+
+					img{
+						height: 8rem;
+						width: 65%;
+						object-fit: cover;
+					}
+				}
+
+				.product-bottom{
+					flex-shrink: 0; 
+				}
+
+			}
+		}
+	}
+
+	.card-product_top{
+		display: flex;
+		padding: 0.5rem 0;
+
+		.shop-avatar{
+			padding: 0 0.8rem 0.8rem 0.8rem;
+
+			img{
+				height: 5rem;
+				width: 3rem;
+				border-radius: 10%;
+				object-fit: cover;
+				margin: 0;
+			}
+		}
+
+		.shop-infor{
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+			padding-left: 1rem;
+
+			.shop-name{
+				display:-webkit-box;
+				margin-bottom: 0.5rem;
+				-webkit-line-clamp:1;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				word-break: break-word;
+			}
+
+			.p-icon {
+				width: 0.8rem;
+				height: 0.8rem;
+			}
+
+			.shop-address{
+				display: flex;
+				align-items: center;
+				.shop-address_content{
+					display:-webkit-box;
+					-webkit-line-clamp:2 ;
+					-webkit-box-orient: vertical;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					word-break: break-word;
+				}
+			}
+		}
+	}
+
+	@media screen and (max-width: 768.01px) {
+		.p-dropdown {
+			width: 100%;
+		}
+
+		.a-input_search{
+			width: 100%;
+		}
+
 	}
 }
 

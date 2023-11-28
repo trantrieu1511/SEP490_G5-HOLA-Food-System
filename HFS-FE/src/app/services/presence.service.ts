@@ -49,7 +49,7 @@ export class PresenceService {
       this.hubConnection
       .start()
       .then(() => {
-        console.log('Kết nối SignalR thành công');
+        //console.log('Kết nối SignalR thành công');
         // Thực hiện các thao tác khác sau khi kết nối thành công
       })
       .catch(error => console.log('Lỗi khi kết nối SignalR: ' + error));
@@ -64,7 +64,7 @@ export class PresenceService {
         this.onlineUserscus$.pipe(take(1)).subscribe(usernames => {
           this.onlineUsersSourcecus.next([...usernames, username])
         })
-        console.log(username.lastName+ ' has connect')
+        //console.log(username.lastName+ ' has connect')
       })
       this.hubConnection.on('UserIsOffline', (username: SellerMessage) => {
         this.onlineUserscus$.pipe(take(1)).subscribe(usernames => {
@@ -75,12 +75,12 @@ export class PresenceService {
           this.offlineUsersSourcecus.next([...usernames,username])
 
         })
-        console.log(username + ' disconnect')
+        //console.log(username + ' disconnect')
       })
 
       this.hubConnection.on('ListCus', (cus: CustomerMessage[]) => {
         this.listcusbysellerSource.next(cus);
-        console.log(cus)
+       //console.log(cus)
 
         })
         this.hubConnection.on('notIsReadCustomer', (countmess: number,emailcus:string) => {
@@ -148,7 +148,7 @@ export class PresenceService {
 
         this.onlineUsersSource.next(onlineUsers);
         this.offlineUsersSource.next(offlineUsers);
-        console.log(offlineUsers)
+        //console.log(offlineUsers)
       });
       this.hubConnection.on('GetOnlineAndOfflineUsersCUS', (onlineUsers: SellerMessage[], offlineUsers: SellerMessage[]) => {
         // Xử lý danh sách người dùng trực tuyến (onlineUsers) và người dùng offline (offlineUsers) ở đây

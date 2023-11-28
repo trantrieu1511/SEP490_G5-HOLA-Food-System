@@ -93,8 +93,8 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.PROFILEIMAGE, API.API_PROFILEIMAGE.GET_PROFILEIMAGE);
 
       if (response && response.message === 'Success') {
-        console.log(response);
-        console.log(response.profileImage);
+        //console.log(response);
+        //console.log(response.profileImage);
         this.profileImage = response.profileImage;
       }
     } catch (e) {

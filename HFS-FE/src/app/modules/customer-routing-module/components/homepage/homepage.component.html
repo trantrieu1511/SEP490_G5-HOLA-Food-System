@@ -15,19 +15,20 @@
         <h5>Hot food</h5>
         <p-carousel [value]="hotfoods" [numVisible]="3" [numScroll]="3" [circular]="true"
             [responsiveOptions]="carouselResponsiveOptions"
-            [autoplayInterval]="3000"
+            
             >
+            <!-- [autoplayInterval]="3000" -->
             <ng-template let-product pTemplate="item">
-                <div class="border-round m-2 text-center p-2" style="border: 1px solid var(--surface-d)">
-                    <div class="my-5">
+                <div class="border-round m-2 text-center p-2 product-content" style="border: 1px solid var(--surface-d)">
+                    <div class="my-5 product-top">
                         <img [src]="'data:image/png;base64,' + product.foodImages[0].imageBase64" [alt]="product.name" (click)="onFoodDetail(product.foodId)"
-                            class="shadow-4" width="50%" />
+                            class="shadow-4" />
                     </div>
-                    <div>
+                    <div class="product-bottom">
                         <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>
                         <div class="product-description">Ordered: {{product.numberOrdered}}</div>
                         <h5 class="mb-1" (click)="onFoodDetail(product.foodId)">{{product.name}}</h5>
-                        <h6 class="mt-0 mb-3">${{product.unitPrice}}</h6>
+                        <h6 class="mt-0 mb-3">{{product.unitPrice | currency : "VND" }}</h6>
                         <div class="my-5">
                             <button pButton pRipple icon="pi pi-search" class="mr-2 p-button-rounded" (click)="onFoodDetail(product.foodId)"></button>
                             <button pButton pRipple icon="pi pi-shopping-cart" class="mr-2 p-button-rounded" (click)="onAddToCart(product.foodId)"></button>
@@ -45,33 +46,57 @@
             [sortOrder]="sortOrder" layout="grid">
             <ng-template pTemplate="header">
                 <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
-                    <p-dropdown [options]="sortOptions" placeholder="Sort By Price"
+                    <p-dropdown class="w-full " [options]="sortOptions" placeholder="Sort By Price"
                         (onChange)="onSortChange($event)"></p-dropdown>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
-                        <input type="search" pInputText placeholder="Search by Name" (input)="onFilter(dv, $event)">
+                        <input class="a-input_search" type="search" pInputText placeholder="Search by Name" (input)="onFilter(dv, $event)">
                     </span>
                 </div>
             </ng-template>
-            <ng-template let-product pTemplate="gridItem">
-                <div class="col-12 md:col-4">
+            <ng-template let-shop pTemplate="gridItem">
+                <div class="col-12 md:col-6 xl:col-4">
                     <div class="product-grid-item card">
                         <div class="product-grid-item-top">
-                            <div>
-                                <i class="pi pi-tag product-category-icon"></i>
-                                <span class="product-category">{{product.shopName}}</span>
+                            <div class="card-product_top">
+                                <div class="shop-avatar">
+                                    <img *ngIf="shop.avatar;else noAvatar" [src]="'data:image/png;base64,' + shop.avatar" [alt]="shop.name" />
+                                    <ng-template #noAvatar>
+                                        <img src="../../../../../assets/image/user.png" [alt]="shop.name" />
+                                    </ng-template>
+                                </div>
+                                <div class="shop-infor">
+                                    <h5 class="shop-name">{{shop.shopName}}</h5>
+                                    <p-rating [ngModel]="shop.star" [readonly]="true" [cancel]="false"></p-rating>
+                                    <span class="product-description">Number Ordered: {{shop.numberOrdered}}</span>
+                                    <div class="shop-address">
+                                        <i class="text-sm pi pi-building"
+                                            style="margin-right: 0.3rem; color: #212121; margin-top: 0.2rem;"
+                                        ></i>
+                                        <span class="shop-address_content"> {{shop.shopAddress}} </span>
+                                    </div>
+                                </div>
                             </div>
                             <!-- <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
                         </div>
                         <div class="product-grid-item-content">
-                            <img [src]="'data:image/png;base64,' + product.avatar" [alt]="product.name" />
-                            <div class="product-name" (click)="onShopDetail(product)">{{product.shopName}}</div>
-                            <div class="product-description">Ordered: {{product.numberOrdered}}</div>
-                            <p-rating [ngModel]="product.star" [readonly]="true" [cancel]="false"></p-rating>
+                            <div class="food-images" >
+                                <ng-container *ngFor="let food of shop.foodImages; index as i" >
+                                    <div [ngClass]="'food-image' + i">
+                                        <img [src]="'data:image/png;base64,' + food" [alt]="shop.name" />
+                                    </div>
+                                </ng-container>
+                            </div>
                         </div>
                         <div class="product-grid-item-bottom">
-                            <span class="product-price">Address: {{product.shopAddress}}</span>
-                            <p-button icon="pi pi-search" (onClick)="onShopDetail(product)"></p-button>
+                            <div class="flex align-items-center justify-content-center mb-1">
+                                <a class="text-sm font-bold link-btn"
+                                (onClick)="onShopDetail(shop)"
+                                >View detail of shop</a>
+                                <i class="text-sm pi pi-chevron-right"
+                                    style="margin-left: 0.3rem; color: #212121; margin-top: 0.2rem;"
+                                ></i>
+                            </div>
                         </div>
                     </div>
                 </div>

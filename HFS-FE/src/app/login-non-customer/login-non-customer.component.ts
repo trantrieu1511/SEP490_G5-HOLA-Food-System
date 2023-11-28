@@ -262,7 +262,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
   checkLoggedIn(){
     const user = this.service.getUserInfor();
     console.log(user)
-    if(user == null)
+    if(!user)
       return;
     const role = this.service.getUserInfor().role;
 
@@ -270,7 +270,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
   }
 
   redirectToPageByRole(role: string){
-    switch (this.user.role) {
+    switch (role) {
       case 'CU':
         this.router.navigate(['/homepage']);
         break;

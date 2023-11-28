@@ -10,6 +10,7 @@ import { Register } from '../register/models/register';
 import { iFunction } from './../modules/shared-module/functions/iFunction';
 import { JwtService } from './app.jwt.service';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -322,10 +323,8 @@ export class AuthService {
 
   refreshToken(param: any): Observable<any>{
     const header = new HttpHeaders().set('Content-type', 'application/json');
-    return this.httpClient.post('https://localhost:7016/auths/refresh', param, {headers: header, withCredentials: true})
+    return this.httpClient.post(this.path + 'auths/refresh', param, {headers: header, withCredentials: true})
   }
-
-  
 
 }
 

@@ -15,9 +15,8 @@ namespace HFS_BE.BusinessLogic.ManageMenuReport
         {
         }
 
-        public BaseOutputDto CreateNewFoodReport(CreateNewFoodReportInputDto inputDto, string reportBy, out string? sellerId)
+        public BaseOutputDto CreateNewFoodReport(CreateNewFoodReportInputDto inputDto, string reportBy)
         {
-            sellerId = null;
             try
             {
                 var dao = CreateDao<FoodReportDao>();
@@ -46,15 +45,7 @@ namespace HFS_BE.BusinessLogic.ManageMenuReport
                     }
                 }
 
-                // add noti for seller
-                var food = foodDao.GetFoodById(inputDto.FoodId);
-                sellerId = food.SellerId;
-                var notify2 = GenerateNotification.GetSingleton().GenNotificationFoodReportSeller(food.SellerId, inputDto.FoodId, food.Name, inputDto.ReportContent);
-                var noti2 = notifyDao.AddNewNotification(notify2);
-                if (!noti2.Success)
-                {
-                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
-                }
+                
 
                 return Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
