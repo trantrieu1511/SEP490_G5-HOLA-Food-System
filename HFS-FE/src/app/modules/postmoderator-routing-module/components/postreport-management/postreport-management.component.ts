@@ -111,7 +111,7 @@ export class PostreportManagementComponent extends iComponentBase implements OnI
       if (response && response.message === "Success") {
         this.lstPostReport = response.postReports;
         this.lstPostReport.forEach(postrp => {
-          // debugger;
+          // ;
           // format date to dd/mm/yyyy
           if(postrp.createDate == '' || postrp.createDate != undefined){
             postrp.createDate = this.iServiceBase.formatDatetime(postrp.createDate);

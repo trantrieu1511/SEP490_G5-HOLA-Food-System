@@ -26,5 +26,6 @@ namespace HFS_BE.Models
         public DateTime? RefreshTokenExpiryTime { get; set; }
 
         public virtual ICollection<SellerReport> SellerReports { get; set; }
+        public DateTime? CreateDate { get; set; }
     }
 }

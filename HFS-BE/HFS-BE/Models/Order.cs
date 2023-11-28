@@ -7,6 +7,7 @@ namespace HFS_BE.Models
     {
         public Order()
         {
+            Feedbacks = new HashSet<Feedback>();
             OrderDetails = new HashSet<OrderDetail>();
             OrderProgresses = new HashSet<OrderProgress>();
         }
@@ -28,6 +29,7 @@ namespace HFS_BE.Models
         public virtual Seller? Seller { get; set; }
         public virtual Shipper? Shipper { get; set; }
         public virtual Voucher? Voucher { get; set; }
+        public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<OrderProgress> OrderProgresses { get; set; }
     }

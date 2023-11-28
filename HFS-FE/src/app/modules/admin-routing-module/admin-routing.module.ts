@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { SharedModule } from '../shared-module/shared-module.module';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
@@ -40,7 +40,7 @@ const routes: Routes = [
 
   ],
   providers: [
-    {provide: LocationStrategy, useClass: HashLocationStrategy}
+    {provide: LocationStrategy, useClass: PathLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })

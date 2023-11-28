@@ -143,22 +143,22 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 				throw;
 			}
 		}
-		[HttpPost("users/banshipper")]
-		[Authorize(Roles = "AD")]
-		public BaseOutputDto Banhipper(BanShipperDtoInput input)
-		{
-			try
-			{
-				var business = this.GetBusinessLogic<ShipperBusinessLogic>();
+		//[HttpPost("users/banshipper")]
+		//[Authorize(Roles = "AD")]
+		//public BaseOutputDto Banhipper(BanShipperDtoInput input)
+		//{
+		//	try
+		//	{
+		//		var business = this.GetBusinessLogic<ShipperBusinessLogic>();
 
-				var output = business.BanShipper(input);
-				return output;
-			}
-			catch (Exception ex)
-			{
-				throw;
-			}
-		}
+		//		var output = business.BanShipper(input);
+		//		return output;
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		throw;
+		//	}
+		//}
 		[HttpPost("users/activeshipper")]
 		[Authorize(Roles = "AD")]
 		public BaseOutputDto AciveShipper(ActiveShipperDtoInput input)
@@ -189,20 +189,20 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 				throw;
 			}
 		}
-		[HttpPost("users/banshipperhistory")]
-		[Authorize(Roles = "AD")]
-		public BaseOutputDto ListHistoryBanShipper(BanShipperHistoryDtoInput input)
-		{
-			try
-			{
-				var business = this.GetBusinessLogic<ShipperBusinessLogic>();
-				var output = business.ListHistoryBanShipper(input);
-				return output;
-			}
-			catch (Exception ex)
-			{
-				throw;
-			}
-		}
+		//[HttpPost("users/banshipperhistory")]
+		//[Authorize(Roles = "AD")]
+		//public BaseOutputDto ListHistoryBanShipper(BanShipperHistoryDtoInput input)
+		//{
+		//	try
+		//	{
+		//		var business = this.GetBusinessLogic<ShipperBusinessLogic>();
+		//		var output = business.ListHistoryBanShipper(input);
+		//		return output;
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		throw;
+		//	}
+		//}
 	}
 }

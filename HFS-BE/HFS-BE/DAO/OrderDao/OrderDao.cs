@@ -244,7 +244,7 @@ namespace HFS_BE.Dao.OrderDao
 
         public Order? GetOrderByOrderIdAndSellerId(int orderId, string sellerId)
         {
-            return context.Orders.FirstOrDefault(o => o.OrderId == orderId && o.SellerId.Equals(sellerId));
+            return context.Orders.Include(x => x.OrderProgresses).FirstOrDefault(o => o.OrderId == orderId && o.SellerId.Equals(sellerId));
         }
 
         public Order? GetOrderByOrderId(int orderId)
@@ -277,7 +277,8 @@ namespace HFS_BE.Dao.OrderDao
                     {
                         var feedbacks = this.context.Feedbacks
                             .Where(x => x.FoodId == details.FoodId
-                                    && x.CustomerId == inputDto.CustomerId)
+                                    && x.CustomerId == inputDto.CustomerId
+                                    && x.OrderId == details.OrderId)
                             .ToList();
 
                         if (feedbacks.Any())
@@ -434,6 +435,22 @@ namespace HFS_BE.Dao.OrderDao
             {
 
                 return Output<DashboardSellerDaoOutput>(Constants.ResultCdFail);
+            }
+        }
+
+        internal BaseOutputDto UpdateOrderShipDate(int orderId)
+        {
+            try
+            {
+                var data = context.Orders.FirstOrDefault(x => x.OrderId == orderId);
+                data.ShippedDate = DateTime.Now;
+                context.SaveChanges();
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
             }
         }
     }

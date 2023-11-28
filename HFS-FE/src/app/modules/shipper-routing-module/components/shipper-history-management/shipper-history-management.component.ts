@@ -8,6 +8,8 @@ import {
 } from 'src/app/modules/shared-module/shared-module';
 import * as API from "../../../../services/apiURL";
 import { OrderDaoOutputDto, OrderDetailDtoOutput } from '../../models/order-of-shipper.model';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-shipper-history-management',
   templateUrl: './shipper-history-management.component.html',
@@ -33,7 +35,7 @@ export class ShipperHistoryManagementComponent extends iComponentBase implements
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2,public messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private iServiceBase: iServiceBase,private authService: AuthService) {
+    private iServiceBase: iServiceBase,private authService: AuthService,public translate: TranslateService) {
     super(messageService);
   }
 

@@ -120,10 +120,6 @@ namespace HFS_BE.DAO.AuthDAO
 				else
 				{
 					var match = CheckPasswordShipper(input.Password, shipper);
-					if (shipper.IsBanned == true)
-					{
-						return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned due to violations, please contact us to resolve!");
-					}
 					if (!match)
 					{
 						return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
@@ -201,9 +197,9 @@ namespace HFS_BE.DAO.AuthDAO
 				ShopName=model.ShopName,
 				ShopAddress=model.ShopAddress,
 				ConfirmedEmail = false,
-				IsBanned = false
-
-			};
+				IsBanned = false,
+                CreateDate = DateTime.Now,
+            };
 
 
 
@@ -293,7 +289,7 @@ namespace HFS_BE.DAO.AuthDAO
 				Gender = model.Gender,
 				PhoneNumber = model.PhoneNumber,
 				ConfirmedEmail = false,
-				IsBanned = false
+				CreateDate = DateTime.Now,
 
 			};
 			using (HMACSHA256? hmac = new HMACSHA256())

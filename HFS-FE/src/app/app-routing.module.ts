@@ -29,6 +29,7 @@ import { FooddetailComponent,
 } from './modules/customer-routing-module/customer-routing-module';
 import { PostreportManagementComponent } from './modules/postmoderator-routing-module/components/postreport-management/postreport-management.component';
 import { FoodreportManagementComponent } from './modules/menumoderator-routing-module/components/foodreport-management/foodreport-management.component';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 const routes: Routes = [
   // {
@@ -191,7 +192,7 @@ const routes: Routes = [
           {
             path: 'seller',
             canActivate: [authGuard],
-            data: { requiredRole: ['Seller', 'Shipper'] },
+            data: { requiredRole: ['Seller'] },
             loadChildren: () => import('./modules/seller-routing-module/seller-routing.module').then(m => m.SellerRoutingModule),
           },
           {
@@ -224,7 +225,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled', useHash: true })],
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })],
+  providers: [
+    {provide: LocationStrategy, useClass: PathLocationStrategy} 
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

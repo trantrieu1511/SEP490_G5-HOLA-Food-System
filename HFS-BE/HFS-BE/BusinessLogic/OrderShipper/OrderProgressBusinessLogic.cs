@@ -6,6 +6,7 @@ using HFS_BE.DAO.AdminDao;
 using HFS_BE.DAO.NotificationDao;
 using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.DAO.TransantionDao;
+using HFS_BE.DAO.UserDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.IOFile;
@@ -25,6 +26,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
             try
             {
                 var orderDao = CreateDao<OrderDao>();
+                var userDao = CreateDao<UserDao>();
                 var notifyDao = CreateDao<NotificationDao>();
                 var adminDao = CreateDao<AdminDao>();
                 var transactionDao = this.CreateDao<TransactionDao>();
@@ -33,6 +35,12 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                 //check order
                 if (order == null)
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Order is not exist");
+                
+                var checkShipDate = orderDao.UpdateOrderShipDate(inputDto.OrderId);
+                if (!checkShipDate.Success)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Order is not exist");
+                }
                 // put customerId
                 customerId = order?.CustomerId;
                 sellerId = order?.SellerId;
@@ -79,6 +87,12 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                 // incompleted
                 else
                 {
+                    // ly do tai customer.
+                    if (inputDto.BecauseOf == 1)
+                    {
+                        var cusId = userDao.UpdateInComplete(customerId);
+                    }
+                               
                     notifyCus = GenerateNotification.GetSingleton().GenNotificationOrderShippedFail(customerId, order.OrderId);
                     notifySell = GenerateNotification.GetSingleton().GenNotificationOrderShippedFail(order.SellerId, order.OrderId);
                 }
@@ -105,6 +119,11 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                     {
                         decimal? refund = getOrder.OrderDetails
                         .Select(d => d.UnitPrice * d.Quantity).ToList().Sum() - getOrder.VoucherDiscount;
+
+                        if (inputDto.BecauseOf == 1)
+                        {
+                            refund = refund * (decimal)0.5;
+                        }
 
                         // create transaction:
                         var input2 = new CreateTransaction()

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Table } from "primeng/table";
 import { AppBreadcrumbService } from "../../../../app-systems/app-breadcrumb/app.breadcrumb.service";
-import { Food, Category, FoodInput, FoodDisplayHideInputDto, FoodInputValidation } from "../../models/food.model";
+import { Food, FoodInput, FoodDisplayHideInputDto, FoodInputValidation } from "../../models/food.model";
 import {
   iComponentBase,
   iServiceBase, mType,
@@ -21,6 +21,7 @@ import { FileRemoveEvent, FileSelectEvent, FileUpload } from 'primeng/fileupload
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import { User } from 'src/app/services/auth.service';
 import { PresenceService } from 'src/app/services/presence.service';
+import { Category } from 'src/app/modules/admin-routing-module/models/Category';
 
 @Component({
   selector: 'food-seller',
@@ -88,24 +89,25 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
   // }
 
   async getAllCategory() {
-    // try {
-    //     this.loading = true;
+    this.lstCategory = [];
 
-    //     let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.QTHT, API.API_QTHT.GET_ALL_ROLE);
+    try {
+        let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.LIST_CATEGORY,"");
 
-    //     if (response && response.length) {
-    //         this.lstCategory = response;
-    //     }
-    //     this.loading = false;
-    // } catch (e) {
-    //     console.log(e);
-    //     this.loading = false;
-    // }
+        if (response && response.message === "Success") {
+            this.lstCategory = response.listCategory;
 
-    this.lstCategory = [
-      { name: 'Food', categoryId: 1 },
-      { name: 'Drink', categoryId: 2 }
-    ];
+        }
+       ;
+    } catch (e) {
+        console.log(e);
+
+    }
+
+    // this.lstCategory = [
+    //   { name: 'Food', categoryId: 1 },
+    //   { name: 'Drink', categoryId: 2 }
+    // ];
   }
 
   async getAllFood() {

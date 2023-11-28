@@ -29,7 +29,11 @@ namespace HFS_BE.BusinessLogic.ManageOrder
             customerId = order?.CustomerId;
             
             if (order == null)
-                return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Order is not exist");
+                return Output<BaseOutputDto>(Constants.ResultCdFail, "Cancel Failed", "Order is not exist");
+
+            //check status order
+            if (order.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 6)
+                return Output<BaseOutputDto>(Constants.ResultCdFail, "Cancel Failed", "Order is canceled by customer");
 
             var getOrder = orderDao.GetOrderCustomer(new OrderCustomerDaoInputDto()
             {

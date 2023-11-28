@@ -109,8 +109,9 @@ namespace HFS_BE.DAO.AdminDao
 			{
 				List<DashboadPieAdminOutputDto> list = new List<DashboadPieAdminOutputDto>();
 				int seller = context.Sellers.Where(s => s.IsBanned == false&&s.IsVerified==true).Count();
-				int cus= context.Customers.Where(s => s.IsBanned == false).Count();
-				int shipper= context.Shippers.Where(s => s.IsBanned == false&&s.IsVerified==true).Count();
+				//int cus= context.Customers.Where(s => s.IsBanned == false).Count();
+				int cus = 0;
+				int shipper = 0;
 				var sellerd= new DashboadPieAdminOutputDto(
 					actor:"Seller",
 					total:seller
@@ -151,9 +152,9 @@ namespace HFS_BE.DAO.AdminDao
 				int totalseller = context.Sellers.Count();
 				int totalcus = context.Customers.Count();
 				int seller = context.Sellers.Where(s => s.IsBanned == false && s.IsVerified == true).Count();
-				int cusban = context.Customers.Where(s => s.IsBanned == true).Count();
-				int shipper = context.Shippers.Where(s => s.IsBanned == false && s.IsVerified == true).Count();
-				int shipperban = context.Shippers.Where(s => s.IsBanned == true).Count();
+				int cusban = 0;
+				int shipper = 0;
+				int shipperban = 0;
 				int shippervetify = context.Shippers.Where(s => s.IsVerified == true).Count();
 				int totalshipper= context.Shippers.Count();
 				outputDto.BanCustomer = cusban;

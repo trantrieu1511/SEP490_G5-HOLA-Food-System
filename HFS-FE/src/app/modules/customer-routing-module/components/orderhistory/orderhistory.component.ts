@@ -177,43 +177,45 @@ export class OrderhistoryComponent
   }
 
   onRate(food: OrderDetailFoodDto, event) {
+    debugger
     this.rateInput = new RateInput();
     this.rateInput.foodId = food.foodId;
     this.rateInput.star = 5;
+    this.rateInput.orderId = food.orderId;
     // this.orderCancelValidateInput = new OrderCancelInputValidation();
 
     this.displayDialogRateOrder = true;
   }
 
-  async onSaveRate(){
-    let response = await this.iServiceBase.postDataAsync(
-      API.PHAN_HE.ORDERCUSTOMER,
-      API.API_ORDERCUSTOMER.RATE_FOOD,
-      this.rateInput,
-      true
-    );
+  // async onSaveRate(){
+  //   let response = await this.iServiceBase.postDataAsync(
+  //     API.PHAN_HE.ORDERCUSTOMER,
+  //     API.API_ORDERCUSTOMER.RATE_FOOD,
+  //     this.rateInput,
+  //     true
+  //   );
 
-    if (response && response.message === 'Success') {
-      this.showMessage(
-        mType.success,
-        'Notification',
-        'Rate food successfully',
-        'notify'
-      );
+  //   if (response && response.message === 'Success') {
+  //     this.showMessage(
+  //       mType.success,
+  //       'Notification',
+  //       'Rate food successfully',
+  //       'notify'
+  //     );
 
-      this.displayDialogRateOrder = false;
+  //     this.displayDialogRateOrder = false;
 
-      //lấy lại danh sách All
-      this.getAllOrders();
+  //     //lấy lại danh sách All
+  //     this.getAllOrders();
 
-      //Clear model đã tạo
-      this.rateInput = new RateInput();
-    } else {
-      var messageError = this.iServiceBase.formatMessageError(response);
-      console.log(messageError);
-      this.showMessage(mType.error, response.message, messageError, 'notify');
-    }
-  }
+  //     //Clear model đã tạo
+  //     this.rateInput = new RateInput();
+  //   } else {
+  //     var messageError = this.iServiceBase.formatMessageError(response);
+  //     console.log(messageError);
+  //     this.showMessage(mType.error, response.message, messageError, 'notify');
+  //   }
+  // }
 
 
   validateOrderCancelInput(): boolean {
@@ -307,7 +309,6 @@ export class OrderhistoryComponent
   }
 
   async createFeedback(rate: RateInput) {
-    debugger;;
     rate.images=this.uploadedFiles;
     const param = new FormData();
 

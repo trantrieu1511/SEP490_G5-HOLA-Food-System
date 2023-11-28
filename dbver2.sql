@@ -28,6 +28,7 @@ CREATE TABLE [dbo].[Seller](
 	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Seller) da duoc admin xac nhan cho phep kinh doanh o HFS chua
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
+	[createDate][datetime] null,
 )
 
 CREATE TABLE [dbo].[Admin](
@@ -45,6 +46,7 @@ CREATE TABLE [dbo].[Admin](
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
+		[createDate][datetime] null,
 )
 
 CREATE TABLE [dbo].[PostModerator](
@@ -63,7 +65,8 @@ CREATE TABLE [dbo].[PostModerator](
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
 	[banLimit] int default 25, -- Gioi han ban bai viet cua mot post moderator
-	[reportApprovalLimit] int default 25 -- Gioi approve/not approve post report cua mot post moderator
+	[reportApprovalLimit] int default 25, -- Gioi approve/not approve post report cua mot post moderator
+	[createDate][datetime] null,
 )
 
 CREATE TABLE [dbo].[MenuModerator](
@@ -82,7 +85,8 @@ CREATE TABLE [dbo].[MenuModerator](
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
 	[banLimit] int default 25, -- Gioi han ban thuc pham cua mot menu moderator
-	[reportApprovalLimit] int default 25 -- Gioi approve/not approve food report cua mot menu moderator
+	[reportApprovalLimit] int default 25, -- Gioi approve/not approve food report cua mot menu moderator
+	[createDate][datetime] null,
 )
 
 --CREATE TABLE [dbo].[Customer](
@@ -119,7 +123,8 @@ CREATE TABLE [dbo].[Customer](
     --[banEndTime] [datetime] NULL,
     [numberOfViolations] [int] NOT NULL DEFAULT(0),
     [refreshToken] [varchar](max),
-    [refreshTokenExpiryTime] [datetime]
+    [refreshTokenExpiryTime] [datetime],
+	[createDate][datetime] null,
 	--CONSTRAINT CK_S_Dates CHECK ([banStartTime] < [banEndTime]),
 );
 
@@ -136,10 +141,10 @@ CREATE TABLE [dbo].[Shipper](
 	[isOnline] [bit] NOT NULL DEFAULT('false'),
 	[manageBy] [nvarchar](50) NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
-	[isBanned] [bit] not null DEFAULT('false'),
 	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Shipper) da duoc admin xac nhan cho phep kinh doanh o HFS chua
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
+	[createDate][datetime] null,
 	CONSTRAINT FK_Shiper_Seller FOREIGN KEY (manageBy) REFERENCES [Seller]([sellerId]),
 )
 
@@ -169,9 +174,13 @@ CREATE TABLE [dbo].[Food](
 	[sellerId] [nvarchar](50) not null,
 	[name] [nvarchar](100) NULL,
 	[unitPrice] decimal,
+	[createDate] [datetime] null,
 	[description] [nvarchar](max) NULL,
 	[categoryId] [int] NULL,
 	[status] [tinyint] NULL,
+	[banBy] [nvarchar](50) NUll,
+	[banDate] [datetime] Null,
+	Foreign Key ([banBy]) REFERENCES [MenuModerator](ModId),
 	Foreign Key ([sellerId]) REFERENCES [Seller](sellerId),
 	FOREIGN KEY([categoryId]) REFERENCES [dbo].[Category] ([categoryId]),
 PRIMARY KEY CLUSTERED 
@@ -272,8 +281,8 @@ CREATE TABLE [dbo].[Voucher](
 	[discount_amount] DECIMAL(10, 2) NOT NULL,
 	[minimum_order_value] DECIMAL(10, 2),
 	[status] [tinyint] NULL,
-	[effectiveDate] [date] NULL,
-	[expireDate] [date] NULL,
+	[effectiveDate] [datetime] NULL,
+	[expireDate] [datetime] NULL,
 	FOREIGN KEY([sellerId]) REFERENCES [dbo].[Seller] ([sellerId]),
 	CONSTRAINT CK_Order_Dates CHECK (effectiveDate < [expireDate]),
 PRIMARY KEY CLUSTERED 
@@ -363,6 +372,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Feedback](
 	[feedbackId] [int] IDENTITY(1,1) NOT NULL,
+	[orderId] [int] Null,
 	[foodId] [int] NULL,
 	[customerId] [nvarchar](50)  NULL,
 	[feedbackMessage] [nvarchar](max) NULL,
@@ -370,6 +380,7 @@ CREATE TABLE [dbo].[Feedback](
 	[createdDate] [datetime] NULL,
 	[updateDate] [datetime] NULL,
 	[status] [tinyint] NULL,
+	FOREIGN KEY([orderId]) REFERENCES [dbo].[Order] ([OrderId]),
 	FOREIGN KEY([customerId]) REFERENCES [dbo].[Customer] ([customerId]),
 	FOREIGN KEY([foodId]) REFERENCES [dbo].[Food] ([foodId]),
 	CONSTRAINT CK_FeedBack_Dates CHECK (createdDate <= updateDate),
@@ -434,6 +445,9 @@ CREATE TABLE [dbo].[Post](
 	[postContent] [nvarchar](1500) NULL,
 	[createdDate] [datetime] NULL,
 	[status] [tinyint] NULL,
+	[banBy] [nvarchar](50) NUll,
+	[banDate] [datetime] Null,
+	Foreign Key ([banBy]) REFERENCES [PostModerator](ModId),
 	Foreign Key ([sellerId]) REFERENCES [Seller](SellerId),
 	primary key([postId]),
 	)
@@ -504,14 +518,7 @@ CREATE TABLE SellerBan (
     CONSTRAINT FK_SellerBan_Seller FOREIGN KEY (sellerId) REFERENCES Seller(sellerId)
 );
 
--- Bảng lưu trữ thông tin ban khách hàng
-CREATE TABLE CustomerBan (
-    banCustomerId INT PRIMARY KEY IDENTITY(1, 1),
-    customerId NVARCHAR(50) NOT NULL,
-    Reason NVARCHAR(255),
-    CreateDate DATETIME NOT NULL,
-    CONSTRAINT FK_CustomerBan_Customer FOREIGN KEY (customerId) REFERENCES Customer(customerId)
-);
+
 
 -- Tạo bảng Mời làm Shipper (Invitation)
 CREATE TABLE Invitation (
@@ -524,13 +531,6 @@ CREATE TABLE Invitation (
     CONSTRAINT FK_Invitation_Shipper FOREIGN KEY (ShipperID) REFERENCES Shipper(shipperId)
 );
 
-CREATE TABLE ShipperBan (
-    banShipperId INT PRIMARY KEY IDENTITY(1, 1),
-    shipperId NVARCHAR(50) NOT NULL,
-    Reason NVARCHAR(255),
-    CreateDate DATETIME NOT NULL,
-    CONSTRAINT FK_ShipperBan_Customer FOREIGN KEY (shipperId) REFERENCES Shipper(shipperId)
-);
 
 CREATE TABLE [dbo].[TransactionHistory](
 	[transactionId] [int] IDENTITY(1,1) NOT NULL,

@@ -1,14 +1,13 @@
-<p>manage-category-module works!</p>
 <div class="grid table-demo">
     <div class="col-12">
         <div class="card">
-            <h5>Category Management</h5>
+            <h5>{{ 'categoryScreen.cate' | translate }}</h5>
   
             <p-table #dt [value]="lstCate" dataKey="id"
                      styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
                      [showCurrentPageReport]="true"
                      [paginator]="lstCate.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
-                     currentPageReportTemplate="Total: {totalRecords} vouchers"
+                     currentPageReportTemplate="{{ 'categoryScreen.total' | translate }}: {totalRecords} {{ 'categoryScreen.category' | translate }}"
                      [globalFilterFields]="['code']" responsiveLayout="scroll"
                      [loading]="loading"
             >
@@ -25,7 +24,7 @@
   
                         <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
                             <div class="flex align-items-center justify-content-center">
-                                <button pButton type="button" label="Add new" icon="pi pi-plus"
+                                <button pButton type="button" label="{{ 'categoryScreen.addnew' | translate }}" icon="pi pi-plus"
                                     (click)="onCreateCate()"
                                         style="width: auto;"></button>
                             </div>
@@ -36,7 +35,7 @@
                     <tr>
                         <th pSortableColumn="code">
                             <div class="flex justify-content-between align-items-center">
-                                ID
+                                {{ 'categoryScreen.id' | translate }}
                                 <p-sortIcon field="categoryId"></p-sortIcon>
                                 <p-columnFilter type="text" field="categoryId" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -44,7 +43,7 @@
                         </th>
                         <th pSortableColumn="discountAmount">
                             <div class="flex justify-content-between align-items-center">
-                                name
+                                {{ 'categoryScreen.name' | translate }}
                                 <p-sortIcon field="name"></p-sortIcon>
                                 <p-columnFilter type="text" field="name" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -52,7 +51,7 @@
                         </th>
                         <th pSortableColumn="minimumOrder">
                             <div class="flex justify-content-between align-items-center">
-                                status
+                                {{ 'categoryScreen.status' | translate }}
                                 <p-sortIcon field="status"></p-sortIcon>
                                 <p-columnFilter type="text" field="status" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -62,7 +61,7 @@
                         <th style="min-width: 8rem">
                             <div
                                  class="flex justify-content-between align-items-center">
-                                Action
+                                 {{ 'categoryScreen.action' | translate }}
                             </div>
                         </th>
                     </tr>
@@ -111,7 +110,7 @@
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="8">No Category yet.</td>
+                        <td colspan="8">{{ 'categoryScreen.emptymessage' | translate }}</td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -129,14 +128,14 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Category information</b>
+                        <b>{{ 'categoryScreen.cateInformation' | translate }}</b>
                     </div>
                 </p-divider>
                 <div class="grid">
   
                     <ng-container >
                         <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-                            <label>Name*</label>
+                            <label>{{ 'categoryScreen.name1' | translate }}</label>
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
                                 <input type="text" step="5000" min="0"  class="w-full" [(ngModel)] = "cateModel.name"
                                   pInputText
@@ -155,13 +154,13 @@
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div  class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Save" icon="pi pi-save"
+                <button pButton type="button" label="{{ 'categoryScreen.save' | translate }}" icon="pi pi-save"
                 (click)="onSaveCate()"style="width: 100%;"
                >
                 </button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                <button pButton type="button" label="{{ 'categoryScreen.cancal' | translate }}" icon="pi pi-times"
                 (click)="onCancelCate()"class="p-button-danger"
                         style="width: 100%;"></button>
             </div>

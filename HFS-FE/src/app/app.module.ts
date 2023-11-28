@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppManageLayoutComponent } from './layout/manage/app.manage.component';
-import { CommonModule, DatePipe, HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { CommonModule, DatePipe, HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { MenuService } from './app-systems/app-menu/app.menu.service';
 import { AppBreadcrumbService } from './app-systems/app-breadcrumb/app.breadcrumb.service';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
@@ -146,7 +146,7 @@ import { SellerReportModuleComponent } from './modules/admin-routing-module/sell
 
   providers: [
     MenuDataService,
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
     MenuService, AppBreadcrumbService, DatePipe,
     { provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },

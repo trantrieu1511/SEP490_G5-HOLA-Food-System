@@ -40,6 +40,11 @@ namespace HFS_BE.BusinessLogic.Cart
                     UserId = inputDto.CustomerId,
                 });
 
+                if (!user.ConfirmEmail.Value)
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Please Confirm your email first!");
+                }
+
                 // voucher
                 Voucher voucher = new Voucher();
                 if (!string.IsNullOrEmpty(inputDto.Voucher))

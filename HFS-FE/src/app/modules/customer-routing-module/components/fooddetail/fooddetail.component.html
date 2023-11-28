@@ -176,21 +176,8 @@
                                         <p>
                                             {{item.feedbackMessage}}
                                         </p>
-                                        <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply"
-                                            type="button" data-toggle="reply-form" data-target="comment-1-reply-form"
-                                            (click)="onReply(item.feedbackId)"></p-button>
                                         <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
                                             (click)="onLikeReview(item.feedbackId)"></p-button>
-
-                                        <!-- Reply form start -->
-                                        <div [id]="item.feedbackId" class="reply-form d-none">
-                                            <textarea placeholder="Reply to comment" rows="4"></textarea>
-                                            <p-button label="Submit" [raised]="true"></p-button>
-                                            <p-button label="Cancel" severity="danger" [raised]="true"
-                                                data-toggle="reply-form" data-target="comment-1-reply-form"
-                                                (click)="onCancel(item.feedbackId)"></p-button>
-                                        </div>
-                                        <!-- Reply form end -->
                                     </div>
                                 </div>
 
@@ -217,7 +204,6 @@
                                             <p>
                                                 {{replies.replyMessage}}
                                             </p>
-                                            <!-- Reply form end -->
                                         </div>
                                     </details>
                                     <!-- Comment 2 end -->
@@ -258,21 +244,8 @@
                                     <p>
                                         {{item.feedbackMessage}}
                                     </p>
-                                    <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply"
-                                        type="button" data-toggle="reply-form" data-target="comment-1-reply-form"
-                                        (click)="onReply(item.feedbackId)"></p-button>
                                     <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
                                         (click)="onLikeReview(item.feedbackId)"></p-button>
-
-                                    <!-- Reply form start -->
-                                    <div [id]="item.feedbackId" class="reply-form d-none">
-                                        <textarea placeholder="Reply to comment" rows="4"></textarea>
-                                        <p-button label="Submit" [raised]="true"></p-button>
-                                        <p-button label="Cancel" severity="danger" [raised]="true"
-                                            data-toggle="reply-form" data-target="comment-1-reply-form"
-                                            (click)="onCancel(item.feedbackId)"></p-button>
-                                    </div>
-                                    <!-- Reply form end -->
                                 </div>
 
 
@@ -338,21 +311,8 @@
                                     <p>
                                         {{item.feedbackMessage}}
                                     </p>
-                                    <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply"
-                                        type="button" data-toggle="reply-form" data-target="comment-1-reply-form"
-                                        (click)="onReply(item.feedbackId)"></p-button>
                                     <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
                                         (click)="onLikeReview(item.feedbackId)"></p-button>
-
-                                    <!-- Reply form start -->
-                                    <div [id]="item.feedbackId" class="reply-form d-none">
-                                        <textarea placeholder="Reply to comment" rows="4"></textarea>
-                                        <p-button label="Submit" [raised]="true"></p-button>
-                                        <p-button label="Cancel" severity="danger" [raised]="true"
-                                            data-toggle="reply-form" data-target="comment-1-reply-form"
-                                            (click)="onCancel(item.feedbackId)"></p-button>
-                                    </div>
-                                    <!-- Reply form end -->
                                 </div>
 
                                 <div *ngFor="let replies of item.listReply" class="replies">
@@ -376,7 +336,6 @@
                                             <p>
                                                 {{replies.replyMessage}}
                                             </p>
-                                            <!-- Reply form end -->
                                         </div>
                                     </details>
                                     <!-- Comment 2 end -->
@@ -417,9 +376,6 @@
                                     <p>
                                         {{item.feedbackMessage}}
                                     </p>
-                                    <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply"
-                                        type="button" data-toggle="reply-form" data-target="comment-1-reply-form"
-                                        (click)="onReply(item.feedbackId)"></p-button>
                                     <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
                                         (click)="onLikeReview(item.feedbackId)"></p-button>
 
@@ -455,7 +411,6 @@
                                             <p>
                                                 {{replies.replyMessage}}
                                             </p>
-                                            <!-- Reply form end -->
                                         </div>
                                     </details>
                                     <!-- Comment 2 end -->
@@ -496,9 +451,6 @@
                                     <p>
                                         {{item.feedbackMessage}}
                                     </p>
-                                    <p-button [raised]="true" label="Reply" [class.d-none]="!item.canReply"
-                                        type="button" data-toggle="reply-form" data-target="comment-1-reply-form"
-                                        (click)="onReply(item.feedbackId)"></p-button>
                                     <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
                                         (click)="onLikeReview(item.feedbackId)"></p-button>
 
@@ -534,7 +486,6 @@
                                             <p>
                                                 {{replies.replyMessage}}
                                             </p>
-                                            <!-- Reply form end -->
                                         </div>
                                     </details>
                                     <!-- Comment 2 end -->

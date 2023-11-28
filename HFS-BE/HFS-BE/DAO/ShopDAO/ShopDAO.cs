@@ -47,7 +47,7 @@ namespace HFS_BE.Dao.ShopDao
                         foreach (var orderdetail in order.OrderDetails)
                         {
                             ordered += orderdetail.Quantity.Value;
-                        }                           
+                        }
                     }
 
                     if (item.Foods.Any())
@@ -60,27 +60,29 @@ namespace HFS_BE.Dao.ShopDao
                             {
                                 if (imgCount == 3) break;
                                 shop.FoodImages.Add(ImageFileConvert.ConvertFileToBase64(item.SellerId, img.Path, 1).ImageBase64);
+                                imgCount++;
                             }
 
                             foreach (var feedback in food.Feedbacks)
                             {
                                 totalStar += feedback.Star.Value;
                                 totalfeedbacks++;
-                            }                            
+                            }
                         }
+
                         if (totalfeedbacks > 0)
                         {
                             star = (decimal)totalStar / (decimal)totalfeedbacks;
                         }
                     }
-                                      
+
                     shop.Star = Math.Round(star, MidpointRounding.AwayFromZero);
                     shop.NumberOrdered = ordered;
                     if (this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(item.SellerId)) != null)
                     {
                         shop.Avatar = ImageFileConvert.ConvertFileToBase64(item.SellerId, this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(item.SellerId) && x.IsReplaced == false).Path, 3).ImageBase64;
                     }
-                    
+
                     listshop.Add(shop);
                 }
 
@@ -100,19 +102,60 @@ namespace HFS_BE.Dao.ShopDao
             try
             {
                 var output = this.context.Sellers
+                    .Include(x => x.Foods)
+                    .ThenInclude(x => x.Feedbacks)
+                    .Include(x => x.Foods)
+                    .ThenInclude(x => x.FoodImages)
+                    .Include(x => x.Orders)
+                    .ThenInclude(x => x.OrderDetails)
                     .Where(x => x.SellerId.Equals(inputDto.ShopId) && x.IsVerified == true)
                     .FirstOrDefault();
 
+                
                 var outputDto = this.Output<GetShopDetailDaoOutputDto>(Constants.ResultCdSuccess);
                 if (output != null)
                 {
+                    int ordered = 0;
+                    decimal star = 0;
+                    int imgCount = 0;
+                    foreach (var order in output.Orders)
+                    {
+                        foreach (var orderdetail in order.OrderDetails)
+                        {
+                            ordered += orderdetail.Quantity.Value;
+                        }
+                    }
+
+                    if (output.Foods.Any())
+                    {
+                        int totalStar = 0;
+                        int totalfeedbacks = 0;
+                        foreach (var food in output.Foods)
+                        {
+                            foreach (var feedback in food.Feedbacks)
+                            {
+                                totalStar += feedback.Star.Value;
+                                totalfeedbacks++;
+                            }
+                        }
+
+                        if (totalfeedbacks > 0)
+                        {
+                            star = (decimal)totalStar / (decimal)totalfeedbacks;
+                        }
+                    }
+
                     outputDto = mapper.Map<Seller, GetShopDetailDaoOutputDto>(output);
                     if (this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(output.SellerId)) != null)
                     {
                         outputDto.Avatar = ImageFileConvert.ConvertFileToBase64(output.SellerId, this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(output.SellerId) && x.IsReplaced == false).Path, 3).ImageBase64;
-                    } 
+                    }
+
+                    outputDto.AverageStar = Math.Round(star, MidpointRounding.AwayFromZero);
+                    outputDto.NumberOrdered = ordered;
+                    outputDto.TotalFood = output.Foods.Where(x => x.SellerId.Equals(inputDto.ShopId) && x.Status == 1).Count();
                 }
-                
+
                 return outputDto;
             }
             catch (Exception ex)
@@ -177,7 +220,7 @@ namespace HFS_BE.Dao.ShopDao
                     {
                         shop.Avatar = ImageFileConvert.ConvertFileToBase64(item.SellerId, this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(item.SellerId)).Path, 3).ImageBase64;
                     }
-                    
+
                     listshop.Add(shop);
                 }
 

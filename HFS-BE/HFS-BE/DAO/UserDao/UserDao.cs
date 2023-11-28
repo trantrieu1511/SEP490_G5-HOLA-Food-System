@@ -394,6 +394,7 @@ namespace HFS_BE.DAO.UserDao
                 {
                     output.Balance = user.WalletBalance == null ? 0 : user.WalletBalance.Value;
                     output.Address = user.ShipAddresses.FirstOrDefault() == null ? "" : user.ShipAddresses.FirstOrDefault().AddressInfo;
+                    output.ConfirmEmail = user.ConfirmedEmail;
                 }
 
                 return output;
@@ -743,6 +744,22 @@ namespace HFS_BE.DAO.UserDao
                 return Output<BaseOutputDto>(Constants.ResultCdFail);
             }
             
+        }
+
+        internal BaseOutputDto UpdateInComplete(string? customerId)
+        {
+            try
+            {
+                var data = context.Customers.FirstOrDefault(x => x.CustomerId == customerId);
+                data.NumberOfViolations += 1;
+                context.SaveChanges();
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
         }
     }
 }

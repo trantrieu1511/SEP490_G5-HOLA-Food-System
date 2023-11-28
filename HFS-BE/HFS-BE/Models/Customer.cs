@@ -10,7 +10,6 @@ namespace HFS_BE.Models
             CartItems = new HashSet<CartItem>();
             ChatMessages = new HashSet<ChatMessage>();
             Comments = new HashSet<Comment>();
-            CustomerBans = new HashSet<CustomerBan>();
             FeedbackReplies = new HashSet<FeedbackReply>();
             FeedbackVotes = new HashSet<FeedbackVote>();
             Feedbacks = new HashSet<Feedback>();
@@ -34,14 +33,14 @@ namespace HFS_BE.Models
         public bool? IsOnline { get; set; }
         public decimal? WalletBalance { get; set; }
         public bool? ConfirmedEmail { get; set; }
-        public bool? IsBanned { get; set; }
+        public int NumberOfViolations { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
+        public DateTime? CreateDate { get; set; }
 
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual ICollection<ChatMessage> ChatMessages { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<CustomerBan> CustomerBans { get; set; }
         public virtual ICollection<FeedbackReply> FeedbackReplies { get; set; }
         public virtual ICollection<FeedbackVote> FeedbackVotes { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }

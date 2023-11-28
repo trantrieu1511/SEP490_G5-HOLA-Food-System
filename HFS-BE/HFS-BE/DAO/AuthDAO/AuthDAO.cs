@@ -47,10 +47,10 @@ namespace HFS_BE.Dao.AuthDao
 			{
 				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
 			}
-			if (user.IsBanned == true)
-			{
-				return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned, please contact us to resolve");
-			}
+			//if (user.IsBanned == true)
+			//{
+			//	return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned, please contact us to resolve");
+			//}
 			var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(user);
 			JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 			output.Token = new JwtSecurityTokenHandler().WriteToken(token);
@@ -194,9 +194,9 @@ namespace HFS_BE.Dao.AuthDao
 				PhoneNumber = model.PhoneNumber,
 				Gender = model.Gender,
 				ConfirmedEmail = false,
-				IsBanned=false
-				
-			};
+                //IsBanned=false
+                CreateDate = DateTime.Now,
+            };
 
 
 
@@ -708,10 +708,10 @@ namespace HFS_BE.Dao.AuthDao
 	
 			if (user != null)
 			{
-				if (user.IsBanned == true)
-				{
-					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned, please contact us to resolve");
-				}
+				//if (user.IsBanned == true)
+				//{
+				//	return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned, please contact us to resolve");
+				//}
 
 				var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(user);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
@@ -753,10 +753,6 @@ namespace HFS_BE.Dao.AuthDao
 			}
 			else if (data5 != null)
 			{
-				if (data5.IsBanned == true)
-				{
-					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned, please contact us to resolve");
-				}
 				var dapmapper = mapper.Map<Shipper, LoginGoogleInputDto>(data5);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
@@ -786,10 +782,10 @@ namespace HFS_BE.Dao.AuthDao
 				paddedString = "CU" + paddedString.Substring(2);
 
 				string[] FullName = payload.Name.Split(" ");
-				var user1 = new HFS_BE.Models.Customer {CustomerId= paddedString, Email = payload.Email, FirstName = FullName[0], LastName = FullName[1], Gender = "Null", ConfirmedEmail=true};
+				var user1 = new HFS_BE.Models.Customer {CustomerId= paddedString, Email = payload.Email, FirstName = FullName[0], LastName = FullName[1], Gender = "Null", ConfirmedEmail=true, CreateDate = DateTime.Now, };
 				if (FullName.Length == 3)
 				{
-					user1 = new HFS_BE.Models.Customer { CustomerId = paddedString, Email = payload.Email, FirstName = FullName[0], LastName = FullName[1] + FullName[2], Gender = "Null", ConfirmedEmail = true };
+					user1 = new HFS_BE.Models.Customer { CustomerId = paddedString, Email = payload.Email, FirstName = FullName[0], LastName = FullName[1] + FullName[2], Gender = "Null", ConfirmedEmail = true, CreateDate = DateTime.Now, };
 
 				}
 

@@ -56,7 +56,8 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
     private _ngZone: NgZone,
     public messageService: MessageService,
     private service: AuthService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    public authService: AuthService,
   ) // private cdr: ChangeDetectorRef
   {
     super(messageService);
@@ -113,6 +114,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
     this.refreshCaptcha();
   }
   ngOnInit(): void {
+    this.checkLoggedIn();
     this.service.error$.subscribe(error => {
       this.error = error;
     //this.showMessage(mType.error, "Notification", error, 'app-non-login');
@@ -166,7 +168,6 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
   loadGoogleLibrary() {
     // @ts-ignore
     window.onGoogleLibraryLoad = () => {
-
       console.log(document.getElementById('buttonDiv'));
       // @ts-ignore
 
@@ -312,5 +313,33 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
   onOptionLangClick(event: SelectButtonOptionClickEvent) {
     this.translate.use(event.option);
     localStorage.setItem("LANG", event.option);
+  }
+
+  checkLoggedIn(){
+    const user = this.authService.getUserInfor();
+    if(user == null)
+      return;
+    const role = this.authService.getUserInfor().role;
+
+    this.redirectToPageByRole(role);
+  }
+
+  redirectToPageByRole(role: string){
+    switch (this.user.role) {
+      case 'CU':
+        this.router.navigate(['/homepage']);
+        break;
+      case 'AD':
+      case 'SE':
+      case 'SH':
+      case 'PM':
+      case 'MM':
+        this.router.navigateByUrl('/HFSBusiness');
+        break;
+
+      default:
+        window.location.reload();
+
+    }
   }
 }
