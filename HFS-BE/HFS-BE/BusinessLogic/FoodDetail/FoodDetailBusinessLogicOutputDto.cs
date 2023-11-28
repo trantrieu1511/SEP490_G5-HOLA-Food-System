@@ -13,7 +13,6 @@ namespace HFS_BE.BusinessLogic.FoodDetail
         public string? DisplayDate { get; set; }
         public int LikeCount { get; set; }
         public int DisLikeCount { get; set; }
-        public bool? CanReply { get; set; }
         public bool? IsLiked { get; set; }
         public List<FeedImageDto> ImagesFeedBack { get; set; } = new List<FeedImageDto>();
         public List<FeedBackReplyOutputDto> ListReply { get; set; }

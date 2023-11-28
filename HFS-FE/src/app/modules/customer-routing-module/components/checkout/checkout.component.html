@@ -51,4 +51,59 @@
   </div>
 </div>
 
+<p-dialog
+header="Confirm Order Information"
+[(visible)]="displayConfirmOrder"
+[breakpoints]="{ '960px': '75vw' }"
+[style]="{ width: '50vw' }"
+[draggable]="false"
+[resizable]="false"
+[maximizable]="true"
+>
+<div class="grid p-fluid">
+  <div class="col-12 md:col-12">
+    <div class="card">
+      <div class="grid">
+        <div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template pTemplate="footer">
+  <div
+    class="flex justify-content-center flex-wrap"
+    style="text-align: center"
+  >
+    <div
+      class="flex align-items-center justify-content-center"
+      style="text-align: center"
+    >
+      <button
+        pButton
+        type="button"
+        label="Save"
+        icon="pi pi-save"
+        style="width: 100%"
+      ></button>
+    </div>
+    <!-- <div
+      class="flex align-items-center justify-content-center"
+      style="text-align: center"
+    >
+      <button
+        pButton
+        type="button"
+        label="Cancel"
+        icon="pi pi-times"
+        (click)="onCancelCancel()"
+        class="p-button-danger"
+        style="width: 100%"
+      ></button>
+    </div> -->
+  </div>
+</ng-template>
+</p-dialog>
+
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>

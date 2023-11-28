@@ -12,6 +12,7 @@ import { ManageMenumoderatorModuleComponent } from './manage-menumoderator-modul
 //import { ManageCategoryModuleComponent } from './manage-category-module/manage-category-module.component';
 import { ManageCategoryModuleComponent } from './manage-category-module/manage-category-module.component';
 import { DashboadAdminModuleComponent } from './dashboad-admin-module/dashboad-admin-module.component';
+import { SellerReportModuleComponent } from './seller-report-module/seller-report-module.component';
 
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
   //{path: "manage-category", component: ManageCategoryModuleComponent},
   {path: "category-manage", component: ManageCategoryModuleComponent},
   {path: "dashboad", component: DashboadAdminModuleComponent},
+  {path: "report", component: SellerReportModuleComponent},
 ]
 
 

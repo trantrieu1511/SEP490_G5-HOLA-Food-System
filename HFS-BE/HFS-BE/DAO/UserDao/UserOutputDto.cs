@@ -37,6 +37,7 @@ namespace HFS_BE.DAO.UserDao
     {
         public decimal? Balance { get; set; }
         public string? Address { get; set; }
+        public bool? ConfirmEmail { get; set; }
     }
 
     public class GetUserAddressDaoOutputDto : BaseOutputDto
