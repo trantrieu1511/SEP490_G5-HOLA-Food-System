@@ -13,10 +13,12 @@ import {
   SelectItem,
   TreeNode
 } from "primeng/api";
+import { firstValueFrom } from 'rxjs';
 import { FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
 import { Router } from '@angular/router';
 import { CreateNewShipAddressInputValidation, ShipAddress, UpdateShipAddressInputValidation } from '../../models/ShipAddress.modal';
 import { AuthService } from 'src/app/services/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-manageshipaddress',
@@ -26,6 +28,9 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ManageshipaddressComponent extends iComponentBase implements OnInit {
   // ----------- Use-for-binding variables ------------
   listShipAddress: ShipAddress[] = [];
+  // listCities: any[] = [];
+  // listDistricts: any[] = [];
+  // listWards: any[] = [];
   shipAddress: ShipAddress = new ShipAddress();
   createNewShipAddressValidation: CreateNewShipAddressInputValidation = new CreateNewShipAddressInputValidation();
   updateShipAddressValidation: UpdateShipAddressInputValidation = new UpdateShipAddressInputValidation();
@@ -36,8 +41,10 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
   isVisibleDeleteModal: boolean = false;
   isVisibleSetDefaultAddressModal: boolean = false;
   loading: boolean;
+  // host = "https://provinces.open-api.vn/api/";
 
   constructor(
+    public httpClient: HttpClient,
     private shareData: ShareData,
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -51,7 +58,35 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
 
   async ngOnInit(): Promise<void> {
     await this.getAllShipAddress();
+    // await this.getCities();
   }
+  // async getCities() {
+  //   try {
+  //     const response = await this.iServiceBase.getAllProvincesAsync();
+
+  //     // console.log(response);
+  //     if (response) {
+  //       this.listCities = response.data;
+  //       console.log(this.listCities);
+  //     }
+  //     this.loading = false;
+  //   } catch (e) {
+  //     console.log(e);
+  //     this.loading = false;
+  //   }
+  // }
+  // getOptionsRequest(ignoreLoading?: boolean, responseType?: string) {
+  //   const options: any = {};
+  //   if (ignoreLoading != undefined && ignoreLoading) {
+  //     // this.loadingService.setIgnoreLoading();
+  //     options.reportProgress = true;
+  //   }
+  //   if (responseType != undefined && responseType) {
+  //     // this.loadingService.setIgnoreLoading();
+  //     options.responseType = responseType;
+  //   }
+  //   return options;
+  // }
 
   async getAllShipAddress() {
     this.listShipAddress = [];
@@ -73,7 +108,7 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
 
   openCreateDialog() {
     this.shipAddress = new ShipAddress();
-    
+
     this.createNewShipAddressValidation = new CreateNewShipAddressInputValidation();
 
     this.isVisibleCreateModal = true;
@@ -146,7 +181,7 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
 
   openUpdateDialog(shipaddress: ShipAddress) {
     this.shipAddress = new ShipAddress();
-    
+
     this.updateShipAddressValidation = new UpdateShipAddressInputValidation();
 
     this.shipAddress = Object.assign({}, shipaddress);
@@ -324,6 +359,14 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
 
       this.loading = false;
     }
+  }
+
+  renderData = (array, select) => {
+    let row = ' <option disable value="">Chọn</option>';
+    array.forEach(element => {
+      row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`
+    });
+    document.querySelector("#" + select).innerHTML = row
   }
 
 }

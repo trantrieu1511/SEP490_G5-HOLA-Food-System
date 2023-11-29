@@ -61,8 +61,10 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
   ) // private cdr: ChangeDetectorRef
   {
     super(messageService);
+    
   }
   ngAfterViewInit(): void {
+    
     // this.loadGoogleLibrary();
     // this.cdr.detectChanges();
     const script1 = this.renderer.createElement('script');
@@ -114,6 +116,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
     this.refreshCaptcha();
   }
   ngOnInit(): void {
+    
     this.checkLoggedIn();
     this.service.error$.subscribe(error => {
       this.error = error;
@@ -316,6 +319,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
   }
 
   checkLoggedIn(){
+    
     const user = this.authService.getUserInfor();
     if(!user)
       return;

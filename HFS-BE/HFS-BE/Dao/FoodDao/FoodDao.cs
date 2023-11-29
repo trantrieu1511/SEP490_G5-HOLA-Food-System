@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Text;
 using HFS_BE.Controllers.Dashboard;
+using Microsoft.Extensions.Hosting;
 
 namespace HFS_BE.Dao.FoodDao
 {
@@ -91,10 +92,36 @@ namespace HFS_BE.Dao.FoodDao
                     .Where(x => x.FoodId == inputDto.FoodId && x.Status == 1)
                     .FirstOrDefault();
 
+                if (data == null)
+                {
+                    return this.Output<FoodOutputDto>(Constants.ResultCdFail);
+                }
+
                 var shopid = data.SellerId;
 
                 var output = this.Output<FoodOutputDto>(Constants.ResultCdSuccess);
                 output = mapper.Map<Food, FoodOutputDto>(data);
+
+                int ordered = 0;
+                decimal star = 0;
+                foreach (var orderdetail in data.OrderDetails)
+                {
+                    ordered += orderdetail.Quantity.Value;
+                }
+
+                if (data.Feedbacks.Any())
+                {
+                    int totalStar = 0;
+                    foreach (var feedback in data.Feedbacks)
+                    {
+                        totalStar += feedback.Star.Value;
+                    }
+                    star = (decimal)totalStar / (decimal)data.Feedbacks.Count();
+                }
+
+                output.AverageStar = Math.Round(star, MidpointRounding.AwayFromZero);
+                output.NumberOrdered = ordered;
+
                 foreach (var img in output.foodImages)
                 {
                     var imageInfor = ImageFileConvert.ConvertFileToBase64(shopid, img.Name, 1);
@@ -272,11 +299,15 @@ namespace HFS_BE.Dao.FoodDao
                     {
                         // set status banned
                         food.Status = 3;
+                        food.BanBy = userId;
+                        food.BanDate = DateTime.Now;
                     }
                     else
                     {
                         //set status display
                         food.Status = 1;
+                        food.BanBy = null;
+                        food.BanDate = null;
                     }
 
                     // Reduce ban/unban limit

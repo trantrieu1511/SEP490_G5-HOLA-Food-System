@@ -73,8 +73,8 @@ namespace HFS_BE.Controllers.Dashboard
     {
         public ICollection<string>? Labels { get; set; }
         public ICollection<DashboardDataSets>? Datasets { get; set; }
-        //public int? TotalFood { get; set; } = 0;
-        //public int? TotalBannedFood { get; set; } = 0;
+        public int? TotalFood { get; set; } = 0;
+        public int? TotalBannedFood { get; set; } = 0;
         public int? TotalFoodReports { get; set; } = 0;
         public int? TotalPendingFoodReports { get; set; } = 0;
         public int? TotalApprovedFoodReports { get; set; } = 0;

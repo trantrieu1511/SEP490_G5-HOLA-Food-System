@@ -104,7 +104,9 @@ export class MyHttpInterceptor implements HttpInterceptor {
       this.refreshTokenSubject.next(null);
       const refreshToken: string = this.iFunction.getCookie("refreshToken");
       if (!refreshToken) {
+        debugger
         localStorage.removeItem('user');
+        this.jwtService.removeToken();
         this.router.navigate(['/login']);
         window.location.reload();
         
@@ -132,9 +134,11 @@ export class MyHttpInterceptor implements HttpInterceptor {
             false
           ).subscribe({
             next: (a: any) => {
+              debugger
+              localStorage.removeItem('user');
+              this.jwtService.removeToken();
               this.router.navigate(['/login']);
               window.location.reload();
-              localStorage.removeItem('user');
               return throwError(err);
             }
           })

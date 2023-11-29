@@ -15,6 +15,11 @@ import { SellerListComponent } from 'src/app/seller-list/seller-list.component';
 import { ChatboxComponent } from 'src/app/chatbox/chatbox.component';
 import { CustomerListByChatComponent } from 'src/app/customer-list-by-chat/customer-list-by-chat.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppBreadcrumbComponent } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.component';
+import { AppTopBarComponent } from 'src/app/app-systems/app-topbar/app.topbar.component';
+import { AppFooterComponent } from 'src/app/app-systems/app-footer/app.footer.component';
+import { AppMenuComponent } from 'src/app/app-systems/app-menu/app-menu.component';
+import { AppMenuitemComponent } from 'src/app/app-systems/app-menuitem/app.menuitem.component';
 
 @NgModule({
   imports: [
@@ -40,7 +45,12 @@ import { TranslateModule } from '@ngx-translate/core';
       NotificationItemComponent,
       SellerListComponent,
       ChatboxComponent,
-      CustomerListByChatComponent
+      CustomerListByChatComponent,
+      AppBreadcrumbComponent,
+      AppTopBarComponent,
+      AppFooterComponent,
+      AppMenuComponent,
+      AppMenuitemComponent,
 
   ],
   exports: [
@@ -50,7 +60,12 @@ import { TranslateModule } from '@ngx-translate/core';
       NotificationsComponent,
       SellerListComponent,
       CustomerListByChatComponent,
-      TranslateModule
+      TranslateModule,
+      AppBreadcrumbComponent,
+      AppTopBarComponent,
+      AppFooterComponent,
+      AppMenuComponent,
+      AppMenuitemComponent,
 
   ],
 })

@@ -25,6 +25,7 @@ import { ManageprofileComponent } from 'src/app/profile/manageprofile.component'
 import { SellerReportModuleComponent } from '../admin-routing-module/seller-report-module/seller-report-module.component';
 import { ReportSellerComponent } from './components/report-seller/report-seller.component';
 import { AddressSelectorComponent } from './address-selector/address-selector.component';
+import { AppBreadcrumbComponent } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.component';
 
 const routes: Routes = [
   { path: "cartdetail", component: CartdetailComponent },
@@ -57,7 +58,8 @@ const routes: Routes = [
     CustomerfoodreportComponent,
     CustomerpostreportComponent,
     ManageshipaddressComponent,
-    AppMenuMyaccountComponent
+    AppMenuMyaccountComponent,
+    ReportSellerComponent
   ],
   imports: [
     CommonModule,

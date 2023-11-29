@@ -59,7 +59,13 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
     // if (sessionStorage.getItem('userId') != null) {
     //   this.isLoggedIn = true;
     // }
-    this.userId = this.authService.getUserInfor().userId;
+    const user = this.authService.getUserInfor();
+    if(!user){
+      this.isLoggedIn = false;
+      return;
+    }
+
+    this.userId = user.userId;
     if (this.userId != null) {
       this.isLoggedIn = true;
     }

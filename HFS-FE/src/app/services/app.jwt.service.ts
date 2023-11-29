@@ -45,6 +45,11 @@ export class JwtService {
       this.iFunction.setCookie('token', res.token, exp)
       this.iFunction.setCookie('refreshToken', res.refreshToken.token, new Date(res.refreshToken.expired))
     }
+
+    removeToken(){
+      this.iFunction.deleteCookie('token');
+      this.iFunction.deleteCookie('refreshToken');
+    }
   
     async tryRefreshingTokens() {
       //const refreshToken: string = localStorage.getItem("refreshToken");

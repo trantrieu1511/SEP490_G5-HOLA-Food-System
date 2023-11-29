@@ -891,7 +891,7 @@ export class iServiceBase {
         return message.trim();
     }
 
-    formatDatetime(dateArgument: string) {
+    formatDatetime(dateArgument: string) { // Format to dd/MM/yyyy HH:mm:ss
         const date = new Date(dateArgument);
         const yyyy = date.getFullYear();
         let mm = date.getMonth() + 1; // Months start at 0!
@@ -918,7 +918,7 @@ export class iServiceBase {
 
     async getAllProvincesAsync(){
         try {
-
+// debugger;
             const request = await firstValueFrom(this.httpClient.get(this.strProvicesUrl))
             document.body.style.cursor = 'default';
             return request;
