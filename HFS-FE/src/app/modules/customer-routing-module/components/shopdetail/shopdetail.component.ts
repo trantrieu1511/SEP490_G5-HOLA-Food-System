@@ -65,7 +65,7 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
       return;
     }
 
-    this.userId = this.authService.getUserInfor().userId;
+    this.userId = user.userId;
     if (this.userId != null) {
       this.isLoggedIn = true;
     }

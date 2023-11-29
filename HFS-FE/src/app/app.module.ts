@@ -73,16 +73,13 @@ import { DashboadShipperModuleComponent } from './modules/shipper-routing-module
 import { SellerReportModuleComponent } from './modules/admin-routing-module/seller-report-module/seller-report-module.component';
 import { ReportSellerComponent } from './modules/customer-routing-module/components/report-seller/report-seller.component';
 import { AddressSelectorComponent } from './modules/customer-routing-module/address-selector/address-selector.component';
+import { CustomerRoutingModule } from './modules/customer-routing-module/customer-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppManageLayoutComponent,
-    AppBreadcrumbComponent,
-    AppTopBarComponent,
-    AppFooterComponent,
-    AppMenuComponent,
-    AppMenuitemComponent,
+    
     AppNotfoundComponent,
     AppErrorComponent,
     AppAccessdeniedComponent,
@@ -128,6 +125,7 @@ import { AddressSelectorComponent } from './modules/customer-routing-module/addr
     ReactiveFormsModule,
     FormsModule,
     BusinessRoutingModule,
+    CustomerRoutingModule,
     // JwtModule.forRoot({
     //   config: {
     //     tokenGetter: () => sessionStorage.getItem('token')

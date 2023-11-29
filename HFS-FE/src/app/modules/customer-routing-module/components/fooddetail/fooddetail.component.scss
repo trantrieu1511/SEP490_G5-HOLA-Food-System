@@ -1,3 +1,46 @@
+:host ::ng-deep {
+    .p-carousel-items-container{
+		.p-carousel-item{
+			
+
+			.product-content{
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				flex-grow: 1;
+				transition: transform .3s ease-out;
+
+				.product-top{
+					
+					/* card-bottom cố định -> grow để chiếm hết phần còn lại */
+					flex-grow: 1;
+
+					img{
+						height: 8rem;
+						width: 65%;
+						object-fit: cover;
+					}
+				}
+
+				.product-bottom{
+					flex-shrink: 0; 
+				}
+				&:hover{
+					cursor: pointer;
+					transform: translate(0, -5px);
+					box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+				}
+
+			}
+			
+		}
+
+		
+	}
+}
+
+
+
 .grid {
     display: flex;
     flex-wrap: wrap;

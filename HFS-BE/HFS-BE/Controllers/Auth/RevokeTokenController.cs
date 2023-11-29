@@ -17,12 +17,17 @@ namespace HFS_BE.Controllers.Auth
 
         [HttpPost]
         [Route("auths/revoke")]
-        public BaseOutputDto Revoke(TokenApiModel tokenApiModel)
+        public async Task<ActionResult<BaseOutputDto>> Revoke(TokenApiModel tokenApiModel)
         {
-           
+            // check input
+            if (tokenApiModel is null)
+                return Unauthorized("Invalid client request");
             var busi = GetBusinessLogic<RevokeTokenBusinessLogic>();
+            var output = busi.RevokeToken(tokenApiModel);
 
-            return busi.RevokeToken(tokenApiModel);
+            if (!output.Success)
+                return Unauthorized("Invalid client request");
+            return Ok(output);
         }
     }
 }
