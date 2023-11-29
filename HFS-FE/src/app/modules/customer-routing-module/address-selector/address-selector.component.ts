@@ -1,30 +1,65 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-
+import {
+  iComponentBase,
+  iServiceBase, mType,
+  ShareData
+} from 'src/app/modules/shared-module/shared-module';
+import * as API from "../../../services/apiURL";
+import {
+  ConfirmationService,
+  LazyLoadEvent,
+  MenuItem,
+  MessageService,
+  SelectItem,
+  TreeNode
+} from "primeng/api";
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-address-selector',
   templateUrl: './address-selector.component.html',
   styleUrls: ['./address-selector.component.scss']
 })
-export class AddressSelectorComponent {
+export class AddressSelectorComponent extends iComponentBase implements OnInit {
   host = 'https://provinces.open-api.vn/api/';
   provinces: any[] = [];
   districts: any[] = [];
   wards: any[] = [];
   selectedResult: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private shareData: ShareData,
+    public messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private iServiceBase: iServiceBase,
+    public router: Router,
+    public authService: AuthService
+    // private appCustomerTopBarComponent: AppCustomerTopBarComponent
+  ) {
+    super(messageService);
+  }
 
   ngOnInit() {
-    this.callAPI(this.host + '?depth=1', 'province');
+    this.callAPI("", 'province');
   }
 
   async callAPI(api: string, target: string) {
-    
-    const response = await firstValueFrom(this.http.get('https://provinces.open-api.vn/api/?depth=1'))
-console.log(response);
+    debugger
+    const param={
+      "url" :api
+    }
+    if(target!=='province'){
+      const response = await  this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, target,param);
+     console.log(response);
         this.renderData(response, target);
+    }else{
+      const response = await  this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, target,"");
+      console.log(response);
+         this.renderData(response, target);
+ }
+
 
 
   }
@@ -46,15 +81,16 @@ console.log(response);
   }
 
   onProvinceChange() {
-
+debugger;
     const selectedProvinceCode = (document.getElementById('province') as HTMLSelectElement).value;
-    this.callAPI(this.host + 'p/' + selectedProvinceCode + '?depth=2', 'district');
+
+    this.callAPI('p/' + selectedProvinceCode + '?depth=2', 'district');
     this.printResult();
   }
 
   onDistrictChange() {
     const selectedDistrictCode = (document.getElementById('district') as HTMLSelectElement).value;
-    this.callAPI(this.host + 'd/' + selectedDistrictCode + '?depth=2', 'ward');
+    this.callAPI('d/' + selectedDistrictCode + '?depth=2', 'ward');
     this.printResult();
   }
 

@@ -63,6 +63,7 @@ namespace HFS_BE.BusinessLogic.SellerReportBL
 		}
 
 		public ListSellerReportOutputDtoBL GetAllSellerReport()
+		
 		{
 			try
 			{

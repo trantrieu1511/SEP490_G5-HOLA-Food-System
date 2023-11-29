@@ -11,18 +11,18 @@ GO
 
 CREATE TABLE [dbo].[Seller](
 	[sellerId] [nvarchar](50) NOT NULL primary key,
-	[firstName] [nvarchar](50) NOT NULL,
-	[lastName] [nvarchar](50) NOT NULL,
-	[gender] [nvarchar](10) NULL,
-	[birthDate] [date] NULL,
+	--[firstName] [nvarchar](50) NOT NULL,
+	--[lastName] [nvarchar](50) NOT NULL,
+	--[gender] [nvarchar](10) NULL,
+	--[birthDate] [date] NULL,
+	shopName NVARCHAR(50),
+	shopAddress NVARCHAR(MAX),
 	[email] [nvarchar](100) UNIQUE NOT NULL,
 	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
 	[isOnline] [bit] NOT NULL,
 	[walletBalance] [money] NULL,
-	shopName NVARCHAR(50),
-	shopAddress NVARCHAR(MAX),
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 	[isBanned] [bit] not null DEFAULT('false'),
 	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Seller) da duoc admin xac nhan cho phep kinh doanh o HFS chua
@@ -178,7 +178,7 @@ CREATE TABLE [dbo].[Food](
 	[description] [nvarchar](max) NULL,
 	[categoryId] [int] NULL,
 	[status] [tinyint] NULL,
-	[reportedTimes] [int] NUll, -- Thể hiện cho số lần mà thực phẩm này nhận phải tố cáo hợp lệ (Đã thông qua kiểm duyệt của menu mod) đến từ khách hàng
+	[reportedTimes] [int] default(0) NUll, -- Thể hiện cho số lần mà thực phẩm này nhận phải tố cáo hợp lệ (Đã thông qua kiểm duyệt của menu mod) đến từ khách hàng
 	[banBy] [nvarchar](50) NUll,
 	[banDate] [datetime] Null,
 	Foreign Key ([banBy]) REFERENCES [MenuModerator](ModId),
@@ -446,7 +446,7 @@ CREATE TABLE [dbo].[Post](
 	[postContent] [nvarchar](1500) NULL,
 	[createdDate] [datetime] NULL,
 	[status] [tinyint] NULL,
-	[reportedTimes] [int] NUll, -- Thể hiện cho số lần mà bài đăng này nhận phải tố cáo hợp lệ (Đã thông qua kiểm duyệt của post mod) đến từ khách hàng
+	[reportedTimes] [int] default(0) NUll, -- Thể hiện cho số lần mà bài đăng này nhận phải tố cáo hợp lệ (Đã thông qua kiểm duyệt của post mod) đến từ khách hàng
 	[banBy] [nvarchar](50) NUll,
 	[banDate] [datetime] Null,
 	Foreign Key ([banBy]) REFERENCES [PostModerator](ModId),
@@ -645,4 +645,10 @@ CREATE TABLE [dbo].[ShipperReport](
 	[sellerReportId] [int] NULL,
 	[path] [nvarchar](max) NULL,
 	FOREIGN KEY([sellerReportId]) REFERENCES [dbo].[SellerReport] ([sellerReportId]),
+)
+	CREATE TABLE [dbo].[SellerLicenseImage](
+	[imageLicenseId] [int] IDENTITY(1,1) NOT NULL  PRIMARY KEY,
+	[sellerId] [nvarchar](50) NOT NULL,
+	[path] [nvarchar](max) NULL,
+	FOREIGN KEY([sellerId]) REFERENCES [dbo].[Seller] ([sellerId]),
 )

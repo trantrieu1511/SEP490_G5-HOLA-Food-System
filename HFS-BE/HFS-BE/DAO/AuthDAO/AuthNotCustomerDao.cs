@@ -184,15 +184,15 @@ namespace HFS_BE.DAO.AuthDAO
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email has been used");
 			}
-			model.BirthDate = model.BirthDate.Value.AddDays(1);
+		//	model.BirthDate = model.BirthDate.Value.AddDays(1);
 			var user = new HFS_BE.Models.Seller
 			{
 				SellerId = paddedString,
-				Email = model.Email,
-				BirthDate = model.BirthDate,
-				FirstName = model.FirstName,
-				LastName = model.LastName,
-				Gender = model.Gender,
+				Email = model.Email.ToLower(),
+				//BirthDate = model.BirthDate,
+				//FirstName = model.FirstName,
+				//LastName = model.LastName,
+				//Gender = model.Gender,
 				PhoneNumber = model.PhoneNumber,
 				ShopName=model.ShopName,
 				ShopAddress=model.ShopAddress,
@@ -211,8 +211,19 @@ namespace HFS_BE.DAO.AuthDAO
 
 			try
 			{
+
 				context.Sellers.Add(user);
 				context.SaveChanges();
+
+				foreach (var img in model.Images)
+				{
+					context.Add(new SellerLicenseImage
+					{
+						SellerId = user.SellerId,
+						Path = img
+					});
+					context.SaveChanges();
+				}
 				ForgotPasswordInputDto forgot = new ForgotPasswordInputDto();
 				forgot.Email = user.Email;
 				await SendVetifyPasswordtoEmailAsync(forgot);
@@ -282,7 +293,7 @@ namespace HFS_BE.DAO.AuthDAO
 			var user = new HFS_BE.Models.Shipper
 			{
 				ShipperId = paddedString,
-				Email = model.Email,
+				Email = model.Email.ToLower(),
 				BirthDate = model.BirthDate,
 				FirstName = model.FirstName,
 				LastName = model.LastName,
@@ -370,7 +381,7 @@ namespace HFS_BE.DAO.AuthDAO
 			var authClaims = new List<Claim>
 			{
 				new Claim(ClaimTypes.Email, acc.Email),
-				new Claim(ClaimTypes.Name, acc.FirstName + acc.LastName),
+				new Claim(ClaimTypes.Name, acc.ShopName),
 				new Claim("userId", acc.SellerId.ToString()),
 			new Claim(ClaimTypes.Role,role)
 			};

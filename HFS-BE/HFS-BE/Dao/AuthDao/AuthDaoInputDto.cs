@@ -50,18 +50,6 @@ namespace HFS_BE.Dao.AuthDao
 	public class RegisterSellerDto
 	{
 
-		[Required(ErrorMessage = "First name is required")]
-		public string FirstName { get; set; } = null!;
-
-		[Required(ErrorMessage = "Last name is required")]
-		public string LastName { get; set; } = null!;
-
-		[Required(ErrorMessage = "Gender is required")]
-		public string? Gender { get; set; }
-
-		[Required(ErrorMessage = "Birth date is required")]
-		[MinimumAge(18,100, ErrorMessage = "You must be at least 18 years old and not older than 100 years old ")]
-		public DateTime? BirthDate { get; set; }
 
 
 		[Required(ErrorMessage = "Phone is required")]
@@ -82,6 +70,8 @@ namespace HFS_BE.Dao.AuthDao
 		public string? ShopName { get; set; }
 		[Required(ErrorMessage = "ShopAddress is required")]
 		public string? ShopAddress { get; set; }
+
+		public List<string>? Images { get; set; }
 	}
 	public class ForgotPasswordInputDto:BaseInputDto
 	{ 

@@ -124,10 +124,10 @@ namespace HFS_BE.DAO.UserDao
                             return Output<BaseOutputDto>(Constants.ResultCdFail, $"User with id: {userId} is not exist!");
 
                         //Truong hop profile nguoi dung co ton tai thi cap nhat lai cac truong thong tin
-                        seller.FirstName = inputDto.FirstName;
-                        seller.LastName = inputDto.LastName;
-                        seller.Gender = inputDto.Gender;
-                        seller.BirthDate = inputDto.BirthDate;
+                        //seller.FirstName = inputDto.FirstName;
+                        //seller.LastName = inputDto.LastName;
+                        //   seller.Gender = inputDto.Gender;
+                       // seller.BirthDate = inputDto.BirthDate;
                         seller.ShopName = inputDto.ShopName;
                         seller.ShopAddress = inputDto.ShopAddress;
                         seller.PhoneNumber = inputDto.PhoneNumber;
@@ -458,9 +458,11 @@ namespace HFS_BE.DAO.UserDao
                     Id = x.SellerId,
                     RefreshToken = x.RefreshToken,
                     Email = x.Email,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                    RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
+                    //FirstName = x.FirstName,
+                    //LastName = x.LastName,
+					FirstName = x.ShopName,
+					LastName = x.ShopName,
+					RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
                 }).SingleOrDefault(se => se.RefreshToken.Equals(refreshToken));
 
                 if (user is not null)

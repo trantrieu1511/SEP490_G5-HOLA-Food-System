@@ -11,15 +11,15 @@
             </div>
             <div style="padding-bottom: 5px;">
                 <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
-                    value="Đồ ăn không đúng với mô tả" [(ngModel)]="foodReport.reportContents"
+                    value="Đồ ăn thực tế không đúng với mô tả" [(ngModel)]="foodReport.reportContents"
                     inputId="reportContent1"></p-checkbox>
-                <label for="reportContent1" class="ml-2">Đồ ăn không đúng với mô tả</label>
+                <label for="reportContent1" class="ml-2">Đồ ăn thực tế không đúng với mô tả</label>
             </div>
             <div style="padding-bottom: 5px;">
                 <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
-                    value="Hình ảnh đồ ăn không rõ ràng" [(ngModel)]="foodReport.reportContents"
+                    value="Hình ảnh đồ ăn không giống với thực tế nhận được" [(ngModel)]="foodReport.reportContents"
                     inputId="reportContent2"></p-checkbox>
-                <label for="reportContent2" class="ml-2">Hình ảnh đồ ăn không rõ ràng</label>
+                <label for="reportContent2" class="ml-2">Hình ảnh đồ ăn không giống với thực tế nhận được</label>
             </div>
             <div style="padding-bottom: 5px;">
                 <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
@@ -32,11 +32,11 @@
         <div style="padding-bottom: 5px;">
             <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportTextArea($event);" value="Other"
                 inputId="reportContentOther"></p-checkbox>
-            <label for="reportContentOther" class="ml-2">Khác</label>
+            <label for="reportContentOther" class="ml-2">Khác/Thêm mô tả</label>
         </div>
         <span class="">
             <textarea (change)="addValueToReportContentList();" [disabled]="isDisabledFoodReportTextArea" class="w-full"
-                id="float-input" rows="5" cols="50" [(ngModel)]="foodReport.reportContent" placeholder="Điền lý do khác"
+                id="float-input" rows="5" cols="50" [(ngModel)]="foodReport.reportContent" placeholder="Điền lý do khác/Thêm mô tả cho các lý do bạn chọn trên"
                 pInputTextarea></textarea>
             <!-- <label for="float-input">Lý do khác</label> -->
         </span>

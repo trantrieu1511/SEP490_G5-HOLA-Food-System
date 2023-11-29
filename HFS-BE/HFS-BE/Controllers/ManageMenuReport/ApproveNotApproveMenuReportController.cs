@@ -38,7 +38,7 @@ namespace HFS_BE.Controllers.ManageMenuReport
                     var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
                     await notifyHub.Clients.Group(inputDto.ReportBy).SendAsync("notification");
 
-                    await notifyHub.Clients.Group(sellerId).SendAsync("notification");
+                    //await notifyHub.Clients.Group(sellerId).SendAsync("notification");
                 }
 
                 return output;

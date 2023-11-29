@@ -43,6 +43,7 @@ namespace HFS_BE.Dao.FoodDao
         public List<FoodImage> Images { get; set; }
         public virtual List<Feedback> Feedbacks { get; set; }
         public string? Status { get; set; }
+        public int? ReportedTimes { get; set; }
     }
 
     public class ListFoodOutputSellerDto : BaseOutputDto

@@ -7,6 +7,7 @@ export class Food {
   categoryName: string = null;
   categoryId: number = null;
   status: string = null;
+  reportedTimes: number = null;
   rating: number = null;
   imagesBase64: FoodImageBase64[] = null;
 }

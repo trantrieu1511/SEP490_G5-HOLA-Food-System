@@ -1,4 +1,5 @@
-﻿using HFS_BE.Services;
+﻿using CloudinaryDotNet;
+using HFS_BE.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -96,7 +97,7 @@ namespace HFS_BE.Controllers
 			_httpClient.BaseAddress = new Uri("https://provinces.open-api.vn/api/");
 		}
 
-		[HttpGet]
+		[HttpPost("/users/province")]
 		public async Task<IActionResult> GetProvinces()
 		{
 			try
@@ -116,12 +117,12 @@ namespace HFS_BE.Controllers
 				return StatusCode(500, ex.Message);
 			}
 		}
-		[HttpGet("2")]
-		public async Task<IActionResult> GetProvinces2()
+		[HttpPost("/users/district")]
+		public async Task<IActionResult> GetProvinces2(UrlAddress url)
 		{
 			try
 			{
-				var response = await _httpClient.GetAsync("?depth=2");
+				var response = await _httpClient.GetAsync(url.Url);
 
 				if (response.IsSuccessStatusCode)
 				{
@@ -136,12 +137,18 @@ namespace HFS_BE.Controllers
 				return StatusCode(500, ex.Message);
 			}
 		}
-		[HttpGet("3")]
-		public async Task<IActionResult> GetProvinces3()
+
+		public class UrlAddress
+		{
+			public string Url { get; set; }
+
+          } 
+		[HttpPost("/users/ward")]
+		public async Task<IActionResult> GetProvinces3(UrlAddress url)
 		{
 			try
 			{
-				var response = await _httpClient.GetAsync("?depth=3");
+				var response = await _httpClient.GetAsync(url.Url);
 
 				if (response.IsSuccessStatusCode)
 				{

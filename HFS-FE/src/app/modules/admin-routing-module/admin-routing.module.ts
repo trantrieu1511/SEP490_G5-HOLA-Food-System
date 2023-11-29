@@ -16,14 +16,14 @@ import { SellerReportModuleComponent } from './seller-report-module/seller-repor
 
 
 const routes: Routes = [
-  {path: "dd", component: ManageCustomerModuleComponent},
+  {path: "customer-management", component: ManageCustomerModuleComponent},
   {path: "post-moderator", component: ManagePostmoderatorModuleComponent},
-  {path: "seller-manage", component: ManageSellerModuleComponent},
-  {path: "shipper-manage", component: ManageShipperModuleComponent},
-  {path: "", component: ManageMenumoderatorModuleComponent},
+  {path: "seller-management", component: ManageSellerModuleComponent},
+  {path: "shipper-management", component: ManageShipperModuleComponent},
+  {path: "menu-moderator", component: ManageMenumoderatorModuleComponent},
   //{path: "manage-category", component: ManageCategoryModuleComponent},
-  {path: "category-manage", component: ManageCategoryModuleComponent},
-  {path: "dashboad", component: DashboadAdminModuleComponent},
+  {path: "category-management", component: ManageCategoryModuleComponent},
+  {path: "dashboard", component: DashboadAdminModuleComponent},
   {path: "report", component: SellerReportModuleComponent},
 ]
 

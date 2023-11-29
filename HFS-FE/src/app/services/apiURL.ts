@@ -39,6 +39,7 @@ export class API_NEWFEED {
 }
 // Service User
 export class API_USER {
+  public static REGISTER_SELLER = "registerseller";
     public static SIGNIN = "signin";
     public static GET_INFO_CURRENT_USER = "getInfoCurrentUser";
     public static REGISTER = "register";
@@ -57,6 +58,7 @@ export class API_USER {
     public static REPLY_SELLER = "replyfeedback";
      public static REPORT_SELLER = "reportseller";
      public static REPORT_SELLERCUS = "listreportsellerbyCustomer";
+
 }
 
 // Service Role
