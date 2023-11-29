@@ -154,8 +154,8 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
         const formattedDate = (ddstr != '' ? ddstr : dd) + '/' + (mmstr != '' ? mmstr : mm) + '/' + yyyy;
         this.profileDisplay.birthDate = (formattedDate == "NaN/NaN/NaN" ? '' : formattedDate); // Dang ky bang gg se bi gap truong hop NaN/NaN/NaN nhu vay
 
-        console.log(this.profile);
-        console.log(this.profileDisplay);
+        // console.log(this.profile);
+        // console.log(this.profileDisplay);
 
       } else {
         this.showMessage(mType.error, 'Error', response.message, 'notify');

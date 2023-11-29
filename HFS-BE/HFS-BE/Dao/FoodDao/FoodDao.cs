@@ -212,21 +212,22 @@ namespace HFS_BE.Dao.FoodDao
             try
             {
                 List<FoodOutputSellerDto> foodsModel = context.Foods
-                                        .Include(p => p.FoodImages)
-                                        .Include(p => p.Category)
-                                        .Include(p => p.Feedbacks)
-                                        .Select(p => new FoodOutputSellerDto
+                                        .Include(f => f.FoodImages)
+                                        .Include(f => f.Category)
+                                        .Include(f => f.Feedbacks)
+                                        .Select(f => new FoodOutputSellerDto
                                         {
-                                            FoodId = p.FoodId,
-                                            SellerId = p.SellerId,
-                                            Name = p.Name,
-                                            UnitPrice = p.UnitPrice,
-                                            Description = p.Description,
-                                            CategoryId = p.CategoryId,
-                                            CategoryName = p.Category.Name,
-                                            Status = PostMenuStatusEnum.GetStatusString(p.Status),
-                                            Images = p.FoodImages.ToList(),
-                                            Feedbacks = p.Feedbacks.ToList(),
+                                            FoodId = f.FoodId,
+                                            SellerId = f.SellerId,
+                                            Name = f.Name,
+                                            UnitPrice = f.UnitPrice,
+                                            Description = f.Description,
+                                            CategoryId = f.CategoryId,
+                                            CategoryName = f.Category.Name,
+                                            Status = PostMenuStatusEnum.GetStatusString(f.Status),
+                                            Images = f.FoodImages.ToList(),
+                                            Feedbacks = f.Feedbacks.ToList(),
+                                            ReportedTimes = f.ReportedTimes,
                                         })
                                         .ToList();
                 var output = this.Output<ListFoodOutputSellerDto>(Constants.ResultCdSuccess);
