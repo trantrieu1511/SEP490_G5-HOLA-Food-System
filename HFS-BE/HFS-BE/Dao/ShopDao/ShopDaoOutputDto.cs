@@ -31,6 +31,6 @@ namespace HFS_BE.Dao.ShopDao
         public string? ShopName { get; set; }
         public string? ShopAddress { get; set; }
         public bool IsOnline { get; set; }
-        public int NumberOrdered { get; set; }
+       // public int NumberOrdered { get; set; }
     }
 }

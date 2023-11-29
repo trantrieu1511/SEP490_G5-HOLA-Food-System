@@ -175,6 +175,8 @@ namespace HFS_BE.Utils.IOFile
 					return "feedback";
 				case 5:
 					return "reportseller";
+				case 6:
+					return "license";
 				default:
                     return "";
             }

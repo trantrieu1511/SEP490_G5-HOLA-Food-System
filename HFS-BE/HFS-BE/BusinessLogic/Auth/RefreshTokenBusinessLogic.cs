@@ -51,8 +51,9 @@ namespace HFS_BE.BusinessLogic.Auth
                         newAccessToken = new JwtSecurityTokenHandler().WriteToken(authNotCus.GenerateSecurityTokenSeller(new Seller
                         {
                             Email = user.Email,
-                            FirstName = user.FirstName,
-                            LastName = user.LastName,
+                            //FirstName = user.FirstName,
+                            //LastName = user.LastName,
+                            ShopName=user.FirstName,
                             SellerId = user.Id
                         }));
                         break;

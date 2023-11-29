@@ -70,7 +70,7 @@ namespace HFS_BE.DAO.SellerReportDao
 											Status = p.Status,
 											UpdateBy = p.UpdateBy,
 											UpdateDate = p.UpdateDate,
-											SellerName = p.Seller.FirstName + " " + p.Seller.LastName,
+											//SellerName = p.Seller.FirstName + " " + p.Seller.LastName,
 											ShopName = p.Seller.ShopName ,
 											ReportByName = p.ReportByNavigation.FirstName + " " + p.ReportByNavigation.LastName,
 											Images = p.SellerReportImages.ToList()
@@ -105,7 +105,7 @@ namespace HFS_BE.DAO.SellerReportDao
 											Status = p.Status,
 											UpdateBy = p.UpdateBy,
 											UpdateDate = p.UpdateDate,
-											SellerName = p.Seller.FirstName + " " + p.Seller.LastName,
+											//SellerName = p.Seller.FirstName + " " + p.Seller.LastName,
 											ShopName = p.Seller.ShopName,
 											ReportByName = p.ReportByNavigation.FirstName + " " + p.ReportByNavigation.LastName,
 											Images = p.SellerReportImages.ToList()

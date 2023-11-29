@@ -1,4 +1,5 @@
 ﻿using HFS_BE.Base;
+using HFS_BE.Models;
 
 namespace HFS_BE.DAO.SellerDao
 {
@@ -20,6 +21,14 @@ namespace HFS_BE.DAO.SellerDao
 		public bool? IsBanned { get; set; }
 		public bool? IsVerified { get; set; }
 		public List<ImageSellerOutputDto>? Images { get; set; }
+		public List<SellerLicenseImage>? ImagesL { get; set; }
+
+	}
+	public class ImageSellerLOutputDto
+	{
+		public int ImageId { get; set; }
+		public string UserId { get; set; } = null!;
+		public string Path { get; set; } = null!;
 	}
 	public class ImageSellerOutputDto
 	{

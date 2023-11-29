@@ -74,6 +74,16 @@ namespace HFS_BE.Hubs
 
 					await Clients.All.SendAsync("GetOnlineAndOfflineUsers", usersOnline, usersOffline);
 				}
+				else
+				{
+					var listcus = await customerDao.ListCustomersendSellerbySellerAsync(username);
+					foreach (var u in listcus)
+					{
+						u.CountMessageNotIsRead = await messageDao.CountMessageSellerNotIsRead(u.Email, username);
+					}
+					await Clients.Client(Context.ConnectionId).SendAsync("ListCus", listcus);
+
+				}
 			}
 			//var username = Context.User.FindFirstValue(ClaimTypes.Email);
 			

@@ -11,18 +11,18 @@ GO
 
 CREATE TABLE [dbo].[Seller](
 	[sellerId] [nvarchar](50) NOT NULL primary key,
-	[firstName] [nvarchar](50) NOT NULL,
-	[lastName] [nvarchar](50) NOT NULL,
-	[gender] [nvarchar](10) NULL,
-	[birthDate] [date] NULL,
+	--[firstName] [nvarchar](50) NOT NULL,
+	--[lastName] [nvarchar](50) NOT NULL,
+	--[gender] [nvarchar](10) NULL,
+	--[birthDate] [date] NULL,
+	shopName NVARCHAR(50),
+	shopAddress NVARCHAR(MAX),
 	[email] [nvarchar](100) UNIQUE NOT NULL,
 	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
 	[isOnline] [bit] NOT NULL,
 	[walletBalance] [money] NULL,
-	shopName NVARCHAR(50),
-	shopAddress NVARCHAR(MAX),
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 	[isBanned] [bit] not null DEFAULT('false'),
 	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Seller) da duoc admin xac nhan cho phep kinh doanh o HFS chua
@@ -643,4 +643,10 @@ CREATE TABLE [dbo].[ShipperReport](
 	[sellerReportId] [int] NULL,
 	[path] [nvarchar](max) NULL,
 	FOREIGN KEY([sellerReportId]) REFERENCES [dbo].[SellerReport] ([sellerReportId]),
+)
+	CREATE TABLE [dbo].[SellerLicenseImage](
+	[imageLicenseId] [int] IDENTITY(1,1) NOT NULL  PRIMARY KEY,
+	[sellerId] [nvarchar](50) NOT NULL,
+	[path] [nvarchar](max) NULL,
+	FOREIGN KEY([sellerId]) REFERENCES [dbo].[Seller] ([sellerId]),
 )

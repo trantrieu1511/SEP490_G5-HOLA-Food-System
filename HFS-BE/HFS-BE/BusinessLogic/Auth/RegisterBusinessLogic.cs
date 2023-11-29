@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
+using HFS_BE.BusinessLogic.SellerReportBL;
 using HFS_BE.Dao.AuthDao;
 using HFS_BE.DAO.AuthDAO;
+using HFS_BE.DAO.SellerReportDao;
 using HFS_BE.Models;
+using HFS_BE.Utils.IOFile;
 
 namespace HFS_BE.BusinessLogic.Auth
 {
@@ -32,10 +35,18 @@ namespace HFS_BE.BusinessLogic.Auth
 			try
 			{
 				var Dao = this.CreateDao<AuthNotCustomerDao>();
+				var fileNames = new List<string>();
 				var daoinput = mapper.Map<RegisterSellerInputDto, RegisterSellerDto>(inputDto);
-				var daooutput = await Dao.RegisterSeller(daoinput);
+				if (inputDto.Images != null && inputDto.Images.Count > 0)
+					fileNames = ReadSaveImage.SaveSellerReportImages(inputDto.Images, inputDto.Email, 6);
 
-				return daooutput;
+				
+				daoinput.Images = fileNames;
+
+				var output = await Dao.RegisterSeller(daoinput);
+				
+
+				return output;
 			}
 			catch (Exception)
 			{

@@ -45,7 +45,8 @@ namespace HFS_BE.DAO.PostReportDao
                             .Select(pr => new PostReportOutputDto
                             {
                                 PostId = pr.PostId,
-                                SellerName = pr.Post.Seller.LastName + " " + pr.Post.Seller.FirstName,
+                             //   SellerName = pr.Post.Seller.LastName + " " + pr.Post.Seller.FirstName,
+
                                 ShopName = pr.Post.Seller.ShopName,
                                 PostContent = pr.Post.PostContent,
                                 ReportBy = pr.ReportBy,

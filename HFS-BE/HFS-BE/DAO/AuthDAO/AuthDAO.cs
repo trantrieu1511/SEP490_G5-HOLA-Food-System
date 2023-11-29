@@ -187,7 +187,7 @@ namespace HFS_BE.Dao.AuthDao
 			var user = new HFS_BE.Models.Customer
 			{
 				CustomerId = paddedString,
-				Email = model.Email,
+				Email = model.Email.ToLower(),
 				BirthDate = model.BirthDate,
 				FirstName = model.FirstName,
 				LastName = model.LastName,
