@@ -21,7 +21,7 @@ export class AddressSelectorComponent {
   }
 
   async callAPI(api: string, target: string) {
-    debugger
+    
     const response = await firstValueFrom(this.http.get('https://provinces.open-api.vn/api/?depth=1'))
 console.log(response);
         this.renderData(response, target);

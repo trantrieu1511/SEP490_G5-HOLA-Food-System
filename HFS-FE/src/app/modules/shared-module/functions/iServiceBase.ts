@@ -918,7 +918,7 @@ export class iServiceBase {
 
     async getAllProvincesAsync(){
         try {
-// debugger;
+// ;
             const request = await firstValueFrom(this.httpClient.get(this.strProvicesUrl))
             document.body.style.cursor = 'default';
             return request;

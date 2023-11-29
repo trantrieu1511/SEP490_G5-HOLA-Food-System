@@ -17,8 +17,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { CartItem } from '../../models/CartItem.model';
 import { CheckboxModule } from 'primeng/checkbox';
-import { CreateOrder, ListShop } from '../../models/CreateOrder.model';
+import { CartItemCheckout, CreateOrder, FoodCheckout, ListShop, ListShopCheckout } from '../../models/CreateOrder.model';
 import { AddToCart } from '../../models/addToCart.model';
+import { FailedToNegotiateWithServerError } from '@microsoft/signalr/dist/esm/Errors';
 
 @Component({
   selector: 'app-checkout',
@@ -27,7 +28,7 @@ import { AddToCart } from '../../models/addToCart.model';
 })
 export class CheckoutComponent extends iComponentBase implements OnInit{
   loading: boolean;
-  items : CartItem[]
+  items : CartItemCheckout[]
   selectedOption: string = 'default';
   customAddress: string = '';
   address : any[]
@@ -38,6 +39,12 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
   phone: string
   voucher : string = ""
   displayConfirmOrder : boolean = true
+  listShop: any[];
+
+  haveVoucher: boolean = false;
+  totalPriceVoucher: number;
+
+  isDifferentAddress: boolean = false;
 
   constructor(
     private shareData: ShareData,
@@ -55,13 +62,17 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
     await this.getAddress();
     if (this.dataService.getData() != null){
       this.items = this.dataService.getData();
+      this.splitOrderBySeller();
+      this.calculate();
     }
     else{
       this.router.navigate(['/cartdetail']);
     }
     this.defaultAddress = this.address[0].addressInfo;
     console.log(this.defaultAddress)
-    this.calculate();
+    
+
+    
   }
 
   calculate(){
@@ -110,24 +121,24 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
       console.log(checkoutInfor)
 
 
-      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CHECKOUT, API.API_CHECKOUT.CREATE_ORDER, checkoutInfor);
-      console.log(response)
-      if (response) {
-        if (response.message != "Success"){
-          this.showMessage(mType.warn, "", response.message, 'notify');
-        }
-        else if (response.message === "Balance not enough!"){
-          this.showMessage(mType.warn, "", "Balance not enough!", 'notify');
-          window.open('https://www.google.com/', '_blank');
-        }
-        else{
-          this.showMessage(mType.success, "", "Create Order success!", 'notify');
-          this.router.navigate(['/cartdetail'])
-        }         
-      }
-      else{
-        this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');
-      }
+      // let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CHECKOUT, API.API_CHECKOUT.CREATE_ORDER, checkoutInfor);
+      // console.log(response)
+      // if (response) {
+      //   if (response.message != "Success"){
+      //     this.showMessage(mType.warn, "", response.message, 'notify');
+      //   }
+      //   else if (response.message === "Balance not enough!"){
+      //     this.showMessage(mType.warn, "", "Balance not enough!", 'notify');
+      //     window.open('https://www.google.com/', '_blank');
+      //   }
+      //   else{
+      //     this.showMessage(mType.success, "", "Create Order success!", 'notify');
+      //     this.router.navigate(['/cartdetail'])
+      //   }         
+      // }
+      // else{
+      //   this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');
+      // }
 
       this.loading = false;
   } catch (e) {
@@ -152,5 +163,39 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
       console.log(e);
       this.loading = false;
   }
+  }
+
+  splitOrderBySeller(){
+    console.log(this.items)
+    this.listShop = [];
+
+    this.items.forEach(x =>{
+      if(this.listShop.filter(e => e.shopId == x.shopId).length == 0){
+        let shop = new ListShopCheckout()
+        shop.shopId = x.shopId
+        shop.shopName = x.shopName
+        shop.foodCheckouts = []
+        let data = this.items.filter(o => o.shopId == x.shopId);
+        
+        let totalPriceShop = 0;
+        data.forEach(x => {
+          let cartitem = new FoodCheckout()
+          cartitem.foodId = x.foodId
+          cartitem.amount = x.amount
+          cartitem.foodImage = x.foodImages
+          cartitem.foodName = x.name
+          cartitem.unitPrice = x.unitPrice
+          cartitem.totalPrice = x.amount * x.unitPrice
+          shop.foodCheckouts.push(cartitem)
+          totalPriceShop += cartitem.totalPrice
+        })
+
+        shop.totalPrice = totalPriceShop
+        
+        this.listShop.push(shop)
+      }
+    })
+
+    console.log(this.listShop);
   }
 }

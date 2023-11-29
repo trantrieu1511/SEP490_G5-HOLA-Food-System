@@ -215,10 +215,10 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
       }
     });
     // rpContent += ", " + this.postReport.reportContent;
-   // debugger
+   // 
     this.sellerReport.reportContent = rpContent;
     console.log("Full rp content: " + this.sellerReport.reportContent);
-   // debugger
+   // 
     // ------------------ Commit vao db --------------------
     try {
      this.sellerReport.images=this.uploadedFiles;
@@ -234,7 +234,7 @@ this.uploadedFiles.forEach(file => {
 //   param.append(key, this.sellerReport[key]);
 // });
 
-   // debugger
+   // 
       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.REPORT_SELLER, param22);
       if (response && response.success === true) {
         this.showMessage(mType.success, "Notification", `Report the food successfully`, 'notify');

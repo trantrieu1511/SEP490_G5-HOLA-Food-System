@@ -50,7 +50,7 @@ export class ReportSellerComponent extends iComponentBase implements OnInit {
   }
 
   async getAllFoodReport() {
-    debugger;
+    ;
     this.lstReport = [];
     try {
       this.loading = true;

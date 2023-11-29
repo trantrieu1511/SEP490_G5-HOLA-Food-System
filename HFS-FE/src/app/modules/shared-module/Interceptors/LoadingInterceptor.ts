@@ -43,6 +43,7 @@ export class LoadingInterceptor implements HttpInterceptor {
                 return event;
             }),
             catchError(err => {
+                
                 //this.removeRequest(request);
                 return throwError(() => err);
             }),
