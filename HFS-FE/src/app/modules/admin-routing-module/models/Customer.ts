@@ -8,8 +8,19 @@ export class Customer {
   phoneNumber: string;
   avatar: string;
   isOnline: boolean;
-  isBanned: boolean;
+  confirmedEmail:boolean
+  numberOfViolations:number;
   imagesBase64: CustomerImageBase64[] = null;
+  orders: OrderInCom[] = null;
+}
+
+
+export interface OrderInCom {
+  orderId: number;
+  orderDate: string;
+  shipAddress: string;
+  shipperId: string;
+  note: string;
 }
 export interface CustomerImageBase64 {
   imageId: number;

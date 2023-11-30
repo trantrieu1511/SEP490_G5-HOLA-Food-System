@@ -6,6 +6,7 @@ namespace HFS_BE.Controllers.OrderShipper
     {
         public int OrderId { get; set; }
         public string? Note { get; set; }
+        public string? Check { get; set; }
         public byte Status { get; set; }
         public IFormFile? Image { get; set; }
 

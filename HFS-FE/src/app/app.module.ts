@@ -110,7 +110,6 @@ import { CustomerRoutingModule } from './modules/customer-routing-module/custome
     DashboadShipperModuleComponent,
     SellerReportModuleComponent,
     // ReportSellerComponent,
-    AddressSelectorComponent,
     //ListFeedbackBySellerComponent,
   ],
   imports: [

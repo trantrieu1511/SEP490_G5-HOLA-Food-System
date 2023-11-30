@@ -91,9 +91,12 @@
                               Images
                           </div>
                       </th>
-                      <th>
+                      <th pSortableColumn="confirmedEmail">
                         <div class="flex justify-content-between align-items-center">
-                            Ban
+                          ConfirmEmail
+                            <p-sortIcon field="confirmedEmail"></p-sortIcon>
+                            <p-columnFilter type="numeric" field="confirmedEmail" display="menu"
+                                            class="ml-auto"></p-columnFilter>
                         </div>
                     </th>
                       <th style="min-width: 8rem">
@@ -149,8 +152,17 @@
                           <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
                       </td>
 
-
                       <td >
+                        <span class="p-column-title">ConfirmEmail</span>
+                        <div *ngIf="user.confirmedEmail===true"  style="color:chartreuse;">
+                          Confirmed
+                          </div>
+                          <div *ngIf="user.confirmedEmail===false"  style="color:red;">
+                           Not confirmed yet
+                          </div>
+
+                    </td>
+                      <!-- <td >
                         <span class="p-column-title">IsBanned</span>
                         <div *ngIf="user.isBanned" style="color:red;">
                          <span class="post-content" (click)="onHistoryBan(user.shipperId)">Ban</span>
@@ -158,14 +170,14 @@
                         <div *ngIf="!user.isBanned"  style="color:chartreuse;">
                           Not Ban
                         </div>
-                    </td>
+                    </td> -->
                       <td style="text-align: center">
                           <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
-                              <div class="flex align-items-center justify-content-center">
+                              <!-- <div class="flex align-items-center justify-content-center">
                                   <button pButton pRipple  [icon]="user.isBanned ? 'pi pi-lock-open' : 'pi pi-ban'"
                                   (click)="BanShipper(user)"
                                           class="p-button-rounded p-mr-2"></button>
-                              </div>
+                              </div> -->
                               <div class="flex align-items-center justify-content-center">
                                 <button *ngIf="!user.isVerified" pButton pRipple  label="Verification"
                                 (click)="ActiveShipper(user)"

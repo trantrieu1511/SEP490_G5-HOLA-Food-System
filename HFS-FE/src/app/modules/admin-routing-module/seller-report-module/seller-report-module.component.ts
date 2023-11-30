@@ -29,6 +29,7 @@ export class SellerReportModuleComponent extends iComponentBase implements OnIni
   visiblebanHistoryDialog:boolean=false;
   visibleImageDialog:boolean=false;
   headerDialog: string = '';
+  isDisabledReportBtnSubmit :boolean =true;
   inputreply:ReportSellerInput =new ReportSellerInput();
   detailreport:reportSeller =new reportSeller();
   constructor( private shareData: ShareData,
@@ -40,7 +41,15 @@ export class SellerReportModuleComponent extends iComponentBase implements OnIni
     super(messageService);
 
   }
+  isSaveButtonDisabled: boolean = true;
 
+    // other methods
+
+    // create a method to check conditions and enable/disable the button
+    checkSaveButtonStatus() {
+        // Example condition: enable the button if both note and status are filled
+        this.isSaveButtonDisabled = !this.inputreply.note || !this.inputreply.status;
+    }
   ngOnInit(): void {
     //  const userData = localStorage.getItem('user');
     //    this.user = JSON.parse(userData);
@@ -133,4 +142,7 @@ onDisplayImagesDialog(cus: Customer, event: any) {
   this.cusImg = cus;
   this.visibleImageDialog = true;
 }
+
+
+
 }

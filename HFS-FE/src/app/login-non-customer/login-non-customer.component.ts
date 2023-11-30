@@ -191,6 +191,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
         //
         this.service.loginnotcus(this.form.value).subscribe(res => {
           if(res===undefined&&this.user===null){
+            this.refreshCaptcha();
             this.showMessage(mType.error, "Notification", this.error, 'app-non-login');
           }else{
           //this.toastr.success('Login success');

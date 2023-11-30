@@ -1,7 +1,5 @@
 export class Seller {
   sellerId: string;
-  firstName: string;
-  lastName: string;
   gender: string;
   birthDate: Date;
   email: string;
@@ -10,11 +8,12 @@ export class Seller {
   walletBalance:number;
   avatar: string;
   shopName:string;
-  shopAdress:string;
+  shopAddress:string;
   confirmedEmail:boolean;
   isBanned: boolean;
   isVerified:boolean;
   imagesBase64: SellerImageBase64[] = null;
+  imagesBase64L: SellerImageBase64[] = null;
 }
 export interface SellerImageBase64 {
   imageId: number;

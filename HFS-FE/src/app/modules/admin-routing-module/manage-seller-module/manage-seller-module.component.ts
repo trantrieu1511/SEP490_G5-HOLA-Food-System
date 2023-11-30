@@ -16,10 +16,13 @@ import * as API from "../../../services/apiURL";
 })
 export class ManageSellerModuleComponent extends iComponentBase implements OnInit {
    listSeller:Seller []=[];
+   visibleContentDialog:boolean=false;
   displayDialogBan: boolean = false;
   visiblebanHistoryDialog:boolean=false;
   visibleImageDialog:boolean=false;
+  visibleImageDialog2:boolean=false;
   sellerImg:Seller=new Seller();
+  sellerDetail:Seller=new Seller();
   headerDialog: string = '';
   listhistoryBan:HistoryBanSeller []=[];
   banseller:BanSeller= new BanSeller();
@@ -38,10 +41,10 @@ this.getAllSeller();
 
   async getAllSeller() {
     this.listSeller = [];
-
+ debugger
     try {
 
-   
+
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.LIST_SELLER,"");
 
         if (response && response.message === "Success") {
@@ -63,7 +66,7 @@ this.getAllSeller();
   }
       try {
 
-     
+
           let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.HIS_SELLER,param);
 
           if (response && response.message === "Success") {
@@ -85,7 +88,7 @@ console.log(this.banseller);
   async onSaveBan(){
     console.log(this.banseller);
     try{
-      
+
     let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.BAN_SELLER,this.banseller);
 
     if (response && response.message === "Success") {
@@ -112,7 +115,7 @@ console.log(this.banseller);
       "isVerified": !user.isVerified
     }
     try{
-      
+
     let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.ACTIVE_SELLER,param);
 
     if (response && response.message === "Success") {
@@ -133,5 +136,13 @@ console.log(this.banseller);
   onDisplayImagesDialog(s: Seller, event: any) {
     this.sellerImg = s;
     this.visibleImageDialog = true;
+  }
+  onDisplayImagesDialog2(s: Seller, event: any) {
+    this.sellerImg = s;
+    this.visibleImageDialog2 = true;
+  }
+  Detail(s:Seller,event){
+    this.visibleContentDialog=true;
+    this.sellerDetail=s;
   }
 }

@@ -1,4 +1,5 @@
 ﻿using HFS_BE.Base;
+using HFS_BE.DAO.CustomerDao;
 
 namespace HFS_BE.BusinessLogic.ManageUser.ManageCustomer
 {
@@ -14,9 +15,11 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageCustomer
 		public string? Avatar { get; set; }
 		public bool? IsOnline { get; set; }
 		public decimal? WalletBalance { get; set; }
-		public bool? ConfirmEmail { get; set; }
-		public bool? IsBanned { get; set; }
+		public bool? ConfirmedEmail { get; set; }
+		//	public bool? IsBanned { get; set; }
+		public int NumberOfViolations { get; set; }
 		public List<CustomerImageOutputDto>? ImagesBase64 { get; set; } = new List<CustomerImageOutputDto>();
+		public List<OrderCustomerOutputDto>? Orders { get; set; }
 	}
 
 	public class CustomerImageOutputDto

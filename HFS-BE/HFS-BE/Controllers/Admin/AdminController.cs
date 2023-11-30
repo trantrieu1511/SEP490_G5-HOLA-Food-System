@@ -2,7 +2,9 @@
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Admin;
 using HFS_BE.BusinessLogic.Auth;
+using HFS_BE.BusinessLogic.ManageUser.ManageShipper;
 using HFS_BE.DAO.AdminDao;
+using HFS_BE.DAO.ShipperDao;
 using HFS_BE.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -58,6 +60,20 @@ namespace HFS_BE.Controllers.Admin
 			catch (Exception ex)
 			{
 
+				throw;
+			}
+		}
+		[HttpPost("users/dashboadadminline")]
+		public List<DashBoardAdminLineOutputDto> DashboardShipper(DashBoardAdminLineInputDto input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<AdminBusinessLogic>();
+				var output = business.DashBoardAdminLine(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
 				throw;
 			}
 		}

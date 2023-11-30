@@ -212,7 +212,7 @@ onRoleChange(event: any) {
 }
 async onSubmit() {
   console.log(this.formregister);
-  debugger;
+  ;
   if (this.formregister.valid) {
 
     switch(this.formregister.value.roleId.toString()){
@@ -350,7 +350,7 @@ handleAllFilesClear(event: Event) {
   console.log("uploadFiles", this.uploadedFiles);
 }
 async callAPI(api: string, target: string) {
-  debugger
+  
   const param={
     "url" :api
   }
@@ -385,7 +385,7 @@ renderData(data: any, target: string) {
 }
 
 onProvinceChange() {
-debugger;
+;
   const selectedProvinceCode = (document.getElementById('province') as HTMLSelectElement).value;
 
   this.callAPI('p/' + selectedProvinceCode + '?depth=2', 'district');

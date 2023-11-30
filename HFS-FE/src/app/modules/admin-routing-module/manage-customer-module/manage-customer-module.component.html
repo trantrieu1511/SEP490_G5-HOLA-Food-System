@@ -86,6 +86,14 @@
                                               class="ml-auto"></p-columnFilter>
                           </div>
                       </th>
+                      <th pSortableColumn="confirmedEmail">
+                        <div class="flex justify-content-between align-items-center">
+                          ConfirmedEmail
+                            <p-sortIcon field="confirmedEmail"></p-sortIcon>
+                            <p-columnFilter type="text" field="confirmedEmail" display="menu"
+                                            class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
                       <!-- <th pSortableColumn="isOnline">
                           <div class="flex justify-content-between align-items-center">
                             Online
@@ -99,9 +107,12 @@
                               Images
                           </div>
                       </th>
-                      <th>
+                      <th pSortableColumn="numberOfViolations">
                         <div class="flex justify-content-between align-items-center">
-                            Ban
+                          NumberOfViolations
+                            <p-sortIcon field="birthDate"></p-sortIcon>
+                            <p-columnFilter type="text" field="numberOfViolations" display="menu"
+                                            class="ml-auto"></p-columnFilter>
                         </div>
                     </th>
                       <th style="min-width: 8rem">
@@ -154,6 +165,16 @@
                           Offline
                         </div>
                     </td> -->
+                    <td>
+                      <span class="p-column-title">ConfirmedEmail</span>
+
+                      <div *ngIf="user.confirmedEmail===true"  style="color:chartreuse;">
+                        Confirmed
+                        </div>
+                        <div *ngIf="user.confirmedEmail===false"  style="color:red;">
+                         Not confirmed yet
+                        </div>
+                  </td>
                       <td>
                           <span class="p-column-title">Image</span>
                           <ng-container *ngIf="user.imagesBase64.length !== 0; else noneImage" >
@@ -164,20 +185,21 @@
                           <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
                       </td>
                       <td >
-                        <span class="p-column-title">IsBanned</span>
-                        <div *ngIf="user.isBanned" style="color:red;">
+                        <span class="p-column-title">NumberOfViolations</span>
+                        <!-- <div *ngIf="user.isBanned" style="color:red;">
                          <span class="post-content" (click)="onHistoryBan(user.customerId)">Ban</span>
                         </div>
                         <div *ngIf="!user.isBanned"  style="color:chartreuse;">
                           Not Ban
-                        </div>
+                        </div> -->
+                        {{user.numberOfViolations}}
                     </td>
                       <td style="text-align: center">
                           <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
                               <div class="flex align-items-center justify-content-center">
-                                  <button pButton pRipple  [icon]="user.isBanned ? 'pi pi-lock-open' : 'pi pi-ban'"
-                                  (click)="BanCustomer1(user)"
-                                          class="p-button-rounded p-mr-2"></button>
+                                  <button pButton pRipple
+                                  (click)="BanCustomer1(user,$event)"
+                                          class="p-button-rounded p-mr-2">Detail</button>
                               </div>
 
                           </div>
@@ -201,44 +223,101 @@
           >
     <div class="grid p-fluid">
         <div class="col-12 md:col-12">
-            <div class="card">
-                <p-divider align="left">
-                    <div class="p-d-inline-flex p-ai-center">
-                        <b>Reason</b>
-                    </div>
-                </p-divider>
-                <div class="grid">
-                  <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-                      <span class="p-input-icon-left p-float-label" style="width: 100%">
-                          <input type="hidden" step="5000" min="0"  class="w-full" [(ngModel)]="bancus.customerId"
-                                  pInputText
-                                  />
+          <table class="table-report-detail">
+            <tbody>
+              <tr>
+                <th>ID:</th>
+                <td>
+                    {{cusDetail.customerId}}
+                </td>
+            </tr>
+                <tr>
 
-                      </span>
-                  </div>
+                    <th>FullName: </th>
+                    <td>
+                        {{cusDetail.firstName}}  {{cusDetail.lastName}}
+                    </td>
+                </tr>
 
-                <div class="col-12 mb-2 ">
-                  <span class="p-input-icon-left p-float-label" style="width: 100%">
-                    <textarea class="w-full" rows="10" cols="60"
-                    pInputTextarea
-                    [(ngModel)]="bancus.reason"
+                <tr>
+                    <th>PhoneNumber: </th>
+                    <td>
+                        {{cusDetail.phoneNumber}}
+                    </td>
+                </tr>
+                <tr>
+                  <th>Gender: </th>
+                  <td>
+                      {{cusDetail.gender}}
+                  </td>
+              </tr>
+              <tr>
+                <th>BirthDate: </th>
+                <td>
+                    {{cusDetail.birthDate| date:'dd/MM/yyyy'}}
+                </td>
+            </tr>
+                <tr>
+                  <th>Email: </th>
+                  <td>
+                      {{cusDetail.email}}
+                  </td>
+                </tr>
 
-                    ></textarea>
-                      <label>Reason*</label>
-                  </span>
-              </div>
+                <tr>
+                  <th>ConfirmEmail: </th>
+                  <td>
+
+                     <div *ngIf="cusDetail.confirmedEmail===true"  style="color:chartreuse;">
+                     Confirmed
+                     </div>
+                     <div *ngIf="cusDetail.confirmedEmail===false"  style="color:red;">
+                      Not confirmed yet
+                     </div>
+                  </td>
+              </tr>
+                <tr>
+                  <th>NumberOfViolations: </th>
+                  <td>
+                    {{cusDetail.numberOfViolations}}
+                </td>
+              </tr>
+
+                <tr>
+                  <th>Violations: </th>
+                  <td >
+
+                    <p-table  [value]="cusDetail.orders" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+                      <ng-template pTemplate="header">
+                          <tr>
+                              <th pSortableColumn="orderId">OrderId<p-sortIcon field="orderId"></p-sortIcon></th>
+                              <th>Reason</th>
+                              <th>OrderDate</th>
+                              <th>ShipperId</th>
+                              <th>ShipAddress</th>
+                          </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-order>
+                          <tr >
+                              <td>{{order.orderId}}</td>
+                              <td>{{order.note}}</td>
+                              <td>{{order.orderDate| date:'dd/MM/yyyy hh:mm a'}}</td>
+                              <td>{{order.shipperId}}</td>
+                              <td>{{order.shipAddress}}</td>
+                          </tr>
+                      </ng-template>
+                  </p-table>
 
 
+                  </td>
 
+              </tr>
 
-
-
-
-                </div>
-            </div>
+            </tbody>
+        </table>
         </div>
     </div>
-    <ng-template pTemplate="footer">
+    <!-- <ng-template pTemplate="footer">
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
                 <button pButton type="button" label="Save" icon="pi pi-save"
@@ -251,7 +330,7 @@
                         style="width: 100%;"></button>
             </div>
         </div>
-    </ng-template>
+    </ng-template> -->
 </p-dialog>
 <p-dialog header="List Ban History"
     [(visible)]="visiblebanHistoryDialog"

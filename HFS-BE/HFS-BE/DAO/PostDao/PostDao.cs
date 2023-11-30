@@ -88,6 +88,7 @@ namespace HFS_BE.Dao.PostDao
                 List<PostOutputSellerDto> postsModel = context.Posts
                                         .Include(p => p.PostImages)
                                         .Where(p => p.SellerId == userDto.UserId)
+                                        .OrderBy(p => p.CreatedDate)
                                         .Select(p => new PostOutputSellerDto
                                         {
                                             PostId = p.PostId,
@@ -96,7 +97,6 @@ namespace HFS_BE.Dao.PostDao
                                             Status = PostMenuStatusEnum.GetStatusString(p.Status),
                                             Images = p.PostImages.ToList()
                                         })
-                                        .OrderBy(p => p.CreatedDate)
                                         .ToList();
                 var output = this.Output<ListPostOutputSellerDto>(Constants.ResultCdSuccess);
                 output.Posts = postsModel;

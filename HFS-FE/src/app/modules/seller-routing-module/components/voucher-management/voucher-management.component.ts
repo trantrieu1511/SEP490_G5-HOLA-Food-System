@@ -12,6 +12,7 @@ import {
 } from 'src/app/modules/shared-module/shared-module';
 import { Voucher, VoucherDisplayHideInputDto, VoucherInput} from '../../models/voucher.model';
 import { AuthService } from 'src/app/services/auth.service';
+
 @Component({
   selector: 'app-voucher-management',
   templateUrl: './voucher-management.component.html',
@@ -26,6 +27,7 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
   voucherModel: Voucher = new Voucher();
   check :boolean = false;
   displayDialogEditAddVoucher: boolean = false;
+  check2: boolean = true;
 
   constructor(
     public breadcrumbService: AppBreadcrumbService,
@@ -36,8 +38,11 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
     private iFunction: iFunction,
     private signalRService: DataRealTimeService,
     private authService: AuthService
+
   ) {
     super(messageService, breadcrumbService);
+
+    
   }
   ngOnInit(): void {
     this.userId = this.authService.getUserInfor().userId;
@@ -192,7 +197,6 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
       } else {
         this.createVoucher(voucherEntity);
       }
-    
   }
 
   async updateVoucher(voucherEntity : VoucherInput){
@@ -242,4 +246,5 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
     this.displayDialogEditAddVoucher = false;
   }
 
+  
 }
