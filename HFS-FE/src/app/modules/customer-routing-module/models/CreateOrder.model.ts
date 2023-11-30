@@ -35,6 +35,7 @@ export class ListShopCheckout{
     shopName: string
     totalPrice: number
     voucherPrice: number = 0
+    voucher: string
     foodCheckouts : FoodCheckout[]
 }
 

@@ -59,7 +59,8 @@ const routes: Routes = [
     CustomerpostreportComponent,
     ManageshipaddressComponent,
     AppMenuMyaccountComponent,
-    ReportSellerComponent
+    ReportSellerComponent,
+    AddressSelectorComponent
   ],
   imports: [
     CommonModule,
@@ -69,6 +70,7 @@ const routes: Routes = [
   ],
   exports: [
     // AppMenuMyaccountComponent
+    AddressSelectorComponent
   ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }

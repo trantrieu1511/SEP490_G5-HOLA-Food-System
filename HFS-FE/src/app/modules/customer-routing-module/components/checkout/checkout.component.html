@@ -3,9 +3,10 @@
     <div class="grid p-fluid">
       <div class="col-12 md:col-12">
           <div class="card">
-              <p-divider align="left">
-                  <div class="p-d-inline-flex p-ai-center">
-                      <b>Order Information</b>
+              <p-divider align="left" type="solid">
+                  <div class="inline-flex align-items-center">
+                    <b>Order Information</b>
+                    
                   </div>
               </p-divider>
               <div class="grid">
@@ -56,7 +57,9 @@
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
                                 <input type="text" 
                                         class="w-full" 
+                                        [(ngModel)]="order.voucher" 
                                         pInputText
+                                        (input)="checkVoucher($event, order.shopId)"
                                         />
                                 <label>Voucher (optional)</label>
                             </span>
@@ -104,22 +107,27 @@
               </div>
               <p-fieldset legend="Overview Information" [toggleable]="false">
                   <div class="grid">
-                      <div class="col-12 mb-2 lg:col-3 mb-lg-0">
-                          Address
+                      <div class="col-12 mb-2 lg:col-3 mb-lg-0 flex flex-column gap-2rem">
+                          <span>Address</span>
+                          <p-checkbox [binary]="true" label="Different" [(ngModel)]="isDifferentAddress"></p-checkbox>
                       </div>
-                      <div class="col-3 mb-2 lg:col-2 mb-lg-0 flex align-item-center">
-                        <p-checkbox value="val1" label="Different" [(ngModel)]="isDifferentAddress"></p-checkbox>
-                      </div>
-                      <div class="col-9 mb-2 lg:col-7 mb-lg-0" >
+                      
+                      <div class="col-12 mb-2 lg:col-9 mb-lg-0" >
                         <ng-container *ngIf="isDifferentAddress;else addressDefault">
-                          <span class="p-input-icon-left p-float-label" style="width: 100%">
+                          <!-- <span class="p-input-icon-left p-float-label" style="width: 100%">
                             <input type="text" 
                                     class="w-full" 
                                     [(ngModel)]="address"
                                     pInputText
                                     />
                             <label>Address*</label>
-                        </span>
+                          </span> -->
+                        <app-address-selector
+                          (provinceOutput)="proviceOutput($event)"
+                          (districtOutput)="districtOutput($event)"
+                          (wardOutput)="wardOutput($event)"
+                          (addressOutput)="addressOutput($event)"
+                        ></app-address-selector>
                         </ng-container>
                         
                         <ng-template  #addressDefault>
@@ -130,7 +138,7 @@
                                         optionLabel="addressInfo"
                                         ></p-dropdown>
                             <label>Address*</label>
-                        </span>
+                          </span>
                       </ng-template>
                       </div>
                       
@@ -148,9 +156,47 @@
                                 pInputText=
                                 />
                         <label>Phone*</label>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="grid">
+                    <div class="col-12 mb-2 lg:col-3 mb-lg-0">
+                        Payment Method
+                    </div>
+                    <div class="col-5 mb-2 lg:col-5 mb-lg-0" style="text-align: end;">
+                      <div class="flex flex-wrap gap-3">
+                        <div class="flex align-items-center">
+                            <p-radioButton name="payment" value="cod" [(ngModel)]="paymentOptions" inputId="ingredient1"></p-radioButton>
+                            <label for="ingredient1" class="ml-2">COD</label>
+                        </div>
+                        
+                        <div class="flex align-items-center">
+                            <p-radioButton name="payment" value="wallet" [(ngModel)]="paymentOptions" (click)="onClickWallet()" inputId="ingredient2"></p-radioButton>
+                            <label for="ingredient2" class="ml-2">Wallet</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="paymentOptions === 'wallet'" class="col-7 mb-2 lg:col-4 mb-lg-0" style="text-align: end;">
+                      <div class="flex flex-wrap gap-3 align-items-center">
+                        <span>Wallet: </span>
+                        <span>đ3829833232332323</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="grid">
+                    <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+                      <span class="p-input-icon-left p-float-label" style="width: 100%">
+                        <input type="text" 
+                                class="w-full" 
+                                [(ngModel)]="note"
+                                pInputText=
+                                />
+                        <label>Note (optional)</label>
                     </span>
                     </div>
                   </div>
+
                   <div class="grid">
                     <div class="col-12 mb-2 lg:col-3 mb-lg-0">
                         Total Price Order 
@@ -160,6 +206,7 @@
                       <span *ngIf="haveVoucher">- {{totalPriceVoucher | currency : "VND"}}</span>
                     </div>
                   </div>
+                  
               </p-fieldset>
 
               <div class="grid col-12" style="text-align: center">

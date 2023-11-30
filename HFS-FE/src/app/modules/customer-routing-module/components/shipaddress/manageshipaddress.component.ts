@@ -71,7 +71,7 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
   }
 
   async callAPI(api: string, target: string) {
-    // debugger;
+    // ;
     const param = {
       "url": api
     }
@@ -95,7 +95,7 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
   }
 
   onProvinceChange(fromCreateModal: boolean) {
-    // debugger;
+    // ;
     // const selectedProvinceCode = (document.getElementById('province') as HTMLSelectElement).value;
     // if (this.selectedProvince != null || this.selectedProvince) {
 
@@ -209,7 +209,7 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
   }
 
   validateCreateNewShipAddress() {
-    // debugger;
+    // ;
     var check = true;
     this.createNewShipAddressValidation = new CreateNewShipAddressInputValidation();
     if (!this.shipAddress.detailAddressInfo || this.shipAddress.detailAddressInfo == '') {
@@ -306,7 +306,7 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
     this.shipAddress = Object.assign({}, shipaddress);
     this.shipAddress.detailAddressInfo = this.shipAddress.addressInfo.split('. ')[0];
 
-    // debugger
+    // 
     // get province
     await this.callAPI("", 'province');
     this.provinces.forEach(element => {

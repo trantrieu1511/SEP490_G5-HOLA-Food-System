@@ -30,6 +30,9 @@ namespace HFS_BE.BusinessLogic.ManageMenuReport
 
                 var food = foodDao.GetFoodById(inputDto.FoodId);
 
+                if(food is null)
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+
                 var notifyBase = inputDto.IsApproved ?
                     GenerateNotification.GetSingleton().GenNotificationApproveReport(inputDto.ReportBy, food.Name, inputDto.Note, 0) :
                     GenerateNotification.GetSingleton().GenNotificationNotApproveReport(inputDto.ReportBy, food.Name, inputDto.Note, 0);
@@ -40,14 +43,17 @@ namespace HFS_BE.BusinessLogic.ManageMenuReport
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail);
                 }
 
+                if(!inputDto.IsApproved)
+                    return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
                 // add noti for seller
-                /*sellerId = food.SellerId;
-                var notify2 = GenerateNotification.GetSingleton().GenNotificationFoodReportSeller(food.SellerId, inputDto.FoodId, food.Name, inputDto.ReportContent);
+                sellerId = food.SellerId;
+                var notify2 = GenerateNotification.GetSingleton().GenNotificationFoodReportSeller(food.SellerId, inputDto.FoodId, food.Name, inputDto.Note);
                 var noti2 = notifyDao.AddNewNotification(notify2);
                 if (!noti2.Success)
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail);
-                }*/
+                }
 
                 return Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
