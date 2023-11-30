@@ -31,6 +31,13 @@ namespace HFS_BE.BusinessLogic.ManagePost
         public string? Status { get; set; }
 
         public List<PostImageOutputSellerDto>? ImagesBase64 { get; set; } = new List<PostImageOutputSellerDto>();
+
+        //public int? ReportedTimes { get; set; }
+        public string? BanBy { get; set; }
+
+        public DateTime? BanDate { get; set; }
+
+        public string? BanNote { get; set; }
     }
 
     public class PostImageOutputSellerDto

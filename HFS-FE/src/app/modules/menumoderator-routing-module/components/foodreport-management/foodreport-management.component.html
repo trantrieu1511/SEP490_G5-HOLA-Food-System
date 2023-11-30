@@ -156,21 +156,21 @@
                             <span class="p-column-title">Note</span>
                             {{foodrp.note}}
                         </td>
-                        <td style="display: flex; text-align: center">
+                        <td>
                             <div *ngIf="foodrp.status === 'NotApproved' || foodrp.status === 'Pending'"
-                                class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+                                class="" style="gap: 0.5rem">
 
-                                <div class="flex align-items-center justify-content-center">
-                                    <button style="margin-right: 5px;" pButton pRipple icon="pi pi-check"
+                                <div class="">
+                                    <button style="margin-bottom: 5px;" pButton pRipple icon="pi pi-check-circle"
                                         (click)="onOpenApproveNotApproveModal('Approved', foodrp)"
                                         class="p-button-rounded p-button-success p-mr-2"></button>
                                 </div>
                             </div>
                             <div *ngIf="foodrp.status === 'Approved' || foodrp.status === 'Pending'"
-                                class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+                                class="" style="gap: 0.5rem">
 
-                                <div class="flex align-items-center justify-content-center">
-                                    <button pButton pRipple icon="pi pi-times"
+                                <div class="">
+                                    <button pButton pRipple icon="pi pi-times-circle"
                                         (click)="onOpenApproveNotApproveModal('Not approved', foodrp)"
                                         class="p-button-rounded p-button-danger p-mr-2"></button>
                                 </div>
@@ -188,9 +188,9 @@
     </div>
 </div>
 
-<p-dialog header="Note for approving/not approving" [(visible)]="isVisibleApproveNotApproveModal" [modal]="true"
-    [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '500px' }" [draggable]="false" [resizable]="false"
-    [responsive]="true">
+<p-dialog [header]="foodReport.status == 'Approved' ? 'Note for approving' : 'Note for not approving'"
+    [(visible)]="isVisibleApproveNotApproveModal" [modal]="true" [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '500px' }" [draggable]="false" [resizable]="false" [responsive]="true">
     <div class="card">
         <!-- <div class="flex align-items-center">
             <p-radioButton name="Approved" value="Approved" [(ngModel)]="foodReport.status"

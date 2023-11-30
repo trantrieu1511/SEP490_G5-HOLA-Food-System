@@ -17,6 +17,9 @@ namespace HFS_BE.BusinessLogic.ManageFood
         public int Rating { get; set; }
         public string? Status { get; set; }
         public int? ReportedTimes { get; set; }
+        public string? BanBy { get; set; }
+        public DateTime? BanDate { get; set; }
+        public string? BanNote { get; set; }
         public string? CreatedDate { get; set; }
         public List<FoodImageOutputSellerDto>? ImagesBase64 { get; set; } = new List<FoodImageOutputSellerDto>();
     }

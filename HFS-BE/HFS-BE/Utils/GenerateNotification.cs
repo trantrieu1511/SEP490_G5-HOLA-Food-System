@@ -178,15 +178,17 @@ namespace HFS_BE.Utils
             return notifyLst;
         }
 
-        public List<NotificationAddNewInputDto> GenNotificationBanPost(string receiver, int postId)
+        public List<NotificationAddNewInputDto> GenNotificationBanPost(string receiver, int postId, string banNote)
         {
             var notifyLst = GenNotificationBase(receiver, "System", "System");
 
             notifyLst[0].Title = "Post Banned";
-            notifyLst[0].Content = $"Post Id({postId}) has a banned based on user reports";
+            //notifyLst[0].Content = $"Post Id({postId}) has a banned based on user reports";
+            notifyLst[0].Content = $"Post Id({postId}) was banned. Note: {banNote}";
 
             notifyLst[1].Title = "Bài viết bị cấm";
-            notifyLst[1].Content = $"Post Id({postId}) đã bị cấm dựa theo báo cáo của người dùng";
+            //notifyLst[1].Content = $"Post Id({postId}) đã bị cấm dựa theo báo cáo của người dùng";
+            notifyLst[1].Content = $"Post Id({postId}) đã bị cấm. Ghi chú: {banNote}";
 
             return notifyLst;
         }
@@ -204,15 +206,17 @@ namespace HFS_BE.Utils
             return notifyLst;
         }
 
-        public List<NotificationAddNewInputDto> GenNotificationBanFood(string receiver, int foodId)
+        public List<NotificationAddNewInputDto> GenNotificationBanFood(string receiver, int foodId, string banNote)
         {
             var notifyLst = GenNotificationBase(receiver, "System", "System");
 
             notifyLst[0].Title = "Food Banned";
-            notifyLst[0].Content = $"Food Id({foodId}) has a banned based on user reports";
+            //notifyLst[0].Content = $"Food Id({foodId}) has a banned based on user reports";
+            notifyLst[0].Content = $"Food Id({foodId}) was banned. Note: {banNote}";
 
             notifyLst[1].Title = "Món ăn bị cấm";
-            notifyLst[1].Content = $"Món Id({foodId}) đã bị cấm dựa theo báo cáo của người dùng";
+            //notifyLst[1].Content = $"Món Id({foodId}) đã bị cấm dựa theo báo cáo của người dùng";
+            notifyLst[1].Content = $"Món Id({foodId}) đã bị cấm. Ghi chú: {banNote}";
 
             return notifyLst;
         }

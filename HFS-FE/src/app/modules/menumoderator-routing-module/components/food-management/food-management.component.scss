@@ -232,6 +232,18 @@
     word-break: break-word;
 }
 
+.table-ban-detail {
+    tbody>tr>th {
+        text-align: left;
+        padding-bottom: 10px;
+    }
+
+    tbody>tr>td {
+        padding-left: 10%;
+        padding-bottom: 10px;
+    }
+}
+
 
 
 @media screen and (max-width: 960px) {

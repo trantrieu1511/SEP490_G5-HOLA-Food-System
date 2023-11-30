@@ -40,6 +40,7 @@ namespace HFS_BE.Dao.FoodDao
     {
         public int FoodId { get; set; }
         public bool isBanned { get; set; }
+        public string BanNote { get; set; } = string.Empty;
     }
 
     public class FoodUpdateInforInputDto

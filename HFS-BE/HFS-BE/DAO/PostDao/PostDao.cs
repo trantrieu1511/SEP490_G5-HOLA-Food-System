@@ -121,7 +121,11 @@ namespace HFS_BE.Dao.PostDao
                                             CreatedDate = p.CreatedDate.Value.ToString("MM/dd/yyyy"),
                                             PostContent = p.PostContent,
                                             Status = PostMenuStatusEnum.GetStatusString(p.Status),
-                                            Images = p.PostImages.ToList()
+                                            Images = p.PostImages.ToList(),
+                                            //ReportedTimes = p.ReportedTimes,
+                                            BanBy = p.BanBy,
+                                            BanDate = p.BanDate,
+                                            BanNote = p.BanNote
                                         })
                                         .ToList();
                 var output = this.Output<ListPostOutputSellerDto>(Constants.ResultCdSuccess);
@@ -227,6 +231,7 @@ namespace HFS_BE.Dao.PostDao
                         post.Status = 3;
                         post.BanBy = userId;
                         post.BanDate = DateTime.Now;
+                        post.BanNote = input.BanNote;
                     }
                     else
                     {
@@ -234,6 +239,7 @@ namespace HFS_BE.Dao.PostDao
                         post.Status = 1;
                         post.BanBy = null;
                         post.BanDate = null;
+                        post.BanNote = null;
                     }
 
                     // Reduce ban/unban limit
