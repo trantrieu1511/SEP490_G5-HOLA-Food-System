@@ -35,6 +35,8 @@ export class ShipperComponent extends iComponentBase implements OnInit {
 
     displayDialogConfirm: boolean = false;
 
+    displayDialogConfirm1: boolean = false;
+
     headerDialog: string = '';
 
     postModel: Post = new Post();
@@ -62,6 +64,8 @@ export class ShipperComponent extends iComponentBase implements OnInit {
     selectedtype:number;
 
     uploadedFiles: File[] = [];
+
+    check: string = "0";
 
     contentDialog: string;
     visibleContentDialog: boolean = false;
@@ -211,7 +215,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
 
         this.uploadedFiles = [];
 
-        this.displayDialogConfirm = true;
+        this.displayDialogConfirm1 = true;
 
     }
     InComplete(orderId : number,type:number){
@@ -232,9 +236,8 @@ export class ShipperComponent extends iComponentBase implements OnInit {
     }
     async Save(){
       try {
-        //let param = postEnity;
-       // 
         const param = new FormData();
+        param.append('check',this.check);
         param.append('orderId', this.selectedOrderId.toString());
         param.append('note', this.note);
         param.append('status',this.selectedtype == 0? "4" : "5");

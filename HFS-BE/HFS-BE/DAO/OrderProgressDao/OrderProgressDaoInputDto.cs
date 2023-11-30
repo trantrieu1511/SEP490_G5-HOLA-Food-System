@@ -4,6 +4,7 @@ namespace HFS_BE.DAO.OrderProgressDao
 {
     public class OrderProgressDaoInputDto 
     {
+        public string? Check { get; set; }
         public string? Note { get; set; }
         public DateTime? CreateDate { get; set; }
         public string? Image { get; set; }
