@@ -134,7 +134,7 @@ export class AuthService {
   }
   registerseller(model: any) {
     //
-debugger
+
     return this.httpClient.post(this.path + 'home/registerseller', model).pipe(
 
       map((res: Register) => {

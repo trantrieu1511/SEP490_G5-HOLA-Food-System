@@ -46,6 +46,13 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
 
   isDifferentAddress: boolean = false;
 
+  timeOutVoucherInput: any = null;
+
+  provinceSelected: any;
+  districtSelected: any;
+  wardSelected: any;
+  addressDetailSelected: any;
+
   constructor(
     private shareData: ShareData,
     public messageService: MessageService,
@@ -86,21 +93,48 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
     try {
       
       this.loading = true;
-      if (this.phone.trim().length === 0){
+      if (!this.phone || this.phone.trim().length === 0){
         this.showMessage(mType.warn, "", "Phone is required!", 'notify');
         return;
       }    
       let checkoutInfor = new CreateOrder();
-      checkoutInfor.shipAddress = this.selectedOption == 'default' ? this.defaultAddress : this.customAddress
-      if (checkoutInfor.shipAddress.trim().length === 0){
+      checkoutInfor.shipAddress = !this.isDifferentAddress ? 
+        this.defaultAddress : 
+        `${this.addressDetailSelected}, ${this.wardSelected}, ${this.districtSelected}, ${this.provinceSelected}`
+      
+      
+      if (!checkoutInfor.shipAddress || checkoutInfor.shipAddress.trim().length === 0){
         this.showMessage(mType.warn, "", "Address is required!", 'notify');
         return;
       }
+
+      if(this.isDifferentAddress){
+        if(!this.provinceSelected){
+          this.showMessage(mType.warn, "", "Province is required!", 'notify');
+          return;
+        }
+
+        if(!this.districtSelected){
+          this.showMessage(mType.warn, "", "District is required!", 'notify');
+          return;
+        }
+
+        if(!this.wardSelected){
+          this.showMessage(mType.warn, "", "Ward is required!", 'notify');
+          return;
+        }
+
+        if(!this.addressDetailSelected){
+          this.showMessage(mType.warn, "", "Address detail is required!", 'notify');
+          return;
+        }
+      }
+
       checkoutInfor.note = this.note
       checkoutInfor.paymentMethod = this.paymentOptions
       checkoutInfor.phone = this.phone
       checkoutInfor.voucher = this.voucher.trim();
-      checkoutInfor.listShop = []
+      checkoutInfor.listShop = this.listShop;
       this.items.forEach(x =>{
         if(checkoutInfor.listShop.filter(e => e.shopId == x.shopId).length == 0){
           let shop = new ListShop()
@@ -119,26 +153,30 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
       })
 
       console.log(checkoutInfor)
-
-
-      // let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CHECKOUT, API.API_CHECKOUT.CREATE_ORDER, checkoutInfor);
-      // console.log(response)
-      // if (response) {
-      //   if (response.message != "Success"){
-      //     this.showMessage(mType.warn, "", response.message, 'notify');
-      //   }
-      //   else if (response.message === "Balance not enough!"){
-      //     this.showMessage(mType.warn, "", "Balance not enough!", 'notify');
-      //     window.open('https://www.google.com/', '_blank');
-      //   }
-      //   else{
-      //     this.showMessage(mType.success, "", "Create Order success!", 'notify');
-      //     this.router.navigate(['/cartdetail'])
-      //   }         
+      const totalPriceLast = this.totalPrice - (this.haveVoucher ? this.totalPriceVoucher : 0);
+      // if(wallet < totalPriceLast){
+      //   this.showMessage(mType.warn, "", "Wallet not enough", 'notify');
+      //   return
       // }
-      // else{
-      //   this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');
-      // }
+
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CHECKOUT, API.API_CHECKOUT.CREATE_ORDER, checkoutInfor);
+      console.log(response)
+      if (response) {
+        if (response.message != "Success"){
+          this.showMessage(mType.warn, "", response.message, 'notify');
+        }
+        else if (response.message === "Balance not enough!"){
+          this.showMessage(mType.warn, "", "Balance not enough!", 'notify');
+          window.open('https://www.google.com/', '_blank');
+        }
+        else{
+          this.showMessage(mType.success, "", "Create Order success!", 'notify');
+          this.router.navigate(['/cartdetail'])
+        }         
+      }
+      else{
+        this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');
+      }
 
       this.loading = false;
   } catch (e) {
@@ -198,4 +236,53 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
 
     console.log(this.listShop);
   }
+
+  checkVoucher(event: any, shopId: number){
+    
+    clearTimeout(this.timeOutVoucherInput);
+
+    this.timeOutVoucherInput = setTimeout(() => {
+      console.log('goi check voucher')
+      this.listShop = this.listShop.map(shop => {
+        if (shop.shopId === shopId) {
+           return { ...shop, voucher: event.target.value };
+        }
+        return shop;
+      });
+
+      console.log(this.listShop)
+     //check api thành công thì 
+          //1. set haveVoucher = true (hiển thị số tiền trừ ở voucher tổng)
+          //2. set voucherPrice trả về từ BE vào listShop để hiển thị số tiền vouvher trừ (voucherPrice !=0 sẽ hiển thị )     
+          //3. tính toán lại cho totalPrice order trong listShop by shopId param
+          //4. và tính lại total của cả Order (biến totalPrice)
+    }, 1000); //TH nếu vẫn input thì sẽ ch gọi api check voucher vội
+
+   
+  }
+
+  proviceOutput(province: string){
+    this.provinceSelected = province
+    console.log(this.provinceSelected)
+  }
+
+  districtOutput(district: string){
+    this.districtSelected = district
+    console.log(this.districtSelected)
+  }
+
+  wardOutput(ward: string){
+    this.wardSelected = ward
+    console.log(this.wardSelected)
+  }
+
+  addressOutput(address: string){
+    this.addressDetailSelected = address
+    console.log(this.addressDetailSelected)
+  }
+
+  onClickWallet(){
+    //request api get wallet
+  }
+
 }
