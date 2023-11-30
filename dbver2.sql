@@ -448,9 +448,10 @@ CREATE TABLE [dbo].[Post](
 	[postContent] [nvarchar](1500) NULL,
 	[createdDate] [datetime] NULL,
 	[status] [tinyint] NULL,
-	[reportedTimes] [int] NUll, -- Thể hiện cho số lần mà bài đăng này nhận phải tố cáo hợp lệ (Đã thông qua kiểm duyệt của post mod) đến từ khách hàng
+	--[reportedTimes] [int] default(0) NUll, -- Thể hiện cho số lần mà bài đăng này nhận phải tố cáo hợp lệ (Đã thông qua kiểm duyệt của post mod) đến từ khách hàng
 	[banBy] [nvarchar](50) NUll,
 	[banDate] [datetime] Null,
+	[banNote] [nvarchar](MAX) Null, -- Lý do khác hoặc ghi chú bổ sung cho việc bị ban vì > 3 tố cáo hợp lệ đến từ khách hàng
 	Foreign Key ([banBy]) REFERENCES [PostModerator](ModId),
 	Foreign Key ([sellerId]) REFERENCES [Seller](SellerId),
 	primary key([postId]),

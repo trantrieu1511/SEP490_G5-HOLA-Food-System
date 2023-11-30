@@ -107,7 +107,7 @@
                         <td>
                             <span class="p-column-title">reportBy</span>
                             <!-- <span class="post-reportBy"> -->
-                                {{postrp.reportBy}}
+                            {{postrp.reportBy}}
                             <!-- </span> -->
                         </td>
                         <td>
@@ -135,14 +135,14 @@
                             <span class="p-column-title">Note</span>
                             {{postrp.note}}
                         </td>
-                        <td style="text-align: center">
-                            <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
-                                <!-- <div class="flex align-items-center justify-content-center">
+                        <td>
+                            <!-- <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem"> -->
+                            <!-- <div class="flex align-items-center justify-content-center">
                                     <button pButton pRipple icon="pi pi-pencil"
                                             (click)="onUpdatePost(post)"
                                             class="p-button-rounded p-mr-2"></button>
                                 </div> -->
-                                <!-- <ng-container>
+                            <!-- <ng-container>
                                     <div *ngIf="postrp.status === 'Pending' || postrp.status === 'NotApproved'"
                                         class="flex align-items-center justify-content-center">
                                         <button pButton pRipple icon="pi pi-check" (click)="onApprove(postrp, $event)"
@@ -154,10 +154,28 @@
                                             class="p-button-rounded p-button-danger"></button>
                                     </div>
                                 </ng-container> -->
-                                <div class="flex align-items-center justify-content-center">
+                            <!-- <div class="flex align-items-center justify-content-center">
                                     <button pButton pRipple icon="pi pi-pencil"
                                         (click)="onOpenApproveNotApproveModal(postrp)"
                                         class="p-button-rounded p-mr-2"></button>
+                                </div> -->
+                            <!-- </div> -->
+                            <div *ngIf="postrp.status === 'NotApproved' || postrp.status === 'Pending'" class=""
+                                style="gap: 0.5rem">
+
+                                <div class="">
+                                    <button style="margin-bottom: 5px;" pButton pRipple icon="pi pi-check-circle"
+                                        (click)="onOpenApproveNotApproveModal('Approved', postrp)"
+                                        class="p-button-rounded p-button-success p-mr-2"></button>
+                                </div>
+                            </div>
+                            <div *ngIf="postrp.status === 'Approved' || postrp.status === 'Pending'" class=""
+                                style="gap: 0.5rem">
+
+                                <div class="">
+                                    <button pButton pRipple icon="pi pi-times-circle"
+                                        (click)="onOpenApproveNotApproveModal('Not approved', postrp)"
+                                        class="p-button-rounded p-button-danger p-mr-2"></button>
                                 </div>
                             </div>
                         </td>
@@ -173,15 +191,15 @@
     </div>
 </div>
 
-<p-dialog header="Approve/Not approve post report" [(visible)]="isVisibleApproveNotApproveModal" [modal]="true"
-    [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '500px' }" [draggable]="false" [resizable]="false"
-    [responsive]="true">
+<p-dialog [header]="postReport.status == 'Approved' ? 'Note for approving' : 'Note for not approving'"
+    [(visible)]="isVisibleApproveNotApproveModal" [modal]="true" [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '500px' }" [draggable]="false" [resizable]="false" [responsive]="true">
     <!-- <input type="text" [(ngModel)]="postReport.postId" disabled="true" /><hr>
     <input type="text" [(ngModel)]="postReport.reportBy" disabled="true" /><hr> -->
     <!-- <hr> -->
     <!-- <br> -->
     <div class="card">
-        <div class="flex align-items-center">
+        <!-- <div class="flex align-items-center">
             <p-radioButton name="Approved" value="Approved" [(ngModel)]="postReport.status"
                 inputId="Approved"></p-radioButton>
             <label for="Approved" class="ml-2">Approved</label>
@@ -191,11 +209,11 @@
             <label for="NotApproved" class="ml-2">NotApproved</label>
         </div>
         <br>
-        <br>
+        <br> -->
         <span class="p-float-label">
             <textarea class="w-full" id="float-input" rows="5" cols="40" [(ngModel)]="postReport.note"
                 pInputTextarea></textarea>
-            <label for="float-input">Note (Optional)</label>
+            <label for="float-input">Enter some note (Optional)</label>
         </span>
     </div>
     <!-- <hr> -->

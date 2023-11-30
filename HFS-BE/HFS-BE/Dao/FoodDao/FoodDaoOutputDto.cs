@@ -44,6 +44,9 @@ namespace HFS_BE.Dao.FoodDao
         public virtual List<Feedback> Feedbacks { get; set; }
         public string? Status { get; set; }
         public int? ReportedTimes { get; set; }
+        public string? BanBy { get; set; }
+        public DateTime? BanDate { get; set; }
+        public string? BanNote { get; set; }
     }
 
     public class ListFoodOutputSellerDto : BaseOutputDto

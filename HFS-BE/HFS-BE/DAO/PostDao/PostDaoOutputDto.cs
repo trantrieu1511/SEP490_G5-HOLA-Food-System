@@ -3,7 +3,7 @@ using HFS_BE.Models;
 
 namespace HFS_BE.Dao.PostDao
 {
-    public class PostOutputDto 
+    public class PostOutputDto
     {
         public int PostId { get; set; }
         public int UserId { get; set; }
@@ -19,7 +19,7 @@ namespace HFS_BE.Dao.PostDao
     {
         public List<PostOutputDto> Posts { get; set; }
     }
-    
+
     public class DashboardPostmodPostDataDaoOutputDto : BaseOutputDto
     {
         public List<Post> Posts { get; set; } = new List<Post>();
@@ -33,6 +33,14 @@ namespace HFS_BE.Dao.PostDao
         public string? PostContent { get; set; }
 
         public string? CreatedDate { get; set; }
+
+        //public int? ReportedTimes { get; set; }
+
+        public string? BanBy { get; set; }
+
+        public DateTime? BanDate { get; set; }
+
+        public string? BanNote { get; set; }
 
         public string? Status { get; set; }
 

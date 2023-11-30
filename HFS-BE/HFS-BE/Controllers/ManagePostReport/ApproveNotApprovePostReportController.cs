@@ -38,6 +38,7 @@ namespace HFS_BE.Controllers.ManagePostReport
                     var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
                     await notifyHub.Clients.Group(inputDto.ReportBy).SendAsync("notification");
 
+                    //await notifyHub.Clients.Group(sellerId).SendAsync("notification");
                     if(inputDto.IsApproved)
                         await notifyHub.Clients.Group(sellerId).SendAsync("notification");
                 }

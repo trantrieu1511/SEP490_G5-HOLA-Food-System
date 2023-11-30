@@ -43,6 +43,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   isVisibleSellerEditProfileDialog: boolean = false;
   isLoggedIn: boolean = false;
   selectedSideBarOption: boolean = true;
+  isVisibleVerifyPhoneNumberModal: boolean = false;
 
   // ------------- Validation variables --------------
   editProfileValidation: EditProfileInputValidation = new EditProfileInputValidation();
@@ -100,7 +101,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     } catch (e) {
       console.log(e);
       this.showMessage(mType.error, 'Error'
-            , 'Internal server error, please contact admin for help.', 'notify');
+        , 'Internal server error, please contact admin for help.', 'notify');
     }
   }
 
@@ -165,7 +166,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       // this.showMessage(mType.error, 'Error', e.message, 'notify');
       console.log(e);
       this.showMessage(mType.error, 'Error'
-            , 'Internal server error, please contact admin for help.', 'notify');
+        , 'Internal server error, please contact admin for help.', 'notify');
     }
   }
 
@@ -173,45 +174,47 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     console.log(this.profile.birthDate);
     var check = true;
     this.editProfileValidation = new EditProfileInputValidation();
-    if (!this.profile.lastName || this.profile.lastName == '') {
-      this.editProfileValidation.isValidLastName = false;
-      this.editProfileValidation.LastNameValidationMessage = "Last name can not empty";
-      check = false;
-    } else {
-      if (this.profile.lastName.length > 50) {
+    if (this.authService.getUserInfor().role != 'SE') {
+      if (!this.profile.lastName || this.profile.lastName == '') {
         this.editProfileValidation.isValidLastName = false;
-        this.editProfileValidation.LastNameValidationMessage = "Last name must be less than 50 characters";
+        this.editProfileValidation.LastNameValidationMessage = "Last name can not empty";
         check = false;
+      } else {
+        if (this.profile.lastName.length > 50) {
+          this.editProfileValidation.isValidLastName = false;
+          this.editProfileValidation.LastNameValidationMessage = "Last name must be less than 50 characters";
+          check = false;
+        }
       }
-    }
 
-    if (!this.profile.firstName || this.profile.firstName == '') {
-      this.editProfileValidation.isValidFirstName = false;
-      this.editProfileValidation.FirstNameValidationMessage = "First name can not empty";
-      check = false;
-    } else {
-      if (this.profile.firstName.length > 50) {
+      if (!this.profile.firstName || this.profile.firstName == '') {
         this.editProfileValidation.isValidFirstName = false;
-        this.editProfileValidation.FirstNameValidationMessage = "First name must be less than 50 characters";
+        this.editProfileValidation.FirstNameValidationMessage = "First name can not empty";
         check = false;
-      }
-    }
-
-    if (this.profile.birthDate != '') {
-      var birthdate = new Date(this.profile.birthDate);
-      var currentDate = new Date();
-      var maxAgeDate = new Date();
-      maxAgeDate.setFullYear(maxAgeDate.getFullYear() - 100);
-      if (birthdate > currentDate) {
-        this.editProfileValidation.isValidBirthDate = false;
-        this.editProfileValidation.BirthDateValidationMessage = "Your birth date cannot be in the future";
-        check = false;
+      } else {
+        if (this.profile.firstName.length > 50) {
+          this.editProfileValidation.isValidFirstName = false;
+          this.editProfileValidation.FirstNameValidationMessage = "First name must be less than 50 characters";
+          check = false;
+        }
       }
 
-      if (birthdate <= maxAgeDate) {
-        this.editProfileValidation.isValidBirthDate = false;
-        this.editProfileValidation.BirthDateValidationMessage = "Birth date is less than 100 year olds";
-        check = false;
+      if (this.profile.birthDate != '') {
+        var birthdate = new Date(this.profile.birthDate);
+        var currentDate = new Date();
+        var maxAgeDate = new Date();
+        maxAgeDate.setFullYear(maxAgeDate.getFullYear() - 100);
+        if (birthdate > currentDate) {
+          this.editProfileValidation.isValidBirthDate = false;
+          this.editProfileValidation.BirthDateValidationMessage = "Your birth date cannot be in the future";
+          check = false;
+        }
+
+        if (birthdate <= maxAgeDate) {
+          this.editProfileValidation.isValidBirthDate = false;
+          this.editProfileValidation.BirthDateValidationMessage = "Birth date is less than 100 year olds";
+          check = false;
+        }
       }
     }
 
@@ -301,7 +304,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       } catch (e) {
         console.log(e);
         this.showMessage(mType.error, 'Error'
-            , 'Internal server error, please contact admin for help.', 'notify');
+          , 'Internal server error, please contact admin for help.', 'notify');
       }
     }
   }
@@ -357,7 +360,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     } catch (e) {
       console.log(e);
       this.showMessage(mType.error, 'Error'
-            , 'Internal server error, please contact admin for help.', 'notify');
+        , 'Internal server error, please contact admin for help.', 'notify');
     }
   }
 
@@ -387,7 +390,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     }
     try {
 
-      
+
       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.HOME, API.API_HOME.SEND_CONFIRM_EMAIL, param);
 
       if (response && response.message === "Success") {
@@ -403,7 +406,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     } catch (e) {
       console.log(e);
       this.showMessage(mType.error, 'Error'
-            , 'Internal server error, please contact admin for help.', 'notify');
+        , 'Internal server error, please contact admin for help.', 'notify');
 
     }
     this.hideElement();
@@ -574,5 +577,14 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   //       return null;
   //   }
   // }
+
+
+  openVerifyPhonenumberModal() {
+    this.isVisibleVerifyPhoneNumberModal = true;
+  }
+
+  verifyPhonenumber() {
+    alert('Tự chế biến nốt nha a.')
+  }
 
 }

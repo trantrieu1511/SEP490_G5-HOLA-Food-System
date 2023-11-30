@@ -129,8 +129,9 @@ export class PostreportManagementComponent extends iComponentBase implements OnI
     }
   }
 
-  onOpenApproveNotApproveModal(postrp) {
+  onOpenApproveNotApproveModal(status, postrp) {
     this.postReport = Object.assign({}, postrp);
+    this.postReport.status = status;
     // 
     // this.approveNotApproveOption = { optionName: '' };
     // this.approveNotApproveOption.optionName = this.postReport.status;
