@@ -19,7 +19,7 @@
                 <td style="width: 15%; min-width: 5rem;">
                     <img [src]="'data:image/png;base64,' + product.foodImages" class="shadow-4" alt="{{product.name}}" width="50">
                 </td>
-                <td style="width: 18%; min-width: 7rem;">{{product.name}}</td>
+                <td style="width: 18%; min-width: 7rem; word-break: break-word;">{{product.name}}</td>
                 <td style="width: 18%; min-width: 8rem;">{{product.unitPrice | currency:'VND'}}</td>
                 <td style="width: 10%; min-width: 8rem;">
                     <!-- <p-inputNumber mode="decimal" [showButtons]="true" [min]="1" [max]="100" [(ngModel)]="product.amount" (ngModelChange)="onChangeAmount(product.foodId, product.amount)">
@@ -33,7 +33,7 @@
                     <input type="checkbox" [checked]="product.selected" (change)="onSelectFood(product.foodId, product.amount)"/>
                 </td>
                 <td style="width: 10%;">
-                    <button pButton pRipple type="button" label="Delete" class="p-button-danger" (click)="onDeleteCartItem(product.foodId)"></button>
+                    <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-danger p-button-rounded" (click)="onDeleteCartItem(product.foodId)"></button>
                 </td>
             </tr>
         </ng-template>      

@@ -20,6 +20,11 @@ import { CreateNewShipAddressInputValidation, ShipAddress, UpdateShipAddressInpu
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 
+class ProvinceDistrictWard {
+  name: string = null;
+  code: string = null;
+}
+
 @Component({
   selector: 'app-manageshipaddress',
   templateUrl: './manageshipaddress.component.html',
@@ -28,9 +33,12 @@ import { HttpClient } from '@angular/common/http';
 export class ManageshipaddressComponent extends iComponentBase implements OnInit {
   // ----------- Use-for-binding variables ------------
   listShipAddress: ShipAddress[] = [];
-  // listCities: any[] = [];
-  // listDistricts: any[] = [];
-  // listWards: any[] = [];
+  provinces: ProvinceDistrictWard[] = [];
+  districts: ProvinceDistrictWard[] = [];
+  wards: ProvinceDistrictWard[] = [];
+  selectedProvince: ProvinceDistrictWard = new ProvinceDistrictWard();
+  selectedDistrict: ProvinceDistrictWard = new ProvinceDistrictWard();
+  selectedWard: ProvinceDistrictWard = new ProvinceDistrictWard();
   shipAddress: ShipAddress = new ShipAddress();
   createNewShipAddressValidation: CreateNewShipAddressInputValidation = new CreateNewShipAddressInputValidation();
   updateShipAddressValidation: UpdateShipAddressInputValidation = new UpdateShipAddressInputValidation();
@@ -58,8 +66,83 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
 
   async ngOnInit(): Promise<void> {
     await this.getAllShipAddress();
+    this.callAPI("", 'province');
     // await this.getCities();
   }
+
+  async callAPI(api: string, target: string) {
+    // ;
+    const param = {
+      "url": api
+    }
+    if (target !== 'province') {
+      const response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, target, param);
+      if (target === 'district') {
+        this.districts = response.districts;
+      }
+      if (target === 'ward') {
+        this.wards = response.wards;
+      }
+
+      console.log(response);
+      // this.renderData(response, target);
+    } else {
+      const response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, target, "");
+      this.provinces = response;
+      console.log(this.provinces);
+      //  this.renderData(response, target);
+    }
+  }
+
+  onProvinceChange(fromCreateModal: boolean) {
+    // ;
+    // const selectedProvinceCode = (document.getElementById('province') as HTMLSelectElement).value;
+    // if (this.selectedProvince != null || this.selectedProvince) {
+
+    // this.validateCreateNewShipAddress();
+    this.districts = [];
+    this.selectedDistrict = null;
+    this.wards = [];
+    this.selectedWard = null;
+    if (fromCreateModal) {
+      this.validateCreateNewShipAddress();
+    } else {
+      this.validateUpdateNewShipAddress();
+    }
+    console.log(this.selectedProvince);
+    this.callAPI('p/' + this.selectedProvince.code + '?depth=2', 'district');
+    // this.printResult();
+    // }
+  }
+
+  onDistrictChange(fromCreateModal: boolean) {
+    // const selectedDistrictCode = (document.getElementById('district') as HTMLSelectElement).value;
+    // if (this.selectedDistrict != null || this.selectedDistrict) {
+
+    // this.validateCreateNewShipAddress();
+    this.wards = [];
+    this.selectedWard = null;
+    if (fromCreateModal) {
+      this.validateCreateNewShipAddress();
+    } else {
+      this.validateUpdateNewShipAddress();
+    }
+    console.log(this.selectedDistrict);
+    this.callAPI('d/' + this.selectedDistrict.code + '?depth=2', 'ward');
+    // this.printResult();
+    // }
+  }
+
+  onWardChange(fromCreateModal: boolean) {
+    if (fromCreateModal) {
+      this.validateCreateNewShipAddress();
+    } else {
+      this.validateUpdateNewShipAddress();
+    }
+    // this.printResult();
+  }
+
+
   // async getCities() {
   //   try {
   //     const response = await this.iServiceBase.getAllProvincesAsync();
@@ -111,23 +194,52 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
 
     this.createNewShipAddressValidation = new CreateNewShipAddressInputValidation();
 
+    // this.provinces = [];
+    this.callAPI("", 'province');
+    this.districts = [];
+    this.wards = [];
+    // this.selectedProvince = new ProvinceDistrictWard();
+    // this.selectedDistrict = new ProvinceDistrictWard();
+    // this.selectedWard = new ProvinceDistrictWard();
+    this.selectedProvince = null;
+    this.selectedDistrict = null;
+    this.selectedWard = null;
+
     this.isVisibleCreateModal = true;
   }
 
   validateCreateNewShipAddress() {
+    // ;
     var check = true;
     this.createNewShipAddressValidation = new CreateNewShipAddressInputValidation();
-    if (!this.shipAddress.addressInfo || this.shipAddress.addressInfo == '') {
-      this.createNewShipAddressValidation.isValidAddressInfo = false;
-      this.createNewShipAddressValidation.addressInfoValidationMessage = "Address information can not empty";
+    if (!this.shipAddress.detailAddressInfo || this.shipAddress.detailAddressInfo == '') {
+      this.createNewShipAddressValidation.isValidDetailAddressInfo = false;
+      this.createNewShipAddressValidation.detailAddressInfoValidationMessage = "Detail address information can not empty";
       check = false;
     } else {
-      if (this.shipAddress.addressInfo.length < 5) {
-        this.createNewShipAddressValidation.isValidAddressInfo = false;
-        this.createNewShipAddressValidation.addressInfoValidationMessage = "Address can not be too short. Min length: 5";
+      if (this.shipAddress.detailAddressInfo.length < 5) {
+        this.createNewShipAddressValidation.isValidDetailAddressInfo = false;
+        this.createNewShipAddressValidation.detailAddressInfoValidationMessage = "Detail address can not be too short. Min length: 5";
         check = false;
       }
     }
+
+    if (!this.selectedProvince || this.selectedProvince == null) {
+      this.createNewShipAddressValidation.isValidProvince = false;
+      this.createNewShipAddressValidation.provinceValidationMessage = "Provice information can not empty";
+      check = false;
+    }
+    if (!this.selectedDistrict || this.selectedDistrict == null) {
+      this.createNewShipAddressValidation.isValidDistrict = false;
+      this.createNewShipAddressValidation.districtValidationMessage = "District information can not empty";
+      check = false;
+    }
+    if (!this.selectedWard || this.selectedWard == null) {
+      this.createNewShipAddressValidation.isValidWard = false;
+      this.createNewShipAddressValidation.wardValidationMessage = "Ward information can not empty";
+      check = false;
+    }
+
     console.log(this.createNewShipAddressValidation);
     return check;
   }
@@ -138,7 +250,7 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
         this.loading = true;
 
         let param = {
-          addressInfo: this.shipAddress.addressInfo
+          addressInfo: this.shipAddress.detailAddressInfo + '. ' + this.selectedWard.name + ', ' + this.selectedDistrict.name + ', ' + this.selectedProvince.name
         }
 
         let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUSTOMER, API.API_SHIPADDRESS.CREATENEWSHIPADDRESS, param);
@@ -179,30 +291,98 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
     }
   }
 
-  openUpdateDialog(shipaddress: ShipAddress) {
+  async openUpdateDialog(shipaddress: ShipAddress) {
     this.shipAddress = new ShipAddress();
 
     this.updateShipAddressValidation = new UpdateShipAddressInputValidation();
 
+    // this.provinces = [];
+    // this.districts = [];
+    // this.wards = [];
+    // this.selectedProvince = new ProvinceDistrictWard();
+    // this.selectedDistrict = new ProvinceDistrictWard();
+    // this.selectedWard = new ProvinceDistrictWard();
+
     this.shipAddress = Object.assign({}, shipaddress);
+    this.shipAddress.detailAddressInfo = this.shipAddress.addressInfo.split('. ')[0];
+
+    // 
+    // get province
+    await this.callAPI("", 'province');
+    this.provinces.forEach(element => {
+      if (element.name == this.shipAddress.addressInfo.split('. ')[1].split(', ')[2]) {
+        this.selectedProvince = element;
+      }
+    });
+    // this.selectedProvince.name = this.shipAddress.addressInfo.split('. ')[0];
+
+    // get district
+    await this.callAPI('p/' + this.selectedProvince.code + '?depth=2', 'district');
+    this.districts.forEach(element => {
+      if (element.name == this.shipAddress.addressInfo.split('. ')[1].split(', ')[1]) {
+        this.selectedDistrict = element;
+      }
+    });
+    // this.selectedDistrict.name = this.shipAddress.addressInfo.split('. ')[1];
+
+    // get ward
+    await this.callAPI('d/' + this.selectedDistrict.code + '?depth=2', 'ward');
+    this.wards.forEach(element => {
+      if (element.name == this.shipAddress.addressInfo.split('. ')[1].split(', ')[0]) {
+        this.selectedWard = element;
+      }
+    });
+    // this.selectedWard.name = this.shipAddress.addressInfo.split('. ')[2];
 
     this.isVisibleUpdateModal = true;
   }
 
   validateUpdateNewShipAddress() {
+    // var check = true;
+    // this.updateShipAddressValidation = new UpdateShipAddressInputValidation();
+    // if (!this.shipAddress.detailAddressInfo || this.shipAddress.detailAddressInfo == '') {
+    //   this.updateShipAddressValidation.isValidDetailAddressInfo = false;
+    //   this.updateShipAddressValidation.detailAddressInfoValidationMessage = "Address information can not empty";
+    //   check = false;
+    // } else {
+    //   if (this.shipAddress.detailAddressInfo.length < 5) {
+    //     this.updateShipAddressValidation.isValidDetailAddressInfo = false;
+    //     this.updateShipAddressValidation.detailAddressInfoValidationMessage = "Address can not be too short. Min length: 5";
+    //     check = false;
+    //   }
+    // }
+    // console.log(this.updateShipAddressValidation);
+    // return check;
     var check = true;
     this.updateShipAddressValidation = new UpdateShipAddressInputValidation();
-    if (!this.shipAddress.addressInfo || this.shipAddress.addressInfo == '') {
-      this.updateShipAddressValidation.isValidAddressInfo = false;
-      this.updateShipAddressValidation.addressInfoValidationMessage = "Address information can not empty";
+    if (!this.shipAddress.detailAddressInfo || this.shipAddress.detailAddressInfo == '') {
+      this.updateShipAddressValidation.isValidDetailAddressInfo = false;
+      this.updateShipAddressValidation.detailAddressInfoValidationMessage = "Detail address information can not empty";
       check = false;
     } else {
-      if (this.shipAddress.addressInfo.length < 5) {
-        this.updateShipAddressValidation.isValidAddressInfo = false;
-        this.updateShipAddressValidation.addressInfoValidationMessage = "Address can not be too short. Min length: 5";
+      if (this.shipAddress.detailAddressInfo.length < 5) {
+        this.updateShipAddressValidation.isValidDetailAddressInfo = false;
+        this.updateShipAddressValidation.detailAddressInfoValidationMessage = "Detail address can not be too short. Min length: 5";
         check = false;
       }
     }
+
+    if (!this.selectedProvince || this.selectedProvince == null) {
+      this.updateShipAddressValidation.isValidProvince = false;
+      this.updateShipAddressValidation.provinceValidationMessage = "Provice information can not empty";
+      check = false;
+    }
+    if (!this.selectedDistrict || this.selectedDistrict == null) {
+      this.updateShipAddressValidation.isValidDistrict = false;
+      this.updateShipAddressValidation.districtValidationMessage = "District information can not empty";
+      check = false;
+    }
+    if (!this.selectedWard || this.selectedWard == null) {
+      this.updateShipAddressValidation.isValidWard = false;
+      this.updateShipAddressValidation.wardValidationMessage = "Ward information can not empty";
+      check = false;
+    }
+
     console.log(this.updateShipAddressValidation);
     return check;
   }
@@ -214,7 +394,7 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
 
         let param = {
           addressId: this.shipAddress.addressId,
-          addressInfo: this.shipAddress.addressInfo
+          addressInfo: this.shipAddress.detailAddressInfo + '. ' + this.selectedWard.name + ', ' + this.selectedDistrict.name + ', ' + this.selectedProvince.name
         }
 
         let response = await this.iServiceBase.putDataAsync(API.PHAN_HE.CUSTOMER, API.API_SHIPADDRESS.UPDATESHIPADDRESS, param);
@@ -361,12 +541,12 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
     }
   }
 
-  renderData = (array, select) => {
-    let row = ' <option disable value="">Chọn</option>';
-    array.forEach(element => {
-      row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`
-    });
-    document.querySelector("#" + select).innerHTML = row
-  }
+  // renderData = (array, select) => {
+  //   let row = ' <option disable value="">Chọn</option>';
+  //   array.forEach(element => {
+  //     row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`
+  //   });
+  //   document.querySelector("#" + select).innerHTML = row
+  // }
 
 }

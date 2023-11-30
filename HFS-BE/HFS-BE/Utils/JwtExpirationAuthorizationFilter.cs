@@ -8,7 +8,7 @@ namespace HFS_BE.Utils
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var requestPath = context.HttpContext.Request.Path.Value;
-            if (requestPath.Equals("/auths/refresh"))
+            if (requestPath.Equals("/auths/refresh") )
                 return;
 
             var expirationClaim = context.HttpContext.User.FindFirst("exp");

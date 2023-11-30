@@ -14,10 +14,12 @@
                         <tr>
                             
                             <th  pSortableColumn="orderId">{{'shipperhistoryScreen.id' | translate}} <p-sortIcon field="orderId"></p-sortIcon></th>
-                            <th  pSortableColumn="date">{{'shipperhistoryScreen.date' | translate}} <p-sortIcon field="date"></p-sortIcon></th>
+                            <th  pSortableColumn="date">{{'shipperhistoryScreen.orderDate' | translate}} <p-sortIcon field="date"></p-sortIcon></th>
+                            <th  pSortableColumn="date">{{'shipperhistoryScreen.shipDate' | translate}} <p-sortIcon field="date"></p-sortIcon></th>
                             <th pSortableColumn="price">{{'shipperhistoryScreen.price' | translate}} <p-sortIcon field="price"></p-sortIcon></th> 
                             <th pSortableColumn="address">{{'shipperhistoryScreen.address' | translate}} <p-sortIcon field="shipAddress"></p-sortIcon></th> 
                             <th pSortableColumn="phone">{{'shipperhistoryScreen.phoneNumber' | translate}} <p-sortIcon field="phoneNumber"></p-sortIcon></th> 
+                            <th pSortableColumn="paymentMethod">{{'shipperhistoryScreen.paymentMethod' | translate}} <p-sortIcon field="paymentMethod"></p-sortIcon></th> 
                             <th pSortableColumn="status">{{'shipperhistoryScreen.status' | translate}} <p-sortIcon field="status"></p-sortIcon></th>                            
                             <th style="text-align: center" >{{'shipperhistoryScreen.action' | translate}}</th>
                         </tr>
@@ -26,10 +28,13 @@
                         <tr>
                             
                             <td>{{order.orderId}}</td>
-                            <td>{{order.orderDate}}</td>
-                            <td>{{order.total}} VND</td>
+                            <td>{{order.orderDate | date:'dd/MM/yyyy hh:mm a'}}</td>
+                            <td>{{order.shippedDate | date:'dd/MM/yyyy hh:mm a'}}</td>
+                            <td>{{order.total | currency : "VND"}}</td>
                             <td>{{order.shipAddress}}</td>
                             <td>{{order.customerPhone}}</td>
+                            <td *ngIf="order.paymentMethod == '0'">COD</td>
+                            <td *ngIf="order.paymentMethod == '1'">WALLET</td>
                             <td>{{order.status}}</td>
                             <ng-container >
                                 <td style="text-align: center">
@@ -86,7 +91,7 @@
                                 [alt]="orderDetail.imageBase64.name" class="dialogimages_image w-10rem shadow-2"
                                 ></p-image></td>                           
                             <td>{{orderDetail.foodName}}</td>
-                            <td>{{orderDetail.unitPrice}}</td>
+                            <td>{{orderDetail.unitPrice | currency : "VND"}}</td>
                             <td>{{orderDetail.quantity}}</td>
                         </tr>
                     </ng-template>

@@ -100,6 +100,14 @@
                                     class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
+                        <th pSortableColumn="reportedTimes">
+                            <div class="flex justify-content-between align-items-center">
+                                ReportedTimes
+                                <p-sortIcon field="reportedTimes"></p-sortIcon>
+                                <p-columnFilter type="text" field="reportedTimes" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
                         <th style="min-width: 8rem">
                             <div class="flex justify-content-between align-items-center">
                                 Action
@@ -156,6 +164,10 @@
                             <span class="p-column-title">Status</span>
                             <p-tag [value]="food.status" [severity]="getSeverity(food.status)"></p-tag>
                         </td>
+                        <td>
+                            <span class="p-column-title">ReportedTimes</span>
+                            {{food.reportedTimes}}
+                        </td>
                         <td style="text-align: center">
                             <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
                                 <!-- <div class="flex align-items-center justify-content-center">
@@ -169,17 +181,22 @@
                                         class="p-button-rounded p-button-info"></button>
                                 </div>
                                 <ng-container *ngIf="food.status !== 'NotApproved'">
-                                    <div *ngIf="food.status === 'Ban'; else statusBannable"
-                                        class="flex align-items-center justify-content-center">
-                                        <button pButton pRipple icon="pi pi-circle" (click)="onUnbanFood(food, $event)"
-                                            class="p-button-rounded p-button-success"></button>
-                                    </div>
-                                    <ng-template #statusBannable>
-                                        <div class="flex align-items-center justify-content-center">
+                                    <!-- <div *ngIf="food.reportedTimes >= 3 "> -->
+                                        <div *ngIf="food.reportedTimes >= 3 && food.status === 'Ban'"
+                                            class="flex align-items-center justify-content-center">
+                                            <button pButton pRipple icon="pi pi-circle"
+                                                (click)="onUnbanFood(food, $event)"
+                                                class="p-button-rounded p-button-success"></button>
+                                        </div>
+                                        <!-- <ng-template #statusBannable> -->
+                                        <div *ngIf="food.reportedTimes >= 3 && food.status === 'Display' 
+                                        || food.status === 'Hidden'"
+                                            class="flex align-items-center justify-content-center">
                                             <button pButton pRipple icon="pi pi-ban" (click)="onBanFood(food, $event)"
                                                 class="p-button-rounded p-button-danger"></button>
                                         </div>
-                                    </ng-template>
+                                        <!-- </ng-template> -->
+                                    <!-- </div> -->
                                 </ng-container>
                             </div>
                         </td>

@@ -87,8 +87,8 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                 // incompleted
                 else
                 {
-                    // ly do tai customer.
-                    if (inputDto.BecauseOf == 1)
+                    // ly do tai customer tăng lần .
+                    if (inputDto.Check == "0")
                     {
                         var cusId = userDao.UpdateInComplete(customerId);
                     }
@@ -120,7 +120,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                         decimal? refund = getOrder.OrderDetails
                         .Select(d => d.UnitPrice * d.Quantity).ToList().Sum() - getOrder.VoucherDiscount;
 
-                        if (inputDto.BecauseOf == 1)
+                        if (inputDto.Check == "1")
                         {
                             refund = refund * (decimal)0.5;
                         }

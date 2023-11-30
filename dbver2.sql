@@ -178,7 +178,7 @@ CREATE TABLE [dbo].[Food](
 	[description] [nvarchar](max) NULL,
 	[categoryId] [int] NULL,
 	[status] [tinyint] NULL,
-	[reportedTimes] [int] NUll, -- Thể hiện cho số lần mà thực phẩm này nhận phải tố cáo hợp lệ (Đã thông qua kiểm duyệt của menu mod) đến từ khách hàng
+	[reportedTimes] [int] default(0) NUll, -- Thể hiện cho số lần mà thực phẩm này nhận phải tố cáo hợp lệ (Đã thông qua kiểm duyệt của menu mod) đến từ khách hàng
 	[banBy] [nvarchar](50) NUll,
 	[banDate] [datetime] Null,
 	Foreign Key ([banBy]) REFERENCES [MenuModerator](ModId),
@@ -446,7 +446,7 @@ CREATE TABLE [dbo].[Post](
 	[postContent] [nvarchar](1500) NULL,
 	[createdDate] [datetime] NULL,
 	[status] [tinyint] NULL,
-	[reportedTimes] [int] NUll, -- Thể hiện cho số lần mà bài đăng này nhận phải tố cáo hợp lệ (Đã thông qua kiểm duyệt của post mod) đến từ khách hàng
+	[reportedTimes] [int] default(0) NUll, -- Thể hiện cho số lần mà bài đăng này nhận phải tố cáo hợp lệ (Đã thông qua kiểm duyệt của post mod) đến từ khách hàng
 	[banBy] [nvarchar](50) NUll,
 	[banDate] [datetime] Null,
 	Foreign Key ([banBy]) REFERENCES [PostModerator](ModId),

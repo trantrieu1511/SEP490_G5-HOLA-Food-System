@@ -22,7 +22,6 @@ namespace HFS_BE.Dao.ShopDao
     public class GetShopDetailDaoOutputDto : BaseOutputDto
     {
         public int? TotalFood { get; set; }
-        public int? NumberOrdered { get; set; }
         public decimal? AverageStar { get; set; }
         public string? CreateDate { get; set; }
         public string ShopId { get; set; }

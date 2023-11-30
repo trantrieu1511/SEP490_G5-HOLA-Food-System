@@ -13,6 +13,15 @@ export const authGuard: CanActivateFn = async (route, state) => {
   //var token = sessionStorage.getItem('JWT');
   //var role = sessionStorage.getItem('role');
 
+  var refreshToken = _iFunction.getCookie('refreshToken')
+
+  if(!refreshToken){
+    localStorage.removeItem('user');
+    jwtService.removeToken();
+    router.navigate(['/login']);
+    return false;
+  }
+
   var token = _iFunction.getCookie('token')
   //const timetoken = sessionStorage.getItem('timetoken');
   //var token = await jwtService.getToken();

@@ -30,10 +30,12 @@ import { TranslateService } from "@ngx-translate/core";
   styleUrls: ['./shipper.component.scss']
 })
 
-export class ShipperComponent extends iComponentBase implements OnInit {
+export class ShipperComponent extends iComponentBase implements OnInit, AfterViewInit {
     items: MenuItem[] | undefined;
 
     displayDialogConfirm: boolean = false;
+
+    displayDialogConfirm1: boolean = false;
 
     headerDialog: string = '';
 
@@ -63,12 +65,18 @@ export class ShipperComponent extends iComponentBase implements OnInit {
 
     uploadedFiles: File[] = [];
 
+    check: string = "0";
+
     contentDialog: string;
     visibleContentDialog: boolean = false;
     ListinvitationDialog:boolean=false;
     postImageDialog: OrderProgress = new OrderProgress();
     visibleImageDialog: boolean = false;
     listinvitationbyshipper:InvitionSeller[]=[];
+
+    requestLabel: string;
+    shippingLabel: string;
+
     constructor(private elementRef: ElementRef, private renderer: Renderer2,public messageService: MessageService,
         private confirmationService: ConfirmationService,
         private iServiceBase: iServiceBase,private authService: AuthService,
@@ -76,13 +84,29 @@ export class ShipperComponent extends iComponentBase implements OnInit {
         public translate: TranslateService
         ) {
         super(messageService);
+        
+        
     }
+  ngAfterViewInit(): void {
+    
+  }
 
     async ngOnInit(){
-      this.items = [
-        { label: 'Requested', id: '0'},
-        { label: 'Shipping', id: '1'},
-      ];
+      
+      this.translate.get('shipperScreen').subscribe( (text: any) => {
+        this.requestLabel = text.request;
+        this.shippingLabel = text.shipping;
+  
+        console.log('init'+ this.requestLabel + ': ' + this.shippingLabel)
+
+        this.items = [
+          { label:  this.requestLabel, id: '0'},
+          { label: this.shippingLabel, id: '1'},
+        ];
+      });
+  
+      
+      console.log('init')
 
       this.activeItem = this.items[0];
 
@@ -211,7 +235,7 @@ export class ShipperComponent extends iComponentBase implements OnInit {
 
         this.uploadedFiles = [];
 
-        this.displayDialogConfirm = true;
+        this.displayDialogConfirm1 = true;
 
     }
     InComplete(orderId : number,type:number){
@@ -232,9 +256,8 @@ export class ShipperComponent extends iComponentBase implements OnInit {
     }
     async Save(){
       try {
-        //let param = postEnity;
-       // debugger
         const param = new FormData();
+        param.append('check',this.check);
         param.append('orderId', this.selectedOrderId.toString());
         param.append('note', this.note);
         param.append('status',this.selectedtype == 0? "4" : "5");

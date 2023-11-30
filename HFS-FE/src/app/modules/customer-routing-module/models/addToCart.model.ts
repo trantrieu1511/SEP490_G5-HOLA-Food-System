@@ -4,4 +4,5 @@ export class AddToCart{
     }
     foodId : number
     amount: number
+
 }
