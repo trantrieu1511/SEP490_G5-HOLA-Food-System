@@ -12,7 +12,7 @@ import { DashboadShipperModuleComponent } from './components/dashboad-shipper-mo
 const routes: Routes = [
   {path: 'order', component: ShipperComponent},
   {path: 'history', component: ShipperHistoryManagementComponent},
-  {path: '', component: DashboadShipperModuleComponent},
+  {path: 'dashboad', component: DashboadShipperModuleComponent},
 ]
 
 @NgModule({

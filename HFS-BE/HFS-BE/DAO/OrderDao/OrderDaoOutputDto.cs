@@ -16,6 +16,7 @@ namespace HFS_BE.Dao.OrderDao
         public string? ShipAddress { get; set; }
         public string? ShipperId { get; set; }
         public int? VoucherId { get; set; }
+        public string PaymentMethod { get; set; }
         public string? Status { get; set; }
 
         public virtual List<OrderDetailDto> OrderDetails { get; set; }
@@ -72,6 +73,7 @@ namespace HFS_BE.Dao.OrderDao
         public string? ShipAddress { get; set; }
         public int? ShipperId { get; set; }
         public int? VoucherId { get; set; }
+        public string PaymentMethod { get; set; }
         public byte? Status { get; set; }
 
         public List<OrderDetailDto> OrderDetails { get; set; }

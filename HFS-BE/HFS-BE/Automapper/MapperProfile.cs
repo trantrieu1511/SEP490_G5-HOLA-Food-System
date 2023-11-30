@@ -143,8 +143,9 @@ namespace HFS_BE.Automapper
         }
         public void Order()
         {
-            CreateMap<List<Order>, OrderDaoOutputDto>();
-            CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>();
+            //CreateMap<List<Order>, OrderDaoOutputDto>();
+            CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>()
+                .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => PaymentMethodEnum.GetPaymentMethodString(src.PaymentMethod)));
             CreateMap<OrderDetail, Dao.OrderDao.OrderDetailDto>()
                 .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name))
                 .ForMember(dest => dest.SellerId, opt => opt.MapFrom(src => src.Food.SellerId))

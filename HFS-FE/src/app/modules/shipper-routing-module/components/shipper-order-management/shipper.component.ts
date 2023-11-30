@@ -30,7 +30,7 @@ import { TranslateService } from "@ngx-translate/core";
   styleUrls: ['./shipper.component.scss']
 })
 
-export class ShipperComponent extends iComponentBase implements OnInit {
+export class ShipperComponent extends iComponentBase implements OnInit, AfterViewInit {
     items: MenuItem[] | undefined;
 
     displayDialogConfirm: boolean = false;
@@ -73,6 +73,10 @@ export class ShipperComponent extends iComponentBase implements OnInit {
     postImageDialog: OrderProgress = new OrderProgress();
     visibleImageDialog: boolean = false;
     listinvitationbyshipper:InvitionSeller[]=[];
+
+    requestLabel: string;
+    shippingLabel: string;
+
     constructor(private elementRef: ElementRef, private renderer: Renderer2,public messageService: MessageService,
         private confirmationService: ConfirmationService,
         private iServiceBase: iServiceBase,private authService: AuthService,
@@ -80,13 +84,29 @@ export class ShipperComponent extends iComponentBase implements OnInit {
         public translate: TranslateService
         ) {
         super(messageService);
+        
+        
     }
+  ngAfterViewInit(): void {
+    
+  }
 
     async ngOnInit(){
-      this.items = [
-        { label: 'Requested', id: '0'},
-        { label: 'Shipping', id: '1'},
-      ];
+      
+      this.translate.get('shipperScreen').subscribe( (text: any) => {
+        this.requestLabel = text.request;
+        this.shippingLabel = text.shipping;
+  
+        console.log('init'+ this.requestLabel + ': ' + this.shippingLabel)
+
+        this.items = [
+          { label:  this.requestLabel, id: '0'},
+          { label: this.shippingLabel, id: '1'},
+        ];
+      });
+  
+      
+      console.log('init')
 
       this.activeItem = this.items[0];
 

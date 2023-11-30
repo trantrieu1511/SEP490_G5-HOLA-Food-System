@@ -87,7 +87,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                 // incompleted
                 else
                 {
-                    // ly do tai customer.
+                    // ly do tai customer tăng lần .
                     if (inputDto.Check == "0")
                     {
                         var cusId = userDao.UpdateInComplete(customerId);
