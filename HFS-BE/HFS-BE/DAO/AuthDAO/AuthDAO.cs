@@ -361,7 +361,7 @@ namespace HFS_BE.Dao.AuthDao
 		}
 		private string GetForgotPasswordLink(string userId, string confirmationCode)
 		{
-			string baseUrl = "http://localhost:4200/#/forgot";
+			string baseUrl = "http://localhost:4200/forgot";
 			//	var query = new Dictionary<string, string>
 			//{
 			//	{ "userId", userId },
@@ -373,7 +373,7 @@ namespace HFS_BE.Dao.AuthDao
 
 		private string GetConfirmEmailLink(string userId, string confirmationCode)
 		{
-			string baseUrl = "http://localhost:4200/#/confirm";
+			string baseUrl = "http://localhost:4200/confirm";
 			//	var query = new Dictionary<string, string>
 			//{
 			//	{ "userId", userId },
