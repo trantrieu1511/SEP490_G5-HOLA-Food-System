@@ -17,7 +17,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageCustomer
 		}
 
 		[HttpPost("users/listcustomer")]
-		[Authorize(Roles = "AD")]
+	//	[Authorize(Roles = "AD")]
 		public ListCustomerOutputDtoBS ListCustomer()
 		{
 			try

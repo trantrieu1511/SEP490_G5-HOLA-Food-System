@@ -20,9 +20,9 @@ import { ListFeedbackBySellerComponent } from './components/list-feedback-by-sel
 
 const routes: Routes = [
   { path: 'order-management', component: OrderManagementComponent },
-  { path: 'shipper-management', component: ShipperComponent },
+ // { path: 'shipper-management', component: ShipperComponent },
   { path: 'post-management', component: PostManagementComponent },
-  { path: 'invitation-shipper', component: InvitationShipperComponent },
+  { path: 'shipper-management', component: InvitationShipperComponent },
   { path: 'food', component: FoodManagementComponent },
   { path: 'food-management', component: FoodManagementComponent },
   { path: 'voucher-management', component: VoucherManagementComponent },

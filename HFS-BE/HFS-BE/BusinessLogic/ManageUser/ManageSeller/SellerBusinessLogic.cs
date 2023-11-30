@@ -43,6 +43,31 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageSeller
 						// add to ouput list
 						outputBL.Sellers[index].ImagesBase64.Add(imageMapper);
 					}
+
+
+				}
+				foreach (var seller in daooutput.Sellers)
+				{
+					// get current index
+					var index = daooutput.Sellers.IndexOf(seller);
+
+					if (seller.ImagesL == null || seller.ImagesL.Count < 1)
+					{
+						continue;
+					}
+					foreach (var img in seller.ImagesL)
+					{
+						ImageFileConvert.ImageOutputDto? imageInfor = null;
+
+						imageInfor = ImageFileConvert.ConvertFileToBase64(seller.Email, img.Path, 6);
+						if (imageInfor == null)
+							continue;
+						var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, SellerImageLOutputDto>(imageInfor);
+						imageMapper.ImageId = img.ImageLicenseId;
+
+						// add to ouput list
+						outputBL.Sellers[index].ImagesBase64L.Add(imageMapper);
+					}
 				}
 
 				return outputBL;

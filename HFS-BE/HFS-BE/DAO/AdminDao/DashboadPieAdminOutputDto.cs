@@ -20,12 +20,14 @@ namespace HFS_BE.DAO.AdminDao
 		public int TotalSeller { get; set; }
 		public int BanSeller { get; set; }
 		public int VetifySeller { get; set; }
-		public int BanCustomer { get; set; }
 		public int TotalCustomer { get; set; }
-
 		public int TotalShippper { get; set; }
-		public int BanShipper { get; set; }
+		public int ManagedShipper { get; set; }
 		public int VetifyShipper { get; set; }
+		public int TotalReport{ get; set; }
+		public int SolvedReport { get; set; }
+		public int RejectReport { get; set; }
+		public int PendingReport { get; set; }
 	}
 	public class ListDashboadPieAdminOutputDto :BaseOutputDto
 	{
@@ -37,5 +39,12 @@ namespace HFS_BE.DAO.AdminDao
 		public int TotalFood { get; set; }
 		public int TotalOrder { get; set; }
 
+	}
+
+	public class DashBoardAdminLineOutputDto
+	{
+		public DateTime CreateDate { get; set; }
+		public int Data { get; set; }
+		public string User { get; set; }
 	}
 }

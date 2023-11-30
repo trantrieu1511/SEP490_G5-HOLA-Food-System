@@ -355,6 +355,7 @@ namespace HFS_BE.Automapper
 			CreateMap<ImageFileConvert.ImageOutputDto, FeedSellerImageOutputDto>();
 			CreateMap<ImageFileConvert.ImageOutputDto, ShipperImageOutputDto>();
 			CreateMap<ImageFileConvert.ImageOutputDto, SellerReportImageOutputDto>();
+			CreateMap<ImageFileConvert.ImageOutputDto, SellerImageLOutputDto>();
 		}
 
         public void Category()

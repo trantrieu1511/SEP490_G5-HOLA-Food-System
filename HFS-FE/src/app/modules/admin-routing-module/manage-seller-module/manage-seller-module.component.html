@@ -42,22 +42,22 @@
                                               class="ml-auto"></p-columnFilter>
                           </div>
                       </th>
-                      <th pSortableColumn="firstName">
+                      <th pSortableColumn="shopName">
                           <div class="flex justify-content-between align-items-center">
-                            FullName
-                              <p-sortIcon field="firstName"></p-sortIcon>
-                              <p-columnFilter type="text" field="firstName" display="menu"
+                            ShopName
+                              <p-sortIcon field="shopName"></p-sortIcon>
+                              <p-columnFilter type="text" field="shopName" display="menu"
                                               class="ml-auto"></p-columnFilter>
                           </div>
                       </th>
-                      <!-- <th pSortableColumn="lastName">
+                      <th pSortableColumn="shopAddress">
                           <div class="flex justify-content-between align-items-center">
-                            LastName
-                              <p-sortIcon field="lastName"></p-sortIcon>
-                              <p-columnFilter type="text" field="lastName" display="menu"
+                            ShopAddress
+                              <p-sortIcon field="shopAddress"></p-sortIcon>
+                              <p-columnFilter type="text" field="shopAddress" display="menu"
                                               class="ml-auto"></p-columnFilter>
                           </div>
-                      </th> -->
+                      </th>
                       <th pSortableColumn="email">
                         <div class="flex justify-content-between align-items-center">
                           Email
@@ -66,22 +66,22 @@
                                             class="ml-auto"></p-columnFilter>
                         </div>
                     </th>
-                      <th pSortableColumn="gender">
+                      <!-- <th pSortableColumn="gender">
                           <div class="flex justify-content-between align-items-center">
                             Gender
                               <p-sortIcon field="gender"></p-sortIcon>
                               <p-columnFilter type="text" field="gender" display="menu"
                                               class="ml-auto"></p-columnFilter>
                           </div>
-                      </th>
-                      <th pSortableColumn="birthDate">
+                      </th> -->
+                      <!-- <th pSortableColumn="birthDate">
                           <div class="flex justify-content-between align-items-center">
                               DOB
                               <p-sortIcon field="birthDate"></p-sortIcon>
                               <p-columnFilter type="text" field="birthDate" display="menu"
                                               class="ml-auto"></p-columnFilter>
                           </div>
-                      </th>
+                      </th> -->
                       <th pSortableColumn="phoneNumber">
                         <div class="flex justify-content-between align-items-center">
                           PhoneNumber
@@ -111,12 +111,20 @@
                               Images
                           </div>
                       </th>
+                      <th pSortableColumn="imagesBase64L">
+                        <div class="flex justify-content-between align-items-center">
+                         BusinessLicense
+                            <p-sortIcon field="imagesBase64L"></p-sortIcon>
+                            <p-columnFilter type="numeric" field="imagesBase64L" display="menu"
+                                            class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
                       <th>
                         <div class="flex justify-content-between align-items-center">
                             Ban
                         </div>
                     </th>
-                       <th>
+                       <!-- <th>
                         <div class="flex justify-content-between align-items-center">
                           ShopName
                         </div>
@@ -125,7 +133,8 @@
                       <div class="flex justify-content-between align-items-center">
                         ShopAddress
                       </div>
-                  </th>
+                  </th> -->
+
                       <th style="min-width: 8rem">
                           <div
                                class="flex justify-content-between align-items-center">
@@ -143,26 +152,19 @@
                           <span class="p-column-title">ID</span>
                           <span class="post-id">{{user.sellerId}}</span>
                       </td>
-                      <td>
-                          <span class="p-column-title">FullName</span>
-                          {{user.firstName}} {{user.lastName}}
+                      <td >
+                        <span class="p-column-title">ShopName</span>
+                        {{user.shopName}}
                       </td>
-                      <!-- <td >
-                          <span class="p-column-title">LastName</span>
-                          {{user.lastName}}
-                      </td> -->
+                        <td >
+                        <span class="p-column-title">ShopAddress</span>
+                        {{user.shopAddress}}
+                    </td>
                       <td >
                         <span class="p-column-title">Email</span>
                         {{user.email}}
                     </td>
-                      <td>
-                          <span class="p-column-title">Gender</span>
-                          <span class="post-content" >{{user.gender}}</span>
-                      </td>
-                      <td >
-                          <span class="p-column-title">BirthDate</span>
-                          {{user.birthDate| date:'dd/MM/yyyy'}}
-                      </td>
+
                       <td >
                         <span class="p-column-title">PhoneNumber</span>
                         {{user.phoneNumber}}
@@ -196,6 +198,15 @@
                         </ng-container>
                           <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
                       </td>
+                      <td>
+                        <span class="p-column-title">Image</span>
+                        <ng-container *ngIf="user.imagesBase64L.length !== 0; else noneImage2" >
+                          <button pButton pRipple icon="pi pi-images"
+                                  (click)="onDisplayImagesDialog2(user, $event)"
+                                  class="p-button-rounded p-button-text p-button-raised"></button>
+                      </ng-container>
+                        <ng-template #noneImage2 ><span class="no-image">No Image</span></ng-template>
+                    </td>
                       <td >
                         <span class="p-column-title">IsBanned</span>
                         <div *ngIf="user.isBanned" style="color:red;">
@@ -205,14 +216,7 @@
                           Not Ban
                         </div>
                     </td>
-                    <td >
-                      <span class="p-column-title">ShopName</span>
-                      {{user.shopName}}
-                    </td>
-                      <td >
-                      <span class="p-column-title">ShopAddress</span>
-                      {{user.shopAddress}}
-                  </td>
+
                       <td style="text-align: center">
                           <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
                               <div class="flex align-items-center justify-content-center">
@@ -225,6 +229,11 @@
                                 (click)="ActiveSeller(user)"
                                         class="p-button-rounded p-mr-2"></button>
                             </div>
+                            <div class="flex align-items-center justify-content-center">
+                              <button  *ngIf="!user.isVerified" pButton pRipple  label="Detail"
+                              (click)="Detail(user,$event)"
+                                      class="p-button-rounded p-mr-2"></button>
+                          </div>
                           </div>
                       </td>
                   </tr>
@@ -354,6 +363,131 @@
             </tr>
         </ng-template>
     </p-table>
+</p-dialog>
+<p-dialog header="List Image License"
+    [(visible)]="visibleImageDialog2"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    [maximizable]="true"
+    >
+    <p-table [value]="sellerImg.imagesBase64L" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Size</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-image>
+            <tr >
+                <td>{{image.imageId}}</td>
+                <td><p-image src="data:image/gif;base64,{{image.imageBase64}}" [preview]="true"
+                    [alt]="image.imageId" class="dialogimages_image w-10rem shadow-2"
+                    ></p-image></td>
+                <td>{{image.name}}</td>
+                <td>{{image.size}} KB</td>
+
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+<p-dialog header="Report detail" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true"
+  [modal]="true">
+  <!-- <p class="dialog-content-detail">
+      {{contentDialog.reportContent}}
+  </p> -->
+  <table class="table-report-detail">
+      <tbody>
+          <tr>
+              <th>ShopName: </th>
+              <td>
+                  {{sellerDetail.shopName}}
+              </td>
+          </tr>
+          <tr>
+              <th>ShopAddress: </th>
+              <td>
+                  {{sellerDetail.shopAddress}}
+              </td>
+          </tr>
+          <tr>
+              <th>PhoneNumber </th>
+              <td>
+                  {{sellerDetail.phoneNumber}}
+              </td>
+          </tr>
+          <tr>
+            <th>Email </th>
+            <td>
+                {{sellerDetail.email}}
+            </td>
+          </tr>
+          <tr>
+              <th>Verification </th>
+              <td>
+
+                 <div *ngIf="sellerDetail.isVerified===true"  style="color:chartreuse;">
+               	Verified
+                 </div>
+                 <div *ngIf="sellerDetail.isVerified===false"  style="color:red;">
+                 	Not verified
+                 </div>
+              </td>
+          </tr>
+          <tr>
+            <th>ConfirmEmail </th>
+            <td>
+
+               <div *ngIf="sellerDetail.confirmedEmail===true"  style="color:chartreuse;">
+               Confirmed
+               </div>
+               <div *ngIf="sellerDetail.confirmedEmail===false"  style="color:red;">
+                Not confirmed yet
+               </div>
+            </td>
+        </tr>
+          <tr>
+            <th>Ban </th>
+            <td>
+
+               <div *ngIf="sellerDetail.isBanned===true"  style="color:chartreuse;">
+                Not Ban
+               </div>
+               <div *ngIf="sellerDetail.isBanned===false"  style="color:red;">
+                Ban
+               </div>
+            </td>
+        </tr>
+
+          <tr>
+            <th>Image: </th>
+            <td >
+
+                <button pButton pRipple icon="pi pi-images"
+                        (click)="onDisplayImagesDialog(sellerDetail, $event)"
+                        class="p-button-rounded p-button-text p-button-raised"></button>
+
+
+            </td>
+
+        </tr>
+        <tr>
+          <th>Business License: </th>
+          <td  *ngIf="sellerDetail.imagesBase64L !== null">
+
+              <button pButton pRipple icon="pi pi-images"
+                      (click)="onDisplayImagesDialog2(sellerDetail, $event) "
+                      class="p-button-rounded p-button-text p-button-raised"></button>
+
+
+          </td>
+
+      </tr>
+      </tbody>
+  </table>
 </p-dialog>
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>
 

@@ -32,6 +32,11 @@ export class DashboadShipperModuleComponent extends iComponentBase implements On
     super(messageService);
     this.rangeDates = [];
     this.rangeDates[0] = this.rangeDates[1] = new Date();
+
+    // Subtract one day from rangeDates[1] and assign it to rangeDates[0]
+    this.rangeDates[0] = new Date(this.rangeDates[1]);
+    this.rangeDates[0].setDate(this.rangeDates[0].getDate() - 1);
+
   }
 
 
