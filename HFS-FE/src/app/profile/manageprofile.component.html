@@ -306,7 +306,7 @@
                             <a style="color: #6366F1;" class="edit-email-link" href="#"
                                 onClick="event.preventDefault();" (click)="doSomething();">Edit email</a>
                         </div> -->
-                        
+
                         <!-- <div *ngIf="!profileDisplay.confirmedEmail && role == 'CU' || 
                             !profileDisplay.confirmedEmail && role == 'SE' || 
                             !profileDisplay.confirmedEmail && role == 'SH'">
@@ -326,14 +326,16 @@
                 <div style="display: flex;">
                     <p class="field-title">Phone number: </p>
                     <!-- <p class="field-info" *ngIf="profileDisplay.phoneNumber != undefined else RegisterPhoneNumber"> -->
-                    <p class="field-info">
+                    <div class="field-info">
                         {{profileDisplay.phoneNumber == undefined ?
                         'None. Use the edit function to enter your phone number'
                         : profileDisplay.phoneNumber }}
-                        <!-- <p-button [text]="true" (onClick)="editPhoneNumber();">Edit
-                            phonenumber
-                        </p-button> -->
-                    </p>
+                        <!-- <p-button [text]="true" (onClick)="verifyPhonenumber();">verify phonenumber</p-button> -->
+                        <div>
+                            <a style="color: #6366F1;" class="edit-email-link" href="#"
+                                onClick="event.preventDefault();" (click)="verifyPhonenumber();">verify phonenumber</a>
+                        </div>
+                    </div>
                     <!-- <ng-template #RegisterPhoneNumber>
                         <p class="field-info"><p-button [text]="true" (onclick)="doSomething();">Add a
                                 phonenumber</p-button></p>

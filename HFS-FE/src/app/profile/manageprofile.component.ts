@@ -577,4 +577,8 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   //   }
   // }
 
+  verifyPhonenumber() {
+    
+  }
+
 }
