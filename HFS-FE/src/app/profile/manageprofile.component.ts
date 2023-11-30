@@ -43,6 +43,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   isVisibleSellerEditProfileDialog: boolean = false;
   isLoggedIn: boolean = false;
   selectedSideBarOption: boolean = true;
+  isVisibleVerifyPhoneNumberModal: boolean = false;
 
   // ------------- Validation variables --------------
   editProfileValidation: EditProfileInputValidation = new EditProfileInputValidation();
@@ -577,8 +578,13 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   //   }
   // }
 
+
+  openVerifyPhonenumberModal() {
+    this.isVisibleVerifyPhoneNumberModal = true;
+  }
+
   verifyPhonenumber() {
-    
+    alert('Tự chế biến nốt nha a.')
   }
 
 }

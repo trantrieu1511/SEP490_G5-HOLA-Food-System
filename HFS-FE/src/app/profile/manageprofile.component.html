@@ -202,6 +202,24 @@
     </ng-template>
 </p-dialog>
 
+<p-dialog [(visible)]="isVisibleVerifyPhoneNumberModal" [style]="{ width: '450px' }" header="Verify your phonenumber"
+    [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="VerifyPhonenumber">
+        <!-- <div class="formgrid grid"> -->
+        <div class="field">
+            <label for="otpHayGiDay">Enter your otp hay gì đấy <span style="color: red;">*</span></label>
+            <input type="text" pInputText id="otpHayGiDay" placeholder="Enter otp hay gì đó" required/>
+        </div>
+        <!-- </div> -->
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+            (click)="this.isVisibleVerifyPhoneNumberModal = false"></button>
+        <button pButton pRipple label="Continue" (click)="verifyPhonenumber();"></button>
+    </ng-template>
+</p-dialog>
+
 
 <!--<p-dialog header="Edit profile" [(visible)]="visible" [modal]="true" [style]="{ width: '500px' }" [draggable]="false"
     [resizable]="false">
@@ -333,7 +351,7 @@
                         <!-- <p-button [text]="true" (onClick)="verifyPhonenumber();">verify phonenumber</p-button> -->
                         <div>
                             <a style="color: #6366F1;" class="edit-email-link" href="#"
-                                onClick="event.preventDefault();" (click)="verifyPhonenumber();">verify phonenumber</a>
+                                onClick="event.preventDefault();" (click)="openVerifyPhonenumberModal();">verify phonenumber</a>
                         </div>
                     </div>
                     <!-- <ng-template #RegisterPhoneNumber>
