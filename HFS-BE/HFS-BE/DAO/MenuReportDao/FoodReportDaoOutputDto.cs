@@ -11,6 +11,7 @@ namespace HFS_BE.DAO.MenuReportDao
         public int FoodId { get; set; }
         public string? ShopName { get; set; }
         public string? FoodName { get; set; }
+        public string? SellerId { get; set; }
         public string ReportBy { get; set; } = null!;
         public string ReportContent { get; set; } = null!;
         public DateTime CreateDate { get; set; }

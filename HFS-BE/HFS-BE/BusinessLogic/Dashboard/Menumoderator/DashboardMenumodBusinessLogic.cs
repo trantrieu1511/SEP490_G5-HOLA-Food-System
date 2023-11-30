@@ -117,6 +117,15 @@ namespace HFS_BE.BusinessLogic.Dashboard.Menumoderator
 
                 // 0. get system statistics
 
+                output.TotalFood = foodList.Foods
+                    .Where(f => f.CreateDate != null && f.CreateDate.Value.Date >= inputDto.DateFrom
+                    && f.CreateDate.Value.Date <= inputDto.DateEnd)
+                    .Count();
+                output.TotalBannedFood = foodList.Foods
+                    .Where(f => f.BanDate != null && f.BanDate.Value.Date >= inputDto.DateFrom
+                    && f.BanDate.Value.Date <= inputDto.DateEnd
+                    && f.Status == 3)
+                    .Count();
                 output.TotalFoodReports = foodReportList.FoodReports
                     .Where(fr => fr.CreateDate.Date >= inputDto.DateFrom
                     && fr.CreateDate.Date <= inputDto.DateEnd)
@@ -247,10 +256,15 @@ namespace HFS_BE.BusinessLogic.Dashboard.Menumoderator
             List<DashboardDataSets> dataSets = new List<DashboardDataSets>();
 
             // get no of food each date
-            //DashboardDataSets foodData = new DashboardDataSets
-            //{
-            //    Label = "Food"
-            //};
+            DashboardDataSets foodData = new DashboardDataSets
+            {
+                Label = "Food"
+            };
+            // get no of banned food each date
+            DashboardDataSets bannedFoodData = new DashboardDataSets
+            {
+                Label = "Banned food"
+            };
             // get no of food reports each date
             DashboardDataSets foodReportData = new DashboardDataSets
             {
@@ -281,8 +295,12 @@ namespace HFS_BE.BusinessLogic.Dashboard.Menumoderator
                 if (currentDate.Date <= dateEnd.Date)
                 {
                     // get amount of food of the current date
-                    //var currentDateFoodAmount = foods.Where(p => p.CreatedDate.Value.Date == currentDate.Date).Count();
-                    //foodData.Data.Add(currentDateFoodAmount);
+                    var currentDateFoodAmount = foods.Where(p => p.CreateDate != null && p.CreateDate.Value.Date == currentDate.Date).Count();
+                    foodData.Data.Add(currentDateFoodAmount);
+                    
+                    // get amount of banned food of the current date
+                    var currentDateBannedFoodAmount = foods.Where(p => p.BanDate != null && p.BanDate.Value.Date == currentDate.Date && p.Status == 3).Count();
+                    bannedFoodData.Data.Add(currentDateBannedFoodAmount);
 
                     // get amount of food report of the current date
                     var currentDateFoodReportAmount = foodReports.Where(fr => fr.CreateDate.Date == currentDate.Date).Count();
@@ -311,7 +329,8 @@ namespace HFS_BE.BusinessLogic.Dashboard.Menumoderator
                 currentDate = currentDate.AddDays(1);
             }
 
-            //dataSets.Add(foodData);
+            dataSets.Add(foodData);
+            dataSets.Add(bannedFoodData);
             dataSets.Add(foodReportData);
             dataSets.Add(pendingFoodReportData);
             dataSets.Add(approvedFoodReportData);

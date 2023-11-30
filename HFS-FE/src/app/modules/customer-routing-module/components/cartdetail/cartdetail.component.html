@@ -33,7 +33,7 @@
                     <input type="checkbox" [checked]="product.selected" (change)="onSelectFood(product.foodId, product.amount)"/>
                 </td>
                 <td style="width: 10%;">
-                    <button pButton pRipple type="button" label="Delete" class="p-button-danger" (click)="onDeleteCartItem(product.foodId)"></button>
+                    <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-danger p-button-rounded" (click)="onDeleteCartItem(product.foodId)"></button>
                 </td>
             </tr>
         </ng-template>      

@@ -239,16 +239,24 @@ export class DashboardPostmodComponent extends iComponentBase implements OnInit 
     }
 
     onCloseCalendar(calendarType: number, event: any) {
-        
+
         if (calendarType == 1) { // system data calendar
             let fromDate = this.datePipe.transform(this.systemCalendarRangeDates[0], "yyyy-MM-dd");
             let endDate = this.datePipe.transform(this.systemCalendarRangeDates[1], "yyyy-MM-dd");
+            if (!endDate) {
+                this.systemCalendarRangeDates[1] = this.systemCalendarRangeDates[0];
+                endDate = fromDate;
+            }
             this.getSystemData();
             this.isDisplaySystemChart = fromDate != endDate ? true : false;
         }
         if (calendarType == 2) { // my data calendar
             let fromDate = this.datePipe.transform(this.myCalendarRangeDates[0], "yyyy-MM-dd");
             let endDate = this.datePipe.transform(this.myCalendarRangeDates[1], "yyyy-MM-dd");
+            if (!endDate) {
+                this.myCalendarRangeDates[1] = this.myCalendarRangeDates[0];
+                endDate = fromDate;
+            }
             this.getMyData();
             this.isDisplayMyChart = fromDate != endDate ? true : false;
         }

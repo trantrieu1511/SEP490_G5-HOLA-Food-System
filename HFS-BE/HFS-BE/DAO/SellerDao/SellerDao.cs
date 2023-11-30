@@ -22,15 +22,16 @@ namespace HFS_BE.DAO.SellerDao
 			{
 
 				var user = context.Sellers
+					.Include(s=>s.SellerLicenseImages)
 					 .Select(p => new SellerDtoOutput
 					 {
 						 SellerId = p.SellerId,
-						 FirstName = p.FirstName,
-						 LastName = p.LastName,
-						 Gender = p.Gender,
+						 //FirstName = p.FirstName,
+						 //LastName = p.LastName,
+						// Gender = p.Gender,
 						 ConfirmedEmail = p.ConfirmedEmail,
 						 PhoneNumber=p.PhoneNumber,
-						 BirthDate = p.BirthDate,
+						// BirthDate = p.BirthDate,
 						 Email = p.Email,
 						 IsBanned = p.IsBanned,
 						 IsVerified=p.IsVerified,
@@ -45,10 +46,16 @@ namespace HFS_BE.DAO.SellerDao
 					   UserId = pi.UserId,
 					   Path = pi.Path,
 					   IsReplaced = pi.IsReplaced
-				   })
-				 .ToList()
+				   }
+				   )
+						
+				 .ToList(),
+	             ImagesL = p.SellerLicenseImages.ToList(),
 
-					 })
+					 }
+					 
+					 
+					 )
 
 					.ToList();
 				var output = this.Output<ListSellerDtoOutput>(Constants.ResultCdSuccess);
@@ -214,7 +221,7 @@ namespace HFS_BE.DAO.SellerDao
 
 				foreach (var u in userOnline)
 				{
-					var seller = await context.Sellers.Where(s=>s.Email==u).SingleOrDefaultAsync();
+					var seller = await context.Sellers.Where(s=>s.Email== u&&s.IsBanned == false && s.IsVerified == true).SingleOrDefaultAsync();
 					var datmapper = mapper.Map<Seller, SellerMessageDtoOutput>(seller);
 					datmapper.IsOnline = true;
 					var img = await context.ProfileImages.Where(s => s.UserId == datmapper.SellerId && s.IsReplaced == false).FirstOrDefaultAsync();
@@ -251,7 +258,7 @@ namespace HFS_BE.DAO.SellerDao
 
 				foreach (var u in userOnline)
 				{
-					var seller = await context.Sellers.Where(s => s.Email == u).SingleOrDefaultAsync();
+					var seller = await context.Sellers.Where(s => s.Email == u&& s.IsBanned == false && s.IsVerified == true).SingleOrDefaultAsync();
 					var datmapper = mapper.Map<Seller, SellerMessageDtoOutput>(seller);
 					datmapper.IsOnline = true;
 					var img= await context.ProfileImages.Where(s=>s.UserId== datmapper.SellerId&&s.IsReplaced==false).FirstOrDefaultAsync();

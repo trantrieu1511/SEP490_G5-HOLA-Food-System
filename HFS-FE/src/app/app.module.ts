@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppManageLayoutComponent } from './layout/manage/app.manage.component';
@@ -71,16 +70,15 @@ import { ListFeedbackBySellerComponent } from './modules/seller-routing-module/c
 import { AppMenuMyaccountComponent } from './app-systems/app-menu/myaccount/app-menu-myaccount.component';
 import { DashboadShipperModuleComponent } from './modules/shipper-routing-module/components/dashboad-shipper-module/dashboad-shipper-module.component';
 import { SellerReportModuleComponent } from './modules/admin-routing-module/seller-report-module/seller-report-module.component';
+import { ReportSellerComponent } from './modules/customer-routing-module/components/report-seller/report-seller.component';
+import { AddressSelectorComponent } from './modules/customer-routing-module/address-selector/address-selector.component';
+import { CustomerRoutingModule } from './modules/customer-routing-module/customer-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppManageLayoutComponent,
-    AppBreadcrumbComponent,
-    AppTopBarComponent,
-    AppFooterComponent,
-    AppMenuComponent,
-    AppMenuitemComponent,
+    
     AppNotfoundComponent,
     AppErrorComponent,
     AppAccessdeniedComponent,
@@ -111,6 +109,8 @@ import { SellerReportModuleComponent } from './modules/admin-routing-module/sell
     DashboadAdminModuleComponent,
     DashboadShipperModuleComponent,
     SellerReportModuleComponent,
+    // ReportSellerComponent,
+    AddressSelectorComponent,
     //ListFeedbackBySellerComponent,
   ],
   imports: [
@@ -124,6 +124,7 @@ import { SellerReportModuleComponent } from './modules/admin-routing-module/sell
     ReactiveFormsModule,
     FormsModule,
     BusinessRoutingModule,
+    CustomerRoutingModule,
     // JwtModule.forRoot({
     //   config: {
     //     tokenGetter: () => sessionStorage.getItem('token')

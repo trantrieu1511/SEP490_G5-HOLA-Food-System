@@ -22,6 +22,10 @@ import { NewFeedModuleComponent } from './components/new-feed-module/new-feed-mo
 import { SearchComponent } from './components/search/search.component';
 import { AppMenuMyaccountComponent } from 'src/app/app-systems/app-menu/myaccount/app-menu-myaccount.component';
 import { ManageprofileComponent } from 'src/app/profile/manageprofile.component';
+import { SellerReportModuleComponent } from '../admin-routing-module/seller-report-module/seller-report-module.component';
+import { ReportSellerComponent } from './components/report-seller/report-seller.component';
+import { AddressSelectorComponent } from './address-selector/address-selector.component';
+import { AppBreadcrumbComponent } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.component';
 
 const routes: Routes = [
   { path: "cartdetail", component: CartdetailComponent },
@@ -35,7 +39,8 @@ const routes: Routes = [
   { path: "menureport", component: CustomerfoodreportComponent },
   { path: "postreport", component: CustomerpostreportComponent },
   { path: "shipaddress", component: ManageshipaddressComponent },
-
+  { path: "sellerreport", component: ReportSellerComponent },
+  { path: "address", component: AddressSelectorComponent },
 ]
 
 
@@ -53,7 +58,8 @@ const routes: Routes = [
     CustomerfoodreportComponent,
     CustomerpostreportComponent,
     ManageshipaddressComponent,
-    AppMenuMyaccountComponent
+    AppMenuMyaccountComponent,
+    ReportSellerComponent
   ],
   imports: [
     CommonModule,

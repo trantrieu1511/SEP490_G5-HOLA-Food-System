@@ -28,7 +28,7 @@ namespace HFS_BE.Controllers.Auth
 			}
 		}
 		[HttpPost("home/registerseller")]
-		public async Task<BaseOutputDto> RegisterSeller(RegisterSellerInputDto inputDto)
+		public async Task<BaseOutputDto> RegisterSeller([FromForm]RegisterSellerInputDto inputDto)
 		{
 			try
 			{

@@ -4,6 +4,7 @@ import { Observable, throwError, firstValueFrom, lastValueFrom } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import * as API from 'src/app/services/apiURL';
 import { LoadingService } from '../shared-data-services/loading.service';
+import { environment } from 'src/environments/environment';
 
 
 // @ts-ignore
@@ -15,6 +16,7 @@ export class iServiceBase {
     strIP_GateWay = '';
     strVersion = '';
     strProjectName = '';
+    strProvicesUrl = '';
 
     constructor(public httpClient: HttpClient
         , public loadingService: LoadingService
@@ -30,6 +32,7 @@ export class iServiceBase {
         localStorage.setItem('VERSION', this.strVersion);
         localStorage.setItem('PROJECT_NAME', this.strProjectName);
 
+        this.strProvicesUrl = environment.provincesUrl;
     }
 
     // Lấy Ip cấu hình ở file này
@@ -888,7 +891,7 @@ export class iServiceBase {
         return message.trim();
     }
 
-    formatDatetime(dateArgument: string) {
+    formatDatetime(dateArgument: string) { // Format to dd/MM/yyyy HH:mm:ss
         const date = new Date(dateArgument);
         const yyyy = date.getFullYear();
         let mm = date.getMonth() + 1; // Months start at 0!
@@ -911,5 +914,18 @@ export class iServiceBase {
         const formattedDate = (ddstr != '' ? ddstr : dd) + '/' + (mmstr != '' ? mmstr : mm) + '/' + yyyy;
         const time = (hourstr != '' ? hourstr : hours) + ':' + (minutestr != '' ? minutestr : minutes) + ':' + (secondstr != '' ? secondstr : seconds);
         return formattedDate + ' ' + time;
-      }
+    }
+
+    async getAllProvincesAsync(){
+        try {
+// ;
+            const request = await firstValueFrom(this.httpClient.get(this.strProvicesUrl))
+            document.body.style.cursor = 'default';
+            return request;
+        } catch (errorResponse) {
+            document.body.style.cursor = 'default';
+            console.log(errorResponse);
+            return errorResponse.error;
+        }
+    }
 }

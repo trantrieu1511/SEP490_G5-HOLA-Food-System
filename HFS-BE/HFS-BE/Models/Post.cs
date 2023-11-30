@@ -17,6 +17,7 @@ namespace HFS_BE.Models
         public string? PostContent { get; set; }
         public DateTime? CreatedDate { get; set; }
         public byte? Status { get; set; }
+        public int? ReportedTimes { get; set; }
         public string? BanBy { get; set; }
         public DateTime? BanDate { get; set; }
 

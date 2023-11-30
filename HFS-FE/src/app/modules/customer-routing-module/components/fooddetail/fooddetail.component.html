@@ -11,15 +11,15 @@
             </div>
             <div style="padding-bottom: 5px;">
                 <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
-                    value="Đồ ăn không đúng với mô tả" [(ngModel)]="foodReport.reportContents"
+                    value="Đồ ăn thực tế không đúng với mô tả" [(ngModel)]="foodReport.reportContents"
                     inputId="reportContent1"></p-checkbox>
-                <label for="reportContent1" class="ml-2">Đồ ăn không đúng với mô tả</label>
+                <label for="reportContent1" class="ml-2">Đồ ăn thực tế không đúng với mô tả</label>
             </div>
             <div style="padding-bottom: 5px;">
                 <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
-                    value="Hình ảnh đồ ăn không rõ ràng" [(ngModel)]="foodReport.reportContents"
+                    value="Hình ảnh đồ ăn không giống với thực tế nhận được" [(ngModel)]="foodReport.reportContents"
                     inputId="reportContent2"></p-checkbox>
-                <label for="reportContent2" class="ml-2">Hình ảnh đồ ăn không rõ ràng</label>
+                <label for="reportContent2" class="ml-2">Hình ảnh đồ ăn không giống với thực tế nhận được</label>
             </div>
             <div style="padding-bottom: 5px;">
                 <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
@@ -32,11 +32,11 @@
         <div style="padding-bottom: 5px;">
             <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportTextArea($event);" value="Other"
                 inputId="reportContentOther"></p-checkbox>
-            <label for="reportContentOther" class="ml-2">Khác</label>
+            <label for="reportContentOther" class="ml-2">Khác/Thêm mô tả</label>
         </div>
         <span class="">
             <textarea (change)="addValueToReportContentList();" [disabled]="isDisabledFoodReportTextArea" class="w-full"
-                id="float-input" rows="5" cols="50" [(ngModel)]="foodReport.reportContent" placeholder="Điền lý do khác"
+                id="float-input" rows="5" cols="50" [(ngModel)]="foodReport.reportContent" placeholder="Điền lý do khác/Thêm mô tả cho các lý do bạn chọn trên"
                 pInputTextarea></textarea>
             <!-- <label for="float-input">Lý do khác</label> -->
         </span>
@@ -49,12 +49,12 @@
 
 <div class="grid">
     <div class="col-12">
-        <p-breadcrumb [model]="" [home]="{icon: 'pi pi-home'}"></p-breadcrumb>
+        <app-breadcrumb></app-breadcrumb>
     </div>
     <div class="col-12">
         <div class="card">
             <div class="grid" style="max-width: 100%;">
-                <div class="col-5 align-items-center justify-content-center">
+                <div class="col-7 food-overview_images">
                     <p-galleria [value]="foodImages" [responsiveOptions]="galleriaResponsiveOptions"
                         [containerStyle]="{'max-width': '100%', 'margin':'auto'}" [circular]="true">
                         <ng-template pTemplate="item" let-item>
@@ -69,11 +69,11 @@
                         </ng-template>
                     </p-galleria>
                 </div>
-                <div class="col-1">
+                <!-- <div class="col-1">
                     <p-divider layout="vertical">
                     </p-divider>
-                </div>
-                <div class="col-5 align-items-center justify-content-center">
+                </div> -->
+                <div class="col-5 food-infor">
                     <div *ngIf="hasAlreadyReported == true" style="text-align: right;">
                         Đã tố cáo
                     </div>
@@ -82,35 +82,46 @@
                             <i class="pi pi-flag fs-large"></i>&nbsp;Report
                         </p-button>
                     </div>
-                    <div>
-                        <h1>{{fooddetail.name}}</h1>
+                    <div class="food-div_name">
+                        <h2>{{fooddetail.name}}</h2>
+                    </div>
+                    <p-rating [ngModel]="fooddetail.averageStar" [readonly]="true" [cancel]="false"></p-rating>
+
+                    <div class="category-div">
+                        <h3 class="label">Category</h3>
+                        <p class="line-height-3 m-0">{{fooddetail.categoryName}}</p>
                     </div>
 
 
-                    <p-divider layout="horizontal" align="center">
-                    </p-divider>
+                    <div class="price-div">
+                        <h3 class="label">Price</h3>
+                        <p> {{fooddetail.unitPrice | currency:'VND'}}</p>
+                    </div>
 
-                    <h4 class="line-height-3 m-0">Description: {{fooddetail.description}}</h4>
-
-                    <p-divider align="right">
-                    </p-divider>
-                    <h4 class="line-height-3 m-0">Category: {{fooddetail.categoryName}}</h4>
-
-                    <p-divider align="right">
-                    </p-divider>
-
-                    <h3>Price: {{fooddetail.unitPrice | currency:'VND'}}$</h3>
-                    <p-divider align="right">
-                    </p-divider>
-                    <div class="product-grid-item-bottom">
+                    <div class="numbers-div_order">
+                        <h3 class="label">Number Orders </h3>
+                        <p> {{fooddetail.numberOrdered}}</p>
+                    </div>
+                
+                    <div class="number-div_input">
+                        <h3 class="label">Numbers</h3>
                         <p-inputNumber [(ngModel)]="amount" [showButtons]="true" buttonLayout="horizontal"
                             inputId="horizontal" spinnerMode="horizontal" [step]="1"
                             decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
                             incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" [min]="1" [max]="100"
                             [(ngModel)]="amount"></p-inputNumber>
-                        &nbsp;&nbsp;<p-button icon="pi pi-shopping-cart"
-                            (onClick)="onAddToCart(fooddetail.foodId)"></p-button>
                     </div>
+                    <div class="addCart">
+                        <p-button label="Add to Cart" class="addCart_btn" icon="pi pi-shopping-cart"
+                        (onClick)="onAddToCart(fooddetail.foodId)"></p-button>
+                    </div>
+                </div>
+
+                <div class="col-12 food-div_description">
+                    <h4 class="line-height-3 m-0">Description </h4>
+                    <p class="food-description">
+                        {{fooddetail.description}}
+                    </p>
                 </div>
             </div>
         </div>
@@ -121,21 +132,19 @@
             <p-carousel [value]="similarFood" [numVisible]="3" [numScroll]="3" [circular]="false"
                 [responsiveOptions]="">
                 <ng-template let-product pTemplate="item">
-                    <div class="border-round m-2 text-center p-2" style="border: 1px solid var(--surface-d)">
-                        <div class="my-5">
-                            <img [src]="'data:image/png;base64,' + product.foodImages[0].imageBase64"
-                                [alt]="product.name" class="shadow-4" style="max-width: 30%; max-height: 30%;" />
+                    <div class="border-round m-2 text-center p-2 product-content" style="border: 1px solid var(--surface-d)">
+                        <div class="my-5 product-top">
+                            <img [src]="'data:image/png;base64,' + product.foodImages[0].imageBase64" [alt]="product.name" (click)="onFoodDetail(product.foodId)"
+                                class="shadow-4" />
                         </div>
-                        <div>
+                        <div class="product-bottom">
                             <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>
                             <div class="product-description">Ordered: {{product.numberOrdered}}</div>
                             <h5 class="mb-1" (click)="onFoodDetail(product.foodId)">{{product.name}}</h5>
-                            <h6 class="mt-0 mb-3">${{product.unitPrice}}</h6>
+                            <h6 class="mt-0 mb-3">{{product.unitPrice | currency : "VND" }}</h6>
                             <div class="my-5">
-                                <button pButton pRipple icon="pi pi-search" class="mr-2 p-button-rounded"
-                                    (click)="onFoodDetail(product.foodId)"></button>
-                                <button pButton pRipple icon="pi pi-shopping-cart" class="mr-2 p-button-rounded"
-                                    (click)="onAddToCart2(product.foodId)"></button>
+                                <button pButton pRipple icon="pi pi-search" class="mr-2 p-button-rounded" (click)="onFoodDetail(product.foodId)"></button>
+                                <button pButton pRipple icon="pi pi-shopping-cart" class="mr-2 p-button-rounded" (click)="onAddToCart(product.foodId)"></button>
                             </div>
                         </div>
                     </div>

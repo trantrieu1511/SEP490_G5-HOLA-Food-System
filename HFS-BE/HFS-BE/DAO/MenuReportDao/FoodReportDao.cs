@@ -30,6 +30,7 @@ namespace HFS_BE.DAO.MenuReportDao
                             {
                                 FoodId = mr.FoodId,
                                 FoodName = mr.Food.Name,
+                                SellerId = mr.Food.SellerId,
                                 ReportBy = mr.ReportBy,
                                 ReportContent = mr.ReportContent,
                                 CreateDate = mr.CreateDate,
@@ -120,13 +121,19 @@ namespace HFS_BE.DAO.MenuReportDao
                     if (inputDto.IsApproved)
                     {
                         foodReport.Status = 1;
+                        context.Foods.SingleOrDefault(f => f.FoodId == foodReport.FoodId).ReportedTimes++;
                     }
                     else
                     {
                         foodReport.Status = 2;
+                        int? reportedTimes = context.Foods.SingleOrDefault(f => f.FoodId == foodReport.FoodId).ReportedTimes;
+                        if (reportedTimes > 0)
+                        {
+                            context.Foods.SingleOrDefault(f => f.FoodId == foodReport.FoodId).ReportedTimes--;
+                        }
                     }
                     foodReport.Note = inputDto.Note; // optional
-                                                     
+
                     // Reduce approval limit
                     context.MenuModerators.SingleOrDefault(mm => mm.ModId.Equals(updateBy)).ReportApprovalLimit -= 1;
 

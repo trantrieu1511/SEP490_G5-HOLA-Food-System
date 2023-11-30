@@ -17,7 +17,7 @@ import { Table } from 'primeng/table';
 import { Shop } from '../../models/shop.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
-import { User } from 'src/app/services/auth.service';
+import { User, AuthService } from 'src/app/services/auth.service';
 import { PresenceService } from 'src/app/services/presence.service';
 import { DataView } from 'primeng/dataview';
 import { AddToCart } from '../../models/addToCart.model';
@@ -46,12 +46,13 @@ export class HomepageComponent extends iComponentBase implements OnInit {
     private _router: Router,
     private _route: ActivatedRoute,
     private dataService: DataService,
-    public presence: PresenceService
+    public presence: PresenceService,
   ) {
     super(messageService);
   }
 
   ngOnInit() {
+
     this.getAllShop();
     this.getHotFoods();
    // this.setCurrentUser();
@@ -154,27 +155,28 @@ async onAddToCart(foodId : number){
     } 
 
     this.loading = false;
-} catch (e) {
-    console.log(e);
-    this.loading = false;
-}
+  } catch (e) {
+      console.log(e);
+      this.loading = false;
+  }
 }
 
-  carouselResponsiveOptions: any[] = [
-    {
-      breakpoint: '1024px',
-      numVisible: 3,
-      numScroll: 3
-    },
-    {
-      breakpoint: '768px',
-      numVisible: 2,
-      numScroll: 2
-    },
-    {
-      breakpoint: '560px',
-      numVisible: 1,
-      numScroll: 1
-    }
-  ];
+    carouselResponsiveOptions: any[] = [
+      {
+        breakpoint: '1024px',
+        numVisible: 3,
+        numScroll: 3
+      },
+      {
+        breakpoint: '768px',
+        numVisible: 2,
+        numScroll: 2
+      },
+      {
+        breakpoint: '560px',
+        numVisible: 1,
+        numScroll: 1
+      }
+    ];
+
 }

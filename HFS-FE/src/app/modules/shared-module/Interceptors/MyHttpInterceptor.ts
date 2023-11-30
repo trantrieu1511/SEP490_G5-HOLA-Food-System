@@ -1,7 +1,7 @@
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Injectable, Injector} from '@angular/core';
 import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
-import {catchError, filter, switchMap, take} from 'rxjs/operators';
+import {catchError, filter, map, switchMap, take} from 'rxjs/operators';
 import { Router } from "@angular/router";
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthenticatedResponse } from '../models/authenticated-response.model';
@@ -87,7 +87,9 @@ export class MyHttpInterceptor implements HttpInterceptor {
     //}
 
     return next.handle(request).pipe(
+      map((event: HttpEvent<any>) => event),
       catchError(err => {
+        
         if (err instanceof HttpErrorResponse &&  err.status === 401 || err.statusText == 'Unknown Error') {
           // Xử lý token hết hạn sau khi gửi request
           return this.handleAuthError(request, next, err);
@@ -104,9 +106,12 @@ export class MyHttpInterceptor implements HttpInterceptor {
       this.refreshTokenSubject.next(null);
       const refreshToken: string = this.iFunction.getCookie("refreshToken");
       if (!refreshToken) {
+        
         localStorage.removeItem('user');
+        this.jwtService.removeToken();
         this.router.navigate(['/login']);
-
+        //window.location.reload();
+        
         return of(err.message);
 
       }
@@ -131,8 +136,11 @@ export class MyHttpInterceptor implements HttpInterceptor {
             false
           ).subscribe({
             next: (a: any) => {
-              this.router.navigate(['/login']);
+              
               localStorage.removeItem('user');
+              this.jwtService.removeToken();
+              this.router.navigate(['/login']);
+              //window.location.reload();
               return throwError(err);
             }
           })

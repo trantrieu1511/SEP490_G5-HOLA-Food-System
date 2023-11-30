@@ -1,5 +1,7 @@
 export class FoodReport {
   foodId: number;
+  foodName: number;
+  sellerId: number;
   reportBy: string
   reportContent: string;
   reportContents: string[] = [];

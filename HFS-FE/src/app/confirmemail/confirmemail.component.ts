@@ -18,8 +18,8 @@ export class ConfirmemailComponent implements OnInit {
       const userId = params['userId'];
       const code = params['code'];
       // Sử dụng userId và code theo nhu cầu của bạn
-      console.log('userId:', userId);
-      console.log('code:', code);
+      //console.log('userId:', userId);
+      //console.log('code:', code);
       this.code=code;
       this.formCofirm=new FormGroup({
         confirm: new FormControl(this.code),

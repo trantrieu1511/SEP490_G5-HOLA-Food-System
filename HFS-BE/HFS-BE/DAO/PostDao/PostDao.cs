@@ -225,11 +225,15 @@ namespace HFS_BE.Dao.PostDao
                     {
                         // set status banned
                         post.Status = 3;
+                        post.BanBy = userId;
+                        post.BanDate = DateTime.Now;
                     }
                     else
                     {
                         //set status display
                         post.Status = 1;
+                        post.BanBy = null;
+                        post.BanDate = null;
                     }
 
                     // Reduce ban/unban limit

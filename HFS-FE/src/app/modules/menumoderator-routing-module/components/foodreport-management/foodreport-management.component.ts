@@ -99,8 +99,9 @@ export class FoodreportManagementComponent extends iComponentBase implements OnI
 
   }
 
-  onOpenApproveNotApproveModal(foodrp) {
+  onOpenApproveNotApproveModal(status, foodrp) {
     this.foodReport = Object.assign({}, foodrp);
+    this.foodReport.status = status;
     this.isVisibleApproveNotApproveModal = true;
   }
 

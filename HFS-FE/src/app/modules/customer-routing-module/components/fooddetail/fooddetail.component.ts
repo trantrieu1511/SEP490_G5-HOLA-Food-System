@@ -25,6 +25,7 @@ import { TabView, TabViewChangeEvent } from 'primeng/tabview';
 import { FoodReport } from 'src/app/modules/menumoderator-routing-module/models/foodreport.model';
 import { CheckboxChangeEvent } from 'primeng/checkbox';
 import { AuthService } from 'src/app/services/auth.service';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 interface PageEvent {
   first?: number;
   rows?: number;
@@ -46,9 +47,15 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     private _route: ActivatedRoute,
     private dataService: DataService,
     public presence: PresenceService,
-    private authService: AuthService
+    private authService: AuthService,
+    public breadcrumbService: AppBreadcrumbService,
   ) {
-    super(messageService);
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Food Management', routerLink: ['/HFSBusiness/food-management']}
+    ]);
   }
   foodId : number
   loading: boolean;
@@ -75,9 +82,17 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     // if (sessionStorage.getItem('userId') != null) {
     //   this.isLoggedIn = true;
     // }
-    if (this.authService.getUserInfor().userId != null) {
-        this.isLoggedIn = true;
-      }
+    const user = this.authService.getUserInfor();
+    if(!user){
+      this.isLoggedIn = false;
+      return;
+    }
+
+    const userId = user.userId;
+    if (userId != null) {
+      this.isLoggedIn = true;
+      this.checkUsersReportFoodCapability();
+    }
   }
 
   async ngOnInit() {
@@ -88,7 +103,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     await this.getFeedBack();
 
     this.checkLoggedIn();
-    this.checkUsersReportFoodCapability();
+    
     if(!this.hasAlreadyReported){ // Neu food nay chua bi report thi moi reset nut submit (Tiet kiem tai nguyen may tinh)
       this.enableDisableFoodReportButtonSubmit();
     }

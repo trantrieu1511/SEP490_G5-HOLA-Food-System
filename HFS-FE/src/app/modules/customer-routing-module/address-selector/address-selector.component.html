@@ -1,0 +1,21 @@
+<div class="container">
+  <h1>Chọn danh sách tỉnh</h1>
+  <form>
+    <select id="province" (change)="onProvinceChange()">
+      <option value="" disabled selected>Chọn tỉnh</option>
+      <option *ngFor="let province of provinces" [value]="province.code">{{ province.name }}</option>
+    </select>
+
+    <select id="district" (change)="onDistrictChange()">
+      <option value="" disabled selected>Chọn quận</option>
+      <option *ngFor="let district of districts" [value]="district.code">{{ district.name }}</option>
+    </select>
+
+    <select id="ward" (change)="onWardChange()">
+      <option value="" disabled selected>Chọn phường</option>
+      <option *ngFor="let ward of wards" [value]="ward.code">{{ ward.name }}</option>
+    </select>
+  </form>
+
+  <h2 id="result">{{ selectedResult }}</h2>
+</div>

@@ -143,11 +143,12 @@ namespace HFS_BE.BusinessLogic.Dashboard.Postmoderator
                     .Where(p => p.CreatedDate.Value.Date >= inputDto.DateFrom
                     && p.CreatedDate.Value.Date <= inputDto.DateEnd)
                     .Count();
-                //output.TotalBannedPosts = postList.Posts
-                //    .Where(p => p.CreatedDate.Value.Date >= inputDto.DateFrom
-                //    && p.CreatedDate.Value.Date <= inputDto.DateEnd
-                //    && p.Status == 3)
-                //    .Count();
+                output.TotalBannedPosts = postList.Posts
+                    .Where(p => p.BanDate != null
+                    && p.BanDate.Value.Date >= inputDto.DateFrom
+                    && p.BanDate.Value.Date <= inputDto.DateEnd
+                    && p.Status == 3)
+                    .Count();
                 output.TotalPostReports = postReportList.PostReports
                     .Where(pr => pr.CreateDate.Date >= inputDto.DateFrom
                     && pr.CreateDate.Date <= inputDto.DateEnd)
@@ -302,10 +303,10 @@ namespace HFS_BE.BusinessLogic.Dashboard.Postmoderator
                 Label = "Post"
             };
             // get no of banned post each date
-            //DashboardDataSets bannedPostData = new DashboardDataSets
-            //{
-            //    Label = "Banned post"
-            //};
+            DashboardDataSets bannedPostData = new DashboardDataSets
+            {
+                Label = "Banned post"
+            };
             // get no of post reports each date
             DashboardDataSets postReportData = new DashboardDataSets
             {
@@ -340,8 +341,8 @@ namespace HFS_BE.BusinessLogic.Dashboard.Postmoderator
                     postData.Data.Add(currentDatePostAmount);
 
                     // get amount of banned post of the current date
-                    //var currentDateBannedPostAmount = posts.Where(p => p.CreatedDate.Value.Date == currentDate.Date && p.Status == 3).Count();
-                    //bannedPostData.Data.Add(currentDateBannedPostAmount);
+                    var currentDateBannedPostAmount = posts.Where(p => p.BanDate != null && p.BanDate.Value.Date == currentDate.Date && p.Status == 3).Count();
+                    bannedPostData.Data.Add(currentDateBannedPostAmount);
 
                     // get amount of post report of the current date
                     var currentDatePostReportAmount = postReports.Where(pr => pr.CreateDate.Date == currentDate.Date).Count();
@@ -371,7 +372,7 @@ namespace HFS_BE.BusinessLogic.Dashboard.Postmoderator
             }
 
             dataSets.Add(postData);
-            //dataSets.Add(bannedPostData);
+            dataSets.Add(bannedPostData);
             dataSets.Add(postReportData);
             dataSets.Add(pendingPostReportData);
             dataSets.Add(approvedPostReportData);
