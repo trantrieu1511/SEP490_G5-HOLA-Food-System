@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {
     iComponentBase,
     iServiceBase, mType,
@@ -20,6 +20,7 @@ import { PostReport } from '../../models/postreport.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
 import { SellerReport } from '../../models/sellerReport.model';
+import { take } from 'rxjs';
 
 
 @Component({
@@ -27,7 +28,7 @@ import { SellerReport } from '../../models/sellerReport.model';
   templateUrl: './shopdetail.component.html',
   styleUrls: ['./shopdetail.component.scss']
 })
-export class ShopdetailComponent extends iComponentBase implements OnInit {
+export class ShopdetailComponent extends iComponentBase implements OnInit, AfterViewInit {
   foods: any[];
    sortOptions: SelectItem[];
   sortOrder: number;
@@ -55,6 +56,9 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
   ){
     super(messageService);
   }
+  ngAfterViewInit(): void {
+    
+  }
   checkLoggedIn() {
     // if (sessionStorage.getItem('userId') != null) {
     //   this.isLoggedIn = true;
@@ -71,16 +75,17 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
     }
   }
 
-  ngOnInit(){
+  async ngOnInit(){
     this.checkLoggedIn();
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams
+    .subscribe(params => {
       this.shopid = params['shopid'];
       // console.log(id);
       // Sử dụng giá trị id tại đây
-	  this.menuInput.shopId = this.shopid
-	  console.log(this.menuInput)
-		this.getMenu(this.menuInput)
-    this.getShopInfor()
+      this.menuInput.shopId = this.shopid
+      console.log(this.menuInput)
+      this.getMenu(this.menuInput)
+      this.getShopInfor()
     });
 
     this.sortOptions = [
@@ -111,7 +116,7 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
             this.foods = response.listFood;
         }
 
-		console.log(this.foods);
+		    console.log(this.foods);
         this.loading = false;
     } catch (e) {
         console.log(e);

@@ -24,6 +24,7 @@ namespace HFS_BE.Controllers.ManagePost
             {
               
                 var business = this.GetBusinessLogic<EnableDisablePostBusinessLogic>();
+                input.UserDto = GetUserInfor();
 
                 var output = business.EnableDisablePost(input);
 

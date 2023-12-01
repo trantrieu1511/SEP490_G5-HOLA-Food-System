@@ -1,7 +1,7 @@
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Injectable, Injector} from '@angular/core';
 import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
-import {catchError, filter, map, switchMap, take} from 'rxjs/operators';
+import { catchError, filter, last, map, switchMap, take, finalize } from 'rxjs/operators';
 import { Router } from "@angular/router";
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthenticatedResponse } from '../models/authenticated-response.model';
@@ -87,10 +87,9 @@ export class MyHttpInterceptor implements HttpInterceptor {
     //}
 
     return next.handle(request).pipe(
-      map((event: HttpEvent<any>) => event),
       catchError(err => {
         
-        if (err instanceof HttpErrorResponse &&  err.status === 401 || err.statusText == 'Unknown Error') {
+        if (err instanceof HttpErrorResponse && (err.status === 401 || err.status === 0)) {
           // Xử lý token hết hạn sau khi gửi request
           return this.handleAuthError(request, next, err);
         }
@@ -102,15 +101,22 @@ export class MyHttpInterceptor implements HttpInterceptor {
 
   private handleAuthError(request: HttpRequest<any>, next: HttpHandler, err: any){
 
-    if(!request.url.includes('auths/refresh')){
+    //if(!request.url.includes('auths/refresh')){
+    if(this.timesRefresh != 1){
+      this.timesRefresh++;
       this.refreshTokenSubject.next(null);
+
+      if(this.iFunction.getCookie("token")){
+        return of(err.message);
+      }
+
       const refreshToken: string = this.iFunction.getCookie("refreshToken");
       if (!refreshToken) {
         
         localStorage.removeItem('user');
         this.jwtService.removeToken();
         this.router.navigate(['/login']);
-        //window.location.reload();
+        window.location.reload();
         
         return of(err.message);
 
@@ -141,14 +147,23 @@ export class MyHttpInterceptor implements HttpInterceptor {
               this.jwtService.removeToken();
               this.router.navigate(['/login']);
               //window.location.reload();
-              return throwError(err);
+              return of(err.message);
+            },
+            error: (err: any) => {
+              localStorage.removeItem('user');
+              this.jwtService.removeToken();
+              this.router.navigate(['/login']);
+              // Handle error here
+              return of(err.message);
             }
+          
           })
         }
       })
       //return of("Refresh token loading..")
     }
     else{
+      this.timesRefresh = 0;
       return throwError(() => new Error('Non Authentications Error'));
     }
 
