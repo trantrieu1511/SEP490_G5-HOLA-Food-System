@@ -58,7 +58,8 @@ export class API_USER {
     public static REPLY_SELLER = "replyfeedback";
      public static REPORT_SELLER = "reportseller";
      public static REPORT_SELLERCUS = "listreportsellerbyCustomer";
-
+     public static SEND_OTP = "sendotp";
+     public static CHECK_OTP = "checkotp";
 }
 
 // Service Role

@@ -162,6 +162,12 @@ namespace HFS_BE.Dao.AuthDao
 				}
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
 			}
+			var dataphone = context.Customers.Where(s => s.PhoneNumber.ToLower() == model.PhoneNumber.ToLower()).FirstOrDefault();
+			if (dataphone != null)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Phone Number has been used");
+			}
+
 			var data = context.Customers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();

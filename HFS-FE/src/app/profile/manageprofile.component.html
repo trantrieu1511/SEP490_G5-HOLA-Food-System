@@ -202,13 +202,13 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="isVisibleVerifyPhoneNumberModal" [style]="{ width: '450px' }" header="Verify your phonenumber"
+<p-dialog [(visible)]="isVisibleVerifyPhoneNumberModal" [style]="{ width: '450px' }" header="Verify Your Phonenumber"
     [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="VerifyPhonenumber">
         <!-- <div class="formgrid grid"> -->
         <div class="field">
-            <label for="otpHayGiDay">Enter your otp hay gì đấy <span style="color: red;">*</span></label>
-            <input type="text" pInputText id="otpHayGiDay" placeholder="Enter otp hay gì đó" required/>
+            <label for="otpHayGiDay">OTP(4 digit code):<span style="color: red;">*</span></label>
+            <input type="number" pInputText id="otpHayGiDay" placeholder="Enter Your OTP" maxlength="4"  [(ngModel)]="verifyOtp"/>
         </div>
         <!-- </div> -->
     </ng-template>
@@ -216,7 +216,7 @@
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
             (click)="this.isVisibleVerifyPhoneNumberModal = false"></button>
-        <button pButton pRipple label="Continue" (click)="verifyPhonenumber();"></button>
+        <button pButton pRipple label="Submit" (click)="verifyPhonenumber();"></button>
     </ng-template>
 </p-dialog>
 
@@ -325,13 +325,13 @@
                                 onClick="event.preventDefault();" (click)="doSomething();">Edit email</a>
                         </div> -->
 
-                        <!-- <div *ngIf="!profileDisplay.confirmedEmail && role == 'CU' || 
-                            !profileDisplay.confirmedEmail && role == 'SE' || 
+                        <!-- <div *ngIf="!profileDisplay.confirmedEmail && role == 'CU' ||
+                            !profileDisplay.confirmedEmail && role == 'SE' ||
                             !profileDisplay.confirmedEmail && role == 'SH'">
                             <a class="verify-email-link" (click)="confirm(profileDisplay.email);">Verify email</a>
                         </div> -->
-                        <div *ngIf="profileDisplay.confirmedEmail && role == 'CU' 
-                            || profileDisplay.confirmedEmail && role == 'SE' 
+                        <div *ngIf="profileDisplay.confirmedEmail && role == 'CU'
+                            || profileDisplay.confirmedEmail && role == 'SE'
                             || profileDisplay.confirmedEmail && role == 'SH'">
                             <p style="color: rgb(23, 170, 23);">Email has been verified</p>
                         </div>
@@ -351,7 +351,7 @@
                         <!-- <p-button [text]="true" (onClick)="verifyPhonenumber();">verify phonenumber</p-button> -->
                         <div>
                             <a style="color: #6366F1;" class="edit-email-link" href="#"
-                                onClick="event.preventDefault();" (click)="openVerifyPhonenumberModal();">verify phonenumber</a>
+                                onClick="event.preventDefault();" (click)="openVerifyPhonenumberModal(profileDisplay.phoneNumber);">verify phonenumber</a>
                         </div>
                     </div>
                     <!-- <ng-template #RegisterPhoneNumber>
@@ -425,3 +425,4 @@
 </div>
 
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>
+<cmis-loading></cmis-loading>

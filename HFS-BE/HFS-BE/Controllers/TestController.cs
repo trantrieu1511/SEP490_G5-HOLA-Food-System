@@ -136,7 +136,7 @@ namespace HFS_BE.Controllers
 		}
 
 
-		[HttpPost("/users/checkotp")]
+		[HttpPost("/users/checkotp2")]
 		public async Task<IActionResult> GetProvinces8(int otp,string phonenumber)
 		{
 			bool result = false;

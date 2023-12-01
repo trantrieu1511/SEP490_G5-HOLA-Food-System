@@ -888,7 +888,7 @@ namespace HFS_BE.Models
                     .HasMaxLength(1500)
                     .HasColumnName("postContent");
 
-                entity.Property(e => e.ReportedTimes).HasColumnName("reportedTimes");
+           //     entity.Property(e => e.ReportedTimes).HasColumnName("reportedTimes");
 
                 entity.Property(e => e.SellerId)
                     .HasMaxLength(50)

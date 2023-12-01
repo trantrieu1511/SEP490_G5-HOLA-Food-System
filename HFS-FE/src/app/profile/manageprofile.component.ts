@@ -35,7 +35,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   uploadedFiles: File[] = [];
   profileImage: ProfileImage = new ProfileImage();
   profileModal: Profile = new Profile(); // instance dung de bind len modal
-
+  isVisibleVerifyPhoneNumberModal2 = false;
   // ------------- UI component variables ---------------
   isVisibleChangePasswordModal: boolean = false;
   isVisibleVerifyYourselfModal: boolean = false;
@@ -49,7 +49,8 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   editProfileValidation: EditProfileInputValidation = new EditProfileInputValidation();
   changePasswordValidation: ChangePasswordInputValidation = new ChangePasswordInputValidation();
   verifyIdentityValidation: VerifyIdentityInputValidation = new VerifyIdentityInputValidation();
-
+phoneOtp:string;
+verifyOtp:string;
   role: string;
 
   constructor(
@@ -119,7 +120,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   }
 
   // onUploadProfileImg($event: FileUploadEvent) {
-  //   // 
+  //   //
 
   //   console.log($event.files);
   //   console.log($event.originalEvent);
@@ -128,7 +129,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
 
   async getProfileInfo() {
     try {
-      // 
+      //
       // const params = {
       //   userId: sessionStorage.getItem("userId")
       //   // userId: 1
@@ -265,7 +266,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   async editProfile() {
     if (this.validateEditProfileInput()) { // Validate before continuing to edit
       try {
-        // 
+        //
         const inputData = {
           // userId: sessionStorage.getItem("userId"),
           firstName: this.profile.firstName,
@@ -579,12 +580,81 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   // }
 
 
-  openVerifyPhonenumberModal() {
+  async openVerifyPhonenumberModal(phone:string) {
     this.isVisibleVerifyPhoneNumberModal = true;
-  }
+    this.phoneOtp=phone;
+    const param = {
+      "phoneNumber": phone
+    }
+    try{
+      let response ;
+    //let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_USER.SEND_OTP, param);
 
-  verifyPhonenumber() {
-    alert('Tự chế biến nốt nha a.')
+    if (response && response.message === 'Success') {
+      this.isVisibleVerifyPhoneNumberModal = true;
+      this.showMessage(
+        mType.success,
+        'Notification',
+        'Send OTP successfully',
+        'notify'
+      );
+      }else{
+        this.showMessage(
+          mType.error,
+          'Notification',
+          'Send OTP fail',
+          'notify'
+        );
+      }
+    }catch (e) {
+        console.log(e);
+        this.showMessage(
+          mType.error,
+          'Notification',
+          'System error',
+          'notify'
+        );
+      }
+
+   // this.isVisibleVerifyPhoneNumberModal = true;
+  }
+  isValidOTP(): boolean {
+    return this.verifyOtp.length === 4;
+  }
+  async verifyPhonenumber() {
+    const param = {
+      "phoneNumber": this.phoneOtp,
+      "otp":  this.verifyOtp
+    }
+    try{
+    let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_USER.CHECK_OTP, param);
+
+    if (response && response.message === 'Success') {
+      this.isVisibleVerifyPhoneNumberModal = false;
+      this.showMessage(
+        mType.success,
+        'Notification',
+        'Verify OTP successfully',
+        'notify'
+      );
+      }else{
+        this.showMessage(
+          mType.error,
+          'Notification',
+          'Verify OTP fail',
+          'notify'
+        );
+      }
+    }catch (e) {
+        console.log(e);
+        this.showMessage(
+          mType.error,
+          'Notification',
+          'System error',
+          'notify'
+        );
+      }
+
   }
 
 }
