@@ -19,10 +19,11 @@
                         <tr>
                             <th  style="width: 5rem"></th>
                             <th  pSortableColumn="name">{{'shipperScreen.id' | translate}} <p-sortIcon field="name"></p-sortIcon></th>
-                            <th  pSortableColumn="date">{{'shipperScreen.date' | translate}} <p-sortIcon field="date"></p-sortIcon></th>
+                            <th  pSortableColumn="date">{{'shipperScreen.orderDate' | translate}} <p-sortIcon field="date"></p-sortIcon></th>
                             <th pSortableColumn="price">{{'shipperScreen.price' | translate}} <p-sortIcon field="price"></p-sortIcon></th>
                             <th pSortableColumn="shipAddress">{{'shipperScreen.address' | translate}} <p-sortIcon field="shipAddress"></p-sortIcon></th>
                             <th pSortableColumn="phoneNumber">{{'shipperScreen.phoneNumber' | translate}} <p-sortIcon field="phoneNumber"></p-sortIcon></th>
+                            <th pSortableColumn="paymentMethod">{{'shipperScreen.paymentMethod' | translate}} <p-sortIcon field="paymentMethod"></p-sortIcon></th>
                             <th style="text-align: center" >{{'shipperScreen.action' | translate}}</th>
                         </tr>
                     </ng-template>
@@ -32,10 +33,12 @@
                                 <button type="button" pButton pRipple [pRowToggler]="order" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
                             </td>
                             <td>{{ order.orderId}}</td>
-                            <td>{{order.orderDate}}</td>
-                            <td>{{ order.total}} VND</td>
+                            <td>{{order.orderDate | date:'dd/MM/yyyy hh:mm a'}}</td>
+                            <td>{{ order.total | currency : "VND"}}</td>
                             <td>{{order.shipAddress}}</td>
                             <td>{{order.customerPhone}}</td>
+                            <td *ngIf="order.paymentMethod == '0'">COD</td>
+                            <td *ngIf="order.paymentMethod == '1'">WALLET</td>
                             <ng-container [ngSwitch]="activeItem.id">
                                 <ng-container *ngSwitchCase = "0">
                                     <td style="text-align: center">
@@ -93,7 +96,7 @@
                                                     [alt]="orderDetail.imageBase64.name" class="dialogimages_image w-10rem shadow-2"
                                                     ></p-image></td>
                                                 <td>{{ orderDetail.foodName }}</td>
-                                                <td>{{ orderDetail.unitPrice }}$</td>
+                                                <td>{{ orderDetail.unitPrice | currency : "VND" }}</td>
                                                 <td>{{ orderDetail.quantity}}</td>
                                             </tr>
                                         </ng-template>
@@ -129,31 +132,49 @@
                     </div>
                 </p-divider>
                 <div class="grid">
-                    <div class="align-items-center" style="padding-bottom: 5px;">
-                        <div style="padding-bottom: 5px;">
-                          <p-checkbox name="reportContent" 
-                            value="Customers don't answer the phone" [(ngModel)]="note"
-                            inputId="Content1"></p-checkbox>
-                          <label for="reportContent1" class="ml-2">Customers don't answer the phone</label>
-                        </div>
-                        <div style="padding-bottom: 5px;">
-                          <p-checkbox name="reportContent" 
-                            value="The customer does not accept the order" [(ngModel)]="note"
-                            inputId="Content2"></p-checkbox>
-                          <label for="reportContent2" class="ml-2">The customer does not accept the order</label>
-                        </div>
-                        <div style="padding-bottom: 5px;">
-                          <p-checkbox name="reportContent" 
-                            value="The order does not match the customer's requirements" [(ngModel)]="note"
-                            inputId="Content3"></p-checkbox>
-                          <label for="reportContent3" class="ml-2">The order does not match the customer's requirements</label>
-                        </div>
-                        <div style="padding-bottom: 5px;">
-                            <p-checkbox name="reportContent" 
-                              value="Delivery time is too long" [(ngModel)]="note"
-                              inputId="Content4"></p-checkbox>
-                            <label for="reportContent3" class="ml-2">Delivery time is too long</label>
+                    <div class="col-12 mb-2 lg:col-9 mb-lg-0 total-price-order_all" style="text-align: end;">
+                        <div class="flex flex-wrap gap-3">
+                          <div class="flex align-items-center">
+                              <p-radioButton name="payment" value="0" checked="checked" [(ngModel)]="check" inputId="ingredient1"></p-radioButton>
+                              <label for="ingredient1" class="ml-2">Customer</label>
                           </div>
+                          
+                          <div class="flex align-items-center">
+                              <p-radioButton name="payment" value="1" [(ngModel)]="check"  inputId="ingredient2"></p-radioButton>
+                              <label for="ingredient2" class="ml-2">Shop</label>
+                          </div>
+                        </div>
+                      </div>
+                                                
+                    <div class="align-items-center" style="padding-bottom: 5px;">
+                        <ng-container *ngIf="check == '0';else seller">
+                            <div style="padding-bottom: 5px;">
+                                <p-checkbox name="reportContent" 
+                                  value="1" [(ngModel)]="note"
+                                  inputId="Content1"></p-checkbox>
+                                <label for="reportContent1" class="ml-2">Customers don't answer the phone</label>
+                              </div>
+                              <div style="padding-bottom: 5px;">
+                                <p-checkbox name="reportContent" 
+                                  value="2" [(ngModel)]="note"
+                                  inputId="Content2"></p-checkbox>
+                                <label for="reportContent2" class="ml-2">The customer does not accept the order</label>
+                              </div>
+                        </ng-container>
+                        <ng-template #seller>
+                            <div style="padding-bottom: 5px;">
+                                <p-checkbox name="reportContent" 
+                                  value="3" [(ngModel)]="note"
+                                  inputId="Content3"></p-checkbox>
+                                <label for="reportContent3" class="ml-2">The order does not match the customer's requirements</label>
+                              </div>
+                              <div style="padding-bottom: 5px;">
+                                  <p-checkbox name="reportContent" 
+                                    value="4" [(ngModel)]="note"
+                                    inputId="Content4"></p-checkbox>
+                                  <label for="reportContent3" class="ml-2">Delivery time is too long</label>
+                                </div>
+                        </ng-template>
                       </div>
                       
                     <!-- <div class="col-12 mb-2 lg:col-12 mb-lg-0">
@@ -162,6 +183,76 @@
                             <label>Other*</label>
                         </span>
                     </div>  -->
+                    <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+                        <label>Images</label>
+					    <span class="p-input-icon-left p-float-label" style="width: 100%">
+                            <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
+                                <ng-template pTemplate="content">
+                                    <ul *ngIf="postModel.images.length">
+                                    </ul>
+                                </ng-template>
+                            </p-fileUpload> -->
+                                <p-fileUpload class=" w-full"
+                                    [files]="uploadedFiles"
+                                    [customUpload]="true"
+                                    (onSelect)="handleFileSelection($event)"
+                                    (onRemove)="handleFileRemoval($event)"
+                                    (onClear)="handleAllFilesClear($event)"
+                                    [multiple]="false" accept="image/*" [maxFileSize]="1000000"
+                                    [showUploadButton]="false" >
+                                    <ng-template pTemplate="content">
+                                        <!-- <ul *ngIf="uploadedFiles.length > 0">
+                                            <li *ngFor="let file of uploadedFiles">{{ file.name }}</li>
+                                        </ul> -->
+                                    </ng-template>
+                                </p-fileUpload>
+
+
+					    </span>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-center flex-wrap" style="text-align: center">
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Save" icon="pi pi-save"
+                        (click)="Save()"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                        (click)="onCancel()" class="p-button-danger"
+                        style="width: 100%;"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [header]="headerDialog" [(visible)]="displayDialogConfirm1"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '50vw'}"
+          [draggable]="false" [resizable]="false" [maximizable]="true">
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <b>Confirm</b>
+                    </div>
+                </p-divider>
+                <div class="grid">
+                    
+                      
+                    <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+                        <span class="p-input-icon-left p-float-label" style="width: 100%" >
+                            <textarea class="w-full" rows="10" cols="60" pInputTextarea [(ngModel)]="note"></textarea>
+                            <label>Other*</label>
+                        </span>
+                    </div> 
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
                         <label>Images</label>
 					    <span class="p-input-icon-left p-float-label" style="width: 100%">

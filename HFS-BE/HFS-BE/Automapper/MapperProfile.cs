@@ -138,13 +138,15 @@ namespace HFS_BE.Automapper
             //output
             CreateMap<Dao.FoodDao.FoodOutputSellerDto, BusinessLogic.ManageFood.FoodOutputSellerDto>()
                 .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.CreatedDate != null ? src.CreatedDate.Value.ToString("MM/dd/yyyy - HH:mm:ss:tt") : null));
+                //.ForMember(dest => dest.BanDate, opt => opt.MapFrom(src => src.BanDate != null ? src.BanDate.Value.ToString("dd/MM/yyyy HH:mm:ss") : null));
             CreateMap<Dao.FoodDao.ListFoodOutputSellerDto, BusinessLogic.ManageFood.ListFoodOutputSellerDto>();
 
         }
         public void Order()
         {
-            CreateMap<List<Order>, OrderDaoOutputDto>();
-            CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>();
+            //CreateMap<List<Order>, OrderDaoOutputDto>();
+            CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>()
+                .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => PaymentMethodEnum.GetPaymentMethodString(src.PaymentMethod)));
             CreateMap<OrderDetail, Dao.OrderDao.OrderDetailDto>()
                 .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name))
                 .ForMember(dest => dest.SellerId, opt => opt.MapFrom(src => src.Food.SellerId))
@@ -355,6 +357,7 @@ namespace HFS_BE.Automapper
 			CreateMap<ImageFileConvert.ImageOutputDto, FeedSellerImageOutputDto>();
 			CreateMap<ImageFileConvert.ImageOutputDto, ShipperImageOutputDto>();
 			CreateMap<ImageFileConvert.ImageOutputDto, SellerReportImageOutputDto>();
+			CreateMap<ImageFileConvert.ImageOutputDto, SellerImageLOutputDto>();
 		}
 
         public void Category()

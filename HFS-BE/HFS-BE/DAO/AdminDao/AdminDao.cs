@@ -3,6 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.Dao.AuthDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Mailjet.Client.Resources;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 
@@ -108,10 +109,9 @@ namespace HFS_BE.DAO.AdminDao
 			try
 			{
 				List<DashboadPieAdminOutputDto> list = new List<DashboadPieAdminOutputDto>();
-				int seller = context.Sellers.Where(s => s.IsBanned == false&&s.IsVerified==true).Count();
-				//int cus= context.Customers.Where(s => s.IsBanned == false).Count();
-				int cus = 0;
-				int shipper = 0;
+				int seller = context.Sellers.Count();
+				int cus= context.Customers.Count();
+				int shipper = context.Shippers.Count();
 				var sellerd= new DashboadPieAdminOutputDto(
 					actor:"Seller",
 					total:seller
@@ -140,7 +140,48 @@ namespace HFS_BE.DAO.AdminDao
 				return null;
 			}
 		}
-		
+		public List<DashBoardAdminLineOutputDto> GetDashBoadLine(DashBoardAdminLineInputDto inputDto)
+		{
+			try
+			{
+				List<DashBoardAdminLineOutputDto> list = new List<DashBoardAdminLineOutputDto>();
+				
+
+				foreach(var date in inputDto.dates)
+				{
+					var data = context.Sellers.Where(s => s.CreateDate.Value.Date == date.Date).Count();
+					var sellerd = new DashBoardAdminLineOutputDto();
+					sellerd.CreateDate = date;
+					sellerd.Data = data;
+					sellerd.User = "Seller";
+					list.Add(sellerd);
+					var data2 = context.Customers.Where(s => s.CreateDate.Value.Date == date.Date).Count();
+					var cusd = new DashBoardAdminLineOutputDto();
+					cusd.CreateDate = date;
+					cusd.Data = data2;
+					cusd.User = "Customer";
+					list.Add(cusd);
+					var data3 = context.Shippers.Where(s => s.CreateDate.Value.Date == date.Date).Count();
+					var shipperd = new DashBoardAdminLineOutputDto();
+					shipperd.CreateDate = date;
+					shipperd.Data = data3;
+					shipperd.User = "Shipper";
+					list.Add(shipperd);
+
+				}
+				
+				
+
+
+				return list;
+
+			}
+			catch (Exception)
+			{
+
+				return null;
+			}
+		}
 		public DashboadAdminOutputDto GetDashBoadAdminTotal()
 		{
 			try
@@ -154,20 +195,23 @@ namespace HFS_BE.DAO.AdminDao
 				int seller = context.Sellers.Where(s => s.IsBanned == false && s.IsVerified == true).Count();
 				int cusban = 0;
 				int shipper = 0;
-				int shipperban = 0;
+				int shipperban = context.Shippers.Where(s => s.IsVerified == true&&s.ManageBy!=null).Count();
 				int shippervetify = context.Shippers.Where(s => s.IsVerified == true).Count();
 				int totalshipper= context.Shippers.Count();
-				outputDto.BanCustomer = cusban;
-				outputDto.BanShipper = shipperban;
+	            int totalreport= context.SellerReports.Count();
+				int solvereport = context.SellerReports.Where(s=>s.Status==1).Count();
+				int pending = context.SellerReports.Where(s => s.Status == 0).Count();
+				outputDto.ManagedShipper = shipperban;
 				outputDto.BanSeller = sellerban;
 				outputDto.TotalCustomer = totalcus;
 				outputDto.TotalSeller = totalseller;
 				outputDto.TotalShippper = totalshipper;
 				outputDto.VetifySeller = sellervetify;
 				outputDto.VetifyShipper = shippervetify;
-
-
-
+				outputDto.SolvedReport = solvereport;
+				outputDto.TotalReport = totalreport;
+				outputDto.PendingReport = pending;
+				outputDto.RejectReport = totalreport- pending- solvereport;
 				return outputDto;
 
 			}

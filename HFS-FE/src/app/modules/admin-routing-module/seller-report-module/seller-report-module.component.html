@@ -40,23 +40,23 @@
                       </th>
                       <th pSortableColumn="sellerId">
                           <div class="flex justify-content-between align-items-center">
-                            sellerId
+                            SellerId
                               <p-sortIcon field="sellerId"></p-sortIcon>
                               <p-columnFilter type="text" field="sellerId" display="menu"
                                               class="ml-auto"></p-columnFilter>
                           </div>
                       </th>
-                      <th pSortableColumn="sellerName">
+                      <th pSortableColumn="shopName">
                           <div class="flex justify-content-between align-items-center">
-                            sellerName
-                              <p-sortIcon field="sellerName"></p-sortIcon>
-                              <p-columnFilter type="text" field="sellerName" display="menu"
+                            ShopName
+                              <p-sortIcon field="shopName"></p-sortIcon>
+                              <p-columnFilter type="text" field="shopName" display="menu"
                                               class="ml-auto"></p-columnFilter>
                           </div>
                       </th>
                       <th pSortableColumn="reportBy">
                         <div class="flex justify-content-between align-items-center">
-                          reportBy
+                          ReportBy
                             <p-sortIcon field="reportBy"></p-sortIcon>
                             <p-columnFilter type="text" field="reportBy" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -64,7 +64,7 @@
                     </th>
                       <th pSortableColumn="reportByName">
                           <div class="flex justify-content-between align-items-center">
-                            reportByName
+                            ReportByName
                               <p-sortIcon field="reportByName"></p-sortIcon>
                               <p-columnFilter type="text" field="reportByName" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -72,7 +72,7 @@
                       </th>
                       <th pSortableColumn="reportContent">
                         <div class="flex justify-content-between align-items-center">
-                          reportContent
+                          ReportContent
                             <p-sortIcon field="reportContent"></p-sortIcon>
                             <p-columnFilter type="text" field="reportContent" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -80,7 +80,7 @@
                     </th>
                       <th pSortableColumn="createDate">
                         <div class="flex justify-content-between align-items-center">
-                          createDate
+                          CreateDate
                             <p-sortIcon field="createDate"></p-sortIcon>
                             <p-columnFilter type="text" field="createDate" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -88,7 +88,7 @@
                     </th>
                       <th pSortableColumn="updateDate">
                           <div class="flex justify-content-between align-items-center">
-                            updateDate
+                            UpdateDate
                               <p-sortIcon field="updateDate"></p-sortIcon>
                               <p-columnFilter type="text" field="updateDate" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -96,7 +96,7 @@
                       </th>
                       <th pSortableColumn="updateBy">
                           <div class="flex justify-content-between align-items-center">
-                            updateBy
+                            UpdateBy
                               <p-sortIcon field="updateBy"></p-sortIcon>
                               <p-columnFilter type="numeric" field="updateBy" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -109,7 +109,7 @@
                       </th>
                       <th pSortableColumn="status">
                         <div class="flex justify-content-between align-items-center">
-                          status
+                          Status
                             <p-sortIcon field="status"></p-sortIcon>
                             <p-columnFilter type="text" field="status" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -117,7 +117,7 @@
                     </th>
                     <th pSortableColumn="note">
                       <div class="flex justify-content-between align-items-center">
-                        note
+                        Note
                           <p-sortIcon field="updateDate"></p-sortIcon>
                           <p-columnFilter type="text" field="note" display="menu"
                                           class="ml-auto"></p-columnFilter>
@@ -141,35 +141,35 @@
                           <span class="post-id">{{user.sellerReportId}}</span>
                       </td>
                       <td>
-                          <span class="p-column-title">sellerId</span>
+                          <span class="p-column-title">SellerId</span>
                            {{user.sellerId}}
                       </td>
                       <td >
-                          <span class="p-column-title">sellerName</span>
-                          {{user.sellerName}}
+                          <span class="p-column-title">ShopName</span>
+                          {{user.shopName}}
                       </td>
                       <td >
-                        <span class="p-column-title">reportBy</span>
+                        <span class="p-column-title">ReportBy</span>
                         {{user.reportBy}}
                     </td>
                       <td>
-                          <span class="p-column-title">reportByName</span>
+                          <span class="p-column-title">ReportByName</span>
                           <span class="post-content" >{{user.reportByName}}</span>
                       </td>
                       <td>
-                        <span class="p-column-title">reportContent</span>
+                        <span class="p-column-title">ReportContent</span>
                         <span class="post-content" >{{user.reportContent}}</span>
                     </td>
                       <td >
-                          <span class="p-column-title">createDate</span>
+                          <span class="p-column-title">CreateDate</span>
                           {{user.createDate| date:'dd/MM/yyyy hh:mm a'}}
                       </td>
                       <td >
-                        <span class="p-column-title">updateDate</span>
+                        <span class="p-column-title">UpdateDate</span>
                         {{user.updateDate| date:'dd/MM/yyyy hh:mm a'}}
                     </td>
                     <td >
-                      <span class="p-column-title">updateBy</span>
+                      <span class="p-column-title">UpdateBy</span>
                       {{user.updateBy}}
                   </td>
                       <td>
@@ -194,14 +194,14 @@
                          </div>
                     </td>
                       <td >
-                        <span class="p-column-title">note</span>
+                        <span class="p-column-title">Note</span>
                         {{user.note}}
                     </td>
                       <td style="text-align: center">
                           <div class="flex justify-content-center flex-wrap" style="gap: 0.8rem">
                               <div class="flex align-items-center justify-content-center">
                                   <button pButton pRipple  icon="pi pi-reply"
-                                  (click)="ReplySellerReport1(user)"
+                                  (click)="ReplySellerReport1(user)" [disabled]="user.status!==0?true:false"
                                           class="p-button-rounded p-mr-2"></button>
                               </div>
                               <div class="flex align-items-center justify-content-center">
@@ -243,9 +243,9 @@
 
                       </span>
                       <label for="gender">Status*:</label>
-                      <input type="radio"  name="gender" [(ngModel)]="inputreply.status"  checked value="1" [id]="'gender' + 'male'" />
+                      <input type="radio"  name="gender" [(ngModel)]="inputreply.status"  checked value="1" [id]="'gender' + 'male'"   (change)="checkSaveButtonStatus()"/>
                       <label [for]="'gender' + 'male'">Sloved</label>
-                      <input type="radio" [(ngModel)]="inputreply.status"   name="gender" value="2" [id]="'gender' + 'female'" />
+                      <input type="radio" [(ngModel)]="inputreply.status"   name="gender" value="2" [id]="'gender' + 'female'"  (change)="checkSaveButtonStatus()" />
                       <label [for]="'gender' + 'female'">Reject</label>
                   </div>
 
@@ -253,6 +253,7 @@
                   <span class="p-input-icon-left p-float-label" style="width: 100%">
                     <textarea class="w-full" rows="10" cols="60"
                     pInputTextarea
+                    (input)="checkSaveButtonStatus()"
                     [(ngModel)]="inputreply.note"
 
                     ></textarea>
@@ -273,7 +274,7 @@
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Save" icon="pi pi-save"
+                <button [disabled]="isSaveButtonDisabled" pButton type="button" label="Save" icon="pi pi-save"
                         (click)="onSave()"
                         style="width: 100%;"></button>
             </div>
@@ -313,8 +314,8 @@
 
             </div>
             <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-              <label for="gender">SellerName:</label>
-                <input type="text"  class="w-full"   pInputText [(ngModel)]="detailreport.sellerName" [readonly]="true" />
+              <label for="gender">ShopName:</label>
+                <input type="text"  class="w-full"   pInputText [(ngModel)]="detailreport.shopName" [readonly]="true" />
 
           </div>
           <div class="col-12 mb-2 lg:col-6 mb-lg-0">

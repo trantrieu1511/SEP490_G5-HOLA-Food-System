@@ -1,7 +1,7 @@
 export class reportSeller {
   sellerReportId: number;
   sellerId: string;
-  sellerName: string;
+  shopName: string;
   reportBy: string;
   reportByName: string;
   reportContent: string;

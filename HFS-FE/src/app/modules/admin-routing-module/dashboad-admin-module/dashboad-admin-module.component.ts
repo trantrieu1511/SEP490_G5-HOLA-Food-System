@@ -17,7 +17,9 @@ import { DashboardSeller } from '../../seller-routing-module/models/dashboard-se
 })
 export class DashboadAdminModuleComponent extends iComponentBase implements OnInit {
   data: DashboardSeller;
+  dataline: any;
 
+    optionsline: any;
   options: any;
   datatron: any;
 datatotal:any;
@@ -40,6 +42,7 @@ datatotal:any;
   ngOnInit() {
     this.getAllData();
 this.bangtron();
+this.bangline();
 this.bangtotal();
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
@@ -144,14 +147,111 @@ this.bangtotal();
     let fromDate = this.datePipe.transform(this.rangeDates[0], "yyyy-MM-dd");
     let endDate = this.datePipe.transform(this.rangeDates[1], "yyyy-MM-dd");
     this.isDisplayChart = fromDate != endDate ? true : false;
-    this.getAllData();
+     this.bangline();
   }
+
+
+   async bangline(){
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    let dateList: string[] = [];
+    let param: {
+      dateFrom: string,
+      dateEnd: string
+    } = {
+      dateFrom: "",
+      dateEnd: ""
+    };
+    if(this.rangeDates){
+      param.dateFrom = this.datePipe.transform(this.rangeDates[0], "yyyy-MM-dd");
+      param.dateEnd = this.datePipe.transform(this.rangeDates[1], "yyyy-MM-dd");
+    }else{
+      param.dateFrom = param.dateEnd = this.datePipe.transform(new Date(), "yyyy-MM-dd");
+    }
+    const param2= {
+      "dates": dateList,
+    }
+    for (let currentDate = new Date(param.dateFrom); currentDate <= new Date(param.dateEnd); currentDate.setDate(currentDate.getDate() + 1)) {
+
+      let formattedDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+      dateList.push(formattedDate);
+    }
+    let response = await this.iServiceBase.getDataAsyncByPostRequest(
+      API.PHAN_HE.USER,
+      API.API_DASHBOARD.DASHBOARD_ADMINLINE,
+      param2
+    );
+    console.log(response);
+    const seller = response.filter(item => item.user === 'Seller').map(item => item.data);
+    const cus = response.filter(item => item.user === 'Customer').map(item => item.data);
+    const shipper = response.filter(item => item.user === 'Shipper').map(item => item.data);
+    this.dataline = {
+        labels: dateList.map(item => item),
+        datasets: [
+            {
+                label: 'Seller',
+                data: seller,
+                fill: false,
+                tension: 0.4,
+                borderColor: documentStyle.getPropertyValue('--blue-500')
+            },
+            {
+              label: 'Shipper',
+              data: shipper,
+                fill: false,
+                borderDash: [5, 5],
+                tension: 0.4,
+                borderColor: documentStyle.getPropertyValue('--teal-500')
+            },
+            {
+                label: 'Customer',
+                 data: cus,
+                fill: true,
+                borderColor: documentStyle.getPropertyValue('--orange-500'),
+                tension: 0.4,
+                backgroundColor: 'rgba(255,167,38,0.2)'
+            }
+        ]
+    };
+
+    this.optionsline = {
+        maintainAspectRatio: false,
+        aspectRatio: 0.6,
+        plugins: {
+            legend: {
+                labels: {
+                    color: textColor
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: textColorSecondary
+                },
+                grid: {
+                    color: surfaceBorder
+                }
+            },
+            y: {
+                ticks: {
+                    color: textColorSecondary
+                },
+                grid: {
+                    color: surfaceBorder
+                }
+            }
+        }
+    };
+}
 
   async bangtron(){
     const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
         let dataFromApi=[];
-        
+
         try {
           dataFromApi = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.DASHBOAD_ADMIN,"");
          ;

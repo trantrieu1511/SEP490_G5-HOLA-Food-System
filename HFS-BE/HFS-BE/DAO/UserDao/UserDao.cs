@@ -126,8 +126,8 @@ namespace HFS_BE.DAO.UserDao
                         //Truong hop profile nguoi dung co ton tai thi cap nhat lai cac truong thong tin
                         //seller.FirstName = inputDto.FirstName;
                         //seller.LastName = inputDto.LastName;
-                        //   seller.Gender = inputDto.Gender;
-                       // seller.BirthDate = inputDto.BirthDate;
+                        //seller.Gender = inputDto.Gender;
+                        //seller.BirthDate = inputDto.BirthDate;
                         seller.ShopName = inputDto.ShopName;
                         seller.ShopAddress = inputDto.ShopAddress;
                         seller.PhoneNumber = inputDto.PhoneNumber;
@@ -389,7 +389,7 @@ namespace HFS_BE.DAO.UserDao
                 }
 
                 var user = this.context.Customers.Include(x => x.ShipAddresses).FirstOrDefault(x => x.CustomerId == inputDto.UserId);
-                
+
                 if (user != null)
                 {
                     output.Balance = user.WalletBalance == null ? 0 : user.WalletBalance.Value;
@@ -446,7 +446,7 @@ namespace HFS_BE.DAO.UserDao
                 })
                         .SingleOrDefault(cu => cu.RefreshToken.Equals(refreshToken));
 
-                if(user is not null)
+                if (user is not null)
                 {
                     return user;
                 }
@@ -460,9 +460,9 @@ namespace HFS_BE.DAO.UserDao
                     Email = x.Email,
                     //FirstName = x.FirstName,
                     //LastName = x.LastName,
-					FirstName = x.ShopName,
-					LastName = x.ShopName,
-					RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
+                    FirstName = x.ShopName,
+                    LastName = x.ShopName,
+                    RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
                 }).SingleOrDefault(se => se.RefreshToken.Equals(refreshToken));
 
                 if (user is not null)
@@ -745,7 +745,7 @@ namespace HFS_BE.DAO.UserDao
 
                 return Output<BaseOutputDto>(Constants.ResultCdFail);
             }
-            
+
         }
 
         internal BaseOutputDto UpdateInComplete(string? customerId)

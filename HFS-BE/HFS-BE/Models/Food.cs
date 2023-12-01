@@ -25,6 +25,7 @@ namespace HFS_BE.Models
         public int? ReportedTimes { get; set; }
         public string? BanBy { get; set; }
         public DateTime? BanDate { get; set; }
+        public string? BanNote { get; set; }
 
         public virtual MenuModerator? BanByNavigation { get; set; }
         public virtual Category? Category { get; set; }

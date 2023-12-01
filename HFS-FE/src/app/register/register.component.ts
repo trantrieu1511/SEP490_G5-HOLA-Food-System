@@ -75,7 +75,7 @@ private client_Id=environment.clientId;
       PasswordMatch(passwordControl)
     ]),
     gender: this.selectedRole!=2? new FormControl('male', Validators.required):new FormControl(''),
-    birthDate:this.selectedRole!=2? new FormControl('',DateOfBirthValidator()):new FormControl(''),
+    birthDate:this.selectedRole!=2? new FormControl('',[Validators.required,DateOfBirthValidator()]):new FormControl(''),
     roleId:new FormControl('',[Validators.required]),
     phoneNumber:new FormControl('',[Validators.required]),
     shopName:  this.selectedRole==2? new FormControl('',[Validators.required]):new FormControl(''),
@@ -212,7 +212,7 @@ onRoleChange(event: any) {
 }
 async onSubmit() {
   console.log(this.formregister);
-  ;
+  debugger;
   if (this.formregister.valid) {
 
     switch(this.formregister.value.roleId.toString()){
@@ -350,7 +350,7 @@ handleAllFilesClear(event: Event) {
   console.log("uploadFiles", this.uploadedFiles);
 }
 async callAPI(api: string, target: string) {
-  
+
   const param={
     "url" :api
   }

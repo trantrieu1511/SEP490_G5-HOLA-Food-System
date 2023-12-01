@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Table } from "primeng/table";
 import { AppBreadcrumbService } from "../../../../app-systems/app-breadcrumb/app.breadcrumb.service";
-import { Post, PostBanUnbanInputDto, PostInput, PostInputValidation } from "../../models/post.model";
+import { BanUnbanInputValidation, Post, PostBanUnbanInputDto, PostInput, PostInputValidation } from "../../models/post.model";
 import {
   iComponentBase,
   iServiceBase, mType,
@@ -26,59 +26,28 @@ import { Router } from '@angular/router';
   styleUrls: ['./display-post.component.scss']
 })
 export class DisplayPostComponent extends iComponentBase implements OnInit {
-  // loading: boolean;
-  // listPosts: Post[];
 
-
-  // constructor(public breadcrumbService: AppBreadcrumbService,
-  //   private shareData: ShareData,
-  //   public messageService: MessageService,
-  //   private confirmationService: ConfirmationService,
-  //   private iServiceBase: iServiceBase,) {
-  //   super(messageService, breadcrumbService);
-  // }
-
-  // ngOnInit() {
-  //   this.getAllPosts();
-
-  // }
-
-  // async getAllPosts() {
-  //   this.listPosts = [];
-  //   try {
-  //     this.loading = true;
-
-  //     let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.POST, API.API_POST.GET_POST);
-
-  //     if (response && response.message === 'Success') {
-  //       this.listPosts = response.posts;
-  //     }
-  //     this.loading = false;
-  //   } catch (e) {
-  //     console.log(e);
-  //     this.loading = false;
-  //   }
-  // }
-
-  // onCreatePost(){
-  //   console.log(1);
-  // }
+  // -------- Binding variables -----------
   lstPost: Post[] = [];
   // selectedPosts: Post[] = [];
-  displayDialogEditAddPost: boolean = false;
   headerDialog: string = '';
   postModel: Post = new Post();
-  loading: boolean;
-
-  uploadedFiles: File[] = [];
-
-  contentDialog: string;
-  visibleContentDialog: boolean = false;
-
+  banDetail: Post = new Post();
   postImageDialog: Post = new Post();
-  visibleImageDialog: boolean = false;
+  uploadedFiles: File[] = [];
+  contentDialog: string = '';
 
+  // ---------- UI variables ------------
+  visibleContentDialog: boolean = false;
+  displayDialogEditAddPost: boolean = false;
+  visibleImageDialog: boolean = false;
+  visibleBanDetailDialog: boolean = false;
+  visibleBanNoteDialog: boolean = false;
+  loading: boolean = false;
+
+  // --------- Validation variables ------------
   inputValidation: PostInputValidation = new PostInputValidation();
+  banUnbanInputValidation: BanUnbanInputValidation = new BanUnbanInputValidation();
 
 
   @ViewChild('dt') table: Table;
@@ -130,7 +99,7 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
   async connectSignalR() {
     this.lstPost = [];
     this.signalRService.startConnection();
-    const res = await this.signalRService.addTransferDataListener('postDataRealTime' ,API.PHAN_HE.POST, API.API_POST.GET_POST);
+    const res = await this.signalRService.addTransferDataListener('postDataRealTime', API.PHAN_HE.POST, API.API_POST.GET_POST);
     if (res && res.message === "Success") {
       this.lstPost = res.posts;
     }
@@ -146,6 +115,10 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
 
       if (response && response.message === "Success") {
         this.lstPost = response.posts;
+        this.lstPost.forEach(element => {
+          if (element.banDate != undefined)
+            element.banDate = this.iServiceBase.formatDatetime(element.banDate)
+        });
         console.log(this.lstPost);
       }
       this.loading = false;
@@ -156,20 +129,20 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
 
   }
 
-  onBanPost(post: Post, event) {
-    this.confirmationService.confirm({
-      target: event.target,
-      message: 'Are you sure to ban this post id: ' + post.postId + '?',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        //confirm action
-        this.banUnbanPost(post, true);
-      },
-      reject: () => {
-        //reject action
-      }
-    });
-  }
+  // onBanPost(post: Post, event) {
+  //   this.confirmationService.confirm({
+  //     target: event.target,
+  //     message: 'Are you sure to ban this post id: ' + post.postId + '?',
+  //     icon: 'pi pi-exclamation-triangle',
+  //     accept: () => {
+  //       //confirm action
+  //       this.banUnbanPost(post, true);
+  //     },
+  //     reject: () => {
+  //       //reject action
+  //     }
+  //   });
+  // }
 
   onUnbanPost(post: Post, event) {
     this.confirmationService.confirm({
@@ -185,6 +158,18 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
       }
     });
   }
+
+  onOpenBanNoteDialog(post) {
+    this.postModel = Object.assign({}, post);
+    this.banUnbanInputValidation = new BanUnbanInputValidation();
+    this.visibleBanNoteDialog = true;
+  }
+
+  onOpenBanDetailDialog(post) {
+    this.banDetail = Object.assign({}, post);
+    this.visibleBanDetailDialog = true;
+  }
+
 
   validatePostModel(): boolean {
     this.inputValidation = new PostInputValidation();
@@ -202,35 +187,90 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
     return check;
   }
 
+  validateBanUnbanInput() {
+    this.banUnbanInputValidation = new BanUnbanInputValidation();
+    var check = true;
+    if (!this.postModel.banNote || this.postModel.banNote == '') {
+      this.banUnbanInputValidation.isBanNoteValid = false;
+      this.banUnbanInputValidation.banNoteMessage = "Please enter a ban reason";
+      check = false;
+    }
+
+    console.log(this.banUnbanInputValidation);
+    return check;
+  }
+
   async banUnbanPost(post: Post, isBanned: boolean) {
-    // type = true => Unban
-    // false => Ban
-    // 
-    const message = isBanned ? "Banned" : "Unbanned";
+    if (isBanned) {
+      if (this.validateBanUnbanInput()) {
+        // type = true => Unban
+        // false => Ban
+        // 
+        const message = isBanned ? "Banned" : "Unbanned";
 
-    try {
-      let param: PostBanUnbanInputDto = new PostBanUnbanInputDto();
-      param.postId = post.postId;
-      param.isBanned = isBanned;
+        try {
+          let param: PostBanUnbanInputDto = new PostBanUnbanInputDto();
+          param.postId = post.postId;
+          param.isBanned = isBanned;
+          param.banNote = post.banNote;
 
-      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POST, API.API_POST.BAN_UNBAN, param, true);
+          let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POST, API.API_POST.BAN_UNBAN, param, true);
 
-      if (response && response.message === "Success") {
-        console.log(message + ' postId: ' + post.postId + ' successfully');
-        this.showMessage(mType.success, "Notification", `${message} postId: ${post.postId} successfully`, 'notify');
-        //lấy lại danh sách All 
-        this.getAllPost();
+          if (response && response.message === "Success") {
+            console.log(message + ' postId: ' + post.postId + ' successfully');
+            this.showMessage(mType.success, "Notification", `${message} postId: ${post.postId} successfully`, 'notify');
+            //lấy lại danh sách All 
+            this.getAllPost();
 
-      } else {
-        // var messageError = this.iServiceBase.formatMessageError(response);
-        // console.log(messageError);
-        console.log(response);
-        console.log(response.message);
-        this.showMessage(mType.error, "Error", response.message, 'notify');
+            // Đóng dialog
+            this.visibleBanNoteDialog = false;
+
+          } else {
+            // var messageError = this.iServiceBase.formatMessageError(response);
+            // console.log(messageError);
+            console.log(response);
+            console.log(response.message);
+            this.showMessage(mType.error, "Error", response.message, 'notify');
+          }
+        } catch (e) {
+          console.log(e);
+          this.showMessage(mType.error, "Error", "BE error, please contact admin for further help.", 'notify');
+        }
       }
-    } catch (e) {
-      console.log(e);
-      this.showMessage(mType.error, "Error", "BE error, please contact admin for further help.", 'notify');
+    } else {
+      // type = true => Unban
+      // false => Ban
+      // 
+      const message = isBanned ? "Banned" : "Unbanned";
+
+      try {
+        let param: PostBanUnbanInputDto = new PostBanUnbanInputDto();
+        param.postId = post.postId;
+        param.isBanned = isBanned;
+        // param.banNote = post.banNote;
+
+        let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POST, API.API_POST.BAN_UNBAN, param, true);
+
+        if (response && response.message === "Success") {
+          console.log(message + ' postId: ' + post.postId + ' successfully');
+          this.showMessage(mType.success, "Notification", `${message} postId: ${post.postId} successfully`, 'notify');
+          //lấy lại danh sách All 
+          this.getAllPost();
+
+          // Đóng dialog
+          this.visibleBanNoteDialog = false;
+
+        } else {
+          // var messageError = this.iServiceBase.formatMessageError(response);
+          // console.log(messageError);
+          console.log(response);
+          console.log(response.message);
+          this.showMessage(mType.error, "Error", response.message, 'notify');
+        }
+      } catch (e) {
+        console.log(e);
+        this.showMessage(mType.error, "Error", "BE error, please contact admin for further help.", 'notify');
+      }
     }
   }
 

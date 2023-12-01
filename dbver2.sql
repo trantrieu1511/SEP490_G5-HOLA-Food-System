@@ -181,6 +181,7 @@ CREATE TABLE [dbo].[Food](
 	[reportedTimes] [int] default(0) NUll, -- Thể hiện cho số lần mà thực phẩm này nhận phải tố cáo hợp lệ (Đã thông qua kiểm duyệt của menu mod) đến từ khách hàng
 	[banBy] [nvarchar](50) NUll,
 	[banDate] [datetime] Null,
+	[banNote] [nvarchar](MAX) NUll,
 	Foreign Key ([banBy]) REFERENCES [MenuModerator](ModId),
 	Foreign Key ([sellerId]) REFERENCES [Seller](sellerId),
 	FOREIGN KEY([categoryId]) REFERENCES [dbo].[Category] ([categoryId]),
@@ -446,9 +447,10 @@ CREATE TABLE [dbo].[Post](
 	[postContent] [nvarchar](1500) NULL,
 	[createdDate] [datetime] NULL,
 	[status] [tinyint] NULL,
-	[reportedTimes] [int] default(0) NUll, -- Thể hiện cho số lần mà bài đăng này nhận phải tố cáo hợp lệ (Đã thông qua kiểm duyệt của post mod) đến từ khách hàng
+	--[reportedTimes] [int] default(0) NUll, -- Thể hiện cho số lần mà bài đăng này nhận phải tố cáo hợp lệ (Đã thông qua kiểm duyệt của post mod) đến từ khách hàng
 	[banBy] [nvarchar](50) NUll,
 	[banDate] [datetime] Null,
+	[banNote] [nvarchar](MAX) Null, -- Lý do khác hoặc ghi chú bổ sung cho việc bị ban vì > 3 tố cáo hợp lệ đến từ khách hàng
 	Foreign Key ([banBy]) REFERENCES [PostModerator](ModId),
 	Foreign Key ([sellerId]) REFERENCES [Seller](SellerId),
 	primary key([postId]),
@@ -597,19 +599,19 @@ CREATE TABLE [dbo].[FeedBackImage](
 )
 
 
-CREATE TABLE [dbo].[ShipperReport](
-	[shipperId] [nvarchar](50) NOT NULL,
-	[reportBy] [nvarchar](50) NOT NULL,
-	[reportContent] [nvarchar](max) NOT NULL,
-	[createDate] [datetime] NOT NULL,
-	[updateDate] [datetime] NULL,
-	[updateBy] [nvarchar](50) NULL,
-	[status] [tinyint] NOT NULL, -- 0: Pending: KH moi tao report, post mod chua xu ly report, 1: Approved - Post mod chap nhan to cao va da xu ly xong bai viet bi to cao, 2: NotApproved: Post mod khong chap nhan report (Co le do nguoi report k neu ra duoc noi dung to cao mot cach nghiem tuc)
-	[note] [nvarchar](MAX) NULL,
-	FOREIGN KEY([reportBy]) REFERENCES [dbo].[Seller] ([sellerId]),
-	FOREIGN KEY([updateBy]) REFERENCES [dbo].[Admin] ([adminId]),
-	FOREIGN KEY([shipperId]) REFERENCES [dbo].[Shipper] ([shipperId]),
-	);
+--CREATE TABLE [dbo].[ShipperReport](
+--	[shipperId] [nvarchar](50) NOT NULL,
+--	[reportBy] [nvarchar](50) NOT NULL,
+--	[reportContent] [nvarchar](max) NOT NULL,
+--	[createDate] [datetime] NOT NULL,
+--	[updateDate] [datetime] NULL,
+--	[updateBy] [nvarchar](50) NULL,
+--	[status] [tinyint] NOT NULL, -- 0: Pending: KH moi tao report, post mod chua xu ly report, 1: Approved - Post mod chap nhan to cao va da xu ly xong bai viet bi to cao, 2: NotApproved: Post mod khong chap nhan report (Co le do nguoi report k neu ra duoc noi dung to cao mot cach nghiem tuc)
+--	[note] [nvarchar](MAX) NULL,
+--	FOREIGN KEY([reportBy]) REFERENCES [dbo].[Seller] ([sellerId]),
+--	FOREIGN KEY([updateBy]) REFERENCES [dbo].[Admin] ([adminId]),
+--	FOREIGN KEY([shipperId]) REFERENCES [dbo].[Shipper] ([shipperId]),
+--	);
 
 	--CREATE TABLE [dbo].[ShipperReport](
 	--[shipperId] [nvarchar](50) NOT NULL,
@@ -652,3 +654,8 @@ CREATE TABLE [dbo].[ShipperReport](
 	[path] [nvarchar](max) NULL,
 	FOREIGN KEY([sellerId]) REFERENCES [dbo].[Seller] ([sellerId]),
 )
+
+ALTER TABLE [dbo].[Customer]
+ADD [isPhoneVerified] [bit] NOT NULL DEFAULT('false'),
+    [otpToken] [nvarchar](max) NULL,
+    [otpTokenExpiryTime] [int] NULL;

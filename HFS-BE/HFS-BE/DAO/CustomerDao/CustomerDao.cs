@@ -22,33 +22,42 @@ namespace HFS_BE.DAO.CustomerDao
 		{
 			try
 			{
-				var user = context.Customers
-					 .Select(p => new CustomerDtoOutput
-					 {
-						 CustomerId = p.CustomerId,
-						 FirstName = p.FirstName,
-						 LastName = p.LastName,
-						 Gender = p.Gender,
-						 PhoneNumber=p.PhoneNumber,
-						 ConfirmEmail =p.ConfirmedEmail,
-						 BirthDate = p.BirthDate,
-						 Email = p.Email,
-						 //IsBanned=p.IsBanned,
-			          	Images = context.ProfileImages
-					.Where(pi => pi.UserId == p.CustomerId&&pi.IsReplaced==false)
-				   .Select(pi => new ImageCustomerOutputDto
-				   {
-					   ImageId = pi.ImageId,
-					   UserId = pi.UserId,
-					   Path = pi.Path,
-					   IsReplaced = pi.IsReplaced
-				   })
-				 .ToList()
+				var user = context.Customers.Include(s => s.Orders).ThenInclude(s => s.OrderProgresses)
+						 .Select(p => new CustomerDtoOutput
+						 {
+							 CustomerId = p.CustomerId,
+							 FirstName = p.FirstName,
+							 LastName = p.LastName,
+							 Gender = p.Gender,
+							 PhoneNumber = p.PhoneNumber,
+							 BirthDate = p.BirthDate,
+							 Email = p.Email,
+							 ConfirmedEmail = (p.ConfirmedEmail),
+							 NumberOfViolations = p.NumberOfViolations,
+							 Orders = p.Orders
+						.Where(s => s.OrderProgresses.Where(s => s.Status == 5).Any())
+								 .Select(s => new OrderCustomerOutputDto
+								 {
+									 OrderId = s.OrderId,
+									 OrderDate = s.OrderDate,
+									 Note = s.OrderProgresses.FirstOrDefault(s => s.Status == 5).Note,
+									 ShipAddress = s.ShipAddress,
+									 ShipperId = s.ShipperId
+								 }).ToList(),
+							 Images = context.ProfileImages
+						.Where(pi => pi.UserId == p.CustomerId && pi.IsReplaced == false)
+					   .Select(pi => new ImageCustomerOutputDto
+					   {
+						   ImageId = pi.ImageId,
+						   UserId = pi.UserId,
+						   Path = pi.Path,
+						   IsReplaced = pi.IsReplaced
+					   })
+					 .ToList()
 
-			})
+						 })
 
-					.ToList();
-
+						.ToList();
 				var output = this.Output<ListCustomerDtoOutput>(Constants.ResultCdSuccess);
 				output.Customers = user;
 
@@ -71,8 +80,8 @@ namespace HFS_BE.DAO.CustomerDao
 		//		{
 		//			return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Customer is not in data ");
 		//		}
-				
-				
+
+
 		//			ban.CustomerId = user.CustomerId;
 		//			ban.Reason = input.Reason;
 		//		    ban.CreateDate = DateTime.Now;
@@ -80,11 +89,11 @@ namespace HFS_BE.DAO.CustomerDao
 		//			context.Customers.Update(user);
 		//			context.CustomerBans.Add(ban);
 		//			context.SaveChanges();
-				
-			
-				
+
+
+
 		//		var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
-				
+
 		//		return output;
 		//	}
 		//	catch (Exception)

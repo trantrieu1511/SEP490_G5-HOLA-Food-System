@@ -152,7 +152,7 @@ export class MenuDataService {
           {
             label: 'Dashboard',
             icon: 'pi pi-fw pi-home',
-            routerLink: ['/HFSBusiness'],
+            routerLink: ['/HFSBusiness/shipper/dashboad'],
             badgeClass: 'p-badge-info',
           },
           {

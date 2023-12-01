@@ -26,6 +26,7 @@ export class ManageCustomerModuleComponent extends iComponentBase implements OnI
   displayDialogBan: boolean = false;
   visiblebanHistoryDialog:boolean=false;
   visibleImageDialog:boolean=false;
+  cusDetail:Customer =new Customer();
   headerDialog: string = '';
   constructor( private shareData: ShareData,
     public messageService: MessageService,
@@ -87,10 +88,12 @@ export class ManageCustomerModuleComponent extends iComponentBase implements OnI
 //    }
 // }
 
-async BanCustomer1(user:Customer){
+async BanCustomer1(user:Customer,event){
   this.displayDialogBan = true;
-this.bancus.customerId=user.customerId;
-this.bancus.isBanned=!user.isBanned;
+  this.cusDetail=user;
+  this.headerDialog="Detail ID: "+user.customerId;
+// this.bancus.customerId=user.customerId;
+// this.bancus.isBanned=!user.isBanned;
 }
 async onSaveBan(){
   console.log(this.bancus);

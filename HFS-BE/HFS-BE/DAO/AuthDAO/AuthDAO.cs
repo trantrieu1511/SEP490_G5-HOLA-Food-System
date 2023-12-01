@@ -162,6 +162,12 @@ namespace HFS_BE.Dao.AuthDao
 				}
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
 			}
+			var dataphone = context.Customers.Where(s => s.PhoneNumber.ToLower() == model.PhoneNumber.ToLower()).FirstOrDefault();
+			if (dataphone != null)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Phone Number has been used");
+			}
+
 			var data = context.Customers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
@@ -361,7 +367,7 @@ namespace HFS_BE.Dao.AuthDao
 		}
 		private string GetForgotPasswordLink(string userId, string confirmationCode)
 		{
-			string baseUrl = "http://localhost:4200/#/forgot";
+			string baseUrl = "http://localhost:4200/forgot";
 			//	var query = new Dictionary<string, string>
 			//{
 			//	{ "userId", userId },
@@ -373,7 +379,7 @@ namespace HFS_BE.Dao.AuthDao
 
 		private string GetConfirmEmailLink(string userId, string confirmationCode)
 		{
-			string baseUrl = "http://localhost:4200/#/confirm";
+			string baseUrl = "http://localhost:4200/confirm";
 			//	var query = new Dictionary<string, string>
 			//{
 			//	{ "userId", userId },

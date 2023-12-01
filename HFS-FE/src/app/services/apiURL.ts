@@ -58,7 +58,8 @@ export class API_USER {
     public static REPLY_SELLER = "replyfeedback";
      public static REPORT_SELLER = "reportseller";
      public static REPORT_SELLERCUS = "listreportsellerbyCustomer";
-
+     public static SEND_OTP = "sendotp";
+     public static CHECK_OTP = "checkotp";
 }
 
 // Service Role
@@ -239,8 +240,9 @@ export class API_AUTH {
 
 export class API_DASHBOARD {
     public static DASHBOARD_SELLER = "dashboardSeller";
-    public static DASHBOARD_SHIPPER = "dashboardshipper";
+    public static  DASHBOARD_SHIPPER = "dashboardshipper";
     public static DASHBOARD_SHIPPER_TOTAL = "dashboardshippertotal";
+    public static  DASHBOARD_ADMINLINE = "dashboadadminline";
     // ---------------- Post moderator ------------------
     public static DASHBOARD_POSTMOD_ALLTIMESTATISTICS = "getalltimestatisticspostmoderator";
     // public static DASHBOARD_POSTMOD_THISMONTHSTATISTICS = "getthismonthstatisticspostmoderator";

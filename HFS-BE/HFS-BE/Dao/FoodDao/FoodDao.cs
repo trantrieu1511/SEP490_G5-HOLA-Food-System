@@ -228,6 +228,9 @@ namespace HFS_BE.Dao.FoodDao
                                             Images = f.FoodImages.ToList(),
                                             Feedbacks = f.Feedbacks.ToList(),
                                             ReportedTimes = f.ReportedTimes,
+                                            BanBy = f.BanBy,
+                                            BanDate = f.BanDate,
+                                            BanNote = f.BanNote,
                                         })
                                         .ToList();
                 var output = this.Output<ListFoodOutputSellerDto>(Constants.ResultCdSuccess);
@@ -302,6 +305,7 @@ namespace HFS_BE.Dao.FoodDao
                         food.Status = 3;
                         food.BanBy = userId;
                         food.BanDate = DateTime.Now;
+                        food.BanNote = input.BanNote;
                     }
                     else
                     {
@@ -309,6 +313,7 @@ namespace HFS_BE.Dao.FoodDao
                         food.Status = 1;
                         food.BanBy = null;
                         food.BanDate = null;
+                        food.BanNote = null;
                     }
 
                     // Reduce ban/unban limit
