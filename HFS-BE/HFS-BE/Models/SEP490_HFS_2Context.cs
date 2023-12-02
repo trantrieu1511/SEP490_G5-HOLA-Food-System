@@ -1411,20 +1411,21 @@ namespace HFS_BE.Models
             modelBuilder.Entity<WalletTransferCode>(entity =>
             {
                 entity.HasKey(e => e.CodeId)
-                    .HasName("PK__WalletTr__47F8CFE420ED56BA");
+                    .HasName("PK__WalletTr__47F8CFE4956398A7");
 
                 entity.ToTable("WalletTransferCode");
 
                 entity.Property(e => e.CodeId).HasColumnName("codeId");
 
                 entity.Property(e => e.Code)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
+                    .HasMaxLength(50)
                     .HasColumnName("code");
 
                 entity.Property(e => e.ExpiredDate)
                     .HasColumnType("datetime")
                     .HasColumnName("expiredDate");
+
+                entity.Property(e => e.IsUsed).HasColumnName("isUsed");
 
                 entity.Property(e => e.UserId)
                     .HasMaxLength(50)

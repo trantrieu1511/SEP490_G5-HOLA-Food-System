@@ -35,6 +35,7 @@ namespace HFS_BE.DAO.UserDao
 
     public class GetOrderInfoOutputDto : BaseOutputDto
     {
+        public string? UserId { get; set; }
         public decimal? Balance { get; set; }
         public string? Address { get; set; }
         public bool? ConfirmEmail { get; set; }

@@ -386,6 +386,7 @@ namespace HFS_BE.DAO.UserDao
                     if (seller != null)
                     {
                         output.Balance = seller.WalletBalance == null ? 0 : seller.WalletBalance.Value;
+                        output.UserId = inputDto.UserId;
                     }
                     return output;
                 }
@@ -398,9 +399,11 @@ namespace HFS_BE.DAO.UserDao
                     output.Address = user.ShipAddresses.FirstOrDefault() == null ? "" : user.ShipAddresses.FirstOrDefault().AddressInfo;
                     output.ConfirmEmail = user.ConfirmedEmail;
                     output.isPhoneVerify = user.IsPhoneVerified;
+                    output.UserId = inputDto.UserId;
+                    return output;
                 }
 
-                return output;
+                return null;
             }
             catch (Exception)
             {

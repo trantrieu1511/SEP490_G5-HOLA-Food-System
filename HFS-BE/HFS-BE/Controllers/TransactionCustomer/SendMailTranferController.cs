@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using HFS_BE.Utils;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using HFS_BE.BusinessLogic.Transaction;
+using HFS_BE.DAO.TransantionDao;
 
 namespace HFS_BE.Controllers.TransactionCustomer
 {
@@ -24,9 +26,24 @@ namespace HFS_BE.Controllers.TransactionCustomer
             {
                 var userInfor = this.GetUserInfor();
                 var code = this.GenerateCode(6);
+                var busi = this.GetBusinessLogic<CreateTransferCodeBusinessLogic>();
+                var output = busi.CreateTransferCd(new CreateWalletTransferCodeInputDto()
+                {
+                    Code = code,
+                    UserId = userInfor.UserId,
+                });
 
+                if (!output.Success)
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                }
 
-                var output = this.SendEmail2Async(userInfor.Email, "Hola Food Transfer Code", "This is your transfer code: " + code);
+                var output2 = this.SendEmail2Async(userInfor.Email, "Hola Food Transfer Code", "This is your transfer code: " + code);
+                if (!output2.Result)
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                }
+
                 return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
             catch (Exception)

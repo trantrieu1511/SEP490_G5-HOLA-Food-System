@@ -260,4 +260,6 @@ export class API_DASHBOARD {
 export class API_WALLET {
     public static GET_BAlANCE = "getbalance"
     public static HISTORY = "history"
+    public static SEND_CODE = "sendmail"
+    public static VERIFY = "verifycode"
 }
