@@ -29,8 +29,8 @@ CREATE TABLE [dbo].[Seller](
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
 	[createDate][datetime] null,
-	[lat][decimal]null,
-	[lng][decimal]null,
+	[lat][float]null,
+	[lng][float]null,
 )
 
 CREATE TABLE [dbo].[Admin](
