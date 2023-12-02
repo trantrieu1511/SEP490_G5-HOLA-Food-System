@@ -132,6 +132,65 @@ namespace HFS_BE.DAO.TransantionDao
             }
         }
 
-        //public BaseOutputDto
+        public BaseOutputDto SaveTransferCode(CreateWalletTransferCodeInputDto inputDto)
+        {
+            try
+            {
+                var userCd = this.context.WalletTransferCodes.FirstOrDefault(x => x.UserId.Equals(inputDto.UserId));
+                var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+                if (userCd == null)
+                {
+                    var code = new WalletTransferCode()
+                    {
+                        UserId = inputDto.UserId,
+                        Code = inputDto.Code,
+                        ExpiredDate = DateTime.Now.AddMinutes(5),
+                        IsUsed = false,
+                    };
+
+                    this.context.Add(code);
+                    this.context.SaveChanges();
+
+                    return output;
+                }
+
+                userCd.Code = inputDto.Code;
+                userCd.ExpiredDate = DateTime.Now.AddMinutes(5);
+                userCd.IsUsed = false;
+                this.context.Update(userCd);
+                this.context.SaveChanges();
+                return output;
+            }
+            catch (Exception)
+            {
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public WalletTransferCode GetTransferWallet(string userId)
+        {
+                var transfercode = this.context.WalletTransferCodes.FirstOrDefault(x => x.UserId.Equals(userId));
+                return transfercode;
+        }
+
+        public BaseOutputDto UpdateStatusUsed(int codeId)
+        {
+            try
+            {
+                var transfercode = this.context.WalletTransferCodes.FirstOrDefault(x => x.CodeId == codeId);
+                if (transfercode != null)
+                {
+                    transfercode.IsUsed = true;
+                    this.context.Update(transfercode);
+                    this.context.SaveChanges();
+                }
+
+                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
     }
 }

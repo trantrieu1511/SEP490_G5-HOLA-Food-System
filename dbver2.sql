@@ -601,7 +601,8 @@ CREATE TABLE [dbo].[FeedBackImage](
 CREATE TABLE [dbo].[WalletTransferCode](
 	[codeId] [int] IDENTITY(1,1) NOT NULL  PRIMARY KEY,
 	[userId][nvarchar](50) NULL,
-	[code] [varchar] NULL,
+	[code] [nvarchar](50) NULL,
+	[isUsed] bit Null,
 	[expiredDate] datetime NULL,
 )
 

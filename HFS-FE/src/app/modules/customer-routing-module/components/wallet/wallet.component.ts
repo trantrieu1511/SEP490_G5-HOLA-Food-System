@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
-import { iComponentBase, iServiceBase } from 'src/app/modules/shared-module/shared-module';
+import { iComponentBase, iServiceBase, mType } from 'src/app/modules/shared-module/shared-module';
 import { PaymentInput } from '../../models/PaymentInput.model';
 import * as API from '../../../../services/apiURL';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { TabViewChangeEvent } from 'primeng/tabview';
 import { async } from 'rxjs';
 import { GetTransactionHistoryInput } from '../../models/GetTransactionHistoryInput.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { VerifyCodeInput } from '../../models/VerifyCodeInput.model';
 
 @Component({
   selector: 'app-wallet',
@@ -29,10 +30,9 @@ export class WalletComponent
   paymentInput: PaymentInput = new PaymentInput();
   displayTransaction: any
   activeTabIndex: number = 0;
-  transferValue : number = 0;
-  recievierId : string = ''
-  mailCode : string = ''
+  tranferInput : VerifyCodeInput = new VerifyCodeInput();
   TransferDialog : boolean = false
+  userId : string
   tabs: any = [
     { label: 'All', id: '0' },
     { label: 'Waiting', id: '1' },
@@ -61,7 +61,7 @@ export class WalletComponent
   }
   setDefaultDate() {
     this.rangeDates = [];
-    this.rangeDates[0] = new Date(2022, this.currentDate.getMonth(), 1);
+    this.rangeDates[0] = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
     this.rangeDates[1] = new Date();
   }
   OnSaveDeposit() {
@@ -97,6 +97,7 @@ export class WalletComponent
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.WALLET, API.API_WALLET.GET_BAlANCE, null);
       if (response.success) {
         this.balance = response.balance
+        this.userId = response.userId
       }
       else {
         //this.router.navigate([response]);
@@ -121,10 +122,15 @@ export class WalletComponent
         this.displayTransaction = this.transactionHistory.filter(x => x.status === 2);
         break;
       case 4:
-        this.displayTransaction = this.transactionHistory.filter(x => x.transactionType === "Deposit" || x.transactionType === "OrderRefund");
+        this.displayTransaction = this.transactionHistory
+        .filter(x => x.transactionType === "Deposit"
+        || x.transactionType === "OrderRefund"
+        || (x.transactionType === "Transfer" && x.recieverId === this.userId));
         break;
       case 5:
-        this.displayTransaction = this.transactionHistory.filter(x => x.transactionType != "Deposit" && x.transactionType != "OrderRefund");
+        this.displayTransaction = this.transactionHistory
+        .filter(x => x.transactionType == "OrderPaid"
+        || (x.transactionType == "Transfer" && x.senderId === this.userId));
         break;
     }
 
@@ -141,6 +147,58 @@ export class WalletComponent
       }
       else {
         //this.router.navigate([response]);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async onSendCode() {
+    try {
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.WALLET, API.API_WALLET.SEND_CODE, null);
+      if (response.success) {
+        this.showMessage(mType.success, "Notification", "Please check your code in your email!", 'notify');
+      }
+      else {
+        this.showMessage(mType.warn, "Notification", "Send code fail", 'notify');
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async OnSaveTransfer() {
+    try {
+      if (this.tranferInput.code.trim().length === 0){
+        this.showMessage(mType.warn, "Notification", "Code is required! Send code and check your mail!", 'notify');
+        return
+      }
+
+      if (this.tranferInput.value === 0){
+        this.showMessage(mType.warn, "Notification", "Value must > 0", 'notify');
+        return
+      }
+
+      if (this.tranferInput.value > this.balance){
+        this.showMessage(mType.warn, "Notification", "Your balance not enough!", 'notify');
+        return
+      }
+
+      if (this.tranferInput.recievierId.trim().length === 0){
+        this.showMessage(mType.warn, "Notification", "RecievierId is required!", 'notify');
+        return
+      }
+
+      
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.WALLET, API.API_WALLET.VERIFY, this.tranferInput);
+      if (response.success) {
+        this.showMessage(mType.success, "Notification", "Transfer success!", 'notify');
+        this.TransferDialog = false;
+        this.onGetHistory();
+        this.onGetBalance();
+      }
+      else {
+        this.showMessage(mType.warn, "Notification", response.message, 'notify');
       }
     } catch (e) {
       console.log(e);

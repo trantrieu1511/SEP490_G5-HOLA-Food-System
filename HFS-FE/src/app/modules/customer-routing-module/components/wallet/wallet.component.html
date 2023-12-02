@@ -106,24 +106,24 @@
         <div class="grid">
           <div class="col-12 mb-2 mb-lg-0">
             <span class="p-input-icon-left p-float-label" style="width: 100%">
-              <input type="text" class="w-full" [(ngModel)]="transferValue" pInputText />
+              <input type="text" class="w-full" [(ngModel)]="tranferInput.value" pInputText />
               <label>Transfer Value*</label>
             </span>
           </div>
           <div class="col-12 mb-2 mb-lg-0">
             <span class="p-input-icon-left p-float-label" style="width: 100%">
-              <input type="text" class="w-full" [(ngModel)]="recievierId" pInputText />
+              <input type="text" class="w-full" [(ngModel)]="tranferInput.recievierId" pInputText />
               <label>Recievier Id*</label>
             </span>
           </div>
           <div class="col-10 mb-2 mb-lg-0">
             <span class="p-input-icon-left p-float-label" style="width: 100%">
-              <input type="text" class="w-full" [(ngModel)]="mailCode" pInputText />
+              <input type="text" class="w-full" [(ngModel)]="tranferInput.code" pInputText />
               <label>Email Code*</label>
             </span>
           </div>
           <div class="col-2 mb-2 mb-lg-0">
-            <button pButton type="button" label="Send Code" icon="pi pi-save" (click)="OnSaveDeposit()"
+            <button pButton type="button" label="Send Code" icon="pi pi-save" (click)="onSendCode()"
             style="width: 100%"></button>
           </div>
         </div>
@@ -133,7 +133,7 @@
   <ng-template pTemplate="footer">
     <div class="flex justify-content-center flex-wrap" style="text-align: center">
       <div class="flex align-items-center justify-content-center" style="text-align: center">
-        <button pButton type="button" label="Send" icon="pi pi-save" (click)="OnSaveDeposit()"
+        <button pButton type="button" label="Send" icon="pi pi-save" (click)="OnSaveTransfer()"
           style="width: 100%"></button>
       </div>
       <!-- <div

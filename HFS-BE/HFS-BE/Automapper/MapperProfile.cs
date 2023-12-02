@@ -502,7 +502,9 @@ namespace HFS_BE.Automapper
 
         public void Transaction()
         {
-            CreateMap<TransactionHistory, GetTransactionHistoryDaoDto>();
+            CreateMap<TransactionHistory, GetTransactionHistoryDaoDto>()
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate != null ? src.CreateDate.Value.ToString("dd/MM/yyyy hh:mm:ss") : ""))
+                .ForMember(dest => dest.ExpiredDate, opt => opt.MapFrom(src => src.ExpiredDate != null ? src.ExpiredDate.Value.ToString("dd/MM/yyyy hh:mm:ss") : ""));
         }
 
 		public void ReportSeller()
