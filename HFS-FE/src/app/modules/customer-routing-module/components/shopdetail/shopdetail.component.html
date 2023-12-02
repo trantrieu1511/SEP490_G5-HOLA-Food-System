@@ -86,8 +86,8 @@
                     <p-rating [ngModel]="shopInfor.averageStar" [readonly]="true" [cancel]="false"></p-rating>
                   </div>
                   <div class="shop_phone shop-infor_child">
-                    <i class="pi-shopping-cart"></i>
-                    <a class="shop_phone-value">{{ shopInfor.numberOrdered }}</a> 
+                    <i class="pi pi-shopping-cart"></i>
+                    <a class="shop_phone-value">{{ shopInfor.numberOrdered }} Ordered</a> 
                   </div>
                   <div class="shop_phone shop-infor_child">
                     <i class="pi pi-phone"></i>
@@ -97,7 +97,7 @@
                     <i class="pi pi-gift"></i><span class="shop_createdDate-value">{{shopInfor.createDate}}</span>
                   </div>
                   <div class="shop_createdDate shop-infor_child">
-                    <i class="pi-at"></i><span class="shop_createdDate-value">{{shopInfor.email}}</span>
+                    <i class="pi pi-at"></i><span class="shop_createdDate-value">{{shopInfor.email}}</span>
                   </div>
                   <div class="shop_online shop-infor_child">
                     <ng-container *ngIf="shopInfor.isOnline;else offline">
