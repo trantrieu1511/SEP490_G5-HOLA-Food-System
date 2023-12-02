@@ -11,9 +11,9 @@
 
         }
 
-        public static string GetStatusString(byte? status)
+        public static string GetStatusString(string status)
         {
-            switch (status)
+            switch (Int32.Parse(status))
             {
                 case (int)Note.Note1:
                     return "Customers don't answer the phone";

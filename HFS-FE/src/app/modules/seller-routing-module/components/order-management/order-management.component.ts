@@ -86,6 +86,8 @@ export class OrderManagementComponent
   isDisableCalendar: boolean = true;
   disabledIds = ['0', '1', '2', '3'];
 
+  visibleMapBox: boolean = false;
+
   constructor(
     public breadcrumbService: AppBreadcrumbService,
     public messageService: MessageService,
@@ -446,5 +448,9 @@ export class OrderManagementComponent
     this.orderHistoryInput = order;
 
     this.displayDialogHistory = true;
+  }
+
+  onClickMap(order: Order){
+    this.visibleMapBox = true;
   }
 }
