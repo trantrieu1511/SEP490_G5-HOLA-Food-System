@@ -87,30 +87,32 @@
                   </div>
                   <div class="shop_phone shop-infor_child">
                     <i class="pi pi-phone"></i>
-                    <a class="shop_phone-value" href="tel:+{{ shopInfor.phoneNumber }}">{{ shopInfor.phoneNumber }}</a> 
+                    <a class="shop_phone-value" href="tel:+{{ shopInfor.phoneNumber }}">{{ shopInfor.phoneNumber }}</a>
                   </div>
                   <div class="shop_createdDate shop-infor_child">
                     <i class="pi pi-gift"></i><span class="shop_createdDate-value">{{shopInfor.createDate}}</span>
                   </div>
-                  <div class="shop_online shop-infor_child">
-                    <ng-container *ngIf="shopInfor.isOnline;else offline">
+                  <div class="shop_online shop-infor_child" *ngFor="let item of (presence.onlineUserscus$ | async)">
+                    <ng-container *ngIf="shopInfor.email===item.email;else offline">
                       <i class="pi pi-circle-fill" style="color: green"></i>
                       <span  class="shop_createdDate-value">Online</span>
                     </ng-container>
-                    <ng-template #offline>
-                      <i class="pi pi-circle-fill" style="color: red"></i>
-                      <span class="shop_createdDate-value">Offline</span>
-                    </ng-template>
+                  </div>
+                  <div class="shop_online shop-infor_child">
+                  <ng-template #offline>
+                    <i class="pi pi-circle-fill" style="color: red"></i>
+                    <span class="shop_createdDate-value">Offline</span>
+                  </ng-template>
                   </div>
                   <div class="shop-infor-name shop-infor_child">
                     <h3 id="shop-name">{{shopInfor.shopName}}</h3>
                   </div>
-                  
+
                 </div>
-                        
+
             </div>
-            
-            <h5 id="u-address">{{shopInfor.shopAddress}}</h5>  
+
+            <h5 id="u-address">{{shopInfor.shopAddress}}</h5>
     </div>
 </div>
 <div class="col-12 shopdetail-list" >
@@ -121,7 +123,7 @@
                 <div class="grid">
                     <div class="col-12 mb-2 lg:col-6 mb-lg-0">
                         <span class="p-input-icon-left p-float-label" style="width: 100%">
-                            <p-dropdown [options]="sortOptions" 
+                            <p-dropdown [options]="sortOptions"
                                         [showClear]="false"
                                         [autoDisplayFirst]="false"
                                         (onChange)="onSortChange($event)"
