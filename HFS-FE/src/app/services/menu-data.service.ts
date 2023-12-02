@@ -110,6 +110,12 @@ export class MenuDataService {
             icon: 'pi pi-fw pi-users',
             routerLink: ['/HFSBusiness/admin/seller-management'],
             badgeClass: 'p-badge-info',
+          },
+          {
+            label: 'Category Management',
+            icon: 'pi pi-chevron-circle-right',
+            routerLink: ['/HFSBusiness/admin/category-management'],
+            badgeClass: 'p-badge-info',
           }
           , {
             label: 'Shipper Management',

@@ -23,7 +23,9 @@ namespace HFS_BE.DAO.UserDao
         public decimal? WalletBalance { get; set; }
         public string? ManageBy { get; set; }
         public bool isBanned { get; set; }
-        public bool isVerified { get; set; }
+
+		public bool? IsPhoneVerified { get; set; }
+		public bool isVerified { get; set; }
         public byte[] PasswordSalt { get; set; } = null!;
         public byte[] PasswordHash { get; set; } = null!;
     }

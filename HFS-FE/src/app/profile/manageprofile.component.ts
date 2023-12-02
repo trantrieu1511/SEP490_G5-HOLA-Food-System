@@ -129,6 +129,7 @@ verifyOtp:string;
 
   async getProfileInfo() {
     try {
+      debugger
       //
       // const params = {
       //   userId: sessionStorage.getItem("userId")

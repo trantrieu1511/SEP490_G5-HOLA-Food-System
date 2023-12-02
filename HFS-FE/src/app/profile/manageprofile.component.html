@@ -350,8 +350,12 @@
                         : profileDisplay.phoneNumber }}
                         <!-- <p-button [text]="true" (onClick)="verifyPhonenumber();">verify phonenumber</p-button> -->
                         <div>
-                            <a style="color: #6366F1;" class="edit-email-link" href="#"
-                                onClick="event.preventDefault();" (click)="openVerifyPhonenumberModal(profileDisplay.phoneNumber);">verify phonenumber</a>
+                            <a  *ngIf="this.authService.getUserInfor().role === 'CU'&&!profileDisplay.isPhoneVerified" style="color: #6366F1;" class="edit-email-link" href="#"
+                                onClick="event.preventDefault();" (click)="openVerifyPhonenumberModal(profileDisplay.phoneNumber);">Verify Phonenumber</a>
+                        </div>
+                           <div *ngIf="profileDisplay.isPhoneVerified && role == 'CU'
+            ">
+                            <p style="color: rgb(23, 170, 23);">PhoneNumber has been verified</p>
                         </div>
                     </div>
                     <!-- <ng-template #RegisterPhoneNumber>

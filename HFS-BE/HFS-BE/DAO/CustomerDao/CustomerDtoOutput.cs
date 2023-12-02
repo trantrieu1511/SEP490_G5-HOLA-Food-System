@@ -16,7 +16,7 @@ namespace HFS_BE.DAO.CustomerDao
 		public decimal? WalletBalance { get; set; }
 		//public bool? IsBanned { get; set; }
 		public int NumberOfViolations { get; set; }
-
+		public bool? IsPhoneVerified { get; set; }
 		public bool? ConfirmedEmail { get; set; }
 
 		public DateTime? CreateDate { get; set; }

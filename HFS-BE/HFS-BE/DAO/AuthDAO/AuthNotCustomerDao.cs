@@ -512,7 +512,7 @@ namespace HFS_BE.DAO.AuthDAO
 		}
 		private string GetConfirmEmailLink(string userId, string confirmationCode)
 		{
-			string baseUrl = "http://localhost:4200/#/confirm";
+			string baseUrl = "http://localhost:4200/confirm";
 			//	var query = new Dictionary<string, string>
 			//{
 			//	{ "userId", userId },

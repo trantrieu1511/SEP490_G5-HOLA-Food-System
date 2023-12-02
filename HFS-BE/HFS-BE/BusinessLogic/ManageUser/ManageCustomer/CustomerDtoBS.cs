@@ -17,6 +17,7 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageCustomer
 		public decimal? WalletBalance { get; set; }
 		public bool? ConfirmedEmail { get; set; }
 		//	public bool? IsBanned { get; set; }
+		public bool? IsPhoneVerified { get; set; }
 		public int NumberOfViolations { get; set; }
 		public List<CustomerImageOutputDto>? ImagesBase64 { get; set; } = new List<CustomerImageOutputDto>();
 		public List<OrderCustomerOutputDto>? Orders { get; set; }

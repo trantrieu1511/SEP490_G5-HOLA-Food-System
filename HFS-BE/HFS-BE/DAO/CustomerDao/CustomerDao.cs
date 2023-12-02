@@ -33,6 +33,7 @@ namespace HFS_BE.DAO.CustomerDao
 							 BirthDate = p.BirthDate,
 							 Email = p.Email,
 							 ConfirmedEmail = (p.ConfirmedEmail),
+							 IsPhoneVerified=p.IsPhoneVerified,
 							 NumberOfViolations = p.NumberOfViolations,
 							 Orders = p.Orders
 						.Where(s => s.OrderProgresses.Where(s => s.Status == 5).Any())

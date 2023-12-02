@@ -11,6 +11,7 @@ export class Profile {
     shopName: string;
     shopAddress: string;
     isOnline: boolean;
+    isPhoneVerified:boolean;
     walletBalance: number;
     manageBy: number;
     password: string;
@@ -33,6 +34,7 @@ export class ProfileDisplay {
     shopAddress: string;
     isOnline: boolean;
     isVerified: boolean;
+    isPhoneVerified:boolean;
     walletBalance: number;
     manageBy: number;
     confirmedEmail:boolean;

@@ -94,6 +94,14 @@
                                             class="ml-auto"></p-columnFilter>
                         </div>
                     </th>
+                    <th pSortableColumn="isPhoneVerified">
+                      <div class="flex justify-content-between align-items-center">
+                        ConfirmedPhoneNumber
+                          <p-sortIcon field="isPhoneVerified"></p-sortIcon>
+                          <p-columnFilter type="text" field="isPhoneVerified" display="menu"
+                                          class="ml-auto"></p-columnFilter>
+                      </div>
+                  </th>
                       <!-- <th pSortableColumn="isOnline">
                           <div class="flex justify-content-between align-items-center">
                             Online
@@ -175,6 +183,16 @@
                          Not confirmed yet
                         </div>
                   </td>
+                  <td>
+                    <span class="p-column-title">ConfirmedPhoneNumber</span>
+
+                    <div *ngIf="user.isPhoneVerified===true"  style="color:chartreuse;">
+                      Confirmed
+                      </div>
+                      <div *ngIf="user.isPhoneVerified===false"  style="color:red;">
+                       Not confirmed yet
+                      </div>
+                </td>
                       <td>
                           <span class="p-column-title">Image</span>
                           <ng-container *ngIf="user.imagesBase64.length !== 0; else noneImage" >
@@ -276,6 +294,20 @@
                      </div>
                   </td>
               </tr>
+              <tr>
+                <th>ConfirmedPhoneNumber: </th>
+                <td>
+
+
+                  <div *ngIf="cusDetail.isPhoneVerified===true"  style="color:chartreuse;">
+                    Confirmed
+                    </div>
+                    <div *ngIf="cusDetail.isPhoneVerified===false"  style="color:red;">
+                     Not confirmed yet
+                    </div>
+              </td>
+              </tr>
+
                 <tr>
                   <th>NumberOfViolations: </th>
                   <td>
@@ -284,7 +316,7 @@
               </tr>
 
                 <tr>
-                  <th>Violations: </th>
+                  <th>Delivery Unsuccessful: </th>
                   <td >
 
                     <p-table  [value]="cusDetail.orders" [paginator]="true" [rows]="5" responsiveLayout="scroll">

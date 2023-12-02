@@ -9,6 +9,7 @@ export class Customer {
   avatar: string;
   isOnline: boolean;
   confirmedEmail:boolean
+  isPhoneVerified:boolean;
   numberOfViolations:number;
   imagesBase64: CustomerImageBase64[] = null;
   orders: OrderInCom[] = null;
