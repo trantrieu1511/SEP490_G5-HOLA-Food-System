@@ -176,6 +176,7 @@ export class API_FOOD {
 export class API_CHECKOUT {
     public static CREATE_ORDER = "createorder";
     public static GET_ADDRESS = "address";
+    public static GET_VOUCHER = "checkvoucher";
 }
 
 export class API_HUB {

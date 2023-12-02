@@ -588,8 +588,8 @@ verifyOtp:string;
       "phoneNumber": phone
     }
     try{
-      let response ;
-    //let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_USER.SEND_OTP, param);
+      // let response ;
+    let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_USER.SEND_OTP, param);
 
     if (response && response.message === 'Success') {
       this.isVisibleVerifyPhoneNumberModal = true;

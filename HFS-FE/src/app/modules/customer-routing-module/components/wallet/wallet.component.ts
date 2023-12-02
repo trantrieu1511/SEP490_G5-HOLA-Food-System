@@ -29,6 +29,10 @@ export class WalletComponent
   paymentInput: PaymentInput = new PaymentInput();
   displayTransaction: any
   activeTabIndex: number = 0;
+  transferValue : number = 0;
+  recievierId : string = ''
+  mailCode : string = ''
+  TransferDialog : boolean = false
   tabs: any = [
     { label: 'All', id: '0' },
     { label: 'Waiting', id: '1' },
@@ -67,6 +71,9 @@ export class WalletComponent
 
   onOpenDeposit() {
     this.DepositDialog = true;
+  }
+  onOpenTransfer() {
+    this.TransferDialog = true;
   }
 
   async onRedirectUrl() {

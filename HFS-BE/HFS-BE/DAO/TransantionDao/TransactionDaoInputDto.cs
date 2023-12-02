@@ -54,4 +54,10 @@
         public DateTime? DateTo { get; set;}
 
     }
+
+    public class CreateWalletTransferCodeInputDto
+    {
+        public string UserId { get; set; }
+        public string Code { get; set; }
+    }
 }

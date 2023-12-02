@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Auth;
+using HFS_BE.DAO.ChatMessageDao;
 using HFS_BE.Models;
 using HFS_BE.Services;
 using HFS_BE.Utils;
 using Mailjet.Client.Resources;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
+using Twilio.Rest.Api.V2010.Account;
 using Twilio.Rest.Trunking.V1;
 using static HFS_BE.BusinessLogic.Auth.RegisterSellerInputDto;
 
@@ -395,6 +397,7 @@ namespace HFS_BE.DAO.UserDao
                     output.Balance = user.WalletBalance == null ? 0 : user.WalletBalance.Value;
                     output.Address = user.ShipAddresses.FirstOrDefault() == null ? "" : user.ShipAddresses.FirstOrDefault().AddressInfo;
                     output.ConfirmEmail = user.ConfirmedEmail;
+                    output.isPhoneVerify = user.IsPhoneVerified;
                 }
 
                 return output;
@@ -419,8 +422,14 @@ namespace HFS_BE.DAO.UserDao
                     })
                     .OrderByDescending(x => x.IsDefaultAddress);
 
+                var userPhone = this.context.Customers.FirstOrDefault(x => x.CustomerId.Equals(inputDto.UserId));
                 var output = this.Output<GetUserAddressDaoOutputDto>(Constants.ResultCdSuccess);
                 output.ListAddress = user.ToList();
+                if (userPhone != null)
+                {
+                    output.Phone = userPhone.PhoneNumber;
+                    output.Balance = userPhone.WalletBalance ?? 0;
+                }
 
                 return output;
             }

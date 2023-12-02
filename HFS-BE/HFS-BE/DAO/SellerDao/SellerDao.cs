@@ -399,5 +399,10 @@ namespace HFS_BE.DAO.SellerDao
 		//	}
 		//}
 
+		public Seller? GetSellerByEmail(string email)
+		{
+			return context.Sellers.SingleOrDefault(x => x.Email.Equals(email));
+		}
+
 	}
 }

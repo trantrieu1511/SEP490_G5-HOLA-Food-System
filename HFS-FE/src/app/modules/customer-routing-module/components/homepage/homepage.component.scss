@@ -171,6 +171,14 @@
 
 				.product-bottom{
 					flex-shrink: 0; 
+					.product-name{
+						display: -webkit-box;
+						-webkit-line-clamp: 1;
+						-webkit-box-orient:  vertical;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						word-break: break-word; 
+					}
 				}
 				&:hover{
 					cursor: pointer;

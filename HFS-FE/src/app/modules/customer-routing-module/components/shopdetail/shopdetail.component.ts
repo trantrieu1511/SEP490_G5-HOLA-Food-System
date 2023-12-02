@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {
     iComponentBase,
     iServiceBase, mType,
@@ -20,6 +20,7 @@ import { PostReport } from '../../models/postreport.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
 import { SellerReport } from '../../models/sellerReport.model';
+import { take } from 'rxjs';
 
 
 @Component({
@@ -27,7 +28,7 @@ import { SellerReport } from '../../models/sellerReport.model';
   templateUrl: './shopdetail.component.html',
   styleUrls: ['./shopdetail.component.scss']
 })
-export class ShopdetailComponent extends iComponentBase implements OnInit {
+export class ShopdetailComponent extends iComponentBase implements OnInit, AfterViewInit {
   foods: any[];
    sortOptions: SelectItem[];
   sortOrder: number;
@@ -43,6 +44,7 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
   isDisabledPostReportBtnSubmit: boolean = true; // Trạng thái disable của nút submit của modal post report
   isDisabledPostReportTextArea: boolean = true; // Trạng thái disable của text area của modal post report
   uploadedFiles: File[] = [];
+  vouchers : any;
   constructor(
     private shareData: ShareData,
     public messageService: MessageService,
@@ -54,6 +56,9 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
     private authService: AuthService
   ){
     super(messageService);
+  }
+  ngAfterViewInit(): void {
+    
   }
   checkLoggedIn() {
     // if (sessionStorage.getItem('userId') != null) {
@@ -71,16 +76,17 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
     }
   }
 
-  ngOnInit(){
+  async ngOnInit(){
     this.checkLoggedIn();
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams
+    .subscribe(params => {
       this.shopid = params['shopid'];
       // console.log(id);
       // Sử dụng giá trị id tại đây
-	  this.menuInput.shopId = this.shopid
-	  console.log(this.menuInput)
-		this.getMenu(this.menuInput)
-    this.getShopInfor()
+      this.menuInput.shopId = this.shopid
+      console.log(this.menuInput)
+      this.getMenu(this.menuInput)
+      this.getShopInfor()
     });
 
     this.sortOptions = [
@@ -111,7 +117,25 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
             this.foods = response.listFood;
         }
 
-		console.log(this.foods);
+		    console.log(this.foods);
+        this.loading = false;
+    } catch (e) {
+        console.log(e);
+        this.loading = false;
+    }
+  }
+
+  async getVoucher(){
+    try {
+        this.loading = true;
+
+        const param = {
+          "sellerId":this.userId
+      };
+        let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.VOUCHER, API.API_VOUCHER.GET_ALL_VOUCHER, param);
+        if (response && response.success == true) {
+            this.vouchers = response.listVoucher;
+        }
         this.loading = false;
     } catch (e) {
         console.log(e);

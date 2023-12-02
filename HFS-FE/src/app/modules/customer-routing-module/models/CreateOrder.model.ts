@@ -5,7 +5,6 @@ export class CreateOrder{
     public CreateOrder(){
 
     }
-    voucher : string
     shipAddress : string
     voucherId : string
     phone: string
@@ -54,6 +53,7 @@ export class ListShop{
     }
     shopId : number
     shopName: string
+    voucher : string
     cartItems : AddToCart[]
 }
 
