@@ -73,6 +73,7 @@ import { SellerReportModuleComponent } from './modules/admin-routing-module/sell
 import { ReportSellerComponent } from './modules/customer-routing-module/components/report-seller/report-seller.component';
 import { AddressSelectorComponent } from './modules/customer-routing-module/address-selector/address-selector.component';
 import { CustomerRoutingModule } from './modules/customer-routing-module/customer-routing.module';
+import { SellerRoutingModule } from './modules/seller-routing-module/seller-routing.module';
 
 @NgModule({
   declarations: [
@@ -124,6 +125,7 @@ import { CustomerRoutingModule } from './modules/customer-routing-module/custome
     FormsModule,
     BusinessRoutingModule,
     CustomerRoutingModule,
+    SellerRoutingModule,
     // JwtModule.forRoot({
     //   config: {
     //     tokenGetter: () => sessionStorage.getItem('token')
