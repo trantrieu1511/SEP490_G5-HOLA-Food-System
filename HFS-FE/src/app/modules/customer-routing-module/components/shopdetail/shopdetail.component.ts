@@ -52,13 +52,14 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
     private iServiceBase: iServiceBase,
     private route: ActivatedRoute,
     private router: Router,
+    public presence: PresenceService,
     private dataService: DataService,
     private authService: AuthService
   ){
     super(messageService);
   }
   ngAfterViewInit(): void {
-    
+
   }
   checkLoggedIn() {
     // if (sessionStorage.getItem('userId') != null) {
@@ -239,10 +240,10 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
       }
     });
     // rpContent += ", " + this.postReport.reportContent;
-   // 
+   //
     this.sellerReport.reportContent = rpContent;
     console.log("Full rp content: " + this.sellerReport.reportContent);
-   // 
+   //
     // ------------------ Commit vao db --------------------
     try {
      this.sellerReport.images=this.uploadedFiles;
@@ -258,7 +259,7 @@ this.uploadedFiles.forEach(file => {
 //   param.append(key, this.sellerReport[key]);
 // });
 
-   // 
+   //
       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.REPORT_SELLER, param22);
       if (response && response.success === true) {
         this.showMessage(mType.success, "Notification", `Report the food successfully`, 'notify');
