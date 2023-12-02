@@ -14,5 +14,8 @@ namespace HFS_BE.Models
         public DateTime? CreateDate { get; set; }
         public DateTime? ExpiredDate { get; set; }
         public byte? Status { get; set; }
+        public string? AcceptBy { get; set; }
+
+        public virtual Accountant? AcceptByNavigation { get; set; }
     }
 }

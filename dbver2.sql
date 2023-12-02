@@ -29,6 +29,8 @@ CREATE TABLE [dbo].[Seller](
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
 	[createDate][datetime] null,
+	[lat][decimal]null,
+	[lng][decimal]null,
 )
 
 CREATE TABLE [dbo].[Admin](
@@ -86,6 +88,24 @@ CREATE TABLE [dbo].[MenuModerator](
 	[refreshTokenExpiryTime] [datetime],
 	[banLimit] int default 25, -- Gioi han ban thuc pham cua mot menu moderator
 	[reportApprovalLimit] int default 25, -- Gioi approve/not approve food report cua mot menu moderator
+	[createDate][datetime] null,
+)
+
+CREATE TABLE [dbo].[Accountant](
+	[accountantId] [nvarchar](50) NOT NULL primary key,
+	[firstName] [nvarchar](50) NOT NULL,
+	[lastName] [nvarchar](50) NOT NULL,
+	[gender] [nvarchar](10) NULL,
+	[birthDate] [date] NULL,
+	[email] [nvarchar](100) UNIQUE NOT NULL,
+	[phoneNumber] [nvarchar](11) NULL,
+	[PasswordSalt] [varbinary](max) NOT NULL,
+	[PasswordHash] [varbinary](max) NOT NULL,
+	[isOnline] [bit] NOT NULL,
+	[confirmedEmail] [bit] not NULL DEFAULT('false'),
+	[isBanned] [bit] not null DEFAULT('false'),
+	[refreshToken] [varchar](max),
+	[refreshTokenExpiryTime] [datetime],
 	[createDate][datetime] null,
 )
 
@@ -535,7 +555,6 @@ CREATE TABLE Invitation (
     CONSTRAINT FK_Invitation_Shipper FOREIGN KEY (ShipperID) REFERENCES Shipper(shipperId)
 );
 
-
 CREATE TABLE [dbo].[TransactionHistory](
 	[transactionId] [int] IDENTITY(1,1) NOT NULL,
 	[senderId] [nvarchar](50) NOT NULL,
@@ -546,6 +565,8 @@ CREATE TABLE [dbo].[TransactionHistory](
 	[CreateDate] [datetime] NULL,
 	[ExpiredDate] [datetime] NULL,
 	[status] [tinyint] NULL,
+	[AcceptBy] [nvarchar](50) NULL,
+	FOREIGN KEY([AcceptBy]) REFERENCES [dbo].[Accountant] ([accountantId]),
 PRIMARY KEY CLUSTERED 
 (
 	[transactionId] ASC

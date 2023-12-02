@@ -21,6 +21,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
 import { SellerReport } from '../../models/sellerReport.model';
 import { take } from 'rxjs';
+import { PresenceService } from 'src/app/services/presence.service';
 
 
 @Component({

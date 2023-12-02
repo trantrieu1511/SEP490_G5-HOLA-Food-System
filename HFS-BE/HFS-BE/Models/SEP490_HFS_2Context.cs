@@ -16,6 +16,7 @@ namespace HFS_BE.Models
         {
         }
 
+        public virtual DbSet<Accountant> Accountants { get; set; } = null!;
         public virtual DbSet<Admin> Admins { get; set; } = null!;
         public virtual DbSet<CartItem> CartItems { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
@@ -64,6 +65,66 @@ namespace HFS_BE.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Accountant>(entity =>
+            {
+                entity.ToTable("Accountant");
+
+                entity.HasIndex(e => e.Email, "UQ__Accounta__AB6E6164D33EE4C0")
+                    .IsUnique();
+
+                entity.Property(e => e.AccountantId)
+                    .HasMaxLength(50)
+                    .HasColumnName("accountantId");
+
+                entity.Property(e => e.BirthDate)
+                    .HasColumnType("date")
+                    .HasColumnName("birthDate");
+
+                entity.Property(e => e.ConfirmedEmail)
+                    .IsRequired()
+                    .HasColumnName("confirmedEmail")
+                    .HasDefaultValueSql("('false')");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("createDate");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(100)
+                    .HasColumnName("email");
+
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(50)
+                    .HasColumnName("firstName");
+
+                entity.Property(e => e.Gender)
+                    .HasMaxLength(10)
+                    .HasColumnName("gender");
+
+                entity.Property(e => e.IsBanned)
+                    .IsRequired()
+                    .HasColumnName("isBanned")
+                    .HasDefaultValueSql("('false')");
+
+                entity.Property(e => e.IsOnline).HasColumnName("isOnline");
+
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(50)
+                    .HasColumnName("lastName");
+
+                entity.Property(e => e.PhoneNumber)
+                    .HasMaxLength(11)
+                    .HasColumnName("phoneNumber");
+
+                entity.Property(e => e.RefreshToken)
+                    .IsUnicode(false)
+                    .HasColumnName("refreshToken");
+
+                entity.Property(e => e.RefreshTokenExpiryTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("refreshTokenExpiryTime");
+            });
+
             modelBuilder.Entity<Admin>(entity =>
             {
                 entity.ToTable("Admin");
@@ -1343,11 +1404,13 @@ namespace HFS_BE.Models
             modelBuilder.Entity<TransactionHistory>(entity =>
             {
                 entity.HasKey(e => e.TransactionId)
-                    .HasName("PK__Transact__9B57CF72B44459E2");
+                    .HasName("PK__Transact__9B57CF72B9B42AA9");
 
                 entity.ToTable("TransactionHistory");
 
                 entity.Property(e => e.TransactionId).HasColumnName("transactionId");
+
+                entity.Property(e => e.AcceptBy).HasMaxLength(50);
 
                 entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
@@ -1368,6 +1431,11 @@ namespace HFS_BE.Models
                 entity.Property(e => e.TransactionType).HasMaxLength(50);
 
                 entity.Property(e => e.Value).HasColumnType("decimal(18, 0)");
+
+                entity.HasOne(d => d.AcceptByNavigation)
+                    .WithMany(p => p.TransactionHistories)
+                    .HasForeignKey(d => d.AcceptBy)
+                    .HasConstraintName("FK__Transacti__Accep__69FBBC1F");
             });
 
             modelBuilder.Entity<Voucher>(entity =>
