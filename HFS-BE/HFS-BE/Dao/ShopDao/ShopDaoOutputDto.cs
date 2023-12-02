@@ -25,11 +25,12 @@ namespace HFS_BE.Dao.ShopDao
         public decimal? AverageStar { get; set; }
         public string? CreateDate { get; set; }
         public string ShopId { get; set; }
-        public long? PhoneNumber { get; set; }  
+        public string? PhoneNumber { get; set; }  
         public string? Avatar { get; set; }
         public string? ShopName { get; set; }
         public string? ShopAddress { get; set; }
         public bool IsOnline { get; set; }
-       // public int NumberOrdered { get; set; }
+        public string? Email { get; set; }
+        public int NumberOrdered { get; set; }
     }
 }

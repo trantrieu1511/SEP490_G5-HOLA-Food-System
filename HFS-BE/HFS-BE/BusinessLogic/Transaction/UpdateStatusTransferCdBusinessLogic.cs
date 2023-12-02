@@ -106,11 +106,11 @@ namespace HFS_BE.BusinessLogic.Transaction
 
                 if (inputDto.RecievierId.Contains("CU"))
                 {
-                    var output3 = dao.UpdateWalletBalance(input3);
+                    var output3 = dao.UpdateWalletBalance(input4);
                 }
                 else
                 {
-                    var output3 = dao.UpdateWalletBalanceSeller(input3);
+                    var output3 = dao.UpdateWalletBalanceSeller(input4);
                 }
 
 
