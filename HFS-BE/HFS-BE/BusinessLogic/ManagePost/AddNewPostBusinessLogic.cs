@@ -3,6 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.Dao.PostDao;
 using HFS_BE.DAO.ModeratorDao;
 using HFS_BE.DAO.NotificationDao;
+using HFS_BE.DAO.SellerDao;
 using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
@@ -22,6 +23,18 @@ namespace HFS_BE.BusinessLogic.ManagePost
         {
             try
             {
+                var sellerDao = CreateDao<SellerDao>();
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email) is null)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not exist");
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).IsVerified == false)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not verified");
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).IsBanned == true)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is banned");
+
+
                 var notifyDao = CreateDao<NotificationDao>();
                 var moderatorDao = CreateDao<ModeratorDao>();
 

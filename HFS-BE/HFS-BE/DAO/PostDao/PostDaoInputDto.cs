@@ -17,6 +17,7 @@ namespace HFS_BE.Dao.PostDao
     {
         public int PostId { get; set; }
         public bool Type { get; set; }
+        public UserDto UserDto { get; set; }
     }
 
     public class PostBanUnbanInputDto
