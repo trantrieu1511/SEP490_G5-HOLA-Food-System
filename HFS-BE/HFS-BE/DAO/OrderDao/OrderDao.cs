@@ -85,7 +85,8 @@ namespace HFS_BE.Dao.OrderDao
                         && (x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 4
                             || x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 5)
                         )
-                    //.Select(x => mapper.Map<Order, OrderDaoOutputDto>(x))
+
+                    .Select(x => mapper.Map<Order, Order>(x))
                     .ToList();
                 var output = mapper.Map<List<Order>, List<OrderDaoOutputDto>>(data);
                 foreach (var item in data)

@@ -147,14 +147,26 @@ namespace HFS_BE.Automapper
             //CreateMap<List<Order>, OrderDaoOutputDto>();
             CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>()
                 .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => PaymentMethodEnum.GetPaymentMethodString(src.PaymentMethod)));
+
+            CreateMap<Order, Order>()
+                .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses.Where(op => op.Status >= 2).ToList()));
+
             CreateMap<OrderDetail, Dao.OrderDao.OrderDetailDto>()
                 .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name))
                 .ForMember(dest => dest.SellerId, opt => opt.MapFrom(src => src.Food.SellerId))
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Food.FoodImages.AsQueryable().First().Path));
             CreateMap<Dao.OrderDao.OrderDetailDto, BusinessLogic.OrderShipper.OrderDetailBLDto>();
-            CreateMap<Dao.OrderDao.OrderDaoOutputDto, BusinessLogic.OrderShipper.OrderBLOutputDto>();
             CreateMap<Dao.OrderDao.OrderByShipperDaoOutputDto, BusinessLogic.OrderShipper.OrderByShipperBLOutputDto>();
+
             CreateMap<Dao.OrderDao.OrderHistoryDaoOutputDto, OrderByShipperBLOutputDto>();
+            CreateMap<Dao.OrderDao.OrderDaoOutputDto, OrderShipperBLOutputDto>()
+                .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses.OrderBy(x => x.CreateDate).ToList()))
+                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.OrderBy(x => x.UnitPrice).ToList()));
+
+            CreateMap<OrderDetailDto, OrderDetailBLDto>();
+            CreateMap<Dao.OrderDao.OrderProgressDto, BusinessLogic.OrderShipper.OrderProgressBLDto>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => OrderStatusEnum.GetOrderStatusString(src.Status)));
+
 
 
             // checkout order

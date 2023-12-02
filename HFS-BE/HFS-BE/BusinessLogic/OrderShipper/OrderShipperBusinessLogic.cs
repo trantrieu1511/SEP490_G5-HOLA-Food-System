@@ -48,7 +48,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                     if (imgProgressBase64 == null)
                         continue;
                     var imgProgressMapper = mapper.Map<ImageFileConvert.ImageOutputDto, ImageFoodOutputDto>(imgProgressBase64);
-                    ouputMapper.Orders[indexOrder].OrderProgress[indexProgressCompleted].ImageBase64 = imgProgressMapper;
+                    ouputMapper.Orders[indexOrder].OrderProgresses[indexProgressCompleted].ImageBase64 = imgProgressMapper;
                 }
 
                 return ouputMapper;

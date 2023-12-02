@@ -3,7 +3,7 @@ using HFS_BE.Dao.OrderDao;
 
 namespace HFS_BE.BusinessLogic.OrderShipper
 {
-    public class OrderBLOutputDto
+    public class OrderShipperBLOutputDto
     {
         public int OrderId { get; set; }
         public string? CustomerId { get; set; }
@@ -18,15 +18,15 @@ namespace HFS_BE.BusinessLogic.OrderShipper
         public string PaymentMethod { get; set; }
         public string? Status { get; set; }
 
-        public List<OrderDetailBLDto> OrderDetails { get; set; }
+        public List<OrderDetailBLDto>? OrderDetails { get; set; }
 
-        public List<OrderProgressDto>? OrderProgress { get; set; }
+        public List<OrderProgressBLDto>? OrderProgresses { get; set; }
 
     }
 
     public class OrderByShipperBLOutputDto : BaseOutputDto
     {
-        public List<OrderBLOutputDto> Orders { get; set; }
+        public List<OrderShipperBLOutputDto> Orders { get; set; }
     }
 
     public class OrderDetailBLDto
@@ -39,15 +39,12 @@ namespace HFS_BE.BusinessLogic.OrderShipper
         public int? Quantity { get; set; }
         public ImageFoodOutputDto ImageBase64 { get; set; }
     }
-    public class OrderProgressDto
+    public class OrderProgressBLDto
     {
-        public int OrderProgressId { get; set; }
-        public string? Note { get; set; }
-        public DateTime? CreateDate { get; set; }
         public ImageFoodOutputDto? ImageBase64 { get; set; }
-        public int? OrderId { get; set; }
-        public byte? Status { get; set; }
-        public string? CreatedBy { get; set; }
+        public string? Note { get; set; }
+        public string? CreateDate { get; set; }
+        public string? Status { get; set; }
     }
 
     public class ImageFoodOutputDto
