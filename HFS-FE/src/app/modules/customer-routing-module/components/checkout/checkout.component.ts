@@ -105,13 +105,17 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
 
   async onCreateOrder(){
     try {
-      debugger
       this.loading = true;
       if (!this.phone || this.phone.trim().length === 0){
         this.showMessage(mType.warn, "", "Phone is required!", 'notify');
         return;
       }    
       let checkoutInfor = new CreateOrder();
+      if (this.address.length == 0 && !this.isDifferentAddress){
+        this.showMessage(mType.warn, "", "You don't have any address inprofile, please choose different address!", 'notify');
+        return;
+      }
+
       checkoutInfor.shipAddress = !this.isDifferentAddress ? 
         this.defaultAddress.addressInfo : 
         `${this.addressDetailSelected}, ${this.wardSelected}, ${this.districtSelected}, ${this.provinceSelected}`

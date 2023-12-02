@@ -86,6 +86,10 @@
                     <p-rating [ngModel]="shopInfor.averageStar" [readonly]="true" [cancel]="false"></p-rating>
                   </div>
                   <div class="shop_phone shop-infor_child">
+                    <i class="pi pi-shopping-cart"></i>
+                    <a class="shop_phone-value">{{ shopInfor.numberOrdered }} Ordered</a>
+                  </div>
+                  <div class="shop_phone shop-infor_child">
                     <i class="pi pi-phone"></i>
                     <a class="shop_phone-value" href="tel:+{{ shopInfor.phoneNumber }}">{{ shopInfor.phoneNumber }}</a>
                   </div>
