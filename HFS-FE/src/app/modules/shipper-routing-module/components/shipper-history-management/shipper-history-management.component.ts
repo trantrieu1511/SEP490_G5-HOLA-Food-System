@@ -7,7 +7,7 @@ import {
   ShareData
 } from 'src/app/modules/shared-module/shared-module';
 import * as API from "../../../../services/apiURL";
-import { OrderDaoOutputDto, OrderDetailDtoOutput } from '../../models/order-of-shipper.model';
+import { OrderDaoOutputDto, OrderDetailDtoOutput, OrderProgressDtoOutput } from '../../models/order-of-shipper.model';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -30,8 +30,7 @@ export class ShipperHistoryManagementComponent extends iComponentBase implements
   displayDialogConfirm: boolean = false;
 
   orderDetails: OrderDetailDtoOutput[];   
-
-
+  orderProgresses: OrderProgressDtoOutput[];  
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2,public messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -53,7 +52,7 @@ export class ShipperHistoryManagementComponent extends iComponentBase implements
     let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.SHIPPER, API.API_SHIPPER.HISTORY,param);
         if (response && response.message === "Success") {
             this.lstOrderHistory = response.orders;
-            console.log(response);
+            console.log('his nef', this.lstOrderHistory);
             this.calculatorTotalOrder();
         }
           
@@ -83,7 +82,10 @@ export class ShipperHistoryManagementComponent extends iComponentBase implements
       }
 
   Detail(orderId : number){
-    this.orderDetails = this.lstOrderHistory.filter( x => x.orderId == orderId)[0].orderDetails;
+    const orderFiltered = this.lstOrderHistory.filter( x => x.orderId == orderId)[0];
+
+    this.orderDetails = orderFiltered.orderDetails;
+    this.orderProgresses = orderFiltered.orderProgresses;
     this.headerDialog = 'Detail';        
     this.displayDialogConfirm = true;
     

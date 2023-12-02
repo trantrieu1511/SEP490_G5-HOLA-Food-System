@@ -97,18 +97,30 @@
                     </ng-template>
                 </p-table>
                 <!-- <p style="text-align: right;">Total: </p> -->
-                <div class="flex">
-                    <!-- <div class="w-full md:w-1/4">
-                        <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" [preview]="true" alt="Image" width="250">
-                            <ng-template pTemplate="indicator">
-                                <i class="pi pi-check"></i>
-                            </ng-template>
-                        </p-image> 
-                    </div> -->
-                    <div class="w-full md:w-3/4">
-                        
-                    </div>
-                </div>
+                <p-dataView #dv [value]="orderProgresses">
+                    <ng-template let-progress pTemplate="listItem">
+                        <div class="col-12">
+                            <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+                                <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                                    <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                                        <div class="text-base font-semibold">{{ progress.status }}</div>
+                                        <div class="flex align-items-center ml-5">
+                                            <span class="flex align-items-center">
+                                                <span class="font-normal">Time: {{ progress.createDate }}</span>
+                                            </span>
+                                        </div>
+                                        <div *ngIf="progress.note" class="font-medium text-sm ml-5">*Note: {{ progress.note }}</div>
+                                    </div>
+                                    <div *ngIf="progress.imageBase64" class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                                      <p-image src="data:image/gif;base64,{{progress.imageBase64.imageBase64}}" [preview]="true"
+                                        [alt]="progress.note" class="dialogimages_image w-10rem shadow-2"
+                                        ></p-image>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-dataView>
                 
             </div>
         </div>
