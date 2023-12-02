@@ -131,5 +131,7 @@ namespace HFS_BE.DAO.TransantionDao
                 return this.Output<GetTransactionHistoryDaoOutputDto>(Constants.ResultCdFail);
             }
         }
+
+        //public BaseOutputDto
     }
 }

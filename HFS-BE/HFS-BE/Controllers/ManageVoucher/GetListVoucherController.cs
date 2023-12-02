@@ -17,12 +17,10 @@ namespace HFS_BE.Controllers.ManageVoucher
         }
         [HttpPost("vouchers/getListvoucher")]
         //[Authorize]
-
         public GetListVoucherDaoOutputDto CreateVoucher(GetListVoucherDaoInput input)
         {
             try
             {
-
                 var business = this.GetBusinessLogic<GetVoucherBusinessLogic>();
 
                 var output = business.GetListVoucher(input);

@@ -45,27 +45,37 @@ namespace HFS_BE.BusinessLogic.Cart
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Please Confirm your email first!");
                 }
 
-                // voucher
-                Voucher voucher = new Voucher();
-                if (!string.IsNullOrEmpty(inputDto.Voucher))
+                if (!user.isPhoneVerify.Value)
                 {
-                    voucher = voucherDao.GetVoucherByCode(inputDto.Voucher);
-                    if (voucher == null)
-                    {
-                        return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Voucher Invalid");
-                    }
-                    
-                    if (voucher.ExpireDate <= today || voucher.EffectiveDate >= today)
-                    {
-                        return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Voucher Invalid");
-                    }
-
-                    if (voucherDao.CheckUsedVoucher(inputDto.CustomerId, voucher.VoucherId))
-                    {
-                        return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You have already used this voucher");
-                    }
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Your phone is not Verified!");
                 }
 
+                // voucher
+                List<Voucher> vouchers = new List<Voucher>();
+                foreach (var item in inputDto.ListShop)
+                {
+                    if (!string.IsNullOrEmpty(item.Voucher))
+                    {
+                        var voucher = voucherDao.GetVoucherByCode(item.Voucher);
+                        if (voucher == null)
+                        {
+                            return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Voucher Invalid");
+                        }
+
+                        if (voucher.ExpireDate <= today || voucher.EffectiveDate >= today)
+                        {
+                            return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Voucher Invalid");
+                        }
+
+                        if (voucherDao.CheckUsedVoucher(inputDto.CustomerId, voucher.VoucherId))
+                        {
+                            return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You have already used this voucher");
+                        }
+
+                        vouchers.Add(voucher);
+                    }
+                }
+                
                 if (!inputDto.PaymentMethod.Equals("wallet") && !inputDto.PaymentMethod.Equals("cod"))
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Your payment method invalid!");
@@ -100,15 +110,18 @@ namespace HFS_BE.BusinessLogic.Cart
                         shopPrice += food.Amount.Value * foodInfo.UnitPrice.Value;
                     }
 
-                    if (item.ShopId.Equals(voucher.SellerId))
+                    foreach (var voucher in vouchers)
                     {
-                        if (voucher.MinimumOrderValue > shopPrice)
+                        if (item.ShopId.Equals(voucher.SellerId))
                         {
-                            return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Your order value of the shop " + item.ShopId + "is not enough!");
-                        }
+                            if (voucher.MinimumOrderValue > shopPrice)
+                            {
+                                return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Your order value of the shop " + item.ShopId + "is not enough!");
+                            }
 
-                        shopPrice -= voucher.DiscountAmount;
-                        useVoucher = true;
+                            shopPrice -= voucher.DiscountAmount;
+                            useVoucher = true;
+                        }
                     }
 
                     totalPrice+= shopPrice;
@@ -155,9 +168,12 @@ namespace HFS_BE.BusinessLogic.Cart
                             shopPrice += food.Amount.Value * foodInfo.UnitPrice.Value;
                         }
 
-                        if (useVoucher && item.ShopId.Equals(voucher.SellerId))
+                        foreach (var voucher in vouchers)
                         {
-                            shopPrice -= voucher.DiscountAmount;
+                            if (useVoucher && item.ShopId.Equals(voucher.SellerId))
+                            {
+                                shopPrice -= voucher.DiscountAmount;
+                            }
                         }
 
                         var input3 = new UpadateWalletBalanceDaoInputDto()
@@ -194,10 +210,14 @@ namespace HFS_BE.BusinessLogic.Cart
                 {
                     // create order + order detail
                     CheckOutOrderDaoInputDto orderdaoInput = mapper.Map<ListShopItemInputDto, CheckOutOrderDaoInputDto>(item);
-                    if (item.ShopId.Equals(voucher.SellerId))
+                    foreach (var voucher in vouchers)
                     {
-                        orderdaoInput.VoucherId = voucher.VoucherId;
+                        if (item.ShopId.Equals(voucher.SellerId))
+                        {
+                            orderdaoInput.VoucherId = voucher.VoucherId;
+                        }
                     }
+                    
                     orderdaoInput.CustomerId = inputDto.CustomerId;
                     orderdaoInput.ShipAddress = inputDto.ShipAddress;
                     orderdaoInput.Note = inputDto.Note;

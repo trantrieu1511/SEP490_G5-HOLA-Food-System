@@ -54,7 +54,7 @@ namespace HFS_BE.Dao.ShopDao
                     {
                         int totalStar = 0;
                         int totalfeedbacks = 0;
-                        foreach (var food in item.Foods)
+                        foreach (var food in item.Foods.Where(x => x.Status == 1))
                         {
                             foreach (var img in food.FoodImages)
                             {
@@ -86,7 +86,7 @@ namespace HFS_BE.Dao.ShopDao
                     listshop.Add(shop);
                 }
 
-                outputDto.ListShop = listshop;
+                outputDto.ListShop = listshop.Where(x => x.FoodImages.Count >= 3).ToList();
 
 
                 return outputDto;

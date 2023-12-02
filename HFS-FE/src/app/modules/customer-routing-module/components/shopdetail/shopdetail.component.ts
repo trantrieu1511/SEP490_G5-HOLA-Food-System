@@ -43,6 +43,7 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
   isDisabledPostReportBtnSubmit: boolean = true; // Trạng thái disable của nút submit của modal post report
   isDisabledPostReportTextArea: boolean = true; // Trạng thái disable của text area của modal post report
   uploadedFiles: File[] = [];
+  vouchers : any;
   constructor(
     private shareData: ShareData,
     public messageService: MessageService,
@@ -112,6 +113,24 @@ export class ShopdetailComponent extends iComponentBase implements OnInit {
         }
 
 		console.log(this.foods);
+        this.loading = false;
+    } catch (e) {
+        console.log(e);
+        this.loading = false;
+    }
+  }
+
+  async getVoucher(){
+    try {
+        this.loading = true;
+
+        const param = {
+          "sellerId":this.userId
+      };
+        let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.VOUCHER, API.API_VOUCHER.GET_ALL_VOUCHER, param);
+        if (response && response.success == true) {
+            this.vouchers = response.listVoucher;
+        }
         this.loading = false;
     } catch (e) {
         console.log(e);

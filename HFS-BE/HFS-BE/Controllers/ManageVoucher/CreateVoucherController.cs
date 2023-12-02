@@ -23,7 +23,6 @@ namespace HFS_BE.Controllers.ManageVoucher
         {
             try
             {
-
                 var business = this.GetBusinessLogic<AddNewVoucherBusinessLogic>();
 
                 var output = business.AddNewVoucher(input);

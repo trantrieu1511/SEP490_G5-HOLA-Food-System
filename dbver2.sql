@@ -598,6 +598,14 @@ CREATE TABLE [dbo].[FeedBackImage](
 	FOREIGN KEY([feedbackId]) REFERENCES [dbo].[FeedBack] ([feedbackId]),
 )
 
+CREATE TABLE [dbo].[WalletTransferCode](
+	[codeId] [int] IDENTITY(1,1) NOT NULL  PRIMARY KEY,
+	[sellerId][nvarchar](50) NULL,
+	[code] [varchar] NULL,
+	[expiredDate] datetime NULL,
+	FOREIGN KEY([sellerId]) REFERENCES [dbo].[Seller] ([sellerId]),
+)
+
 
 --CREATE TABLE [dbo].[ShipperReport](
 --	[shipperId] [nvarchar](50) NOT NULL,

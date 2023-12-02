@@ -85,7 +85,7 @@ export class OrderhistoryComponent
 
   setDefaultDate(){
     this.rangeDates = [];
-    this.rangeDates[0] = new Date(2022, this.currentDate.getMonth(), 1);
+    this.rangeDates[0] = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
     this.rangeDates[1] = new Date();
   }
 

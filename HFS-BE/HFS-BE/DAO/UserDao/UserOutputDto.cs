@@ -38,10 +38,13 @@ namespace HFS_BE.DAO.UserDao
         public decimal? Balance { get; set; }
         public string? Address { get; set; }
         public bool? ConfirmEmail { get; set; }
+        public bool? isPhoneVerify { get; set; }
     }
 
     public class GetUserAddressDaoOutputDto : BaseOutputDto
     {
+        public string Phone { get; set; }
+        public decimal? Balance { get; set; } = 0;
         public List<UserAddressDaoOutputDto> ListAddress { get; set; }
     }
 
