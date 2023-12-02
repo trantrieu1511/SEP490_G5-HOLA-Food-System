@@ -600,10 +600,9 @@ CREATE TABLE [dbo].[FeedBackImage](
 
 CREATE TABLE [dbo].[WalletTransferCode](
 	[codeId] [int] IDENTITY(1,1) NOT NULL  PRIMARY KEY,
-	[sellerId][nvarchar](50) NULL,
+	[userId][nvarchar](50) NULL,
 	[code] [varchar] NULL,
 	[expiredDate] datetime NULL,
-	FOREIGN KEY([sellerId]) REFERENCES [dbo].[Seller] ([sellerId]),
 )
 
 
