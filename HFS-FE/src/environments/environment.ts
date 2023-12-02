@@ -12,6 +12,7 @@ export const environment = {
   clientId: "737110996158-747oghg2rqifouoldnkonnp2vfp174qh.apps.googleusercontent.com",
 
   appId: "297572859708452",
+  mapTokenKey: "pk.eyJ1IjoiYmx1ZXJoaW5vIiwiYSI6ImNqZDJjYjZxeDFzcHUzM213MGdoOTh4dXUifQ.0St02mA2vqSMM5qsvMfngQ",
   production: false
 };
 
