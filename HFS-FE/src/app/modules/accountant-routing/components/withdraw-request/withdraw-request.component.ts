@@ -23,11 +23,11 @@ export class WithdrawRequestComponent
   rangeDates: Date[] | undefined;
   currentDate: Date = new Date();
   displayTransaction: any
+  tabIndex : number = 0
   tabs: any = [
-    { label: 'All', id: '0' },
-    { label: 'Waiting', id: '1' },
-    { label: 'Success', id: '2' },
-    { label: 'Cancel', id: '3' },
+    { label: 'Waiting', id: '0' },
+    { label: 'Success', id: '1' },
+    { label: 'Cancel', id: '2' },
   ];
   constructor(
     public breadcrumbService: AppBreadcrumbService,
@@ -70,17 +70,15 @@ export class WithdrawRequestComponent
   }
 
   onChangeTab(activeTab: TabViewChangeEvent) {
+    this.tabIndex = activeTab.index
     switch (activeTab.index) {
       case 0:
-        this.displayTransaction = this.transactionHistory;
-        break;
-      case 1:
         this.displayTransaction = this.transactionHistory.filter(x => x.status === 0);
         break;
-      case 2:
+      case 1:
         this.displayTransaction = this.transactionHistory.filter(x => x.status === 1);
         break;
-      case 3:
+      case 2:
         this.displayTransaction = this.transactionHistory.filter(x => x.status === 2);
         break;      
     }

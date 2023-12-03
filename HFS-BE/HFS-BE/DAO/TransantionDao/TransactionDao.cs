@@ -3,6 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
+using Mailjet.Client.Resources;
 using Twilio.Rest.Trunking.V1;
 using static HFS_BE.Utils.Enum.TransactionTypeEnum;
 
@@ -252,6 +253,12 @@ namespace HFS_BE.DAO.TransantionDao
             {
                 return this.Output<BaseOutputDto>(Constants.ResultCdFail);
             }
+        }
+
+        public TransactionHistory GetTransactionHistory(string transactionId)
+        {
+            var data = this.context.TransactionHistories.FirstOrDefault(x => x.TransactionId.Equals(transactionId));
+            return data;
         }
     }
 }
