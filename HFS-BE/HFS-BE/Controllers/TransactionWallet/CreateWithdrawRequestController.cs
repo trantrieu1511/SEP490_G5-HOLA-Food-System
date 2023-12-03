@@ -10,7 +10,7 @@ namespace HFS_BE.Controllers.TransactionWallet
 {
     public class CreateWithdrawRequestController : BaseController
     {
-        public CreateWithdrawRequestController()
+        public CreateWithdrawRequestController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
@@ -29,7 +29,7 @@ namespace HFS_BE.Controllers.TransactionWallet
                 var busi = this.GetBusinessLogic<CreateWithdrawRequestBusinessLogic>();
                 inputDto.UserId = userInfor.UserId;
                 var output = busi.CreateWithdrawRequest(inputDto);
-                return output;
+               return output;
             }
             catch (Exception)
             {
