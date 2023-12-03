@@ -1227,6 +1227,8 @@ namespace HFS_BE.Models
 
                 entity.Property(e => e.ImageLicenseId).HasColumnName("imageLicenseId");
 
+                entity.Property(e => e.IsReplaced).HasColumnName("isReplaced");
+
                 entity.Property(e => e.Path).HasColumnName("path");
 
                 entity.Property(e => e.SellerId)

@@ -93,7 +93,16 @@ namespace HFS_BE.BusinessLogic.Auth
                             ModId = user.Id
                         }));
                         break;
-                }
+					case "AC":
+						newAccessToken = new JwtSecurityTokenHandler().WriteToken(authNotCus.GenerateSecurityTokenAcc(new Accountant
+						{
+							Email = user.Email,
+							FirstName = user.FirstName,
+							LastName = user.LastName,
+							AccountantId = user.Id
+						}));
+						break;
+				}
 
                 var newRefreshToken = _tokenService.GenerateRefreshToken();
 

@@ -50,6 +50,14 @@ export class ProfileImage {
     size: string;
 }
 
+export class LicenseImage {
+    imageLicenseId: number;
+    sellerId: number;
+    imageBase64: string; // Base64 of the image name (with its path: Resource/...)
+    name: string; // Base64 of the image name (with its path: Resource/...)
+    size: string; // Base64 of the image name (with its path: Resource/...)
+}
+
 export class EditProfileInputValidation {
     isValidLastName: boolean = true;
     LastNameValidationMessage: string = null;

@@ -50,7 +50,7 @@ namespace HFS_BE.DAO.SellerDao
 				   )
 						
 				 .ToList(),
-	             ImagesL = p.SellerLicenseImages.ToList(),
+	             ImagesL = p.SellerLicenseImages.Where(sli => sli.IsReplaced == false).ToList(),
 
 					 }
 					 

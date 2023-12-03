@@ -10,11 +10,11 @@
         }
 
         /// <summary>
-        /// Convert the image file into base64 string.
+        /// Convert the image file (full path) into base64 string.
         /// </summary>
         /// <param name="userId">The id of the user, used in the full path of the stored image</param>
         /// <param name="fileName">Name of the image file that is saved to the server database</param>
-        /// <param name="type">The image category of the image (food, post, order progress) </param>
+        /// <param name="type">The category of the image (food, post, order progress,...) </param>
         /// <returns>ImageOutputDto, which is the output object of the converted to base64 image which 
         /// consist of attributes: ImageBase64, name and size</returns>
         public static ImageOutputDto? ConvertFileToBase64(string userId, string fileName, int type)

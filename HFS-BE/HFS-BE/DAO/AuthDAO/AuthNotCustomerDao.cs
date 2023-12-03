@@ -95,23 +95,44 @@ namespace HFS_BE.DAO.AuthDAO
 						}
 						else
 						{
-							var admin = context.Admins.Where(s => s.Email == input.Email).FirstOrDefault();
-							if (admin != null)
+							var acc = context.Accountants.Where(s => s.Email == input.Email).FirstOrDefault();
+							if (acc != null)
 							{
-								var match = CheckPasswordAdmin(input.Password, admin);
+								if (acc.IsBanned == true)
+								{
+									return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned due to violations, please contact us to resolve!");
+								}
+								var match = CheckPasswordAcc(input.Password, acc);
 
 								if (!match)
 								{
 									return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
 								}
-								JwtSecurityToken token = GenerateSecurityTokenAdmin(admin);
+								JwtSecurityToken token = GenerateSecurityTokenAcc(acc);
 								output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-                                output.UserId = admin.AdminId;
-                                return output;
+								output.UserId = acc.AccountantId;
+								return output;
 							}
 							else
 							{
-								return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
+								var admin = context.Admins.Where(s => s.Email == input.Email).FirstOrDefault();
+								if (admin != null)
+								{
+									var match = CheckPasswordAdmin(input.Password, admin);
+
+									if (!match)
+									{
+										return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
+									}
+									JwtSecurityToken token = GenerateSecurityTokenAdmin(admin);
+									output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+									output.UserId = admin.AdminId;
+									return output;
+								}
+								else
+								{
+									return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
+								}
 							}
 
 						}
@@ -220,7 +241,8 @@ namespace HFS_BE.DAO.AuthDAO
 					context.Add(new SellerLicenseImage
 					{
 						SellerId = user.SellerId,
-						Path = img
+						Path = img,
+						IsReplaced = false,
 					});
 					context.SaveChanges();
 				}
@@ -360,6 +382,18 @@ namespace HFS_BE.DAO.AuthDAO
 
 			return result;
 		}
+		private bool CheckPasswordAcc(string password, Accountant user)
+		{
+			bool result;
+
+			using (HMACSHA256? hmac = new HMACSHA256(user.PasswordSalt))
+			{
+				var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+				result = compute.SequenceEqual(user.PasswordHash);
+			}
+
+			return result;
+		}
 		private bool CheckPasswordAdmin(string password, Admin user)
 		{
 			bool result;
@@ -372,7 +406,7 @@ namespace HFS_BE.DAO.AuthDAO
 
 			return result;
 		}
-        public JwtSecurityToken GenerateSecurityTokenSeller(Seller acc)
+		public JwtSecurityToken GenerateSecurityTokenSeller(Seller acc)
 		{
 			var conf = new ConfigurationBuilder()
 			.SetBasePath(Directory.GetCurrentDirectory())
@@ -482,6 +516,31 @@ namespace HFS_BE.DAO.AuthDAO
 					audience: conf["JWT:ValidAudience"],
 					expires: DateTime.Now.AddMinutes(15),
                     claims: authClaims,
+					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
+
+			return token;
+		}
+		public JwtSecurityToken GenerateSecurityTokenAcc(Accountant acc)
+		{
+			var conf = new ConfigurationBuilder()
+			.SetBasePath(Directory.GetCurrentDirectory())
+				.AddJsonFile("appsettings.json", true, true)
+				.Build();
+			string role = acc.AccountantId.Substring(0, 2).ToString(); ;
+			var authClaims = new List<Claim>
+			{
+				new Claim(ClaimTypes.Email, acc.Email),
+				new Claim(ClaimTypes.Name, acc.FirstName + acc.LastName),
+				new Claim("userId", acc.AccountantId.ToString()),
+			new Claim(ClaimTypes.Role,role)
+			};
+
+			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(conf["JWT:Secret"]));
+
+			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
+					audience: conf["JWT:ValidAudience"],
+					expires: DateTime.Now.AddMinutes(15),
+					claims: authClaims,
 					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
 			return token;

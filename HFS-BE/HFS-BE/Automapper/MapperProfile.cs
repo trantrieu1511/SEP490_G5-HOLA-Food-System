@@ -46,6 +46,8 @@ using Microsoft.AspNetCore.Routing.Constraints;
 using HFS_BE.BusinessLogic.ManageUser.ManageShipper;
 using HFS_BE.DAO.SellerReportDao;
 using HFS_BE.BusinessLogic.SellerReportBL;
+using HFS_BE.BusinessLogic.ManageSellerLicenseImage;
+using HFS_BE.DAO.SellerLicenseImageDao;
 
 namespace HFS_BE.Automapper
 {
@@ -77,8 +79,8 @@ namespace HFS_BE.Automapper
             ShipAddress();
             Transaction();
             ReportSeller();
-
-		}
+            SellerLicenseImage();
+        }
 
         /// <summary>
         /// dataconvert của màn homepage.
@@ -138,7 +140,7 @@ namespace HFS_BE.Automapper
             //output
             CreateMap<Dao.FoodDao.FoodOutputSellerDto, BusinessLogic.ManageFood.FoodOutputSellerDto>()
                 .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.CreatedDate != null ? src.CreatedDate.Value.ToString("MM/dd/yyyy - HH:mm:ss:tt") : null));
-                //.ForMember(dest => dest.BanDate, opt => opt.MapFrom(src => src.BanDate != null ? src.BanDate.Value.ToString("dd/MM/yyyy HH:mm:ss") : null));
+            //.ForMember(dest => dest.BanDate, opt => opt.MapFrom(src => src.BanDate != null ? src.BanDate.Value.ToString("dd/MM/yyyy HH:mm:ss") : null));
             CreateMap<Dao.FoodDao.ListFoodOutputSellerDto, BusinessLogic.ManageFood.ListFoodOutputSellerDto>();
 
         }
@@ -365,12 +367,13 @@ namespace HFS_BE.Automapper
 
             CreateMap<ImageFileConvert.ImageOutputDto, CustomerImageOutputDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>();
-			CreateMap<ImageFileConvert.ImageOutputDto, FeedImageOutputDto>();
-			CreateMap<ImageFileConvert.ImageOutputDto, FeedSellerImageOutputDto>();
-			CreateMap<ImageFileConvert.ImageOutputDto, ShipperImageOutputDto>();
-			CreateMap<ImageFileConvert.ImageOutputDto, SellerReportImageOutputDto>();
-			CreateMap<ImageFileConvert.ImageOutputDto, SellerImageLOutputDto>();
-		}
+            CreateMap<ImageFileConvert.ImageOutputDto, FeedImageOutputDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, FeedSellerImageOutputDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, ShipperImageOutputDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, SellerReportImageOutputDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, SellerImageLOutputDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, BusinessLogic.ManageSellerLicenseImage.SellerLicenseImageOutputDto>();
+        }
 
         public void Category()
         {
@@ -520,15 +523,23 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.ExpiredDate, opt => opt.MapFrom(src => src.ExpiredDate != null ? src.ExpiredDate.Value.ToString("dd/MM/yyyy hh:mm:ss") : ""));
         }
 
-		public void ReportSeller()
+        public void ReportSeller()
         {
             CreateMap<SellerReportBLInputDto, SellerReportInputDto>();
-			CreateMap<SellerReportOutputDto, SellerReportBLOutputDto>();
-			CreateMap<ListSellerReportOutputDto, ListSellerReportOutputDtoBL>();
-			CreateMap<SellerReportOutputDto, SellerReportBLByCustomerOutputDto>();
-			CreateMap<ListSellerReportOutputDto, ListSellerReportByCustomerOutputDtoBL>();
-		}
-	}
+            CreateMap<SellerReportOutputDto, SellerReportBLOutputDto>();
+            CreateMap<ListSellerReportOutputDto, ListSellerReportOutputDtoBL>();
+            CreateMap<SellerReportOutputDto, SellerReportBLByCustomerOutputDto>();
+            CreateMap<ListSellerReportOutputDto, ListSellerReportByCustomerOutputDtoBL>();
+        }
+
+        private void SellerLicenseImage()
+        {
+            CreateMap<DAO.SellerLicenseImageDao.ListSellerLicenseImageOutputDto,
+                BusinessLogic.ManageSellerLicenseImage.ListSellerLicenseImageOutputDto>();
+            CreateMap<DAO.SellerLicenseImageDao.SellerLicenseImageOutputDto,
+                BusinessLogic.ManageSellerLicenseImage.SellerLicenseImageOutputDto>();
+        }
+    }
 }
 
 

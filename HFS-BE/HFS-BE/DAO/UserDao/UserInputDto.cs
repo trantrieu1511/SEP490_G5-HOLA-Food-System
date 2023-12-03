@@ -17,6 +17,7 @@ namespace HFS_BE.DAO.UserDao
         public string? ShopName { get; set; }
         public string? ShopAddress { get; set; }
         public string PhoneNumber { get; set; } = string.Empty;
+        public bool IsNewPhonenumber { get; set; }
     }
 
     public class VerifyIdentityInputDto
