@@ -136,6 +136,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
             case "SH":
             case "PM":
             case "MM":
+            case "AC":
               this.router.navigateByUrl('/HFSBusiness');
               break;
             default: this.router.navigateByUrl('/login-2');
@@ -206,6 +207,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
               case "SH":
               case "PM":
               case "MM":
+              case "AC":
                 this.router.navigateByUrl('/HFSBusiness');
                 break;
               default: this.router.navigateByUrl('/login-2');
@@ -280,6 +282,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
       case 'SH':
       case 'PM':
       case 'MM':
+      case 'AC':
         this.router.navigateByUrl('/HFSBusiness');
         break;
 
