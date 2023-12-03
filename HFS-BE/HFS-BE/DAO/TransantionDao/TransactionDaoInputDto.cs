@@ -16,6 +16,7 @@
     {
         public int? TransactionId { get; set; }
         public byte? Status { get; set; }
+        public string? AccountantId { get; set; }
     }
 
     public class UpadateWalletBalanceDaoInputDto
@@ -59,5 +60,6 @@
     {
         public string UserId { get; set; }
         public string Code { get; set; }
+        public DateTime ExpiredDate { get; set; }
     }
 }

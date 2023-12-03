@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json.Linq;
 
-namespace HFS_BE.Controllers.TransactionCustomer
+namespace HFS_BE.Controllers.TransactionWallet
 {
     public class VNPayPaymentController : BaseController
     {

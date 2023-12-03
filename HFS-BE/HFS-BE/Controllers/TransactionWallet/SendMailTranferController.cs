@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using HFS_BE.BusinessLogic.Transaction;
 using HFS_BE.DAO.TransantionDao;
 
-namespace HFS_BE.Controllers.TransactionCustomer
+namespace HFS_BE.Controllers.TransactionWallet
 {
     public class SendMailTranferController : BaseController
     {
@@ -27,10 +27,12 @@ namespace HFS_BE.Controllers.TransactionCustomer
                 var userInfor = this.GetUserInfor();
                 var code = this.GenerateCode(6);
                 var busi = this.GetBusinessLogic<CreateTransferCodeBusinessLogic>();
+                var expiredDate = DateTime.Now.AddMinutes(5);
                 var output = busi.CreateTransferCd(new CreateWalletTransferCodeInputDto()
                 {
                     Code = code,
                     UserId = userInfor.UserId,
+                    ExpiredDate = expiredDate,
                 });
 
                 if (!output.Success)
@@ -38,7 +40,7 @@ namespace HFS_BE.Controllers.TransactionCustomer
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail);
                 }
 
-                var output2 = this.SendEmail2Async(userInfor.Email, "Hola Food Transfer Code", "This is your transfer code: " + code);
+                var output2 = this.SendEmail2Async(userInfor.Email, "Hola Food Wallet Code", "This is your wallet code: " + code + "\nExpired date: " + expiredDate.ToString("dd/MM/yyyy hh:mm:ss"));
                 if (!output2.Result)
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail);

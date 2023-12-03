@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
 
-namespace HFS_BE.Controllers.TransactionCustomer
+namespace HFS_BE.Controllers.TransactionWallet
 {
     public class VNPayVerifyController : BaseController
     {

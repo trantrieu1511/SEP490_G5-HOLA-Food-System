@@ -50,6 +50,30 @@ namespace HFS_BE.DAO.TransantionDao
                 if (transaction != null)
                 {
                     transaction.Status = inputDto.Status;
+                    if (inputDto.Status == 1) transaction.Note += "\n- Success";
+                    if (inputDto.Status == 2) transaction.Note += "\n- Cancel";
+                    transaction.AcceptBy = inputDto.AccountantId;
+                    this.context.Update(transaction);
+                    this.context.SaveChanges();
+                }
+
+                return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+        public BaseOutputDto UpdateTransactionStatusAccountant(UpdateTransationStatusDaoInputDto inputDto)
+        {
+            try
+            {
+                var transaction = this.context.TransactionHistories.FirstOrDefault(x => x.TransactionId == inputDto.TransactionId);
+                if (transaction != null)
+                {
+                    transaction.Status = inputDto.Status;
+                    if (inputDto.Status == 1) transaction.Note += "\n- Accept by " + inputDto.AccountantId;
+                    if (inputDto.Status == 2) transaction.Note += "\n- Cancel by " + inputDto.AccountantId;
                     this.context.Update(transaction);
                     this.context.SaveChanges();
                 }
@@ -115,12 +139,44 @@ namespace HFS_BE.DAO.TransantionDao
                 {
                     if (item.ExpiredDate != null && DateTime.Now > item.ExpiredDate)
                     {
-                        item.Status = 3;
+                        item.Status = 2;
+                        item.Note = item.Note + "\n- Expired";
                     }
                 }
 
                 this.context.UpdateRange(transactions);
-                this.context.SaveChanges(true);
+                this.context.SaveChanges();
+
+                var output = this.Output<GetTransactionHistoryDaoOutputDto>(Constants.ResultCdSuccess);
+                output.ListTransactions = mapper.Map<List<TransactionHistory>, List<GetTransactionHistoryDaoDto>>(transactions);
+                return output;
+            }
+            catch (Exception)
+            {
+                return this.Output<GetTransactionHistoryDaoOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public GetTransactionHistoryDaoOutputDto GetWithdrawRequest(GetTransactionHistoryDaoInputDto inputDto)
+        {
+            try
+            {
+                var transactions = this.context.TransactionHistories
+                                    .Where(x => x.TransactionType.Equals("Withdraw")
+                                                 && (x.CreateDate == null || (x.CreateDate.Value.Date >= inputDto.DateFrom && x.CreateDate.Value.Date <= inputDto.DateTo)))
+                                    .OrderByDescending(x => x.CreateDate)
+                                    .ToList();
+                foreach (var item in transactions)
+                {
+                    if (item.ExpiredDate != null && DateTime.Now > item.ExpiredDate)
+                    {
+                        item.Status = 2;
+                        item.Note = item.Note + "\n- Expired";
+                    }
+                }
+
+                this.context.UpdateRange(transactions);
+                this.context.SaveChanges();
 
                 var output = this.Output<GetTransactionHistoryDaoOutputDto>(Constants.ResultCdSuccess);
                 output.ListTransactions = mapper.Map<List<TransactionHistory>, List<GetTransactionHistoryDaoDto>>(transactions);
@@ -144,7 +200,7 @@ namespace HFS_BE.DAO.TransantionDao
                     {
                         UserId = inputDto.UserId,
                         Code = inputDto.Code,
-                        ExpiredDate = DateTime.Now.AddMinutes(5),
+                        ExpiredDate = inputDto.ExpiredDate,
                         IsUsed = false,
                     };
 
@@ -154,8 +210,13 @@ namespace HFS_BE.DAO.TransantionDao
                     return output;
                 }
 
+                if (userCd.ExpiredDate >= DateTime.Now)
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Your last code is not expired! Check your mail!");
+                }
+
                 userCd.Code = inputDto.Code;
-                userCd.ExpiredDate = DateTime.Now.AddMinutes(5);
+                userCd.ExpiredDate = inputDto.ExpiredDate;
                 userCd.IsUsed = false;
                 this.context.Update(userCd);
                 this.context.SaveChanges();

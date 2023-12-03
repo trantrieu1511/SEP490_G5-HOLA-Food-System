@@ -7,7 +7,7 @@ using HFS_BE.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HFS_BE.Controllers.TransactionCustomer
+namespace HFS_BE.Controllers.TransactionWallet
 {
     public class GetUserWalletBalanceController : BaseController
     {
