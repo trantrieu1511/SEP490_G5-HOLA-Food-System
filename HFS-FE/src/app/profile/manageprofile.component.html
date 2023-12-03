@@ -357,7 +357,7 @@
         <!-- <hr> -->
         <div class="grid grid-nogutter">
             <div class="col-5 md:col-5">
-                <div class="profile-image-area">
+                <div class="card" style="width: 97%; text-align: center;">
                     <!-- <h5>Avatar</h5> -->
                     <img src="{{!isLoggedIn || profileImage.imageBase64 == undefined ? '../../../../../assets/image/user.png' : 'data:image/gif;base64,' + profileImage.imageBase64}}"
                         width="150" height="150" style="border-radius: 50%;" />
@@ -371,27 +371,30 @@
                 </div>
 
 
-                <div style="margin-top: 3%;"></div>
+                <!-- <div style="margin-top: 3%;"></div> -->
 
-                <!-- <div>More</div> -->
-                <div *ngIf="role == 'SE' && !profileDisplay.isVerified">
-                    <p-button [text]="true" (onClick)="openEditLicenseDialog();">Edit my license</p-button>
-                    <!-- <br> -->
-                </div>
-                <div>
-                    <p-button *ngIf="profileDisplay.confirmedEmail" (click)="openVerifyIdentityModal();"
-                        [text]="true">Change password</p-button>
-                </div>
+                <!-- <div class="card" style="width: 97%;"> -->
+                    <!-- <div>More</div> -->
+                    <div *ngIf="role == 'SE' && !profileDisplay.isVerified">
+                        <p-button [text]="true" (onClick)="openEditLicenseDialog();">Edit my license</p-button>
+                        <!-- <br> -->
+                    </div>
+                    <div>
+                        <p-button *ngIf="profileDisplay.confirmedEmail" (click)="openVerifyIdentityModal();"
+                            [text]="true">Change password</p-button>
+                    </div>
+                <!-- </div> -->
+
             </div>
 
             <div class="col-7 md:col-7">
-                <div class="profile-info-area">
+                <div class="card">
                     <!-- <div *ngIf="role != 'SE'"> -->
-                        <div style="display: flex;">
-                            <p class="field-title">Id: </p>
-                            <p class="field-info">{{profileDisplay.userId}}</p>
-                        </div>
-                        <hr>
+                    <div style="display: flex;">
+                        <p class="field-title">Id: </p>
+                        <p class="field-info">{{profileDisplay.userId}}</p>
+                    </div>
+                    <hr>
                     <!-- </div> -->
                     <div *ngIf="role != 'SE'">
                         <div style="display: flex;">
@@ -551,8 +554,9 @@
                     <a class="btn-edit-profile" (click)="openSellerEditProfileDiaglog();" href="javascript:void(0);"
                         *ngIf="role == 'SE' else openOthersEditProfileDialogBtn"><i class="pi pi-pencil"></i> Edit</a>
                     <ng-template #openOthersEditProfileDialogBtn>
-                        <i class="pi pi-pencil"></i><a class="btn-edit-profile" (click)="openOthersEditProfileDiaglog();"
-                            href="javascript:void(0);"><i class="pi pi-pencil"></i> Edit</a>
+                        <i class="pi pi-pencil"></i><a class="btn-edit-profile"
+                            (click)="openOthersEditProfileDiaglog();" href="javascript:void(0);"><i
+                                class="pi pi-pencil"></i> Edit</a>
                     </ng-template>
                     <!-- &nbsp; -->
                 </div>

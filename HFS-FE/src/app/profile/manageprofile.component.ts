@@ -156,7 +156,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
 
   async getProfileInfo() {
     try {
-      debugger
+      // debugger
       //
       // const params = {
       //   userId: sessionStorage.getItem("userId")
@@ -742,13 +742,22 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
         this.showMessage(mType.success, "Notification"
           , "License image updated successfully", 'notify');
 
-        this.isVisibleEditLicenseDialog = false;
+        // this.isVisibleEditLicenseDialog = false;
 
         //lấy lại danh sách All
-        this.getLicenseImage();
+        await this.getLicenseImage();
 
         //clear file upload
         this.uploadedFiles = [];
+
+        //reload file upload
+        if (this.licenseImages) {
+          this.licenseImages.forEach(image => {
+            var fileimage = this.iFunction.convertImageBase64toFile(image.imageBase64, image.name);
+            this.uploadedFiles.push(fileimage);
+            //this.f_upload.files.push(fileimage);
+          });
+        }
       } else {
         // var messageError = this.iServiceBase.formatMessageError(response)
         this.showMessage(mType.error, 'Error', response.message, 'notify');
