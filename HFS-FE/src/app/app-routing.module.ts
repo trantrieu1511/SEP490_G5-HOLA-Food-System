@@ -21,11 +21,11 @@ import {
   ManagePostComponent
 } from './modules/business-routing-module/business-routing-mudule';
 import { ManageprofileComponent } from './profile/manageprofile.component';
-import { FooddetailComponent, 
-  HomepageComponent, 
-  NewFeedModuleComponent, 
-  SearchComponent, 
-  ShopdetailComponent 
+import { FooddetailComponent,
+  HomepageComponent,
+  NewFeedModuleComponent,
+  SearchComponent,
+  ShopdetailComponent
 } from './modules/customer-routing-module/customer-routing-module';
 import { PostreportManagementComponent } from './modules/postmoderator-routing-module/components/postreport-management/postreport-management.component';
 import { FoodreportManagementComponent } from './modules/menumoderator-routing-module/components/foodreport-management/foodreport-management.component';
@@ -137,9 +137,9 @@ const routes: Routes = [
 
       // vip pro role
       {
-        path: 'HFSBusiness', 
+        path: 'HFSBusiness',
         canActivate: [authGuard],
-        data: { requiredRole: ['Admin', 'Shipper', 'Seller', 'PostModerator', 'MenuModerator'] },
+        data: { requiredRole: ['Admin', 'Shipper', 'Seller', 'PostModerator', 'MenuModerator',"Accountant"] },
         children: [
           {
             path: 'profile',
@@ -215,7 +215,7 @@ const routes: Routes = [
           }
         ]
       }
-      
+
     ]
   },
   { path: 'error', component: AppErrorComponent },
@@ -227,7 +227,7 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })],
   providers: [
-    {provide: LocationStrategy, useClass: PathLocationStrategy} 
+    {provide: LocationStrategy, useClass: PathLocationStrategy}
   ],
   exports: [RouterModule]
 })

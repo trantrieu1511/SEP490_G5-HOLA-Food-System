@@ -740,7 +740,12 @@ namespace HFS_BE.DAO.UserDao
                                 x => x.ModId.Equals(inputDto.UserId)
                             );
                         break;
-                }
+					case "AC":
+						user = context.Accountants.FirstOrDefault(
+								x => x.AccountantId.Equals(inputDto.UserId)
+							);
+						break;
+				}
 
                 if (user == null)
                 {
