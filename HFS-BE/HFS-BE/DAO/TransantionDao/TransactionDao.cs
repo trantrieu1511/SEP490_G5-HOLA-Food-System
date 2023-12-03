@@ -255,9 +255,9 @@ namespace HFS_BE.DAO.TransantionDao
             }
         }
 
-        public TransactionHistory GetTransactionHistory(string transactionId)
+        public TransactionHistory GetTransactionHistory(int transactionId)
         {
-            var data = this.context.TransactionHistories.FirstOrDefault(x => x.TransactionId.Equals(transactionId));
+            var data = this.context.TransactionHistories.FirstOrDefault(x => x.TransactionId == transactionId);
             return data;
         }
     }
