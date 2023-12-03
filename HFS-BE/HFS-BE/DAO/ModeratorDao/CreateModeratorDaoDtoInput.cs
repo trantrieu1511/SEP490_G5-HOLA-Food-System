@@ -37,6 +37,11 @@ namespace HFS_BE.DAO.ModeratorDao
 		public string ModId { get; set; }
 		public bool? IsBanned { get; set; }
 	}
+	public class BanAccountantDtoinput : BaseInputDto
+	{
+		public string AccountantId { get; set; }
+		public bool? IsBanned { get; set; }
+	}
 	public class UpdateModeratorDtoinput : BaseInputDto
 	{
 		public string ModId { get; set; }

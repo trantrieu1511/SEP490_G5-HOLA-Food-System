@@ -392,7 +392,8 @@ namespace HFS_BE.Automapper
             CreateMap<PostModerator, PostModeratorDtoOutput>();
             CreateMap<MenuModerator, MenuModeratorDtoOutput>();
             CreateMap<MenuModerator, MenuModeratorDtoOutput>();
-            CreateMap<CreateModerator, CreateModeratorDaoDtoInput>();
+			CreateMap<Accountant, AccountantDtoOutput>();
+			CreateMap<CreateModerator, CreateModeratorDaoDtoInput>();
             CreateMap<CustomerBan, BanHistoryCustomerDtoOutput>();
             CreateMap<Invitation, InvitationShipperDtoOutput>()
                 .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.Shipper.FirstName + " " + src.Shipper.LastName))
