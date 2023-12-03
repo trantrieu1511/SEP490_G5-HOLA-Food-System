@@ -48,6 +48,21 @@ namespace HFS_BE.Controllers.ManageUser.ManageModerator
 				throw;
 			}
 		}
+		[HttpPost("users/listaccountant")]
+		[Authorize(Roles = "AD")]
+		public ListAccountantsDtoOutput Listaccountant()
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ModeratorBusinessLogic>();
+				var output = business.ListAccountants();
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
 		[HttpPost("users/addpostmoderator")]
 		[Authorize(Roles = "AD")]
 		public BaseOutputDto AddPostModerator(CreateModerator input)
@@ -56,6 +71,21 @@ namespace HFS_BE.Controllers.ManageUser.ManageModerator
 			{
 				var business = this.GetBusinessLogic<ModeratorBusinessLogic>();
 				var output = business.AddPostModerator(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+		[HttpPost("users/addaccountants")]
+		[Authorize(Roles = "AD")]
+		public BaseOutputDto AddAccountants(CreateModerator input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ModeratorBusinessLogic>();
+				var output = business.AddAccountants(input);
 				return output;
 			}
 			catch (Exception ex)
@@ -86,6 +116,21 @@ namespace HFS_BE.Controllers.ManageUser.ManageModerator
 			{
 				var business = this.GetBusinessLogic<ModeratorBusinessLogic>();
 				var output = business.BanMenuModerator(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+		[HttpPost("users/banaccountant")]
+		[Authorize(Roles = "AD")]
+		public BaseOutputDto BanAccountant(BanAccountantDtoinput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ModeratorBusinessLogic>();
+				var output = business.BanAccountants(input);
 				return output;
 			}
 			catch (Exception ex)

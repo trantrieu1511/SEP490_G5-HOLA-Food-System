@@ -136,7 +136,14 @@ export class MenuDataService {
             badgeClass: 'p-badge-info',
           }
 
-          , {
+          ,  {
+            label: 'Accountant Management',
+            icon: 'pi pi-fw pi-users',
+            routerLink: ['/HFSBusiness/admin/accountant'],
+            badgeClass: 'p-badge-info',
+          }
+
+          ,{
             label: 'Report Seller Management',
             icon: 'pi pi-fw pi-align-justify',
             class:'fa-solid fa-truck-fast',

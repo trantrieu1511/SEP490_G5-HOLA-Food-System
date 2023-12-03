@@ -101,8 +101,11 @@ export class API_MANAGE{
     public static ADD_PM = "addpostmoderator";
     public static BAN_PM = "banpostmoderator";
     public static LIST_MM = "listmenumoderator";
+    public static LIST_AC = "listaccountant";
     public static ADD_MM = "addmenumoderator";
+    public static ADD_AC = "addaccountants";
     public static BAN_MM = "banmenumoderator";
+    public static BAN_AC = "banaccountant";
     public static LIST_CATEGORY = "getallcategory";
     public static EDIT_CATE = "updateCategory";
     public static ADD_CATE = "createcategory";
