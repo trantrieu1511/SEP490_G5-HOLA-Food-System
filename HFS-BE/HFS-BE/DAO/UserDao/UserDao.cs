@@ -100,6 +100,14 @@ namespace HFS_BE.DAO.UserDao
                 switch (userRole)
                 {
                     case "CU":
+                        // Check truong hop so dien thoai da ton tai trong db (So dt bi trung)
+                        var cus = context.Customers.SingleOrDefault(cu => cu.CustomerId.Equals(userId) == false
+                        && cu.PhoneNumber.Equals(inputDto.PhoneNumber));
+                        if (cus != null)
+                        {
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, "Notification", "The phone number has already been used.");
+                        }
+
                         //Tim trong context profile cua user theo id
                         var customer = context.Customers.SingleOrDefault(
                         cu => cu.CustomerId.Equals(userId));
@@ -744,12 +752,12 @@ namespace HFS_BE.DAO.UserDao
                                 x => x.ModId.Equals(inputDto.UserId)
                             );
                         break;
-					case "AC":
-						user = context.Accountants.FirstOrDefault(
-								x => x.AccountantId.Equals(inputDto.UserId)
-							);
-						break;
-				}
+                    case "AC":
+                        user = context.Accountants.FirstOrDefault(
+                                x => x.AccountantId.Equals(inputDto.UserId)
+                            );
+                        break;
+                }
 
                 if (user == null)
                 {

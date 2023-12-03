@@ -330,7 +330,12 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
 
         } else {
           console.log(response);
-          console.log(response.message);
+          // console.log(response.message);
+          if(response.errors){
+            this.showMessage(mType.error, response.message
+            , response.errors.systemErrors, 'notify');  
+            return;
+          }
           this.showMessage(mType.error, 'Notification'
             , 'Profile information update failed.', 'notify');
         }
