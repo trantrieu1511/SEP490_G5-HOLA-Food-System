@@ -189,6 +189,8 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
       }
       try {
         //
+
+        debugger
         this.service.loginnotcus(this.form.value).subscribe(res => {
           if(res===undefined&&this.user===null){
             this.refreshCaptcha();
@@ -202,6 +204,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
                 this.router.navigateByUrl('/homepage');
                 break;
               case "AD":
+               case "AC":
               case "SE":
               case "SH":
               case "PM":

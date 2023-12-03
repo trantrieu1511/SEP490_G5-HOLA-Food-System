@@ -4,5 +4,6 @@ export const RoleNames: { [key: string]: string } = {
     "CU": "Customer",
     "SH": "Shipper",
     "PM": "PostModerator",
-    "MM": "MenuModerator"
+    "MM": "MenuModerator",
+    "AC": "Accountant"
   };
