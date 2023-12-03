@@ -207,8 +207,9 @@
     <ng-template pTemplate="VerifyPhonenumber">
         <!-- <div class="formgrid grid"> -->
         <div class="field">
-            <label for="otpHayGiDay">OTP(4 digit code):<span style="color: red;">*</span></label>
-            <input type="number" pInputText id="otpHayGiDay" placeholder="Enter Your OTP" maxlength="4"  [(ngModel)]="verifyOtp"/>
+            <label for="otpHayGiDay">OTP(4 digit code): <span style="color: red;">*</span></label>
+            <input type="number" pInputText id="otpHayGiDay" placeholder="Enter Your OTP" maxlength="4"
+                [(ngModel)]="verifyOtp" />
         </div>
         <!-- </div> -->
     </ng-template>
@@ -218,6 +219,93 @@
             (click)="this.isVisibleVerifyPhoneNumberModal = false"></button>
         <button pButton pRipple label="Submit" (click)="verifyPhonenumber();"></button>
     </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="isVisibleEditLicenseDialog" [style]="{ width: '700px' }" header="Edit your license"
+    [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="EditLicense">
+        <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+            <p-table [value]="licenseImages" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Size</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-licenseImage>
+                    <tr>
+                        <td>{{licenseImage.imageLicenseId}}</td>
+                        <td><p-image width="200" height="165" src="data:image/gif;base64,{{licenseImage.imageBase64}}"
+                                [preview]="true" [alt]="licenseImage.imageLicenseId"
+                                class="dialogimages_image w-10rem shadow-2"></p-image></td>
+                        <td>{{licenseImage.name}}</td>
+                        <td>{{licenseImage.size}} KB</td>
+
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">No license yet.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+            <hr>
+
+            <label>Images <span style="color: red;">*</span></label>
+            <span class="p-input-icon-left p-float-label" style="width: 100%">
+                <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
+                    <ng-template pTemplate="content">
+                        <ul *ngIf="foodModel.images.length">
+                        </ul>
+                    </ng-template>
+                </p-fileUpload> -->
+                <p-fileUpload class=" w-full" #fileUploader [files]="uploadedFiles" [customUpload]="true"
+                    (onSelect)="handleLicenseFileSelection($event)" (onRemove)="handleFileRemoval($event)"
+                    (onClear)="handleAllFilesClear($event)" [multiple]="true" accept="image/*" [maxFileSize]="1000000"
+                    [showUploadButton]="false">
+                    <ng-template pTemplate="content">
+                        <!-- <ul *ngIf="uploadedFiles.length > 0">
+                            <li *ngFor="let file of uploadedFiles">{{ file.name }}</li>
+                        </ul> -->
+                    </ng-template>
+                </p-fileUpload>
+            </span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+            (click)="this.isVisibleEditLicenseDialog = false"></button>
+        <button pButton pRipple label="Save" (click)="editLicense();"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="List license images" [(visible)]="visibleLicenseImageDialog" [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false" [maximizable]="true">
+    <p-table [value]="licenseImages" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Size</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-licenseImage>
+            <tr>
+                <td>{{licenseImage.imageLicenseId}}</td>
+                <td><p-image src="data:image/gif;base64,{{licenseImage.imageBase64}}" [preview]="true"
+                        [alt]="licenseImage.imageLicenseId" class="dialogimages_image w-10rem shadow-2"></p-image></td>
+                <td>{{licenseImage.name}}</td>
+                <td>{{licenseImage.size}} KB</td>
+
+            </tr>
+        </ng-template>
+    </p-table>
 </p-dialog>
 
 
@@ -265,171 +353,209 @@
     </div>
 
     <div class="card main-body">
-        <h2>My profile</h2>
-        <hr>
+        <h2 style="margin-bottom: 3%;">My profile</h2>
+        <!-- <hr> -->
         <div class="grid grid-nogutter">
-            <div class="col-5 md:col-5" style="margin-left: 3%;">
-                <!-- <h5>Avatar</h5> -->
-                <img src="{{!isLoggedIn || profileImage.imageBase64 == undefined ? '../../../../../assets/image/user.png' : 'data:image/gif;base64,' + profileImage.imageBase64}}"
-                    width="150" height="150" style="border-radius: 50%;" />
-                <br><br>
-                <!-- <p-button >import img</p-button> -->
-                <p-fileUpload [files]="uploadedFiles" mode="basic"
-                    [chooseLabel]="profileImage.imageBase64 == undefined ? 'Add profile image':'Edit profile image'"
-                    name="demo[]" [showUploadButton]="false" [customUpload]="true" accept="image/*"
-                    [maxFileSize]="1000000" (onSelect)="handleFileSelection($event);" [auto]="true"></p-fileUpload>
+            <div class="col-5 md:col-5">
+                <div class="profile-image-area">
+                    <!-- <h5>Avatar</h5> -->
+                    <img src="{{!isLoggedIn || profileImage.imageBase64 == undefined ? '../../../../../assets/image/user.png' : 'data:image/gif;base64,' + profileImage.imageBase64}}"
+                        width="150" height="150" style="border-radius: 50%;" />
+                    <br><br>
+                    <!-- <p-button >import img</p-button> -->
+                    <p-fileUpload [files]="uploadedFiles" mode="basic"
+                        [chooseLabel]="profileImage.imageBase64 == undefined ? 'Add profile image':'Edit profile image'"
+                        name="demo[]" [showUploadButton]="false" [customUpload]="true" accept="image/*"
+                        [maxFileSize]="1000000" (onSelect)="handleFileSelection($event);" [auto]="true"></p-fileUpload>
+                    <!-- <br><br> -->
+                </div>
 
-                <!-- <p-button (onClick)="showUploadedFiles();">Show files uploaded</p-button> -->
-            </div>
-            <div class="col-6 md:col-6">
+
+                <div style="margin-top: 3%;"></div>
+
+                <!-- <div>More</div> -->
+                <div *ngIf="role == 'SE' && !profileDisplay.isVerified">
+                    <p-button [text]="true" (onClick)="openEditLicenseDialog();">Edit my license</p-button>
+                    <!-- <br> -->
+                </div>
                 <div>
-                    <div style="display: flex;">
-                        <p class="field-title">UserId: </p>
-                        <p class="field-info">{{profileDisplay.userId}}</p>
-                    </div>
-                    <hr>
+                    <p-button *ngIf="profileDisplay.confirmedEmail" (click)="openVerifyIdentityModal();"
+                        [text]="true">Change password</p-button>
                 </div>
-                <div *ngIf="this.authService.getUserInfor().role != 'SE'">
-                    <div style="display: flex;">
-                        <p class="field-title">Last name: </p>
-                        <p class="field-info">{{profileDisplay.lastName}}</p>
-                    </div>
-                    <hr>
-                </div>
-                <div *ngIf="this.authService.getUserInfor().role != 'SE'">
-                    <div style="display: flex;">
-                        <p class="field-title">First name: </p>
-                        <p class="field-info">{{profileDisplay.firstName}}</p>
-                        <!-- Interpolation: Thường được dùng để hiển thị dữ liệu từ file ts lên template. Syntax: {{ expression }} -->
-                    </div>
-                    <hr>
-                </div>
-                <div *ngIf="this.authService.getUserInfor().role != 'SE'">
-                    <div style="display: flex;">
-                        <p class="field-title">Gender: </p>
-                        <p class="field-info">{{profileDisplay.gender == undefined ?
-                            'None. Use the edit function to enter your gender'
-                            : profileDisplay.gender}}</p>
-                    </div>
-                    <hr>
-                </div>
-                <div *ngIf="this.authService.getUserInfor().role != 'SE'">
-                    <div style="display: flex;">
-                        <p class="field-title">Birth date: </p>
-                        <p class="field-info">{{profileDisplay.birthDate == undefined ?
-                            'None. Use the edit function to enter your birth date'
-                            : profileDisplay.birthDate}}</p>
-                    </div>
-                    <hr>
-                </div>
-                <div style="display: flex;">
-                    <p class="field-title">Email: </p>
-                    <!-- <div class="field-info" *ngIf="profileDisplay.email != undefined else RegisterEmail"> -->
-                    <div class="field-info">
-                        {{profileDisplay.email}}
-                        <!-- <div>
-                            <a style="color: #6366F1;" class="edit-email-link" href="#"
-                                onClick="event.preventDefault();" (click)="doSomething();">Edit email</a>
-                        </div> -->
+            </div>
 
-                        <!-- <div *ngIf="!profileDisplay.confirmedEmail && role == 'CU' ||
-                            !profileDisplay.confirmedEmail && role == 'SE' ||
-                            !profileDisplay.confirmedEmail && role == 'SH'">
-                            <a class="verify-email-link" (click)="confirm(profileDisplay.email);">Verify email</a>
-                        </div> -->
-                        <div *ngIf="profileDisplay.confirmedEmail && role == 'CU'
-                            || profileDisplay.confirmedEmail && role == 'SE'
-                            || profileDisplay.confirmedEmail && role == 'SH'">
-                            <p style="color: rgb(23, 170, 23);">Email has been verified</p>
+            <div class="col-7 md:col-7">
+                <div class="profile-info-area">
+                    <!-- <div *ngIf="role != 'SE'"> -->
+                        <div style="display: flex;">
+                            <p class="field-title">Id: </p>
+                            <p class="field-info">{{profileDisplay.userId}}</p>
                         </div>
+                        <hr>
+                    <!-- </div> -->
+                    <div *ngIf="role != 'SE'">
+                        <div style="display: flex;">
+                            <p class="field-title">Last name: </p>
+                            <p class="field-info">{{profileDisplay.lastName}}</p>
+                        </div>
+                        <hr>
                     </div>
-                    <!-- <ng-template #RegisterEmail>
-                        <p class="field-info"><p-button [text]="true">Add an email</p-button></p>
-                    </ng-template> -->
-                </div>
-                <hr>
-                <div style="display: flex;">
-                    <p class="field-title">Phone number: </p>
-                    <!-- <p class="field-info" *ngIf="profileDisplay.phoneNumber != undefined else RegisterPhoneNumber"> -->
-                    <div class="field-info">
-                        {{profileDisplay.phoneNumber == undefined ?
-                        'None. Use the edit function to enter your phone number'
-                        : profileDisplay.phoneNumber }}
-                        <!-- <p-button [text]="true" (onClick)="verifyPhonenumber();">verify phonenumber</p-button> -->
-                        <div>
-                            <a  *ngIf="this.authService.getUserInfor().role === 'CU'&&!profileDisplay.isPhoneVerified" style="color: #6366F1;" class="edit-email-link" href="#"
-                                onClick="event.preventDefault();" (click)="openVerifyPhonenumberModal(profileDisplay.phoneNumber);">Verify Phonenumber</a>
+                    <div *ngIf="role != 'SE'">
+                        <div style="display: flex;">
+                            <p class="field-title">First name: </p>
+                            <p class="field-info">{{profileDisplay.firstName}}</p>
+                            <!-- Interpolation: Thường được dùng để hiển thị dữ liệu từ file ts lên template. Syntax: {{ expression }} -->
                         </div>
-                           <div *ngIf="profileDisplay.isPhoneVerified && role == 'CU'
-            ">
-                            <p style="color: rgb(23, 170, 23);">PhoneNumber has been verified</p>
-                        </div>
+                        <hr>
                     </div>
-                    <!-- <ng-template #RegisterPhoneNumber>
-                        <p class="field-info"><p-button [text]="true" (onclick)="doSomething();">Add a
-                                phonenumber</p-button></p>
-                    </ng-template> -->
+                    <div *ngIf="role != 'SE'">
+                        <div style="display: flex;">
+                            <p class="field-title">Gender: </p>
+                            <p class="field-info">{{profileDisplay.gender == undefined ?
+                                'None. Use the edit function to enter your gender'
+                                : profileDisplay.gender}}</p>
+                        </div>
+                        <hr>
+                    </div>
+                    <div *ngIf="role != 'SE'">
+                        <div style="display: flex;">
+                            <p class="field-title">Birth date: </p>
+                            <p class="field-info">{{profileDisplay.birthDate == undefined ?
+                                'None. Use the edit function to enter your birth date'
+                                : profileDisplay.birthDate}}</p>
+                        </div>
+                        <hr>
+                    </div>
+                    <div style="display: flex;">
+                        <p class="field-title">Email: </p>
+                        <!-- <div class="field-info" *ngIf="profileDisplay.email != undefined else RegisterEmail"> -->
+                        <div class="field-info">
+                            {{profileDisplay.email}}
+                            <!-- <div>
+                                <a style="color: #6366F1;" class="edit-email-link" href="#"
+                                    onClick="event.preventDefault();" (click)="doSomething();">Edit email</a>
+                            </div> -->
 
-                    <!-- <a style="width: 50%;">Add a phone number</a> -->
-                </div>
-                <hr>
-                <!-- <div style="display: flex;">
-                    <p style="width: 50%;">Walletbalance: </p>
-                    <p style="width: 50%;">{{profileDisplay.walletBalance == null ? "0": profileDisplay.walletBalance}}
-                    </p>
-                </div> -->
-                <!-- <hr> -->
-
-                <div *ngIf="role == 'SE'">
-                    <div style="display: flex;">
-                        <p class="field-title">Shop name: </p>
-                        <p class="field-info">{{profileDisplay.shopName == undefined ?
-                            'None. Use the edit function to enter your shop name'
-                            : profileDisplay.shopName}} </p>
+                            <!-- <div *ngIf="!profileDisplay.confirmedEmail && role == 'CU' ||
+                                !profileDisplay.confirmedEmail && role == 'SE' ||
+                                !profileDisplay.confirmedEmail && role == 'SH'">
+                                <a class="verify-email-link" (click)="confirm(profileDisplay.email);">Verify email</a>
+                            </div> -->
+                            <div *ngIf="profileDisplay.confirmedEmail && role == 'CU'
+                                || profileDisplay.confirmedEmail && role == 'SE'
+                                || profileDisplay.confirmedEmail && role == 'SH'">
+                                <p style="color: rgb(23, 170, 23);">Email has been verified</p>
+                            </div>
+                        </div>
+                        <!-- <ng-template #RegisterEmail>
+                            <p class="field-info"><p-button [text]="true">Add an email</p-button></p>
+                        </ng-template> -->
                     </div>
                     <hr>
-                </div>
-                <div *ngIf="role == 'SE'">
                     <div style="display: flex;">
-                        <p class="field-title">Shop address: </p>
-                        <p class="field-info">{{profileDisplay.shopAddress == undefined ?
-                            'None. Use the edit function to enter your shop address'
-                            : profileDisplay.shopAddress}} </p>
-                    </div>
-                    <hr>
-                </div>
-                <div *ngIf="role == 'SH'">
-                    <div style="display: flex;">
-                        <p class="field-title">Manage by: </p>
-                        <p class="field-info">{{profileDisplay.manageBy == undefined ?
-                            'None. You can accept a work invitation from a seller to be managed by them' :
-                            profileDisplay.manageBy}} </p>
-                    </div>
-                    <hr>
-                </div>
-                <div *ngIf="role == 'SE' || role == 'SH'">
-                    <div style="display: flex;">
-                        <p class="field-title">Verified: </p>
+                        <p class="field-title">Phone number: </p>
                         <!-- <p class="field-info" *ngIf="profileDisplay.phoneNumber != undefined else RegisterPhoneNumber"> -->
-                        <p class="field-info">
-                            <span>
-                                <i *ngIf="profileDisplay.isVerified" class="pi pi-verified"
-                                    style="color: green; font-size: large;"></i>
-                            </span>
-                            <span *ngIf="!profileDisplay.isVerified" style="color: red;">
-                                Not verified
-                            </span>
-                        </p>
-                    </div>
-                </div>
+                        <div class="field-info">
+                            {{profileDisplay.phoneNumber == undefined ?
+                            'None. Use the edit function to enter your phone number'
+                            : profileDisplay.phoneNumber }}
+                            <!-- <p-button [text]="true" (onClick)="verifyPhonenumber();">verify phonenumber</p-button> -->
+                            <div *ngIf="!profileDisplay.isPhoneVerified && role == 'CU'">
+                                <div>
+                                    <a style="color: #6366F1;" class="edit-phonenumber-link" href="#"
+                                        onClick="event.preventDefault();"
+                                        (click)="openVerifyPhonenumberModal(profileDisplay.phoneNumber);">verify
+                                        phonenumber</a>
+                                </div>
+                                <div>
+                                    <p style="color: red;">Not verified</p>
+                                </div>
+                            </div>
+                            <div *ngIf="profileDisplay.isPhoneVerified && role == 'CU'">
+                                <p style="color: rgb(23, 170, 23);">Phonenumber has been verified</p>
+                            </div>
+                        </div>
+                        <!-- <ng-template #RegisterPhoneNumber>
+                            <p class="field-info"><p-button [text]="true" (onclick)="doSomething();">Add a
+                                    phonenumber</p-button></p>
+                        </ng-template> -->
 
-                <p-button (click)="openSellerEditProfileDiaglog();"
-                    *ngIf="role == 'SE' else openOthersEditProfileDialogBtn">Edit</p-button>
-                <ng-template #openOthersEditProfileDialogBtn>
-                    <p-button (click)="openOthersEditProfileDiaglog();">Edit</p-button>
-                </ng-template>
-                &nbsp;
-                <p-button (click)="openVerifyIdentityModal();" [text]="true">Change password</p-button>
+                        <!-- <a style="width: 50%;">Add a phone number</a> -->
+                    </div>
+                    <hr>
+                    <!-- <div style="display: flex;">
+                        <p style="width: 50%;">Walletbalance: </p>
+                        <p style="width: 50%;">{{profileDisplay.walletBalance == null ? "0": profileDisplay.walletBalance}}
+                        </p>
+                    </div> -->
+                    <!-- <hr> -->
+
+                    <div *ngIf="role == 'SE'">
+                        <div style="display: flex;">
+                            <p class="field-title">Shop name: </p>
+                            <p class="field-info">{{profileDisplay.shopName == undefined ?
+                                'None. Use the edit function to enter your shop name'
+                                : profileDisplay.shopName}} </p>
+                        </div>
+                        <hr>
+                    </div>
+                    <div *ngIf="role == 'SE'">
+                        <div style="display: flex;">
+                            <p class="field-title">Shop address: </p>
+                            <p class="field-info">{{profileDisplay.shopAddress == undefined ?
+                                'None. Use the edit function to enter your shop address'
+                                : profileDisplay.shopAddress}} </p>
+                        </div>
+                        <hr>
+                    </div>
+                    <div *ngIf="role == 'SH'">
+                        <div style="display: flex;">
+                            <p class="field-title">Manage by: </p>
+                            <p class="field-info">{{profileDisplay.manageBy == undefined ?
+                                'None. You can accept a work invitation from a seller to be managed by them' :
+                                profileDisplay.manageBy}} </p>
+                        </div>
+                        <hr>
+                    </div>
+                    <div *ngIf="role == 'SE' || role == 'SH'">
+                        <div style="display: flex;">
+                            <p class="field-title">Verified: </p>
+                            <!-- <p class="field-info" *ngIf="profileDisplay.phoneNumber != undefined else RegisterPhoneNumber"> -->
+                            <p class="field-info">
+                                <span>
+                                    <i *ngIf="profileDisplay.isVerified" class="pi pi-verified"
+                                        style="color: green; font-size: large;"></i>
+                                </span>
+                                <span *ngIf="!profileDisplay.isVerified" style="color: red;">
+                                    Not verified
+                                </span>
+                            </p>
+                        </div>
+                        <hr>
+                    </div>
+                    <!-- <div *ngIf="role == 'SE'">
+                        <hr>
+                        <div style="display: flex;">
+                            <p class="field-title">Business License: </p>
+                            <p class="field-info"> -->
+                    <!-- <ng-container *ngIf="profileDisplay.imagesBase64.length !== 0; else noneImage" >
+                                    <button pButton pRipple icon="pi pi-images"
+                                            (click)="onDisplayImagesDialog(food, $event)"
+                                            class="p-button-rounded p-button-text p-button-raised"></button>
+                                </ng-container>
+                                <ng-template #noneImage ><span class="no-image">No Image</span></ng-template> -->
+                    <!-- </p>
+                        </div>
+                    </div> -->
+
+                    <a class="btn-edit-profile" (click)="openSellerEditProfileDiaglog();" href="javascript:void(0);"
+                        *ngIf="role == 'SE' else openOthersEditProfileDialogBtn"><i class="pi pi-pencil"></i> Edit</a>
+                    <ng-template #openOthersEditProfileDialogBtn>
+                        <i class="pi pi-pencil"></i><a class="btn-edit-profile" (click)="openOthersEditProfileDiaglog();"
+                            href="javascript:void(0);"><i class="pi pi-pencil"></i> Edit</a>
+                    </ng-template>
+                    <!-- &nbsp; -->
+                </div>
             </div>
         </div>
     </div>

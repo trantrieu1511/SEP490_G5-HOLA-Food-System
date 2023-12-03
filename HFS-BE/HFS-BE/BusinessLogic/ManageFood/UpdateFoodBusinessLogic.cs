@@ -143,6 +143,12 @@ namespace HFS_BE.BusinessLogic.ManageFood
             }
         }
 
+        /// <summary>
+        /// Add the images to the server's local path (Resource/...) and save it to db
+        /// </summary>
+        /// <param name="newImages"></param>
+        /// <param name="user"></param>
+        /// <param name="foodId"></param>
         private void SaveAndAddImage(IReadOnlyList<IFormFile> newImages, UserDto user, int foodId)
         {
             var fImageDao = CreateDao<FoodImageDao>();

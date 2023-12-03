@@ -114,6 +114,10 @@ namespace HFS_BE.DAO.UserDao
                         customer.Gender = inputDto.Gender;
                         customer.BirthDate = inputDto.BirthDate;
                         customer.PhoneNumber = inputDto.PhoneNumber;
+                        if (inputDto.IsNewPhonenumber)
+                        {
+                            customer.IsPhoneVerified = false;
+                        }
 
                         break;
                     case "SE":

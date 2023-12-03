@@ -241,7 +241,8 @@ namespace HFS_BE.DAO.AuthDAO
 					context.Add(new SellerLicenseImage
 					{
 						SellerId = user.SellerId,
-						Path = img
+						Path = img,
+						IsReplaced = false,
 					});
 					context.SaveChanges();
 				}

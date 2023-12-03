@@ -681,6 +681,7 @@ CREATE TABLE [dbo].[WalletTransferCode](
 	[imageLicenseId] [int] IDENTITY(1,1) NOT NULL  PRIMARY KEY,
 	[sellerId] [nvarchar](50) NOT NULL,
 	[path] [nvarchar](max) NULL,
+	[isReplaced] [bit] NOT NULL, -- 0: Tức là hình ảnh vẫn còn đang được sử dụng và chưa bị thay thế. 1: Hình ảnh đã bị thay thế bởi người dùng.
 	FOREIGN KEY([sellerId]) REFERENCES [dbo].[Seller] ([sellerId]),
 )
 

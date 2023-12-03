@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   iComponentBase,
+  iFunction,
   iServiceBase, mType,
   ShareData
 } from 'src/app/modules/shared-module/shared-module';
@@ -13,8 +14,8 @@ import {
   SelectItem,
   TreeNode
 } from "primeng/api";
-import { ChangePasswordInputValidation, EditProfileInputValidation, Profile, ProfileDisplay, ProfileImage, VerifyIdentityInputValidation } from './models/profile';
-import { FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
+import { ChangePasswordInputValidation, EditProfileInputValidation, LicenseImage, Profile, ProfileDisplay, ProfileImage, VerifyIdentityInputValidation } from './models/profile';
+import { FileRemoveEvent, FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
 import { Router } from '@angular/router';
 import { AppCustomerTopBarComponent } from 'src/app/app-systems/app-topbar/customer/app.topbar-cus.component';
 import { AuthService } from 'src/app/services/auth.service';
@@ -35,7 +36,8 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   uploadedFiles: File[] = [];
   profileImage: ProfileImage = new ProfileImage();
   profileModal: Profile = new Profile(); // instance dung de bind len modal
-  isVisibleVerifyPhoneNumberModal2 = false;
+  licenseImages: LicenseImage[] = [];
+
   // ------------- UI component variables ---------------
   isVisibleChangePasswordModal: boolean = false;
   isVisibleVerifyYourselfModal: boolean = false;
@@ -44,13 +46,18 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   isLoggedIn: boolean = false;
   selectedSideBarOption: boolean = true;
   isVisibleVerifyPhoneNumberModal: boolean = false;
+  isVisibleVerifyPhoneNumberModal2: boolean = false;
+  isVisibleEditLicenseDialog: boolean = false;
+  visibleLicenseImageDialog: boolean = false;
 
   // ------------- Validation variables --------------
   editProfileValidation: EditProfileInputValidation = new EditProfileInputValidation();
   changePasswordValidation: ChangePasswordInputValidation = new ChangePasswordInputValidation();
   verifyIdentityValidation: VerifyIdentityInputValidation = new VerifyIdentityInputValidation();
-phoneOtp:string;
-verifyOtp:string;
+
+  // ------- Verify phone number variables ---------
+  phoneOtp: string;
+  verifyOtp: string;
   role: string;
 
   constructor(
@@ -60,7 +67,8 @@ verifyOtp:string;
     private iServiceBase: iServiceBase,
     public router: Router,
     public authService: AuthService,
-    private el: ElementRef
+    private el: ElementRef,
+    private iFunction: iFunction
     // private appCustomerTopBarComponent: AppCustomerTopBarComponent
   ) {
     super(messageService);
@@ -117,6 +125,25 @@ verifyOtp:string;
   handleFileSelection($event: FileSelectEvent) {
     this.uploadedFiles = $event.currentFiles;
     this.importProfileImage();
+  }
+
+  handleLicenseFileSelection($event: FileSelectEvent) {
+    this.uploadedFiles = $event.currentFiles;
+    // this.importProfileImage();
+  }
+
+  handleFileRemoval(event: FileRemoveEvent) {
+    //console.log("remove", event.file.name);
+
+    this.uploadedFiles = this.uploadedFiles.filter(f => f.name !== event.file.name);
+    //console.log("uploadFiles", this.uploadedFiles);
+  }
+
+  handleAllFilesClear(event: Event) {
+    //console.log("clear", event);
+
+    this.uploadedFiles = [];
+    //console.log("uploadFiles", this.uploadedFiles);
   }
 
   // onUploadProfileImg($event: FileUploadEvent) {
@@ -267,7 +294,10 @@ verifyOtp:string;
   async editProfile() {
     if (this.validateEditProfileInput()) { // Validate before continuing to edit
       try {
-        //
+        let isNewPhonenumber = true; // Nguoi dung edit thong tin su dung so dien thoai moi
+        if (this.profile.phoneNumber == this.profileDisplay.phoneNumber) { // Nguoi dung van giu lai so cu
+          isNewPhonenumber = false;
+        }
         const inputData = {
           // userId: sessionStorage.getItem("userId"),
           firstName: this.profile.firstName,
@@ -276,7 +306,8 @@ verifyOtp:string;
           birthDate: this.profile.birthDate == '' ? null : this.profile.birthDate,
           phoneNumber: this.profile.phoneNumber,
           shopName: this.profile.shopName,
-          shopAddress: this.profile.shopAddress
+          shopAddress: this.profile.shopAddress,
+          isNewPhonenumber: isNewPhonenumber
         }
         // console.log(inputData);
         let response = await this.iServiceBase.putDataAsync(API.PHAN_HE.USER, API.API_USER.EDITPROFILE, inputData);
@@ -373,6 +404,7 @@ verifyOtp:string;
 
     this.isVisibleOthersEditProfileDialog = true;
   }
+
   openSellerEditProfileDiaglog() {
     this.profile = Object.assign({}, this.profileModal);
 
@@ -581,25 +613,25 @@ verifyOtp:string;
   // }
 
 
-  async openVerifyPhonenumberModal(phone:string) {
+  async openVerifyPhonenumberModal(phone: string) {
     this.isVisibleVerifyPhoneNumberModal = true;
-    this.phoneOtp=phone;
+    this.phoneOtp = phone;
     const param = {
       "phoneNumber": phone
     }
-    try{
+    try {
       // let response ;
-    let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_USER.SEND_OTP, param);
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_USER.SEND_OTP, param);
 
-    if (response && response.message === 'Success') {
-      this.isVisibleVerifyPhoneNumberModal = true;
-      this.showMessage(
-        mType.success,
-        'Notification',
-        'Send OTP successfully',
-        'notify'
-      );
-      }else{
+      if (response && response.message === 'Success') {
+        this.isVisibleVerifyPhoneNumberModal = true;
+        this.showMessage(
+          mType.success,
+          'Notification',
+          'Send OTP successfully',
+          'notify'
+        );
+      } else {
         this.showMessage(
           mType.error,
           'Notification',
@@ -607,17 +639,17 @@ verifyOtp:string;
           'notify'
         );
       }
-    }catch (e) {
-        console.log(e);
-        this.showMessage(
-          mType.error,
-          'Notification',
-          'System error',
-          'notify'
-        );
-      }
+    } catch (e) {
+      console.log(e);
+      this.showMessage(
+        mType.error,
+        'Notification',
+        'System error',
+        'notify'
+      );
+    }
 
-   // this.isVisibleVerifyPhoneNumberModal = true;
+    // this.isVisibleVerifyPhoneNumberModal = true;
   }
   isValidOTP(): boolean {
     return this.verifyOtp.length === 4;
@@ -625,20 +657,20 @@ verifyOtp:string;
   async verifyPhonenumber() {
     const param = {
       "phoneNumber": this.phoneOtp,
-      "otp":  this.verifyOtp
+      "otp": this.verifyOtp
     }
-    try{
-    let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_USER.CHECK_OTP, param);
+    try {
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_USER.CHECK_OTP, param);
 
-    if (response && response.message === 'Success') {
-      this.isVisibleVerifyPhoneNumberModal = false;
-      this.showMessage(
-        mType.success,
-        'Notification',
-        'Verify OTP successfully',
-        'notify'
-      );
-      }else{
+      if (response && response.message === 'Success') {
+        this.isVisibleVerifyPhoneNumberModal = false;
+        this.showMessage(
+          mType.success,
+          'Notification',
+          'Verify OTP successfully',
+          'notify'
+        );
+      } else {
         this.showMessage(
           mType.error,
           'Notification',
@@ -646,16 +678,86 @@ verifyOtp:string;
           'notify'
         );
       }
-    }catch (e) {
-        console.log(e);
-        this.showMessage(
-          mType.error,
-          'Notification',
-          'System error',
-          'notify'
-        );
-      }
+    } catch (e) {
+      console.log(e);
+      this.showMessage(
+        mType.error,
+        'Notification',
+        'System error',
+        'notify'
+      );
+    }
 
+  }
+
+  async openEditLicenseDialog() {
+    this.uploadedFiles = [];
+    await this.getLicenseImage();
+    if (this.licenseImages) {
+      this.licenseImages.forEach(image => {
+        var fileimage = this.iFunction.convertImageBase64toFile(image.imageBase64, image.name);
+        this.uploadedFiles.push(fileimage);
+        //this.f_upload.files.push(fileimage);
+      });
+    }
+    this.isVisibleEditLicenseDialog = true;
+  }
+
+  async getLicenseImage() {
+    try {
+      let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.USER, API.API_USER.GETLICENSEIMAGE);
+
+      if (response && response.message === 'Success') {
+        this.licenseImages = response.licenseImages;
+        console.log(this.licenseImages);
+
+      } else {
+        if (response.message == 'The seller has no license images.') {
+          return;
+        }
+        this.showMessage(mType.error, 'Error', response.message, 'notify');
+        console.log(response);
+      }
+    } catch (e) {
+      // this.showMessage(mType.error, 'Error', e.message, 'notify');
+      console.log(e);
+      this.showMessage(mType.error, 'Error'
+        , 'System error, please contact admin for help.', 'notify');
+    }
+  }
+
+  async editLicense() {
+    // alert('Nut save da hoat dong');
+    try {
+      const param = new FormData();
+
+      this.uploadedFiles.forEach(file => {
+        param.append('images', file, file.name);
+      });
+
+      let response = await this.iServiceBase
+        .putDataAsync(API.PHAN_HE.USER, API.API_USER.EDITLICENSEIMAGE, param, true);
+
+      if (response && response.message === "Success") {
+        this.showMessage(mType.success, "Notification"
+          , "License image updated successfully", 'notify');
+
+        this.isVisibleEditLicenseDialog = false;
+
+        //lấy lại danh sách All
+        this.getLicenseImage();
+
+        //clear file upload
+        this.uploadedFiles = [];
+      } else {
+        // var messageError = this.iServiceBase.formatMessageError(response)
+        this.showMessage(mType.error, 'Error', response.message, 'notify');
+        console.log(response.message);
+      }
+    } catch (e) {
+      console.log(e);
+      this.showMessage(mType.error, 'Error', 'System error. Please contact admin for further help.', 'notify');
+    }
   }
 
 }
