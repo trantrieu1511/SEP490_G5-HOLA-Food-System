@@ -22,6 +22,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import { User } from 'src/app/services/auth.service';
 import { PresenceService } from 'src/app/services/presence.service';
 import { Category } from 'src/app/modules/admin-routing-module/models/Category';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'food-seller',
@@ -60,7 +61,8 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
               private iServiceBase: iServiceBase,
               private iFunction: iFunction,
               private fb: FormBuilder,
-              public presence: PresenceService
+              public presence: PresenceService,
+              public translate: TranslateService
               ) {
     super(messageService, breadcrumbService);
     this.foodForm = this.fb.group({
