@@ -73,6 +73,12 @@ namespace HFS_BE.DAO.UserDao
                             return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found.");
                         dataMapper = mapper.Map<MenuModerator, UserProfile>(menuModerator);
                         break;
+                    case "AC":
+                        var accountant = context.Accountants.SingleOrDefault(mm => mm.AccountantId.Equals(userId));
+                        if (accountant == null)
+                            return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found.");
+                        dataMapper = mapper.Map<Accountant, UserProfile>(accountant);
+                        break;
                     default:
                         return Output<UserProfileOutputDto>(Constants.ResultCdFail, "Some error occured. Debug BE for more info.");
                 }
@@ -215,6 +221,23 @@ namespace HFS_BE.DAO.UserDao
                         menuModerator.PhoneNumber = inputDto.PhoneNumber;
 
                         break;
+                    case "AC":
+                        //Tim trong context profile cua user theo id
+                        var accountant = context.Accountants.SingleOrDefault(
+                        mm => mm.AccountantId.Equals(userId));
+
+                        //Check user co ton tai hay khong
+                        if (accountant == null)
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, $"User with id: {userId} is not exist!");
+
+                        //Truong hop profile nguoi dung co ton tai thi cap nhat lai cac truong thong tin
+                        accountant.FirstName = inputDto.FirstName;
+                        accountant.LastName = inputDto.LastName;
+                        accountant.Gender = inputDto.Gender;
+                        accountant.BirthDate = inputDto.BirthDate;
+                        accountant.PhoneNumber = inputDto.PhoneNumber;
+
+                        break;
                     default:
                         return Output<UserProfileOutputDto>(Constants.ResultCdFail, "Some error occured. Debug BE for more info.");
                 }
@@ -290,6 +313,14 @@ namespace HFS_BE.DAO.UserDao
                         {
                             var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.Password));
                             result = compute.SequenceEqual(menuMod.PasswordHash);
+                        }
+                        break;
+                    case "AC":
+                        var accountant = context.Accountants.SingleOrDefault(mm => mm.AccountantId.Equals(userId));
+                        using (HMACSHA256? hmac = new HMACSHA256(accountant.PasswordSalt))
+                        {
+                            var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.Password));
+                            result = compute.SequenceEqual(accountant.PasswordHash);
                         }
                         break;
                     default:
@@ -371,6 +402,14 @@ namespace HFS_BE.DAO.UserDao
                         {
                             menuMod.PasswordSalt = hmac.Key;
                             menuMod.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.NewPassword));
+                        }
+                        break;
+                    case "AC":
+                        var accountant = context.Accountants.SingleOrDefault(mm => mm.AccountantId.Equals(userId));
+                        using (HMACSHA256? hmac = new HMACSHA256())
+                        {
+                            accountant.PasswordSalt = hmac.Key;
+                            accountant.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.NewPassword));
                         }
                         break;
                     default:

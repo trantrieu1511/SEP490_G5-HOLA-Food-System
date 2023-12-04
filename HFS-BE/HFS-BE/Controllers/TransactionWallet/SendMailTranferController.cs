@@ -37,7 +37,7 @@ namespace HFS_BE.Controllers.TransactionWallet
 
                 if (!output.Success)
                 {
-                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                    return output;
                 }
 
                 var output2 = this.SendEmail2Async(userInfor.Email, "Hola Food Wallet Code", "This is your wallet code: " + code + "\nExpired date: " + expiredDate.ToString("dd/MM/yyyy hh:mm:ss"));

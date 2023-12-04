@@ -22,19 +22,30 @@
                                 <th pSortableColumn="note">Note</th>
                                 <th pSortableColumn="value">Value</th>
                                 <th pSortableColumn="createDate">CreateDate</th>
-                                <th>Action</th>
+                                <th *ngIf="tabIndex == 0">Action</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-item>
                             <tr>
-                                <td style="width: 18%; min-width: 7rem;">{{item.transactionId}}</td>
+                                <td style="width: 5%; min-width: 2rem;">{{item.transactionId}}</td>
                                 <td style="width: 18%; min-width: 7rem;">{{item.senderId}}</td>
                                 <td style="width: 18%; min-width: 7rem;">{{item.transactionType}}</td>
-                                <td style="width: 18%; min-width: 7rem;">{{item.note}}</td>
+                                <td style="width: 18%; min-width: 8rem;">{{item.note}}</td>
                                 <td style="width: 18%; min-width: 8rem;">{{item.value | currency:'VND'}}</td>
-                                <td style="width: 18%; min-width: 7rem;">{{item.createDate}}</td>
-                                <td>
-                                    
+                                <td style="width: 25%; min-width: 10rem;">{{item.createDate}}</td>
+                                <td *ngIf="tabIndex == 0">
+                                    <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+                                        <div class="flex align-items-center justify-content-center">
+                                            <button pButton pRipple icon="pi pi-check"
+                                                (click)="onAccept(item.transactionId, $event)"
+                                                    class="p-button-rounded p-mr-2" severity="success"></button>
+                                        </div>
+                                        <div class="flex align-items-center justify-content-center">
+                                            <button pButton pRipple icon="pi pi-times"
+                                            (click)="onReject(item.transactionId, $event)"
+                                                    class="p-button-rounded p-mr-2" severity="danger"></button>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         </ng-template>
@@ -44,3 +55,8 @@
         </div>
     </div>
 </div>
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>
+
+<p-confirmPopup></p-confirmPopup>
+
+<p-confirmDialog key="uhideFood" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog>

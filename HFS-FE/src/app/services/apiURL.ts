@@ -267,4 +267,7 @@ export class API_WALLET {
     public static HISTORY = "history"
     public static SEND_CODE = "sendmail"
     public static VERIFY = "verifycode"
+    public static WITHDRAW = "withdraw"
+    public static UPDATE_WITHDRAW = "updatewithdrawstatus"
+    public static DASH_BOARD = "dashboard"
 }

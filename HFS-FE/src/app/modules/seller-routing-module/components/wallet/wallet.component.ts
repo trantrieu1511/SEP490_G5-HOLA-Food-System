@@ -10,6 +10,7 @@ import { async } from 'rxjs';
 import { GetTransactionHistoryInput } from '../../models/GetTransactionHistoryInput.model';
 import { PaymentInput } from '../../models/PaymentInput.model';
 import { VerifyCodeInput } from 'src/app/modules/customer-routing-module/models/VerifyCodeInput.model';
+import { CreateWithDrawRequestInput } from '../../models/CreateWithDrawRequestInput.model';
 
 @Component({
   selector: 'app-wallet',
@@ -32,6 +33,8 @@ export class WalletComponentSeller
   sellerId : string;
   TransferDialog : boolean = false;
   tranferInput : VerifyCodeInput = new VerifyCodeInput();
+  withDrawRequestDialog : boolean = false
+  withDrawRequestInput : CreateWithDrawRequestInput = new CreateWithDrawRequestInput();
   tabs: any = [
     { label: 'All', id: '0' },
     { label: 'Waiting', id: '1' },
@@ -124,7 +127,8 @@ export class WalletComponentSeller
         break;
       case 5:
         this.displayTransaction = this.transactionHistory
-        .filter(x => x.transactionType === "Transfer" && x.senderId === this.sellerId);
+        .filter(x => (x.transactionType === "Transfer" && x.senderId === this.sellerId)
+        || x.transactionType === "Withdraw");
         break;
     }
 
@@ -154,7 +158,7 @@ export class WalletComponentSeller
         this.showMessage(mType.success, "Notification", "Please check your code in your email!", 'notify');
       }
       else {
-        this.showMessage(mType.warn, "Notification", "Send code fail", 'notify');
+        this.showMessage(mType.warn, "Notification", response.message, 'notify');
       }
     } catch (e) {
       console.log(e);
@@ -199,11 +203,49 @@ export class WalletComponentSeller
     }
   }
 
+  async onSendRequest() {
+    try {
+      debugger
+      if (this.withDrawRequestInput.code.trim().length === 0){
+        this.showMessage(mType.warn, "Notification", "Code is required! Send code and check your mail!", 'notify');
+        return
+      }
+
+      if (this.withDrawRequestInput.value < 100000 ){
+        this.showMessage(mType.warn, "Notification", "Value must > 100000", 'notify');
+        return
+      }
+
+      if (this.withDrawRequestInput.value > this.balance){
+        this.showMessage(mType.warn, "Notification", "Your balance not enough!", 'notify');
+        return
+      }
+     
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.WALLET, API.API_WALLET.WITHDRAW, this.withDrawRequestInput);
+      if (response.success) {
+        this.showMessage(mType.success, "Notification", "Create Withdraw request success! Wait Accountant!", 'notify');
+        this.withDrawRequestDialog = false;
+        this.onGetHistory();
+        this.onGetBalance();
+      }
+      else {
+        this.showMessage(mType.warn, "Notification", response.message, 'notify');
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+
   onCloseCalendar(event: any) {
     this.onGetHistory();
   }
 
   onOpenTransfer() {
     this.TransferDialog = true;
+  }
+
+  openWithDrawRequest() {
+    this.withDrawRequestDialog = true;
   }
 }

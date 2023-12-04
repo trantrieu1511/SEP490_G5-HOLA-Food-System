@@ -348,6 +348,8 @@ namespace HFS_BE.Automapper
             CreateMap<MenuModerator, UserProfile>()
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
             //.ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => DateOnly.FromDateTime(Convert.ToDateTime(src.BirthDate))));
+            CreateMap<Accountant, UserProfile>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.AccountantId));
 
         }
 

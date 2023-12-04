@@ -59,6 +59,9 @@ export class AppMenuComponent implements OnInit {
         case "MenuModerator":
             this.model = this.menuService.menusMenuModerator();
             break;
+        case "Accountant":
+            this.model = this.menuService.menuAccountant();
+            break;    
         default:
             this.model = [];
             break;

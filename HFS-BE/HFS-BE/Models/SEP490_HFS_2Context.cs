@@ -69,7 +69,7 @@ namespace HFS_BE.Models
             {
                 entity.ToTable("Accountant");
 
-                entity.HasIndex(e => e.Email, "UQ__Accounta__AB6E6164F5666559")
+                entity.HasIndex(e => e.Email, "UQ__Accounta__AB6E616489AD2F36")
                     .IsUnique();
 
                 entity.Property(e => e.AccountantId)
@@ -129,7 +129,7 @@ namespace HFS_BE.Models
             {
                 entity.ToTable("Admin");
 
-                entity.HasIndex(e => e.Email, "UQ__Admin__AB6E616426B57D48")
+                entity.HasIndex(e => e.Email, "UQ__Admin__AB6E61640CE50BE5")
                     .IsUnique();
 
                 entity.Property(e => e.AdminId)
@@ -187,7 +187,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<CartItem>(entity =>
             {
                 entity.HasKey(e => new { e.FoodId, e.CartId })
-                    .HasName("PK__CartItem__E3FF5A028935C5C6");
+                    .HasName("PK__CartItem__E3FF5A028E574294");
 
                 entity.ToTable("CartItem");
 
@@ -228,7 +228,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<ChatMessage>(entity =>
             {
                 entity.HasKey(e => e.MessageId)
-                    .HasName("PK__ChatMess__C87C0C9C1D5A6193");
+                    .HasName("PK__ChatMess__C87C0C9C593711F9");
 
                 entity.ToTable("ChatMessage");
 
@@ -305,7 +305,7 @@ namespace HFS_BE.Models
             {
                 entity.ToTable("Customer");
 
-                entity.HasIndex(e => e.Email, "UQ__Customer__AB6E61640FE9A449")
+                entity.HasIndex(e => e.Email, "UQ__Customer__AB6E6164BB30321F")
                     .IsUnique();
 
                 entity.Property(e => e.CustomerId)
@@ -377,7 +377,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FeedBackImage>(entity =>
             {
                 entity.HasKey(e => e.ImagefeedbackId)
-                    .HasName("PK__FeedBack__0AC9DBC46AFB8D37");
+                    .HasName("PK__FeedBack__0AC9DBC45A076EF8");
 
                 entity.ToTable("FeedBackImage");
 
@@ -440,7 +440,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FeedbackReply>(entity =>
             {
                 entity.HasKey(e => e.ReplyId)
-                    .HasName("PK__Feedback__36BBF688F5790D06");
+                    .HasName("PK__Feedback__36BBF6885A91A50F");
 
                 entity.ToTable("FeedbackReply");
 
@@ -488,7 +488,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FeedbackVote>(entity =>
             {
                 entity.HasKey(e => e.VoteId)
-                    .HasName("PK__Feedback__78F0B9F3F67CF290");
+                    .HasName("PK__Feedback__78F0B9F32AB49FE9");
 
                 entity.ToTable("FeedbackVote");
 
@@ -581,7 +581,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<FoodImage>(entity =>
             {
                 entity.HasKey(e => e.ImageId)
-                    .HasName("PK__FoodImag__336E9B551CC49A6A");
+                    .HasName("PK__FoodImag__336E9B55B6718F13");
 
                 entity.ToTable("FoodImage");
 
@@ -600,7 +600,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<Group>(entity =>
             {
                 entity.HasKey(e => e.Name)
-                    .HasName("PK__Groups__737584F74FC76002");
+                    .HasName("PK__Groups__737584F70F5BC882");
 
                 entity.Property(e => e.Name).HasMaxLength(150);
             });
@@ -633,11 +633,11 @@ namespace HFS_BE.Models
             modelBuilder.Entity<MenuModerator>(entity =>
             {
                 entity.HasKey(e => e.ModId)
-                    .HasName("PK__MenuMode__0B7D023B0C118163");
+                    .HasName("PK__MenuMode__0B7D023BC0E14BD2");
 
                 entity.ToTable("MenuModerator");
 
-                entity.HasIndex(e => e.Email, "UQ__MenuMode__AB6E61644945ACCB")
+                entity.HasIndex(e => e.Email, "UQ__MenuMode__AB6E6164B381F8FF")
                     .IsUnique();
 
                 entity.Property(e => e.ModId)
@@ -704,7 +704,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<MenuReport>(entity =>
             {
                 entity.HasKey(e => new { e.FoodId, e.ReportBy })
-                    .HasName("PK__MenuRepo__C62346BB1B5D431A");
+                    .HasName("PK__MenuRepo__C62346BB687E2DB1");
 
                 entity.ToTable("MenuReport");
 
@@ -753,7 +753,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<Notification>(entity =>
             {
                 entity.HasKey(e => new { e.Id, e.Lang })
-                    .HasName("PK__Notifica__18576647D0E8647D");
+                    .HasName("PK__Notifica__18576647933A23C2");
 
                 entity.ToTable("Notification");
 
@@ -852,7 +852,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<OrderDetail>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.FoodId })
-                    .HasName("PK__OrderDet__8F779DFE7C1E574F");
+                    .HasName("PK__OrderDet__8F779DFEEF03DE29");
 
                 entity.ToTable("OrderDetail");
 
@@ -977,7 +977,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<PostImage>(entity =>
             {
                 entity.HasKey(e => e.ImageId)
-                    .HasName("PK__PostImag__336E9B553C6727D2");
+                    .HasName("PK__PostImag__336E9B555AA4403E");
 
                 entity.ToTable("PostImage");
 
@@ -996,11 +996,11 @@ namespace HFS_BE.Models
             modelBuilder.Entity<PostModerator>(entity =>
             {
                 entity.HasKey(e => e.ModId)
-                    .HasName("PK__PostMode__0B7D023BC1E7AA79");
+                    .HasName("PK__PostMode__0B7D023B9D388B10");
 
                 entity.ToTable("PostModerator");
 
-                entity.HasIndex(e => e.Email, "UQ__PostMode__AB6E61648C8A908D")
+                entity.HasIndex(e => e.Email, "UQ__PostMode__AB6E6164AB55F57A")
                     .IsUnique();
 
                 entity.Property(e => e.ModId)
@@ -1067,7 +1067,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<PostReport>(entity =>
             {
                 entity.HasKey(e => new { e.PostId, e.ReportBy })
-                    .HasName("PK__PostRepo__6CC5DF18AD29B58B");
+                    .HasName("PK__PostRepo__6CC5DF1812C64E7D");
 
                 entity.ToTable("PostReport");
 
@@ -1116,7 +1116,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<ProfileImage>(entity =>
             {
                 entity.HasKey(e => e.ImageId)
-                    .HasName("PK__ProfileI__336E9B5567ACB450");
+                    .HasName("PK__ProfileI__336E9B55772B5E06");
 
                 entity.ToTable("ProfileImage");
 
@@ -1135,7 +1135,7 @@ namespace HFS_BE.Models
             {
                 entity.ToTable("Seller");
 
-                entity.HasIndex(e => e.Email, "UQ__Seller__AB6E616408B70E93")
+                entity.HasIndex(e => e.Email, "UQ__Seller__AB6E6164B65DEF19")
                     .IsUnique();
 
                 entity.Property(e => e.SellerId)
@@ -1197,7 +1197,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<SellerBan>(entity =>
             {
                 entity.HasKey(e => e.BanSellerId)
-                    .HasName("PK__SellerBa__CC1B046A89AF6A89");
+                    .HasName("PK__SellerBa__CC1B046AC02AF596");
 
                 entity.ToTable("SellerBan");
 
@@ -1221,7 +1221,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<SellerLicenseImage>(entity =>
             {
                 entity.HasKey(e => e.ImageLicenseId)
-                    .HasName("PK__SellerLi__928E624FBA732F18");
+                    .HasName("PK__SellerLi__928E624F693E2967");
 
                 entity.ToTable("SellerLicenseImage");
 
@@ -1295,7 +1295,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<SellerReportImage>(entity =>
             {
                 entity.HasKey(e => e.ImageSellerReportId)
-                    .HasName("PK__SellerRe__197534356CFBFC2D");
+                    .HasName("PK__SellerRe__197534357FAB38D2");
 
                 entity.ToTable("SellerReportImage");
 
@@ -1314,7 +1314,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<ShipAddress>(entity =>
             {
                 entity.HasKey(e => e.AddressId)
-                    .HasName("PK__ShipAddr__26A111AD24696444");
+                    .HasName("PK__ShipAddr__26A111ADE1F3A5D7");
 
                 entity.ToTable("ShipAddress");
 
@@ -1339,7 +1339,7 @@ namespace HFS_BE.Models
             {
                 entity.ToTable("Shipper");
 
-                entity.HasIndex(e => e.Email, "UQ__Shipper__AB6E6164F521F840")
+                entity.HasIndex(e => e.Email, "UQ__Shipper__AB6E6164E01E6671")
                     .IsUnique();
 
                 entity.Property(e => e.ShipperId)
@@ -1410,7 +1410,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<TransactionHistory>(entity =>
             {
                 entity.HasKey(e => e.TransactionId)
-                    .HasName("PK__Transact__9B57CF729F13A7A0");
+                    .HasName("PK__Transact__9B57CF72D01171DB");
 
                 entity.ToTable("TransactionHistory");
 
@@ -1435,6 +1435,8 @@ namespace HFS_BE.Models
                 entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.Property(e => e.TransactionType).HasMaxLength(50);
+
+                entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Value).HasColumnType("decimal(18, 0)");
 
@@ -1485,7 +1487,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<WalletTransferCode>(entity =>
             {
                 entity.HasKey(e => e.CodeId)
-                    .HasName("PK__WalletTr__47F8CFE473AC417B");
+                    .HasName("PK__WalletTr__47F8CFE4C67AAB58");
 
                 entity.ToTable("WalletTransferCode");
 

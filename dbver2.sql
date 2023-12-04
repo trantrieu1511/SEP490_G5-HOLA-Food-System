@@ -563,6 +563,7 @@ CREATE TABLE [dbo].[TransactionHistory](
 	[Note] [nvarchar](200) NULL,
 	[Value] [decimal](18, 0) NOT NULL,
 	[CreateDate] [datetime] NULL,
+	[UpdateDate] [datetime] NULL,
 	[ExpiredDate] [datetime] NULL,
 	[status] [tinyint] NULL,
 	[AcceptBy] [nvarchar](50) NULL,

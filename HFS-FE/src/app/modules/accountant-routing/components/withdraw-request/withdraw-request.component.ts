@@ -9,6 +9,7 @@ import { TabViewChangeEvent } from 'primeng/tabview';
 import { async } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { GetTransactionHistoryInput } from 'src/app/modules/customer-routing-module/models/GetTransactionHistoryInput.model';
+import { UpdateStatusWithdrawInput } from '../../models/UpdateStatusWithdrawInput.model';
 
 @Component({
   selector: 'app-withdraw-request',
@@ -24,6 +25,7 @@ export class WithdrawRequestComponent
   currentDate: Date = new Date();
   displayTransaction: any
   tabIndex : number = 0
+  updateStatusInput : UpdateStatusWithdrawInput
   tabs: any = [
     { label: 'Waiting', id: '0' },
     { label: 'Success', id: '1' },
@@ -59,10 +61,25 @@ export class WithdrawRequestComponent
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.WALLET, API.API_WALLET.HISTORY, this.transactionHistoryInput);
       if (response.success) {
         this.transactionHistory = response.listTransactions
-        this.displayTransaction = this.transactionHistory
+        this.displayTransaction = this.transactionHistory.filter(x => x.status === 0);
       }
       else {
         //this.router.navigate([response]);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async onUpdateStatus() {
+    try {
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.WALLET, API.API_WALLET.UPDATE_WITHDRAW, this.updateStatusInput);
+      if (response.success) {
+        this.onGetHistory();
+        this.showMessage(mType.success, "Notification", "Update status success!", 'notify');
+      }
+      else {
+        this.showMessage(mType.success, "Notification", response.message, 'notify');
       }
     } catch (e) {
       console.log(e);
@@ -87,4 +104,44 @@ export class WithdrawRequestComponent
   onCloseCalendar(event: any) {
     this.onGetHistory();
   } 
+
+  onAccept(transactionId : number, event){
+    this.updateStatusInput = new UpdateStatusWithdrawInput();
+    this.confirmationService.confirm({
+      target: event.target,
+      message: `Are you sure to accept this request id: ${transactionId} ?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //confirm action
+        // this.deleteFood(food, false);
+        this.updateStatusInput.transactionId = transactionId;
+        this.updateStatusInput.status = 1
+        this.onUpdateStatus();
+      },
+      reject: () => {
+        //reject action
+      }
+    });
+  }
+
+  onReject(transactionId : number, event){
+    this.updateStatusInput = new UpdateStatusWithdrawInput();
+    this.confirmationService.confirm({
+      target: event.target,
+      message: `Are you sure to reject this request id: ${transactionId} ?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //confirm action
+        // this.deleteFood(food, false);
+        this.updateStatusInput.transactionId = transactionId;
+        this.updateStatusInput.status = 2
+        this.onUpdateStatus();
+      },
+      reject: () => {
+        //reject action
+      }
+    });
+  }
+
+
 }

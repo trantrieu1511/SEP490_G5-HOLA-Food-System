@@ -63,7 +63,7 @@ namespace HFS_BE.BusinessLogic.Transaction
                     TransactionType = 1,
                     Status = 0,
                     Value = inputDto.Value,
-                    Note = "Create withdraw request! Wait for processing!",
+                    Note = inputDto.Note,
                     CreateDate = DateTime.Now,
                     ExpiredDate = DateTime.Now.AddDays(7),
                 };

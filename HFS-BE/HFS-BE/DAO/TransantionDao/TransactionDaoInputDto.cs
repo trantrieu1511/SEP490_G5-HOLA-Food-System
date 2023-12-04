@@ -16,6 +16,7 @@
     {
         public int? TransactionId { get; set; }
         public byte? Status { get; set; }
+        public string? Note { get; set; }
         public string? AccountantId { get; set; }
     }
 

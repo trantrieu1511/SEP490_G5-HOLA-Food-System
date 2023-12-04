@@ -19,10 +19,10 @@ export class DashboadAdminModuleComponent extends iComponentBase implements OnIn
   data: DashboardSeller;
   dataline: any;
 
-    optionsline: any;
+  optionsline: any;
   options: any;
   datatron: any;
-datatotal:any;
+  datatotal: any;
   optionstron: any;
   rangeDates: Date[] | undefined;
   currentDate: Date = new Date();
@@ -32,7 +32,7 @@ datatotal:any;
     private datePipe: DatePipe,
     public messageService: MessageService,
     private iServiceBase: iServiceBase,
-  ){
+  ) {
     super(messageService);
     this.rangeDates = [];
     this.rangeDates[0] = this.rangeDates[1] = new Date();
@@ -41,9 +41,9 @@ datatotal:any;
 
   ngOnInit() {
     this.getAllData();
-this.bangtron();
-this.bangline();
-this.bangtotal();
+    this.bangtron();
+    this.bangline();
+    this.bangtotal();
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
@@ -71,39 +71,39 @@ this.bangtotal();
     // }
 
     this.options = {
-        maintainAspectRatio: false,
-        aspectRatio: 1.2,
-        plugins: {
-            legend: {
-                labels: {
-                    color: textColor
-                }
-            }
-        },
-        scales: {
-            x: {
-                ticks: {
-                    color: textColorSecondary
-                },
-                grid: {
-                    color: surfaceBorder,
-                    drawBorder: false
-                }
-            },
-            y: {
-                ticks: {
-                    color: textColorSecondary
-                },
-                grid: {
-                    color: surfaceBorder,
-                    drawBorder: false
-                }
-            }
+      maintainAspectRatio: false,
+      aspectRatio: 1.2,
+      plugins: {
+        legend: {
+          labels: {
+            color: textColor
+          }
         }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        },
+        y: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        }
+      }
     };
   }
 
-  async getAllData(){
+  async getAllData() {
     let param: {
       dateFrom: string,
       dateEnd: string
@@ -112,10 +112,10 @@ this.bangtotal();
       dateEnd: ""
     };
 
-    if(this.rangeDates){
+    if (this.rangeDates) {
       param.dateFrom = this.datePipe.transform(this.rangeDates[0], "yyyy-MM-dd");
       param.dateEnd = this.datePipe.transform(this.rangeDates[1], "yyyy-MM-dd");
-    }else{
+    } else {
       param.dateFrom = param.dateEnd = this.datePipe.transform(new Date(), "yyyy-MM-dd");
     }
 
@@ -128,12 +128,12 @@ this.bangtotal();
 
     if (response && response.success) {
       this.data = response;
-      if(this.data.datasets){
+      if (this.data.datasets) {
         const documentStyle = getComputedStyle(document.documentElement);
         this.data.datasets = this.data.datasets.map((element, index) => {
           element.borderColor = documentStyle.getPropertyValue(ColorLineChart[index]);
           element.fill = false;
-          element.tension = 0,4;
+          element.tension = 0, 4;
           return element;
         });
       }
@@ -143,15 +143,15 @@ this.bangtotal();
     }
   }
 
-  onCloseCalendar(event: any){
+  onCloseCalendar(event: any) {
     let fromDate = this.datePipe.transform(this.rangeDates[0], "yyyy-MM-dd");
     let endDate = this.datePipe.transform(this.rangeDates[1], "yyyy-MM-dd");
     this.isDisplayChart = fromDate != endDate ? true : false;
-     this.bangline();
+    this.bangline();
   }
 
 
-   async bangline(){
+  async bangline() {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
@@ -164,13 +164,13 @@ this.bangtotal();
       dateFrom: "",
       dateEnd: ""
     };
-    if(this.rangeDates){
+    if (this.rangeDates) {
       param.dateFrom = this.datePipe.transform(this.rangeDates[0], "yyyy-MM-dd");
       param.dateEnd = this.datePipe.transform(this.rangeDates[1], "yyyy-MM-dd");
-    }else{
+    } else {
       param.dateFrom = param.dateEnd = this.datePipe.transform(new Date(), "yyyy-MM-dd");
     }
-    const param2= {
+    const param2 = {
       "dates": dateList,
     }
     for (let currentDate = new Date(param.dateFrom); currentDate <= new Date(param.dateEnd); currentDate.setDate(currentDate.getDate() + 1)) {
@@ -188,109 +188,109 @@ this.bangtotal();
     const cus = response.filter(item => item.user === 'Customer').map(item => item.data);
     const shipper = response.filter(item => item.user === 'Shipper').map(item => item.data);
     this.dataline = {
-        labels: dateList.map(item => item),
-        datasets: [
-            {
-                label: 'Seller',
-                data: seller,
-                fill: false,
-                tension: 0.4,
-                borderColor: documentStyle.getPropertyValue('--blue-500')
-            },
-            {
-              label: 'Shipper',
-              data: shipper,
-                fill: false,
-                borderDash: [5, 5],
-                tension: 0.4,
-                borderColor: documentStyle.getPropertyValue('--teal-500')
-            },
-            {
-                label: 'Customer',
-                 data: cus,
-                fill: true,
-                borderColor: documentStyle.getPropertyValue('--orange-500'),
-                tension: 0.4,
-                backgroundColor: 'rgba(255,167,38,0.2)'
-            }
-        ]
+      labels: dateList.map(item => item),
+      datasets: [
+        {
+          label: 'Seller',
+          data: seller,
+          fill: false,
+          tension: 0.4,
+          borderColor: documentStyle.getPropertyValue('--blue-500')
+        },
+        {
+          label: 'Shipper',
+          data: shipper,
+          fill: false,
+          borderDash: [5, 5],
+          tension: 0.4,
+          borderColor: documentStyle.getPropertyValue('--teal-500')
+        },
+        {
+          label: 'Customer',
+          data: cus,
+          fill: true,
+          borderColor: documentStyle.getPropertyValue('--orange-500'),
+          tension: 0.4,
+          backgroundColor: 'rgba(255,167,38,0.2)'
+        }
+      ]
     };
 
     this.optionsline = {
-        maintainAspectRatio: false,
-        aspectRatio: 0.6,
-        plugins: {
-            legend: {
-                labels: {
-                    color: textColor
-                }
-            }
-        },
-        scales: {
-            x: {
-                ticks: {
-                    color: textColorSecondary
-                },
-                grid: {
-                    color: surfaceBorder
-                }
-            },
-            y: {
-                ticks: {
-                    color: textColorSecondary
-                },
-                grid: {
-                    color: surfaceBorder
-                }
-            }
+      maintainAspectRatio: false,
+      aspectRatio: 0.6,
+      plugins: {
+        legend: {
+          labels: {
+            color: textColor
+          }
         }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder
+          }
+        },
+        y: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder
+          }
+        }
+      }
     };
-}
-
-  async bangtron(){
-    const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--text-color');
-        let dataFromApi=[];
-
-        try {
-          dataFromApi = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.DASHBOAD_ADMIN,"");
-         ;
-      } catch (e) {
-          console.log(e);
-
-      }
-        this.datatron = {
-            labels: dataFromApi.map(item => item.actor),
-            datasets: [
-                {
-                    data: dataFromApi.map(item => item.total),
-                    backgroundColor: ['blue', 'orange', 'green'],
-                   hoverBackgroundColor: ['lightblue', 'lightyellow', 'lightgreen']
-                }
-            ]
-        };
-
-        this.optionstron = {
-            plugins: {
-                legend: {
-                    labels: {
-                        usePointStyle: true,
-                        color: textColor
-                    }
-                }
-            }
-        };
   }
-  async bangtotal(){
 
-        this.datatotal=[];
-        try {
-          this.datatotal = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.DASHBOAD_ADMINTOTAL,"");
-         ;
-      } catch (e) {
-          console.log(e);
+  async bangtron() {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    let dataFromApi = [];
 
+    try {
+      dataFromApi = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.DASHBOAD_ADMIN, "");
+      ;
+    } catch (e) {
+      console.log(e);
+
+    }
+    this.datatron = {
+      labels: dataFromApi.map(item => item.actor),
+      datasets: [
+        {
+          data: dataFromApi.map(item => item.total),
+          backgroundColor: ['blue', 'orange', 'green'],
+          hoverBackgroundColor: ['lightblue', 'lightyellow', 'lightgreen']
+        }
+      ]
+    };
+
+    this.optionstron = {
+      plugins: {
+        legend: {
+          labels: {
+            usePointStyle: true,
+            color: textColor
+          }
+        }
       }
+    };
+  }
+  async bangtotal() {
+
+    this.datatotal = [];
+    try {
+      this.datatotal = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.DASHBOAD_ADMINTOTAL, "");
+      ;
+    } catch (e) {
+      console.log(e);
+
+    }
 
   }
 }
