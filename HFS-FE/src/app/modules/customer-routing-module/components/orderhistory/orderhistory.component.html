@@ -2,9 +2,9 @@
   <div class="card sidebar" *ngIf="this.authService.getUserInfor().role == 'CU'">
 
     <app-menu-myaccount></app-menu-myaccount>
-    
+
   </div>
-  
+
   <div class="grid table-demo main-body">
     <div class="col-12">
       <div class="card">
@@ -12,36 +12,19 @@
         <div class="col-12 md:col-12">
           <div class="col-12 mb-2 lg:col-4 mb-lg-0">
             <label style="margin-right: 1rem">Data time</label>
-            <p-calendar
-              [(ngModel)]="rangeDates"
-              selectionMode="range"
-              [readonlyInput]="false"
-              [maxDate]="currentDate"
-              [disabled]="false"
-              (onClose)="onCloseCalendar($event)"
-            ></p-calendar>
+            <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="false" [maxDate]="currentDate"
+              [disabled]="false" (onClose)="onCloseCalendar($event)"></p-calendar>
           </div>
         </div>
         <p-tabView orientation="" (onChange)="onChangeTab($event)">
-            <p-tabPanel *ngFor="let item of items" class="line-height-3 m-0"
-            [header]="item.label"
-          >
+          <p-tabPanel *ngFor="let item of items" class="line-height-3 m-0" [header]="item.label">
           </p-tabPanel>
         </p-tabView>
-        <p-table
-          styleClass="p-datatable-orders"
-          [value]="lstOrders"
-          dataKey="orderId"
-          [tableStyle]="{ 'min-width': '60rem' }"
-          [rows]="10"
-          [paginator]="true"
-          [filterDelay]="0"
-          [rowsPerPageOptions]="[5, 10, 25, 50]"
-          responsiveLayout="scroll"
-          [loading]="loading"
+        <p-table styleClass="p-datatable-orders" [value]="lstOrders" dataKey="orderId"
+          [tableStyle]="{ 'min-width': '60rem' }" [rows]="10" [paginator]="true" [filterDelay]="0"
+          [rowsPerPageOptions]="[5, 10, 25, 50]" responsiveLayout="scroll" [loading]="loading"
           currentPageReportTemplate="Total {totalRecords} orders on this status"
-          [showCurrentPageReport]="showCurrentPageReport"
-        >
+          [showCurrentPageReport]="showCurrentPageReport">
           <ng-template pTemplate="header">
             <tr class="tr-th_background-color">
               <th style="width: 5rem"></th>
@@ -67,37 +50,37 @@
                 Total Price <p-sortIcon field="totalPrice"></p-sortIcon>
               </th>
               <ng-container [ngSwitch]="activeItem.id">
-                <ng-container *ngSwitchCase="'2'"
-                  ><th>Shipper</th></ng-container
-                >
-                <ng-container *ngSwitchCase="'3'"
-                  ><th>Shipper</th></ng-container
-                >
-                <ng-container *ngSwitchCase="'4'"
-                  ><th>Shipper</th></ng-container
-                >
-                <ng-container *ngSwitchCase="'5'"
-                  ><th>Shipper</th></ng-container
-                >
+                <ng-container *ngSwitchCase="'2'">
+                  <th>Shipper</th>
+                </ng-container>
+                <ng-container *ngSwitchCase="'3'">
+                  <th>Shipper</th>
+                </ng-container>
+                <ng-container *ngSwitchCase="'4'">
+                  <th>Shipper</th>
+                </ng-container>
+                <ng-container *ngSwitchCase="'5'">
+                  <th>Shipper</th>
+                </ng-container>
                 <ng-container *ngSwitchDefault></ng-container>
               </ng-container>
 
               <ng-container [ngSwitch]="activeItem.id">
-                <ng-container *ngSwitchCase="'0'"
-                  ><th>Action</th></ng-container
-                >
-                <ng-container *ngSwitchCase="'1'"
-                  ><th>Action</th></ng-container
-                >
-                  <!-- <ng-container *ngSwitchCase="'4'"
+                <ng-container *ngSwitchCase="'0'">
+                  <th>Action</th>
+                </ng-container>
+                <ng-container *ngSwitchCase="'1'">
+                  <th>Action</th>
+                </ng-container>
+                <!-- <ng-container *ngSwitchCase="'4'"
                     ><th>Action</th></ng-container
                   > -->
-                <ng-container *ngSwitchCase="'5'"
-                  ><th>Reason</th></ng-container
-                >
-                <ng-container *ngSwitchCase="'6'"
-                  ><th>Reason</th></ng-container
-                >
+                <ng-container *ngSwitchCase="'5'">
+                  <th>Reason</th>
+                </ng-container>
+                <ng-container *ngSwitchCase="'6'">
+                  <th>Reason</th>
+                </ng-container>
                 <ng-container *ngSwitchCase></ng-container>
               </ng-container>
             </tr>
@@ -105,14 +88,9 @@
           <ng-template pTemplate="body" let-order let-expanded="expanded">
             <tr>
               <td>
-                <button
-                  type="button"
-                  pButton
-                  pRipple
-                  [pRowToggler]="order"
+                <button type="button" pButton pRipple [pRowToggler]="order"
                   class="p-button-text p-button-rounded p-button-plain"
-                  [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
-                ></button>
+                  [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
               </td>
               <td>{{ order.orderId }}</td>
               <td>{{ order.shopName }}</td>
@@ -123,18 +101,18 @@
               <td>{{ order.totalPrice | currency : "VND" }}</td>
 
               <ng-container [ngSwitch]="activeItem.id">
-                <ng-container *ngSwitchCase="'2'"
-                  ><td>{{ order.shipperId }}</td></ng-container
-                >
-                <ng-container *ngSwitchCase="'3'"
-                  ><td>{{ order.shipperId }}</td></ng-container
-                >
-                <ng-container *ngSwitchCase="'4'"
-                  ><td>{{ order.shipperId }}</td></ng-container
-                >
-                <ng-container *ngSwitchCase="'5'"
-                  ><td>{{ order.shipperId }}</td></ng-container
-                >
+                <ng-container *ngSwitchCase="'2'">
+                  <td><u (click)="onOpenShipper(order.shipperId)">{{ order.shipperId }}</u></td>
+                </ng-container>
+                <ng-container *ngSwitchCase="'3'">
+                  <td><u (click)="onOpenShipper(order.shipperId)">{{ order.shipperId }}</u></td>
+                </ng-container>
+                <ng-container *ngSwitchCase="'4'">
+                  <td><u (click)="onOpenShipper(order.shipperId)">{{ order.shipperId }}</u></td>
+                </ng-container>
+                <ng-container *ngSwitchCase="'5'">
+                  <td><u (click)="onOpenShipper(order.shipperId)">{{ order.shipperId }}</u></td>
+                </ng-container>
                 <ng-container *ngSwitchDefault></ng-container>
               </ng-container>
 
@@ -142,23 +120,20 @@
                 <ng-container *ngSwitchCase="'5'">
                   <td>
                     {{
-                      order.orderProgresses[order.orderProgresses.length - 1].note
+                    order.orderProgresses[order.orderProgresses.length - 1].note
                     }}
                   </td>
                 </ng-container>
                 <ng-container *ngSwitchCase="'6'">
                   <td>
                     {{
-                      order.orderProgresses[order.orderProgresses.length - 1].note
+                    order.orderProgresses[order.orderProgresses.length - 1].note
                     }}
                   </td>
                 </ng-container>
                 <ng-container *ngSwitchCase="0">
                   <td style="text-align: center">
-                    <div
-                      class="flex justify-content-center flex-wrap"
-                      style="gap: 0.5rem"
-                    >
+                    <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
                       <!-- <div class="flex align-items-center justify-content-center">
                         <button
                           pButton
@@ -176,10 +151,7 @@
                 </ng-container>
                 <ng-container *ngSwitchCase="1">
                   <td style="text-align: center">
-                    <div
-                      class="flex justify-content-center flex-wrap"
-                      style="gap: 0.5rem"
-                    >
+                    <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
                       <!-- <div class="flex align-items-center justify-content-center">
                         <button
                           pButton
@@ -232,34 +204,34 @@
                 <div class="p-3 div-expand">
                   <p-table [value]="order.orderDetails" dataKey="id">
                     <ng-template pTemplate="header">
-                      <tr class="tr-th_background-color">
-                        <th pSortableColumn="id">
-                          FoodId <p-sortIcon field="foodId"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="customer">
-                          Name <p-sortIcon field="foodName"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="date">Image</th>
-                        <th pSortableColumn="amount">
-                          UnitPrice <p-sortIcon field="unitPrice"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="status">
-                          Quantity <p-sortIcon field="quantity"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="status">
-                          Category <p-sortIcon field="categoryName"></p-sortIcon>
-                        </th>
-                        <th *ngSwitchCase="'4'">
-                          Action
-                        </th>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-food>
-                      <tr>
-                        <td>{{ food.foodId }}</td>
-                        <td>{{ food.foodName }}</td>
-                        <td>
-                          <!-- <img
+            <tr class="tr-th_background-color">
+              <th pSortableColumn="id">
+                FoodId <p-sortIcon field="foodId"></p-sortIcon>
+              </th>
+              <th pSortableColumn="customer">
+                Name <p-sortIcon field="foodName"></p-sortIcon>
+              </th>
+              <th pSortableColumn="date">Image</th>
+              <th pSortableColumn="amount">
+                UnitPrice <p-sortIcon field="unitPrice"></p-sortIcon>
+              </th>
+              <th pSortableColumn="status">
+                Quantity <p-sortIcon field="quantity"></p-sortIcon>
+              </th>
+              <th pSortableColumn="status">
+                Category <p-sortIcon field="categoryName"></p-sortIcon>
+              </th>
+              <th *ngSwitchCase="'4'">
+                Action
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-food>
+            <tr>
+              <td>{{ food.foodId }}</td>
+              <td>{{ food.foodName }}</td>
+              <td>
+                <!-- <img
                             src="data:image/gif;base64,{{
                               food.imageBase64.imageBase64
                             }}"
@@ -267,129 +239,81 @@
                             width="10rem"
                             class="shadow-4 image-food_expand"
                           /> -->
-                          <img
-                          [src]="'data:image/png;base64,' + food.image"
-                            [alt]="food.foodName"
-                            width="10rem"
-                            class="shadow-4 image-food_expand"
-                          />
-                        </td>
-                        <td>{{ food.unitPrice }}</td>
-                        <td>{{ food.quantity }}</td>
-                        <td>{{ food.categoryName }}</td>
-                        <td *ngSwitchCase="'4'" style="text-align: center">
-                          <div
-                            class="flex justify-content-center flex-wrap"
-                            style="gap: 0.5rem"
-                          >
-                            <div class="flex align-items-center justify-content-center">
-                              <button
-                                pButton
-                                [disabled]="food.isRated ? true : false"
-                                [label]="food.isRated ? 'Rated' : 'Rate'"
-                                (click)="onRate(food, $event)"
-                              ></button>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="emptymessage">
-                      <tr>
-                        <td colspan="6">There are no food for this order yet.</td>
-                      </tr>
-                    </ng-template>
-                  </p-table>
+                <img [src]="'data:image/png;base64,' + food.image" [alt]="food.foodName" width="10rem"
+                  class="shadow-4 image-food_expand" />
+              </td>
+              <td>{{ food.unitPrice }}</td>
+              <td>{{ food.quantity }}</td>
+              <td>{{ food.categoryName }}</td>
+              <td *ngSwitchCase="'4'" style="text-align: center">
+                <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+                  <div class="flex align-items-center justify-content-center">
+                    <button pButton [disabled]="food.isRated ? true : false" [label]="food.isRated ? 'Rated' : 'Rate'"
+                      (click)="onRate(food, $event)"></button>
+                  </div>
                 </div>
               </td>
             </tr>
           </ng-template>
           <ng-template pTemplate="emptymessage">
             <tr>
-              <td colspan="8">There are no order on this status yet.</td>
+              <td colspan="6">There are no food for this order yet.</td>
             </tr>
           </ng-template>
         </p-table>
       </div>
+      </td>
+      </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8">There are no order on this status yet.</td>
+        </tr>
+      </ng-template>
+      </p-table>
     </div>
   </div>
+</div>
 
 </div>
 
 
-  <p-dialog
-    [header]="headerDialog"
-    [(visible)]="displayDialogCancelOrder"
-    [breakpoints]="{ '960px': '75vw' }"
-    [style]="{ width: '50vw' }"
-    [draggable]="false"
-    [resizable]="false"
-    [maximizable]="true"
-  >
-    <div class="grid p-fluid">
-      <div class="col-12 md:col-12">
-        <div class="card">
-          <div class="grid">
-            <div class="col-12 mb-2 lg:col-4 mb-lg-0">
-              <span class="p-input-icon-left p-float-label" style="width: 100%">
-                <input
-                  type="text"
-                  class="w-full"
-                  [(ngModel)]="orderCancelInput.orderId"
-                  [disabled]="true"
-                  pInputText
-                />
-                <label>Order ID*</label>
-              </span>
-            </div>
-            <div class="col-12 mb-2 lg:col-12 mb-lg-0">
-              <span class="p-input-icon-left p-float-label" style="width: 100%">
-                <textarea
-                  class="w-full"
-                  rows="10"
-                  cols="60"
-                  pInputTextarea
-                  maxlength="1500"
-                  [(ngModel)]="orderCancelInput.note"
-                  [class.ng-invalid]="!orderCancelValidateInput.isNoteValid"
-                  [class.ng-dirty]="!orderCancelValidateInput.isNoteValid"
-                ></textarea>
-                <label>Input Reason*</label>
-              </span>
-              <small
-                [style.display]="
+<p-dialog [header]="headerDialog" [(visible)]="displayDialogCancelOrder" [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false" [maximizable]="true">
+  <div class="grid p-fluid">
+    <div class="col-12 md:col-12">
+      <div class="card">
+        <div class="grid">
+          <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+            <span class="p-input-icon-left p-float-label" style="width: 100%">
+              <input type="text" class="w-full" [(ngModel)]="orderCancelInput.orderId" [disabled]="true" pInputText />
+              <label>Order ID*</label>
+            </span>
+          </div>
+          <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+            <span class="p-input-icon-left p-float-label" style="width: 100%">
+              <textarea class="w-full" rows="10" cols="60" pInputTextarea maxlength="1500"
+                [(ngModel)]="orderCancelInput.note" [class.ng-invalid]="!orderCancelValidateInput.isNoteValid"
+                [class.ng-dirty]="!orderCancelValidateInput.isNoteValid"></textarea>
+              <label>Input Reason*</label>
+            </span>
+            <small [style.display]="
                   orderCancelValidateInput.isNoteValid
                     ? 'none !important'
                     : 'block !important'
-                "
-                id="username2-help"
-                class="p-error block"
-                >{{ orderCancelValidateInput.noteMessage }}</small
-              >
-            </div>
+                " id="username2-help" class="p-error block">{{ orderCancelValidateInput.noteMessage }}</small>
           </div>
         </div>
       </div>
     </div>
-    <ng-template pTemplate="footer">
-      <div
-        class="flex justify-content-center flex-wrap"
-        style="text-align: center"
-      >
-        <div
-          class="flex align-items-center justify-content-center"
-          style="text-align: center"
-        >
-          <button
-            pButton
-            type="button"
-            label="Save"
-            icon="pi pi-save"
-            (click)="onSaveCancel()"
-            style="width: 100%"
-          ></button>
-        </div>
-        <!-- <div
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="flex justify-content-center flex-wrap" style="text-align: center">
+      <div class="flex align-items-center justify-content-center" style="text-align: center">
+        <button pButton type="button" label="Save" icon="pi pi-save" (click)="onSaveCancel()"
+          style="width: 100%"></button>
+      </div>
+      <!-- <div
           class="flex align-items-center justify-content-center"
           style="text-align: center"
         >
@@ -403,96 +327,66 @@
             style="width: 100%"
           ></button>
         </div> -->
-      </div>
-    </ng-template>
-  </p-dialog>
-  <p-dialog
-    header="Rate"
-    [(visible)]="displayDialogRateOrder"
-    [breakpoints]="{ '960px': '75vw' }"
-    [style]="{ width: '50vw' }"
-    [draggable]="false"
-    [resizable]="false"
-    [maximizable]="true"
-  >
-    <div class="grid p-fluid">
-      <div class="col-12 md:col-12">
-        <div class="card">
-          <div class="grid">
-            <div class="col-12 mb-2 lg:col-4 mb-lg-0" style="text-align: center; width: 100%;">
-              <span class="p-input-icon-left p-float-label" style="width: 100%">
-                <div class="flex align-items-center justify-content-center">
-                  <div style="text-align: center; width: 100%;">
-                    <p-rating [(ngModel)]="rateInput.star" [cancel]="false"></p-rating>
-                  </div>
+    </div>
+  </ng-template>
+</p-dialog>
+<p-dialog header="Rate" [(visible)]="displayDialogRateOrder" [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false" [maximizable]="true">
+  <div class="grid p-fluid">
+    <div class="col-12 md:col-12">
+      <div class="card">
+        <div class="grid">
+          <div class="col-12 mb-2 lg:col-4 mb-lg-0" style="text-align: center; width: 100%;">
+            <span class="p-input-icon-left p-float-label" style="width: 100%">
+              <div class="flex align-items-center justify-content-center">
+                <div style="text-align: center; width: 100%;">
+                  <p-rating [(ngModel)]="rateInput.star" [cancel]="false"></p-rating>
                 </div>
-              </span>
-            </div>
-            <div class="col-12 mb-2 lg:col-12 mb-lg-0">
-              <span class="p-input-icon-left p-float-label" style="width: 100%">
-                <textarea
-                  class="w-full"
-                  rows="10"
-                  cols="60"
-                  pInputTextarea
-                  maxlength="1500"
-                  [(ngModel)]="rateInput.feedBackMessage"
-                ></textarea>
-                <label>Input Feedback message*</label>
-              </span>
-            </div>
-            <div class="col-12 mb-2 lg:col-12 mb-lg-0">
-              <label>Images*</label>
-    <span class="p-input-icon-left p-float-label" style="width: 100%">
-                  <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
+              </div>
+            </span>
+          </div>
+          <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+            <span class="p-input-icon-left p-float-label" style="width: 100%">
+              <textarea class="w-full" rows="10" cols="60" pInputTextarea maxlength="1500"
+                [(ngModel)]="rateInput.feedBackMessage"></textarea>
+              <label>Input Feedback message*</label>
+            </span>
+          </div>
+          <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+            <label>Images*</label>
+            <span class="p-input-icon-left p-float-label" style="width: 100%">
+              <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
                       <ng-template pTemplate="content">
                           <ul *ngIf="foodModel.images.length">
                           </ul>
                       </ng-template>
                   </p-fileUpload> -->
-                  <p-fileUpload class=" w-full"
-                      #fileUploader
-                      [files]="uploadedFiles"
-                      [customUpload]="true"
-                      (onSelect)="handleFileSelection($event)"
-                      (onRemove)="handleFileRemoval($event)"
-                      (onClear)="handleAllFilesClear($event)"
-                      [multiple]="true" accept="image/*" [maxFileSize]="1000000"
-                      [showUploadButton]="false" >
-                      <ng-template pTemplate="content">
-                          <!-- <ul *ngIf="uploadedFiles.length > 0">
+              <p-fileUpload class=" w-full" #fileUploader [files]="uploadedFiles" [customUpload]="true"
+                (onSelect)="handleFileSelection($event)" (onRemove)="handleFileRemoval($event)"
+                (onClear)="handleAllFilesClear($event)" [multiple]="true" accept="image/*" [maxFileSize]="1000000"
+                [showUploadButton]="false">
+                <ng-template pTemplate="content">
+                  <!-- <ul *ngIf="uploadedFiles.length > 0">
                               <li *ngFor="let file of uploadedFiles">{{ file.name }}</li>
                           </ul> -->
-                      </ng-template>
-                  </p-fileUpload>
+                </ng-template>
+              </p-fileUpload>
 
 
-                </span>
+            </span>
 
 
-          </div>
           </div>
         </div>
       </div>
     </div>
-    <ng-template pTemplate="footer">
-      <div
-        class="flex justify-content-center flex-wrap"
-        style="text-align: center"
-      >
-        <div
-          class="flex align-items-center justify-content-center"
-          style="text-align: center"
-        >
-          <button
-            pButton
-            type="button"
-            label="Rate"
-            (click)="createFeedback(rateInput)"
-            style="width: 100%"
-          ></button>
-        </div>
-        <!-- <div
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="flex justify-content-center flex-wrap" style="text-align: center">
+      <div class="flex align-items-center justify-content-center" style="text-align: center">
+        <button pButton type="button" label="Rate" (click)="createFeedback(rateInput)" style="width: 100%"></button>
+      </div>
+      <!-- <div
           class="flex align-items-center justify-content-center"
           style="text-align: center"
         >
@@ -506,9 +400,29 @@
             style="width: 100%"
           ></button>
         </div> -->
+    </div>
+  </ng-template>
+</p-dialog>
+<p-dialog header="Shipper Information" [(visible)]="shipperDialog" [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false" [maximizable]="true">
+  <div class="grid p-fluid">
+    <div class="col-12 md:col-12">
+      <div class="card">
+        <div class="grid">
+          <div class="col-12 mb-2 mb-lg-0">
+            <span style="width: 100%">                           
+              <label>Shipper Name: {{shipperName}}</label>
+            </span>
+          </div>
+          <div class="col-12 mb-2 mb-lg-0">        
+              Phone: <a href="tel:+{{shipperPhone}}"><u>{{shipperPhone}}</u></a> 
+          </div>
+        </div>
       </div>
-    </ng-template>
-  </p-dialog>
-  <p-toast [baseZIndex]="99999" key="notify"></p-toast>
+    </div>
+  </div>
+</p-dialog>
 
-  <p-confirmPopup></p-confirmPopup>
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>
+
+<p-confirmPopup></p-confirmPopup>

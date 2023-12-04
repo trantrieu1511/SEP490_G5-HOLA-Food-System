@@ -4,6 +4,7 @@ using HFS_BE.BusinessLogic.FoodDetail;
 using HFS_BE.DAO.FeedBackVoteDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.FoodDetail
@@ -15,6 +16,7 @@ namespace HFS_BE.Controllers.FoodDetail
         }
 
         [HttpPost("fooddetail/vote")]
+        [Authorize]
         public BaseOutputDto Vote(VoteDaoInputDto inputDto)
         {
             try

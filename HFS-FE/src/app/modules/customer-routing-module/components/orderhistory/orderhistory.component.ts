@@ -16,7 +16,7 @@ import {
 import { iComponentBase, iServiceBase, mType } from 'src/app/modules/shared-module/shared-module';
 import { FeedBackInput, Order, OrderAcceptInput, OrderCancelInput, OrderCancelInputValidation, OrderDetailFoodDto, OrderStatusInput } from '../../models/order.model';
 import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
-import {DatePipe} from '@angular/common';
+import { DatePipe } from '@angular/common';
 import * as API from '../../../../services/apiURL';
 import { TabView, TabViewChangeEvent } from 'primeng/tabview';
 import { RateInput } from '../../models/RateInput.model';
@@ -30,8 +30,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class OrderhistoryComponent
   extends iComponentBase
-  implements OnInit, AfterViewInit
-{
+  implements OnInit, AfterViewInit {
   items: MenuItem[] | undefined;
 
   activeItem: MenuItem | undefined;
@@ -48,7 +47,7 @@ export class OrderhistoryComponent
   displayDialogCancelOrder: boolean = false;
   displayDialogRateOrder: boolean = false;
   orderCancelInput: OrderCancelInput = new OrderCancelInput();
-  rateInput : RateInput = new RateInput();
+  rateInput: RateInput = new RateInput();
   orderCancelValidateInput: OrderCancelInputValidation =
     new OrderCancelInputValidation();
 
@@ -62,7 +61,9 @@ export class OrderhistoryComponent
   currentDate: Date = new Date();
   isDisableCalendar: boolean = true;
   disabledIds = ['0', '1', '2', '3'];
-
+  shipperDialog: boolean = false
+  shipperName: string = ''
+  shipperPhone: string = ''
   constructor(
     public breadcrumbService: AppBreadcrumbService,
     public messageService: MessageService,
@@ -83,7 +84,7 @@ export class OrderhistoryComponent
     this.showCurrentPageReport = true;
   }
 
-  setDefaultDate(){
+  setDefaultDate() {
     this.rangeDates = [];
     this.rangeDates[0] = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
     this.rangeDates[1] = new Date();
@@ -114,10 +115,10 @@ export class OrderhistoryComponent
     this.lstOrders = [];
     try {
       this.loading = true;
-      if(this.rangeDates){
+      if (this.rangeDates) {
         this.orderParamInput.dateFrom = this.datePipe.transform(this.rangeDates[0], "yyyy-MM-dd");
         this.orderParamInput.dateEnd = this.datePipe.transform(this.rangeDates[1], "yyyy-MM-dd");
-      }else{
+      } else {
         this.orderParamInput.dateFrom = this.orderParamInput.dateEnd = this.datePipe.transform(new Date(), "yyyy-MM-dd");
       }
 
@@ -154,7 +155,7 @@ export class OrderhistoryComponent
     this.isDisableCalendar = false;
   }
 
-  onCloseCalendar(event: any){
+  onCloseCalendar(event: any) {
     this.getAllOrders();
   }
 
@@ -186,37 +187,6 @@ export class OrderhistoryComponent
 
     this.displayDialogRateOrder = true;
   }
-
-  // async onSaveRate(){
-  //   let response = await this.iServiceBase.postDataAsync(
-  //     API.PHAN_HE.ORDERCUSTOMER,
-  //     API.API_ORDERCUSTOMER.RATE_FOOD,
-  //     this.rateInput,
-  //     true
-  //   );
-
-  //   if (response && response.message === 'Success') {
-  //     this.showMessage(
-  //       mType.success,
-  //       'Notification',
-  //       'Rate food successfully',
-  //       'notify'
-  //     );
-
-  //     this.displayDialogRateOrder = false;
-
-  //     //lấy lại danh sách All
-  //     this.getAllOrders();
-
-  //     //Clear model đã tạo
-  //     this.rateInput = new RateInput();
-  //   } else {
-  //     var messageError = this.iServiceBase.formatMessageError(response);
-  //     console.log(messageError);
-  //     this.showMessage(mType.error, response.message, messageError, 'notify');
-  //   }
-  // }
-
 
   validateOrderCancelInput(): boolean {
     console.log(this.orderCancelInput);
@@ -268,23 +238,6 @@ export class OrderhistoryComponent
     }
   }
 
-
-  // onExternal(order: Order, event: any) {
-  //   this.confirmationService.confirm({
-  //     target: event.target,
-  //     message: `Are you sure to Accept this Order id: ${order.orderId} ?`,
-  //     icon: 'pi pi-exclamation-triangle',
-  //     accept: () => {
-  //       // document.body.style.cursor = 'wait';
-  //       // //confirm action
-  //       // this.acceptOrder(order);
-  //     },
-  //     reject: () => {
-  //       //reject action
-  //     },
-  //   });
-  // }
-
   handleFileSelection(event: FileSelectEvent) {
     //console.log("select", event);
 
@@ -308,8 +261,13 @@ export class OrderhistoryComponent
     console.log("uploadFiles", this.uploadedFiles);
   }
 
+  onOpenShipper(shipperId : string) {
+    this.shipperDialog = true;
+    this.onGetShipperInfor(shipperId);
+  }
+
   async createFeedback(rate: RateInput) {
-    rate.images=this.uploadedFiles;
+    rate.images = this.uploadedFiles;
     const param = new FormData();
 
     this.uploadedFiles.forEach(file => {
@@ -328,12 +286,12 @@ export class OrderhistoryComponent
 
       this.displayDialogRateOrder = false;
 
-          //lấy lại danh sách All
-          this.getAllOrders();
+      //lấy lại danh sách All
+      this.getAllOrders();
 
       //Clear model đã tạo
-      this.rateInput=new RateInput();
-    //  this.foodModel = new Food();
+      this.rateInput = new RateInput();
+      //  this.foodModel = new Food();
       //clear file upload too =))
       this.uploadedFiles = [];
       this.displayDialogRateOrder = false;
@@ -341,6 +299,26 @@ export class OrderhistoryComponent
       var messageError = this.iServiceBase.formatMessageError(response);
       console.log(messageError);
       this.showMessage(mType.error, response.message, messageError, 'notify');
+    }
+  }
+
+  async onGetShipperInfor(id : string){
+    try {
+      let param: {
+        shipperId : string,
+      } = {
+        shipperId : id,
+      }
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.ORDER, API.API_ORDERCUSTOMER.SHIPPER_INFOR, param);
+      if (response) {
+        this.shipperName = response.shipperName;
+        this.shipperPhone = response.shipperPhone;
+      }
+      else {
+        //this.router.navigate([response]);
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 }

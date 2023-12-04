@@ -18,18 +18,18 @@ namespace HFS_BE.Controllers.ManageOrderCustomer
         }
 
         [HttpPost("order/cancel")]
-        //[Authorize]
+        [Authorize]
         public async Task<BaseOutputDto> CancelOrder(OrderCustomerDaoInputDto inputDto)
         {
             try
             {
-                //var userInfo = this.GetUserInfor();
-                //if (!userInfo.Role.Equals("CU"))
-                //{
-                //    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You are not customer!");
-                //}
+                var userInfo = this.GetUserInfor();
+                if (!userInfo.Role.Equals("CU"))
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You are not customer!");
+                }
                 //inputDto.CustomerId = userInfo.UserId;
-                inputDto.CustomerId = "CU00000001";
+                inputDto.CustomerId = userInfo.UserId;
                 var busi = this.GetBusinessLogic<CancelOrderBusinessLogic>();
 
                 string? sellerId;
