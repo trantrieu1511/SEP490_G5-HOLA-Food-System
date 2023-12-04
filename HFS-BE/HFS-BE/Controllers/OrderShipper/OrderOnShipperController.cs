@@ -21,12 +21,18 @@ namespace HFS_BE.Controllers.OrderShipper
         }
 
         [HttpPost("shipper/order")]
-        public OrderByShipperBLOutputDto GetAllOrder(OrderByShipperDaoInputDto inputDto)
+        [Authorize]
+        public OrderByShipperBLOutputDto GetAllOrder(GetAllOrderControllerInputDto inputDto)
         {
             try
             {
-                var busi = this.GetBusinessLogic<OrderShipperBusinessLogic>();                
-                return busi.ListOrderShipper(inputDto);   
+                var busi = this.GetBusinessLogic<OrderShipperBusinessLogic>();  
+                
+                return busi.ListOrderShipper(new OrderByShipperDaoInputDto
+                {
+                    ShipperId = GetUserInfor().UserId,
+                    Status = inputDto.Status,
+                });   
             }
             catch (Exception)
             {
@@ -90,15 +96,20 @@ namespace HFS_BE.Controllers.OrderShipper
         }
 
         [HttpPost("shipper/history")]
-        //[Authorize(Roles = "4")]
-        public OrderByShipperBLOutputDto GetAllOrderHistory(OrderByShipperDaoInputDto inputDto)
+        [Authorize(Roles = "SH")]
+        public OrderByShipperBLOutputDto GetAllOrderHistory(OrderByShipperConDaoInputDto inputDto)
         {
             try
             {
                 var busi = this.GetBusinessLogic<OrderHistoryBusinessLogic>();
                 var role = this.GetAccessRight();
                 
-                return busi.ListOrderHistory(inputDto);
+                return busi.ListOrderHistory(new OrderByShipperHisDaoInputDto
+                {
+                    ShipperId = GetUserInfor().UserId,
+                    DateEnd = inputDto.DateEnd,
+                    DateFrom = inputDto.DateFrom
+                });
             }
             catch (Exception)
             {

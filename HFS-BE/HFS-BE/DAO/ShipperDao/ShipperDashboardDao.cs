@@ -59,13 +59,16 @@ namespace HFS_BE.DAO.ShipperDao
 			var data7 = context.Orders
 				.Include(s=>s.OrderProgresses)
 				.Include(s => s.OrderDetails)
-				.Where(s => s.ShipperId==input.ShipperId&&s.ShippedDate.Value.Date==DateTime.Now.Date).ToList();
+				.Where(s => s.ShipperId==input.ShipperId&&s.ShippedDate.Value.Date==DateTime.Now.Date
+                && s.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 4
+
+                ).ToList();
 			decimal sumday = 0; 
 			foreach (var s in data7)
 			{
 				foreach (var o in s.OrderDetails)
 				{
-					sumday = (decimal)o.Quantity * (decimal)o.UnitPrice;
+					sumday += (decimal)o.Quantity * (decimal)o.UnitPrice;
 				}
 				if (s.VoucherId !=null)
 				{
@@ -76,17 +79,18 @@ namespace HFS_BE.DAO.ShipperDao
 			var data8 = context.Orders
 				.Include(s => s.OrderProgresses)
 				.Include(s => s.OrderDetails)
-				.Where(s => s.ShipperId == input.ShipperId && s.ShippedDate.Value.Month == DateTime.Now.Month).ToList();
+				.Where(s => s.ShipperId == input.ShipperId && s.ShippedDate.Value.Month == DateTime.Now.Month
+                 && s.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 4).ToList();
 			decimal summonth = 0;
 			foreach (var s in data8)
 			{
 				foreach (var o in s.OrderDetails)
 				{
-					summonth = (decimal)o.Quantity * (decimal)o.UnitPrice;
+					summonth += (decimal)o.Quantity * (decimal)o.UnitPrice;
 				}
 				if (s.VoucherId != null)
 				{
-					summonth = sumday - s.Voucher.DiscountAmount;
+					summonth = summonth - s.Voucher.DiscountAmount;
 				}
 
 			}

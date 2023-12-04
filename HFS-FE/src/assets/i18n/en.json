@@ -2,7 +2,12 @@
   "button" : {
     "add": "Add",
     "signIn": "Sign In",
-    "SignInWith": "Sign in with"
+    "SignInWith": "Sign in with",
+    "internal":"Internal",
+    "external":"External",
+    "choose": "Choose",
+    "save": "Save",
+    "cancel":"Cancel"
   },
 
   "loginScreen": {
@@ -70,5 +75,68 @@
     "name1": "Name*",
     "save":"Save",
     "cancal":"Cancal"
+  },
+
+  "orderSellerScreen": {
+    "orderManagement": "Order Management",
+    "request": "Requested",
+    "preparing": "Preparing",
+    "waitShipper": "Wait Shipper",
+    "shipping": "Shipping",
+    "completed": "Completed",
+    "incompleted": "InCompleted",
+    "cancel": "Cancel",
+    "dateTime": "Date Time",
+    "id": "Id",
+    "customer": "Customer",
+    "inforShip": "information Ship",
+    "orderDate": "Order Date",
+    "voucher": "Voucher",
+    "payment":"Payment",
+    "totalPrice":"Total Price",
+    "shipper": "Shipper",
+    "reason":"Reason",
+    "action": "Action",
+    "emptymessage":"There are no order on this status yet.",
+    "emptymessage1":"There are no food for this order yet.",
+    "emptymessage2":"Your shop doesn't have a shipper yet",
+    "total":"Total",
+    "ordersonthisstatus":"orders on this status",
+    "phone":"Phone",
+    "address":"Address",
+    "none":"None",
+    "foodId":"FoodId",
+    "name":"Name",
+    "image":"Image",
+    "UnitPrice":"Unit Price",
+    "quantity":"Quantity",
+    "category":"Category",
+    "shipperList":"Shipper List",
+    "shipperId":"ShipperId",
+    "avatar":"Avatar",
+    "gender":"Gender",
+    "birthDate":"BirthDate",
+    "email":"Email",
+    "orderId":"Order Id*",
+    "inputReasons":"Input Reasons*"
+  },
+
+  "voucherScreen": {
+    "voucherManagement": "Voucher Management",
+    "addNew": "Add New",
+    "code": "Code",
+    "discountAmount": "Discount Amount",
+    "minimumOrder": "Minimum Order",
+    "effectiveDate": "Effective Date",
+    "expireDate": "Expire Date",
+    "status":"Status",
+    "action": "Action",
+    "emptymessage":"There are no order on this status yet.",
+    "emptymessage1":"There are no food for this order yet.",
+    "emptymessage2":"Your shop doesn't have a shipper yet",
+    "total":"Total",
+    "ordersonthisstatus":"orders on this status"
+    
   }
+
 }

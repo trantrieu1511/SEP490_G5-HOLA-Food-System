@@ -14,7 +14,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
         public OrderHistoryBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
-        public OrderByShipperBLOutputDto ListOrderHistory(OrderByShipperDaoInputDto inputDto)
+        public OrderByShipperBLOutputDto ListOrderHistory(OrderByShipperHisDaoInputDto inputDto)
         {
             try
             {

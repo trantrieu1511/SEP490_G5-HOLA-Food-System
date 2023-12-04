@@ -13,11 +13,9 @@
             switch (status)
             {
                 case (int)VoucherStatus.Display:
-                    return "Display";
-                case (int)VoucherStatus.Hidden:
-                    return "Hidden";               
+                    return "Display";                             
                 default:
-                    return "unknown";
+                    return "Hidden";
             }
         }
     }

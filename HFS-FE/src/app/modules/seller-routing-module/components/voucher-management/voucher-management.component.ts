@@ -12,6 +12,7 @@ import {
 } from 'src/app/modules/shared-module/shared-module';
 import { Voucher, VoucherDisplayHideInputDto, VoucherInput} from '../../models/voucher.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-voucher-management',
@@ -37,7 +38,8 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private signalRService: DataRealTimeService,
-    private authService: AuthService
+    private authService: AuthService,
+    public translate: TranslateService
 
   ) {
     super(messageService, breadcrumbService);
