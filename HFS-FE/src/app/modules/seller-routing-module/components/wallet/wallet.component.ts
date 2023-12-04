@@ -11,6 +11,7 @@ import { GetTransactionHistoryInput } from '../../models/GetTransactionHistoryIn
 import { PaymentInput } from '../../models/PaymentInput.model';
 import { VerifyCodeInput } from 'src/app/modules/customer-routing-module/models/VerifyCodeInput.model';
 import { CreateWithDrawRequestInput } from '../../models/CreateWithDrawRequestInput.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-wallet',
@@ -35,14 +36,9 @@ export class WalletComponentSeller
   tranferInput : VerifyCodeInput = new VerifyCodeInput();
   withDrawRequestDialog : boolean = false
   withDrawRequestInput : CreateWithDrawRequestInput = new CreateWithDrawRequestInput();
-  tabs: any = [
-    { label: 'All', id: '0' },
-    { label: 'Waiting', id: '1' },
-    { label: 'Success', id: '2' },
-    { label: 'Cancel', id: '3' },
-    { label: 'Money In', id: '4' },
-    { label: 'Money Out', id: '5' },
-  ];
+  tabs: any ;
+  activeItem:any;
+
   constructor(
     public breadcrumbService: AppBreadcrumbService,
     public messageService: MessageService,
@@ -51,14 +47,35 @@ export class WalletComponentSeller
     private datePipe: DatePipe,
     private route: ActivatedRoute,
     private router: Router,
+    public translate: TranslateService
   ) {
     super(messageService);
+    this.initTabMenuitem();
   }
 
   ngOnInit(): void {
     this.onGetBalance();
     this.setDefaultDate();
     this.onGetHistory();
+  }
+
+  initTabMenuitem() {
+    this.translate.get('walletSellerScreen').subscribe( (text: any) => {
+
+      this.tabs = [
+        { label:  text.request, id: '0'},
+        { label:  text.preparing, id: '1'},
+        { label:  text.waitShipper, id: '2'},
+        { label:  text.shipping, id: '3'},
+        { label:  text.completed, id: '4'},
+        { label:  text.cancel, id: '5'},
+      ];
+
+      this.activeItem = this.tabs[0];
+    });
+    
+
+    
   }
   setDefaultDate() {
     this.rangeDates = [];
@@ -106,6 +123,7 @@ export class WalletComponentSeller
   }
 
   onChangeTab(activeTab: TabViewChangeEvent) {
+    this.activeItem = activeTab.index;
     switch (activeTab.index) {
       case 0:
         this.displayTransaction = this.transactionHistory;
