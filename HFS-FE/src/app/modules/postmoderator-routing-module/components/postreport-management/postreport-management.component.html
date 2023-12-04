@@ -127,8 +127,8 @@
                             {{postrp.note}}
                         </td>
                         <td>
-                            <div *ngIf="postrp.status === 'NotApproved' || postrp.status === 'Pending'" class=""
-                                style="gap: 0.5rem">
+                            <div *ngIf="postrp.status === 'NotApproved' && postrp.updateBy === userId || postrp.status === 'Pending'"
+                                class="">
 
                                 <div class="">
                                     <button style="margin-bottom: 5px;" pButton pRipple icon="pi pi-check-circle"
@@ -136,8 +136,8 @@
                                         class="p-button-rounded p-button-success p-mr-2"></button>
                                 </div>
                             </div>
-                            <div *ngIf="postrp.status === 'Approved' || postrp.status === 'Pending'" class=""
-                                style="gap: 0.5rem">
+                            <div *ngIf="postrp.status === 'Approved' && postrp.updateBy === userId || postrp.status === 'Pending'"
+                                class="">
 
                                 <div class="">
                                     <button pButton pRipple icon="pi pi-times-circle"

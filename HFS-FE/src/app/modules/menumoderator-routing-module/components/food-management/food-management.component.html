@@ -205,7 +205,8 @@
                                 </div>
                                 <ng-container *ngIf="food.status !== 'NotApproved'">
                                     <!-- <div *ngIf="food.reportedTimes >= 3 "> -->
-                                    <div style="margin-bottom: 5px;" *ngIf="food.status === 'Ban'" class="">
+                                    <div style="margin-bottom: 5px;"
+                                        *ngIf="food.status === 'Ban' && food.banBy === userId" class="">
                                         <button pButton pRipple icon="pi pi-circle" (click)="onUnbanFood(food, $event)"
                                             class="p-button-rounded p-button-success"></button>
                                     </div>

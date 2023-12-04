@@ -135,6 +135,14 @@ namespace HFS_BE.DAO.UserDao
 
                         break;
                     case "SE":
+                        // Check truong hop so dien thoai da ton tai trong db (So dt bi trung)
+                        var shop = context.Sellers.SingleOrDefault(se => se.SellerId.Equals(userId) == false
+                        && se.PhoneNumber.Equals(inputDto.PhoneNumber));
+                        if (shop != null)
+                        {
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, "Notification", "The phone number has already been used.");
+                        }
+
                         //Tim trong context profile cua user theo id
                         var seller = context.Sellers.SingleOrDefault(
                         se => se.SellerId.Equals(userId));
@@ -154,6 +162,14 @@ namespace HFS_BE.DAO.UserDao
 
                         break;
                     case "SH":
+                        // Check truong hop so dien thoai da ton tai trong db (So dt bi trung)
+                        var shpr = context.Shippers.SingleOrDefault(sh => sh.ShipperId.Equals(userId) == false
+                        && sh.PhoneNumber.Equals(inputDto.PhoneNumber));
+                        if (shpr != null)
+                        {
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, "Notification", "The phone number has already been used.");
+                        }
+
                         //Tim trong context profile cua user theo id
                         var shipper = context.Shippers.SingleOrDefault(
                         sh => sh.ShipperId.Equals(userId));
@@ -188,6 +204,14 @@ namespace HFS_BE.DAO.UserDao
 
                         break;
                     case "PM":
+                        // Check truong hop so dien thoai da ton tai trong db (So dt bi trung)
+                        var postmod = context.PostModerators.SingleOrDefault(pm => pm.ModId.Equals(userId) == false
+                        && pm.PhoneNumber.Equals(inputDto.PhoneNumber));
+                        if (postmod != null)
+                        {
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, "Notification", "The phone number has already been used.");
+                        }
+
                         //Tim trong context profile cua user theo id
                         var postModerator = context.PostModerators.SingleOrDefault(
                         pm => pm.ModId.Equals(userId));
@@ -205,6 +229,14 @@ namespace HFS_BE.DAO.UserDao
 
                         break;
                     case "MM":
+                        // Check truong hop so dien thoai da ton tai trong db (So dt bi trung)
+                        var menumod = context.MenuModerators.SingleOrDefault(mm => mm.ModId.Equals(userId) == false
+                        && mm.PhoneNumber.Equals(inputDto.PhoneNumber));
+                        if (menumod != null)
+                        {
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, "Notification", "The phone number has already been used.");
+                        }
+
                         //Tim trong context profile cua user theo id
                         var menuModerator = context.MenuModerators.SingleOrDefault(
                         mm => mm.ModId.Equals(userId));
@@ -324,7 +356,7 @@ namespace HFS_BE.DAO.UserDao
                         }
                         break;
                     default:
-                        return Output<BaseOutputDto>(Constants.ResultCdFail, "There are some errors happened in the system. Debug for more info.");
+                        return Output<BaseOutputDto>(Constants.ResultCdFail, "There are some errors happened in the system.");
                 }
                 if (!result)
                 {
@@ -413,7 +445,7 @@ namespace HFS_BE.DAO.UserDao
                         }
                         break;
                     default:
-                        return Output<BaseOutputDto>(Constants.ResultCdFail, "There are some errors happened in the system. Debug for more info.");
+                        return Output<BaseOutputDto>(Constants.ResultCdFail, "There are some errors happened in the system.");
                 }
                 context.SaveChanges();
                 return Output<BaseOutputDto>(Constants.ResultCdSuccess);

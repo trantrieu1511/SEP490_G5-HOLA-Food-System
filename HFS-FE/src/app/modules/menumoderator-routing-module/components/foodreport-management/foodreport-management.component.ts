@@ -19,6 +19,7 @@ import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
 import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
 import { Router } from '@angular/router';
 import { FoodReport } from '../../models/foodreport.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-foodreport-management',
@@ -40,6 +41,8 @@ export class FoodreportManagementComponent extends iComponentBase implements OnI
 
   isVisibleApproveNotApproveModal: boolean = false;
 
+  userId: string = '';
+
 
   @ViewChild('dt') table: Table;
 
@@ -50,12 +53,14 @@ export class FoodreportManagementComponent extends iComponentBase implements OnI
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private signalRService: DataRealTimeService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     super(messageService, breadcrumbService);
   }
 
   async ngOnInit() {
+    this.userId = this.authService.getUserInfor().userId;
     this.connectSignalR();
     this.getAllFoodReport();
     console.log(this.uploadedFiles);

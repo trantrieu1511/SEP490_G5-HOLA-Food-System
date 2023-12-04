@@ -166,7 +166,7 @@
                                         <p-button [text]="true" (click)="onOpenBanNoteDialog(post)">Ban</p-button>
                                     </div>
                                     <!-- <ng-template #statusUnban> -->
-                                    <div *ngIf="post.status === 'Ban'" class="">
+                                    <div *ngIf="post.status === 'Ban' && post.banBy === userId" class="">
                                         <p-button [text]="true" (click)="onUnbanPost(post, $event)">Unban</p-button>
                                     </div>
                                     <div *ngIf="post.status === 'Ban'" class="">
