@@ -27,7 +27,9 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
   commentModel: CommentNewFeed = new CommentNewFeed();
   userId: string;
   postId: number;
-
+  first = 0;
+  rows = 10;
+  totalRecords = 0;
   //----------- Post report variables -----------
   isVisiblePostReportModal = false; // Bien phuc vu cho viec bat tat modal post report
   postReport: PostReport = new PostReport();
@@ -91,9 +93,8 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
   }
 
   async ngOnInit(): Promise<void> {
-    this.checkLoggedIn();
-
     await this.getAllPost();
+    this.checkLoggedIn();
 
     if (this.isLoggedIn) {
       // ;
@@ -104,16 +105,21 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
   }
 
   async getAllPost() {
+    debugger;
     this.listPost = [];
     try {
       const param = {
-        "status": 1
+        "status": 1,
+        "page":this.first / this.rows + 1,
+        "pageSize":this.rows
       }
       this.loading = true;
 
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_NEWFEED.GETALLPOST, param, false);
       if (response && response.message === "Success") {
         this.listPost = response.posts;
+        this.totalRecords=response.totalPosts;
+       
       }
       this.loading = false;
     } catch (e) {
@@ -121,6 +127,13 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       this.loading = false;
     }
   }
+// product-list.component.ts
+
+onPageChange(event: any): void {
+  this.first = event.first;
+  this.rows = event.rows;
+  this.getAllPost();
+}
 
   OnCommnent(event: any, item: Post) {
     event.preventDefault();

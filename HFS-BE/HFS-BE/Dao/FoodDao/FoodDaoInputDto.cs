@@ -33,7 +33,7 @@ namespace HFS_BE.Dao.FoodDao
         public int FoodId { get; set; }
         public bool Type { get; set; }
 
-        public UserDto UserDto { get; set; }
+        public UserDto? UserDto { get; set; }
         public bool isMenuMod { get; set; } = false; // Truong nay de biet la Menu mod truy cap va
                                                      // muon approve cai food nao do bang cach doi sang status 'Display'
     }

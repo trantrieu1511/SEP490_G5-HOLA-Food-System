@@ -7,6 +7,7 @@ using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace HFS_BE.Dao.OrderDao
 {
@@ -24,7 +25,7 @@ namespace HFS_BE.Dao.OrderDao
                 var data = this.context.Orders
                     .Include(x => x.OrderDetails).ThenInclude(x => x.Food).ThenInclude(f => f.FoodImages)
                     .Include(x => x.OrderProgresses)
-                    .Where(x => x.ShipperId == inputDto.ShipperId && x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == status)
+                    .Where(x => x.ShipperId == inputDto.ShipperId && x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == status).OrderBy(x=>x.OrderDate)
                     //.Select(x => mapper.Map<Order, OrderDaoOutputDto>(x))
                     .ToList();
 
@@ -73,21 +74,42 @@ namespace HFS_BE.Dao.OrderDao
             }
         }
 
-        public OrderHistoryDaoOutputDto OrderHistory(OrderByShipperDaoInputDto inputDto)
+        public OrderHistoryDaoOutputDto OrderHistory(OrderByShipperHisDaoInputDto inputDto)
         {
             try
             {
                 // where lấy bên progress 
-                var data = this.context.Orders
+                var query = this.context.Orders
                     .Include(x => x.OrderDetails).ThenInclude(x => x.Food).ThenInclude(f => f.FoodImages)
-                    .Include(x => x.OrderProgresses)
-                    .Where(x => x.ShipperId == inputDto.ShipperId
+                    .Include(x => x.OrderProgresses);
+
+                var data = new List<Order>();
+                if (inputDto.DateFrom.Equals(inputDto.DateEnd))
+                {
+                    data = query.Where(x => x.ShipperId == inputDto.ShipperId
                         && (x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 4
-                            || x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 5)
-                        )
+                            || x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 5) &&
+                                x.OrderDate.Value.Date == inputDto.DateFrom
+                        ).OrderByDescending(x => x.OrderDate)
 
                     .Select(x => mapper.Map<Order, Order>(x))
                     .ToList();
+                }
+                else
+                {
+                    data = query.Where(x => 
+                                x.ShipperId == inputDto.ShipperId && 
+                                (x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 4 || 
+                                    x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 5) &&
+                                x.OrderDate.Value.Date >= inputDto.DateFrom && x.OrderDate.Value.Date <= inputDto.DateEnd
+                                )
+                        .OrderByDescending(x => x.OrderDate)
+
+                    .Select(x => mapper.Map<Order, Order>(x))
+                    .ToList();
+                }
+
+
                 var output = mapper.Map<List<Order>, List<OrderDaoOutputDto>>(data);
                 foreach (var item in data)
                 {
@@ -164,10 +186,17 @@ namespace HFS_BE.Dao.OrderDao
                 // check dateFrom == dateTo
                 // or stasus: requested, prapring, wait shipper, shipping
                 // -> not where date
-                if (inputDto.DateFrom.Equals(inputDto.DateEnd) || arrayStatus.Contains((int)inputDto.Status))
+                if (arrayStatus.Contains((int)inputDto.Status))
                 {
                     data = query.Where(x => x.SellerId.Equals(inputDto.UserId)
                             && x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == inputDto.Status)
+                            .ToList();
+                }
+                else if (inputDto.DateFrom.Equals(inputDto.DateEnd))
+                {
+                    data = query.Where(x => x.SellerId.Equals(inputDto.UserId)
+                            && x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == inputDto.Status
+                            && x.OrderDate.Value.Date == inputDto.DateFrom)
                             .ToList();
                 }
                 else
@@ -423,10 +452,14 @@ namespace HFS_BE.Dao.OrderDao
                     beforeRangeDate = inputDto.DateEnd.Value.AddDays(-1);
                 }
                 var tempBeforeRangeDate = beforeRangeDate;
-                var a = query.Where(x =>
-                        x.OrderDate.Value.Date == inputDto.DateEnd && x.SellerId.Equals(inputDto.SellerId)).ToList();
+                /*var a = query.Where(x =>
+                        x.OrderDate.Value.Date == inputDto.DateEnd && x.SellerId.Equals(inputDto.SellerId)).ToList();*/
                 data = query.Where(x => x.OrderDate.Value.Date >= tempBeforeRangeDate.Date &&
-                        x.OrderDate.Value.Date <= inputDto.DateEnd.Value.Date && x.SellerId.Equals(inputDto.SellerId)).ToList();
+                        x.OrderDate.Value.Date <= inputDto.DateEnd.Value.Date && 
+                        x.SellerId.Equals(inputDto.SellerId) &&
+                        x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 4
+
+                        ).ToList();
 
                 var output = Output<DashboardSellerDaoOutput>(Constants.ResultCdSuccess);
                 output.Orders = data;

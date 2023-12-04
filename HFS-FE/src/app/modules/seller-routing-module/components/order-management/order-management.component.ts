@@ -44,6 +44,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Shipper } from '../../models/shipper.model';
 import {DatePipe} from '@angular/common';
 import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'order-seller',
@@ -86,6 +87,14 @@ export class OrderManagementComponent
   isDisableCalendar: boolean = true;
   disabledIds = ['0', '1', '2', '3'];
 
+  label1: string;
+  label2: string;
+  label3: string;
+  label4: string;
+  label5: string;
+  label6: string;
+  label7: string;
+
   visibleMapBox: boolean = false;
 
   constructor(
@@ -94,17 +103,21 @@ export class OrderManagementComponent
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private datePipe: DatePipe,
-    private signalRService: DataRealTimeService
+    private signalRService: DataRealTimeService,
+    public translate: TranslateService
   ) {
     super(messageService);
     this.rangeDates = [];
     this.rangeDates[0] = this.rangeDates[1] = new Date();
+
+    this.initTabMenuitem();
   }
 
   async ngOnInit() {
-    this.initTabMenuitem();
-    this.connectSignalR();
-    this.getAllOrders();
+    debugger
+    await this.getAllOrders();
+
+    await this.connectSignalR();
     
     this.showCurrentPageReport = true;
   }
@@ -137,22 +150,37 @@ export class OrderManagementComponent
   }
 
   initTabMenuitem() {
-    this.items = [
-      { label: 'Requested', id: '0' },
-      { label: 'Preparing', id: '1' },
-      { label: 'Wait Shipper', id: '2' },
-      { label: 'Shipping', id: '3' },
-      { label: 'Completed', id: '4' },
-      { label: 'InCompleted', id: '5' },
-      { label: 'Cancel', id: '6' },
-    ];
+    this.translate.get('orderSellerScreen').subscribe( (text: any) => {
+      this.label1 = text.request;
+      this.label2 = text.preparing;
+      this.label3 = text.waitShipper;
+      this.label4 = text.shipping;
+      this.label5 = text.completed;
+      this.label6 = text.incompleted;
+      this.label7 = text.cancel;
 
-    this.activeItem = this.items[0];
+      this.items = [
+        { label:  this.label1, id: '0'},
+        { label:  this.label2, id: '1'},
+        { label:  this.label3, id: '2'},
+        { label:  this.label4, id: '3'},
+        { label:  this.label5, id: '4'},
+        { label:  this.label6, id: '5'},
+        { label:  this.label7, id: '6'},
+      ];
+
+      this.activeItem = this.items[0];
+    });
+    
+
+    
   }
 
   async getAllOrders() {
     this.lstOrders = [];
+    debugger
     try {
+      debugger
       this.loading = true;
       if(this.rangeDates){
         this.orderParamInput.dateFrom = this.datePipe.transform(this.rangeDates[0], "yyyy-MM-dd");
@@ -162,7 +190,7 @@ export class OrderManagementComponent
       }
 
       this.orderParamInput.status =
-        this.activeItem.id != undefined ? parseInt(this.activeItem.id) : 0;
+        this.activeItem != undefined ? parseInt(this.activeItem.id) : 0;
 
       let response = await this.iServiceBase.postDataAsync(
         API.PHAN_HE.ORDER,
@@ -197,6 +225,13 @@ export class OrderManagementComponent
   }
 
   onCloseCalendar(event: any){
+    let fromDate = this.datePipe.transform(this.rangeDates[0], "yyyy-MM-dd");
+    let endDate = this.datePipe.transform(this.rangeDates[1], "yyyy-MM-dd");
+    if(!endDate){
+      this.rangeDates[1] = this.rangeDates[0];
+      endDate = fromDate;
+    }
+
     this.getAllOrders();
   }
 

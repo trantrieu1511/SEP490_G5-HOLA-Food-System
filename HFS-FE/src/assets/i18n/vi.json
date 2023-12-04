@@ -2,7 +2,12 @@
   "button" : {
     "add": "Thêm",
     "signIn": "Đăng nhập",
-    "SignInWith": "Đăng nhập với"
+    "SignInWith": "Đăng nhập với",
+    "internal":"Nội bộ",
+    "external":"Bên ngoài",
+    "choose": "Chọn",
+    "save": "Lưu",
+    "cancel":"Hủy"
   },
 
   "loginScreen": {
@@ -70,6 +75,69 @@
     "name1": "Tên*",
     "save":"Lưu",
     "cancal":"Hủy"
+  },
+
+  "orderSellerScreen": {
+    "orderManagement": "Quản lý đơn hàng",
+    "request": "Yêu cầu",
+    "preparing": "Đang chuẩn bị",
+    "waitShipper": "Chờ người lấy hàng",
+    "shipping": "Đang vẫn chuyển",
+    "completed": "Thành công",
+    "incompleted": "Không thành công",
+    "cancel": "Hủy đơn",
+    "dateTime": "Thời Gian",
+    "id": "Id",
+    "customer": "Khách hàng",
+    "inforShip": "Thông tin liên hệ",
+    "orderDate": "Ngày đặt hàng",
+    "voucher": "Mã giảm giá",
+    "payment":"Thanh toán",
+    "totalPrice":"Tổng tiền",
+    "shipper":"Người giao hàng",
+    "reason":"Lý do",
+    "action": "Thao tác",
+    "emptymessage":"Chưa có đơn hàng nào ở trạng thái này.",
+    "emptymessage1":"Chưa có món ăn nào cho đơn hàng này.",
+    "emptymessage2":"Shop bạn chưa có người giao hàng.",
+    "total":"Có:",
+    "ordersonthisstatus":"đặt hàng ở trạng thái này",
+    "phone":"SĐT",
+    "address":"Địa chỉ",
+    "none":"Không",
+    "foodId":"FoodId",
+    "name":"Tên",
+    "image":"Ảnh",
+    "UnitPrice":"Giá tiền",
+    "quantity":"Số lượng",
+    "category":"Danh mục",
+    "shipperList":"Danh sách người giao hàng",
+    "shipperId":"ShipperId",
+    "avatar":"Ảnh đại diện",
+    "gender":"Giới tính",
+    "birthDate":"Ngày sinh",
+    "email":"Email",
+    "orderId":"Đơn hàng*",
+    "inputReasons":"Nhập lý do*"
+  },
+
+  "voucherScreen": {
+    "voucherManagement": "Voucher Management",
+    "addNew": "Add New",
+    "code": "Code",
+    "discountAmount": "Discount Amount",
+    "minimumOrder": "Minimum Order",
+    "effectiveDate": "Effective Date",
+    "expireDate": "Expire Date",
+    "status":"Status",
+    "action": "Action",
+    "emptymessage":"There are no order on this status yet.",
+    "emptymessage1":"There are no food for this order yet.",
+    "emptymessage2":"Your shop doesn't have a shipper yet",
+    "total":"Total",
+    "ordersonthisstatus":"orders on this status"
+    
   }
+
 
 }
