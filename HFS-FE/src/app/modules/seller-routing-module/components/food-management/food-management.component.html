@@ -1,7 +1,7 @@
 <div class="grid table-demo">
     <div class="col-12">
         <div class="card">
-            <h5>Food Management</h5>
+            <h5>{{'foodSellerScreen.FoodManagement' | translate}}</h5>
 
             <p-table #dt [value]="lstFood" dataKey="id"
                      styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
@@ -18,13 +18,13 @@
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text"  #textInput 
                                        (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                       placeholder="Search Food by name"/>
+                                       placeholder="{{'foodSellerScreen.SearchFoodbyname' | translate}}"/>
                             </span>
                         </div>
 
                         <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
                             <div class="flex align-items-center justify-content-center">
-                                <button pButton type="button" label="Add new" icon="pi pi-plus"
+                                <button pButton type="button" label="{{'button.Addnew' | translate}}" icon="pi pi-plus"
                                         (click)="onCreateFood()"
                                         style="width: auto;"></button>
                             </div>
@@ -38,7 +38,7 @@
                         </th> -->
                         <th pSortableColumn="foodId">
                             <div class="flex justify-content-between align-items-center">
-                                ID
+                                {{'foodSellerScreen.id' | translate}}
                                 <p-sortIcon field="foodId"></p-sortIcon>
                                 <p-columnFilter type="numeric" field="foodId" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -46,7 +46,7 @@
                         </th>
                         <th pSortableColumn="categoryName">
                             <div class="flex justify-content-between align-items-center">
-                                Category Name
+                                {{'foodSellerScreen.CategoryName' | translate}}
                                 <p-sortIcon field="categoryName"></p-sortIcon>
                                 <p-columnFilter type="text" field="categoryName" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -54,7 +54,7 @@
                         </th>
                         <th pSortableColumn="name">
                             <div class="flex justify-content-between align-items-center">
-                                Food Name
+                                {{'foodSellerScreen.FoodName' | translate}}
                                 <p-sortIcon field="name"></p-sortIcon>
                                 <p-columnFilter type="text" field="name" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -62,7 +62,7 @@
                         </th>
                         <th pSortableColumn="description">
                             <div class="flex justify-content-between align-items-center">
-                                Food Description
+                                {{'foodSellerScreen.FoodDescription' | translate}}
                                 <p-sortIcon field="description"></p-sortIcon>
                                 <p-columnFilter type="text" field="description" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -70,7 +70,7 @@
                         </th>
                         <th pSortableColumn="unitPrice">
                             <div class="flex justify-content-between align-items-center">
-                                UnitPrice
+                                {{'foodSellerScreen.UnitPrice' | translate}}
                                 <p-sortIcon field="unitPrice"></p-sortIcon>
                                 <p-columnFilter type="text" field="unitPrice" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -78,7 +78,7 @@
                         </th>
                         <th pSortableColumn="rating">
                             <div class="flex justify-content-between align-items-center">
-                                Rating
+                                {{'foodSellerScreen.Rating' | translate}}
                                 <p-sortIcon field="rating"></p-sortIcon>
                                 <p-columnFilter type="numeric" field="rating" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -86,7 +86,7 @@
                         </th>
                         <th pSortableColumn="createdDate">
                             <div class="flex justify-content-between align-items-center">
-                                CreatedDate
+                                {{'foodSellerScreen.CreatedDate' | translate}}
                                 <p-sortIcon field="createdDate"></p-sortIcon>
                                 <p-columnFilter type="date" field="createdDate" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -94,12 +94,12 @@
                         </th>
                         <th>
                             <div class="flex justify-content-between align-items-center">
-                                Images
+                                {{'foodSellerScreen.Images' | translate}}
                             </div>
                         </th>
                         <th pSortableColumn="status">
                             <div class="flex justify-content-between align-items-center">
-                                Status
+                                {{'foodSellerScreen.Status' | translate}}
                                 <p-sortIcon field="status"></p-sortIcon>
                                 <p-columnFilter type="text" field="status" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -108,7 +108,7 @@
                         <th style="min-width: 8rem">
                             <div 
                                  class="flex justify-content-between align-items-center">
-                                Action
+                                 {{'foodSellerScreen.Action' | translate}}
                             </div>
                         </th>
                     </tr>
@@ -186,7 +186,7 @@
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="8">No food yet.</td>
+                        <td colspan="8">{{'foodSellerScreen.emptymessage' | translate}}</td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -205,7 +205,7 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Food information</b>
+                        <b>{{'foodSellerScreen.Foodinformation' | translate}}</b>
                     </div>
                 </p-divider>
                 <div class="grid">
@@ -217,7 +217,7 @@
                                        [class.ng-invalid] = "!foodValidation.isFoodIdValid"
                                         [class.ng-dirty] = "!foodValidation.isFoodIdValid"
                                        />
-                                <label>ID*</label>
+                                <label>{{'foodSellerScreen.id' | translate}}*</label>
                             </span>
                             <small [style.display]="foodValidation.isFoodIdValid ? 'none !important' : 'block !important'" 
                             id="username2-help" class="p-error block">{{foodValidation.foodIdMessage}}</small>
@@ -229,7 +229,7 @@
                                         [class.ng-invalid] = "!foodValidation.isNameValid"
                                         [class.ng-dirty] = "!foodValidation.isNameValid"
                                         />
-                                <label>Name*</label>
+                                <label>{{'foodSellerScreen.Name' | translate}}*</label>
                             </span>
                             <small [style.display]="foodValidation.isNameValid ? 'none !important' : 'block !important'" 
                             id="username2-help" class="p-error block">{{foodValidation.nameMessage}}</small>
@@ -245,7 +245,7 @@
                                         [class.ng-invalid] = "!foodValidation.isNameValid"
                                         [class.ng-dirty] = "!foodValidation.isNameValid"
                                         />
-                                <label>Name*</label>
+                                <label>{{'foodSellerScreen.Name' | translate}}*</label>
                             </span>
                             <small [style.display]="foodValidation.isNameValid ? 'none !important' : 'block !important'" 
                             id="username2-help" class="p-error block">{{foodValidation.nameMessage}}</small>
@@ -258,7 +258,7 @@
                                     [class.ng-invalid] = "!foodValidation.isUnitPriceValid"
                                     [class.ng-dirty] = "!foodValidation.isUnitPriceValid"
                                     />
-                            <label>UnitPrice*</label>
+                            <label>{{'foodSellerScreen.UnitPrice' | translate}}*</label>
                         </span>
                         <small [style.display]="foodValidation.isUnitPriceValid ? 'none !important' : 'block !important'" 
                             id="username2-help" class="p-error block">{{foodValidation.unitPriceMessage}}</small>
@@ -272,7 +272,7 @@
                                         [class.ng-invalid] = "!foodValidation.isCategoryIdValid"
                                         [class.ng-dirty] = "!foodValidation.isCategoryIdValid"
                                         ></p-dropdown>
-                            <label>Category*</label>
+                            <label>{{'foodSellerScreen.CategoryName' | translate}}*</label>
                         </span>
                         <small [style.display]="foodValidation.isCategoryIdValid ? 'none !important' : 'block !important'" 
                             id="username2-help" class="p-error block">{{foodValidation.categoryIdMessage}}</small>
@@ -287,13 +287,13 @@
                                 [class.ng-invalid] = "!foodValidation.isDescriptionValid"
                                 [class.ng-dirty] = "!foodValidation.isDescriptionValid"
                                 ></textarea>
-                            <label>Food Description*</label>
+                            <label>{{'foodSellerScreen.FoodDescription' | translate}}*</label>
                         </span>
                         <small [style.display]="foodValidation.isDescriptionValid ? 'none !important' : 'block !important'" 
                             id="username2-help" class="p-error block">{{foodValidation.descriptionMessage}}</small>
                     </div>
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
-                        <label>Images*</label>
+                        <label>{{'foodSellerScreen.Images' | translate}}*</label>
 					    <span class="p-input-icon-left p-float-label" style="width: 100%">
                             <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
                                 <ng-template pTemplate="content">
@@ -329,19 +329,19 @@
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Save" icon="pi pi-save"
+                <button pButton type="button" label="{{'button.save' | translate}}" icon="pi pi-save"
                         (click)="onSaveFood()"
                         style="width: 100%;"></button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                <button pButton type="button" label="{{'button.cancel' | translate}}" icon="pi pi-times"
                         (click)="onCancelFood()" class="p-button-danger"
                         style="width: 100%;"></button>
             </div>
         </div>
     </ng-template>
 </p-dialog>
-<p-dialog header="View Food Description" 
+<p-dialog header="{{'foodSellerScreen.ViewFoodDescription' | translate}}" 
     [(visible)]="visibleDescriptionDialog" 
     [style]="{width: '50vw'}" 
     [draggable]="false" [resizable]="false" [maximizable]="true"
@@ -352,7 +352,7 @@
 </p-dialog>
 
 
-<p-dialog header="List Image" 
+<p-dialog header="{{'foodSellerScreen.ListImage' | translate}}" 
     [(visible)]="visibleImageDialog" 
     [breakpoints]="{ '960px': '75vw' }" 
     [style]="{ width: '50vw' }" 
@@ -363,10 +363,10 @@
     <p-table [value]="foodImageDialog.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Size</th>
+                <th pSortableColumn="ID">{{'foodSellerScreen.id' | translate}}<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>{{'foodSellerScreen.Images' | translate}}</th>
+                <th>{{'foodSellerScreen.Name' | translate}}</th>
+                <th>{{'foodSellerScreen.Size' | translate}}</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-foodImage>
