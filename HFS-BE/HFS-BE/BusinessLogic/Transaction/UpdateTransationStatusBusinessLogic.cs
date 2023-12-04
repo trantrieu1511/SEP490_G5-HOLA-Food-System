@@ -33,7 +33,14 @@ namespace HFS_BE.BusinessLogic.Transaction
                         Value = inputDto.Value,
                     };
 
-                    var output2 = dao.UpdateWalletBalance(input2);
+                    if (inputDto.UserId.Contains("CU"))
+                    {
+                        var output2 = dao.UpdateWalletBalance(input2);
+                    }
+                    else if (inputDto.UserId.Contains("SE"))
+                    {
+                        var output2 = dao.UpdateWalletBalanceSeller(input2);
+                    }                 
                 }
 
                 return output;
