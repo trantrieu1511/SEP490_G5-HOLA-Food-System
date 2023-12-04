@@ -520,8 +520,8 @@ export class FoodManagementComponent extends iComponentBase implements OnInit {
     }
   }
 
-  viewContentDetail(food: Food) {
-    this.contentDialog = food.description;
+  viewContentDetail(detail: string) {
+    this.contentDialog = detail;
     this.visibleDescriptionDialog = true;
   }
 

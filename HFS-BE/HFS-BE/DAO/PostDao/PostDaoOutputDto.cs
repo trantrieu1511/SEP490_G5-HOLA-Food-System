@@ -30,6 +30,7 @@ namespace HFS_BE.Dao.PostDao
     {
         public int PostId { get; set; }
         public string? SellerId { get; set; }
+        public string? SellerEmail { get; set; }
         public string? PostContent { get; set; }
 
         public string? CreatedDate { get; set; }

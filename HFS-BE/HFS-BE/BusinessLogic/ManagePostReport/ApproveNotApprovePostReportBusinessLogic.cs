@@ -44,7 +44,7 @@ namespace HFS_BE.BusinessLogic.ManagePostReport
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail);
                 }
 
-                if (!inputDto.IsApproved)
+                /*if (!inputDto.IsApproved)
                 {
                     return Output<BaseOutputDto>(Constants.ResultCdSuccess);
                 }
@@ -57,7 +57,7 @@ namespace HFS_BE.BusinessLogic.ManagePostReport
                 if (!noti2.Success)
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail);
-                }
+                }*/
 
                 return Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }

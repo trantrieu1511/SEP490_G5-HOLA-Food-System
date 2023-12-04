@@ -95,7 +95,7 @@
                     <tr class="p-selectable-row">
                         <td>
                             <span class="p-column-title">postId</span>
-                            <span class="post-id">{{postrp.postId}}</span>
+                            <span class="">{{postrp.postId}}</span>
                         </td>
                         <td>
                             <span class="p-column-title">reportBy</span>
@@ -104,7 +104,7 @@
                         <td>
                             <span class="p-column-title">ReportContent</span>
                             <span class="report-content"
-                                (click)="viewContentDetail(postrp)">{{postrp.reportContent}}</span>
+                                (click)="viewContentDetail(postrp.reportContent)">{{postrp.reportContent}}</span>
                         </td>
                         <td>
                             <span class="p-column-title">CreatedDate</span>
@@ -174,7 +174,7 @@
     </div>
 </p-dialog>
 
-<p-dialog header="View Post Content" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true">
+<p-dialog header="View detail" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true">
     <p class="dialog-content-detail">
         {{contentDialog}}
     </p>

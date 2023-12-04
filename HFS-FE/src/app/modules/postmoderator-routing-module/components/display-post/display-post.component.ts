@@ -278,8 +278,8 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
     }
   }
 
-  viewContentDetail(post: Post) {
-    this.contentDialog = post.postContent;
+  viewContentDetail(detail: string) {
+    this.contentDialog = detail;
     this.visibleContentDialog = true;
   }
 

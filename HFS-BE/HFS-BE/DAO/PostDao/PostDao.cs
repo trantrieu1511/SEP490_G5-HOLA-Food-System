@@ -114,10 +114,12 @@ namespace HFS_BE.Dao.PostDao
             {
                 List<PostOutputSellerDto> posts = context.Posts
                                         .Include(p => p.PostImages)
+                                        .Include(p => p.Seller)
                                         .Select(p => new PostOutputSellerDto
                                         {
                                             PostId = p.PostId,
                                             SellerId = p.SellerId,
+                                            SellerEmail = p.Seller.Email,
                                             CreatedDate = p.CreatedDate.Value.ToString("MM/dd/yyyy"),
                                             PostContent = p.PostContent,
                                             Status = PostMenuStatusEnum.GetStatusString(p.Status),

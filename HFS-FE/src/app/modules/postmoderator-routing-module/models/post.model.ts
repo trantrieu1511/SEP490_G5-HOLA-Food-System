@@ -16,7 +16,8 @@
 
 export class Post {
   postId: number;
-  sellerId: string
+  sellerId: string;
+  sellerEmail: string;
   postContent: string;
   createdDate: string;
   status: string;

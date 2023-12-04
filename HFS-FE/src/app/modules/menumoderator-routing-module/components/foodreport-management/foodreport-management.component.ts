@@ -147,8 +147,8 @@ export class FoodreportManagementComponent extends iComponentBase implements OnI
     this.isVisibleApproveNotApproveModal = false;
   }
 
-  viewContentDetail(foodrp: FoodReport) {
-    this.contentDialog = foodrp.reportContent;
+  viewContentDetail(detail: string) {
+    this.contentDialog = detail;
     this.visibleContentDialog = true;
   }
 

@@ -24,6 +24,7 @@ namespace HFS_BE.BusinessLogic.ManagePost
     {
         public int PostId { get; set; }
         public string? SellerId { get; set; }
+        public string? SellerEmail { get; set; }
         public string? PostContent { get; set; }
 
         public string? CreatedDate { get; set; }

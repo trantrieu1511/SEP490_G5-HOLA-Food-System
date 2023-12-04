@@ -118,7 +118,7 @@
                         </td> -->
                         <td>
                             <span class="p-column-title">foodId</span>
-                            <span class="food-id">{{foodrp.foodId}}</span>
+                            <span class="">{{foodrp.foodId}}</span>
                         </td>
                         <td>
                             <span class="p-column-title">foodName</span>
@@ -134,7 +134,7 @@
                         </td>
                         <td>
                             <span class="p-column-title">ReportContent</span>
-                            <p class="report-content" (click)="viewContentDetail(foodrp)">{{foodrp.reportContent}}</p>
+                            <p class="report-content" (click)="viewContentDetail(foodrp.reportContent)">{{foodrp.reportContent}}</p>
                         </td>
                         <td>
                             <span class="p-column-title">CreatedDate</span>
@@ -217,7 +217,7 @@
     <!-- </div> -->
 </p-dialog>
 
-<p-dialog header="View report content" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}"
+<p-dialog header="View detail" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}"
     [maximizable]="true">
     <p class="dialog-content-detail">
         {{contentDialog}}

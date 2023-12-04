@@ -229,8 +229,8 @@ export class PostreportManagementComponent extends iComponentBase implements OnI
     this.isVisibleApproveNotApproveModal = false;
   }
 
-  viewContentDetail(postReport: PostReport) {
-    this.contentDialog = postReport.reportContent;
+  viewContentDetail(detail: string) {
+    this.contentDialog = detail;
     this.visibleContentDialog = true;
   }
 
