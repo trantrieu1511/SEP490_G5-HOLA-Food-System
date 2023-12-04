@@ -77,6 +77,10 @@ namespace HFS_BE.BusinessLogic.ManagePost
     public class ListPostOutputCustomerDto : BaseOutputDto
     {
         public List<PostOutputCustomerDto> Posts { get; set; }
+        public int TotalPosts { get; set; }
+        public int TotalPages { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
     }
 
 }

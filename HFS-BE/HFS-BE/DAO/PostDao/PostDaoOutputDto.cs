@@ -67,6 +67,10 @@ namespace HFS_BE.Dao.PostDao
     public class ListPostByCustomerOutputDto : BaseOutputDto
     {
         public List<PostByCustomerOutputDto> Posts { get; set; }
+        public int TotalPosts { get; set; }
+        public int TotalPages { get; set; }
+         public int Page { get; set; }
+        public int PageSize { get; set; }
     }
 
     public class AddNewPostOutput : BaseOutputDto

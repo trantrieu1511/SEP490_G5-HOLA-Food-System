@@ -24,7 +24,9 @@ namespace HFS_BE.Controllers.ManageOrder
                 Dao.OrderDao.OrderSellerByStatusInputDto inputBL = new Dao.OrderDao.OrderSellerByStatusInputDto
                 {
                     Status = inputDto.Status,
-                    UserId = GetUserInfor().UserId
+                    UserId = GetUserInfor().UserId,
+                    DateFrom = inputDto.DateFrom,
+                    DateEnd = inputDto.DateEnd,
                 };
                 return business.ListOrder(inputBL);
             }
