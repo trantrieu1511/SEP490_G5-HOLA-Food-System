@@ -117,7 +117,15 @@
         icon="pi pi-comment"></button>
     </div>
   </div>
-  
+  <div class="flex-auto">
+    <p-paginator
+    (onPageChange)="onPageChange($event)"
+    [first]="first"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="[10, 20, 30]">
+  </p-paginator>
+</div>
   <p-galleria
         [value]="imagesLst"
         [(visible)]="displayBasic"

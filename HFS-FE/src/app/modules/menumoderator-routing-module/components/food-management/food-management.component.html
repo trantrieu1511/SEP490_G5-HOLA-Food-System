@@ -47,6 +47,14 @@
                                     class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
+                        <!-- <th pSortableColumn="sellerEmail">
+                            <div class="flex justify-content-between align-items-center">
+                                Email
+                                <p-sortIcon field="sellerEmail"></p-sortIcon>
+                                <p-columnFilter type="text" field="sellerEmail" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th> -->
                         <th pSortableColumn="categoryName">
                             <div class="flex justify-content-between align-items-center">
                                 Category Name
@@ -84,6 +92,14 @@
                                 Rating
                                 <p-sortIcon field="rating"></p-sortIcon>
                                 <p-columnFilter type="numeric" field="rating" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="createdDate">
+                            <div class="flex justify-content-between align-items-center">
+                                CreatedDate
+                                <p-sortIcon field="createdDate"></p-sortIcon>
+                                <p-columnFilter type="date" field="createdDate" display="menu"
                                     class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
@@ -138,14 +154,18 @@
                         </td> -->
                         <td>
                             <span class="p-column-title">ID</span>
-                            <span class="food-id">{{food.foodId}}</span>
+                            <span class="">{{food.foodId}}</span>
                         </td>
                         <td>
                             <span class="p-column-title">SellerID</span>
-                            <!-- <span class="food-sellerId"> -->
-                            {{food.sellerId}}
-                            <!-- </span> -->
+                            <span class="sellerId" (click)="viewContentDetail(food.sellerEmail)">
+                                {{food.sellerId}}
+                            </span>
                         </td>
+                        <!-- <td>
+                            <span class="p-column-title">SellerEmail</span>
+                            {{food.sellerEmail}}
+                        </td> -->
                         <td>
                             <span class="p-column-title">Category</span>
                             {{food.categoryName}}
@@ -156,7 +176,9 @@
                         </td>
                         <td>
                             <span class="p-column-title">Description</span>
-                            <span class="food-content" (click)="viewContentDetail(food)">{{food.description}}</span>
+                            <span class="food-content"
+                                (click)="viewContentDetail(food.description)">{{food.description}}
+                            </span>
                         </td>
                         <td>
                             <span class="p-column-title">UnitPrice</span>
@@ -166,6 +188,10 @@
                             <span class="p-column-title">Rating</span>
                             <p-rating [ngModel]="food.rating" [readonly]="true" [cancel]="false"></p-rating>
 
+                        </td>
+                        <td>
+                            <span class="p-column-title">CreatedDate</span>
+                            {{food.createdDate}}
                         </td>
                         <td>
                             <span class="p-column-title">Image</span>
@@ -205,7 +231,8 @@
                                 </div>
                                 <ng-container *ngIf="food.status !== 'NotApproved'">
                                     <!-- <div *ngIf="food.reportedTimes >= 3 "> -->
-                                    <div style="margin-bottom: 5px;" *ngIf="food.status === 'Ban'" class="">
+                                    <div style="margin-bottom: 5px;"
+                                        *ngIf="food.status === 'Ban' && food.banBy === userId" class="">
                                         <button pButton pRipple icon="pi pi-circle" (click)="onUnbanFood(food, $event)"
                                             class="p-button-rounded p-button-success"></button>
                                     </div>
@@ -408,7 +435,7 @@
     </ng-template>
 </p-dialog> -->
 
-<p-dialog header="View Food Description" [(visible)]="visibleDescriptionDialog" [style]="{width: '50vw'}"
+<p-dialog header="View detail" [(visible)]="visibleDescriptionDialog" [style]="{width: '50vw'}"
     [draggable]="false" [resizable]="false" [maximizable]="true">
     <p class="dialog-content-detail">
         {{contentDialog}}

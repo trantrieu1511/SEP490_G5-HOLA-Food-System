@@ -24,6 +24,7 @@ namespace HFS_BE.DAO.TransantionDao
         public decimal Value { get; set; }
         public string? CreateDate { get; set; }
         public string? ExpiredDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
         public byte? Status { get; set; }
     }
 

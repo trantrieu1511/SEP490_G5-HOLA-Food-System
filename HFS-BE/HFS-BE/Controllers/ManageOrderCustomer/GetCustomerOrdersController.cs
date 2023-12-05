@@ -4,6 +4,7 @@ using HFS_BE.BusinessLogic.ManageOrderCustomer;
 using HFS_BE.Dao.OrderDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.ManageOrderCustomer
@@ -15,16 +16,17 @@ namespace HFS_BE.Controllers.ManageOrderCustomer
         }
 
         [HttpPost("order/history")]
+        [Authorize]
         public GetCustomerOrdersDaoOutputDto GetCustomerOrders(GetOrdersCustomerDaoInputDto inputDto)
         {
             try
             {
                 var userInfo = this.GetUserInfor();
-                //if (userInfo != null && !userInfo.Role.Equals("CU"))
-                //{
-                //    return this.Output<GetCustomerOrdersDaoOutputDto>(Constants.ResultCdSuccess, "You are not customer!");
-                //}
-                inputDto.CustomerId = "CU00000001";
+                if (userInfo != null && !userInfo.Role.Equals("CU"))
+                {
+                    return this.Output<GetCustomerOrdersDaoOutputDto>(Constants.ResultCdSuccess, "You are not customer!");
+                }
+                inputDto.CustomerId = userInfo.UserId;
                 var busi = this.GetBusinessLogic<GetCustomerOrdersBusinessLogic>();
                 return busi.GetCustomerOrders(inputDto);
             }

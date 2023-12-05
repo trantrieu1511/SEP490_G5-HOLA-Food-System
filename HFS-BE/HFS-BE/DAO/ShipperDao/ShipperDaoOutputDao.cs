@@ -107,4 +107,10 @@ namespace HFS_BE.DAO.ShipperDao
 	{
 		public List<DashBoardShipperOutputDto> data { get; set; }
 	}
+
+	public class GetShipperInforOutputDto : BaseOutputDto
+	{
+		public string? ShipperName { get; set; }
+		public string? ShipperPhone { get; set; }
+	}
 }

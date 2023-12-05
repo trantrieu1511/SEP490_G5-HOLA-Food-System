@@ -220,6 +220,14 @@
     }
 }
 
+.sellerId{
+    &:hover{
+        cursor: pointer;
+        color: #3498db; /* Thay đổi màu sắc */
+        text-decoration: underline;
+    }
+}
+
 .post-id{
     &:hover{
         cursor: pointer;

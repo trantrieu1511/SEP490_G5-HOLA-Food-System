@@ -212,6 +212,7 @@ namespace HFS_BE.Dao.FoodDao
             try
             {
                 List<FoodOutputSellerDto> foodsModel = context.Foods
+                                        .Include(f => f.Seller)
                                         .Include(f => f.FoodImages)
                                         .Include(f => f.Category)
                                         .Include(f => f.Feedbacks)
@@ -219,8 +220,10 @@ namespace HFS_BE.Dao.FoodDao
                                         {
                                             FoodId = f.FoodId,
                                             SellerId = f.SellerId,
+                                            SellerEmail = f.Seller.Email,
                                             Name = f.Name,
                                             UnitPrice = f.UnitPrice,
+                                            CreatedDate = f.CreateDate,
                                             Description = f.Description,
                                             CategoryId = f.CategoryId,
                                             CategoryName = f.Category.Name,

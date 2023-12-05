@@ -107,11 +107,11 @@
                         </td>
                         <td>
                             <span class="p-column-title">Effective Date</span>
-                            {{voucher.effectiveDate}}
+                            {{voucher.effectiveDate | date:'dd/MM/yyyy hh:mm a'}}
                         </td>
                         <td >
                             <span class="p-column-title">Expire Date</span>
-                            {{voucher.expireDate}}
+                            {{voucher.expireDate | date:'dd/MM/yyyy hh:mm a'}}
                         </td>
                         <td >
                             <span class="p-column-title">Status</span>

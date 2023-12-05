@@ -54,6 +54,9 @@ export class FoodManagementComponent extends iComponentBase implements OnInit {
   foodValidation: FoodInputValidation = new FoodInputValidation();
   banUnbanInputValidation: BanUnbanInputValidation = new BanUnbanInputValidation();
 
+  // -------- Others variables ----------
+  userId: string = '';
+
   @ViewChild('dt') table: Table;
 
   foodForm: FormGroup;
@@ -80,17 +83,18 @@ export class FoodManagementComponent extends iComponentBase implements OnInit {
   }
 
   // Not allow the user to access the page if they are not menu moderator
-  checkUserAccessPermission() {
-    //let userRoleName = sessionStorage.getItem("userId").substring(0, 2);
-    let userRoleName = this.authService.getUserInfor().userId.substring(0, 2);
-    if (userRoleName !== "MM") {
-      this.router.navigateByUrl('/HFSBusiness');
-      alert('You cannot access this page unless you are a menu moderator');
-    }
-  }
+  // checkUserAccessPermission() {
+  //   //let userRoleName = sessionStorage.getItem("userId").substring(0, 2);
+  //   let userRoleName = this.authService.getUserInfor().userId.substring(0, 2);
+  //   if (userRoleName !== "MM") {
+  //     this.router.navigateByUrl('/HFSBusiness');
+  //     alert('You cannot access this page unless you are a menu moderator');
+  //   }
+  // }
 
   async ngOnInit() {
-    this.checkUserAccessPermission();
+    // this.checkUserAccessPermission();
+    this.userId = this.authService.getUserInfor().userId;
     this.getAllFood();
     this.getAllCategory();
     this.connectSignalR();
@@ -516,8 +520,8 @@ export class FoodManagementComponent extends iComponentBase implements OnInit {
     }
   }
 
-  viewContentDetail(food: Food) {
-    this.contentDialog = food.description;
+  viewContentDetail(detail: string) {
+    this.contentDialog = detail;
     this.visibleDescriptionDialog = true;
   }
 

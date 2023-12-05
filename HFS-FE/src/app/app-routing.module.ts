@@ -212,6 +212,12 @@ const routes: Routes = [
             canActivate: [authGuard],
             data: { requiredRole: 'MenuModerator' },
             loadChildren: () => import('./modules/menumoderator-routing-module/menumoderator-routing.module').then(m => m.MenumoderatorRoutingModule),
+          },
+          {
+            path: 'accountant',
+            canActivate: [authGuard],
+            data: { requiredRole: 'Accountant' },
+            loadChildren: () => import('./modules/accountant-routing/accountant-routing.module').then(m => m.AccountantRoutingModule),
           }
         ]
       }

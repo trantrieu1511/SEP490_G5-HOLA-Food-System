@@ -1,6 +1,7 @@
 export class Food {
   foodId: number = null;
   sellerId: string = null;
+  sellerEmail: string = null;
   name: string = null;
   unitPrice: string = null;
   description: string = null;

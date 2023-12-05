@@ -1,14 +1,23 @@
-﻿using HFS_BE.Utils;
+﻿using HFS_BE.Base;
+using HFS_BE.Utils;
+using HFS_BE.Utils.CustomValidation;
 using System.ComponentModel.DataAnnotations;
 
 namespace HFS_BE.Dao.OrderDao
 {
     public class OrderByShipperDaoInputDto
     {
-        [Required(ErrorMessage = "Shipper required!")]
         public string? ShipperId { get; set; }
         public bool Status { get; set; }
     }
+
+    public class OrderByShipperHisDaoInputDto
+    {
+        public string? ShipperId { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateEnd { get; set; }
+    }
+
 
     public class CartItemDaoInputDto
     {

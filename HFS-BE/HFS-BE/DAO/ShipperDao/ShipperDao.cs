@@ -290,5 +290,23 @@ namespace HFS_BE.DAO.ShipperDao
 			return output;
 		}
 
-	}
+		public GetShipperInforOutputDto GetShipperInfor(string shipperId)
+		{
+			try
+			{
+				var infor = this.context.Shippers.FirstOrDefault(x => x.ShipperId.Equals(shipperId));
+				var output = this.Output<GetShipperInforOutputDto>(Constants.ResultCdSuccess);
+                if (infor != null)
+				{
+					output.ShipperName = infor.FirstName + " " + infor.LastName;
+					output.ShipperPhone = infor.PhoneNumber;
+				}
+				return output;
+			}
+			catch (Exception)
+			{
+				return this.Output<GetShipperInforOutputDto>(Constants.ResultCdFail);
+			}
+		}
+    }
 }

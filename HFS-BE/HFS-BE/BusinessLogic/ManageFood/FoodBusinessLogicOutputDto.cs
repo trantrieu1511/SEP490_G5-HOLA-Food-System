@@ -9,6 +9,7 @@ namespace HFS_BE.BusinessLogic.ManageFood
     {
         public int FoodId { get; set; }
         public string? SellerId { get; set; }
+        public string? SellerEmail { get; set; }
         public string? Name { get; set; }
         public decimal? UnitPrice { get; set; }
         public string? Description { get; set; }

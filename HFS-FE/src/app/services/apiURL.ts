@@ -208,6 +208,7 @@ export class API_ORDERCUSTOMER {
     public static GET_ORDER = "history";
     public static CANCEL_ORDER = "cancel";
     public static RATE_FOOD = "feedback"
+    public static SHIPPER_INFOR = "shipperinfo"
 }
 
 export class API_POSTREPORT {
@@ -267,4 +268,7 @@ export class API_WALLET {
     public static HISTORY = "history"
     public static SEND_CODE = "sendmail"
     public static VERIFY = "verifycode"
+    public static WITHDRAW = "withdraw"
+    public static UPDATE_WITHDRAW = "updatewithdrawstatus"
+    public static DASH_BOARD = "dashboard"
 }

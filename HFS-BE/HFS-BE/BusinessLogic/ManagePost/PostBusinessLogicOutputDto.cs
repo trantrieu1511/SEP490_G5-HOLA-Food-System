@@ -24,6 +24,7 @@ namespace HFS_BE.BusinessLogic.ManagePost
     {
         public int PostId { get; set; }
         public string? SellerId { get; set; }
+        public string? SellerEmail { get; set; }
         public string? PostContent { get; set; }
 
         public string? CreatedDate { get; set; }
@@ -77,6 +78,10 @@ namespace HFS_BE.BusinessLogic.ManagePost
     public class ListPostOutputCustomerDto : BaseOutputDto
     {
         public List<PostOutputCustomerDto> Posts { get; set; }
+        public int TotalPosts { get; set; }
+        public int TotalPages { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
     }
 
 }

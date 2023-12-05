@@ -18,6 +18,11 @@ namespace HFS_BE.BusinessLogic.Transaction
             try
             {
                 var dao = this.CreateDao<TransactionDao>();
+                if (inputDto.UserId.Contains("AC"))
+                {
+                    var output1 = dao.GetWithdrawRequest(inputDto);
+                    return output1;
+                }
                 var output = dao.GetTransactionList(inputDto);
                 return output;
             }

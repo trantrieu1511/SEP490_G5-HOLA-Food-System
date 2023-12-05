@@ -114,10 +114,12 @@ namespace HFS_BE.Dao.PostDao
             {
                 List<PostOutputSellerDto> posts = context.Posts
                                         .Include(p => p.PostImages)
+                                        .Include(p => p.Seller)
                                         .Select(p => new PostOutputSellerDto
                                         {
                                             PostId = p.PostId,
                                             SellerId = p.SellerId,
+                                            SellerEmail = p.Seller.Email,
                                             CreatedDate = p.CreatedDate.Value.ToString("MM/dd/yyyy"),
                                             PostContent = p.PostContent,
                                             Status = PostMenuStatusEnum.GetStatusString(p.Status),
@@ -291,7 +293,7 @@ namespace HFS_BE.Dao.PostDao
         {
             try
             {
-
+               // input.page = input.page + 1;
                 List<PostByCustomerOutputDto> data = context.Posts
                     .Include(p => p.Seller)
                     .Include(p => p.PostImages)
@@ -304,10 +306,18 @@ namespace HFS_BE.Dao.PostDao
                         CreatedDate = p.CreatedDate,
                         PostImages = p.PostImages.ToList(),
                         Status = p.Status
-                    }).Where(s => s.Status == input.status).ToList();
+                    }).Where(s => s.Status == input.status).OrderByDescending(x=>x.CreatedDate).ToList();
 
+                var totalPosts = data.Count();
+                var totalPages = (int)Math.Ceiling(totalPosts / (double)input.pageSize);
+
+                var data2 = data.Skip((input.page - 1) * input.pageSize).Take(input.pageSize);
                 var output = this.Output<ListPostByCustomerOutputDto>(Constants.ResultCdSuccess);
-                output.Posts = data;
+                output.Posts = data2.ToList();
+                output.Page= input.page;
+                output.PageSize= input.pageSize;
+                output.TotalPages=totalPages;
+                output.TotalPosts=totalPosts;
                 return output;
             }
             catch (Exception e)
