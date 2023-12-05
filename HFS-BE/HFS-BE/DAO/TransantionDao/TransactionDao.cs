@@ -149,7 +149,7 @@ namespace HFS_BE.DAO.TransantionDao
                                     .ToList();
                 foreach (var item in transactions)
                 {
-                    if (item.ExpiredDate != null && DateTime.Now > item.ExpiredDate)
+                    if (item.ExpiredDate != null && DateTime.Now > item.ExpiredDate && item.Status == 0)
                     {
                         item.Status = 2;
                         item.Note = item.Note + "\n- Expired";
