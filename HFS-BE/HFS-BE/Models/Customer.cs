@@ -10,7 +10,6 @@ namespace HFS_BE.Models
             CartItems = new HashSet<CartItem>();
             ChatMessages = new HashSet<ChatMessage>();
             Comments = new HashSet<Comment>();
-            CustomerBans = new HashSet<CustomerBan>();
             FeedbackReplies = new HashSet<FeedbackReply>();
             FeedbackVotes = new HashSet<FeedbackVote>();
             Feedbacks = new HashSet<Feedback>();
@@ -18,6 +17,7 @@ namespace HFS_BE.Models
             OrderProgresses = new HashSet<OrderProgress>();
             Orders = new HashSet<Order>();
             PostReports = new HashSet<PostReport>();
+            SellerReports = new HashSet<SellerReport>();
             ShipAddresses = new HashSet<ShipAddress>();
         }
 
@@ -36,11 +36,14 @@ namespace HFS_BE.Models
         public int NumberOfViolations { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
+        public DateTime? CreateDate { get; set; }
+        public bool? IsPhoneVerified { get; set; }
+        public string? OtpToken { get; set; }
+        public int? OtpTokenExpiryTime { get; set; }
 
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual ICollection<ChatMessage> ChatMessages { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<CustomerBan> CustomerBans { get; set; }
         public virtual ICollection<FeedbackReply> FeedbackReplies { get; set; }
         public virtual ICollection<FeedbackVote> FeedbackVotes { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
@@ -48,6 +51,7 @@ namespace HFS_BE.Models
         public virtual ICollection<OrderProgress> OrderProgresses { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<PostReport> PostReports { get; set; }
+        public virtual ICollection<SellerReport> SellerReports { get; set; }
         public virtual ICollection<ShipAddress> ShipAddresses { get; set; }
     }
 }

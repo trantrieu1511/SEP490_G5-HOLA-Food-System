@@ -18,12 +18,12 @@
                             </span>
                         </div>
 
-                        <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
+                        <!-- <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
                             <div class="flex align-items-center justify-content-center">
                                 <button pButton type="button" label="Add new" icon="pi pi-plus" (click)="onCreateFood()"
                                     style="width: auto;"></button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header">
@@ -100,6 +100,30 @@
                                     class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
+                        <th pSortableColumn="reportedTimes">
+                            <div class="flex justify-content-between align-items-center">
+                                Approved reported times
+                                <p-sortIcon field="reportedTimes"></p-sortIcon>
+                                <p-columnFilter type="text" field="reportedTimes" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="banBy">
+                            <div class="flex justify-content-between align-items-center">
+                                BanBy
+                                <p-sortIcon field="banBy"></p-sortIcon>
+                                <p-columnFilter type="text" field="banBy" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="banDate">
+                            <div class="flex justify-content-between align-items-center">
+                                BanDate
+                                <p-sortIcon field="banDate"></p-sortIcon>
+                                <p-columnFilter type="text" field="banDate" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th> -->
                         <th style="min-width: 8rem">
                             <div class="flex justify-content-between align-items-center">
                                 Action
@@ -156,30 +180,47 @@
                             <span class="p-column-title">Status</span>
                             <p-tag [value]="food.status" [severity]="getSeverity(food.status)"></p-tag>
                         </td>
-                        <td style="text-align: center">
-                            <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+                        <td>
+                            <span class="p-column-title">ReportedTimes</span>
+                            {{food.reportedTimes}}
+                        </td>
+                        <!-- <td>
+                            <span class="p-column-title">BanBy</span>
+                            {{food.banBy}}
+                        </td> -->
+                        <!-- <td>
+                            <span class="p-column-title">BanDate</span>
+                            {{food.banDate}}
+                        </td> -->
+                        <td>
+                            <div class="" style="gap: 0.5rem">
                                 <!-- <div class="flex align-items-center justify-content-center">
                                     <button pButton pRipple icon="pi pi-pencil" (click)="onUpdateFood(food)"
                                         class="p-button-rounded p-mr-2"></button>
                                 </div> -->
-                                <div *ngIf="food.status === 'NotApproved'"
-                                    class="flex align-items-center justify-content-center">
+                                <div *ngIf="food.status === 'NotApproved'" class="">
                                     <button pButton pRipple icon="pi pi-check-circle"
                                         (click)="onDisplayFood(food, $event)"
                                         class="p-button-rounded p-button-info"></button>
                                 </div>
                                 <ng-container *ngIf="food.status !== 'NotApproved'">
-                                    <div *ngIf="food.status === 'Ban'; else statusBannable"
-                                        class="flex align-items-center justify-content-center">
+                                    <!-- <div *ngIf="food.reportedTimes >= 3 "> -->
+                                    <div style="margin-bottom: 5px;" *ngIf="food.status === 'Ban'" class="">
                                         <button pButton pRipple icon="pi pi-circle" (click)="onUnbanFood(food, $event)"
                                             class="p-button-rounded p-button-success"></button>
                                     </div>
-                                    <ng-template #statusBannable>
-                                        <div class="flex align-items-center justify-content-center">
-                                            <button pButton pRipple icon="pi pi-ban" (click)="onBanFood(food, $event)"
-                                                class="p-button-rounded p-button-danger"></button>
-                                        </div>
-                                    </ng-template>
+                                    <!-- <ng-template #statusBannable> -->
+                                    <div *ngIf="food.status === 'Display'
+                                        || food.status === 'Hidden'" class="">
+                                        <button pButton pRipple icon="pi pi-ban" (click)="onOpenBanNoteDialog(food)"
+                                            class="p-button-rounded p-button-danger"></button>
+                                    </div>
+                                    <div *ngIf="food.status === 'Ban'" class="">
+                                        <button pButton pRipple (click)="onOpenBanDetailDialog(food)"
+                                            class="p-button-rounded p-button-info">Ban detail</button>
+                                    </div>
+                                    <!-- </ng-template> -->
+                                    <!-- </div> -->
                                 </ng-container>
                             </div>
                         </td>
@@ -195,7 +236,61 @@
     </div>
 </div>
 
-<p-dialog [header]="headerDialog" [(visible)]="displayDialogEditAddFood" [breakpoints]="{'960px': '75vw'}"
+<p-dialog header="Ban detail" [(visible)]="visibleBanDetailDialog" [style]="{width: '50vw'}" [maximizable]="true"
+    [modal]="true">
+    <!-- <p class="dialog-content-detail">
+        {{contentDialog.reportContent}}
+    </p> -->
+    <table class="table-ban-detail">
+        <tbody>
+            <tr>
+                <th>Ban date: </th>
+                <td>
+                    {{banDetail.banDate}}
+                </td>
+            </tr>
+            <tr>
+                <th>Ban by: </th>
+                <td>
+                    {{banDetail.banBy}}
+                </td>
+            </tr>
+            <tr>
+                <th>Ban note: </th>
+                <td>
+                    {{banDetail.banNote}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</p-dialog>
+
+<p-dialog [header]="foodModel.status == 'Ban'? 'Unban note' : 'Ban note'" [(visible)]="visibleBanNoteDialog"
+    [modal]="true" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '500px' }" [draggable]="false"
+    [resizable]="false" [responsive]="true">
+    <div class="card">
+        <span class="p-float-label">
+            <textarea class="w-full" id="float-input" rows="5" cols="40" [(ngModel)]="foodModel.banNote" pInputTextarea
+                required [class.ng-invalid]="!banUnbanInputValidation.isBanNoteValid"
+                [class.ng-dirty]="!banUnbanInputValidation.isBanNoteValid"></textarea>
+            <small [style.display]="banUnbanInputValidation.isBanNoteValid ? 'none !important' : 'block !important'"
+                class="p-error block">{{banUnbanInputValidation.banNoteMessage}}
+            </small>
+            <label *ngIf="foodModel.status == 'Ban'" for="float-input">Enter note for unbanning</label>
+            <label *ngIf="foodModel.status != 'Ban'" for="float-input">Enter note for banning</label>
+        </span>
+    </div>
+
+    <div style="display: flex;">
+        <p-button *ngIf="foodModel.status == 'Ban'"
+            (click)="banUnbanFood(foodModel, false)">Unban</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <p-button *ngIf="foodModel.status != 'Ban'"
+            (click)="banUnbanFood(foodModel, true)">Ban</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <p-button [text]="true" (onClick)="visibleBanNoteDialog = false">Cancel</p-button>
+    </div>
+</p-dialog>
+
+<!-- <p-dialog [header]="headerDialog" [(visible)]="displayDialogEditAddFood" [breakpoints]="{'960px': '75vw'}"
     [style]="{width: '50vw'}" [draggable]="false" [resizable]="false" [maximizable]="true"
     (onHide)="onHideDialogEditAdd()">
     <div class="grid p-fluid">
@@ -282,20 +377,11 @@
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
                         <label>Images*</label>
                         <span class="p-input-icon-left p-float-label" style="width: 100%">
-                            <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
-                                <ng-template pTemplate="content">
-                                    <ul *ngIf="foodModel.images.length">
-                                    </ul>
-                                </ng-template>
-                            </p-fileUpload> -->
                             <p-fileUpload class=" w-full" #fileUploader [files]="uploadedFiles" [customUpload]="true"
                                 (onSelect)="handleFileSelection($event)" (onRemove)="handleFileRemoval($event)"
                                 (onClear)="handleAllFilesClear($event)" [multiple]="true" accept="image/*"
                                 [maxFileSize]="1000000" [showUploadButton]="false">
                                 <ng-template pTemplate="content">
-                                    <!-- <ul *ngIf="uploadedFiles.length > 0">
-                                        <li *ngFor="let file of uploadedFiles">{{ file.name }}</li>
-                                    </ul> -->
                                 </ng-template>
                             </p-fileUpload>
 
@@ -320,7 +406,8 @@
             </div>
         </div>
     </ng-template>
-</p-dialog>
+</p-dialog> -->
+
 <p-dialog header="View Food Description" [(visible)]="visibleDescriptionDialog" [style]="{width: '50vw'}"
     [draggable]="false" [resizable]="false" [maximizable]="true">
     <p class="dialog-content-detail">

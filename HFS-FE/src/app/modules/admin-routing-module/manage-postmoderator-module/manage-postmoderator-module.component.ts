@@ -130,14 +130,17 @@ let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USE
 try{
 if (response && response.message === "Success") {
  this.getAllCustomer();
- this.showMessage(mType.success, "Notification", "Update "+this.postM.email+" successfully", 'notify');
+ this.showMessage(mType.success, "Notification", "Add "+this.postM.email+" successfully", 'notify');
+ this.displayDialogAdd = false;
+ this.postM = new PostModerator();
+
 }else{
   this.showMessage(mType.error, "Notification", response.message, 'notify');
 }
 ;
 } catch (e) {
 console.log(e);
-this.showMessage(mType.error, "Notification", "Update "+this.postM.email+" failure", 'notify');
+this.showMessage(mType.error, "Notification", "Add "+this.postM.email+" failure", 'notify');
 }
 }
 

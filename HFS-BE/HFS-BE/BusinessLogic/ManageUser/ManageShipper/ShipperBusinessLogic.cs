@@ -109,20 +109,20 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageShipper
 			}
 		}
 
-		public BaseOutputDto BanShipper(BanShipperDtoInput input)
-		{
-			try
-			{
-				var Dao = this.CreateDao<ShipperDao>();
-				var daooutput = Dao.BanShipper(input);
+		//public BaseOutputDto BanShipper(BanShipperDtoInput input)
+		//{
+		//	try
+		//	{
+		//		var Dao = this.CreateDao<ShipperDao>();
+		//		var daooutput = Dao.BanShipper(input);
 
-				return daooutput;
-			}
-			catch (Exception)
-			{
-				throw;
-			}
-		}
+		//		return daooutput;
+		//	}
+		//	catch (Exception)
+		//	{
+		//		throw;
+		//	}
+		//}
 		public BaseOutputDto AcceptShipper(InvitationShipperDtoInput input)
 		{
 			try
@@ -165,21 +165,21 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageShipper
 				throw;
 			}
 		}
-		public ListHistoryBanShipper ListHistoryBanShipper(BanShipperHistoryDtoInput input)
-		{
-			try
-			{
-				var Dao = this.CreateDao<ShipperDao>();
+		//public ListHistoryBanShipper ListHistoryBanShipper(BanShipperHistoryDtoInput input)
+		//{
+		//	try
+		//	{
+		//		var Dao = this.CreateDao<ShipperDao>();
 
-				var daooutput = Dao.ListHistoryShipper(input);
+		//		var daooutput = Dao.ListHistoryShipper(input);
 
-				return daooutput;
-			}
-			catch (Exception)
-			{
-				throw;
-			}
-		}
+		//		return daooutput;
+		//	}
+		//	catch (Exception)
+		//	{
+		//		throw;
+		//	}
+		//}
 		public List<DashBoardShipperOutputDto> DashBoardShipper(DashBoardShipperInputDto input)
 		{
 			try

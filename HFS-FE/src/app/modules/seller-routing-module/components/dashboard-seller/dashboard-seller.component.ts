@@ -16,7 +16,7 @@ import { ColorLineChart } from 'src/app/utils/colorLineChart';
   styleUrls: ['./dashboard-seller.component.scss']
 })
 export class DashboardSellerComponent extends iComponentBase implements OnInit{
-  data: DashboardSeller;
+  dataDashboard: DashboardSeller = new DashboardSeller();
 
   options: any;
 
@@ -121,11 +121,11 @@ export class DashboardSellerComponent extends iComponentBase implements OnInit{
     );
 
     if (response && response.success) {
-      this.data = response;
-      if(this.data.datasets){
+      this.dataDashboard = response;
+      if(this.dataDashboard.datasets){
 
         const documentStyle = getComputedStyle(document.documentElement);
-        this.data.datasets = this.data.datasets.map((element, index) => {
+        this.dataDashboard.datasets = this.dataDashboard.datasets.map((element, index) => {
           element.borderColor = documentStyle.getPropertyValue(ColorLineChart[index]);
           element.fill = false;
           element.tension = 0,4;
@@ -133,14 +133,16 @@ export class DashboardSellerComponent extends iComponentBase implements OnInit{
         });
       }
 
-      console.log(response);
-      console.log("data", this.data);
     }
   }
 
   onCloseCalendar(event: any){
     let fromDate = this.datePipe.transform(this.rangeDates[0], "yyyy-MM-dd");
     let endDate = this.datePipe.transform(this.rangeDates[1], "yyyy-MM-dd");
+    if(!endDate){
+      this.rangeDates[1] = this.rangeDates[0];
+      endDate = fromDate;
+    }
     this.isDisplayChart = fromDate != endDate ? true : false;
     this.getAllData();
   }

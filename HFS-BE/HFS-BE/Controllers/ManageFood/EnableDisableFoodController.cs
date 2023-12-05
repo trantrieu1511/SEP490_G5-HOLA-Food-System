@@ -30,6 +30,9 @@ namespace HFS_BE.Controllers.ManageFood
                 {
                     input.isMenuMod = true;
                 }
+
+                input.UserDto = GetUserInfor();
+
                 var output = business.EnableDisableFood(input);
 
                 // call signalR 

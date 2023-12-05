@@ -90,7 +90,7 @@ export class MenuDataService {
           {
             label: 'Dashboard',
             icon: 'pi pi-fw pi-home',
-            routerLink: ['/HFSBusiness'],
+            routerLink: ['/HFSBusiness/admin/dashboard'],
             badgeClass: 'p-badge-info',
           },
           {
@@ -100,11 +100,44 @@ export class MenuDataService {
             badgeClass: 'p-badge-info',
           },
           {
-            label: 'Account Management',
+            label: 'Customer Management',
             icon: 'pi pi-fw pi-users',
-            routerLink: ['/HFSBusiness/seller/order-management'],
+            routerLink: ['/HFSBusiness/admin/customer-management'],
+            badgeClass: 'p-badge-info',
+          },
+          {
+            label: 'Seller Management',
+            icon: 'pi pi-fw pi-users',
+            routerLink: ['/HFSBusiness/admin/seller-management'],
             badgeClass: 'p-badge-info',
           }
+          , {
+            label: 'Shipper Management',
+            icon: 'pi pi-fw pi-truck',
+            routerLink: ['/HFSBusiness/admin/shipper-management'],
+            badgeClass: 'p-badge-info',
+          }
+          , {
+            label: 'Port Moderator Management',
+            icon: 'pi pi-fw pi-users',
+            routerLink: ['/HFSBusiness/admin/post-moderator'],
+            badgeClass: 'p-badge-info',
+          }
+          , {
+            label: 'Menu Moderator Management',
+            icon: 'pi pi-fw pi-users',
+            routerLink: ['/HFSBusiness/admin/menu-moderator'],
+            badgeClass: 'p-badge-info',
+          }
+
+          , {
+            label: 'Report Seller Management',
+            icon: 'pi pi-fw pi-align-justify',
+            class:'fa-solid fa-truck-fast',
+            routerLink: ['/HFSBusiness/admin/report'],
+            badgeClass: 'p-badge-info',
+          }
+
         ],
       },
     ];
@@ -119,7 +152,7 @@ export class MenuDataService {
           {
             label: 'Dashboard',
             icon: 'pi pi-fw pi-home',
-            routerLink: ['/HFSBusiness'],
+            routerLink: ['/HFSBusiness/shipper/dashboad'],
             badgeClass: 'p-badge-info',
           },
           {

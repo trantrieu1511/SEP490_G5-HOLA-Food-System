@@ -1,0 +1,420 @@
+<div class="grid table-demo">
+  <div class="col-12">
+      <div class="card">
+          <h5>Report Seller Management</h5>
+
+          <p-table #dt [value]="lstReport" dataKey="id"
+                   styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
+                   [showCurrentPageReport]="true"
+                   [paginator]="lstReport.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
+                   currentPageReportTemplate="Total: {totalRecords} customer"
+                   [globalFilterFields]="['firstName','lastName']" responsiveLayout="scroll"
+
+          >
+              <ng-template pTemplate="caption">
+                  <div class="flex flex-row align-items-center flex-wrap justify-content-between ">
+                      <div class="flex-1">
+                          <span class="p-input-icon-left">
+                              <i class="pi pi-search"></i>
+                              <input pInputText type="text"  #textInput
+                                     (input)="dt.filterGlobal(textInput.value, 'contains')"
+                                     placeholder="Search Name by name"/>
+                          </span>
+                      </div>
+
+
+                  </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                  <tr>
+                      <!-- <th style="width: 3rem">
+                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                      </th> -->
+                      <th pSortableColumn="sellerReportId">
+                          <div class="flex justify-content-between align-items-center">
+                              ID
+                              <p-sortIcon field="sellerReportId"></p-sortIcon>
+                              <p-columnFilter type="numeric" field="sellerReportId" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="sellerId">
+                          <div class="flex justify-content-between align-items-center">
+                            SellerId
+                              <p-sortIcon field="sellerId"></p-sortIcon>
+                              <p-columnFilter type="text" field="sellerId" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="shopName">
+                          <div class="flex justify-content-between align-items-center">
+                            ShopName
+                              <p-sortIcon field="shopName"></p-sortIcon>
+                              <p-columnFilter type="text" field="shopName" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="reportBy">
+                        <div class="flex justify-content-between align-items-center">
+                          ReportBy
+                            <p-sortIcon field="reportBy"></p-sortIcon>
+                            <p-columnFilter type="text" field="reportBy" display="menu"
+                                            class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
+                      <th pSortableColumn="reportByName">
+                          <div class="flex justify-content-between align-items-center">
+                            ReportByName
+                              <p-sortIcon field="reportByName"></p-sortIcon>
+                              <p-columnFilter type="text" field="reportByName" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="reportContent">
+                        <div class="flex justify-content-between align-items-center">
+                          ReportContent
+                            <p-sortIcon field="reportContent"></p-sortIcon>
+                            <p-columnFilter type="text" field="reportContent" display="menu"
+                                            class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
+                      <th pSortableColumn="createDate">
+                        <div class="flex justify-content-between align-items-center">
+                          CreateDate
+                            <p-sortIcon field="createDate"></p-sortIcon>
+                            <p-columnFilter type="text" field="createDate" display="menu"
+                                            class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
+                      <th pSortableColumn="updateDate">
+                          <div class="flex justify-content-between align-items-center">
+                            UpdateDate
+                              <p-sortIcon field="updateDate"></p-sortIcon>
+                              <p-columnFilter type="text" field="updateDate" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="updateBy">
+                          <div class="flex justify-content-between align-items-center">
+                            UpdateBy
+                              <p-sortIcon field="updateBy"></p-sortIcon>
+                              <p-columnFilter type="numeric" field="updateBy" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th>
+                          <div class="flex justify-content-between align-items-center">
+                              Images
+                          </div>
+                      </th>
+                      <th pSortableColumn="status">
+                        <div class="flex justify-content-between align-items-center">
+                          Status
+                            <p-sortIcon field="status"></p-sortIcon>
+                            <p-columnFilter type="text" field="status" display="menu"
+                                            class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th pSortableColumn="note">
+                      <div class="flex justify-content-between align-items-center">
+                        Note
+                          <p-sortIcon field="updateDate"></p-sortIcon>
+                          <p-columnFilter type="text" field="note" display="menu"
+                                          class="ml-auto"></p-columnFilter>
+                      </div>
+                  </th>
+                      <th style="min-width: 8rem">
+                          <div
+                               class="flex justify-content-between align-items-center">
+                              Action
+                          </div>
+                      </th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-user>
+                  <tr class="p-selectable-row">
+                      <!-- <td>
+                          <p-tableCheckbox [value]="post"></p-tableCheckbox>
+                      </td> -->
+                      <td>
+                          <span class="p-column-title">ID</span>
+                          <span class="post-id">{{user.sellerReportId}}</span>
+                      </td>
+                      <td>
+                          <span class="p-column-title">SellerId</span>
+                           {{user.sellerId}}
+                      </td>
+                      <td >
+                          <span class="p-column-title">ShopName</span>
+                          {{user.shopName}}
+                      </td>
+                      <td >
+                        <span class="p-column-title">ReportBy</span>
+                        {{user.reportBy}}
+                    </td>
+                      <td>
+                          <span class="p-column-title">ReportByName</span>
+                          <span class="post-content" >{{user.reportByName}}</span>
+                      </td>
+                      <td>
+                        <span class="p-column-title">ReportContent</span>
+                        <span class="post-content" >{{user.reportContent}}</span>
+                    </td>
+                      <td >
+                          <span class="p-column-title">CreateDate</span>
+                          {{user.createDate| date:'dd/MM/yyyy hh:mm a'}}
+                      </td>
+                      <td >
+                        <span class="p-column-title">UpdateDate</span>
+                        {{user.updateDate| date:'dd/MM/yyyy hh:mm a'}}
+                    </td>
+                    <td >
+                      <span class="p-column-title">UpdateBy</span>
+                      {{user.updateBy}}
+                  </td>
+                      <td>
+                          <span class="p-column-title">Image</span>
+                          <ng-container *ngIf="user.imagesBase64.length !== 0; else noneImage" >
+                            <button pButton pRipple icon="pi pi-images"
+                                    (click)="onDisplayImagesDialog(user, $event)"
+                                    class="p-button-rounded p-button-text p-button-raised"></button>
+                        </ng-container>
+                          <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+                      </td>
+                      <td >
+                        <span class="p-column-title">status</span>
+                        <div *ngIf="user.status===0" style="color:darkgray;">
+                          <span class="post-content">Pending</span>
+                         </div>
+                         <div *ngIf="user.status===1"  style="color:chartreuse;">
+                          Solved
+                         </div>
+                         <div *ngIf="user.status===2"  style="color:red;">
+                          Reject
+                         </div>
+                    </td>
+                      <td >
+                        <span class="p-column-title">Note</span>
+                        {{user.note}}
+                    </td>
+                      <td style="text-align: center">
+                          <div class="flex justify-content-center flex-wrap" style="gap: 0.8rem">
+                              <div class="flex align-items-center justify-content-center">
+                                  <button pButton pRipple  icon="pi pi-reply"
+                                  (click)="ReplySellerReport1(user)" [disabled]="user.status!==0?true:false"
+                                          class="p-button-rounded p-mr-2"></button>
+                              </div>
+                              <div class="flex align-items-center justify-content-center">
+                                <button pButton pRipple
+                                (click)="Detail(user,$event)"
+                                        class="p-button-rounded p-mr-2">Detail</button>
+                            </div>
+                          </div>
+                      </td>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                  <tr>
+                      <td colspan="8">No Report yet.</td>
+                  </tr>
+              </ng-template>
+          </p-table>
+      </div>
+  </div>
+</div>
+<p-dialog [header]="headerDialog" [(visible)]="displayDialogBan"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '50vw'}"
+          [draggable]="false" [resizable]="false" [maximizable]="true"
+
+          >
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <b>{{replySellerDialog}}</b>
+                    </div>
+                </p-divider>
+                <div class="grid">
+                  <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                      <span class="p-input-icon-left p-float-label" style="width: 100%">
+
+
+                      </span>
+                      <label for="gender">Status*:</label>
+                      <input type="radio"  name="gender" [(ngModel)]="inputreply.status"  checked value="1" [id]="'gender' + 'male'"   (change)="checkSaveButtonStatus()"/>
+                      <label [for]="'gender' + 'male'">Sloved</label>
+                      <input type="radio" [(ngModel)]="inputreply.status"   name="gender" value="2" [id]="'gender' + 'female'"  (change)="checkSaveButtonStatus()" />
+                      <label [for]="'gender' + 'female'">Reject</label>
+                  </div>
+
+                <div class="col-12 mb-2 ">
+                  <span class="p-input-icon-left p-float-label" style="width: 100%">
+                    <textarea class="w-full" rows="10" cols="60"
+                    pInputTextarea
+                    (input)="checkSaveButtonStatus()"
+                    [(ngModel)]="inputreply.note"
+
+                    ></textarea>
+                      <label>Note*</label>
+                  </span>
+              </div>
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-center flex-wrap" style="text-align: center">
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button [disabled]="isSaveButtonDisabled" pButton type="button" label="Save" icon="pi pi-save"
+                        (click)="onSave()"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                        (click)="onCancel()" class="p-button-danger"
+                        style="width: 100%;"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+<p-dialog header="Detail"
+    [(visible)]="visiblebanHistoryDialog"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    [maximizable]="true"
+    >
+    <div class="grid p-fluid">
+      <div class="col-12 md:col-12">
+          <div class="card">
+            <div class="grid">
+              <!-- <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                  <span class="p-input-icon-left p-float-label" style="width: 100%">
+                  </span>
+                  <label for="gender">Status*:</label>
+                  <input type="text"  class="w-full"    pInputText [(ngModel)]="detailreport.status" />
+
+
+              </div> -->
+              <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+
+                  <label for="gender">SellerId:</label>
+                  <input type="text"  class="w-full"    pInputText [(ngModel)]="detailreport.sellerId" [readonly]="true" />
+
+
+            </div>
+            <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+              <label for="gender">ShopName:</label>
+                <input type="text"  class="w-full"   pInputText [(ngModel)]="detailreport.shopName" [readonly]="true" />
+
+          </div>
+          <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+            <label for="gender">ReportBy:</label>
+              <input type="text"  class="w-full"    pInputText [(ngModel)]="detailreport.reportBy" [readonly]="true" />
+
+        </div>
+        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+          <label for="gender">ReportByName:</label>
+            <input type="text"  class="w-full"  pInputText [(ngModel)]="detailreport.reportByName" [readonly]="true" />
+
+      </div>
+      <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+        <label for="gender">CreateDate:</label>
+          <input type="text"  class="w-full"   pInputText [(ngModel)]="detailreport.createDate" [readonly]="true" />
+
+       </div>
+       <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+        <label for="gender">UpdateDate:</label>
+          <input type="text"  class="w-full"   pInputText [(ngModel)]="detailreport.updateDate" [readonly]="true" />
+
+       </div>
+       <div class="col-12 mb-2 ">
+        <span class="p-input-icon-left p-float-label" style="width: 100%">
+          <textarea class="w-full" rows="10" cols="60"
+          pInputTextarea
+          [(ngModel)]="detailreport.reportContent"
+          [readonly]="true"
+          ></textarea>
+            <label>ReportContent</label>
+        </span>
+    </div>
+          <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+
+              Status
+                <div *ngIf="detailreport.status===0" class="col-3" style="display: flex; align-items: center;">
+
+                Pending
+                </div>
+                <div *ngIf="detailreport.status===1"  class="col-3" style="display: flex; align-items: center;color:chartreuse">
+
+              Solved
+                </div>
+                <div *ngIf="detailreport.status===2" class="col-3" style="display: flex; align-items: center; color:red">
+
+               Reject
+                </div>
+
+        </div>
+
+            <div class="col-12 mb-2 ">
+              <span class="p-input-icon-left p-float-label" style="width: 100%">
+                <textarea class="w-full" rows="10" cols="60"
+                pInputTextarea
+                [(ngModel)]="detailreport.note"
+                [readonly]="true"
+                ></textarea>
+                  <label>Note*</label>
+              </span>
+          </div>
+              </div>
+            </div>
+        </div>
+        </div>
+</p-dialog>
+<p-dialog header="List Image"
+    [(visible)]="visibleImageDialog"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    [maximizable]="true"
+    >
+    <p-table [value]="cusImg.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Size</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-image>
+            <tr >
+                <td>{{image.imageId}}</td>
+                <td><p-image src="data:image/gif;base64,{{image.imageBase64}}" [preview]="true"
+                    [alt]="image.imageId" class="dialogimages_image w-10rem shadow-2"
+                    ></p-image></td>
+                <td>{{image.name}}</td>
+                <td>{{image.size}} KB</td>
+
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>
+
+<p-confirmPopup></p-confirmPopup>
+
+<p-confirmDialog key="uhideFood" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<cmis-loading></cmis-loading>

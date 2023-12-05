@@ -28,7 +28,7 @@ namespace HFS_BE.BusinessLogic.ManagePost
                 var post = postDao.GetPostById(inputDto.PostId);
                 sellerId = post.SellerId;
                 var notifyBase = inputDto.isBanned ?
-                    GenerateNotification.GetSingleton().GenNotificationBanPost(post.SellerId, post.PostId) :
+                    GenerateNotification.GetSingleton().GenNotificationBanPost(post.SellerId, post.PostId, post.BanNote) :
                     GenerateNotification.GetSingleton().GenNotificationUnBanPost(post.SellerId, post.PostId);
                 //3. add notify
                 var noti = notifyDao.AddNewNotification(notifyBase);

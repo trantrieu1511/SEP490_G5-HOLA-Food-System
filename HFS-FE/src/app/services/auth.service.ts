@@ -10,6 +10,7 @@ import { Register } from '../register/models/register';
 import { iFunction } from './../modules/shared-module/functions/iFunction';
 import { JwtService } from './app.jwt.service';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -30,7 +31,7 @@ export class AuthService {
   showconfirm$: Observable<number> = this.showconfirmSubject.asObservable();
   private path = environment.apiUrl
   constructor(
-    private httpClient: HttpClient, 
+    private httpClient: HttpClient,
     private jwtService: JwtService,
     ) { }
 
@@ -257,7 +258,7 @@ export class AuthService {
     //if (token) {
       const token = this.jwtService.getToken();
       const data = this.getDecodedToken(token);//copy token to jwt.io see .role
-      
+
       this.user = {
         email: data['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
         role: data['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
@@ -265,10 +266,10 @@ export class AuthService {
         userId: data['userId'],
         exp: +data['exp'],
       };
-      
+
       localStorage.setItem("user", JSON.stringify(this.user));
       this.userSubject.next(this.user);
-      
+
 
 
     //}
@@ -303,18 +304,18 @@ export class AuthService {
     )
   }
 
-  
+
 
   getUserInfor(): User{
     // const token = this.jwtService.getToken();
     // if(!token)
     //   return null;
     // const data = this.getDecodedToken(token);
-    
 
-    
+
+
     const user = localStorage.getItem("user");
-    
+
     if(!user)
       return null;
     return  JSON.parse(localStorage.getItem("user"));
@@ -322,10 +323,8 @@ export class AuthService {
 
   refreshToken(param: any): Observable<any>{
     const header = new HttpHeaders().set('Content-type', 'application/json');
-    return this.httpClient.post('https://localhost:7016/auths/refresh', param, {headers: header, withCredentials: true})
+    return this.httpClient.post(this.path + 'auths/refresh', param, {headers: header, withCredentials: true})
   }
-
-  
 
 }
 

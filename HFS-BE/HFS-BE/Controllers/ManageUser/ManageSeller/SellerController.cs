@@ -18,7 +18,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageSeller
 		{
 		}
 		[HttpPost("users/listseller")]
-		[Authorize(Roles ="AD")]
+		//[Authorize(Roles ="AD")]
 		public ListSellerOutputDtoBS ListSeller()
 		{
 			try

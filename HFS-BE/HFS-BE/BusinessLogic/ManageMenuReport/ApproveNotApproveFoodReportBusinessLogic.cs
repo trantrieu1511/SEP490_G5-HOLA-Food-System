@@ -15,8 +15,9 @@ namespace HFS_BE.BusinessLogic.ManageMenuReport
         {
         }
 
-        public BaseOutputDto ApproveNotApproveFoodReport(ApproveNotApproveFoodReportInputDto inputDto, string updateBy)
+        public BaseOutputDto ApproveNotApproveFoodReport(ApproveNotApproveFoodReportInputDto inputDto, string updateBy, out string? sellerId)
         {
+            sellerId = null;
             try
             {
                 var dao = CreateDao<FoodReportDao>();
@@ -29,12 +30,27 @@ namespace HFS_BE.BusinessLogic.ManageMenuReport
 
                 var food = foodDao.GetFoodById(inputDto.FoodId);
 
+                if(food is null)
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+
                 var notifyBase = inputDto.IsApproved ?
                     GenerateNotification.GetSingleton().GenNotificationApproveReport(inputDto.ReportBy, food.Name, inputDto.Note, 0) :
                     GenerateNotification.GetSingleton().GenNotificationNotApproveReport(inputDto.ReportBy, food.Name, inputDto.Note, 0);
                 //3. add notify
                 var noti = notifyDao.AddNewNotification(notifyBase);
                 if (!noti.Success)
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                }
+
+                if(!inputDto.IsApproved)
+                    return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+                // add noti for seller
+                sellerId = food.SellerId;
+                var notify2 = GenerateNotification.GetSingleton().GenNotificationFoodReportSeller(food.SellerId, inputDto.FoodId, food.Name, inputDto.Note);
+                var noti2 = notifyDao.AddNewNotification(notify2);
+                if (!noti2.Success)
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail);
                 }

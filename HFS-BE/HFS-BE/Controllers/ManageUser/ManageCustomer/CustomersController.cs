@@ -17,7 +17,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageCustomer
 		}
 
 		[HttpPost("users/listcustomer")]
-		[Authorize(Roles = "AD")]
+	//	[Authorize(Roles = "AD")]
 		public ListCustomerOutputDtoBS ListCustomer()
 		{
 			try
@@ -32,35 +32,35 @@ namespace HFS_BE.Controllers.ManageUser.ManageCustomer
 			}
 		}
 
-		[HttpPost("users/bancustomer")]
-		[Authorize(Roles = "AD")]
-		public BaseOutputDto BanCustomer(BanCustomerDtoInput input)
-		{
-			try
-			{
-				var business = this.GetBusinessLogic<CustomerBusinessLogic>();
-				var output = business.BanCustomer(input);
-				return output;
-			}
-			catch (Exception ex)
-			{
-				throw;
-			}
-		}
-		[HttpPost("users/bancustomerhistory")]
-		[Authorize(Roles = "AD")]
-		public BaseOutputDto ListHistoryBanCustomer(BanCustomerHistoryDtoInput input)
-		{
-			try
-			{
-				var business = this.GetBusinessLogic<CustomerBusinessLogic>();
-				var output = business.ListHistoryBanCustomer(input);
-				return output;
-			}
-			catch (Exception ex)
-			{
-				throw;
-			}
-		}
+		//[HttpPost("users/bancustomer")]
+		//[Authorize(Roles = "AD")]
+		//public BaseOutputDto BanCustomer(BanCustomerDtoInput input)
+		//{
+		//	try
+		//	{
+		//		var business = this.GetBusinessLogic<CustomerBusinessLogic>();
+		//		var output = business.BanCustomer(input);
+		//		return output;
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		throw;
+		//	}
+		//}
+		//[HttpPost("users/bancustomerhistory")]
+		//[Authorize(Roles = "AD")]
+		//public BaseOutputDto ListHistoryBanCustomer(BanCustomerHistoryDtoInput input)
+		//{
+		//	try
+		//	{
+		//		var business = this.GetBusinessLogic<CustomerBusinessLogic>();
+		//		var output = business.ListHistoryBanCustomer(input);
+		//		return output;
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		throw;
+		//	}
+		//}
 	}
 }

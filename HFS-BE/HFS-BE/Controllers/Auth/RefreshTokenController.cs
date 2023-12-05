@@ -30,6 +30,8 @@ namespace HFS_BE.Controllers.Auth
             var output = busi.Refresh(inputBusi);
             if(!output.Success)
                 return Unauthorized("Invalid client request");
+
+            //return Unauthorized("Invalid client request");
             return Ok(output);
         }
     }

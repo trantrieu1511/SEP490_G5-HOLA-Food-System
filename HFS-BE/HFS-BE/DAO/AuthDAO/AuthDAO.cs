@@ -162,6 +162,12 @@ namespace HFS_BE.Dao.AuthDao
 				}
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
 			}
+			var dataphone = context.Customers.Where(s => s.PhoneNumber.ToLower() == model.PhoneNumber.ToLower()).FirstOrDefault();
+			if (dataphone != null)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Phone Number has been used");
+			}
+
 			var data = context.Customers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
@@ -187,16 +193,16 @@ namespace HFS_BE.Dao.AuthDao
 			var user = new HFS_BE.Models.Customer
 			{
 				CustomerId = paddedString,
-				Email = model.Email,
+				Email = model.Email.ToLower(),
 				BirthDate = model.BirthDate,
 				FirstName = model.FirstName,
 				LastName = model.LastName,
 				PhoneNumber = model.PhoneNumber,
 				Gender = model.Gender,
 				ConfirmedEmail = false,
-				//IsBanned=false
-				
-			};
+                //IsBanned=false
+                CreateDate = DateTime.Now,
+            };
 
 
 
@@ -361,7 +367,7 @@ namespace HFS_BE.Dao.AuthDao
 		}
 		private string GetForgotPasswordLink(string userId, string confirmationCode)
 		{
-			string baseUrl = "http://localhost:4200/#/forgot";
+			string baseUrl = "http://localhost:4200/forgot";
 			//	var query = new Dictionary<string, string>
 			//{
 			//	{ "userId", userId },
@@ -373,7 +379,7 @@ namespace HFS_BE.Dao.AuthDao
 
 		private string GetConfirmEmailLink(string userId, string confirmationCode)
 		{
-			string baseUrl = "http://localhost:4200/#/confirm";
+			string baseUrl = "http://localhost:4200/confirm";
 			//	var query = new Dictionary<string, string>
 			//{
 			//	{ "userId", userId },
@@ -753,10 +759,6 @@ namespace HFS_BE.Dao.AuthDao
 			}
 			else if (data5 != null)
 			{
-				if (data5.IsBanned == true)
-				{
-					return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned, please contact us to resolve");
-				}
 				var dapmapper = mapper.Map<Shipper, LoginGoogleInputDto>(data5);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
@@ -786,10 +788,10 @@ namespace HFS_BE.Dao.AuthDao
 				paddedString = "CU" + paddedString.Substring(2);
 
 				string[] FullName = payload.Name.Split(" ");
-				var user1 = new HFS_BE.Models.Customer {CustomerId= paddedString, Email = payload.Email, FirstName = FullName[0], LastName = FullName[1], Gender = "Null", ConfirmedEmail=true};
+				var user1 = new HFS_BE.Models.Customer {CustomerId= paddedString, Email = payload.Email, FirstName = FullName[0], LastName = FullName[1], Gender = "Null", ConfirmedEmail=true, CreateDate = DateTime.Now, };
 				if (FullName.Length == 3)
 				{
-					user1 = new HFS_BE.Models.Customer { CustomerId = paddedString, Email = payload.Email, FirstName = FullName[0], LastName = FullName[1] + FullName[2], Gender = "Null", ConfirmedEmail = true };
+					user1 = new HFS_BE.Models.Customer { CustomerId = paddedString, Email = payload.Email, FirstName = FullName[0], LastName = FullName[1] + FullName[2], Gender = "Null", ConfirmedEmail = true, CreateDate = DateTime.Now, };
 
 				}
 

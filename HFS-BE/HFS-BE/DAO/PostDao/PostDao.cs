@@ -88,6 +88,7 @@ namespace HFS_BE.Dao.PostDao
                 List<PostOutputSellerDto> postsModel = context.Posts
                                         .Include(p => p.PostImages)
                                         .Where(p => p.SellerId == userDto.UserId)
+                                        .OrderBy(p => p.CreatedDate)
                                         .Select(p => new PostOutputSellerDto
                                         {
                                             PostId = p.PostId,
@@ -96,7 +97,6 @@ namespace HFS_BE.Dao.PostDao
                                             Status = PostMenuStatusEnum.GetStatusString(p.Status),
                                             Images = p.PostImages.ToList()
                                         })
-                                        .OrderBy(p => p.CreatedDate)
                                         .ToList();
                 var output = this.Output<ListPostOutputSellerDto>(Constants.ResultCdSuccess);
                 output.Posts = postsModel;
@@ -121,7 +121,11 @@ namespace HFS_BE.Dao.PostDao
                                             CreatedDate = p.CreatedDate.Value.ToString("MM/dd/yyyy"),
                                             PostContent = p.PostContent,
                                             Status = PostMenuStatusEnum.GetStatusString(p.Status),
-                                            Images = p.PostImages.ToList()
+                                            Images = p.PostImages.ToList(),
+                                            //ReportedTimes = p.ReportedTimes,
+                                            BanBy = p.BanBy,
+                                            BanDate = p.BanDate,
+                                            BanNote = p.BanNote
                                         })
                                         .ToList();
                 var output = this.Output<ListPostOutputSellerDto>(Constants.ResultCdSuccess);
@@ -225,11 +229,17 @@ namespace HFS_BE.Dao.PostDao
                     {
                         // set status banned
                         post.Status = 3;
+                        post.BanBy = userId;
+                        post.BanDate = DateTime.Now;
+                        post.BanNote = input.BanNote;
                     }
                     else
                     {
                         //set status display
                         post.Status = 1;
+                        post.BanBy = null;
+                        post.BanDate = null;
+                        post.BanNote = null;
                     }
 
                     // Reduce ban/unban limit

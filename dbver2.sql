@@ -11,23 +11,24 @@ GO
 
 CREATE TABLE [dbo].[Seller](
 	[sellerId] [nvarchar](50) NOT NULL primary key,
-	[firstName] [nvarchar](50) NOT NULL,
-	[lastName] [nvarchar](50) NOT NULL,
-	[gender] [nvarchar](10) NULL,
-	[birthDate] [date] NULL,
+	--[firstName] [nvarchar](50) NOT NULL,
+	--[lastName] [nvarchar](50) NOT NULL,
+	--[gender] [nvarchar](10) NULL,
+	--[birthDate] [date] NULL,
+	shopName NVARCHAR(50),
+	shopAddress NVARCHAR(MAX),
 	[email] [nvarchar](100) UNIQUE NOT NULL,
 	[phoneNumber] [nvarchar](11) NULL,
 	[PasswordSalt] [varbinary](max) NOT NULL,
 	[PasswordHash] [varbinary](max) NOT NULL,
 	[isOnline] [bit] NOT NULL,
 	[walletBalance] [money] NULL,
-	shopName NVARCHAR(50),
-	shopAddress NVARCHAR(MAX),
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 	[isBanned] [bit] not null DEFAULT('false'),
 	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Seller) da duoc admin xac nhan cho phep kinh doanh o HFS chua
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
+	[createDate][datetime] null,
 )
 
 CREATE TABLE [dbo].[Admin](
@@ -45,6 +46,7 @@ CREATE TABLE [dbo].[Admin](
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
+		[createDate][datetime] null,
 )
 
 CREATE TABLE [dbo].[PostModerator](
@@ -63,7 +65,8 @@ CREATE TABLE [dbo].[PostModerator](
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
 	[banLimit] int default 25, -- Gioi han ban bai viet cua mot post moderator
-	[reportApprovalLimit] int default 25 -- Gioi approve/not approve post report cua mot post moderator
+	[reportApprovalLimit] int default 25, -- Gioi approve/not approve post report cua mot post moderator
+	[createDate][datetime] null,
 )
 
 CREATE TABLE [dbo].[MenuModerator](
@@ -82,9 +85,27 @@ CREATE TABLE [dbo].[MenuModerator](
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
 	[banLimit] int default 25, -- Gioi han ban thuc pham cua mot menu moderator
-	[reportApprovalLimit] int default 25 -- Gioi approve/not approve food report cua mot menu moderator
+	[reportApprovalLimit] int default 25, -- Gioi approve/not approve food report cua mot menu moderator
+	[createDate][datetime] null,
 )
 
+--CREATE TABLE [dbo].[Customer](
+--	[customerId] [nvarchar](50) NOT NULL primary key,
+--	[firstName] [nvarchar](50) NOT NULL,
+--	[lastName] [nvarchar](50) NOT NULL,
+--	[gender] [nvarchar](10) NULL,
+--	[birthDate] [date] NULL,
+--	[email] [nvarchar](100) UNIQUE NOT NULL,
+--	[phoneNumber] [nvarchar](11) NULL,
+--	[PasswordSalt] [varbinary](max) NOT NULL,
+--	[PasswordHash] [varbinary](max) NOT NULL,
+--	[isOnline] [bit] NOT NULL DEFAULT('false'),
+--	[walletBalance] [money] NULL,
+--	[confirmedEmail] [bit] not NULL DEFAULT('false'),
+--	[isBanned] [bit] not null DEFAULT('false'),		
+--	[refreshToken] [varchar](max),
+--	[refreshTokenExpiryTime] [datetime],
+--)
 CREATE TABLE [dbo].[Customer](
     [customerId] [nvarchar](50) NOT NULL PRIMARY KEY,
     [firstName] [nvarchar](50) NOT NULL,
@@ -102,7 +123,8 @@ CREATE TABLE [dbo].[Customer](
     --[banEndTime] [datetime] NULL,
     [numberOfViolations] [int] NOT NULL DEFAULT(0),
     [refreshToken] [varchar](max),
-    [refreshTokenExpiryTime] [datetime]
+    [refreshTokenExpiryTime] [datetime],
+	[createDate][datetime] null,
 	--CONSTRAINT CK_S_Dates CHECK ([banStartTime] < [banEndTime]),
 );
 
@@ -119,10 +141,10 @@ CREATE TABLE [dbo].[Shipper](
 	[isOnline] [bit] NOT NULL DEFAULT('false'),
 	[manageBy] [nvarchar](50) NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
-	[isBanned] [bit] not null DEFAULT('false'),
 	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Shipper) da duoc admin xac nhan cho phep kinh doanh o HFS chua
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
+	[createDate][datetime] null,
 	CONSTRAINT FK_Shiper_Seller FOREIGN KEY (manageBy) REFERENCES [Seller]([sellerId]),
 )
 
@@ -152,9 +174,15 @@ CREATE TABLE [dbo].[Food](
 	[sellerId] [nvarchar](50) not null,
 	[name] [nvarchar](100) NULL,
 	[unitPrice] decimal,
+	[createDate] [datetime] null,
 	[description] [nvarchar](max) NULL,
 	[categoryId] [int] NULL,
 	[status] [tinyint] NULL,
+	[reportedTimes] [int] default(0) NUll, -- Thể hiện cho số lần mà thực phẩm này nhận phải tố cáo hợp lệ (Đã thông qua kiểm duyệt của menu mod) đến từ khách hàng
+	[banBy] [nvarchar](50) NUll,
+	[banDate] [datetime] Null,
+	[banNote] [nvarchar](MAX) NUll,
+	Foreign Key ([banBy]) REFERENCES [MenuModerator](ModId),
 	Foreign Key ([sellerId]) REFERENCES [Seller](sellerId),
 	FOREIGN KEY([categoryId]) REFERENCES [dbo].[Category] ([categoryId]),
 PRIMARY KEY CLUSTERED 
@@ -255,8 +283,8 @@ CREATE TABLE [dbo].[Voucher](
 	[discount_amount] DECIMAL(10, 2) NOT NULL,
 	[minimum_order_value] DECIMAL(10, 2),
 	[status] [tinyint] NULL,
-	[effectiveDate] [date] NULL,
-	[expireDate] [date] NULL,
+	[effectiveDate] [datetime] NULL,
+	[expireDate] [datetime] NULL,
 	FOREIGN KEY([sellerId]) REFERENCES [dbo].[Seller] ([sellerId]),
 	CONSTRAINT CK_Order_Dates CHECK (effectiveDate < [expireDate]),
 PRIMARY KEY CLUSTERED 
@@ -346,6 +374,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Feedback](
 	[feedbackId] [int] IDENTITY(1,1) NOT NULL,
+	[orderId] [int] Null,
 	[foodId] [int] NULL,
 	[customerId] [nvarchar](50)  NULL,
 	[feedbackMessage] [nvarchar](max) NULL,
@@ -353,6 +382,7 @@ CREATE TABLE [dbo].[Feedback](
 	[createdDate] [datetime] NULL,
 	[updateDate] [datetime] NULL,
 	[status] [tinyint] NULL,
+	FOREIGN KEY([orderId]) REFERENCES [dbo].[Order] ([OrderId]),
 	FOREIGN KEY([customerId]) REFERENCES [dbo].[Customer] ([customerId]),
 	FOREIGN KEY([foodId]) REFERENCES [dbo].[Food] ([foodId]),
 	CONSTRAINT CK_FeedBack_Dates CHECK (createdDate <= updateDate),
@@ -417,6 +447,11 @@ CREATE TABLE [dbo].[Post](
 	[postContent] [nvarchar](1500) NULL,
 	[createdDate] [datetime] NULL,
 	[status] [tinyint] NULL,
+	--[reportedTimes] [int] default(0) NUll, -- Thể hiện cho số lần mà bài đăng này nhận phải tố cáo hợp lệ (Đã thông qua kiểm duyệt của post mod) đến từ khách hàng
+	[banBy] [nvarchar](50) NUll,
+	[banDate] [datetime] Null,
+	[banNote] [nvarchar](MAX) Null, -- Lý do khác hoặc ghi chú bổ sung cho việc bị ban vì > 3 tố cáo hợp lệ đến từ khách hàng
+	Foreign Key ([banBy]) REFERENCES [PostModerator](ModId),
 	Foreign Key ([sellerId]) REFERENCES [Seller](SellerId),
 	primary key([postId]),
 	)
@@ -487,14 +522,7 @@ CREATE TABLE SellerBan (
     CONSTRAINT FK_SellerBan_Seller FOREIGN KEY (sellerId) REFERENCES Seller(sellerId)
 );
 
--- Bảng lưu trữ thông tin ban khách hàng
-CREATE TABLE CustomerBan (
-    banCustomerId INT PRIMARY KEY IDENTITY(1, 1),
-    customerId NVARCHAR(50) NOT NULL,
-    Reason NVARCHAR(255),
-    CreateDate DATETIME NOT NULL,
-    CONSTRAINT FK_CustomerBan_Customer FOREIGN KEY (customerId) REFERENCES Customer(customerId)
-);
+
 
 -- Tạo bảng Mời làm Shipper (Invitation)
 CREATE TABLE Invitation (
@@ -507,13 +535,6 @@ CREATE TABLE Invitation (
     CONSTRAINT FK_Invitation_Shipper FOREIGN KEY (ShipperID) REFERENCES Shipper(shipperId)
 );
 
-CREATE TABLE ShipperBan (
-    banShipperId INT PRIMARY KEY IDENTITY(1, 1),
-    shipperId NVARCHAR(50) NOT NULL,
-    Reason NVARCHAR(255),
-    CreateDate DATETIME NOT NULL,
-    CONSTRAINT FK_ShipperBan_Customer FOREIGN KEY (shipperId) REFERENCES Shipper(shipperId)
-);
 
 CREATE TABLE [dbo].[TransactionHistory](
 	[transactionId] [int] IDENTITY(1,1) NOT NULL,
@@ -576,3 +597,72 @@ CREATE TABLE [dbo].[FeedBackImage](
 	[path] [nvarchar](max) NULL,
 	FOREIGN KEY([feedbackId]) REFERENCES [dbo].[FeedBack] ([feedbackId]),
 )
+
+CREATE TABLE [dbo].[WalletTransferCode](
+	[codeId] [int] IDENTITY(1,1) NOT NULL  PRIMARY KEY,
+	[userId][nvarchar](50) NULL,
+	[code] [varchar] NULL,
+	[expiredDate] datetime NULL,
+)
+
+
+--CREATE TABLE [dbo].[ShipperReport](
+--	[shipperId] [nvarchar](50) NOT NULL,
+--	[reportBy] [nvarchar](50) NOT NULL,
+--	[reportContent] [nvarchar](max) NOT NULL,
+--	[createDate] [datetime] NOT NULL,
+--	[updateDate] [datetime] NULL,
+--	[updateBy] [nvarchar](50) NULL,
+--	[status] [tinyint] NOT NULL, -- 0: Pending: KH moi tao report, post mod chua xu ly report, 1: Approved - Post mod chap nhan to cao va da xu ly xong bai viet bi to cao, 2: NotApproved: Post mod khong chap nhan report (Co le do nguoi report k neu ra duoc noi dung to cao mot cach nghiem tuc)
+--	[note] [nvarchar](MAX) NULL,
+--	FOREIGN KEY([reportBy]) REFERENCES [dbo].[Seller] ([sellerId]),
+--	FOREIGN KEY([updateBy]) REFERENCES [dbo].[Admin] ([adminId]),
+--	FOREIGN KEY([shipperId]) REFERENCES [dbo].[Shipper] ([shipperId]),
+--	);
+
+	--CREATE TABLE [dbo].[ShipperReport](
+	--[shipperId] [nvarchar](50) NOT NULL,
+	--[reportBy] [nvarchar](50) NOT NULL,
+	--[reportContent] [nvarchar](max) NOT NULL,
+	--[createDate] [datetime] NOT NULL,
+	--[updateDate] [datetime] NULL,
+	--[updateBy] [nvarchar](50) NULL,
+	--[status] [tinyint] NOT NULL, -- 0: Pending: KH moi tao report, post mod chua xu ly report, 1: Approved - Post mod chap nhan to cao va da xu ly xong bai viet bi to cao, 2: NotApproved: Post mod khong chap nhan report (Co le do nguoi report k neu ra duoc noi dung to cao mot cach nghiem tuc)
+	--[note] [nvarchar](MAX) NULL,
+	--FOREIGN KEY([reportBy]) REFERENCES [dbo].[Seller] ([sellerId]),
+	--FOREIGN KEY([updateBy]) REFERENCES [dbo].[Admin] ([adminId]),
+	--FOREIGN KEY([shipperId]) REFERENCES [dbo].[Shipper] ([shipperId]),
+	--);
+
+	CREATE TABLE [dbo].[SellerReport](
+	[sellerReportId] [int] IDENTITY(1,1) NOT NULL  PRIMARY KEY,
+	[sellerId] [nvarchar](50) NOT NULL,
+	[reportBy] [nvarchar](50) NOT NULL,
+	[reportContent] [nvarchar](max) NOT NULL,
+	[createDate] [datetime] NOT NULL,
+	[updateDate] [datetime] NULL,
+	[updateBy] [nvarchar](50) NULL,
+	[status] [tinyint] NOT NULL, -- 0: Pending: KH moi tao report, post mod chua xu ly report, 1: Approved - Post mod chap nhan to cao va da xu ly xong bai viet bi to cao, 2: NotApproved: Post mod khong chap nhan report (Co le do nguoi report k neu ra duoc noi dung to cao mot cach nghiem tuc)
+	[note] [nvarchar](MAX) NULL,
+	FOREIGN KEY([reportBy]) REFERENCES [dbo].[Customer] ([customerId]),
+	FOREIGN KEY([updateBy]) REFERENCES [dbo].[Admin] ([adminId]),
+	FOREIGN KEY([sellerId]) REFERENCES [dbo].[Seller] ([sellerId]),
+	);
+
+	CREATE TABLE [dbo].[SellerReportImage](
+	[imageSellerReportId] [int] IDENTITY(1,1) NOT NULL  PRIMARY KEY,
+	[sellerReportId] [int] NULL,
+	[path] [nvarchar](max) NULL,
+	FOREIGN KEY([sellerReportId]) REFERENCES [dbo].[SellerReport] ([sellerReportId]),
+)
+	CREATE TABLE [dbo].[SellerLicenseImage](
+	[imageLicenseId] [int] IDENTITY(1,1) NOT NULL  PRIMARY KEY,
+	[sellerId] [nvarchar](50) NOT NULL,
+	[path] [nvarchar](max) NULL,
+	FOREIGN KEY([sellerId]) REFERENCES [dbo].[Seller] ([sellerId]),
+)
+
+ALTER TABLE [dbo].[Customer]
+ADD [isPhoneVerified] [bit] NOT NULL DEFAULT('false'),
+    [otpToken] [nvarchar](max) NULL,
+    [otpTokenExpiryTime] [int] NULL;

@@ -1,4 +1,6 @@
 :host ::ng-deep {
+	
+
 	.custom-rating .ui-rating-star:not(.ui-rating-star-on):before {
 		content: '\2605';
 		position: absolute;
@@ -16,10 +18,6 @@
 		&:hover{
             cursor: pointer;
         }
-	}
-
-	.product-description {
-		margin: 0 0 1rem 0;
 	}
 
 	.product-category-icon {
@@ -77,28 +75,189 @@
 	.product-grid-item {
 		margin: .5em;
 		border: 1px solid var(--surface-d);
+		transition: transform .3s ease-out;
 		
 		.product-grid-item-top,
 		.product-grid-item-bottom {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+
 		}
 
 		img {
 			width: 75%;
 			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-			margin: 2rem 0;
+		}
+
+		.product-grid-item-top{
+			flex-shrink: 0;
 		}
 
 		.product-grid-item-content {
 			text-align: center;
+			flex-grow: 1;
+			.food-images{
+				display: grid;
+				grid-template-columns: 2fr 1fr;
+				grid-template-rows: 4rem 4rem;
+				grid-gap: 1rem;
+				grid-template-areas: 
+				"h1 h2"
+				"h1 h3";
+				padding: 1rem 0;
+
+				.food-image:first-child {
+					grid-area: h1;
+				}
+
+				.food-image{
+					img{
+						display: block;
+						width: 100%;
+						height: 100%;
+						object-fit: cover;
+						border-radius: 7px;
+					}
+				}
+			}
 		}
+
+		.product-grid-item-bottom{
+			flex-shrink: 0;
+		}
+
+		.product-grid-item-bottom:hover{
+			cursor: pointer;
+		}
+
+		
 
 		.product-price {
 			font-size: 1.5rem;
 			font-weight: 600;
 		}
+	}
+
+	.product-grid-item:hover{
+		cursor: pointer;
+		transform: translate(0, -5px);
+		box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	}
+
+	.p-carousel-items-container{
+		--columns: 3;
+		.p-carousel-item{
+			width: calc(100% / var(--columns));
+
+			.product-content{
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				flex-grow: 1;
+				transition: transform .3s ease-out;
+
+				.product-top{
+					
+					/* card-bottom cố định -> grow để chiếm hết phần còn lại */
+					flex-grow: 1;
+
+					img{
+						height: 8rem;
+						width: 65%;
+						object-fit: cover;
+					}
+				}
+
+				.product-bottom{
+					flex-shrink: 0; 
+					.product-name{
+						display: -webkit-box;
+						-webkit-line-clamp: 1;
+						-webkit-box-orient:  vertical;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						word-break: break-word; 
+					}
+				}
+				&:hover{
+					cursor: pointer;
+					transform: translate(0, -5px);
+					box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+				}
+
+			}
+			
+		}
+
+		
+	}
+
+	.card-product_top{
+		display: flex;
+		padding: 0.5rem 0;
+
+		.shop-avatar{
+			padding: 0 0.8rem 0.8rem 0.8rem;
+
+			img{
+				height: 5rem;
+				width: 3rem;
+				border-radius: 10%;
+				object-fit: cover;
+				margin: 0;
+			}
+		}
+
+		.shop-infor{
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+			padding-left: 1rem;
+
+			.shop-name{
+				display:-webkit-box;
+				margin-bottom: 0.5rem;
+				-webkit-line-clamp:1;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				word-break: break-word;
+			}
+
+			.p-icon {
+				width: 0.8rem;
+				height: 0.8rem;
+			}
+
+			.shop-address{
+				display: flex;
+				align-items: center;
+				.shop-address_content{
+					display:-webkit-box;
+					-webkit-line-clamp:2 ;
+					-webkit-box-orient: vertical;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					word-break: break-word;
+				}
+			}
+		}
+	}
+
+	@media screen and (max-width: 768.01px) {
+
+		.p-carousel-items-container{
+			--columns: 2;
+		}
+		.p-dropdown {
+			width: 100%;
+		}
+
+		.a-input_search{
+			width: 100%;
+		}
+
 	}
 }
 
@@ -133,8 +292,14 @@
 
 @media screen and (max-width: 576px) {
 	:host ::ng-deep .product-list-item {
+
+		
 		flex-direction: column;
 		align-items: center;
+
+		.p-carousel-items-container{
+			--columns: 1;
+		}
 
 		img {
 			width: 75%;

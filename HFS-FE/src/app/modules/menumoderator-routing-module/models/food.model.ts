@@ -7,6 +7,10 @@ export class Food {
   categoryName: string = null;
   categoryId: number = null;
   status: string = null;
+  reportedTimes: number = null;
+  banBy: string = null;
+  banDate: string = null;
+  banNote: string = null;
   rating: number = null;
   imagesBase64: FoodImageBase64[] = null;
 }
@@ -44,6 +48,11 @@ export class FoodInputValidation {
   categoryIdMessage: string = null;
 }
 
+export class BanUnbanInputValidation {
+  isBanNoteValid: boolean = true;
+  banNoteMessage: string = null;
+}
+
 export class FoodDisplayHideInputDto {
   foodId: number;
   type: boolean;
@@ -52,4 +61,5 @@ export class FoodDisplayHideInputDto {
 export class FoodBanUnbanInputDto {
   foodId: number;
   isBanned: boolean;
+  banNote: string;
 }

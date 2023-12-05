@@ -5,6 +5,11 @@ namespace HFS_BE.Models
 {
     public partial class Admin
     {
+        public Admin()
+        {
+            SellerReports = new HashSet<SellerReport>();
+        }
+
         public string AdminId { get; set; } = null!;
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
@@ -19,5 +24,8 @@ namespace HFS_BE.Models
         public bool? ConfirmedEmail { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
+        public DateTime? CreateDate { get; set; }
+
+        public virtual ICollection<SellerReport> SellerReports { get; set; }
     }
 }

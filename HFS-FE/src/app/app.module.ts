@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppManageLayoutComponent } from './layout/manage/app.manage.component';
@@ -70,16 +69,17 @@ import { DashboadAdminModuleComponent } from './modules/admin-routing-module/das
 import { ListFeedbackBySellerComponent } from './modules/seller-routing-module/components/list-feedback-by-seller/list-feedback-by-seller.component';
 import { AppMenuMyaccountComponent } from './app-systems/app-menu/myaccount/app-menu-myaccount.component';
 import { DashboadShipperModuleComponent } from './modules/shipper-routing-module/components/dashboad-shipper-module/dashboad-shipper-module.component';
+import { SellerReportModuleComponent } from './modules/admin-routing-module/seller-report-module/seller-report-module.component';
+import { ReportSellerComponent } from './modules/customer-routing-module/components/report-seller/report-seller.component';
+import { AddressSelectorComponent } from './modules/customer-routing-module/address-selector/address-selector.component';
+import { CustomerRoutingModule } from './modules/customer-routing-module/customer-routing.module';
+import { SellerRoutingModule } from './modules/seller-routing-module/seller-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppManageLayoutComponent,
-    AppBreadcrumbComponent,
-    AppTopBarComponent,
-    AppFooterComponent,
-    AppMenuComponent,
-    AppMenuitemComponent,
+    
     AppNotfoundComponent,
     AppErrorComponent,
     AppAccessdeniedComponent,
@@ -109,6 +109,8 @@ import { DashboadShipperModuleComponent } from './modules/shipper-routing-module
     SearchComponent,
     DashboadAdminModuleComponent,
     DashboadShipperModuleComponent,
+    SellerReportModuleComponent,
+    // ReportSellerComponent,
     //ListFeedbackBySellerComponent,
   ],
   imports: [
@@ -122,6 +124,8 @@ import { DashboadShipperModuleComponent } from './modules/shipper-routing-module
     ReactiveFormsModule,
     FormsModule,
     BusinessRoutingModule,
+    CustomerRoutingModule,
+    SellerRoutingModule,
     // JwtModule.forRoot({
     //   config: {
     //     tokenGetter: () => sessionStorage.getItem('token')

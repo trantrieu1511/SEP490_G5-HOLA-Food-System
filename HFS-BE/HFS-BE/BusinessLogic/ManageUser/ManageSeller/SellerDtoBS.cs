@@ -22,8 +22,16 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageSeller
 		public bool? IsBanned { get; set; }
 		public bool? IsVerified { get; set; }
 		public List<SellerImageOutputDto>? ImagesBase64 { get; set; } = new List<SellerImageOutputDto>();
+		public List<SellerImageLOutputDto>? ImagesBase64L { get; set; } = new List<SellerImageLOutputDto>();
 	}
 
+	public class SellerImageLOutputDto
+	{
+		public int ImageId { get; set; }
+		public string? ImageBase64 { get; set; }
+		public string? Name { get; set; }
+		public string? Size { get; set; }
+	}
 	public class SellerImageOutputDto
 	{
 		public int ImageId { get; set; }

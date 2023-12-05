@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using CloudinaryDotNet.Actions;
 using HFS_BE.Base;
 using HFS_BE.Dao.FoodDao;
 using HFS_BE.Dao.PostDao;
 using HFS_BE.DAO.CategoryDao;
 using HFS_BE.DAO.ModeratorDao;
 using HFS_BE.DAO.NotificationDao;
+using HFS_BE.DAO.SellerDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
@@ -23,6 +25,18 @@ namespace HFS_BE.BusinessLogic.ManageFood
         {
             try
             {
+
+                var sellerDao = CreateDao<SellerDao>();
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email) is null)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not exist");
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).IsVerified == false)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not verified");
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).IsBanned == true)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is banned");
+
                 var daoCate = CreateDao<CategoryDao>();
                 var foodDao = this.CreateDao<FoodDao>();
                 var notifyDao = CreateDao<NotificationDao>();

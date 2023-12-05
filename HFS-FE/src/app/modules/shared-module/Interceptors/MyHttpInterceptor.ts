@@ -1,7 +1,7 @@
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Injectable, Injector} from '@angular/core';
 import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
-import {catchError, filter, switchMap, take} from 'rxjs/operators';
+import { catchError, filter, last, map, switchMap, take, finalize } from 'rxjs/operators';
 import { Router } from "@angular/router";
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthenticatedResponse } from '../models/authenticated-response.model';
@@ -31,7 +31,7 @@ export class MyHttpInterceptor implements HttpInterceptor {
   //       return next.handle(request).pipe(
   //           catchError((err: any) => {
   //                   if (err.status === 401) {
-  //                     
+  //
   //                       //UnAuthorized
 	// 					this.router.navigateByUrl(`/login`);
 	// 					window.location.reload();
@@ -83,45 +83,55 @@ export class MyHttpInterceptor implements HttpInterceptor {
           },
         });
       }
-      
+
     //}
 
     return next.handle(request).pipe(
       catchError(err => {
         
-        if (err instanceof HttpErrorResponse &&  err.status === 401 || err.statusText == 'Unknown Error') {
+        if (err instanceof HttpErrorResponse && (err.status === 401 || err.status === 0)) {
           // Xử lý token hết hạn sau khi gửi request
           return this.handleAuthError(request, next, err);
         }
         return throwError(err);
-        
+
       })
     );
   }
 
   private handleAuthError(request: HttpRequest<any>, next: HttpHandler, err: any){
-    
-    if(!request.url.includes('auths/refresh')){
+
+    //if(!request.url.includes('auths/refresh')){
+    if(this.timesRefresh != 1){
+      this.timesRefresh++;
       this.refreshTokenSubject.next(null);
+
+      if(this.iFunction.getCookie("token")){
+        return of(err.message);
+      }
+
       const refreshToken: string = this.iFunction.getCookie("refreshToken");
-      if (!refreshToken) { 
+      if (!refreshToken) {
+        
         localStorage.removeItem('user');
+        this.jwtService.removeToken();
         this.router.navigate(['/login']);
+        window.location.reload();
         
         return of(err.message);
-      
+
       }
-      
-      const credentials = { 
-        refreshToken: refreshToken 
+
+      const credentials = {
+        refreshToken: refreshToken
       };
       this.authService.refreshToken(credentials).subscribe({
         next: (x : any) => {
-          
+
           this.jwtService.saveTokenResponse(x);
 
           this.refreshTokenSubject.next(x.token);
-          
+
           return next.handle(this.addTokenHeader(request, x.token))
         },
         error: (err: any) => {
@@ -132,16 +142,28 @@ export class MyHttpInterceptor implements HttpInterceptor {
             false
           ).subscribe({
             next: (a: any) => {
-              this.router.navigate(['/login']);
+              
               localStorage.removeItem('user');
-              return throwError(err);
+              this.jwtService.removeToken();
+              this.router.navigate(['/login']);
+              //window.location.reload();
+              return of(err.message);
+            },
+            error: (err: any) => {
+              localStorage.removeItem('user');
+              this.jwtService.removeToken();
+              this.router.navigate(['/login']);
+              // Handle error here
+              return of(err.message);
             }
+          
           })
         }
       })
       //return of("Refresh token loading..")
     }
     else{
+      this.timesRefresh = 0;
       return throwError(() => new Error('Non Authentications Error'));
     }
 
@@ -153,7 +175,7 @@ export class MyHttpInterceptor implements HttpInterceptor {
   }
 
   private addTokenHeader(request: HttpRequest<any>, token: string){
-    
+
     return request.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`

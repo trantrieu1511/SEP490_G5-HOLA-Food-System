@@ -30,8 +30,8 @@ namespace HFS_BE.Controllers.ManageMenuReport
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Please login as a customer before executing this API.");
                 }
                 var business = GetBusinessLogic<CreateNewFoodReportBusinessLogic>();
-                string? sellerId;
-                var output = business.CreateNewFoodReport(inputDto, GetUserInfor().UserId, out sellerId);
+                
+                var output = business.CreateNewFoodReport(inputDto, GetUserInfor().UserId);
 
                 // call signalR to Food Modelrator
                 if (output.Success)
@@ -40,7 +40,7 @@ namespace HFS_BE.Controllers.ManageMenuReport
                     var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
 
                     await notifyHub.Clients.All.SendAsync("foodNotification");
-                    await notifyHub.Clients.Group(sellerId).SendAsync("notification");
+                    
                 }
 
                 return output;

@@ -45,7 +45,8 @@ namespace HFS_BE.DAO.PostReportDao
                             .Select(pr => new PostReportOutputDto
                             {
                                 PostId = pr.PostId,
-                                SellerName = pr.Post.Seller.LastName + " " + pr.Post.Seller.FirstName,
+                                //   SellerName = pr.Post.Seller.LastName + " " + pr.Post.Seller.FirstName,
+
                                 ShopName = pr.Post.Seller.ShopName,
                                 PostContent = pr.Post.PostContent,
                                 ReportBy = pr.ReportBy,
@@ -116,10 +117,16 @@ namespace HFS_BE.DAO.PostReportDao
                     if (inputDto.IsApproved)
                     {
                         postReport.Status = 1;
+                        //context.Posts.SingleOrDefault(f => f.PostId == postReport.PostId).ReportedTimes++;
                     }
                     else
                     {
                         postReport.Status = 2;
+                        //int? reportedTimes = context.Posts.SingleOrDefault(f => f.PostId == postReport.PostId).ReportedTimes;
+                        //if (reportedTimes > 0)
+                        //{
+                        //    context.Posts.SingleOrDefault(f => f.PostId == postReport.PostId).ReportedTimes--;
+                        //}
                     }
                     postReport.Note = inputDto.Note; // optional
 
@@ -177,7 +184,7 @@ namespace HFS_BE.DAO.PostReportDao
                 return this.Output<DashboardPostmodPostReportDataDaoOutputDto>(Constants.ResultCdFail, e.Message + e.Source + e.InnerException + e.StackTrace);
             }
         }
-        
+
         public DashboardPostmodPostReportDataDaoOutputDto GetAllPostReports()
         {
             try

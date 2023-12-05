@@ -15,16 +15,28 @@ import { SellerListComponent } from 'src/app/seller-list/seller-list.component';
 import { ChatboxComponent } from 'src/app/chatbox/chatbox.component';
 import { CustomerListByChatComponent } from 'src/app/customer-list-by-chat/customer-list-by-chat.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppBreadcrumbComponent } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.component';
+import { AppTopBarComponent } from 'src/app/app-systems/app-topbar/app.topbar.component';
+import { AppFooterComponent } from 'src/app/app-systems/app-footer/app.footer.component';
+import { AppMenuComponent } from 'src/app/app-systems/app-menu/app-menu.component';
+import { AppMenuitemComponent } from 'src/app/app-systems/app-menuitem/app.menuitem.component';
+import { MapBoxComponent } from './components/map-box/map-box.component';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { environment } from 'src/environments/environment';
+
 
 @NgModule({
   imports: [
-      ComponentModule,
-      FormsModule,
-      CommonModule,
-      ReactiveFormsModule,
-      StyleClassModule,
-      TranslateModule
-    
+
+  ComponentModule,
+    FormsModule,
+    CommonModule,
+    ReactiveFormsModule,
+    StyleClassModule,
+    TranslateModule,
+    NgxMapboxGLModule.withConfig({
+        accessToken: environment.mapTokenKey, // Optional, can also be set per map (accessToken input of mgl-map)
+    })
   ],
   providers: [
       iServiceBase,
@@ -40,7 +52,13 @@ import { TranslateModule } from '@ngx-translate/core';
       NotificationItemComponent,
       SellerListComponent,
       ChatboxComponent,
-      CustomerListByChatComponent
+      CustomerListByChatComponent,
+      AppBreadcrumbComponent,
+      AppTopBarComponent,
+      AppFooterComponent,
+      AppMenuComponent,
+      AppMenuitemComponent,
+      MapBoxComponent,
 
   ],
   exports: [
@@ -50,7 +68,14 @@ import { TranslateModule } from '@ngx-translate/core';
       NotificationsComponent,
       SellerListComponent,
       CustomerListByChatComponent,
-      TranslateModule
+      TranslateModule,
+      AppBreadcrumbComponent,
+      AppTopBarComponent,
+      AppFooterComponent,
+      AppMenuComponent,
+      AppMenuitemComponent,
+      NgxMapboxGLModule,
+      MapBoxComponent
 
   ],
 })

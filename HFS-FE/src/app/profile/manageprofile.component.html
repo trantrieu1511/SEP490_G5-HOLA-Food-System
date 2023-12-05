@@ -66,7 +66,7 @@
 <p-dialog #sellerEditProfileDialog [(visible)]="isVisibleSellerEditProfileDialog" [style]="{ width: '450px' }"
     header="Profile details" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="sellerProfileInfo">
-        <div class="formgrid grid">
+        <!-- <div class="formgrid grid">
             <div class="field col">
                 <label for="lastname">Last name <span style="color: red;">*</span></label>
                 <input type="text" pInputText id="lastname" [(ngModel)]="profile.lastName" required
@@ -83,15 +83,15 @@
                 <small [style.display]="editProfileValidation.isValidFirstName ? 'none !important' : 'block !important'"
                     class="p-error block">{{editProfileValidation.FirstNameValidationMessage}}</small>
             </div>
-        </div>
+        </div> -->
         <!-- <div class="formgrid grid"> -->
-        <div class="field">
+        <!-- <div class="field">
             <label class="mb-3" for="birthDate">Birth date</label>
             <input type="date" pInputText id="birthDate" [(ngModel)]="profile.birthDate" />
-        </div>
+        </div> -->
         <!-- </div> -->
 
-        <div class="field">
+        <!-- <div class="field">
             <label class="mb-3">Gender</label>
             <div class="formgrid grid">
                 <div class="field-radiobutton col-6">
@@ -109,7 +109,7 @@
                     <label for="other">Other</label>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="field">
             <label for="phonenumber">Phone number <span style="color: red;">*</span></label>
@@ -198,7 +198,25 @@
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
             (click)="this.isVisibleVerifyYourselfModal = false"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" (click)="verifyIdentity();"></button>
+        <button pButton pRipple label="Continue" (click)="verifyIdentity();"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="isVisibleVerifyPhoneNumberModal" [style]="{ width: '450px' }" header="Verify Your Phonenumber"
+    [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="VerifyPhonenumber">
+        <!-- <div class="formgrid grid"> -->
+        <div class="field">
+            <label for="otpHayGiDay">OTP(4 digit code):<span style="color: red;">*</span></label>
+            <input type="number" pInputText id="otpHayGiDay" placeholder="Enter Your OTP" maxlength="4"  [(ngModel)]="verifyOtp"/>
+        </div>
+        <!-- </div> -->
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+            (click)="this.isVisibleVerifyPhoneNumberModal = false"></button>
+        <button pButton pRipple label="Submit" (click)="verifyPhonenumber();"></button>
     </ng-template>
 </p-dialog>
 
@@ -239,7 +257,7 @@
 
 <div class="page-content">
     <div class="card sidebar" *ngIf="role == 'CU'">
-        
+
         <app-menu-myaccount></app-menu-myaccount>
 
         <!-- <button pButton pRipple class="p-button-info p-mr-2 p-button-outlined" style="width: 100%;">Profile</button><hr>
@@ -264,31 +282,39 @@
                 <!-- <p-button (onClick)="showUploadedFiles();">Show files uploaded</p-button> -->
             </div>
             <div class="col-6 md:col-6">
-                <div style="display: flex;">
-                    <p class="field-title">Last name: </p>
-                    <p class="field-info">{{profileDisplay.lastName}}</p>
+                <div *ngIf="this.authService.getUserInfor().role != 'SE'">
+                    <div style="display: flex;">
+                        <p class="field-title">Last name: </p>
+                        <p class="field-info">{{profileDisplay.lastName}}</p>
+                    </div>
+                    <hr>
                 </div>
-                <hr>
-                <div style="display: flex;">
-                    <p class="field-title">First name: </p>
-                    <p class="field-info">{{profileDisplay.firstName}}</p>
-                    <!-- Interpolation: Thường được dùng để hiển thị dữ liệu từ file ts lên template. Syntax: {{ expression }} -->
+                <div *ngIf="this.authService.getUserInfor().role != 'SE'">
+                    <div style="display: flex;">
+                        <p class="field-title">First name: </p>
+                        <p class="field-info">{{profileDisplay.firstName}}</p>
+                        <!-- Interpolation: Thường được dùng để hiển thị dữ liệu từ file ts lên template. Syntax: {{ expression }} -->
+                    </div>
+                    <hr>
                 </div>
-                <hr>
-                <div style="display: flex;">
-                    <p class="field-title">Gender: </p>
-                    <p class="field-info">{{profileDisplay.gender == undefined ?
-                        'None. Use the edit function to enter your gender'
-                        : profileDisplay.gender}}</p>
+                <div *ngIf="this.authService.getUserInfor().role != 'SE'">
+                    <div style="display: flex;">
+                        <p class="field-title">Gender: </p>
+                        <p class="field-info">{{profileDisplay.gender == undefined ?
+                            'None. Use the edit function to enter your gender'
+                            : profileDisplay.gender}}</p>
+                    </div>
+                    <hr>
                 </div>
-                <hr>
-                <div style="display: flex;">
-                    <p class="field-title">Birth date: </p>
-                    <p class="field-info">{{profileDisplay.birthDate == undefined ?
-                        'None. Use the edit function to enter your birth date'
-                        : profileDisplay.birthDate}}</p>
+                <div *ngIf="this.authService.getUserInfor().role != 'SE'">
+                    <div style="display: flex;">
+                        <p class="field-title">Birth date: </p>
+                        <p class="field-info">{{profileDisplay.birthDate == undefined ?
+                            'None. Use the edit function to enter your birth date'
+                            : profileDisplay.birthDate}}</p>
+                    </div>
+                    <hr>
                 </div>
-                <hr>
                 <div style="display: flex;">
                     <p class="field-title">Email: </p>
                     <!-- <div class="field-info" *ngIf="profileDisplay.email != undefined else RegisterEmail"> -->
@@ -298,13 +324,14 @@
                             <a style="color: #6366F1;" class="edit-email-link" href="#"
                                 onClick="event.preventDefault();" (click)="doSomething();">Edit email</a>
                         </div> -->
-                        <div *ngIf="!profileDisplay.confirmedEmail && role == 'CU' || 
-                            !profileDisplay.confirmedEmail && role == 'SE' || 
+
+                        <!-- <div *ngIf="!profileDisplay.confirmedEmail && role == 'CU' ||
+                            !profileDisplay.confirmedEmail && role == 'SE' ||
                             !profileDisplay.confirmedEmail && role == 'SH'">
                             <a class="verify-email-link" (click)="confirm(profileDisplay.email);">Verify email</a>
-                        </div>
-                        <div *ngIf="profileDisplay.confirmedEmail && role == 'CU' 
-                            || profileDisplay.confirmedEmail && role == 'SE' 
+                        </div> -->
+                        <div *ngIf="profileDisplay.confirmedEmail && role == 'CU'
+                            || profileDisplay.confirmedEmail && role == 'SE'
                             || profileDisplay.confirmedEmail && role == 'SH'">
                             <p style="color: rgb(23, 170, 23);">Email has been verified</p>
                         </div>
@@ -317,14 +344,16 @@
                 <div style="display: flex;">
                     <p class="field-title">Phone number: </p>
                     <!-- <p class="field-info" *ngIf="profileDisplay.phoneNumber != undefined else RegisterPhoneNumber"> -->
-                    <p class="field-info">
+                    <div class="field-info">
                         {{profileDisplay.phoneNumber == undefined ?
                         'None. Use the edit function to enter your phone number'
                         : profileDisplay.phoneNumber }}
-                        <!-- <p-button [text]="true" (onClick)="editPhoneNumber();">Edit
-                            phonenumber
-                        </p-button> -->
-                    </p>
+                        <!-- <p-button [text]="true" (onClick)="verifyPhonenumber();">verify phonenumber</p-button> -->
+                        <div>
+                            <a style="color: #6366F1;" class="edit-email-link" href="#"
+                                onClick="event.preventDefault();" (click)="openVerifyPhonenumberModal(profileDisplay.phoneNumber);">verify phonenumber</a>
+                        </div>
+                    </div>
                     <!-- <ng-template #RegisterPhoneNumber>
                         <p class="field-info"><p-button [text]="true" (onclick)="doSomething();">Add a
                                 phonenumber</p-button></p>
@@ -396,3 +425,4 @@
 </div>
 
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>
+<cmis-loading></cmis-loading>

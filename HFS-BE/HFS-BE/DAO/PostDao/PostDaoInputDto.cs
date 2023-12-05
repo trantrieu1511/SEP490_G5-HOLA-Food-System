@@ -17,12 +17,14 @@ namespace HFS_BE.Dao.PostDao
     {
         public int PostId { get; set; }
         public bool Type { get; set; }
+        public UserDto UserDto { get; set; }
     }
 
     public class PostBanUnbanInputDto
     {
         public int PostId { get; set; }
         public bool isBanned { get; set; }
+        public string BanNote { get; set; } = string.Empty;
     }
 
     public class PostUpdateInputDto

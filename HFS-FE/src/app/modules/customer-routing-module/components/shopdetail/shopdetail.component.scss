@@ -6,8 +6,8 @@
 		
 
 		#profile-pic{
-			height: 20rem;
-			width: 20rem;
+			height: 15rem;
+			width: 15rem;
 			padding: 4px;
 			
 
@@ -45,6 +45,13 @@
 	.product-name {
 		font-size: 1.5rem;
 		font-weight: 700;
+		display: -webkit-box;
+		/* lấy 3 dòng */
+		-webkit-line-clamp: 1;
+		-webkit-box-orient:  vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		word-break: break-word; 
 		&:hover{
             cursor: pointer;
         }
@@ -85,7 +92,7 @@
 		}
 
 		.product-price {
-			font-size: 1.5rem;
+			font-size: 1.2rem;
 			font-weight: 600;
 			margin-bottom: .5rem;
 			align-self: flex-end;
@@ -138,7 +145,7 @@
 				}
 
 				.product-price {
-					font-size: 1.5rem;
+					font-size: 1.2rem;
 					font-weight: 600;
 				}
 			}
@@ -162,10 +169,39 @@
 		}
 	}
 
-	@media screen and (max-width: 1400.01px){
+	.shop-infor{
+		flex: 1;
+		display: flex;
+		flex-wrap: wrap;
+		padding-left: 1.875rem;
+		align-items: flex-start;
+		.shop-infor_child{
+			display: flex;
+			padding-top: .625rem;
+			padding-bottom: .625rem;
+			flex: none;
+			flex-basis: 50%;
+			overflow: hidden;
+
+			&:last-child{
+				flex-basis: 100%;
+			}
+		}
+
+		i{
+			margin-right: 1rem;
+		}
+	}
+
+	@media screen and (max-width: 1200.01px){
 		.shopdetail-list{
 			width: 100%;
 			margin: auto;
+		}
+
+		.p-icon {
+			width: 0.8rem;
+			height: 0.8rem;
 		}
 
 		#profile-d{

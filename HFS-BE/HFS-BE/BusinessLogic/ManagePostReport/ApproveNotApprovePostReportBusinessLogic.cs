@@ -16,8 +16,9 @@ namespace HFS_BE.BusinessLogic.ManagePostReport
         {
         }
 
-        public BaseOutputDto ApproveNotApprovePostReport(ApproveNotApprovePostReportInputDto inputDto, string updateBy)
+        public BaseOutputDto ApproveNotApprovePostReport(ApproveNotApprovePostReportInputDto inputDto, string updateBy, out string? sellerId)
         {
+            sellerId = null;
             try
             {
                 var dao = CreateDao<PostReportDao>();
@@ -27,7 +28,11 @@ namespace HFS_BE.BusinessLogic.ManagePostReport
                 var output = dao.ApproveNotApprovePostReport(inputDto, updateBy);
                 if (!output.Success)
                     return output;
+
                 var post = postDao.GetPostById(inputDto.PostId);
+
+                if (post is null)
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
 
                 var notifyBase = inputDto.IsApproved ?
                     GenerateNotification.GetSingleton().GenNotificationApproveReport(inputDto.ReportBy, post.Seller.ShopName, inputDto.Note, 1) :
@@ -35,6 +40,21 @@ namespace HFS_BE.BusinessLogic.ManagePostReport
                 //3. add notify
                 var noti = notifyDao.AddNewNotification(notifyBase);
                 if (!noti.Success)
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                }
+
+                if (!inputDto.IsApproved)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+                }
+
+                // add post for seller
+                sellerId = post.SellerId;
+                var notify2 = GenerateNotification.GetSingleton().GenNotificationPostReportSeller(post.SellerId, inputDto.PostId, inputDto.Note);
+                var noti2 = notifyDao.AddNewNotification(notify2);
+
+                if (!noti2.Success)
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail);
                 }

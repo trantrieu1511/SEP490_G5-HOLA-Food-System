@@ -4,9 +4,12 @@ using HFS_BE.Dao.AuthDao;
 using HFS_BE.Models;
 using HFS_BE.Services;
 using HFS_BE.Utils;
+using Microsoft.Data.SqlClient.Server;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Mail;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -15,8 +18,12 @@ namespace HFS_BE.DAO.AuthDAO
 {
 	public class AuthNotCustomerDao : BaseDao
 	{
-        public AuthNotCustomerDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+	
+
+
+		public AuthNotCustomerDao(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
+
         }
 
         public AuthDaoOutputDto LoginNotCustomer(AuthDaoInputDto input)
@@ -113,10 +120,6 @@ namespace HFS_BE.DAO.AuthDAO
 				else
 				{
 					var match = CheckPasswordShipper(input.Password, shipper);
-					if (shipper.IsBanned == true)
-					{
-						return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "You have been banned due to violations, please contact us to resolve!");
-					}
 					if (!match)
 					{
 						return this.Output<AuthDaoOutputDto>(Constants.ResultCdFail, "Email Or Password Was Invalid");
@@ -137,7 +140,7 @@ namespace HFS_BE.DAO.AuthDAO
 
 		}
 
-		public BaseOutputDto RegisterSeller(RegisterSellerDto model)
+		public async Task<BaseOutputDto> RegisterSeller(RegisterSellerDto model)
 		{
 			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
 			var validationResults = new List<ValidationResult>();
@@ -181,22 +184,22 @@ namespace HFS_BE.DAO.AuthDAO
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email has been used");
 			}
-			model.BirthDate = model.BirthDate.Value.AddDays(1);
+		//	model.BirthDate = model.BirthDate.Value.AddDays(1);
 			var user = new HFS_BE.Models.Seller
 			{
 				SellerId = paddedString,
-				Email = model.Email,
-				BirthDate = model.BirthDate,
-				FirstName = model.FirstName,
-				LastName = model.LastName,
-				Gender = model.Gender,
+				Email = model.Email.ToLower(),
+				//BirthDate = model.BirthDate,
+				//FirstName = model.FirstName,
+				//LastName = model.LastName,
+				//Gender = model.Gender,
 				PhoneNumber = model.PhoneNumber,
 				ShopName=model.ShopName,
 				ShopAddress=model.ShopAddress,
 				ConfirmedEmail = false,
-				IsBanned = false
-
-			};
+				IsBanned = false,
+                CreateDate = DateTime.Now,
+            };
 
 
 
@@ -208,8 +211,22 @@ namespace HFS_BE.DAO.AuthDAO
 
 			try
 			{
+
 				context.Sellers.Add(user);
 				context.SaveChanges();
+
+				foreach (var img in model.Images)
+				{
+					context.Add(new SellerLicenseImage
+					{
+						SellerId = user.SellerId,
+						Path = img
+					});
+					context.SaveChanges();
+				}
+				ForgotPasswordInputDto forgot = new ForgotPasswordInputDto();
+				forgot.Email = user.Email;
+				await SendVetifyPasswordtoEmailAsync(forgot);
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}
 			catch (Exception ex)
@@ -217,7 +234,7 @@ namespace HFS_BE.DAO.AuthDAO
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
 			}
 		}
-		public BaseOutputDto RegisterShipper(RegisterDto model)
+		public async Task<BaseOutputDto> RegisterShipper(RegisterDto model)
 		{
 			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
 			var validationResults = new List<ValidationResult>();
@@ -276,14 +293,14 @@ namespace HFS_BE.DAO.AuthDAO
 			var user = new HFS_BE.Models.Shipper
 			{
 				ShipperId = paddedString,
-				Email = model.Email,
+				Email = model.Email.ToLower(),
 				BirthDate = model.BirthDate,
 				FirstName = model.FirstName,
 				LastName = model.LastName,
 				Gender = model.Gender,
 				PhoneNumber = model.PhoneNumber,
 				ConfirmedEmail = false,
-				IsBanned = false
+				CreateDate = DateTime.Now,
 
 			};
 			using (HMACSHA256? hmac = new HMACSHA256())
@@ -296,6 +313,9 @@ namespace HFS_BE.DAO.AuthDAO
 			{
 				context.Shippers.Add(user);
 				context.SaveChanges();
+				ForgotPasswordInputDto forgot = new ForgotPasswordInputDto();
+				forgot.Email = user.Email;
+				await SendVetifyPasswordtoEmailAsync(forgot);
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}
 			catch (Exception ex)
@@ -361,7 +381,7 @@ namespace HFS_BE.DAO.AuthDAO
 			var authClaims = new List<Claim>
 			{
 				new Claim(ClaimTypes.Email, acc.Email),
-				new Claim(ClaimTypes.Name, acc.FirstName + acc.LastName),
+				new Claim(ClaimTypes.Name, acc.ShopName),
 				new Claim("userId", acc.SellerId.ToString()),
 			new Claim(ClaimTypes.Role,role)
 			};
@@ -490,5 +510,94 @@ namespace HFS_BE.DAO.AuthDAO
 
 			return token;
 		}
+		private string GetConfirmEmailLink(string userId, string confirmationCode)
+		{
+			string baseUrl = "http://localhost:4200/#/confirm";
+			//	var query = new Dictionary<string, string>
+			//{
+			//	{ "userId", userId },
+			//	{ "code", confirmationCode }
+			//};
+			var confirmationLink = baseUrl + "?userId=" + userId + "&code=" + confirmationCode;
+			return confirmationLink;
+		}
+		private string GenerateConfirmationCode(string userId)//tạo ra mã đễ 
+
+		{
+			var conf = new ConfigurationBuilder()
+		.SetBasePath(Directory.GetCurrentDirectory())
+			.AddJsonFile("appsettings.json", true, true)
+			.Build();
+			var tokenHandler = new JwtSecurityTokenHandler();
+			var key = Encoding.UTF8.GetBytes(conf["JWT:Secret"]);
+
+			var tokenDescriptor = new SecurityTokenDescriptor
+			{
+				Subject = new ClaimsIdentity(new[] { new Claim("userId", userId) }),
+				Expires = DateTime.UtcNow.AddMinutes(5),
+				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+			};
+
+			var token = tokenHandler.CreateToken(tokenDescriptor);
+			var confirmationCode = tokenHandler.WriteToken(token);
+
+			return confirmationCode;
+		}
+		public async Task<BaseOutputDto> SendVetifyPasswordtoEmailAsync(ForgotPasswordInputDto model)
+		{
+			string userid = "";
+			string confirmationCode = GenerateConfirmationCode(model.Email);
+			//using (SEP490_HFS_2Context context = new SEP490_HFS_2Context())
+			//{
+			//	var user = context.Users.Where(s => s.Email.ToLower().Equals(toEmail.ToLower())).FirstOrDefault();
+
+			//	if (user == null)
+			//	{
+			//		return BadRequest();
+			//	}
+			//	userid = user.UserId.ToString();
+			//}
+
+			string subject = "Xác nhận thay đổi trạng thái";
+			string message = $"Vui lòng nhấp vào liên kết sau để xác nhận thay đổi trạng thái: {GetConfirmEmailLink("1", confirmationCode)}";
+
+			try
+			{
+				await SendEmail2Async(model.Email, subject, message);
+				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+			}
+			catch (Exception ex)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+			}
+
+		}
+		private async Task<bool> SendEmail2Async(string toEmail, string subject, string content)
+		{
+			try
+			{
+				string from = "holafoodfpt@gmail.com";
+				string pass = "wqsq fqmv iwhu ablr";
+				MailMessage mail = new MailMessage();
+				SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+
+				mail.To.Add(toEmail);
+				mail.From = new MailAddress(from);
+				mail.Subject = subject;
+				mail.Body = "HOLA FOOD:" + content;
+				smtp.EnableSsl = true;
+				smtp.Port = 587;
+				smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+				smtp.Credentials = new NetworkCredential(from, pass);
+				await smtp.SendMailAsync(mail);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+
+		}
+
 	}
 }

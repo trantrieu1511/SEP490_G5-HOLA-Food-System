@@ -2,19 +2,32 @@ export class ShipAddress {
     addressId: number;
     customerId: string;
     addressInfo: string;
+    detailAddressInfo: string;
     isDefaultAddress: boolean;
 }
 
 export class CreateNewShipAddressInputValidation {
-    isValidAddressInfo: boolean = true;
-    addressInfoValidationMessage: string = "";
+    isValidDetailAddressInfo: boolean = true;
+    detailAddressInfoValidationMessage: string = "";
+    isValidProvince: boolean = true;
+    provinceValidationMessage: string = "";
+    isValidDistrict: boolean = true;
+    districtValidationMessage: string = "";
+    isValidWard: boolean = true;
+    wardValidationMessage: string = "";
 }
 
 export class UpdateShipAddressInputValidation {
     isValidAddressId: boolean = true;
     addressIdValidationMessage: string = "";
-    isValidAddressInfo: boolean = true;
-    addressInfoValidationMessage: string = "";
+    isValidDetailAddressInfo: boolean = true;
+    detailAddressInfoValidationMessage: string = "";
+    isValidProvince: boolean = true;
+    provinceValidationMessage: string = "";
+    isValidDistrict: boolean = true;
+    districtValidationMessage: string = "";
+    isValidWard: boolean = true;
+    wardValidationMessage: string = "";
 }
 
 export class DeleteShipAddressInputValidation {

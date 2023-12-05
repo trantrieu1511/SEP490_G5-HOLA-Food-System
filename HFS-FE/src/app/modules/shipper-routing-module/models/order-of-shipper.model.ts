@@ -7,6 +7,7 @@ export class OrderDaoOutputDto{
         shipAddress :string;
         customerPhone:string;
         voucherId :number;
+        paymentMethod:string;
         status :boolean;
         total: number;  
         orderDetails:OrderDetailDtoOutput[];    

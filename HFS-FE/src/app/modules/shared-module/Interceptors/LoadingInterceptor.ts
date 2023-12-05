@@ -43,12 +43,22 @@ export class LoadingInterceptor implements HttpInterceptor {
                 return event;
             }),
             catchError(err => {
+                
+                if (err.status === 401) {
+                    debugger
+                    // Handle error 401 here
+                    // You can redirect to a login page or perform any other necessary actions
+                    console.log('Error 401 occurred');
+
+                    return throwError(() => err);
+                }
                 //this.removeRequest(request);
                 return throwError(() => err);
-            }),
-            finalize(() => {
-                this.removeRequest(request);
             })
+            // ,
+            // finalize(() => {
+            //     this.removeRequest(request);
+            // })
         );
     }
 

@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Auth;
+using HFS_BE.DAO.ChatMessageDao;
 using HFS_BE.Models;
 using HFS_BE.Services;
 using HFS_BE.Utils;
 using Mailjet.Client.Resources;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
+using Twilio.Rest.Api.V2010.Account;
 using Twilio.Rest.Trunking.V1;
 using static HFS_BE.BusinessLogic.Auth.RegisterSellerInputDto;
 
@@ -124,10 +126,10 @@ namespace HFS_BE.DAO.UserDao
                             return Output<BaseOutputDto>(Constants.ResultCdFail, $"User with id: {userId} is not exist!");
 
                         //Truong hop profile nguoi dung co ton tai thi cap nhat lai cac truong thong tin
-                        seller.FirstName = inputDto.FirstName;
-                        seller.LastName = inputDto.LastName;
-                        seller.Gender = inputDto.Gender;
-                        seller.BirthDate = inputDto.BirthDate;
+                        //seller.FirstName = inputDto.FirstName;
+                        //seller.LastName = inputDto.LastName;
+                        //seller.Gender = inputDto.Gender;
+                        //seller.BirthDate = inputDto.BirthDate;
                         seller.ShopName = inputDto.ShopName;
                         seller.ShopAddress = inputDto.ShopAddress;
                         seller.PhoneNumber = inputDto.PhoneNumber;
@@ -389,11 +391,13 @@ namespace HFS_BE.DAO.UserDao
                 }
 
                 var user = this.context.Customers.Include(x => x.ShipAddresses).FirstOrDefault(x => x.CustomerId == inputDto.UserId);
-                
+
                 if (user != null)
                 {
                     output.Balance = user.WalletBalance == null ? 0 : user.WalletBalance.Value;
                     output.Address = user.ShipAddresses.FirstOrDefault() == null ? "" : user.ShipAddresses.FirstOrDefault().AddressInfo;
+                    output.ConfirmEmail = user.ConfirmedEmail;
+                    output.isPhoneVerify = user.IsPhoneVerified;
                 }
 
                 return output;
@@ -418,8 +422,14 @@ namespace HFS_BE.DAO.UserDao
                     })
                     .OrderByDescending(x => x.IsDefaultAddress);
 
+                var userPhone = this.context.Customers.FirstOrDefault(x => x.CustomerId.Equals(inputDto.UserId));
                 var output = this.Output<GetUserAddressDaoOutputDto>(Constants.ResultCdSuccess);
                 output.ListAddress = user.ToList();
+                if (userPhone != null)
+                {
+                    output.Phone = userPhone.PhoneNumber;
+                    output.Balance = userPhone.WalletBalance ?? 0;
+                }
 
                 return output;
             }
@@ -445,7 +455,7 @@ namespace HFS_BE.DAO.UserDao
                 })
                         .SingleOrDefault(cu => cu.RefreshToken.Equals(refreshToken));
 
-                if(user is not null)
+                if (user is not null)
                 {
                     return user;
                 }
@@ -457,8 +467,10 @@ namespace HFS_BE.DAO.UserDao
                     Id = x.SellerId,
                     RefreshToken = x.RefreshToken,
                     Email = x.Email,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
+                    //FirstName = x.FirstName,
+                    //LastName = x.LastName,
+                    FirstName = x.ShopName,
+                    LastName = x.ShopName,
                     RefreshTokenExpiryTime = x.RefreshTokenExpiryTime
                 }).SingleOrDefault(se => se.RefreshToken.Equals(refreshToken));
 
@@ -742,7 +754,7 @@ namespace HFS_BE.DAO.UserDao
 
                 return Output<BaseOutputDto>(Constants.ResultCdFail);
             }
-            
+
         }
 
         internal BaseOutputDto UpdateInComplete(string? customerId)

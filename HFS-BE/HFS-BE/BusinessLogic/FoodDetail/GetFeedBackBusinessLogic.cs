@@ -69,11 +69,6 @@ namespace HFS_BE.BusinessLogic.FoodDetail
                     }
                 }
 
-                if (inputDto.CustomerId != null && output.FeedBacks.FirstOrDefault(x => x.CustomerId.Equals(inputDto.CustomerId)) != null)
-                {
-                    output.FeedBacks.FirstOrDefault(x => x.CustomerId.Equals(inputDto.CustomerId)).CanReply = true;
-                }
-
                 foreach (var item in output.FeedBacks)
                 {
                     var replyInput = new GetReplyByFeedBackIdDaoInputDto

@@ -18,10 +18,16 @@ namespace HFS_BE.Models
         public string SellerId { get; set; } = null!;
         public string? Name { get; set; }
         public decimal? UnitPrice { get; set; }
+        public DateTime? CreateDate { get; set; }
         public string? Description { get; set; }
         public int? CategoryId { get; set; }
         public byte? Status { get; set; }
+        public int? ReportedTimes { get; set; }
+        public string? BanBy { get; set; }
+        public DateTime? BanDate { get; set; }
+        public string? BanNote { get; set; }
 
+        public virtual MenuModerator? BanByNavigation { get; set; }
         public virtual Category? Category { get; set; }
         public virtual Seller Seller { get; set; } = null!;
         public virtual ICollection<CartItem> CartItems { get; set; }

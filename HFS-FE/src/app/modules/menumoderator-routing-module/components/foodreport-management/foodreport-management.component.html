@@ -40,6 +40,14 @@
                                     class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
+                        <th pSortableColumn="sellerId">
+                            <div class="flex justify-content-between align-items-center">
+                                SellerId
+                                <p-sortIcon field="sellerId"></p-sortIcon>
+                                <p-columnFilter type="text" field="sellerId" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
                         <th pSortableColumn="reportBy">
                             <div class="flex justify-content-between align-items-center">
                                 Report by
@@ -117,6 +125,10 @@
                             {{foodrp.foodName}}
                         </td>
                         <td>
+                            <span class="p-column-title">sellerId</span>
+                            {{foodrp.sellerId}}
+                        </td>
+                        <td>
                             <span class="p-column-title">reportBy</span>
                             {{foodrp.reportBy}}
                         </td>
@@ -144,13 +156,23 @@
                             <span class="p-column-title">Note</span>
                             {{foodrp.note}}
                         </td>
-                        <td style="text-align: center">
-                            <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+                        <td>
+                            <div *ngIf="foodrp.status === 'NotApproved' || foodrp.status === 'Pending'"
+                                class="" style="gap: 0.5rem">
 
-                                <div class="flex align-items-center justify-content-center">
-                                    <button pButton pRipple icon="pi pi-pencil"
-                                        (click)="onOpenApproveNotApproveModal(foodrp)"
-                                        class="p-button-rounded p-mr-2"></button>
+                                <div class="">
+                                    <button style="margin-bottom: 5px;" pButton pRipple icon="pi pi-check-circle"
+                                        (click)="onOpenApproveNotApproveModal('Approved', foodrp)"
+                                        class="p-button-rounded p-button-success p-mr-2"></button>
+                                </div>
+                            </div>
+                            <div *ngIf="foodrp.status === 'Approved' || foodrp.status === 'Pending'"
+                                class="" style="gap: 0.5rem">
+
+                                <div class="">
+                                    <button pButton pRipple icon="pi pi-times-circle"
+                                        (click)="onOpenApproveNotApproveModal('Not approved', foodrp)"
+                                        class="p-button-rounded p-button-danger p-mr-2"></button>
                                 </div>
                             </div>
                         </td>
@@ -166,11 +188,11 @@
     </div>
 </div>
 
-<p-dialog header="Approve/Not approve food report" [(visible)]="isVisibleApproveNotApproveModal" [modal]="true"
-    [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '500px' }" [draggable]="false" [resizable]="false"
-    [responsive]="true">
+<p-dialog [header]="foodReport.status == 'Approved' ? 'Note for approving' : 'Note for not approving'"
+    [(visible)]="isVisibleApproveNotApproveModal" [modal]="true" [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '500px' }" [draggable]="false" [resizable]="false" [responsive]="true">
     <div class="card">
-        <div class="flex align-items-center">
+        <!-- <div class="flex align-items-center">
             <p-radioButton name="Approved" value="Approved" [(ngModel)]="foodReport.status"
                 inputId="Approved"></p-radioButton>
             <label for="Approved" class="ml-2">Approved</label>
@@ -179,19 +201,19 @@
                 inputId="NotApproved"></p-radioButton>
             <label for="NotApproved" class="ml-2">NotApproved</label>
         </div>
-        <br><br>
+        <br><br> -->
         <span class="p-float-label">
             <textarea class="w-full" id="float-input" rows="5" cols="40" [(ngModel)]="foodReport.note"
                 pInputTextarea></textarea>
-            <label for="float-input">Note (Optional)</label>
+            <label for="float-input">Enter some note (Optional)</label>
         </span>
     </div>
     <!-- <br> -->
     <div style="display: flex;">
         <p-button (click)="approveNotApproveFood(foodReport)">Save</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <p-button [text]="true"(onClick)="isVisibleApproveNotApproveModal = false">Cancel</p-button>
+        <p-button [text]="true" (onClick)="isVisibleApproveNotApproveModal = false">Cancel</p-button>
     </div>
-    
+
     <!-- </div> -->
 </p-dialog>
 

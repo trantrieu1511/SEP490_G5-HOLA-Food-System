@@ -15,7 +15,7 @@ namespace HFS_BE.Base
     [ServiceFilter(typeof(JwtExpirationAuthorizationFilter))]
     public class BaseController : ControllerBase
     {
-        private readonly SEP490_HFS_2Context context;
+        public readonly SEP490_HFS_2Context context;
         public readonly IMapper mapper;
 
         public BaseController(SEP490_HFS_2Context context, IMapper mapper)

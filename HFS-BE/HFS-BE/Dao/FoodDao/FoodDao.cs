@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Text;
 using HFS_BE.Controllers.Dashboard;
+using Microsoft.Extensions.Hosting;
 
 namespace HFS_BE.Dao.FoodDao
 {
@@ -91,10 +92,36 @@ namespace HFS_BE.Dao.FoodDao
                     .Where(x => x.FoodId == inputDto.FoodId && x.Status == 1)
                     .FirstOrDefault();
 
+                if (data == null)
+                {
+                    return this.Output<FoodOutputDto>(Constants.ResultCdFail);
+                }
+
                 var shopid = data.SellerId;
 
                 var output = this.Output<FoodOutputDto>(Constants.ResultCdSuccess);
                 output = mapper.Map<Food, FoodOutputDto>(data);
+
+                int ordered = 0;
+                decimal star = 0;
+                foreach (var orderdetail in data.OrderDetails)
+                {
+                    ordered += orderdetail.Quantity.Value;
+                }
+
+                if (data.Feedbacks.Any())
+                {
+                    int totalStar = 0;
+                    foreach (var feedback in data.Feedbacks)
+                    {
+                        totalStar += feedback.Star.Value;
+                    }
+                    star = (decimal)totalStar / (decimal)data.Feedbacks.Count();
+                }
+
+                output.AverageStar = Math.Round(star, MidpointRounding.AwayFromZero);
+                output.NumberOrdered = ordered;
+
                 foreach (var img in output.foodImages)
                 {
                     var imageInfor = ImageFileConvert.ConvertFileToBase64(shopid, img.Name, 1);
@@ -121,7 +148,8 @@ namespace HFS_BE.Dao.FoodDao
                     UnitPrice = inputDto.UnitPrice,
                     Description = inputDto.Description,
                     CategoryId = inputDto.CategoryId,
-                    Status = 0
+                    Status = 0,
+                    CreateDate = DateTime.Now
                 };
                 context.Add(food);
                 context.SaveChanges();
@@ -163,9 +191,11 @@ namespace HFS_BE.Dao.FoodDao
                                             CategoryId = p.CategoryId,
                                             CategoryName = p.Category.Name,
                                             Status = PostMenuStatusEnum.GetStatusString(p.Status),
+                                            CreatedDate = p.CreateDate,
                                             Images = p.FoodImages.ToList(),
                                             Feedbacks = p.Feedbacks.ToList(),
                                         })
+                                        .OrderBy(p => p.CreatedDate)
                                         .ToList();
                 var output = this.Output<ListFoodOutputSellerDto>(Constants.ResultCdSuccess);
                 output.Foods = foodsModel;
@@ -182,21 +212,25 @@ namespace HFS_BE.Dao.FoodDao
             try
             {
                 List<FoodOutputSellerDto> foodsModel = context.Foods
-                                        .Include(p => p.FoodImages)
-                                        .Include(p => p.Category)
-                                        .Include(p => p.Feedbacks)
-                                        .Select(p => new FoodOutputSellerDto
+                                        .Include(f => f.FoodImages)
+                                        .Include(f => f.Category)
+                                        .Include(f => f.Feedbacks)
+                                        .Select(f => new FoodOutputSellerDto
                                         {
-                                            FoodId = p.FoodId,
-                                            SellerId = p.SellerId,
-                                            Name = p.Name,
-                                            UnitPrice = p.UnitPrice,
-                                            Description = p.Description,
-                                            CategoryId = p.CategoryId,
-                                            CategoryName = p.Category.Name,
-                                            Status = PostMenuStatusEnum.GetStatusString(p.Status),
-                                            Images = p.FoodImages.ToList(),
-                                            Feedbacks = p.Feedbacks.ToList(),
+                                            FoodId = f.FoodId,
+                                            SellerId = f.SellerId,
+                                            Name = f.Name,
+                                            UnitPrice = f.UnitPrice,
+                                            Description = f.Description,
+                                            CategoryId = f.CategoryId,
+                                            CategoryName = f.Category.Name,
+                                            Status = PostMenuStatusEnum.GetStatusString(f.Status),
+                                            Images = f.FoodImages.ToList(),
+                                            Feedbacks = f.Feedbacks.ToList(),
+                                            ReportedTimes = f.ReportedTimes,
+                                            BanBy = f.BanBy,
+                                            BanDate = f.BanDate,
+                                            BanNote = f.BanNote,
                                         })
                                         .ToList();
                 var output = this.Output<ListFoodOutputSellerDto>(Constants.ResultCdSuccess);
@@ -269,11 +303,17 @@ namespace HFS_BE.Dao.FoodDao
                     {
                         // set status banned
                         food.Status = 3;
+                        food.BanBy = userId;
+                        food.BanDate = DateTime.Now;
+                        food.BanNote = input.BanNote;
                     }
                     else
                     {
                         //set status display
                         food.Status = 1;
+                        food.BanBy = null;
+                        food.BanDate = null;
+                        food.BanNote = null;
                     }
 
                     // Reduce ban/unban limit

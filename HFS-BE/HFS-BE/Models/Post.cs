@@ -17,7 +17,11 @@ namespace HFS_BE.Models
         public string? PostContent { get; set; }
         public DateTime? CreatedDate { get; set; }
         public byte? Status { get; set; }
+        public string? BanBy { get; set; }
+        public DateTime? BanDate { get; set; }
+        public string? BanNote { get; set; }
 
+        public virtual PostModerator? BanByNavigation { get; set; }
         public virtual Seller Seller { get; set; } = null!;
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<PostImage> PostImages { get; set; }

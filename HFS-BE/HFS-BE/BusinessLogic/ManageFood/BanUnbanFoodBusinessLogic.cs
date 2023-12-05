@@ -32,7 +32,7 @@ namespace HFS_BE.BusinessLogic.ManageFood
 
                 sellerId = food.SellerId;
                 var notifyBase = inputDto.isBanned ?
-                GenerateNotification.GetSingleton().GenNotificationBanFood(food.SellerId, food.FoodId) :
+                GenerateNotification.GetSingleton().GenNotificationBanFood(food.SellerId, food.FoodId, food.BanNote) :
                     GenerateNotification.GetSingleton().GenNotificationUnBanFood(food.SellerId, food.FoodId);
                 //3. add notify
                 var noti = notifyDao.AddNewNotification(notifyBase);

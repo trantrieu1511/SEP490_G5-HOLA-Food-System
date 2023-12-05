@@ -123,8 +123,43 @@ namespace HFS_BE.Utils.IOFile
 
             return output;
         }
+		public static List<string> SaveSellerReportImages(IReadOnlyList<IFormFile> images, string userId, int type)
+		{
+			string basePath = $"Resources\\Images\\" +
+							$"{userId}\\" +
+							$"{GetFolderNameTypeImage(type)}";
+			// Đường dẫn cơ sở cho việc lưu hình ảnh
+			string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
 
-        private static string GetFolderNameTypeImage(int type)
+			// Tạo thư mục nếu chưa tồn tại
+			if (!Directory.Exists(fullPath))
+			{
+				Directory.CreateDirectory(fullPath);
+			}
+
+			var output = new List<string>();
+			foreach (var file in images)
+			{
+				if (file.Length > 0)
+				{
+					string insertTime = $"_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}";
+					string fileName = Path.GetFileNameWithoutExtension(file.FileName).Replace(" ", "")
+						+ insertTime
+						+ Path.GetExtension(file.FileName);
+
+					string filePath = Path.Combine(fullPath, fileName);
+
+					using (var stream = new FileStream(filePath, FileMode.Create))
+					{
+						file.CopyTo(stream);
+					}
+
+					output.Add(fileName);
+				}
+			}
+			return output;
+		}
+		private static string GetFolderNameTypeImage(int type)
         {
             switch (type)
             {
@@ -138,6 +173,10 @@ namespace HFS_BE.Utils.IOFile
                     return "profile";
 				case 4:
 					return "feedback";
+				case 5:
+					return "reportseller";
+				case 6:
+					return "license";
 				default:
                     return "";
             }

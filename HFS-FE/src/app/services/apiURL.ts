@@ -39,6 +39,7 @@ export class API_NEWFEED {
 }
 // Service User
 export class API_USER {
+  public static REGISTER_SELLER = "registerseller";
     public static SIGNIN = "signin";
     public static GET_INFO_CURRENT_USER = "getInfoCurrentUser";
     public static REGISTER = "register";
@@ -55,6 +56,10 @@ export class API_USER {
     public static DASHBOAD_ADMINTOTAL = "dashboadtotal";
     public static FEEDBACK_SELLER = "sellerFeedBack";
     public static REPLY_SELLER = "replyfeedback";
+     public static REPORT_SELLER = "reportseller";
+     public static REPORT_SELLERCUS = "listreportsellerbyCustomer";
+     public static SEND_OTP = "sendotp";
+     public static CHECK_OTP = "checkotp";
 }
 
 // Service Role
@@ -103,6 +108,8 @@ export class API_MANAGE{
     public static ADD_CATE = "createcategory";
     public static ED_CATE = "edcategory";
     public static ENABLE_DISABLE_CATE ="edcategory"
+    public static LIST_REPORT = "listreportseller";
+    public static REPLY_REPORT = "updatereportseller";
 }
 
 // Service QTHT
@@ -169,6 +176,7 @@ export class API_FOOD {
 export class API_CHECKOUT {
     public static CREATE_ORDER = "createorder";
     public static GET_ADDRESS = "address";
+    public static GET_VOUCHER = "checkvoucher";
 }
 
 export class API_HUB {
@@ -233,8 +241,9 @@ export class API_AUTH {
 
 export class API_DASHBOARD {
     public static DASHBOARD_SELLER = "dashboardSeller";
-    public static DASHBOARD_SHIPPER = "dashboardshipper";
+    public static  DASHBOARD_SHIPPER = "dashboardshipper";
     public static DASHBOARD_SHIPPER_TOTAL = "dashboardshippertotal";
+    public static  DASHBOARD_ADMINLINE = "dashboadadminline";
     // ---------------- Post moderator ------------------
     public static DASHBOARD_POSTMOD_ALLTIMESTATISTICS = "getalltimestatisticspostmoderator";
     // public static DASHBOARD_POSTMOD_THISMONTHSTATISTICS = "getthismonthstatisticspostmoderator";

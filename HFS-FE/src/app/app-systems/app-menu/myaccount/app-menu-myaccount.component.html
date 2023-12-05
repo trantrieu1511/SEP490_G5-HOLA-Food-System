@@ -17,6 +17,10 @@
 <a id="menureport-option" [class.sidebar-option]="this.currentRoute !== 'menureport'"
     [class.sidebar-option-selected]="this.currentRoute === 'menureport'"
     (click)="this.router.navigateByUrl('/menureport')" href="#" onclick="event.preventDefault();">Menu report</a>
+    <div class="dash-line"></div>
+<a id="postreport-option" [class.sidebar-option]="this.currentRoute !== 'sellerreport'"
+    [class.sidebar-option-selected]="this.currentRoute === 'sellerreport'"
+    (click)="this.router.navigateByUrl('/sellerreport')" href="#" onclick="event.preventDefault();">Shop report</a>
 <div class="dash-line"></div>
 <a id="wallet-option" [class.sidebar-option]="this.currentRoute !== 'wallet'"
     [class.sidebar-option-selected]="this.currentRoute === 'wallet'" (click)="this.router.navigateByUrl('/wallet')"

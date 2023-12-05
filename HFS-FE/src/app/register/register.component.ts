@@ -7,7 +7,7 @@ import { AuthService, User } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { DateOfBirthValidator, PasswordLengthValidator, PasswordMatch, PasswordNumberValidator, PasswordUpperValidator } from '../login/Restricted-login.directive';
 import { RowToggler } from 'primeng/table';
-
+import * as API from "../services/apiURL";
 import {
   iComponentBase,
   iServiceBase, mType,
@@ -16,12 +16,18 @@ import {
 } from 'src/app/modules/shared-module/shared-module';
 import { Register } from './models/register';
 import { MessageService } from 'primeng/api';
+import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent extends iComponentBase  implements OnInit,AfterViewInit {
+  provinces: any[] = [];
+  districts: any[] = [];
+  wards: any[] = [];
+  selectedResult: string = '';
+  uploadedFiles:File[]=[];
   isFirstnameTouched = false;
   isLastnameTouched = false;
     isphoneNumberTouched = false;
@@ -41,6 +47,7 @@ private client_Id=environment.clientId;
   private _ngZone: NgZone,
   public messageService: MessageService,
   private service: AuthService,
+  private iServiceBase: iServiceBase,
  // private cdr: ChangeDetectorRef
 ){
    super(messageService);
@@ -59,16 +66,16 @@ private client_Id=environment.clientId;
     PasswordNumberValidator()
   ]);
   this.formregister = new FormGroup({
-    firstName: new FormControl('', [Validators.required]),
-    lastName: new FormControl('', [Validators.required]),
+    firstName: this.selectedRole!=2? new FormControl('',[Validators.required]):new FormControl(''),
+    lastName:this.selectedRole!=2? new FormControl('',[Validators.required]):new FormControl(''),
     email: new FormControl('', Validators.email),
     password:passwordControl,
     confirmPassword: new FormControl('', [
       Validators.required,
       PasswordMatch(passwordControl)
     ]),
-    gender: new FormControl('male', Validators.required),
-    birthDate:new FormControl('',DateOfBirthValidator()),
+    gender: this.selectedRole!=2? new FormControl('male', Validators.required):new FormControl(''),
+    birthDate:this.selectedRole!=2? new FormControl('',[Validators.required,DateOfBirthValidator()]):new FormControl(''),
     roleId:new FormControl('',[Validators.required]),
     phoneNumber:new FormControl('',[Validators.required]),
     shopName:  this.selectedRole==2? new FormControl('',[Validators.required]):new FormControl(''),
@@ -82,6 +89,7 @@ registerData: Register;
 
 
  ngOnInit(): void {
+  this.callAPI("", 'province');
   this.FormFirst();
   this.service.errorregister$.subscribe(errorregister => {
    // this.errorregister = errorregister;
@@ -150,40 +158,67 @@ showShopAddressError() {
   }
 }
 onRoleChange(event: any) {
-    this.selectedRoleId = event.target.value;
-    
+  this.selectedRoleId = event.target.value;
 
-      const roleIdControl = this.formregister.get('roleId');
-      const shopNameControl = this.formregister.get('shopName');
-      const shopAddressControl = this.formregister.get('shopAddress');
+  const roleIdControl = this.formregister.get('roleId');
+  const shopNameControl = this.formregister.get('shopName');
+  const shopAddressControl = this.formregister.get('shopAddress');
+  const firstNameControl = this.formregister.get('firstName');
+  const lastNameControl = this.formregister.get('lastName');
+  const genderControl = this.formregister.get('gender');
+  const birthDateControl = this.formregister.get('birthDate');
 
+  if (roleIdControl.value === '2') {
+    // Nếu roleId là 2, enable và đặt validators cho shopName và shopAddress
+    shopNameControl.enable();
+    shopNameControl.setValidators([Validators.required]);
+    shopAddressControl.enable();
+    shopAddressControl.setValidators([Validators.required]);
 
+    // Tắt và xóa validators cho các trường firstName, lastName, gender, birthDate
+    firstNameControl.disable();
+    firstNameControl.clearValidators();
+    lastNameControl.disable();
+    lastNameControl.clearValidators();
+    genderControl.disable();
+    genderControl.clearValidators();
+    birthDateControl.disable();
+    birthDateControl.clearValidators();
+  } else {
+    // Nếu roleId không phải là 2, tắt và xóa validators cho shopName và shopAddress
+    shopNameControl.disable();
+    shopNameControl.clearValidators();
+    shopAddressControl.disable();
+    shopAddressControl.clearValidators();
 
-     if (roleIdControl.value === '2') {
-        // Nếu roleId là 2, enable và đặt validators cho shopName và shopAddress
-        shopNameControl.enable();
-        shopNameControl.setValidators([Validators.required]);
-        shopAddressControl.enable();
-        shopAddressControl.setValidators([Validators.required]);
-      }else {
-      shopNameControl.disable();
-      shopNameControl.clearValidators();
-      shopAddressControl.disable();
-      shopAddressControl.clearValidators();
-    }
-
-      // Cập nhật validators và trạng thái của các trường
-      shopNameControl.updateValueAndValidity();
-      shopAddressControl.updateValueAndValidity();
-
+    // Enable validators cho các trường firstName, lastName, gender, birthDate
+    firstNameControl.enable();
+    firstNameControl.setValidators([Validators.required]);
+    lastNameControl.enable();
+    lastNameControl.setValidators([Validators.required]);
+    genderControl.enable();
+    genderControl.setValidators([Validators.required]);
+    birthDateControl.enable();
+    birthDateControl.setValidators([Validators.required]);
   }
+
+  // Cập nhật validators và trạng thái của các trường
+  shopNameControl.updateValueAndValidity();
+  shopAddressControl.updateValueAndValidity();
+  firstNameControl.updateValueAndValidity();
+  lastNameControl.updateValueAndValidity();
+  genderControl.updateValueAndValidity();
+  birthDateControl.updateValueAndValidity();
+}
 async onSubmit() {
+  console.log(this.formregister);
+  debugger;
   if (this.formregister.valid) {
 
     switch(this.formregister.value.roleId.toString()){
       case "3":
         try {
-          
+
 
           this.service.register(this.formregister.value).subscribe(res=>{
             this.service.showregister$.subscribe(showregister => {
@@ -195,19 +230,85 @@ async onSubmit() {
         break;
         case "2":
           try {
-            
+            const selectedProvinceText = (document.getElementById('province') as HTMLSelectElement).options[
+              (document.getElementById('province') as HTMLSelectElement).selectedIndex
+            ].text;
 
-            this.service.registerseller(this.formregister.value).subscribe(res=>{
-              this.service.showregister$.subscribe(showregister => {
-                this.showForm = showregister;})
-            })
+            const selectedDistrictText = (document.getElementById('district') as HTMLSelectElement).options[
+              (document.getElementById('district') as HTMLSelectElement).selectedIndex
+            ].text;
+
+            const selectedWardText = (document.getElementById('ward') as HTMLSelectElement).options[
+              (document.getElementById('ward') as HTMLSelectElement).selectedIndex
+            ].text;
+
+            if (selectedDistrictText === 'Select district' && selectedProvinceText === 'Select Province' && selectedWardText === 'Select ward') {
+              this.showMessage(mType.error, "Notification", `Vui Lòng chọn địa chỉ quán ăn`, 'app-register');
+            }
+            if((selectedDistrictText === 'Select district' || selectedProvinceText === 'Select Province' || selectedWardText === 'Select ward')&&this.uploadedFiles.length<2){
+              this.showMessage(mType.error, "Notification", `Vui Lòng chọn địa chỉ quán ăn và up ít nhất 2 ảnh vào trường Business License`, 'app-register');
+             return;
+            }
+            if(selectedDistrictText === 'Select district'){
+              this.showMessage(mType.error, "Notification", `Vui Lòng chọn quận`, 'app-register');
+             return;
+            }
+            if(selectedDistrictText === 'Select Province'){
+              this.showMessage(mType.error, "Notification", `Vui Lòng chọn tỉnh`, 'app-register');
+             return;
+            }
+            if(selectedDistrictText === 'Select ward'){
+              this.showMessage(mType.error, "Notification", `Vui Lòng chọn phường`, 'app-register');
+             return;
+            }
+            if(this.uploadedFiles.length<2){
+              this.showMessage(mType.error, "Notification", `Please upload at least 2 photos in the Business License field`, 'app-register');
+             return;
+            }
+            const param = new FormData();
+            const shopNameControl = this.formregister.get('shopName');
+            const shopAddressControl = this.formregister.get('shopAddress').value+"-"+this.selectedResult;
+            const email = this.formregister.get('email');
+            const phone = this.formregister.get('phoneNumber');
+            const password = this.formregister.get('password');
+            const confirm = this.formregister.get('confirmPassword');
+            param.append('shopName',   shopNameControl.value);
+            param.append('shopAddress',   shopAddressControl);
+            param.append('email',   email.value);
+            param.append('phoneNumber',   phone.value);
+            param.append('password',   password.value);
+            param.append('confirmPassword',   confirm.value);
+            this.uploadedFiles.forEach(file => {
+              param.append('images', file, file.name);
+            });
+
+            let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.HOME, API.API_USER.REGISTER_SELLER, param);
+            if (response && response.success === true) {
+             this.showForm=false;
+                 this.showMessage(mType.success, "Notification", `Register successfully`, 'app-register');
+              console.log(response);
+
+           }
+  else {
+    // this.showMessage(mType.warn, "Error", this.iServiceBase.formatMessageError(response.message), 'notify');
+    this.showMessage(mType.warn, "Error", response.message, 'app-register');
+    // console.log(response);
+    // console.log('Internal server error, please contact for admin help!');
+ }
+
+  //this.checkUsersReportPostCapability();
+
+            // this.service.registerseller(param).subscribe(res=>{
+            //   this.service.showregister$.subscribe(showregister => {
+            //     this.showForm = showregister;})
+            // })
           }catch (err) {
 
           }
           break;
           case "4":
             try {
-              
+
 
               this.service.registershipper(this.formregister.value).subscribe(res=>{
                 this.service.showregister$.subscribe(showregister => {
@@ -226,8 +327,99 @@ async onSubmit() {
 }
 }
 
+handleFileSelection(event: FileSelectEvent) {
+  //console.log("select", event);
+
+  this.uploadedFiles = event.currentFiles;
+
+  //console.log('primeSelect',this.f_upload);
+  console.log("uploadFiles", this.uploadedFiles);
+}
+
+handleFileRemoval(event: FileRemoveEvent) {
+  console.log("remove", event.file.name);
+
+  this.uploadedFiles = this.uploadedFiles.filter(f => f.name !== event.file.name);
+  console.log("uploadFiles", this.uploadedFiles);
+}
+
+handleAllFilesClear(event: Event) {
+  //console.log("clear", event);
+
+  this.uploadedFiles = [];
+  console.log("uploadFiles", this.uploadedFiles);
+}
+async callAPI(api: string, target: string) {
+
+  const param={
+    "url" :api
+  }
+  if(target!=='province'){
+    const response = await  this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, target,param);
+   console.log(response);
+      this.renderData(response, target);
+  }else{
+    const response = await  this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, target,"");
+    console.log(response);
+       this.renderData(response, target);
+}
 
 
+
+}
+
+renderData(data: any, target: string) {
+  switch (target) {
+    case 'province':
+      this.provinces = data;
+      break;
+    case 'district':
+      this.districts = data['districts'];
+      break;
+    case 'ward':
+      this.wards = data['wards'];
+      break;
+    default:
+      break;
+  }
+}
+
+onProvinceChange() {
+;
+  const selectedProvinceCode = (document.getElementById('province') as HTMLSelectElement).value;
+
+  this.callAPI('p/' + selectedProvinceCode + '?depth=2', 'district');
+  this.printResult();
+}
+
+onDistrictChange() {
+  const selectedDistrictCode = (document.getElementById('district') as HTMLSelectElement).value;
+  this.callAPI('d/' + selectedDistrictCode + '?depth=2', 'ward');
+  this.printResult();
+}
+
+onWardChange() {
+  this.printResult();
+}
+
+printResult() {
+  const selectedProvinceText = (document.getElementById('province') as HTMLSelectElement).options[
+    (document.getElementById('province') as HTMLSelectElement).selectedIndex
+  ].text;
+
+  const selectedDistrictText = (document.getElementById('district') as HTMLSelectElement).options[
+    (document.getElementById('district') as HTMLSelectElement).selectedIndex
+  ].text;
+
+  const selectedWardText = (document.getElementById('ward') as HTMLSelectElement).options[
+    (document.getElementById('ward') as HTMLSelectElement).selectedIndex
+  ].text;
+
+  if (selectedDistrictText !== '' && selectedProvinceText !== '' && selectedWardText !== '') {
+    this.selectedResult = `${selectedWardText} - ${selectedDistrictText} - ${selectedProvinceText}`;
+
+  }
+}
 }
 interface Role {
   name: string,

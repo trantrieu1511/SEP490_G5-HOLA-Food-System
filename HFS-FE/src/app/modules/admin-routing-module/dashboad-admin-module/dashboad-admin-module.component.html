@@ -27,7 +27,8 @@
                           [class.text-red-500]="data.orderCountPercent < 0"
                       >
                       Ban:{{datatotal.banSeller}}
-                      Vetify:{{datatotal.vetifySeller}}
+                      Verified:{{datatotal.vetifySeller}}
+                      Not verified:{{datatotal.totalSeller-datatotal.vetifySeller}}
                       </div>
                   </div>
               </div>
@@ -41,7 +42,7 @@
                           [class.text-green-500]="data.amountCountPercent > 0"
                           [class.text-red-500]="data.amountCountPercent < 0"
                       >
-                       Ban:{{datatotal.banCustomer}}
+                       <!-- Ban:{{datatotal.banCustomer}} -->
                       </div>
                   </div>
               </div>
@@ -55,17 +56,39 @@
                           [class.text-green-500]="data.soldCountPercent > 0"
                           [class.text-red-500]="data.soldCountPercent < 0"
                       >
-                      Ban:{{datatotal.banShipper}}
-                      Vetify:{{datatotal.vetifyShipper}}
+                      Managed:{{datatotal.managedShipper}}
+                      Verify:{{datatotal.vetifyShipper}}
+                      Not verified:{{datatotal.totalShippper-datatotal.vetifyShipper}}
                       </div>
                   </div>
               </div>
+              <div class="overview-item">
+                <span>
+                    <div class="title">Total Report Seller: </div>
+                </span>
+                <div class="data">
+                    <span>{{datatotal.totalReport}}</span>
+                    <div class="data-percent"
+                        [class.text-green-500]="data.soldCountPercent > 0"
+                        [class.text-red-500]="data.soldCountPercent < 0"
+                    >
+                    Pending:{{datatotal.pendingReport}}
+                    Solved:{{datatotal.vetifyShipper}}
+                    Reject:{{datatotal.rejectReport}}
+                    </div>
+                </div>
+            </div>
           </div>
 
 
           <!-- <p-chart *ngIf="isDisplayChart" type="line" [data]="data" [options]="options"></p-chart> -->
-          <div class="card flex justify-content-center">
+          <div class="card flex ">
+            <div class="col-3 mb-2">
             <p-chart type="pie" [data]="datatron" [options]="optionstron"></p-chart>
+            </div>
+            <div class="col-9 mb-6">
+            <p-chart type="line" [data]="dataline" [options]="optionsline"></p-chart>
+            </div>
         </div>
       </div>
   </div>

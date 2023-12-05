@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.Dao.PostDao;
+using HFS_BE.DAO.SellerDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 
@@ -16,6 +17,17 @@ namespace HFS_BE.BusinessLogic.ManagePost
         {
             try
             {
+                var sellerDao = CreateDao<SellerDao>();
+
+                if (sellerDao.GetSellerByEmail(input.UserDto.Email) is null)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not exist");
+
+                if (sellerDao.GetSellerByEmail(input.UserDto.Email).IsVerified == false)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not verified");
+
+                if (sellerDao.GetSellerByEmail(input.UserDto.Email).IsBanned == true)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is banned");
+
                 var dao = this.CreateDao<PostDao>();
                 var post = dao.GetPostById(input.PostId);
                 var errors = new List<string>();

@@ -30,13 +30,17 @@ namespace HFS_BE.Controllers.ManageMenuReport
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Please login as a menu moderator before executing this API.");
                 }
                 var business = GetBusinessLogic<ApproveNotApproveFoodReportBusinessLogic>();
-
-                var output = business.ApproveNotApproveFoodReport(inputDto, GetUserInfor().UserId);
+                string? sellerId;
+                var output = business.ApproveNotApproveFoodReport(inputDto, GetUserInfor().UserId, out sellerId);
 
                 if (output.Success)
                 {
                     var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
                     await notifyHub.Clients.Group(inputDto.ReportBy).SendAsync("notification");
+                    
+                    //approved -> send seller || not approved-> no
+                    if(inputDto.IsApproved)
+                        await notifyHub.Clients.Group(sellerId).SendAsync("notification");
                 }
 
                 return output;

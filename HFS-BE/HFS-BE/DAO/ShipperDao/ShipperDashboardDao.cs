@@ -29,11 +29,11 @@ namespace HFS_BE.DAO.ShipperDao
 				var data2 = context.OrderProgresses.Where(s => s.CreateDate.Value.Date == date.Date && s.ShipperId == input.ShipperId && s.Status == 4).Count();
 				if (data2 != null)
 				{
-					DashBoardShipperOutputDto output = new DashBoardShipperOutputDto();
-					output.Status = 4;
-					output.CreateDate = date;
-					output.Data = data;
-					outputDto.Add(output);
+					DashBoardShipperOutputDto output2 = new DashBoardShipperOutputDto();
+					output2.Status = 4;
+					output2.CreateDate = date;
+					output2.Data = data2;
+					outputDto.Add(output2);
 				}
 				
 			}

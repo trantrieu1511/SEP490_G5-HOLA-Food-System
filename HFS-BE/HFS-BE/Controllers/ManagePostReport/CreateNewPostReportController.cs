@@ -30,8 +30,8 @@ namespace HFS_BE.Controllers.ManagePostReport
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Please login as a customer before executing this API.");
                 }
                 var business = GetBusinessLogic<CreateNewPostReportBusinessLogic>();
-                string? sellerId;
-                var output = business.CreateNewPostReport(inputDto, GetUserInfor().UserId, out sellerId);
+                
+                var output = business.CreateNewPostReport(inputDto, GetUserInfor().UserId);
 
                 // call signalR to Post Modelrator
                 if (output.Success)
@@ -40,7 +40,7 @@ namespace HFS_BE.Controllers.ManagePostReport
                     var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
 
                     await notifyHub.Clients.All.SendAsync("postNotification");
-                    await notifyHub.Clients.Group(sellerId).SendAsync("notification");
+                    
                 }
 
                 return output;
