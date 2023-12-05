@@ -43,7 +43,7 @@ namespace HFS_BE.BusinessLogic.ManageMenuReport
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail);
                 }
 
-                if(!inputDto.IsApproved)
+                /*if(!inputDto.IsApproved)
                     return Output<BaseOutputDto>(Constants.ResultCdSuccess);
 
                 // add noti for seller
@@ -53,7 +53,7 @@ namespace HFS_BE.BusinessLogic.ManageMenuReport
                 if (!noti2.Success)
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail);
-                }
+                }*/
 
                 return Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }

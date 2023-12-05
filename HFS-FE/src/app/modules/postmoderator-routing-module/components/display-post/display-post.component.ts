@@ -19,6 +19,7 @@ import {
 import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
 import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-display-post',
@@ -36,6 +37,7 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
   postImageDialog: Post = new Post();
   uploadedFiles: File[] = [];
   contentDialog: string = '';
+  userId: string = '';
 
   // ---------- UI variables ------------
   visibleContentDialog: boolean = false;
@@ -59,7 +61,8 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private signalRService: DataRealTimeService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     super(messageService, breadcrumbService);
   }
@@ -75,6 +78,7 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
 
   async ngOnInit() {
     // this.checkUserAccessPermission();
+    this.userId = this.authService.getUserInfor().userId;
     this.connectSignalR();
     this.getAllPost();
 
@@ -274,8 +278,8 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
     }
   }
 
-  viewContentDetail(post: Post) {
-    this.contentDialog = post.postContent;
+  viewContentDetail(detail: string) {
+    this.contentDialog = detail;
     this.visibleContentDialog = true;
   }
 
