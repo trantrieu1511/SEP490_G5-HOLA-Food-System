@@ -45,7 +45,7 @@ CREATE TABLE [dbo].[Admin](
 	[PasswordHash] [varbinary](max) NOT NULL,
 	[isOnline] [bit] NOT NULL,
 	[walletBalance] [money] NULL,
-	[confirmedEmail] [bit] not NULL DEFAULT('false'),
+	[confirmedEmail] [bit] NOT NULL DEFAULT('false'),
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
 		[createDate][datetime] null,

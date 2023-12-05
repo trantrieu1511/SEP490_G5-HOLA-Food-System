@@ -75,12 +75,13 @@ import { AddressSelectorComponent } from './modules/customer-routing-module/addr
 import { CustomerRoutingModule } from './modules/customer-routing-module/customer-routing.module';
 import { SellerRoutingModule } from './modules/seller-routing-module/seller-routing.module';
 import { ManageAccountantModuleComponent } from './modules/admin-routing-module/manage-accountant-module/manage-accountant-module.component';
-
+import { MapModuleComponent } from './modules/customer-routing-module/map-module/map-module.component';
+//import {AgmCoreModule } from '@agm/core'
 @NgModule({
   declarations: [
     AppComponent,
     AppManageLayoutComponent,
-    
+
     AppNotfoundComponent,
     AppErrorComponent,
     AppAccessdeniedComponent,
@@ -112,6 +113,7 @@ import { ManageAccountantModuleComponent } from './modules/admin-routing-module/
     DashboadShipperModuleComponent,
     SellerReportModuleComponent,
     ManageAccountantModuleComponent,
+    MapModuleComponent,
     // ReportSellerComponent,
     //ListFeedbackBySellerComponent,
   ],
@@ -128,6 +130,7 @@ import { ManageAccountantModuleComponent } from './modules/admin-routing-module/
     BusinessRoutingModule,
     CustomerRoutingModule,
     SellerRoutingModule,
+
     // JwtModule.forRoot({
     //   config: {
     //     tokenGetter: () => sessionStorage.getItem('token')
