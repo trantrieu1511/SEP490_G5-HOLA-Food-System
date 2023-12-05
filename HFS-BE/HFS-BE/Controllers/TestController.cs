@@ -380,7 +380,7 @@ namespace HFS_BE.Controllers
 		[HttpPost("/users/map")]
 		public async Task<IActionResult> GetProvinces8(GetMap get)
 		{
-			string key = "";
+			string key = "AIzaSyADFZsgkfl-RAhyQs4rTHeqtPb50ch878Y";
 			var encodedAddress = System.Uri.EscapeDataString(get.address);
 			var apiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={encodedAddress}&key={key}";
 

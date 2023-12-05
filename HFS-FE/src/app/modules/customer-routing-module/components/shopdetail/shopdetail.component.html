@@ -19,9 +19,8 @@
         <label for="reportContent2" class="ml-2">Người dùng có dấu hiệu lừa đảo</label>
       </div>
       <div style="padding-bottom: 5px;">
-        <p-checkbox name="reportContent" (onChange)="enableDisableReportButtonSubmit();"
-          value="Vi pham quyền riêng tư" [(ngModel)]="sellerReport.reportContents"
-          inputId="reportContent3"></p-checkbox>
+        <p-checkbox name="reportContent" (onChange)="enableDisableReportButtonSubmit();" value="Vi pham quyền riêng tư"
+          [(ngModel)]="sellerReport.reportContents" inputId="reportContent3"></p-checkbox>
         <label for="reportContent3" class="ml-2">Vi pham quyền riêng tư</label>
       </div>
     </div>
@@ -38,34 +37,29 @@
     </span>
     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
       <label>Images</label>
-<span class="p-input-icon-left p-float-label" style="width: 100%">
-          <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
+      <span class="p-input-icon-left p-float-label" style="width: 100%">
+        <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
               <ng-template pTemplate="content">
                   <ul *ngIf="foodModel.images.length">
                   </ul>
               </ng-template>
           </p-fileUpload> -->
-          <p-fileUpload class=" w-full"
-              #fileUploader
-              [files]="uploadedFiles"
-              [customUpload]="true"
-              (onSelect)="handleFileSelection($event)"
-              (onRemove)="handleFileRemoval($event)"
-              (onClear)="handleAllFilesClear($event)"
-              [multiple]="true" accept="image/*" [maxFileSize]="1000000"
-              [showUploadButton]="false" >
-              <ng-template pTemplate="content">
-                  <!-- <ul *ngIf="uploadedFiles.length > 0">
+        <p-fileUpload class=" w-full" #fileUploader [files]="uploadedFiles" [customUpload]="true"
+          (onSelect)="handleFileSelection($event)" (onRemove)="handleFileRemoval($event)"
+          (onClear)="handleAllFilesClear($event)" [multiple]="true" accept="image/*" [maxFileSize]="1000000"
+          [showUploadButton]="false">
+          <ng-template pTemplate="content">
+            <!-- <ul *ngIf="uploadedFiles.length > 0">
                       <li *ngFor="let file of uploadedFiles">{{ file.name }}</li>
                   </ul> -->
-              </ng-template>
-          </p-fileUpload>
+          </ng-template>
+        </p-fileUpload>
 
 
-        </span>
+      </span>
 
 
-  </div>
+    </div>
   </div>
 
   <strong>Lưu ý: Bạn sẽ không thể hủy sau khi đã tố cáo</strong>
@@ -74,132 +68,137 @@
   <p-button [disabled]="isDisabledPostReportBtnSubmit" (click)="submitReport()">Save</p-button>
 </p-dialog>
 
-<div class="col-12 shopdetail-list" >
-    <div class="card">
-            <div id="profile-d">
-                <div id="profile-pic">
-                    <img src="data:image/png;base64,{{shopInfor.avatar}}">
-                </div>
-                <div class="shop-infor">
-                  <div class="shop_average-star shop-infor_child">
-                    <i class="pi pi-chart-line"></i>
-                    <p-rating [ngModel]="shopInfor.averageStar" [readonly]="true" [cancel]="false"></p-rating>
-                  </div>
-                  <div class="shop_phone shop-infor_child">
-                    <i class="pi pi-shopping-cart"></i>
-                    <a class="shop_phone-value">{{ shopInfor.numberOrdered }} Ordered</a>
-                  </div>
-                  <div class="shop_phone shop-infor_child">
-                    <i class="pi pi-phone"></i>
-                    <a class="shop_phone-value" href="tel:+{{ shopInfor.phoneNumber }}">{{ shopInfor.phoneNumber }}</a>
-                  </div>
-                  <div class="shop_phone shop-infor_child">
-                    <i class="pi pi-at"></i>
-                    <a class="shop_phone-value">{{ shopInfor.email }}</a>
-                  </div>
-                  <div class="shop_createdDate shop-infor_child">
-                    <i class="pi pi-gift"></i><span class="shop_createdDate-value">{{shopInfor.createDate}}</span>
-                  </div>
-                  <div class="shop_online shop-infor_child" *ngFor="let item of (presence.onlineUserscus$ | async)">
-                    <ng-container *ngIf="shopInfor.email===item.email;">
-                      <i class="pi pi-circle-fill" style="color: green"></i>
-                      <span  class="shop_createdDate-value">Online</span>
-                    </ng-container>
-                  </div>
-                  <div class="shop_online shop-infor_child" *ngFor="let item of (presence.offlineUserscus$ | async)">
-                    <ng-container *ngIf="shopInfor.email===item.email;">
-                      <i class="pi pi-circle-fill" style="color: red"></i>
-                      <span  class="shop_createdDate-value">Offline</span>
-                    </ng-container>
-                  </div>
-                  <div class="shop-infor-name shop-infor_child">
-                    <h3 id="shop-name">{{shopInfor.shopName}}</h3>
-                  </div>
+<div class="col-12 shopdetail-list">
+  <div class="card">
+    <div id="profile-d">
+      <div id="profile-pic">
+        <img src="data:image/png;base64,{{shopInfor.avatar}}">
+      </div>
+      <div class="shop-infor">
+        <div class="shop_average-star shop-infor_child">
+          <i class="pi pi-chart-line"></i>
+          <p-rating [ngModel]="shopInfor.averageStar" [readonly]="true" [cancel]="false"></p-rating>
+        </div>
+        <div class="shop_phone shop-infor_child">
+          <i class="pi pi-shopping-cart"></i>
+          <a class="shop_phone-value">{{ shopInfor.numberOrdered }} Ordered</a>
+        </div>
+        <div class="shop_phone shop-infor_child">
+          <i class="pi pi-phone"></i>
+          <a class="shop_phone-value" href="tel:+{{ shopInfor.phoneNumber }}">{{ shopInfor.phoneNumber }}</a>
+        </div>
+        <div class="shop_phone shop-infor_child">
+          <i class="pi pi-at"></i>
+          <a class="shop_phone-value">{{ shopInfor.email }}</a>
+        </div>
+        <div class="shop_createdDate shop-infor_child">
+          <i class="pi pi-gift"></i><span class="shop_createdDate-value">{{shopInfor.createDate}}</span>
+        </div>
+        <div class="shop_online shop-infor_child" *ngFor="let item of (presence.onlineUserscus$ | async)">
+          <ng-container *ngIf="shopInfor.email===item.email;">
+            <i class="pi pi-circle-fill" style="color: green"></i>
+            <span class="shop_createdDate-value">Online</span>
+          </ng-container>
+        </div>
+        <div class="shop_online shop-infor_child" *ngFor="let item of (presence.offlineUserscus$ | async)">
+          <ng-container *ngIf="shopInfor.email===item.email;">
+            <i class="pi pi-circle-fill" style="color: red"></i>
+            <span class="shop_createdDate-value">Offline</span>
+          </ng-container>
+        </div>
+        <div class="shop-infor-name shop-infor_child">
+          <h3 id="shop-name">{{shopInfor.shopName}}</h3>
+        </div>
+      </div>
 
-                </div>
+    </div>
 
+    <div>
+      <h5 id="u-address" (click)="onOpenMap()">{{shopInfor.shopAddress}} <i class="pi pi-map-marker" (click)="onOpenMap()"></i></h5>
+    </div>    
+  </div>
+</div>
+<div class="col-12 shopdetail-list">
+  <div class="card">
+    <h5>Menu</h5>
+    <p-dataView #dv [value]="foods" [paginator]="true" [rows]="9" filterBy="name" [sortField]="sortField"
+      [sortOrder]="sortOrder" layout="grid">
+      <ng-template pTemplate="header">
+        <div class="grid">
+          <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+            <span class="p-input-icon-left p-float-label" style="width: 100%">
+              <p-dropdown [options]="sortOptions" [showClear]="false" [autoDisplayFirst]="false"
+                (onChange)="onSortChange($event)" [style]="{'width': '100%'}"></p-dropdown>
+              <label>Sort By Price</label>
+            </span>
+          </div>
+          <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+            <span class="p-input-icon-left p-float-label" style="width: 100%">
+              <i class="pi pi-search"></i>
+              <input style="width: 100%" type="search" pInputText placeholder="Search by Name"
+                (input)="onFilter(dv, $event)">
+            </span>
+          </div>
+        </div>
+        <div class="col-12 mb-2 lg:col-12 mb-lg-0 ml-auto">
+          <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+        </div>
+        <div *ngIf="isLoggedIn" class="report-btn">
+          <!-- //  <i *ngIf="item.isReported;" class="pi pi-flag-fill" style="font-size: 1.5rem"></i> -->
+          <!-- <ng-template #notReport> -->
+          <i class="pi pi-flag" style="font-size: 1.5rem" (click)="openPostReportDialog(shopInfor.shopId)"></i>
+          <!-- </ng-template> -->
+        </div>
+      </ng-template>
+      <ng-template let-product pTemplate="listItem">
+        <div class="col-12">
+          <div class="product-list-item">
+            <img src="data:image/png;base64,{{product.foodImages[0].imageBase64}}" [alt]="product.name" />
+            <div class="product-list-detail">
+              <div class="product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</div>
+              <div class="product-description">Ordered: {{product.numberOrdered}}</div>
+              <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>
+              <i class="pi pi-tag product-category-icon"></i><span
+                class="product-category">{{product.categoryName}}</span>
             </div>
-
-            <h5 id="u-address">{{shopInfor.shopAddress}}</h5>
-    </div>
+            <div class="product-list-action">
+              <span class="product-price">{{product.unitPrice | currency:'VND'}}</span>
+              <p-button icon="pi pi-shopping-cart" label="Add to Cart"
+                (onClick)="onAddToCart(product.foodId)"></p-button>
+              <!-- <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template let-product pTemplate="gridItem">
+        <div class="col-12 md:col-4">
+          <div class="product-grid-item card">
+            <div class="product-grid-item-top">
+              <div>
+                <i class="pi pi-tag product-category-icon"></i>
+                <span class="product-category">{{product.categoryName}}</span>
+              </div>
+              <!-- <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
+            </div>
+            <div class="product-grid-item-content">
+              <img src="data:image/png;base64,{{product.foodImages[0].imageBase64}}" [alt]="product.name" />
+              <div class="product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</div>
+              <div class="product-description">Ordered: {{product.numberOrdered}}</div>
+              <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>
+            </div>
+            <div class="product-grid-item-bottom">
+              <span class="product-price">{{product.unitPrice | currency:'VND'}}</span>
+              <p-button icon="pi pi-shopping-cart" (onClick)="onAddToCart(product.foodId)"></p-button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-dataView>
+  </div>
 </div>
-<div class="col-12 shopdetail-list" >
-    <div class="card">
-        <h5>Menu</h5>
-        <p-dataView #dv [value]="foods" [paginator]="true" [rows]="9" filterBy="name" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
-            <ng-template pTemplate="header">
-                <div class="grid">
-                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-                        <span class="p-input-icon-left p-float-label" style="width: 100%">
-                            <p-dropdown [options]="sortOptions"
-                                        [showClear]="false"
-                                        [autoDisplayFirst]="false"
-                                        (onChange)="onSortChange($event)"
-                                        [style]="{'width': '100%'}"
-                                        ></p-dropdown>
-                            <label>Sort By Price</label>
-                        </span>
-                    </div>
-                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-                        <span class="p-input-icon-left p-float-label" style="width: 100%">
-                            <i class="pi pi-search"></i>
-                            <input style="width: 100%" type="search" pInputText placeholder="Search by Name" (input)="onFilter(dv, $event)">
-                        </span>
-                    </div>
-                </div>
-                <div class="col-12 mb-2 lg:col-12 mb-lg-0 ml-auto">
-                    <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
-                </div>
-                <div *ngIf="isLoggedIn" class="report-btn">
-                  <!-- //  <i *ngIf="item.isReported;" class="pi pi-flag-fill" style="font-size: 1.5rem"></i> -->
-                    <!-- <ng-template #notReport> -->
-                      <i class="pi pi-flag" style="font-size: 1.5rem" (click)="openPostReportDialog(shopInfor.shopId)"></i>
-                    <!-- </ng-template> -->
-                  </div>
-            </ng-template>
-            <ng-template let-product pTemplate="listItem">
-                <div class="col-12">
-                    <div class="product-list-item">
-                        <img src="data:image/png;base64,{{product.foodImages[0].imageBase64}}" [alt]="product.name"/>
-                        <div class="product-list-detail">
-                            <div class="product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</div>
-                            <div class="product-description">Ordered: {{product.numberOrdered}}</div>
-                            <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>
-                            <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{product.categoryName}}</span>
-                        </div>
-                        <div class="product-list-action">
-                            <span class="product-price">{{product.unitPrice | currency:'VND'}}</span>
-                            <p-button icon="pi pi-shopping-cart" label="Add to Cart" (onClick)="onAddToCart(product.foodId)"></p-button>
-                            <!-- <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
-                        </div>
-                    </div>
-                </div>
-            </ng-template>
-            <ng-template let-product pTemplate="gridItem">
-                <div class="col-12 md:col-4">
-                    <div class="product-grid-item card">
-                        <div class="product-grid-item-top">
-                            <div>
-                                <i class="pi pi-tag product-category-icon"></i>
-                                <span class="product-category">{{product.categoryName}}</span>
-                            </div>
-                            <!-- <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
-                        </div>
-                        <div class="product-grid-item-content">
-                            <img src="data:image/png;base64,{{product.foodImages[0].imageBase64}}" [alt]="product.name"/>
-                            <div class="product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</div>
-                            <div class="product-description">Ordered: {{product.numberOrdered}}</div>
-                            <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>
-                        </div>
-                        <div class="product-grid-item-bottom">
-                            <span class="product-price">{{product.unitPrice | currency:'VND'}}</span>
-                            <p-button icon="pi pi-shopping-cart" (onClick)="onAddToCart(product.foodId)"></p-button>
-                        </div>
-                    </div>
-                </div>
-            </ng-template>
-        </p-dataView>
-    </div>
-</div>
+<p-dialog header="Map" [(visible)]="displayMap" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
+  [draggable]="false" [resizable]="false" [maximizable]="true">
+  <div id="map" style="height: 500px;"></div>
+</p-dialog>
 
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>
