@@ -62,6 +62,8 @@ export class API_USER {
      public static REPORT_SELLERCUS = "listreportsellerbyCustomer";
      public static SEND_OTP = "sendotp";
      public static CHECK_OTP = "checkotp";
+     public static MAP = "map";
+
 }
 
 // Service Role
