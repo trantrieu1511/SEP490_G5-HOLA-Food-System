@@ -26,7 +26,7 @@ declare var google: any;
 })
 
 export class MapModuleComponent extends iComponentBase implements OnInit  {
-
+userloca:string;
   lat:number;
   lng:number;
   ngOnInit() {
@@ -127,7 +127,7 @@ export class MapModuleComponent extends iComponentBase implements OnInit  {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
+        this.userloca=`${position.coords.latitude},${position.coords.longitude}`;
         // Đặt các tham số để lấy chỉ đường từ vị trí hiện tại đến điểm cần đến
         const request = {
           origin: userLocation,
@@ -149,6 +149,12 @@ export class MapModuleComponent extends iComponentBase implements OnInit  {
         console.error('Error getting user location:', error);
       }
     );
+
+    map.addListener('click', () => {
+      // Tạo URL cho Google Maps và mở trình duyệt
+      const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${this.userloca}&destination=${latitude},${longitude}&travelmode=driving`;
+      window.open(googleMapsUrl, '_blank');
+    });
   }
 
 }

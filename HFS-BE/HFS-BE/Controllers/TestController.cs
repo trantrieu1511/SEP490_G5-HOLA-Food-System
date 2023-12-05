@@ -380,7 +380,11 @@ namespace HFS_BE.Controllers
 		[HttpPost("/users/map")]
 		public async Task<IActionResult> GetProvinces8(GetMap get)
 		{
-			string key = "";
+			var conf = new ConfigurationBuilder()
+			.SetBasePath(Directory.GetCurrentDirectory())
+				.AddJsonFile("appsettings.json", true, true)
+				.Build();
+			string key = conf["ApplicationSettings:MapGoogle"];
 			var encodedAddress = System.Uri.EscapeDataString(get.address);
 			var apiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={encodedAddress}&key={key}";
 
@@ -396,7 +400,11 @@ namespace HFS_BE.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetDirections([FromQuery] string origin, [FromQuery] string destination, [FromQuery] string apiKey)
 		{
-			 apiKey = "";
+			var conf = new ConfigurationBuilder()
+			.SetBasePath(Directory.GetCurrentDirectory())
+				.AddJsonFile("appsettings.json", true, true)
+				.Build();
+			apiKey = conf["ApplicationSettings:MapGoogle"];
 			var directions = await GetDirectionsFromGoogleMapsAsync(origin, destination, apiKey);
 			return Ok(directions);
 		}
