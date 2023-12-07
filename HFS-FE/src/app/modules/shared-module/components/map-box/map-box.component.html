@@ -1,0 +1,18 @@
+<mgl-map
+      [style]="'mapbox://styles/mapbox/streets-v9'"
+      [zoom]="[9]"
+      [center]="position"
+      (mapCreate)="map = $event"
+    >
+  <mgl-geojson-source id="symbols-source">
+    <mgl-feature
+      *ngFor="let geometry of geometries"
+      [geometry]="geometry"
+    ></mgl-feature>
+  </mgl-geojson-source>
+
+</mgl-map>
+
+<!-- <div class="map-container" style="width:100%";>
+  <div id="map" class="map"></div>
+</div> -->

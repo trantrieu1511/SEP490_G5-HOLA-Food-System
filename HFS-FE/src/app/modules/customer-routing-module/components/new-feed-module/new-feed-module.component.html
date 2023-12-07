@@ -1,0 +1,195 @@
+<p-dialog header="Reporting the post" [(visible)]="isVisiblePostReportModal" [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '500px' }" [draggable]="false" [resizable]="false"
+  [responsive]="true">
+  <div class="card">
+    <div class="align-items-center" style="padding-bottom: 5px;">
+      <div style="padding-bottom: 5px; font-style: italic;">
+        Các lý do phổ biến:
+      </div>
+      <div style="padding-bottom: 5px;">
+        <p-checkbox name="reportContent" (onChange)="enableDisablePostReportButtonSubmit();"
+          value="Bài viết có nội dung thô tục" [(ngModel)]="postReport.reportContents"
+          inputId="reportContent1"></p-checkbox>
+        <label for="reportContent1" class="ml-2">Bài viết có nội dung thô tục</label>
+      </div>
+      <div style="padding-bottom: 5px;">
+        <p-checkbox name="reportContent" (onChange)="enableDisablePostReportButtonSubmit();"
+          value="Bài viết có hình ảnh không liên quan đến thực phẩm" [(ngModel)]="postReport.reportContents"
+          inputId="reportContent2"></p-checkbox>
+        <label for="reportContent2" class="ml-2">Bài viết có hình ảnh không liên quan đến thực phẩm</label>
+      </div>
+      <div style="padding-bottom: 5px;">
+        <p-checkbox name="reportContent" (onChange)="enableDisablePostReportButtonSubmit();"
+          value="Bài viết có nội dung không liên quan đến thực phẩm" [(ngModel)]="postReport.reportContents"
+          inputId="reportContent3"></p-checkbox>
+        <label for="reportContent3" class="ml-2">Bài viết có nội dung không liên quan đến thực phẩm</label>
+      </div>
+    </div>
+    <br>
+    <div style="padding-bottom: 5px;">
+      <p-checkbox name="reportContent" (onChange)="enableDisablePostReportTextArea($event);" value="Other"
+        inputId="reportContentOther"></p-checkbox>
+      <label for="reportContentOther" class="ml-2">Khác</label>
+    </div>
+    <span class="">
+      <textarea (change)="addValueToReportContentList();" [disabled]="isDisabledPostReportTextArea" class="w-full"
+        id="float-input" rows="5" cols="50" [(ngModel)]="postReport.reportContent" placeholder="Điền lý do khác"
+        pInputTextarea></textarea>
+    </span>
+  </div>
+  <strong>Lưu ý: Bạn sẽ không thể hủy sau khi đã tố cáo</strong>
+  <br>
+  <br>
+  <p-button [disabled]="isDisabledPostReportBtnSubmit" (click)="submitReport()">Save</p-button>
+</p-dialog>
+
+<div class="app-new-feed">
+  <h2 class="title-app">
+    New Feed Newest 
+    Yeah Yeah
+  </h2>
+
+  <div *ngFor="let item of listPost; let j = index" class="post">
+    <div *ngIf="isLoggedIn" class="report-btn">
+      <i *ngIf="item.isReported;" class="pi pi-flag-fill" style="font-size: 1.5rem"></i>
+      <!-- <ng-template #notReport> -->
+        <i *ngIf="!item.isReported;" class="pi pi-flag" style="font-size: 1.5rem" (click)="openPostReportDialog(item.postId)"></i>
+      <!-- </ng-template> -->
+    </div>
+    <div class="post-infor">
+      <h4 class="shop-name">{{item.shopName}}</h4>
+      <p class="post-created-date">{{item.createdDate}}</p>
+    </div>
+    <div #postContent class="post-content">
+      <p class="post-content_con">{{item.postContent}}</p>
+      <button pButton pRipple label="View More" 
+        (click)="onViewMore(j)" 
+        class="p-button-link view-more" 
+        ></button>
+      <button pButton pRipple label="View Less" 
+        (click)="onViewLess(j)" 
+        class="p-button-link view-more" 
+        ></button>
+    </div>
+    <div *ngIf="item.imagesBase64 && item.imagesBase64.length > 0" class="post-image">
+      <ng-container *ngIf="!layoutService.isMobile();else imagesMobile">
+        <div [class.images-list]="item.imagesBase64.length > 1" 
+          *ngFor="let img of item.imagesBase64 | slice:0:4; let i = index" >
+          <img 
+            src="data:image/gif;base64,{{img.imageBase64}}" 
+            alt="{{img.name}}" 
+            (click)="onViewImage(j, i)"
+            style="cursor: pointer"
+            />
+          <div (click)="onViewImage(j, i)" 
+            *ngIf="item.imagesBase64.length > 3 && i == 3" 
+            class="more-image"
+            style="cursor: pointer"
+            >
+            +{{getRemainingImageCount(item)}}
+          </div>
+        </div>
+      </ng-container >
+      <ng-template #imagesMobile>
+        <div class="images-list">
+          <img
+            src="data:image/gif;base64,{{item.imagesBase64[0].imageBase64}}" 
+            alt="{{item.imagesBase64[0].name}}" 
+            (click)="onViewImage(j, 0)"
+            style="cursor: pointer"
+            />
+            <div (click)="onViewImage(j, 0)" 
+              *ngIf="item.imagesBase64.length > 1" 
+              class="more-image"
+              style="cursor: pointer"
+              >
+              +{{getRemainingImageCount(item)}}
+            </div>
+        </div>
+      </ng-template>
+    </div>
+    <div class="actions">
+      <div class="emote">
+        <i class="pi pi-thumbs-up like"></i>
+        <i class="pi pi-share-alt share"></i>
+      </div>
+      <button pButton pRipple label="Comment" (click)="OnCommnent($event, item)" class="p-button-link p-comment"
+        icon="pi pi-comment"></button>
+    </div>
+  </div>
+  <div class="flex-auto">
+    <p-paginator
+    (onPageChange)="onPageChange($event)"
+    [first]="first"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="[10, 20, 30]">
+  </p-paginator>
+</div>
+  <p-galleria
+        [value]="imagesLst"
+        [(visible)]="displayBasic"
+        [(activeIndex)]="activeIndex"
+        [responsiveOptions]="responsiveOptions"
+        [containerStyle]="{ 'max-width': '850px' }"
+        [numVisible]="7"
+        [circular]="true"
+        [fullScreen]="true"
+        [showItemNavigators]="true"
+        [showThumbnails]="false"
+    >
+        <ng-template pTemplate="item" let-item>
+            <img [src]="getImageSrc(item)" style="width: 100%; display: block;" />
+        </ng-template>
+    </p-galleria>
+
+  
+  <p-dialog header="Comment Post" 
+    [(visible)]="visibleCommentDialog" 
+    [breakpoints]="{ '960px': '75vw' }" 
+    [style]="{ width: '50vw' }" 
+    [draggable]="false" 
+    [resizable]="false"
+    [maximizable]="true"
+    [style]="{ minHeight: '80vh', minWidth: '50vw'}"
+
+  >
+    <div *ngIf="lstComment.length > 0; else noCommentYet"  class="comments">
+        
+      <div *ngFor="let com of lstComment" class="comment">
+        <img src="https://petmaster.vn/petroom/wp-content/uploads/2020/04/meo-anh-1.jpg" alt="Avatar" />
+        <div class="comment-content">
+          <div class="comment-text">
+            <strong>{{com.customerName}}: {{com.commentContent}}</strong>
+          </div>
+          <div class="comment-actions">
+            <i class="far fa-thumbs-up"></i>
+            <i class="far fa-comment-alt"></i>
+            <i class="far fa-share-square"></i>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <ng-template #noCommentYet>
+      <div style="text-align: center; margin-top: 2rem; color: orangered">No comment yet ^^</div>
+    </ng-template>  
+
+    <ng-template *ngIf="isLoggedIn" pTemplate="footer">
+      <div class="comment-form">
+        <span class="p-float-label">
+          <textarea id="float-input" rows="4" pInputTextarea [(ngModel)]="commentModel.commentContent" ></textarea>
+          <label for="float-input">Comment here</label>
+        </span>
+        <button pButton pRipple label="Comment" (click)="OnSaveCommnent(postViewComment.postId)" class="p-button-success" ></button>
+      </div>
+    </ng-template>
+  </p-dialog>
+  
+
+
+</div>
+
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>
+<cmis-loading></cmis-loading>

@@ -3,26 +3,40 @@
     <div class="surface-card p-4 shadow-2 border-round w-full lg:w-5">
         <div class="text-center mb-5">
           <img src="assets/image/Logo.png" alt="Image" height="50" class="mb-3">
-            <div class="text-900 text-3xl font-medium mb-3">Welcome FU Food Login Seller</div>
+            <div class="text-900 text-3xl font-medium mb-3">Welcome to FU Food Business</div>
             <span class="text-600 font-medium line-height-3">Don't have an account?</span>
-            <a href="#/register" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create today!</a>
+            <a href="register" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create today!</a>
+            <br>
+            <span class="text-600 font-medium line-height-3">Are you a customer? </span>
+            <a href="login" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Click here!</a>
         </div>
 
         <div>
           <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <label for="email1" class="block text-900 font-medium mb-2">Email</label>
-            <input id="email1" type="text"  placeholder="Email address" formControlName="email" pInputText class="w-full mb-3">
-                  <div *ngIf="form.get('email')!.hasError('email')" class="invalid-feedback">Incorrect Email format!</div>
-            <label for="password1" class="block text-900 font-medium mb-2">Password</label>
-            <input id="password1" type="password"  placeholder="Password" formControlName="password" pInputText class="w-full mb-3"  [class.is-invalid]="form.get('password')!.invalid && form.get('password')!.touched">
-            <!-- <div  *ngIf="form.get('password')!.hasError('minlength')" class="invalid-feedback">Password minimum 3!</div> -->
-            <div *ngIf="form.get('password')!.hasError('invalidPasswordLength')" class="invalid-feedback">Password minimum 8!</div>
-            <div *ngIf="form.get('password')!.hasError('missingUppercaseLetter')" class="invalid-feedback">Password contains at least 1 uppercase character!</div>
-            <div *ngIf="form.get('password')!.hasError('missingNumber')" class="invalid-feedback">Password contains at least 1 number character!</div>
-            <div *ngIf="error" class="invalid-feedback">{{ error }}</div>
-            <div class="flex align-items-center justify-content-between mb-6">
+            <div class="flex items-center">
+              <label for="email1" class="block text-900 font-medium mb-2 flex-shrink-0">Email*</label>
+              <div *ngIf="form.get('email')!.hasError('email')" class="text-red-500 ml-2">Incorrect Email format!</div>
+            </div>
+            <input id="email1" type="text" placeholder="Email address" formControlName="email" pInputText class="w-full mb-3">
 
-                <a href="#/forgot" class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot password?</a>
+            <div class="flex items-center">
+              <label for="password1" class="block text-900 font-medium mb-2">Password </label>
+              <div *ngIf="isPasswordTouched && form.get('password').errors?.required" class="text-red-500 ml-2">-Password is required!</div>
+            </div>
+            <input id="password1" type="password" placeholder="Password" formControlName="password" pInputText class="w-full mb-3" (focus)="isPasswordTouched = true" (blur)="showPasswordError()">
+            <div *ngIf="unsuccessfulLoginAttempts > 1" class="flex items-center">
+              <label for="captchaInput" class="block text-900 font-medium mb-2 flex-shrink-0">CAPTCHA*</label>
+              <div *ngIf="isCaptchaTouched && form.get('captcha').errors?.required" class="invalid-feedback">Captcha is required!</div>
+            </div>
+            <div *ngIf="unsuccessfulLoginAttempts > 1">
+              <input id="captchaInput" type="text" placeholder="Enter CAPTCHA" formControlName="captcha" pInputText class="w-full mb-3" (focus)="isCaptchaTouched = true" (blur)="showCaptchaError()">
+
+              <!-- Display CAPTCHA image -->
+              <img [src]="captchaImage" alt="CAPTCHA" (click)="refreshCaptcha()" />
+            </div>
+
+            <div class="flex align-items-center justify-content-between mb-6">
+                <a href="forgot" class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot password?</a>
             </div>
 
             <button type="submit" pButton pRipple label="Sign In" icon="pi pi-user" class="w-full" ></button>
@@ -44,6 +58,6 @@
     </div>
 </div>
 
-<p-toast [baseZIndex]='99999' key="app-login"></p-toast>
+<p-toast [baseZIndex]='99999' key="app-non-login"></p-toast>
 <cmis-loading><cmis-loading>
 

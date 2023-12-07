@@ -4,6 +4,7 @@ using HFS_BE.Base;
 using HFS_BE.Dao.FoodDao;
 using HFS_BE.DAO.CategoryDao;
 using HFS_BE.DAO.FoodImageDao;
+using HFS_BE.DAO.SellerDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.IOFile;
@@ -21,13 +22,16 @@ namespace HFS_BE.BusinessLogic.ManageFood
         {
             try
             {
-                /*inputDto.UserDto = new UserDto
-                {
-                    Email = "test@gmail.com",
-                    Name = "testSeller",
-                    RoleId = 2,
-                    UserId = 1,
-                };*/
+                var sellerDao = CreateDao<SellerDao>();
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email) is null)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", "Your acccount is not exist");
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).IsVerified == false)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", "Your acccount is not verified");
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).IsBanned == true)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", "Your acccount is banned");
 
                 var daoCate = CreateDao<CategoryDao>();
                 var cate = daoCate.GetCategoryById(inputDto.CategoryId);
@@ -35,16 +39,18 @@ namespace HFS_BE.BusinessLogic.ManageFood
                 {
                     var errors = new List<string>();
                     errors.Add("CategoryId: " + inputDto.CategoryId + " is not exist!");
-                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", errors);
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", errors);
                 }
 
                 var foodDao = CreateDao<FoodDao>();
 
                 //check exist food name of shop or not
-                var foods = foodDao.GetAllFoodSeller(inputDto.UserDto);
-                var existFoodName = foods.Foods.FirstOrDefault(x => x.Name.Replace(" ", "").ToLower().Equals(inputDto.Name.Replace(" ", "").ToLower()));
+                var foods = foodDao.GetAllFoodSeller(inputDto.UserDto)
+                    .Foods.Where(x => x.FoodId != inputDto.FoodId).ToList();
 
-                if (foods.Foods != null &&  existFoodName != null)
+                var existFoodName = foods.FirstOrDefault(x => x.Name.Replace(" ", "").ToLower().Equals(inputDto.Name.Replace(" ", "").ToLower()));
+
+                if (foods != null && existFoodName != null)
                 {
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", "Food name is current used!");
                 }
@@ -137,6 +143,12 @@ namespace HFS_BE.BusinessLogic.ManageFood
             }
         }
 
+        /// <summary>
+        /// Add the images to the server's local path (Resource/...) and save it to db
+        /// </summary>
+        /// <param name="newImages"></param>
+        /// <param name="user"></param>
+        /// <param name="foodId"></param>
         private void SaveAndAddImage(IReadOnlyList<IFormFile> newImages, UserDto user, int foodId)
         {
             var fImageDao = CreateDao<FoodImageDao>();

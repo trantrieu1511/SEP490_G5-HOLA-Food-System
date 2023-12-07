@@ -7,9 +7,8 @@ namespace HFS_BE.Models
     {
         public PostModerator()
         {
-            NotificationReceiver3s = new HashSet<Notification>();
-            NotificationSendBy3s = new HashSet<Notification>();
             PostReports = new HashSet<PostReport>();
+            Posts = new HashSet<Post>();
         }
 
         public string ModId { get; set; } = null!;
@@ -21,13 +20,16 @@ namespace HFS_BE.Models
         public string? PhoneNumber { get; set; }
         public byte[] PasswordSalt { get; set; } = null!;
         public byte[] PasswordHash { get; set; } = null!;
-        public string? Avatar { get; set; }
         public bool IsOnline { get; set; }
         public bool? ConfirmedEmail { get; set; }
         public bool? IsBanned { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
+        public int? BanLimit { get; set; }
+        public int? ReportApprovalLimit { get; set; }
+        public DateTime? CreateDate { get; set; }
 
-        public virtual ICollection<Notification> NotificationReceiver3s { get; set; }
-        public virtual ICollection<Notification> NotificationSendBy3s { get; set; }
         public virtual ICollection<PostReport> PostReports { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }

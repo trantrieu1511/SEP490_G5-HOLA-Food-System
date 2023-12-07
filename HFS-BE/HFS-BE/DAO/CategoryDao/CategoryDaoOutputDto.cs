@@ -12,4 +12,17 @@ namespace HFS_BE.DAO.CategoryDao
     {
         public CategoryDaoOutputDto CreateCategory { get; set; }
     }
+
+    public class GetCategoryOutputDto
+    {
+        public int CategoryId { get; set; }
+        public string? Name { get; set; }
+        public string? Status { get; set; }
+    }
+
+    public class ListcategoryOutptuDto : BaseOutputDto
+    {
+        public List<GetCategoryOutputDto> ListCategory { get; set; }
+    }
+
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.ManagePost;
+using HFS_BE.DAO.UserDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -16,15 +17,16 @@ namespace HFS_BE.Controllers.ManagePost
         {
         }
 
-        [HttpGet("posts/getPostsSeller")]
+        //[HttpGet("posts/getPostsSeller")]
+        [HttpGet("posts/getPosts")]
         [Authorize]
-        public ListPostOutputSellerDto Get()
+        public ListPostOutputSellerDto DisplayPost()
         {
             try
             {
                 var business = this.GetBusinessLogic<DisplayPostBusinessLogic>();
-
                 return business.ListPosts(this.GetUserInfor());
+                //return business.ListPosts(new UserDto { UserId = "PM000000001"});
             }
             catch (Exception)
             {

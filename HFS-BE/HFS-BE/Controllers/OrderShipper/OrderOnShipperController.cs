@@ -3,31 +3,36 @@ using HFS_BE.Base;
 using HFS_BE.BusinessLogic.OrderShipper;
 using HFS_BE.Dao.OrderDao;
 using HFS_BE.DAO.OrderProgressDao;
+using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace HFS_BE.Controllers.OrderShipper
 {
     //[Authorize(Roles = "4")]
-    public class OrderOnShipperController : BaseController
+    public class OrderOnShipperController : BaseControllerSignalR
     {
-        public OrderOnShipperController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public OrderOnShipperController(SEP490_HFS_2Context context, IMapper mapper, IHubContextFactory hubContextFactory) : base(context, mapper, hubContextFactory)
         {
         }
+
         [HttpPost("shipper/order")]
-        
-        public OrderByShipperBLOutputDto GetAllOrder(OrderByShipperDaoInputDto inputDto)
+        [Authorize]
+        public OrderByShipperBLOutputDto GetAllOrder(GetAllOrderControllerInputDto inputDto)
         {
             try
             {
-
-                var busi = this.GetBusinessLogic<OrderShipperBusinessLogic>();                
-                return busi.ListOrderShipper(inputDto);
-
+                var busi = this.GetBusinessLogic<OrderShipperBusinessLogic>();  
                 
+                return busi.ListOrderShipper(new OrderByShipperDaoInputDto
+                {
+                    ShipperId = GetUserInfor().UserId,
+                    Status = inputDto.Status,
+                });   
             }
             catch (Exception)
             {
@@ -36,8 +41,8 @@ namespace HFS_BE.Controllers.OrderShipper
         }
 
         [HttpPost("shipper/orderprogress")]
-        //[Authorize(Roles = "4")]
-        public BaseOutputDto CreateOrderProgress([FromForm] OrderProgressControllerInputDto inputDto)
+        //[Authorize(Roles = "SH")]
+        public async Task<BaseOutputDto> CreateOrderProgress([FromForm] OrderProgressControllerInputDto inputDto)
         {
             try
             {
@@ -46,7 +51,26 @@ namespace HFS_BE.Controllers.OrderShipper
                 var inputBL = mapper.Map<Controllers.OrderShipper.OrderProgressControllerInputDto,
                     BusinessLogic.OrderShipper.OrderProgressBusinessLogicInputDto>(inputDto);
                 inputBL.UserDto = this.GetUserInfor();
-                return busi.CreateOrderProgress(inputBL);
+                string? customerId = "";
+                string? sellerId = "";
+                List<Models.Admin> admins = new List<Models.Admin>();
+                var output = busi.CreateOrderProgress(inputBL, out customerId, out admins, out sellerId);
+                if (output.Success )
+                {
+                    //notify for customer
+                    var notifyHub = _hubContextFactory.CreateHub<NotificationHub>();
+                    await notifyHub.Clients.Group(customerId).SendAsync("notification");
+                    await notifyHub.Clients.Group(sellerId).SendAsync("notification");
+
+                    if (inputDto.Status == 5 && admins is not null && admins.Count > 0)
+                    {
+                        foreach (var ad in admins)
+                        {
+                            await notifyHub.Clients.Group(ad.AdminId).SendAsync("notification");
+                        }
+                    }
+                }
+                return output;
             }
             catch (Exception)
             {
@@ -72,15 +96,20 @@ namespace HFS_BE.Controllers.OrderShipper
         }
 
         [HttpPost("shipper/history")]
-        //[Authorize(Roles = "4")]
-        public OrderByShipperBLOutputDto GetAllOrderHistory(OrderByShipperDaoInputDto inputDto)
+        [Authorize(Roles = "SH")]
+        public OrderByShipperBLOutputDto GetAllOrderHistory(OrderByShipperConDaoInputDto inputDto)
         {
             try
             {
                 var busi = this.GetBusinessLogic<OrderHistoryBusinessLogic>();
                 var role = this.GetAccessRight();
                 
-                return busi.ListOrderHistory(inputDto);
+                return busi.ListOrderHistory(new OrderByShipperHisDaoInputDto
+                {
+                    ShipperId = GetUserInfor().UserId,
+                    DateEnd = inputDto.DateEnd,
+                    DateFrom = inputDto.DateFrom
+                });
             }
             catch (Exception)
             {

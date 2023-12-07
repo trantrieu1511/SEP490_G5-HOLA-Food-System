@@ -1,32 +1,30 @@
 <div class="grid table-demo">
     <div class="col-12">
         <div class="card">
-            
-
             <h5>Post Management</h5>
-            <p-table #dt [value]="listPosts" dataKey="id"
-                     styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
-                     [showCurrentPageReport]="true"
-                     [loading]="loading"
-            >
+
+            <p-table #dt [value]="lstPost" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
+                [showCurrentPageReport]="true" [paginator]="lstPost.length > 5" [filterDelay]="0"
+                [rowsPerPageOptions]="[5,10,25,50]" currentPageReportTemplate="Total: {totalRecords} posts"
+                [globalFilterFields]="['postContent']" responsiveLayout="scroll" [loading]="loading">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-row align-items-center flex-wrap justify-content-between ">
                         <div class="flex-1">
                             <span class="p-input-icon-left">
                                 <i class="pi pi-search"></i>
-                                <!-- <input pInputText type="text"  #textInput 
-                                       (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                       placeholder="Search Post by content"/> -->
+                                <input pInputText type="text" #textInput
+                                    (input)="dt.filterGlobal(textInput.value, 'contains')"
+                                    placeholder="Search Post by content" />
                             </span>
                         </div>
 
-                        <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
+                        <!-- <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
                             <div class="flex align-items-center justify-content-center">
                                 <button pButton type="button" label="Add new" icon="pi pi-plus"
                                         (click)="onCreatePost()"
                                         style="width: auto;"></button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header">
@@ -37,25 +35,41 @@
                         <th pSortableColumn="postId">
                             <div class="flex justify-content-between align-items-center">
                                 ID
-                                <!-- <p-sortIcon field="postId"></p-sortIcon>
+                                <p-sortIcon field="postId"></p-sortIcon>
                                 <p-columnFilter type="numeric" field="postId" display="menu"
-                                                class="ml-auto"></p-columnFilter> -->
+                                    class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
+                        <th pSortableColumn="sellerId">
+                            <div class="flex justify-content-between align-items-center">
+                                SellerID
+                                <p-sortIcon field="sellerId"></p-sortIcon>
+                                <p-columnFilter type="text" field="sellerId" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="sellerEmail">
+                            <div class="flex justify-content-between align-items-center">
+                                Email
+                                <p-sortIcon field="sellerEmail"></p-sortIcon>
+                                <p-columnFilter type="text" field="sellerEmail" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th> -->
                         <th pSortableColumn="postContent">
                             <div class="flex justify-content-between align-items-center">
                                 Post Content
-                                <!-- <p-sortIcon field="postContent"></p-sortIcon>
+                                <p-sortIcon field="postContent"></p-sortIcon>
                                 <p-columnFilter type="text" field="postContent" display="menu"
-                                                class="ml-auto"></p-columnFilter> -->
+                                    class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
                         <th pSortableColumn="createdDate">
                             <div class="flex justify-content-between align-items-center">
                                 Created Date
-                                <!-- <p-sortIcon field="createdDate"></p-sortIcon>
+                                <p-sortIcon field="createdDate"></p-sortIcon>
                                 <p-columnFilter type="text" field="createdDate" display="menu"
-                                                class="ml-auto"></p-columnFilter> -->
+                                    class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
                         <th>
@@ -66,31 +80,62 @@
                         <th pSortableColumn="status">
                             <div class="flex justify-content-between align-items-center">
                                 Status
-                                <!-- <p-sortIcon field="status"></p-sortIcon>
+                                <p-sortIcon field="status"></p-sortIcon>
                                 <p-columnFilter type="text" field="status" display="menu"
-                                                class="ml-auto"></p-columnFilter> -->
+                                    class="ml-auto"></p-columnFilter>
                             </div>
                         </th>
+                        <!-- <th pSortableColumn="reportedTimes">
+                            <div class="flex justify-content-between align-items-center">
+                                Approved reported times
+                                <p-sortIcon field="reportedTimes"></p-sortIcon>
+                                <p-columnFilter type="text" field="reportedTimes" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="banBy">
+                            <div class="flex justify-content-between align-items-center">
+                                BanBy
+                                <p-sortIcon field="banBy"></p-sortIcon>
+                                <p-columnFilter type="text" field="banBy" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="banDate">
+                            <div class="flex justify-content-between align-items-center">
+                                BanDate
+                                <p-sortIcon field="banDate"></p-sortIcon>
+                                <p-columnFilter type="text" field="banDate" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th> -->
                         <th style="min-width: 8rem">
-                            <div 
-                                 class="flex justify-content-between align-items-center">
+                            <div class="flex justify-content-between align-items-center">
                                 Action
                             </div>
                         </th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-post1>
+                <ng-template pTemplate="body" let-post>
                     <tr class="p-selectable-row">
                         <!-- <td>
                             <p-tableCheckbox [value]="post"></p-tableCheckbox>
                         </td> -->
                         <td>
                             <span class="p-column-title">ID</span>
-                            <span class="post-id">{{post1.postId}}</span>
+                            <span class="">{{post.postId}}</span>
                         </td>
-                        <!-- <td >
+                        <td>
+                            <span class="p-column-title">SellerID</span>
+                            <p class="sellerId" (click)="viewContentDetail(post.sellerEmail)">{{post.sellerId}}</p>
+                        </td>
+                        <!-- <td>
+                            <span class="p-column-title">SellerEmail</span>
+                            {{post.sellerEmail}}
+                        </td> -->
+                        <td>
                             <span class="p-column-title">Post Content</span>
-                            <p class="post-content" (click)="viewContentDetail(post)">{{post.postContent}}</p>
+                            <p class="post-content" (click)="viewContentDetail(post.postContent)">{{post.postContent}}</p>
                         </td>
                         <td>
                             <span class="p-column-title">Created Date</span>
@@ -98,38 +143,52 @@
                         </td>
                         <td>
                             <span class="p-column-title">Image</span>
-                            <ng-container *ngIf="post.images.length !== 0; else noneImage" >
+                            <ng-container *ngIf="post.imagesBase64.length !== 0; else noneImage">
                                 <button pButton pRipple icon="pi pi-images"
-                                        (click)="onDisplayImagesDialog(post, $event)"
-                                        class="p-button-rounded p-button-text p-button-raised"></button>
+                                    (click)="onDisplayImagesDialog(post, $event)"
+                                    class="p-button-rounded p-button-text p-button-raised"></button>
                             </ng-container>
-                            <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+                            <ng-template #noneImage><span class="no-image">No Image</span></ng-template>
                         </td>
                         <td>
                             <span class="p-column-title">Status</span>
                             <p-tag [value]="post.status" [severity]="getSeverity(post.status)"></p-tag>
                         </td>
-                        <td style="text-align: center">
-                            <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
-                                <div class="flex align-items-center justify-content-center">
+                        <!-- <td>
+                            <span class="p-column-title">ReportedTimes</span>
+                            {{post.reportedTimes}}
+                        </td> -->
+                        <!-- <td>
+                            <span class="p-column-title">BanBy</span>
+                            {{post.banBy}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">BanDate</span>
+                            {{post.banDate}}
+                        </td> -->
+                        <td>
+                            <div class="" style="gap: 0.5rem">
+                                <!-- <div class="flex align-items-center justify-content-center">
                                     <button pButton pRipple icon="pi pi-pencil"
                                             (click)="onUpdatePost(post)"
                                             class="p-button-rounded p-mr-2"></button>
-                                </div>
-                                <div *ngIf="post.status === 'Display'; else statusHide" class="flex align-items-center justify-content-center">
-                                    <button pButton pRipple icon="pi pi-eye-slash"
-                                            (click)="onHidePost(post, $event)"
-                                            class="p-button-rounded p-button-danger"></button>
-                                </div>
-                                <ng-template #statusHide>
-                                    <div class="flex align-items-center justify-content-center">
-                                        <button pButton pRipple icon="pi pi-eye"
-                                                (click)="onDisplayPost(post, $event)"
-                                                class="p-button-rounded p-button-danger"></button>
+                                </div> -->
+                                <ng-container>
+                                    <div *ngIf="post.status === 'Display' || post.status === 'Hidden'" class="">
+                                        <p-button [text]="true" (click)="onOpenBanNoteDialog(post)">Ban</p-button>
                                     </div>
-                                </ng-template>
+                                    <!-- <ng-template #statusUnban> -->
+                                    <div *ngIf="post.status === 'Ban' && post.banBy === userId" class="">
+                                        <p-button [text]="true" (click)="onUnbanPost(post, $event)">Unban</p-button>
+                                    </div>
+                                    <div *ngIf="post.status === 'Ban'" class="">
+                                        <button pButton pRipple (click)="onOpenBanDetailDialog(post)"
+                                            class="p-button-rounded p-button-info">Ban detail</button>
+                                    </div>
+                                    <!-- </ng-template> -->
+                                </ng-container>
                             </div>
-                        </td> -->
+                        </td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
@@ -138,15 +197,95 @@
                     </tr>
                 </ng-template>
             </p-table>
-            
         </div>
     </div>
 </div>
 
+<p-dialog header="View detail" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true">
+    <p class="dialog-content-detail">
+        {{contentDialog}}
+    </p>
+</p-dialog>
 
+<p-dialog header="Ban detail" [(visible)]="visibleBanDetailDialog" [style]="{width: '50vw'}" [maximizable]="true"
+    [modal]="true">
+    <!-- <p class="dialog-content-detail">
+        {{contentDialog.reportContent}}
+    </p> -->
+    <table class="table-ban-detail">
+        <tbody>
+            <tr>
+                <th>Ban date: </th>
+                <td>
+                    {{banDetail.banDate}}
+                </td>
+            </tr>
+            <tr>
+                <th>Ban by: </th>
+                <td>
+                    {{banDetail.banBy}}
+                </td>
+            </tr>
+            <tr>
+                <th>Ban note: </th>
+                <td>
+                    {{banDetail.banNote}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</p-dialog>
+
+<p-dialog [header]="postModel.status == 'Ban'? 'Unban note' : 'Ban note'" [(visible)]="visibleBanNoteDialog"
+    [modal]="true" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '500px' }" [draggable]="false"
+    [resizable]="false" [responsive]="true">
+    <div class="card">
+        <span class="p-float-label">
+            <textarea class="w-full" id="float-input" rows="5" cols="40" [(ngModel)]="postModel.banNote" pInputTextarea
+                required [class.ng-invalid]="!banUnbanInputValidation.isBanNoteValid"
+                [class.ng-dirty]="!banUnbanInputValidation.isBanNoteValid"></textarea>
+            <small [style.display]="banUnbanInputValidation.isBanNoteValid ? 'none !important' : 'block !important'"
+                class="p-error block">{{banUnbanInputValidation.banNoteMessage}}
+            </small>
+            <label *ngIf="postModel.status == 'Ban'" for="float-input">Enter note for unbanning</label>
+            <label *ngIf="postModel.status != 'Ban'" for="float-input">Enter note for banning</label>
+        </span>
+    </div>
+
+    <div style="display: flex;">
+        <p-button *ngIf="postModel.status == 'Ban'"
+            (click)="banUnbanPost(postModel, false)">Unban</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <p-button *ngIf="postModel.status != 'Ban'"
+            (click)="banUnbanPost(postModel, true)">Ban</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <p-button [text]="true" (onClick)="visibleBanNoteDialog = false">Cancel</p-button>
+    </div>
+</p-dialog>
+
+<p-dialog header="Image List" [(visible)]="visibleImageDialog" [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+    <p-table [value]="postImageDialog.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="imageId">ID<p-sortIcon field="imageId"></p-sortIcon></th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Size</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-postImage>
+            <tr>
+                <td>{{postImage.imageId}}</td>
+                <td><p-image src="data:image/gif;base64,{{postImage.imageBase64}}" [preview]="true"
+                        [alt]="postImage.imageId" class="dialogimages_image w-10rem shadow-2"></p-image></td>
+                <td>{{postImage.name}}</td>
+                <td>{{postImage.size}} KB</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
 
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>
 
 <p-confirmPopup></p-confirmPopup>
 
-<p-confirmDialog key="uhideFood" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-confirmDialog key="uhidePost" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog>

@@ -8,12 +8,26 @@ namespace HFS_BE.Dao.PostDao
         public List<string> Images { get; set; }
 
         public UserDto UserDto { get; set; }
-    }
 
+    }
+    public class PostStatusInputDto
+    {
+        public byte status { get; set; }
+        public int page { get; set; }
+        public int pageSize { get; set; }
+    }
     public class PostEnableDisableInputDto
     {
         public int PostId { get; set; }
         public bool Type { get; set; }
+        public UserDto? UserDto { get; set; }
+    }
+
+    public class PostBanUnbanInputDto
+    {
+        public int PostId { get; set; }
+        public bool isBanned { get; set; }
+        public string BanNote { get; set; } = string.Empty;
     }
 
     public class PostUpdateInputDto

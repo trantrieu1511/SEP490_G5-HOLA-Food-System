@@ -1,13 +1,13 @@
 <div class="grid table-demo">
     <div class="col-12">
         <div class="card">
-            <h5>Post Management</h5>
+            <h5>{{'postSellerScreen.PostManagement' | translate}}</h5>
 
             <p-table #dt [value]="lstPost" dataKey="id"
                      styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
                      [showCurrentPageReport]="true"
                      [paginator]="lstPost.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
-                     currentPageReportTemplate="Total: {totalRecords} posts"
+                     currentPageReportTemplate="{{'postSellerScreen.Total' | translate}}: {totalRecords} {{'postSellerScreen.posts' | translate}}"
                      [globalFilterFields]="['postContent']" responsiveLayout="scroll"
                      [loading]="loading"
             >
@@ -18,13 +18,13 @@
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text"  #textInput 
                                        (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                       placeholder="Search Post by content"/>
+                                       placeholder="{{'postSellerScreen.SearchPostbycontent' | translate}}"/>
                             </span>
                         </div>
 
                         <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
                             <div class="flex align-items-center justify-content-center">
-                                <button pButton type="button" label="Add new" icon="pi pi-plus"
+                                <button pButton type="button" label="{{'button.Addnew' | translate}}" icon="pi pi-plus"
                                         (click)="onCreatePost()"
                                         style="width: auto;"></button>
                             </div>
@@ -38,7 +38,7 @@
                         </th> -->
                         <th pSortableColumn="postId">
                             <div class="flex justify-content-between align-items-center">
-                                ID
+                                {{'postSellerScreen.id' | translate}}
                                 <p-sortIcon field="postId"></p-sortIcon>
                                 <p-columnFilter type="numeric" field="postId" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -46,7 +46,7 @@
                         </th>
                         <th pSortableColumn="postContent">
                             <div class="flex justify-content-between align-items-center">
-                                Post Content
+                                {{'postSellerScreen.PostContent' | translate}}
                                 <p-sortIcon field="postContent"></p-sortIcon>
                                 <p-columnFilter type="text" field="postContent" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -54,7 +54,7 @@
                         </th>
                         <th pSortableColumn="createdDate">
                             <div class="flex justify-content-between align-items-center">
-                                Created Date
+                                {{'postSellerScreen.CreatedDate' | translate}}
                                 <p-sortIcon field="createdDate"></p-sortIcon>
                                 <p-columnFilter type="text" field="createdDate" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -62,12 +62,12 @@
                         </th>
                         <th>
                             <div class="flex justify-content-between align-items-center">
-                                Images
+                                {{'postSellerScreen.Images' | translate}}
                             </div>
                         </th>
                         <th pSortableColumn="status">
                             <div class="flex justify-content-between align-items-center">
-                                Status
+                                {{'postSellerScreen.Status' | translate}}
                                 <p-sortIcon field="status"></p-sortIcon>
                                 <p-columnFilter type="text" field="status" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -76,7 +76,7 @@
                         <th style="min-width: 8rem">
                             <div 
                                  class="flex justify-content-between align-items-center">
-                                Action
+                                {{'postSellerScreen.Action' | translate}}
                             </div>
                         </th>
                     </tr>
@@ -105,7 +105,7 @@
                                         (click)="onDisplayImagesDialog(post, $event)"
                                         class="p-button-rounded p-button-text p-button-raised"></button>
                             </ng-container>
-                            <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+                            <ng-template #noneImage ><span class="no-image">{{'postSellerScreen.NoImage' | translate}}</span></ng-template>
                         </td>
                         <td>
                             <span class="p-column-title">Status</span>
@@ -113,7 +113,7 @@
                         </td>
                         <td style="text-align: center">
                             <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
-                                <div class="flex align-items-center justify-content-center">
+                                <div *ngIf="post.status !== 'Ban'" class="flex align-items-center justify-content-center">
                                     <button pButton pRipple icon="pi pi-pencil"
                                             (click)="onUpdatePost(post)"
                                             class="p-button-rounded p-mr-2"></button>
@@ -138,7 +138,7 @@
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="8">No post yet.</td>
+                        <td colspan="8">{{'postSellerScreen.emptymessage' | translate}}</td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -157,7 +157,7 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Post information</b>
+                        <b>{{'postSellerScreen.Postinformation' | translate}}</b>
                     </div>
                 </p-divider>
                 <div class="grid">
@@ -166,7 +166,7 @@
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
                                 <input type="text" class="w-full" [(ngModel)]="postModel.postId"
                                        [disabled]="true" pInputText/>
-                                <label>ID*</label>
+                                <label>{{'postSellerScreen.id' | translate}}*</label>
                             </span>
                         </div>
                     </ng-template>
@@ -174,17 +174,18 @@
                         <span class="p-input-icon-left p-float-label" style="width: 100%" >
                             <textarea class="w-full" rows="10" cols="60" 
                                 pInputTextarea 
+                                maxlength="1500"
                                 [(ngModel)]="postModel.postContent"
                                 [class.ng-invalid] = "!inputValidation.isPostContentValid"
                                 [class.ng-dirty] = "!inputValidation.isPostContentValid"    
                             ></textarea>
-                            <label>Post Content*</label>
+                            <label>{{'postSellerScreen.PostContent' | translate}}*</label>
                         </span>
                         <small [style.display]="inputValidation.isPostContentValid ? 'none !important' : 'block !important'" 
                             id="username2-help" class="p-error block">{{inputValidation.postContentMessage}}</small>
                     </div>
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
-                        <label>Images</label>
+                        <label>{{'postSellerScreen.Images' | translate}}</label>
 					    <span class="p-input-icon-left p-float-label" style="width: 100%">
                             <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
                                 <ng-template pTemplate="content">
@@ -219,32 +220,32 @@
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Save" icon="pi pi-save"
+                <button pButton type="button" label="{{'button.save' | translate}}" icon="pi pi-save"
                         (click)="onSavePost()"
                         style="width: 100%;"></button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                <button pButton type="button" label="{{'button.cancel' | translate}}" icon="pi pi-times"
                         (click)="onCancelPost()" class="p-button-danger"
                         style="width: 100%;"></button>
             </div>
         </div>
     </ng-template>
 </p-dialog>
-<p-dialog header="View Post Content" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true">
+<p-dialog header="{{'postSellerScreen.ViewPostContent' | translate}}" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true">
     <p class="dialog-content-detail">
         {{contentDialog}}
     </p>
 </p-dialog>
 
-<p-dialog header="List Image" [(visible)]="visibleImageDialog" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+<p-dialog header="{{'postSellerScreen.ListImage' | translate}}" [(visible)]="visibleImageDialog" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
     <p-table [value]="postImageDialog.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="imageId">ID<p-sortIcon field="imageId"></p-sortIcon></th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Size</th>
+                <th pSortableColumn="imageId">{{'postSellerScreen.id' | translate}}<p-sortIcon field="imageId"></p-sortIcon></th>
+                <th>{{'postSellerScreen.Images' | translate}}</th>
+                <th>{{'postSellerScreen.Name' | translate}}</th>
+                <th>{{'postSellerScreen.Size' | translate}}</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-postImage>

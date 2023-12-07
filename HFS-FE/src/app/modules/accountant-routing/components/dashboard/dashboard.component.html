@@ -1,0 +1,54 @@
+<div class="grid table-demo">
+    <div class="col-12">
+        <div class="card">
+            <div class="col-12 md:col-12">
+                <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+                    <label style="margin-right: 1rem">Data time: </label>
+                    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
+                        [maxDate]="currentDate" (onClose)="onCloseCalendar($event)"></p-calendar>
+                </div>
+            </div>
+
+            <div class="overview-list">
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total Request: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{data.totalWithdrawalRequest}}</span>
+                        <div class="data-percent" [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0">
+                            Waiting:{{data.totalWaitingRequest}}
+                            Success:{{data.totalSuccessRequest}}
+                            Reject:{{data.totalRejectRequest}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Money Out: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{data.totalMoneyOut | currency : 'VND'}}</span>
+                        <!-- Ban:{{datatotal.banCustomer}} -->
+                        <div class="data-percent" [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card flex ">
+                <div class="col-4 mb-2" style="margin-right: 20px;">
+                    <p-chart type="pie" [data]="datatron" [options]="optionstron"></p-chart>
+                </div>
+                <div class="col-8 mb-6">
+                    <p-chart type="line" [data]="dataline" [options]="optionsline"></p-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<cmis-loading></cmis-loading>

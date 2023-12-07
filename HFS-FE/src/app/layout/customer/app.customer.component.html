@@ -1,5 +1,5 @@
 <div class="layout-wrapper" [ngClass]="containerClass">
-    <app-customer-topbar></app-customer-topbar>
+    <app-customer-topbar  (toggleSellerListEvent)="toggleSellerList()"></app-customer-topbar>
     <div class="layout-main-container">
         <p-scrollTop></p-scrollTop>
         <div class="layout-main">
@@ -8,5 +8,8 @@
         <app-customer-footer></app-customer-footer>
     </div>
     <div class="layout-mask"></div>
+</div>
+<div *ngIf="isSellerListVisible" style="position: relative;">
+  <app-seller-list  (closeSellerList)="toggleSellerList()" ></app-seller-list>
 </div>
 

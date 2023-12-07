@@ -1,0 +1,54 @@
+:host ::ng-deep {
+    .p-dataview-content{
+        
+        .p-grid{
+            display: flex;
+            flex-direction: column;
+            justify-content: stretch;
+            .layout-notify-item{
+                padding: 0.2rem 1rem;
+                flex: 1;
+                cursor: pointer;
+                &:hover {
+                    &.layout-notify-item *{
+                        color: #909090;
+                    }
+                }
+            }
+        }
+    }
+
+    .table-demo{
+        height: 100%;
+        .col-12{
+            .card{
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                p-dataview{
+                    flex:1;
+                    .p-dataview{
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        p-paginator{
+                            
+                            margin-top: auto;
+                        }
+                    }
+                }
+            }
+        }
+    
+    }
+
+    .notify-unread{
+        background-color: #eeeee4;
+    }
+
+    .mark-all_disabled{
+        cursor: not-allowed !important;
+    }
+
+
+}

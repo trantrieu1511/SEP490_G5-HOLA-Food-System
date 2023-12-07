@@ -5,6 +5,9 @@ using HFS_BE.Dao.AuthDao;
 using HFS_BE.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mail;
+using System.Net;
+using System;
 
 namespace HFS_BE.Controllers.Auth
 {
@@ -56,5 +59,7 @@ namespace HFS_BE.Controllers.Auth
 				throw;
 			}
 		}
+		
+		
 	}
 }

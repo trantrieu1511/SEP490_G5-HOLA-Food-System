@@ -1,0 +1,20 @@
+@media only screen and (max-width: 1500px) {
+    .page-content {
+        width: 1500px;
+    }
+}
+
+.page-content {
+    // width: 45%;
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar {
+    width: 15%;
+    height: 100%;
+}
+
+.main-body {
+    width: 85%;
+}

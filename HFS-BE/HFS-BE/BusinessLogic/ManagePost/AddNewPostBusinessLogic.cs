@@ -1,9 +1,14 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.Dao.PostDao;
+using HFS_BE.DAO.ModeratorDao;
+using HFS_BE.DAO.NotificationDao;
+using HFS_BE.DAO.SellerDao;
+using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.IOFile;
+using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 
 namespace HFS_BE.BusinessLogic.ManagePost
@@ -18,13 +23,20 @@ namespace HFS_BE.BusinessLogic.ManagePost
         {
             try
             {
-                /*inputDto.UserDto = new UserDto
-                {
-                    Email = "test@gmail.com",
-                    Name = "testSeller",
-                    RoleId = 2,
-                    UserId = 1,
-                };*/
+                var sellerDao = CreateDao<SellerDao>();
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email) is null)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not exist");
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).IsVerified == false)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not verified");
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).IsBanned == true)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is banned");
+
+
+                var notifyDao = CreateDao<NotificationDao>();
+                var moderatorDao = CreateDao<ModeratorDao>();
 
                 if (String.IsNullOrEmpty(inputDto.PostContent))
                 {
@@ -32,6 +44,12 @@ namespace HFS_BE.BusinessLogic.ManagePost
                     errors.Add("PostContent cannot be empty!");
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", errors);
                     
+                }
+
+                if(inputDto.PostContent.Length > Constants.PostContentMaxLength)
+                {
+                    var errors = new List<string>();
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Post content must not exceed 1500 characters");
                 }
 
                 var Dao = this.CreateDao<PostDao>();
@@ -50,6 +68,25 @@ namespace HFS_BE.BusinessLogic.ManagePost
                 }
 
                 var output = Dao.AddNewPost(inputMapper);
+
+                if (!output.Success)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", output.Message);
+
+                // add notify
+                // 1 get all food moderator
+                var moderList = moderatorDao.GetAllPostModerator();
+                foreach (var moder in moderList.data)
+                {
+                    // 2. gen title and content notification
+                    var notify = GenerateNotification.GetSingleton().GenNotificationAddNewPost(moder.ModId, output.PostId);
+                    //3. add notify
+                    var noti = notifyDao.AddNewNotification(notify);
+                    if (!noti.Success)
+                    {
+                        return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                    }
+                }
+
                 return output;
             }
             catch (Exception)

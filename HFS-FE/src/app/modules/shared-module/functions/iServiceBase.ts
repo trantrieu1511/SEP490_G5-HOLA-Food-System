@@ -1,13 +1,14 @@
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpRequest} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable, throwError, firstValueFrom, lastValueFrom} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, throwError, firstValueFrom, lastValueFrom } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import * as API from 'src/app/services/apiURL';
-import {LoadingService} from '../shared-data-services/loading.service';
+import { LoadingService } from '../shared-data-services/loading.service';
+import { environment } from 'src/environments/environment';
 
 
 // @ts-ignore
-import IPService from '/src/assets/config/IPService.json';
+import IPService from 'src/assets/config/IPService.json';
 
 @Injectable()
 export class iServiceBase {
@@ -15,10 +16,11 @@ export class iServiceBase {
     strIP_GateWay = '';
     strVersion = '';
     strProjectName = '';
+    strProvicesUrl = '';
 
     constructor(public httpClient: HttpClient
         , public loadingService: LoadingService
-        ) {
+    ) {
         this.strIP_Service = IPService.APISERVICE;
         this.strIP_GateWay = IPService.APIGATEWAY;
         this.strVersion = IPService.Version;
@@ -30,6 +32,7 @@ export class iServiceBase {
         localStorage.setItem('VERSION', this.strVersion);
         localStorage.setItem('PROJECT_NAME', this.strProjectName);
 
+        this.strProvicesUrl = environment.provincesUrl;
     }
 
     // Lấy Ip cấu hình ở file này
@@ -56,7 +59,7 @@ export class iServiceBase {
         return options;
     }
 
-    async getDataByURLAsync(url : string, api : string, inputData : any, ignoreLoading?: boolean): Promise<any> {
+    async getDataByURLAsync(url: string, api: string, inputData: any, ignoreLoading?: boolean): Promise<any> {
         try {
             url = `${url}${api}`;
             const response = await this.httpClient.post(url, inputData, this.getOptionsRequest(ignoreLoading)).toPromise();
@@ -70,7 +73,7 @@ export class iServiceBase {
         }
     }
 
-    async getDataAsync(service : any, api : string, ignoreLoading?: boolean): Promise<any> {
+    async getDataAsync(service: any, api: string, ignoreLoading?: boolean): Promise<any> {
         // Get IP và URL
         service = await this.getURLService(service);
 
@@ -86,7 +89,7 @@ export class iServiceBase {
         return response;
     }
 
-    async getDataAsyncByPostRequest(service : any, api : string, inputData : any, ignoreLoading?: boolean): Promise<any> {
+    async getDataAsyncByPostRequest(service: any, api: string, inputData: any, ignoreLoading?: boolean): Promise<any> {
 
         try {
             // Get IP và URL
@@ -109,7 +112,7 @@ export class iServiceBase {
         }
     }
 
-    async getDataWithParamsAsync(service : any, api : string, Params : any, ignoreLoading?: boolean): Promise<any> {
+    async getDataWithParamsAsync(service: any, api: string, Params: any, ignoreLoading?: boolean): Promise<any> {
 
         // Get IP và URL
         service = await this.getURLService(service);
@@ -119,13 +122,15 @@ export class iServiceBase {
         }
 
         const url = `${service}${api}`;
-        const response = await this.httpClient.get(url, {params: Params}).pipe(catchError(this.handleError)).toPromise();
+        const option = this.getOptionsRequest(ignoreLoading)
+        option.params = Params;
+        const response = await this.httpClient.get(url, option).toPromise();
         document.body.style.cursor = 'default';
 
         return response;
     }
 
-    public getData(service : any, api : string, ignoreLoading?: boolean): Observable<any> {
+    public getData(service: any, api: string, ignoreLoading?: boolean): Observable<any> {
         // try {
 
         //     // Get IP và URL
@@ -168,7 +173,7 @@ export class iServiceBase {
         return request;
     }
 
-    public downloadFilePDF(service : any, api : string, ignoreLoading?: boolean): Observable<Blob> {
+    public downloadFilePDF(service: any, api: string, ignoreLoading?: boolean): Observable<Blob> {
         // try {
 
         //     // Get IP và URL
@@ -218,7 +223,7 @@ export class iServiceBase {
         return request;
     }
 
-    public downloadFilePDFPost(service: any, api : string, param : any, ignoreLoading?: boolean): Observable<Blob> {
+    public downloadFilePDFPost(service: any, api: string, param: any, ignoreLoading?: boolean): Observable<Blob> {
         // try {
 
         //     // Get IP và URL
@@ -268,7 +273,7 @@ export class iServiceBase {
         return request;
     }
 
-    public downloadFileByType(service : any, api : string, inputData : any, ignoreLoading?: boolean): Observable<Blob> {
+    public downloadFileByType(service: any, api: string, inputData: any, ignoreLoading?: boolean): Observable<Blob> {
         // try {
 
         //     // Get IP và URL
@@ -338,8 +343,8 @@ export class iServiceBase {
         return request;
     }
 
-    public getDataByPostRequest(service : any, api : string, inputData : any,
-            ignoreLoading?: boolean): Observable<any> {
+    public getDataByPostRequest(service: any, api: string, inputData: any,
+        ignoreLoading?: boolean): Observable<any> {
         // try {
 
         //     // Get IP và URL
@@ -365,12 +370,12 @@ export class iServiceBase {
             .post(url, inputData, this.getOptionsRequest(ignoreLoading))
             .pipe(
                 catchError((error) => {
-                console.error(error);
-                // Instead of returning null, emit an error using throwError
-                return throwError(error);
+                    console.error(error);
+                    // Instead of returning null, emit an error using throwError
+                    return throwError(error);
                 })
-        );
-                
+            );
+
         request.subscribe(
             () => {
                 // Request completed successfully, set cursor to 'default'
@@ -386,7 +391,7 @@ export class iServiceBase {
         return request;
     }
 
-    public getDataWithParams(service : any, api : string, Params : any, ignoreLoading?: boolean): Observable<any> {
+    public getDataWithParams(service: any, api: string, Params: any, ignoreLoading?: boolean): Observable<any> {
         // try {
 
         //     // Get IP và URL
@@ -415,9 +420,9 @@ export class iServiceBase {
             .get(url, { params: Params })
             .pipe(
                 catchError((error) => {
-                console.error(error);
-                // Instead of returning null, emit an error using throwError
-                return throwError(error);
+                    console.error(error);
+                    // Instead of returning null, emit an error using throwError
+                    return throwError(error);
                 })
             );
         request.subscribe(
@@ -436,8 +441,8 @@ export class iServiceBase {
     }
 
 
-    async postDataAsync(service : any, api : string, inputData : any,
-            ignoreLoading?: boolean, responseType?: string): Promise<any> {
+    async postDataAsync(service: any, api: string, inputData: any,
+        ignoreLoading?: boolean, responseType?: string): Promise<any> {
         try {
             // Get IP và URL
             service = await this.getURLService(service);
@@ -446,7 +451,7 @@ export class iServiceBase {
                 return null;
             }
             const url = `${service}${api}`;
-            
+
             const request = await firstValueFrom(this.httpClient.post(url, inputData, this.getOptionsRequest(ignoreLoading, responseType)))
             document.body.style.cursor = 'default';
             return request;
@@ -457,7 +462,7 @@ export class iServiceBase {
         }
     }
 
-    public postData(service : any, api : string, inputData : any, ignoreLoading?: boolean): Observable<any> {
+    public postData(service: any, api: string, inputData: any, ignoreLoading?: boolean): Observable<any> {
         // try {
         //     // Get IP và URL
         //     service = this.getURLService(service);
@@ -482,9 +487,9 @@ export class iServiceBase {
             .post(url, inputData, this.getOptionsRequest(ignoreLoading))
             .pipe(
                 catchError((error) => {
-                console.error(error);
-                // Instead of returning null, emit an error using throwError
-                return throwError(error);
+                    console.error(error);
+                    // Instead of returning null, emit an error using throwError
+                    return throwError(error);
                 })
             );
         request.subscribe(
@@ -518,7 +523,7 @@ export class iServiceBase {
         //     return null;
         // }
 
-         // Get IP và URL
+        // Get IP và URL
         service = this.getURLService(service);
         const url = `${service}${api}`;
 
@@ -590,7 +595,7 @@ export class iServiceBase {
                 document.body.style.cursor = 'default';
             }
         );
-    
+
         return request;
     }
 
@@ -649,7 +654,7 @@ export class iServiceBase {
                 document.body.style.cursor = 'default';
             }
         );
-    
+
         return request;
     }
 
@@ -685,10 +690,10 @@ export class iServiceBase {
         //     console.log(error);
         //     return null;
         // }
-        
+
         // Get IP và URL
         service = this.getURLService(service);
-       
+
         const url = `${service}${api}`;
 
         // Make the HTTP DELETE request
@@ -709,7 +714,7 @@ export class iServiceBase {
                 document.body.style.cursor = 'default';
             }
         );
-    
+
         return request;
 
     }
@@ -744,16 +749,12 @@ export class iServiceBase {
                 case API.PHAN_HE.POST: {
                     return localStorage.getItem('APISERVICE') + '/posts/';
                 }
-                case API.PHAN_HE.TEST: {
+                case API.PHAN_HE.TEST: { // Giong voi PHAN_HE.HOME nay may a - Trieu
                     return localStorage.getItem('APISERVICE') + '/home/';
-                }
-                case API.PHAN_HE.POSTMODERATORMANAGEPOST: {
-                    return localStorage.getItem('APISERVICE') + '/manage/';
                 }
                 case API.PHAN_HE.SHIPPER: {
                     return localStorage.getItem('APISERVICE') + '/shipper/';
                 }
-                
                 case API.PHAN_HE.HOME: {
                     return localStorage.getItem('APISERVICE') + '/home/';
                 }
@@ -768,6 +769,42 @@ export class iServiceBase {
                 }
                 case API.PHAN_HE.CHECKOUT: {
                     return localStorage.getItem('APISERVICE') + '/checkout/';
+                }
+                case API.PHAN_HE.HUB: {
+                    return localStorage.getItem('APISERVICE') + '/hubs/';
+                }
+                case API.PHAN_HE.NOTIFY: {
+                    return localStorage.getItem('APISERVICE') + '/notifies/';
+                }
+                case API.PHAN_HE.FOODETAIL: {
+                    return localStorage.getItem('APISERVICE') + '/fooddetail/';
+                }
+                case API.PHAN_HE.ORDERCUSTOMER: {
+                    return localStorage.getItem('APISERVICE') + '/order/';
+                }
+                case API.PHAN_HE.POSTREPORT: {
+                    return localStorage.getItem('APISERVICE') + '/postreports/';
+                }
+                case API.PHAN_HE.FOODREPORT: {
+                    return localStorage.getItem('APISERVICE') + '/menureports/';
+                }
+                case API.PHAN_HE.PROFILEIMAGE: {
+                    return localStorage.getItem('APISERVICE') + '/profileImage/';
+                }
+                case API.PHAN_HE.PAYMENT: {
+                    return localStorage.getItem('APISERVICE') + '/payment/';
+                }
+                case API.PHAN_HE.CUSTOMER: {
+                    return localStorage.getItem('APISERVICE') + '/customer/';
+                }
+                case API.PHAN_HE.AUTH: {
+                    return localStorage.getItem('APISERVICE') + '/auths/';
+                }
+                case API.PHAN_HE.DASHBOARD: {
+                    return localStorage.getItem('APISERVICE') + '/dashboards/';
+                }
+                case API.PHAN_HE.WALLET: {
+                    return localStorage.getItem('APISERVICE') + '/wallet/';
                 }
                 default: {
                     return '';
@@ -833,9 +870,9 @@ export class iServiceBase {
         return throwError(errorMessage);
     }
 
-    formatMessageError(response: any): string{
+    formatMessageError(response: any): string {
         var message = "";
-        if(response.errors.validationErrors && response.errors.validationErrors.length > 0){
+        if (response.errors.validationErrors && response.errors.validationErrors.length > 0) {
             const validationErrors = response.errors.validationErrors;
             validationErrors.forEach(element => {
                 message += element.field + "\n";
@@ -845,12 +882,50 @@ export class iServiceBase {
             });
         }
 
-        if(response.errors.systemErrors && response.errors.systemErrors.length > 0){
+        if (response.errors.systemErrors && response.errors.systemErrors.length > 0) {
             const systemErrors = response.errors.systemErrors;
             systemErrors.forEach(mess => {
                 message += mess + "\n";
             });
         }
         return message.trim();
+    }
+
+    formatDatetime(dateArgument: string) { // Format to dd/MM/yyyy HH:mm:ss
+        const date = new Date(dateArgument);
+        const yyyy = date.getFullYear();
+        let mm = date.getMonth() + 1; // Months start at 0!
+        let dd = date.getDate();
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let seconds = date.getSeconds();
+        let ddstr = '';
+        let mmstr = '';
+        let hourstr = '';
+        let minutestr = '';
+        let secondstr = '';
+    
+        if (dd < 10) ddstr = '0' + dd;
+        if (mm < 10) mmstr = '0' + mm;
+        if (hours < 10) hourstr = '0' + hours;
+        if (minutes < 10) minutestr = '0' + minutes;
+        if (seconds < 10) secondstr = '0' + seconds;
+    
+        const formattedDate = (ddstr != '' ? ddstr : dd) + '/' + (mmstr != '' ? mmstr : mm) + '/' + yyyy;
+        const time = (hourstr != '' ? hourstr : hours) + ':' + (minutestr != '' ? minutestr : minutes) + ':' + (secondstr != '' ? secondstr : seconds);
+        return formattedDate + ' ' + time;
+    }
+
+    async getAllProvincesAsync(){
+        try {
+// ;
+            const request = await firstValueFrom(this.httpClient.get(this.strProvicesUrl))
+            document.body.style.cursor = 'default';
+            return request;
+        } catch (errorResponse) {
+            document.body.style.cursor = 'default';
+            console.log(errorResponse);
+            return errorResponse.error;
+        }
     }
 }

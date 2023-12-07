@@ -9,7 +9,7 @@ namespace HFS_BE.BusinessLogic.Cart
 
     public class ListShopItemDto
     {
-        public int ShopId { get; set; }
+        public string ShopId { get; set; }
         public string ShopName { get; set; }
         public List<CartItemDto> ListItem { get; set; }
     }
@@ -21,5 +21,15 @@ namespace HFS_BE.BusinessLogic.Cart
         public decimal? UnitPrice { get; set; }
         public string? Name { get; set; }
         public string foodImages { get; set; }
+    }
+
+    public class VoucherDetailOutput : BaseOutputDto
+    {
+        public string SellerId { get; set; }
+        public bool isEffective { get; set; }
+        public bool isExpired { get; set; }
+        public bool isUsed { get; set; }
+        public decimal? MinValue { get; set; }
+        public decimal? Discount { get; set; }
     }
 }

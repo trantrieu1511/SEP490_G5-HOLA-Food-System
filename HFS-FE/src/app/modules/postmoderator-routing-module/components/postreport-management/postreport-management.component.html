@@ -1,1 +1,185 @@
-<p>postreport-management works!</p>
+<div class="grid table-demo">
+    <div class="col-12">
+        <div class="card">
+            <h5>Post report management</h5>
+            <p-table #dt [value]="lstPostReport" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+                [rows]="10" [showCurrentPageReport]="true" [paginator]="lstPostReport.length > 5" [filterDelay]="0"
+                [rowsPerPageOptions]="[5,10,25,50]" currentPageReportTemplate="Total: {totalRecords} post reports"
+                [globalFilterFields]="['reportContent']" responsiveLayout="scroll" [loading]="loading">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-row align-items-center flex-wrap justify-content-between ">
+                        <div class="flex-1">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" #textInput
+                                    (input)="dt.filterGlobal(textInput.value, 'contains')"
+                                    placeholder="Search post report by report content" />
+                            </span>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="postId">
+                            <div class="flex justify-content-between align-items-center">
+                                Post id
+                                <p-sortIcon field="postId"></p-sortIcon>
+                                <p-columnFilter type="numeric" field="postId" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="reportBy">
+                            <div class="flex justify-content-between align-items-center">
+                                Report by
+                                <p-sortIcon field="reportBy"></p-sortIcon>
+                                <p-columnFilter type="text" field="reportBy" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="reportContent">
+                            <div class="flex justify-content-between align-items-center">
+                                Report content
+                                <p-sortIcon field="reportContent"></p-sortIcon>
+                                <p-columnFilter type="text" field="reportContent" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="createDate">
+                            <div class="flex justify-content-between align-items-center">
+                                Created date
+                                <p-sortIcon field="createDate"></p-sortIcon>
+                                <p-columnFilter type="text" field="createDate" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="updateDate">
+                            <div class="flex justify-content-between align-items-center">
+                                Updated date
+                                <p-sortIcon field="updateDate"></p-sortIcon>
+                                <p-columnFilter type="text" field="updateDate" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="updateBy">
+                            <div class="flex justify-content-between align-items-center">
+                                Updated by
+                                <p-sortIcon field="updateBy"></p-sortIcon>
+                                <p-columnFilter type="text" field="updateBy" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="status">
+                            <div class="flex justify-content-between align-items-center">
+                                Status
+                                <p-sortIcon field="status"></p-sortIcon>
+                                <p-columnFilter type="text" field="status" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="note">
+                            <div class="flex justify-content-between align-items-center">
+                                Note
+                                <p-sortIcon field="status"></p-sortIcon>
+                                <p-columnFilter type="text" field="note" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width: 8rem">
+                            <div class="flex justify-content-between align-items-center">
+                                Action
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-postrp>
+                    <tr class="p-selectable-row">
+                        <td>
+                            <span class="p-column-title">postId</span>
+                            <span class="">{{postrp.postId}}</span>
+                        </td>
+                        <td>
+                            <span class="p-column-title">reportBy</span>
+                            {{postrp.reportBy}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">ReportContent</span>
+                            <span class="report-content"
+                                (click)="viewContentDetail(postrp.reportContent)">{{postrp.reportContent}}</span>
+                        </td>
+                        <td>
+                            <span class="p-column-title">CreatedDate</span>
+                            {{postrp.createDate}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">UpdatedDate</span>
+                            {{postrp.updateDate}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">UpdatedBy</span>
+                            {{postrp.updateBy}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Status</span>
+                            <p-tag [value]="postrp.status" [severity]="getSeverity(postrp.status)"></p-tag>
+                        </td>
+                        <td>
+                            <span class="p-column-title">Note</span>
+                            {{postrp.note}}
+                        </td>
+                        <td>
+                            <div *ngIf="postrp.status === 'NotApproved' && postrp.updateBy === userId || postrp.status === 'Pending'"
+                                class="">
+
+                                <div class="">
+                                    <button style="margin-bottom: 5px;" pButton pRipple icon="pi pi-check-circle"
+                                        (click)="onOpenApproveNotApproveModal('Approved', postrp)"
+                                        class="p-button-rounded p-button-success p-mr-2"></button>
+                                </div>
+                            </div>
+                            <div *ngIf="postrp.status === 'Approved' && postrp.updateBy === userId || postrp.status === 'Pending'"
+                                class="">
+
+                                <div class="">
+                                    <button pButton pRipple icon="pi pi-times-circle"
+                                        (click)="onOpenApproveNotApproveModal('Not approved', postrp)"
+                                        class="p-button-rounded p-button-danger p-mr-2"></button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">No post report yet.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-dialog [header]="postReport.status == 'Approved' ? 'Note for approving' : 'Note for not approving'"
+    [(visible)]="isVisibleApproveNotApproveModal" [modal]="true" [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '500px' }" [draggable]="false" [resizable]="false" [responsive]="true">
+    <div class="card">
+        <span class="p-float-label">
+            <textarea class="w-full" id="float-input" rows="5" cols="40" [(ngModel)]="postReport.note"
+                pInputTextarea></textarea>
+            <label for="float-input">Enter some note (Optional)</label>
+        </span>
+    </div>
+    <div style="display: flex;">
+        <p-button (click)="approveNotApprovePost(postReport)">Save</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <p-button [text]="true" (onClick)="isVisibleApproveNotApproveModal = false">Cancel</p-button>
+    </div>
+</p-dialog>
+
+<p-dialog header="View detail" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true">
+    <p class="dialog-content-detail">
+        {{contentDialog}}
+    </p>
+</p-dialog>
+
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>
+
+<p-confirmPopup></p-confirmPopup>

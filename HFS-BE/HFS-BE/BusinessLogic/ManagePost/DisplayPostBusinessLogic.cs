@@ -26,22 +26,47 @@ namespace HFS_BE.BusinessLogic.ManagePost
                 };*/
 
                 var Dao = this.CreateDao<PostDao>();
-                Dao.PostDao.ListPostOutputSellerDto daoOutput = Dao.GetAllPostSeller(userDto);
+
+                Dao.PostDao.ListPostOutputSellerDto daoOutput = new Dao.PostDao.ListPostOutputSellerDto();
+                switch (userDto.UserId.Substring(0, 2)) // Lay user role key
+                {
+                    case "SE":
+                        // Seller
+                        daoOutput = Dao.GetAllPostSeller(userDto);
+                        break;
+                    case "PM":
+                        // post moderator thì gọi method dao khác select thêm shopID nx 
+                        // output thêm trường shopId r -> xài dùng output ListPostOutputSellerDto
+                        // thiêm truòng j trả về thì thềm vào ListPostOutputSellerDto ở BL, Dao - OK
+
+                        // Post moderator
+                        daoOutput = Dao.GetAllPostPostModerator();
+                        break;
+                    default:
+                        break;
+                }
                 var output = mapper.Map<Dao.PostDao.ListPostOutputSellerDto, ListPostOutputSellerDto>(daoOutput);
-                // post moderator thì gọi method dao khác select thêm shopID nx 
-                // output thêm trường shopId r -> xài dùng output ListPostOutputSellerDto
-                // thiêm truòng j trả về thì thềm vào ListPostOutputSellerDto ở BL, Dao
+
                 foreach (var post in daoOutput.Posts)
                 {
-                    if(post.Images == null ||post.Images.Count < 1) 
+                    if (post.Images == null || post.Images.Count < 1)
                         continue;
                     // get current index
                     var index = daoOutput.Posts.IndexOf(post);
                     foreach (var img in post.Images)
                     {
+                        ImageFileConvert.ImageOutputDto? imageInfor = null;
                         // convert to base64
-                        var imageInfor = ImageFileConvert.ConvertFileToBase64(userDto.UserId, img.Path, 0);
-                        if (imageInfor == null) 
+                        // post moderator case
+                        if (userDto.UserId.Substring(0, 2).Equals("PM"))
+                        {
+                            imageInfor = ImageFileConvert.ConvertFileToBase64(post.SellerId, img.Path, 0);
+                        }
+                        else // seller case
+                        {
+                            imageInfor = ImageFileConvert.ConvertFileToBase64(userDto.UserId, img.Path, 0);
+                        }
+                        if (imageInfor == null)
                             continue;
 
                         var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, PostImageOutputSellerDto>(imageInfor);

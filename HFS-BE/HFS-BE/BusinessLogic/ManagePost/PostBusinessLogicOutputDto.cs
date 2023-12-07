@@ -23,7 +23,8 @@ namespace HFS_BE.BusinessLogic.ManagePost
     public class PostOutputSellerDto
     {
         public int PostId { get; set; }
-        public int? ShopId { get; set; }
+        public string? SellerId { get; set; }
+        public string? SellerEmail { get; set; }
         public string? PostContent { get; set; }
 
         public string? CreatedDate { get; set; }
@@ -31,6 +32,13 @@ namespace HFS_BE.BusinessLogic.ManagePost
         public string? Status { get; set; }
 
         public List<PostImageOutputSellerDto>? ImagesBase64 { get; set; } = new List<PostImageOutputSellerDto>();
+
+        //public int? ReportedTimes { get; set; }
+        public string? BanBy { get; set; }
+
+        public DateTime? BanDate { get; set; }
+
+        public string? BanNote { get; set; }
     }
 
     public class PostImageOutputSellerDto
@@ -44,6 +52,36 @@ namespace HFS_BE.BusinessLogic.ManagePost
     public class ListPostOutputSellerDto : BaseOutputDto
     {
         public List<PostOutputSellerDto> Posts { get; set; }
+    }
+    public class PostOutputCustomerDto
+    {
+        public int PostId { get; set; }
+        public string? SellerId { get; set; }
+        public string? ShopName{ get; set; }
+        public string? PostContent { get; set; }
+
+        public string? CreatedDate { get; set; }
+
+        public string? Status { get; set; }
+
+        public List<PostImageOutputCustomerDto>? ImagesBase64 { get; set; } = new List<PostImageOutputCustomerDto>();
+    }
+
+    public class PostImageOutputCustomerDto
+    {
+        public int ImageId { get; set; }
+        public string? ImageBase64 { get; set; }
+        public string? Name { get; set; }
+        public string? Size { get; set; }
+    }
+
+    public class ListPostOutputCustomerDto : BaseOutputDto
+    {
+        public List<PostOutputCustomerDto> Posts { get; set; }
+        public int TotalPosts { get; set; }
+        public int TotalPages { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
     }
 
 }

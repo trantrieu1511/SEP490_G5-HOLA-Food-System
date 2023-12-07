@@ -1,0 +1,254 @@
+
+<div class="grid table-demo">
+  <div class="col-12">
+      <div class="card">
+          <h5>FeedBack Management by Seller</h5>
+
+          <p-table #dt [value]="lstFeed" dataKey="id"
+                   styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
+                   [showCurrentPageReport]="true"
+                   [paginator]="lstFeed.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
+                   currentPageReportTemplate="Total: {totalRecords} foods"
+                   [globalFilterFields]="['shipperName']" responsiveLayout="scroll"
+
+          >
+              <ng-template pTemplate="caption">
+                  <div class="flex flex-row align-items-center flex-wrap justify-content-between ">
+                      <div class="flex-1">
+                          <span class="p-input-icon-left">
+                              <i class="pi pi-search"></i>
+                              <input pInputText type="text"  #textInput
+                                     (input)="dt.filterGlobal(textInput.value, 'contains')"
+                                     placeholder="Search Name by name"/>
+                          </span>
+                      </div>
+
+                      <!-- <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
+                          <div class="flex align-items-center justify-content-center">
+                              <button pButton type="button" label="Invitation" icon="pi pi-plus"
+                              (click)="onInvitation()"
+                                      style="width: auto;"></button>
+                          </div>
+                      </div> -->
+                  </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                  <tr>
+                      <!-- <th style="width: 3rem">
+                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                      </th> -->
+                      <th pSortableColumn="feedbackId">
+                          <div class="flex justify-content-between align-items-center">
+                              ID
+                              <p-sortIcon field="feedbackId"></p-sortIcon>
+                              <p-columnFilter type="numeric" field="feedbackId" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="foodName">
+                          <div class="flex justify-content-between align-items-center">
+                            FoodName
+                              <p-sortIcon field="foodName"></p-sortIcon>
+                              <p-columnFilter type="text" field="foodName" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="customerName">
+                          <div class="flex justify-content-between align-items-center">
+                            CustomerName
+                              <p-sortIcon field="customerName"></p-sortIcon>
+                              <p-columnFilter type="text" field="customerName" display="menu"
+                                              class="ml-auto"></p-columnFilter>
+                          </div>
+                      </th>
+                      <th pSortableColumn="star">
+                        <div class="flex justify-content-between align-items-center">
+                            Star
+                            <p-sortIcon field="star"></p-sortIcon>
+                            <p-columnFilter type="text" field="star" display="menu"
+                                            class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th pSortableColumn="feedbackMessage">
+                      <div class="flex justify-content-between align-items-center">
+                        FeedBack
+                          <p-sortIcon field="gender"></p-sortIcon>
+                          <p-columnFilter type="text" field="feedbackMessage" display="menu"
+                                          class="ml-auto"></p-columnFilter>
+                      </div>
+                  </th>
+
+                      <th>
+                          <div class="flex justify-content-between align-items-center">
+                              CreateDate
+                          </div>
+                      </th>
+                      <th pSortableColumn="gender">
+                        <div class="flex justify-content-between align-items-center">
+                          FeedBackImage
+                            <p-sortIcon field="gender"></p-sortIcon>
+                            <p-columnFilter type="text" field="gender" display="menu"
+                                            class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
+                      <th style="min-width: 8rem">
+                          <div
+                               class="flex justify-content-between align-items-center">
+                              Action
+                          </div>
+                      </th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-feed>
+                  <tr class="p-selectable-row">
+                      <!-- <td>
+                          <p-tableCheckbox [value]="post"></p-tableCheckbox>
+                      </td> -->
+                      <td>
+                          <span class="p-column-title">ID</span>
+                            <span class="post-id">{{feed.feedbackId}}</span>
+                      </td>
+                      <td >
+                        <span class="p-column-title">FoodName</span>
+                        {{feed.foodName}}
+                    </td>
+                      <td >
+                          <span class="p-column-title">CustomerName</span>
+                          {{feed.customerName}}
+                      </td>
+                      <td>
+                          <span class="p-column-title">Star</span>
+                          <span class="post-content" >{{feed.star}}</span>
+                      </td>
+                      <td >
+                        <span class="p-column-title">Feedback</span>
+                        {{feed.feedbackMessage}}
+                    </td>
+                      <td >
+                          <span class="p-column-title">CreateDate</span>
+                          {{feed.displayDate}}
+                      </td>
+
+                      <td>
+                          <span class="p-column-title">FeedBackImage</span>
+                          <ng-container *ngIf="feed.imagesBase64.length !== 0; else noneImage" >
+                            <button pButton pRipple icon="pi pi-images"
+                                    (click)="onDisplayImagesDialog(feed, $event)"
+                                    class="p-button-rounded p-button-text p-button-raised"></button>
+                        </ng-container>
+                          <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+                      </td>
+
+                      <td style="text-align: center">
+                          <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+                              <div class="flex align-items-center justify-content-center">
+                                  <button pButton pRipple icon="pi pi-reply"
+                                                    (click)="Reply(feed)"
+
+                                                  [disabled]="feed.checkReply"
+                                          class="p-button-rounded p-mr-2"></button>
+                              </div>
+
+                          </div>
+                      </td>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                  <tr>
+                      <td colspan="8">No Feedback yet.</td>
+                  </tr>
+              </ng-template>
+          </p-table>
+      </div>
+  </div>
+</div>
+
+<p-dialog [header]="headerDialog" [(visible)]="displayDialogReply"
+[breakpoints]="{'960px': '75vw'}"
+[style]="{width: '50vw'}"
+[draggable]="false" [resizable]="false" [maximizable]="true"
+
+>
+<p class="dialog-content-detail">
+  {{contentDialog}}
+</p>
+<div class="grid p-fluid">
+<div class="col-12 md:col-12">
+  <div class="card">
+      <p-divider align="left">
+          <div class="p-d-inline-flex p-ai-center">
+              <b>Reply</b>
+          </div>
+      </p-divider>
+      <div class="grid">
+        <!-- <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+
+        </div> -->
+
+      <div class="col-12 mb-2 ">
+        <span class="p-input-icon-left p-float-label" style="width: 100%">
+          <textarea class="w-full" rows="10" cols="60"
+          pInputTextarea
+          [(ngModel)]="feedreply.replyMessage"
+
+          ></textarea>
+            <label>Reply*</label>
+        </span>
+    </div>
+      </div>
+  </div>
+</div>
+</div>
+<ng-template pTemplate="footer">
+<div class="flex justify-content-center flex-wrap" style="text-align: center">
+  <div class="flex align-items-center justify-content-center" style="text-align: center">
+      <button pButton type="button" label="Save" icon="pi pi-save"
+              (click)="onSave()"
+              style="width: 100%;"></button>
+  </div>
+  <div class="flex align-items-center justify-content-center" style="text-align: center">
+      <button pButton type="button" label="Cancel" icon="pi pi-times"
+              (click)="onCancel()" class="p-button-danger"
+              style="width: 100%;"></button>
+  </div>
+</div>
+</ng-template>
+</p-dialog>
+<p-dialog header="List Image"
+    [(visible)]="visibleImageDialog"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    [maximizable]="true"
+    >
+    <p-table [value]="feedImg.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Size</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-image>
+            <tr >
+                <td>{{image.imageId}}</td>
+                <td><p-image src="data:image/gif;base64,{{image.imageBase64}}" [preview]="true"
+                    [alt]="image.imageId" class="dialogimages_image w-10rem shadow-2"
+                    ></p-image></td>
+                <td>{{image.name}}</td>
+                <td>{{image.size}} KB</td>
+
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>
+
+<p-confirmPopup></p-confirmPopup>
+
+<p-confirmDialog key="uhideFood" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<cmis-loading></cmis-loading>

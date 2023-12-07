@@ -7,8 +7,7 @@ namespace HFS_BE.Models
     {
         public Shipper()
         {
-            NotificationReceiver5s = new HashSet<Notification>();
-            NotificationSendBy5s = new HashSet<Notification>();
+            Invitations = new HashSet<Invitation>();
             OrderProgresses = new HashSet<OrderProgress>();
             Orders = new HashSet<Order>();
         }
@@ -22,16 +21,16 @@ namespace HFS_BE.Models
         public string? PhoneNumber { get; set; }
         public byte[] PasswordSalt { get; set; } = null!;
         public byte[] PasswordHash { get; set; } = null!;
-        public string? Avatar { get; set; }
         public bool? IsOnline { get; set; }
         public string? ManageBy { get; set; }
         public bool? ConfirmedEmail { get; set; }
-        public bool? IsBanned { get; set; }
         public bool? IsVerified { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
+        public DateTime? CreateDate { get; set; }
 
         public virtual Seller? ManageByNavigation { get; set; }
-        public virtual ICollection<Notification> NotificationReceiver5s { get; set; }
-        public virtual ICollection<Notification> NotificationSendBy5s { get; set; }
+        public virtual ICollection<Invitation> Invitations { get; set; }
         public virtual ICollection<OrderProgress> OrderProgresses { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
     }

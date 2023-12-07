@@ -1,0 +1,221 @@
+<div class="card">
+    <h1>{{'walletSellerScreen.wallet' | translate}}: {{balance | currency:'VND'}}</h1>
+    <p-button [style]="{'margin-right' : '10px'}" (onClick)="onOpenDeposit()">{{'button.deposit' | translate}}</p-button>
+    <p-button [style]="{'margin-right' : '10px'}" (onClick)="onOpenTransfer()">{{'button.transfer' | translate}}</p-button>
+    <p-button [style]="{'margin-right' : '10px'}" (onClick)="openWithDrawRequest()">{{'button.create' | translate}}</p-button>
+</div>
+<div class="card">
+    <h5>{{'walletSellerScreen.transaction' | translate}}</h5>
+    <div class="grid table-demo">
+      <div class="col-12">
+        <div class="card">
+          <div class="col-12 md:col-12">
+            <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+              <label style="margin-right: 1rem">{{'walletSellerScreen.dateTime' | translate}}</label>
+              <p-calendar
+                [(ngModel)]="rangeDates"
+                selectionMode="range"
+                [readonlyInput]="true"
+                [maxDate]="currentDate"
+                [disabled]="false"
+                (onClose)="onCloseCalendar($event)"
+              ></p-calendar>
+            </div>
+            <p-tabView orientation="" (onChange)="onChangeTab($event)">
+              <p-tabPanel *ngFor="let item of tabs" class="line-height-3 m-0"
+              [header]="item.label"
+            >
+            </p-tabPanel>      
+          </p-tabView>
+          <p-table [value]="displayTransaction" [paginator]="true" [rows]="10" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="transactionId">{{'walletSellerScreen.TransactionId' | translate}}</th>
+                    <th pSortableColumn="senderId">{{'walletSellerScreen.SenderId' | translate}}</th>
+                    <th pSortableColumn="recieverId">{{'walletSellerScreen.RecieverId' | translate}}</th>
+                    <th pSortableColumn="transactionType">{{'walletSellerScreen.TransactionType' | translate}}</th>
+                    <th pSortableColumn="note">{{'walletSellerScreen.Note' | translate}}</th>
+                    <th pSortableColumn="value">{{'walletSellerScreen.Value' | translate}}</th>
+                    <th pSortableColumn="createDate">{{'walletSellerScreen.CreateDate' | translate}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+                <tr>
+                  <td style="width: 18%; min-width: 7rem;">{{item.transactionId}}</td>
+                    <td style="width: 18%; min-width: 7rem;">{{item.senderId}}</td>
+                    <td style="width: 18%; min-width: 7rem;">{{item.recieverId}}</td>
+                    <td style="width: 18%; min-width: 7rem;">{{item.transactionType}}</td>
+                    <td style="width: 18%; min-width: 7rem;">{{item.note}}</td>
+                    <td style="width: 18%; min-width: 8rem;">{{item.value | currency:'VND'}}</td>
+                    <td style="width: 18%; min-width: 7rem;">{{item.createDate}}</td>
+                </tr>
+            </ng-template>      
+        </p-table>
+          </div>
+        </div>
+      </div>            
+</div>
+
+<p-dialog
+    header="{{'walletSellerScreen.Deposit' | translate}}"
+    [(visible)]="DepositDialog"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    [maximizable]="true"
+  >
+    <div class="grid p-fluid">
+      <div class="col-12 md:col-12">
+        <div class="card">
+          <div class="grid">
+            <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+              <span class="p-input-icon-left p-float-label" style="width: 100%">
+                <input
+                  type="text"
+                  class="w-full"
+                  [(ngModel)]="value"
+                  pInputText
+                />
+                <label>{{'walletSellerScreen.DepositValue' | translate}}</label>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <div
+        class="flex justify-content-center flex-wrap"
+        style="text-align: center"
+      >
+        <div
+          class="flex align-items-center justify-content-center"
+          style="text-align: center"
+        >
+          <button
+            pButton
+            type="button"
+            label="{{'button.GotoPaymentPage' | translate}}"
+            icon="pi pi-save"
+            (click)="OnSaveDeposit()"
+            style="width: 100%"
+          ></button>
+        </div>
+        <!-- <div
+          class="flex align-items-center justify-content-center"
+          style="text-align: center"
+        >
+          <button
+            pButton
+            type="button"
+            label="Cancel"
+            icon="pi pi-times"
+            (click)="onCancelCancel()"
+            class="p-button-danger"
+            style="width: 100%"
+          ></button>
+        </div> -->
+      </div>
+    </ng-template>
+  </p-dialog>
+
+  <p-dialog header="{{'walletSellerScreen.Transfer' | translate}}" [(visible)]="TransferDialog" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
+  [draggable]="false" [resizable]="false" [maximizable]="true">
+  <div class="grid p-fluid">
+    <div class="col-12 md:col-12">
+      <div class="card">
+        <div class="grid">
+          <div class="col-12 mb-2 mb-lg-0">
+            <span class="p-input-icon-left p-float-label" style="width: 100%">
+              <input type="text" class="w-full" [(ngModel)]="tranferInput.value" pInputText />
+              <label>{{'walletSellerScreen.TransferValue' | translate}}</label>
+            </span>
+          </div>
+          <div class="col-12 mb-2 mb-lg-0">
+            <span class="p-input-icon-left p-float-label" style="width: 100%">
+              <input type="text" class="w-full" [(ngModel)]="tranferInput.recievierId" pInputText />
+              <label>{{'walletSellerScreen.RecievierId' | translate}}</label>
+            </span>
+          </div>
+          <div class="col-10 mb-2 mb-lg-0">
+            <span class="p-input-icon-left p-float-label" style="width: 100%">
+              <input type="text" class="w-full" [(ngModel)]="tranferInput.code" pInputText />
+              <label>{{'walletSellerScreen.EmailCode' | translate}}</label>
+            </span>
+          </div>
+          <div class="col-2 mb-2 mb-lg-0">
+            <button pButton type="button" label="{{'button.SendCode' | translate}}" icon="pi pi-save" (click)="onSendCode()"
+            style="width: 100%"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="flex justify-content-center flex-wrap" style="text-align: center">
+      <div class="flex align-items-center justify-content-center" style="text-align: center">
+        <button pButton type="button" label="{{'button.Send' | translate}}" icon="pi pi-save" (click)="OnSaveTransfer()"
+          style="width: 100%"></button>
+      </div>
+      <!-- <div
+          class="flex align-items-center justify-content-center"
+          style="text-align: center"
+        >
+          <button
+            pButton
+            type="button"
+            label="Cancel"
+            icon="pi pi-times"
+            (click)="onCancelCancel()"
+            class="p-button-danger"
+            style="width: 100%"
+          ></button>
+        </div> -->
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="Transfer" [(visible)]="withDrawRequestDialog" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
+[draggable]="false" [resizable]="false" [maximizable]="true">
+<div class="grid p-fluid">
+  <div class="col-12 md:col-12">
+    <div class="card">
+      <div class="grid">
+        <div class="col-12 mb-2 mb-lg-0">
+          <span class="p-input-icon-left p-float-label" style="width: 100%">
+            <input type="text" class="w-full" [(ngModel)]="withDrawRequestInput.value" pInputText />
+            <label>{{'walletSellerScreen.WithdrawValue' | translate}}</label>
+          </span>
+        </div>
+        <div class="col-12 mb-2 mb-lg-0">
+          <span class="p-input-icon-left p-float-label" style="width: 100%">
+            <textarea class="w-full" [(ngModel)]="withDrawRequestInput.note" rows="5" cols="30" pInputTextarea></textarea>
+            <label>{{'walletSellerScreen.BankInformation' | translate}}</label>
+          </span>
+        </div>
+        <div class="col-10 mb-2 mb-lg-0">
+          <span class="p-input-icon-left p-float-label" style="width: 100%">
+            <input type="text" class="w-full" [(ngModel)]="withDrawRequestInput.code" pInputText />
+            <label>{{'walletSellerScreen.EmailCode' | translate}}</label>
+          </span>
+        </div>
+        <div class="col-2 mb-2 mb-lg-0">
+          <button pButton type="button" label="{{'button.SendCode' | translate}}" icon="pi pi-save" (click)="onSendCode()"
+          style="width: 100%"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template pTemplate="footer">
+  <div class="flex justify-content-center flex-wrap" style="text-align: center">
+    <div class="flex align-items-center justify-content-center" style="text-align: center">
+      <button pButton type="button" label="{{'button.Send' | translate}}" icon="pi pi-save" (click)="onSendRequest()"
+        style="width: 100%"></button>
+    </div>
+  </div>
+</ng-template>
+</p-dialog>
+
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>

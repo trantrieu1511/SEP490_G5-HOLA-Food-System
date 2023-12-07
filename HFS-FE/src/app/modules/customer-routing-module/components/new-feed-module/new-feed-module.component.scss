@@ -1,0 +1,337 @@
+
+:host ::ng-deep {
+  .title-app{
+    padding-left: 2rem;
+    color: #8458B3;
+  }
+
+  .app-new-feed{
+    width: 55%;
+    margin: 0 auto;
+
+    --columns: 2;
+  }
+
+  .post{
+    background: #fff;
+    color: #1c1e21;
+    display: flex;
+    flex-direction: column;
+    border: 1px #ccc solid;
+    border-radius: 2rem;
+    padding: 2rem 2rem 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+
+    .report-btn{
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+
+      i{
+        cursor: pointer;
+        position: relative;
+      }
+
+      .pi-flag-fill{
+        &:hover::after {
+          min-width: 5rem;
+          position: absolute;
+          content: "Reported";
+          font-size: 1rem;
+          bottom: -1.5rem;
+          left:-1.5rem;
+        }
+      }
+
+      .pi-flag{
+        &:hover::after {
+          min-width: 5rem;
+          position: absolute;
+          content: "Let report";
+          font-size: 1rem;
+          bottom: -1.5rem;
+          left:-1.5rem;
+        }
+      }
+
+      
+    }
+
+    .post-infor{
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+      margin-bottom: 1rem;
+    
+
+      .shop-name{
+        font-weight: bold;
+        color:black;
+        font-size: 1.2rem;
+        margin: 0;
+      }
+
+      .post-created-date{
+        font-weight: 600;
+        color:#65676b;
+        font-size: .9375rem;
+      }
+    }
+
+
+    .post-content{
+      margin-bottom: 0.7rem;
+      padding: 0 1.5em;
+      max-height: 240px;
+      position: relative;
+      p{
+        
+        color: #1c1e21;
+        direction: ltr;
+        line-height: 1.84;
+        font-size: .9375rem;
+
+        /* tránh từ/câu - quá dài/quá lớn làm vỡ giao diện */
+        /*word-break: break-all;*/
+        display: -webkit-box;
+        /* lấy 3 dòng */
+        -webkit-line-clamp: 10;
+        -webkit-box-orient:  vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-word;
+      }
+
+      .view-more {
+        color: #1c1e21;
+        font-weight: bold;
+        display: none;  /* Initially hide the view more link */
+        position: absolute;
+        bottom: -2rem;
+        padding: 5px 10px;
+        text-decoration: none;
+      }
+      .view-more:hover{
+        text-decoration: underline;
+      }
+    }
+
+    .post-image{
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+      margin-top: 2rem;
+      img{
+        height: 15rem;
+        width: 100%;
+        object-fit: cover;
+        flex-shrink: 1;
+      }
+
+      .images-list{
+        position: relative;
+        width: calc(100% / var(--columns));
+
+        img{
+          height: 15rem;
+          width: 100%;
+          object-fit: cover;
+          flex-shrink: 1;
+        }
+  
+        .images{
+          
+        }
+  
+        .more-image{
+          color: #fff;
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0.25rem;
+          top: 0;
+          background-color: #11111159;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+  
+          font-weight: 700;
+          font-size: 2rem;
+        }
+      }
+
+      
+    }
+
+    .actions{
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      .emote{
+        display: flex;
+        border-right: 1px solid orangered;
+        
+        i{
+          font-size: 1rem;
+        }
+      }
+      .p-comment{
+        margin: 0 auto;
+      }
+    }
+  }
+
+  .p-galleria-close{
+    position: absolute !important;
+    
+  }
+
+  @media screen and (max-width: 960px){
+    .p-galleria-close{
+      top: 4rem;
+    }
+
+		.app-new-feed{
+      width: 90%;
+      margin: 0 auto;
+  
+      --columns: 1;
+    }
+  
+    .post{
+     
+      .post-content{
+        p{
+          
+        }
+      }
+  
+      .post-image{
+        
+        img{
+          
+        }
+  
+        .images{
+        }
+      }
+  
+      .actions{
+        
+        .emote{
+          display: flex;
+          
+          i{
+            font-size: 1rem;
+          }
+        }
+        .p-comment{
+        }
+      }
+    }
+	}
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    background-color: #4267B2;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+  }
+
+  header img {
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+
+  main {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+
+  .post h2 {
+    font-size: 24px;
+    color: #333;
+  }
+
+  .like,
+  .share {
+    color: #007bff;
+    cursor: pointer;
+    margin-right: 20px;
+    font-size: 20px;
+  }
+
+  .comments {
+    margin-top: 20px;
+  }
+
+  .comment {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .comment img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .comment-content {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .comment-text {
+    flex: 1;
+  }
+
+  .comment-actions {
+    margin-top: 5px;
+  }
+
+  .comment-actions i {
+    margin-right: 10px;
+  }
+
+  .comment-form {
+    margin-top: 10px;
+  }
+
+  .comment-form textarea {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .comment-form button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .post-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }

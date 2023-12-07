@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Auth;
+using HFS_BE.BusinessLogic.ManageUser;
 using HFS_BE.BusinessLogic.ManageUser.ManageModerator;
 using HFS_BE.Dao.AuthDao;
 using HFS_BE.DAO.ModeratorDao;
 using HFS_BE.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +19,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageModerator
 		{
 		}
 		[HttpPost("users/listpostmoderator")]
-
+		[Authorize(Roles = "AD")]
 		public ListPostModeratorDtoOutput ListPostModerator()
 		{
 			try
@@ -32,8 +34,8 @@ namespace HFS_BE.Controllers.ManageUser.ManageModerator
 			}
 		}
 		[HttpPost("users/listmenumoderator")]
-
-		public ListPostModeratorDtoOutput ListMenuModerator()
+		[Authorize(Roles = "AD")]
+		public ListMenuModeratorDtoOutput ListMenuModerator()
 		{
 			try
 			{
@@ -46,9 +48,24 @@ namespace HFS_BE.Controllers.ManageUser.ManageModerator
 				throw;
 			}
 		}
+		[HttpPost("users/listaccountant")]
+		[Authorize(Roles = "AD")]
+		public ListAccountantsDtoOutput Listaccountant()
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ModeratorBusinessLogic>();
+				var output = business.ListAccountants();
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
 		[HttpPost("users/addpostmoderator")]
-
-		public BaseOutputDto AddPostModerator(RegisterInputDto input)
+		[Authorize(Roles = "AD")]
+		public BaseOutputDto AddPostModerator(CreateModerator input)
 		{
 			try
 			{
@@ -61,14 +78,74 @@ namespace HFS_BE.Controllers.ManageUser.ManageModerator
 				throw;
 			}
 		}
+		[HttpPost("users/addaccountants")]
+		[Authorize(Roles = "AD")]
+		public BaseOutputDto AddAccountants(CreateModerator input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ModeratorBusinessLogic>();
+				var output = business.AddAccountants(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
 		[HttpPost("users/addmenumoderator")]
-
-		public BaseOutputDto AddMenuModerator(RegisterInputDto input)
+		[Authorize(Roles = "AD")]
+		public BaseOutputDto AddMenuModerator(CreateModerator input)
 		{
 			try
 			{
 				var business = this.GetBusinessLogic<ModeratorBusinessLogic>();
 				var output = business.AddMenuModerator(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+		[HttpPost("users/banmenumoderator")]
+		[Authorize(Roles = "AD")]
+		public BaseOutputDto BanMenuModerator(BanModeratorDtoinput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ModeratorBusinessLogic>();
+				var output = business.BanMenuModerator(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+		[HttpPost("users/banaccountant")]
+		[Authorize(Roles = "AD")]
+		public BaseOutputDto BanAccountant(BanAccountantDtoinput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ModeratorBusinessLogic>();
+				var output = business.BanAccountants(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+		[HttpPost("users/banpostmoderator")]
+
+		public BaseOutputDto BanPostModerator(BanModeratorDtoinput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<ModeratorBusinessLogic>();
+				var output = business.BanPostModerator(input);
 				return output;
 			}
 			catch (Exception ex)

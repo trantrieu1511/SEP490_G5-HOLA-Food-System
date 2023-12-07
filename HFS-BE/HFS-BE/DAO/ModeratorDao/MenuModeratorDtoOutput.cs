@@ -10,10 +10,25 @@ namespace HFS_BE.DAO.ModeratorDao
 		public string? Gender { get; set; }
 		public DateTime? BirthDate { get; set; }
 		public string Email { get; set; } = null!;
-		public long? PhoneNumber { get; set; }
+		public string? PhoneNumber { get; set; }
 		public string? Avatar { get; set; }
 		public bool IsOnline { get; set; }
 		public bool ConfirmEmail { get; set; }
+		public bool? IsBanned { get; set; }
+	}
 
+	public class AccountantDtoOutput : BaseOutputDto
+	{
+		public string AccountantId { get; set; } = null!;
+		public string FirstName { get; set; } = null!;
+		public string LastName { get; set; } = null!;
+		public string? Gender { get; set; }
+		public DateTime? BirthDate { get; set; }
+		public string Email { get; set; } = null!;
+		public string? PhoneNumber { get; set; }
+		public string? Avatar { get; set; }
+		public bool IsOnline { get; set; }
+		public bool ConfirmEmail { get; set; }
+		public bool? IsBanned { get; set; }
 	}
 }

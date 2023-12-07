@@ -1,0 +1,265 @@
+@media only screen and (max-width: 1500px) {
+    .page-content {
+        width: 1500px;
+    }
+}
+
+.page-content {
+    // width: 45%;
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar {
+    width: 15%;
+    height: 100%;
+}
+
+.main-body {
+    width: 60%;
+}
+
+.field-info {
+    opacity: 75%;
+    width: 50%;
+}
+
+.field-title {
+    font-weight: bold;
+    width: 50%;
+}
+
+.sidebar-option:hover {
+    // text-decoration: underline;
+    opacity: 60%;
+    color: white;
+    background-color: #6366F1;
+}
+
+.sidebar-option:active {
+    // text-decoration: underline;
+    opacity: 40%;
+    // background-color: beige;
+}
+
+.sidebar-option {
+    display: block;
+    padding: 10px 0px 10px 10px;
+    border-radius: 10px;
+}
+
+.sidebar-option-selected {
+    // text-decoration: underline;
+    display: block;
+    color: white;
+    font-weight: bold;
+    background-color: #6366F1;
+    padding: 10px 0px 10px 10px;
+    border-radius: 10px;
+}
+
+.sidebar-option-selected:hover {
+    // text-decoration: underline;
+    opacity: 60%;
+}
+
+.sidebar-option-selected:active {
+    // text-decoration: underline;
+    opacity: 40%;
+}
+
+// .sidebar-option-onselected {
+//     text-decoration: underline;
+// }
+
+// .sidebar-option-onselected:hover {
+//     text-decoration: underline;
+//     background-color: grey;
+// }
+
+
+.verify-email-link:hover {
+    opacity: 60%;
+}
+
+.edit-email-link:hover {
+    opacity: 60%;
+}
+
+.dash-line {
+    border: 1px solid #dee2e6;
+    margin: 5px 0px 5px 0px;
+}
+
+// -------------- resposive ----------------
+
+:host ::ng-deep {
+    .p-paginator {
+        .p-paginator-current {
+            margin-left: auto;
+        }
+    }
+
+    .p-progressbar {
+        height: .5rem;
+        background-color: #D8DADC;
+
+        .p-progressbar-value {
+            background-color: #607D8B;
+        }
+    }
+
+    .table-header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .p-calendar .p-datepicker {
+        min-width: 25rem;
+
+        td {
+            font-weight: 400;
+        }
+    }
+
+    .p-datatable.p-datatable-customers {
+        .p-datatable-header {
+            padding: 1rem;
+            text-align: left;
+            font-size: 1.5rem;
+        }
+
+        .p-paginator {
+            padding: 1rem;
+        }
+
+        .p-datatable-thead>tr>th {
+            text-align: left;
+        }
+
+        .p-dropdown-label:not(.p-placeholder) {
+            text-transform: uppercase;
+        }
+    }
+
+    // .p-datatable.p-datatable-customers:not(.p-datatable-gridlines) {
+    //     .p-datatable-tbody>tr>td {
+    //         cursor: auto;
+    //     }
+    // }
+
+    /* Responsive */
+    .p-datatable-customers .p-datatable-tbody>tr>td .p-column-title {
+        display: none;
+    }
+
+    .p-fileupload-buttonbar {
+        .p-button {
+            width: auto;
+        }
+    }
+
+    .dialogimages_image {
+        span {
+            width: 10rem !important;
+
+            img {
+                width: 100%;
+                object-fit: cover;
+                //width: 10rem !important;
+            }
+
+            .p-image-mask {
+                .ng-trigger {
+                    text-align: center;
+                    padding-top: 3rem;
+                    width: 100%;
+                    height: 100%;
+
+                    img {
+                        object-fit: contain;
+                        width: 90%;
+                        height: 90%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.table-report-detail {
+    tbody>tr>th {
+        text-align: left;
+        padding-bottom: 10px;
+    }
+
+    tbody>tr>td {
+        padding-left: 10%;
+        padding-bottom: 10px;
+    }
+}
+
+.global-filter-label {
+    font-size: 1rem;
+    font-weight: normal;
+
+    .p-float-label input:focus~label {
+        font-size: 12px;
+    }
+}
+
+.dialog-content-detail {
+    word-break: break-word;
+}
+
+
+
+@media screen and (max-width: 960px) {
+    :host ::ng-deep {
+        .p-datatable {
+            &.p-datatable-customers {
+
+                .p-datatable-thead>tr>th,
+                .p-datatable-tfoot>tr>td {
+                    display: none !important;
+                }
+
+                .p-datatable-tbody>tr {
+                    border-bottom: 1px solid var(--surface-d);
+
+                    >td {
+                        text-align: left;
+                        display: block;
+                        border: 0 none !important;
+                        width: 100% !important;
+                        float: left;
+                        clear: left;
+                        border: 0 none;
+
+                        .p-column-title {
+                            padding: .4rem;
+                            min-width: 30%;
+                            display: inline-block;
+                            margin: -.4rem 1rem -.4rem -.4rem;
+                            font-weight: bold;
+                        }
+
+                        .p-progressbar {
+                            margin-top: .5rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+#reportcontent-data {
+    padding-top: 2%;
+    padding-bottom: 2%;
+    width: 50vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

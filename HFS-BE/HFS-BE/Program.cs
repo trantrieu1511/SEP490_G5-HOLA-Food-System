@@ -1,9 +1,16 @@
 using AutoMapper;
 using HFS_BE;
 using HFS_BE.Automapper;
+using HFS_BE.DAO.ChatMessageDao;
+using HFS_BE.DAO.CustomerDao;
+using HFS_BE.DAO.SellerDao;
+using HFS_BE.DAO.UserDao;
+using HFS_BE.Hubs;
 using HFS_BE.Models;
 using HFS_BE.Services;
+using HFS_BE.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -12,6 +19,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System.Text;
 using System.Text.Json.Serialization;
+using Twilio.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,16 +65,17 @@ builder.Services.AddCors(act =>
 {
     act.AddPolicy("_MainPolicy", options =>
     {
-		options.AllowAnyHeader();
-		options.AllowAnyMethod();
-		options.WithOrigins("http://localhost:4200"); // Ch? ??nh ngu?n g?c c? th?
-		options.AllowCredentials(); // Cho phép ch? ?? credentials
-	});
+        options.AllowAnyHeader();
+        options.AllowAnyMethod();
+        options.WithOrigins("https://fu.holafood.click", "http://localhost:4200", "https://provinces.open-api.vn/api", "https://localhost:7016", "https://be.holafood.click", "https://maps.googleapis.com/maps/api"); // Ch? ??nh ngu?n g?c c? th?
+        options.AllowCredentials(); // Cho phï¿½p ch? ?? credentials
+        
+    });
 });
 
 ConfigurationManager configuration = builder.Configuration;
 builder.Configuration.GetSection("ApplicationSettings");
-builder.Services.AddAuthorization();
+
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
@@ -80,17 +89,41 @@ builder.Services.AddAuthentication(options =>
 	options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
-	options.SaveToken = true;
-	options.RequireHttpsMetadata = false;
-	options.TokenValidationParameters = new TokenValidationParameters()
-	{
-		ValidateIssuer = true,
-		ValidateAudience = true,
-		ValidAudience = configuration["JWT:ValidAudience"],
-		ValidIssuer = configuration["JWT:ValidIssuer"],
-		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
-	};
+    // authen for signalR
+    //options.Authority = "Authority URL";
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+            {
+                context.Token = accessToken;
+            }
+
+            return Task.CompletedTask;
+        }
+    };
+
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidAudience = configuration["JWT:ValidAudience"],
+        ValidIssuer = configuration["JWT:ValidIssuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
+    };
+
 });
+
+builder.Services.AddAuthorization();
+
 // add automapper
 var mappingConfig = new MapperConfiguration(mc =>
 {
@@ -99,6 +132,15 @@ var mappingConfig = new MapperConfiguration(mc =>
 
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
+builder.Services.AddSingleton<IHubContextFactory, HubContextFactory>();
+builder.Services.AddSignalR();
+builder.Services.AddScoped<PresenceTracker>();
+builder.Services.AddScoped<SellerDao>();
+builder.Services.AddScoped<ChatMessageDao>();
+builder.Services.AddScoped<CustomerDao>();
+builder.Services.AddHttpClient<HFS_BE.Controllers.TestController>();
+builder.Services.AddTransient<ITokenService, TokenService>();
+builder.Services.AddScoped<JwtExpirationAuthorizationFilter>();
 
 
 var app = builder.Build();
@@ -110,11 +152,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseRouting();
+app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors("_MainPolicy");
 
+app.MapHub<PresenceHub>("hubs/presence");
+app.MapHub<MessageHub>("hubs/message");
 app.MapControllers();
-
+app.MapHub<DataRealTimeHub>("hubs/dataRealTime");
+app.MapHub<NotificationHub>("hubs/notifyRealTime");
 app.Run();

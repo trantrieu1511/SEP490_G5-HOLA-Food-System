@@ -8,7 +8,6 @@ namespace HFS_BE.BusinessLogic.Cart
         public string? CustomerId { get; set; }
         [Required(ErrorMessage = "ShipAddress Required")]
         public string? ShipAddress { get; set; }
-        public int? VoucherId { get; set; }
         public string? Note { get; set; }
         [Required(ErrorMessage = "Phone Required")]
         public string? Phone { get; set; }
@@ -21,6 +20,7 @@ namespace HFS_BE.BusinessLogic.Cart
     {
         [Required(ErrorMessage = "ShopId Required!")]
         public string? ShopId { get; set; }
+        public string? Voucher { get; set; }
         public List<CartItemInputDto>? CartItems { get; set; }
     }
 

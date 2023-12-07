@@ -1,14 +1,23 @@
 export class Shipper{
-   constructor(){
-    
-   }
-    userId: number;
-	firstName: string;
-	lastName: string;
-	gender: boolean;
-	birthDate: any;
+	shipperId: number;
+	shipperName: string;
+	gender: string;
+	birthDate: Date;
 	email: string
 	phoneNumber: string;
-	avatar: Blob;
-	isOnline: boolean;
+	avatarBase64: string;
+}
+export class Invition{
+	shipperId: number;
+	shipperName: string;
+	email: string
+	phoneNumber: string;
+  accepted:number;
+}
+export class InvitionSeller{
+	sellerId: number;
+	sellerName: string;
+	email: string
+	phoneNumber: string;
+  accepted:number;
 }

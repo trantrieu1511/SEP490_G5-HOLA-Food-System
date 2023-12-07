@@ -4,6 +4,7 @@ using HFS_BE.Dao.FoodDao;
 using HFS_BE.Dao.PostDao;
 using HFS_BE.DAO.FoodImageDao;
 using HFS_BE.DAO.PostImageDao;
+using HFS_BE.DAO.SellerDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.IOFile;
@@ -20,19 +21,28 @@ namespace HFS_BE.BusinessLogic.ManagePost
         {
             try
             {
-                /*inputDto.UserDto = new UserDto
-                {
-                    Email = "test@gmail.com",
-                    Name = "testSeller",
-                    RoleId = 2,
-                    UserId = 1,
-                };*/
+                var sellerDao = CreateDao<SellerDao>();
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email) is null)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", "Your acccount is not exist");
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).IsVerified == false)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", "Your acccount is not verified");
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).IsBanned == true)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", "Your acccount is banned");
 
                 if (String.IsNullOrEmpty(inputDto.PostContent))
                 {
                     var errors = new List<string>();
                     errors.Add("PostContent cannot be empty!");
-                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", errors);
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", errors);
+                }
+
+                if (inputDto.PostContent.Length > Constants.PostContentMaxLength)
+                {
+                    var errors = new List<string>();
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", "Post content must not exceed 1500 characters");
                 }
 
                 var postDao = CreateDao<PostDao>();

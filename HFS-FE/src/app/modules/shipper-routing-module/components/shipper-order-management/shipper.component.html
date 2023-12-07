@@ -1,28 +1,30 @@
 <div class="grid table-demo">
     <div class="col-12">
         <div class="card">
-            <h5>All Order</h5>
+            <h5>{{'shipperScreen.allOrder' | translate}}</h5>
             <p-tabMenu (activeItemChange)="onChangeTab($event)"[model]="items" [activeItem]="activeItem">
-                <ng-template [scrollable]="true" class="flex flex-row flex-wrap" pTemplate="item" let-item let-i="index">
+                <ng-template  class="flex flex-row flex-wrap" pTemplate="item" let-item let-i="index">
                     {{item.label}}
                 </ng-template>
             </p-tabMenu>
-            <p-table styleClass="p-datatable-orders" [value]="lstOrderOfShipper" 
-                dataKey="name" [tableStyle]="{ 'min-width': '60rem' }" [rows]="10"
+            <p-table styleClass="p-datatable-orders" [value]="lstOrderOfShipper"
+                dataKey="orderId" [tableStyle]="{ 'min-width': '60rem' }" [rows]="10"
                 [paginator]="true" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
                 responsiveLayout="scroll"
                 [loading]="loading"
-                currentPageReportTemplate="Total {totalRecords} order on this status"
+                currentPageReportTemplate="{{ 'shipperScreen.total' | translate }} {totalRecords} {{ 'shipperScreen.orderonthisstatus' | translate }}"
                 [showCurrentPageReport]="showCurrentPageReport"
                 >
                     <ng-template pTemplate="header">
                         <tr>
                             <th  style="width: 5rem"></th>
-                            <th  pSortableColumn="name">ID <p-sortIcon field="name"></p-sortIcon></th>
-                            <th  pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
-                            <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th> 
-                            <th pSortableColumn="adress">Address <p-sortIcon field="price"></p-sortIcon></th>                            
-                            <th style="text-align: center" >Action</th>
+                            <th  pSortableColumn="name">{{'shipperScreen.id' | translate}} <p-sortIcon field="name"></p-sortIcon></th>
+                            <th  pSortableColumn="date">{{'shipperScreen.orderDate' | translate}} <p-sortIcon field="date"></p-sortIcon></th>
+                            <th pSortableColumn="price">{{'shipperScreen.price' | translate}} <p-sortIcon field="price"></p-sortIcon></th>
+                            <th pSortableColumn="shipAddress">{{'shipperScreen.address' | translate}} <p-sortIcon field="shipAddress"></p-sortIcon></th>
+                            <th pSortableColumn="phoneNumber">{{'shipperScreen.phoneNumber' | translate}} <p-sortIcon field="phoneNumber"></p-sortIcon></th>
+                            <th pSortableColumn="paymentMethod">{{'shipperScreen.paymentMethod' | translate}} <p-sortIcon field="paymentMethod"></p-sortIcon></th>
+                            <th style="text-align: center" >{{'shipperScreen.action' | translate}}</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-order let-expanded="expanded">
@@ -31,10 +33,12 @@
                                 <button type="button" pButton pRipple [pRowToggler]="order" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
                             </td>
                             <td>{{ order.orderId}}</td>
-                            <td>{{order.orderDate}}</td>
-                            <td>{{ order.total}} $</td>
-                            <td>{{order.shipAddress}}</td>
-                            
+                            <td>{{order.orderDate | date:'dd/MM/yyyy hh:mm a'}}</td>
+                            <td>{{ order.total | currency : "VND"}}</td>
+                            <td>{{order.shipAddress}} <i class="pi pi-map-marker" (click)="onOpenMap(order.shipAddress)"></i></td>
+                            <td><i class="pi pi-phone" style="margin-right: 5px;"></i><a href="tel:+{{order.customerPhone}}">{{order.customerPhone}}</a></td>
+                            <td *ngIf="order.paymentMethod == '0'">COD</td>
+                            <td *ngIf="order.paymentMethod == '1'">WALLET</td>
                             <ng-container [ngSwitch]="activeItem.id">
                                 <ng-container *ngSwitchCase = "0">
                                     <td style="text-align: center">
@@ -45,7 +49,7 @@
                                                         class="p-button-rounded p-mr-2 p-button-outlined">Start Shipping
                                                     </button>
                                             </div>
-                                            
+
                                         </div>
                                     </td>
                                 </ng-container>
@@ -53,12 +57,12 @@
                                     <td style="text-align: center">
                                         <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
                                             <div class="flex align-items-center justify-content-center">
-                                                <button pButton pRipple 
+                                                <button pButton pRipple
                                                     (click)="Complete(order.orderId,0)"
                                                         class="p-button-info p-mr-2 p-button-outlined">Complete</button>
                                             </div>
                                             <div class="flex align-items-center justify-content-center">
-                                                <button pButton pRipple 
+                                                <button pButton pRipple
                                                 (click)="InComplete(order.orderId,1)"
                                                         class="p-button-secondary p-button-outlined">InComplete</button>
                                             </div>
@@ -66,7 +70,7 @@
                                     </td>
                                 </ng-container>
                                 <ng-container *ngSwitchDefault></ng-container>
-                            </ng-container> 
+                            </ng-container>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="rowexpansion" let-order>
@@ -76,26 +80,24 @@
                                      <p-table [value]="order.orderDetails" dataKey="id">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th pSortableColumn="foodId">Id <p-sortIcon field="foodId"></p-sortIcon></th>
-                                                <th pSortableColumn="image">Image <p-sortIcon field=""></p-sortIcon></th>
-                                                <th pSortableColumn="foodName">FoodName <p-sortIcon field="foodName"></p-sortIcon></th>
-                                                <th pSortableColumn="unitPrice">UnitPrice <p-sortIcon field="unitPrice"></p-sortIcon></th>
-                                                <th pSortableColumn="quantity">Quantity <p-sortIcon field="quantity"></p-sortIcon></th>
-                                                
+                                                <th pSortableColumn="foodId">{{'shipperScreen.foodId' | translate}}<p-sortIcon field="foodId"></p-sortIcon></th>
+                                                <th pSortableColumn="image">{{'shipperScreen.image' | translate}} <p-sortIcon field=""></p-sortIcon></th>
+                                                <th pSortableColumn="foodName">{{'shipperScreen.foodName' | translate}} <p-sortIcon field="foodName"></p-sortIcon></th>
+                                                <th pSortableColumn="unitPrice">{{'shipperScreen.unitPrice' | translate}} <p-sortIcon field="unitPrice"></p-sortIcon></th>
+                                                <th pSortableColumn="quantity">{{'shipperScreen.quantity' | translate}} <p-sortIcon field="quantity"></p-sortIcon></th>
+
                                                 <th style="width: 4rem"></th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-orderDetail>
                                             <tr>
                                                 <td>{{ orderDetail.foodId }}</td>
-                                                <td><p-image src="data:image/gif;base64,{{orderDetail.image}}" [preview]="true"
-                                                    [alt]="orderDetail.image" class="dialogimages_image w-10rem shadow-2"
+                                                <td><p-image src="data:image/gif;base64,{{orderDetail.imageBase64.imageBase64}}" [preview]="true"
+                                                    [alt]="orderDetail.imageBase64.name" class="dialogimages_image w-10rem shadow-2"
                                                     ></p-image></td>
                                                 <td>{{ orderDetail.foodName }}</td>
-                                                <td>{{ orderDetail.unitPrice }}$</td>
+                                                <td>{{ orderDetail.unitPrice | currency : "VND" }}</td>
                                                 <td>{{ orderDetail.quantity}}</td>
-                                                
-                                                
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="emptymessage">
@@ -103,14 +105,14 @@
                                                 <td colspan="6">There are no order for this product yet.</td>
                                             </tr>
                                         </ng-template>
-                                    </p-table> 
+                                    </p-table>
                                 </div>
                             </td>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="emptymessage">
                         <tr>
-                            <td colspan="8">There are no order on this status yet.</td>
+                            <td colspan="8">{{'shipperScreen.emptymessage' | translate}}</td>
                         </tr>
                     </ng-template>
             </p-table>
@@ -129,13 +131,58 @@
                         <b>Confirm</b>
                     </div>
                 </p-divider>
-                <div class="grid"> 
-                    <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+                <div class="grid">
+                    <div class="col-12 mb-2 lg:col-9 mb-lg-0 total-price-order_all" style="text-align: end;">
+                        <div class="flex flex-wrap gap-3">
+                          <div class="flex align-items-center">
+                              <p-radioButton name="payment" value="0" checked="checked" [(ngModel)]="check" inputId="ingredient1"></p-radioButton>
+                              <label for="ingredient1" class="ml-2">Customer</label>
+                          </div>
+                          
+                          <div class="flex align-items-center">
+                              <p-radioButton name="payment" value="1" [(ngModel)]="check"  inputId="ingredient2"></p-radioButton>
+                              <label for="ingredient2" class="ml-2">Shop</label>
+                          </div>
+                        </div>
+                      </div>
+                                                
+                    <div class="align-items-center" style="padding-bottom: 5px; margin-left: 0.5rem;">
+                        <ng-container *ngIf="check == '0';else seller">
+                            <div style="padding-bottom: 5px;">
+                                <p-checkbox name="reportContent" 
+                                  value="1" [(ngModel)]="note"
+                                  inputId="Content1"></p-checkbox>
+                                <label for="reportContent1" class="ml-2">Customers don't answer the phone</label>
+                              </div>
+                              <div style="padding-bottom: 5px;">
+                                <p-checkbox name="reportContent" 
+                                  value="2" [(ngModel)]="note"
+                                  inputId="Content2"></p-checkbox>
+                                <label for="reportContent2" class="ml-2">The customer does not accept the order</label>
+                              </div>
+                        </ng-container>
+                        <ng-template #seller>
+                            <div style="padding-bottom: 5px;">
+                                <p-checkbox name="reportContent" 
+                                  value="3" [(ngModel)]="note"
+                                  inputId="Content3"></p-checkbox>
+                                <label for="reportContent3" class="ml-2">The order does not match the customer's requirements</label>
+                              </div>
+                              <div style="padding-bottom: 5px;">
+                                  <p-checkbox name="reportContent" 
+                                    value="4" [(ngModel)]="note"
+                                    inputId="Content4"></p-checkbox>
+                                  <label for="reportContent3" class="ml-2">Delivery time is too long</label>
+                                </div>
+                        </ng-template>
+                      </div>
+                      
+                    <!-- <div class="col-12 mb-2 lg:col-12 mb-lg-0">
                         <span class="p-input-icon-left p-float-label" style="width: 100%" >
                             <textarea class="w-full" rows="10" cols="60" pInputTextarea [(ngModel)]="note"></textarea>
-                            <label>Content*</label>
+                            <label>Other*</label>
                         </span>
-                    </div>
+                    </div>  -->
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
                         <label>Images</label>
 					    <span class="p-input-icon-left p-float-label" style="width: 100%">
@@ -145,13 +192,13 @@
                                     </ul>
                                 </ng-template>
                             </p-fileUpload> -->
-                                <p-fileUpload class=" w-full" 
+                                <p-fileUpload class=" w-full"
                                     [files]="uploadedFiles"
                                     [customUpload]="true"
-                                    (onSelect)="handleFileSelection($event)" 
+                                    (onSelect)="handleFileSelection($event)"
                                     (onRemove)="handleFileRemoval($event)"
                                     (onClear)="handleAllFilesClear($event)"
-                                    [multiple]="false" accept="image/*" [maxFileSize]="1000000" 
+                                    [multiple]="false" accept="image/*" [maxFileSize]="1000000"
                                     [showUploadButton]="false" >
                                     <ng-template pTemplate="content">
                                         <!-- <ul *ngIf="uploadedFiles.length > 0">
@@ -159,11 +206,11 @@
                                         </ul> -->
                                     </ng-template>
                                 </p-fileUpload>
-                            
-                            
+
+
 					    </span>
 
-                        
+
                     </div>
                 </div>
             </div>
@@ -184,3 +231,135 @@
         </div>
     </ng-template>
 </p-dialog>
+
+<p-dialog [header]="headerDialog" [(visible)]="displayDialogConfirm1"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '50vw'}"
+          [draggable]="false" [resizable]="false" [maximizable]="true">
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <b>Confirm</b>
+                    </div>
+                </p-divider>
+                <div class="grid">
+                    
+                      
+                    <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+                        <span class="p-input-icon-left p-float-label" style="width: 100%" >
+                            <textarea class="w-full" rows="10" cols="60" pInputTextarea [(ngModel)]="note"></textarea>
+                            <label>Other*</label>
+                        </span>
+                    </div> 
+                    <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+                        <label>Images</label>
+					    <span class="p-input-icon-left p-float-label" style="width: 100%">
+                            <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
+                                <ng-template pTemplate="content">
+                                    <ul *ngIf="postModel.images.length">
+                                    </ul>
+                                </ng-template>
+                            </p-fileUpload> -->
+                                <p-fileUpload class=" w-full"
+                                    [files]="uploadedFiles"
+                                    [customUpload]="true"
+                                    (onSelect)="handleFileSelection($event)"
+                                    (onRemove)="handleFileRemoval($event)"
+                                    (onClear)="handleAllFilesClear($event)"
+                                    [multiple]="false" accept="image/*" [maxFileSize]="1000000"
+                                    [showUploadButton]="false" >
+                                    <ng-template pTemplate="content">
+                                        <!-- <ul *ngIf="uploadedFiles.length > 0">
+                                            <li *ngFor="let file of uploadedFiles">{{ file.name }}</li>
+                                        </ul> -->
+                                    </ng-template>
+                                </p-fileUpload>
+
+
+					    </span>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-center flex-wrap" style="text-align: center">
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Save" icon="pi pi-save"
+                        (click)="Save()"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                        (click)="onCancel()" class="p-button-danger"
+                        style="width: 100%;"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+
+<p-dialog [header]="headerDialog" [(visible)]="ListinvitationDialog"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '50vw'}"
+          [draggable]="false" [resizable]="false" [maximizable]="true"
+
+          >
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+              <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+
+
+            </div>
+            <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+
+          </div>
+                  <p-table  [value]="listinvitationbyshipper" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="banCustomerId">ID<p-sortIcon field="sellerId"></p-sortIcon></th>
+                            <th>Fullname Seller</th>
+                            <th>Email</th>
+                            <th>PhoneNumber</th>
+                            <th>Accept</th>
+                            <th>Action</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-history>
+                        <tr >
+                            <td>{{history.sellerId}}</td>
+                            <td>{{history.sellerName}}</td>
+                            <td>{{history.email}}</td>
+                            <td>{{history.phoneNumber}}</td>
+                            <td>
+                              <span style="color:gray;" *ngIf="history.accepted === 0">Pending</span>
+                              <span style="color:greenyellow;" *ngIf="history.accepted === 1">Accepted</span>
+                              <span style="color:red;" *ngIf="history.accepted === 2">Rejected</span>
+                          </td>
+
+                          <td>   <button pButton type="button" label="Accept" icon="pi pi-check"
+                            (click)="UpdateInv(history,1)"
+                            style="width: 100%;"></button>
+                            <button pButton type="button" label="Reject" icon="pi pi-times"
+                            (click)="UpdateInv(history,2)" class="p-button-danger"
+                            style="width: 100%;"></button></td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+
+            </div>
+        </div>
+    </div>
+
+</p-dialog>
+<p-dialog header="Map" [(visible)]="visibleMapBox" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
+  [draggable]="false" [resizable]="false" [maximizable]="true">
+  <div id="map" style="height: 500px;"></div>
+</p-dialog>
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>

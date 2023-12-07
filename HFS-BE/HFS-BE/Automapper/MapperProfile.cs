@@ -23,6 +23,31 @@ using HFS_BE.DAO.ShipperDao;
 using HFS_BE.DAO.FeedBackDao;
 using HFS_BE.DAO.FeedBackReplyDao;
 using HFS_BE.BusinessLogic.FoodDetail;
+using HFS_BE.Utils.Enum;
+using HFS_BE.Controllers.ManageOrder;
+using HFS_BE.DAO.CustomerDao;
+using HFS_BE.DAO.SellerDao;
+using HFS_BE.DAO.ModeratorDao;
+using HFS_BE.BusinessLogic.ManageUser;
+using HFS_BE.DAO.VoucherDao;
+using HFS_BE.DAO.NotificationDao;
+using HFS_BE.DAO.PostReportDao;
+using HFS_BE.DAO.ChatMessageDao;
+using HFS_BE.DAO.CommentNewFeedDao;
+using HFS_BE.BusinessLogic.ManageUser.ManageCustomer;
+using HFS_BE.BusinessLogic.ManageUser.ManageSeller;
+using HFS_BE.DAO.ShipAddressDao;
+using HFS_BE.DAO.TransantionDao;
+using static HFS_BE.Utils.Enum.CategoryStatusEnum;
+using HFS_BE.BusinessLogic.FeedBackCustomer;
+using HFS_BE.Controllers.FeedBack;
+using HFS_BE.BusinessLogic.ReplyFeedBack;
+using Microsoft.AspNetCore.Routing.Constraints;
+using HFS_BE.BusinessLogic.ManageUser.ManageShipper;
+using HFS_BE.DAO.SellerReportDao;
+using HFS_BE.BusinessLogic.SellerReportBL;
+using HFS_BE.BusinessLogic.ManageSellerLicenseImage;
+using HFS_BE.DAO.SellerLicenseImageDao;
 
 namespace HFS_BE.Automapper
 {
@@ -39,8 +64,22 @@ namespace HFS_BE.Automapper
             OrderHistory();
             Cart();
             UserProfile();
+            ProfileImage();
             File();
             Category();
+            FeedBack();
+            Shipper();
+            Manage();
+            Voucher();
+            Shop();
+            Notification();
+            Chat();
+            Google();
+            Comment();
+            ShipAddress();
+            Transaction();
+            ReportSeller();
+            SellerLicenseImage();
         }
 
         /// <summary>
@@ -48,7 +87,8 @@ namespace HFS_BE.Automapper
         /// </summary>
         public void Homepage()
         {
-            //CreateMap<User, ShopDto>();
+            CreateMap<Seller, ShopDto>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(x => x.SellerId));
             //CreateMap<List<User>, DisplayShopDaoOutputDto>();
             CreateMap<ShopDto, BusinessLogic.Homepage.ShopDto>();
             CreateMap<DisplayShopDaoOutputDto, BusinessLogic.Homepage.DisplayShopOutputDto>();
@@ -59,7 +99,9 @@ namespace HFS_BE.Automapper
             CreateMap<LoginInPutDto, Dao.AuthDao.AuthDaoInputDto>();
             CreateMap<RegisterDto, Dao.AuthDao.RegisterDto>();
             CreateMap<AuthDaoOutputDto, LoginOutputDto>();
+            CreateMap<AuthDaoOutputDto, LoginOutputDto>();
             CreateMap<RegisterInputDto, RegisterDto>();
+            CreateMap<RegisterSellerInputDto, RegisterSellerDto>();
             //CreateMap<DisplayShopOutputDto, BusinessLogic.Homepage.DisplayShopOutputDto>();
         }
 
@@ -77,14 +119,16 @@ namespace HFS_BE.Automapper
             //output
             CreateMap<Dao.PostDao.PostOutputSellerDto, BusinessLogic.ManagePost.PostOutputSellerDto>();
             CreateMap<Dao.PostDao.ListPostOutputSellerDto, BusinessLogic.ManagePost.ListPostOutputSellerDto>();
-
+            CreateMap<Dao.PostDao.PostByCustomerOutputDto, BusinessLogic.ManagePost.PostOutputCustomerDto>();
+            CreateMap<Dao.PostDao.ListPostByCustomerOutputDto, BusinessLogic.ManagePost.ListPostOutputCustomerDto>();
         }
 
         public void Food()
         {
             CreateMap<Food, Dao.FoodDao.FoodOutputDto>()
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
-            CreateMap<FoodImage, Dao.FoodDao.FoodImageDto>();
+            CreateMap<FoodImage, Dao.FoodDao.FoodImageDto>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Path));
 
             //seller
             //input
@@ -94,52 +138,85 @@ namespace HFS_BE.Automapper
             CreateMap<BusinessLogic.ManageFood.FoodUpdateInputDto, Dao.FoodDao.FoodUpdateInforInputDto>();
             CreateMap<Controllers.ManageFood.FoodUpdateInputDto, BusinessLogic.ManageFood.FoodUpdateInputDto>();
             //output
-            CreateMap<Dao.FoodDao.FoodOutputSellerDto, BusinessLogic.ManageFood.FoodOutputSellerDto>();
+            CreateMap<Dao.FoodDao.FoodOutputSellerDto, BusinessLogic.ManageFood.FoodOutputSellerDto>()
+                .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.CreatedDate != null ? src.CreatedDate.Value.ToString("MM/dd/yyyy - HH:mm:ss:tt") : null));
+            //.ForMember(dest => dest.BanDate, opt => opt.MapFrom(src => src.BanDate != null ? src.BanDate.Value.ToString("dd/MM/yyyy HH:mm:ss") : null));
             CreateMap<Dao.FoodDao.ListFoodOutputSellerDto, BusinessLogic.ManageFood.ListFoodOutputSellerDto>();
 
         }
         public void Order()
         {
-            CreateMap<List<Order>, OrderDaoOutputDto>();
-            CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>();
+            //CreateMap<List<Order>, OrderDaoOutputDto>();
+            CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>()
+                .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => PaymentMethodEnum.GetPaymentMethodString(src.PaymentMethod)));
+
+            CreateMap<Order, Order>()
+                .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses.Where(op => op.Status >= 2).ToList()));
+
             CreateMap<OrderDetail, Dao.OrderDao.OrderDetailDto>()
                 .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name))
                 .ForMember(dest => dest.SellerId, opt => opt.MapFrom(src => src.Food.SellerId))
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Food.FoodImages.AsQueryable().First().Path));
             CreateMap<Dao.OrderDao.OrderDetailDto, BusinessLogic.OrderShipper.OrderDetailBLDto>();
-            CreateMap<Dao.OrderDao.OrderDaoOutputDto, BusinessLogic.OrderShipper.OrderBLOutputDto>();
             CreateMap<Dao.OrderDao.OrderByShipperDaoOutputDto, BusinessLogic.OrderShipper.OrderByShipperBLOutputDto>();
+
             CreateMap<Dao.OrderDao.OrderHistoryDaoOutputDto, OrderByShipperBLOutputDto>();
+            CreateMap<Dao.OrderDao.OrderDaoOutputDto, OrderShipperBLOutputDto>()
+                .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses.OrderBy(x => x.CreateDate).ToList()))
+                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.OrderBy(x => x.UnitPrice).ToList()));
+
+            CreateMap<OrderDetailDto, OrderDetailBLDto>();
+            CreateMap<Dao.OrderDao.OrderProgressDto, BusinessLogic.OrderShipper.OrderProgressBLDto>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => OrderStatusEnum.GetOrderStatusString(src.Status)));
+
 
 
             // checkout order
             CreateMap<CheckOutOrderDaoInputDto, Order>()
                 .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.Items))
-                .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => DateTime.Now));
+                .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => DateTime.Now))
+                .ForMember(dest => dest.SellerId, opt => opt.MapFrom(src => src.ShopId))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => 0));
             CreateMap<CartItemDaoInputDto, OrderDetail>()
                 .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Amount));
             CreateMap<ListShopItemInputDto, CheckOutOrderDaoInputDto>()
                 .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.CartItems));
             CreateMap<CartItemDto, CartItemDaoInputDto>();
             CreateMap<CartItemInputDto, CartItemDaoInputDto>();
-
+            CreateMap<Order, OrderExternalShipperOutputDto>()
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.FirstName + " " + src.Customer.LastName : null))
+                .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => src.OrderDate != null ? src.OrderDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null))
+                .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => PaymentMethodEnum.GetPaymentMethodString(src.PaymentMethod)))
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.OrderDetails.Select(
+                        d => d.UnitPrice * d.Quantity
+                    ).ToList().Sum() - (src.Voucher != null ? src.Voucher.DiscountAmount : 0))) //* them voucher))
+                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.OrderBy(x => x.UnitPrice).ToList()));
 
             //seller
             //*input
-
+            CreateMap<OrderCancelInputDto, OrderProgressCancelInputDto>();
+            CreateMap<OrderAcceptInputDto, OrderProgressStatusInputDto>();
+            CreateMap<OrderInternalShipInputDto, OrderProgressStatusInputDto>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.User.UserId));
+            CreateMap<OrderInternalInputDto, OrderInternalShipInputDto>();
+            CreateMap<OrderExternalShipInputDto, OrderProgressStatusInputDto>();
+            CreateMap<OrderExternalInputDto, OrderExternalShipInputDto>();
             //*output
 
             //CreateMap<List<Order>, OrderDaoSellerOutputDto>();
             CreateMap<Order, Dao.OrderDao.OrderDaoSellerOutputDto>()
                 .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.FirstName + " " + src.Customer.LastName : null))
+                .ForMember(dest => dest.CustomerPhone, opt => opt.MapFrom(src => src.CustomerPhone))
                 .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => src.OrderDate != null ? src.OrderDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null))
                 .ForMember(dest => dest.RequiredDate, opt => opt.MapFrom(src => src.RequiredDate != null ? src.RequiredDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null))
                 .ForMember(dest => dest.ShippedDate, opt => opt.MapFrom(src => src.ShippedDate != null ? src.ShippedDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null))
                 .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.Shipper != null ? src.Shipper.FirstName + " " + src.Shipper.LastName : null))
-                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.OrderDetails.Select(d => d.UnitPrice * d.Quantity).ToList().Sum())) //* them voucher))
-                .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses))
-                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails))
-                ;
+                .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => PaymentMethodEnum.GetPaymentMethodString(src.PaymentMethod)))
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.OrderDetails.Select(
+                        d => d.UnitPrice * d.Quantity
+                    ).ToList().Sum() - (src.Voucher != null ? src.Voucher.DiscountAmount : 0))) //* them voucher))
+                .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses.OrderBy(x => x.CreateDate).ToList()))
+                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.OrderBy(x => x.UnitPrice).ToList()));
             /*.ForMember(dest => dest.Detail, opt => opt.MapFrom(src => new DetailProgress
                 {
                     Image = src.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Image,
@@ -160,10 +237,11 @@ namespace HFS_BE.Automapper
             CreateMap<OrderProgress, DetailProgress>()
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
                 .ForMember(dest => dest.Note, opt => opt.MapFrom(src => src.Note))
-                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("MM/dd/yyyy - HH:mm:ss")));
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("dd/MM/yyyy - HH:mm:ss")))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => OrderStatusEnum.GetOrderStatusString(src.Status)));
             //CreateMap<ICollection<OrderProgress>, List<DetailProgress>>();
 
-            CreateMap<OrderDetail, OrderDetailFoodDto>()
+            CreateMap<OrderDetail, Dao.OrderDao.OrderDetailFoodDto>()
                 .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderId))
                 .ForMember(dest => dest.FoodId, opt => opt.MapFrom(src => src.FoodId))
                 .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.UnitPrice))
@@ -174,18 +252,48 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.SellId, opt => opt.MapFrom(src => src.Food.SellerId));
             //CreateMap<ICollection<OrderDetail>, List<OrderDetailFoodDto>>();
 
-            CreateMap<Dao.OrderDao.OrderDetailFoodDto, BusinessLogic.ManageOrder.OrderDetailFoodDto>();
+            CreateMap<Dao.OrderDao.OrderDetailFoodDto, BusinessLogic.ManageOrder.OrderDetailFoodBLDto>();
             CreateMap<Dao.OrderDao.DetailProgress, BusinessLogic.ManageOrder.DetailProgress>();
             CreateMap<Dao.OrderDao.OrderDaoSellerOutputDto, BusinessLogic.ManageOrder.OrderDaoSellerOutputDto>();
             CreateMap<Dao.OrderDao.OrderSellerDaoOutputDto, BusinessLogic.ManageOrder.OrderSellerDaoOutputDto>();
 
+            // ordercustomer
+            CreateMap<Order, Dao.OrderDao.OrderCustomerDaoOutputDto>()
+                .ForMember(dest => dest.ShopName, opt => opt.MapFrom(src => src.Seller != null ? src.Seller.ShopName : null))
+                .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => src.OrderDate != null ? src.OrderDate.Value.ToString("dd/MM/yyyy - HH:mm:ss") : null))
+                .ForMember(dest => dest.RequiredDate, opt => opt.MapFrom(src => src.RequiredDate != null ? src.RequiredDate.Value.ToString("dd/MM/yyyy - HH:mm:ss") : null))
+                .ForMember(dest => dest.ShippedDate, opt => opt.MapFrom(src => src.ShippedDate != null ? src.ShippedDate.Value.ToString("dd/MM/yyyy - HH:mm:ss") : null))
+                .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.Shipper != null ? src.Shipper.FirstName + " " + src.Shipper.LastName : null))
+                .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => PaymentMethodEnum.GetPaymentMethodString(src.PaymentMethod)))
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.OrderDetails.Select(
+                        d => d.UnitPrice * d.Quantity
+                    ).ToList().Sum() - (src.Voucher != null ? src.Voucher.DiscountAmount : 0))) //* them voucher))
+                .ForMember(dest => dest.VoucherDiscount, opt => opt.MapFrom(src => src.Voucher != null ? src.Voucher.DiscountAmount : 0))
+                .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses.OrderBy(x => x.CreateDate).ToList()))
+                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.OrderBy(x => x.UnitPrice).ToList()))
+                .ForMember(dest => dest.VoucherDisplay, opt => opt.MapFrom(src => src.VoucherId != null ? (src.Voucher.Code + " " + src.Voucher.DiscountAmount) : string.Empty));
+            CreateMap<OrderProgress, DetailProgressCustomerDto>()
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
+                .ForMember(dest => dest.Note, opt => opt.MapFrom(src => src.Note))
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("dd/MM/yyyy - HH:mm:ss")));
+            CreateMap<OrderDetail, OrderDetaiCustomerDto>()
+                .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name))
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ImageFileConvert.ConvertFileToBase64(src.Food.SellerId, src.Food.FoodImages.ToList().First().Path, 1).ImageBase64))
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Food.Category.Name));
 
         }
         public void OrderHistory()
         {
-            CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>();
+            CreateMap<Order, Dao.OrderDao.OrderDaoOutputDto>()
+                .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses))
+                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails));
+            CreateMap<OrderProgress, Dao.OrderDao.OrderProgressDto>()
+                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.SellerId ?? src.CustomerId ?? src.ShipperId));
             CreateMap<OrderDetail, Dao.OrderDao.OrderDetailDto>()
-                .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name));
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Food.FoodImages.AsQueryable().First().Path))
+                .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name))
+                .ForMember(dest => dest.SellerId, opt => opt.MapFrom(src => src.Food.SellerId));
+
 
         }
         public void OrderProgress()
@@ -196,16 +304,18 @@ namespace HFS_BE.Automapper
 
             CreateMap<Controllers.OrderShipper.OrderProgressControllerInputDto, BusinessLogic.OrderShipper.OrderProgressBusinessLogicInputDto>();
             CreateMap<BusinessLogic.OrderShipper.OrderProgressBusinessLogicInputDto, DAO.OrderProgressDao.OrderProgressDaoInputDto>()
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserDto.UserId));
+                .ForMember(dest => dest.ShipperId, opt => opt.MapFrom(src => src.UserDto.UserId));
 
 
             // check-out customer
-            CreateMap<OrderCreateDaoInputDto, OrderProgress>();
+            CreateMap<OrderCreateDaoInputDto, OrderProgress>()
+                .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.UserId));
         }
         public void Shop()
         {
             CreateMap<Seller, GetShopDetailDaoOutputDto>()
-                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.SellerId));
+                .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.SellerId))
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("dd/MM/yyyy")));
         }
 
         public void Cart()
@@ -213,14 +323,14 @@ namespace HFS_BE.Automapper
             CreateMap<FoodImage, DAO.CartDao.FoodImagesDto>();
             CreateMap<CartItem, DAO.CartDao.CartItemOutputDto>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Food.Name))
-                .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => src.Food.FoodImages))
+                .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => ImageFileConvert.ConvertFileToBase64(src.Food.SellerId, src.Food.FoodImages.FirstOrDefault().Path, 1).ImageBase64))
                 .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.Food.SellerId))
                 .ForMember(dest => dest.ShopName, opt => opt.MapFrom(src => src.Food.Seller.ShopName))
                 .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.Food.UnitPrice));
             CreateMap<AddCartItemInputDto, CartItem>();
 
             CreateMap<CartItemOutputDto, CartItemDto>()
-                .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => src.foodImages.FirstOrDefault()));
+                .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => src.foodImages));
         }
 
         public void UserProfile()
@@ -238,35 +348,88 @@ namespace HFS_BE.Automapper
             CreateMap<MenuModerator, UserProfile>()
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
             //.ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => DateOnly.FromDateTime(Convert.ToDateTime(src.BirthDate))));
+            CreateMap<Accountant, UserProfile>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.AccountantId));
+
+        }
+
+        public void ProfileImage()
+        {
+            CreateMap<BusinessLogic.ProfileImage.ProfileImageInputDto, DAO.ProfileImage.ProfileImageInputDto>();
+            CreateMap<DAO.ProfileImage.ProfileImageOutputDto, BusinessLogic.ProfileImage.ProfileImageOutputDto>();
+            CreateMap<DAO.ProfileImage.ProfileImageOutputDtoWrapper, BusinessLogic.ProfileImage.ProfileImageOutputDtoWrapper>();
         }
 
         public void File()
         {
+            CreateMap<ImageFileConvert.ImageOutputDto, PostImageOutputCustomerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, PostImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, FoodImageOutputSellerDto>();
             CreateMap<ImageFileConvert.ImageOutputDto, BusinessLogic.OrderShipper.ImageFoodOutputDto>();
+
+            CreateMap<ImageFileConvert.ImageOutputDto, CustomerImageOutputDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, FeedImageOutputDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, FeedSellerImageOutputDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, ShipperImageOutputDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, SellerReportImageOutputDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, SellerImageLOutputDto>();
+            CreateMap<ImageFileConvert.ImageOutputDto, BusinessLogic.ManageSellerLicenseImage.SellerLicenseImageOutputDto>();
         }
 
         public void Category()
         {
-            CreateMap<CategoryDaoInputDto, Category>();
             CreateMap<Category, CategoryDaoOutputDto>();
+            CreateMap<Category, GetCategoryOutputDto>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => CategoryStatusEnum.GetStatusString(src.Status)));
         }
 
         public void Shipper()
         {
             CreateMap<Shipper, ShipperInfor>()
+                .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate != null ? src.BirthDate.Value.ToString("dd/MM/yyyy") : null))
                 .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
+        }
+        public void Manage()
+        {
+            CreateMap<Customer, CustomerDtoOutput>();
+            CreateMap<Seller, SellerDtoOutput>();
+            CreateMap<PostModerator, PostModeratorDtoOutput>();
+            CreateMap<MenuModerator, MenuModeratorDtoOutput>();
+            CreateMap<MenuModerator, MenuModeratorDtoOutput>();
+			CreateMap<Accountant, AccountantDtoOutput>();
+			CreateMap<CreateModerator, CreateModeratorDaoDtoInput>();
+            CreateMap<CustomerBan, BanHistoryCustomerDtoOutput>();
+            CreateMap<Invitation, InvitationShipperDtoOutput>()
+                .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.Shipper.FirstName + " " + src.Shipper.LastName))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Shipper.Email))
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Shipper.PhoneNumber));
+            //.ForMember(dest => dest.Avatar, opt => opt.MapFrom(src => src.Shipper.Avatar));
+            CreateMap<Shipper, ShipperInforByAdmin>()
+        .ForMember(dest => dest.ShipperName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
+            CreateMap<SellerBan, BanHistorySellerDtoOutput>();
+            CreateMap<ShipperBan, BanHistoryShipperDtoOutput>();
+            CreateMap<CustomerDtoOutput, CustomerDtoBS>();
+            CreateMap<ListCustomerDtoOutput, ListCustomerOutputDtoBS>();
+            CreateMap<SellerDtoOutput, SellerDtoBS>();
+            CreateMap<ListSellerDtoOutput, ListSellerOutputDtoBS>();
+            CreateMap<ShipperInforByAdmin, ShipperOutputDtoBL>();
+            CreateMap<ShipperInforListByAdmin, ListShipperbyAdminOutputDtoBS>();
+            CreateMap<Invitation, InvitationSellerDtoOutput>()
+             .ForMember(dest => dest.SellerName, opt => opt.MapFrom(src => src.Seller.ShopName))
+             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Seller.Email))
+             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Seller.PhoneNumber));
         }
 
         public void FeedBack()
         {
             CreateMap<Feedback, FeedBackDaoOutputDto>()
                 .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.LastName))
-                .ForMember(dest => dest.DisplayDate, opt => opt.MapFrom(src => src.UpdateDate ?? src.CreatedDate))
+                .ForMember(dest => dest.DisplayDate, opt => opt.MapFrom(src => ((src.UpdateDate ?? src.CreatedDate)).Value.ToString("MM/dd/yyyy hh:mm")))
                 .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == true).ToList().Count))
-                .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == false).ToList().Count))
-                .ForMember(dest => dest.ListVoted, opt => opt.MapFrom(src => src.FeedbackVotes));
+                .ForMember(dest => dest.DisLikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == false).ToList().Count))
+                .ForMember(dest => dest.ListVoted, opt => opt.MapFrom(src => src.FeedbackVotes))
+                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.FeedBackImages));
             CreateMap<FeedbackVote, CustomerVoted>();
             CreateMap<FeedbackReply, FeedBackReplyDaoOutputDto>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.FirstName + " " + src.Customer.LastName : src.Seller.ShopName));
@@ -274,7 +437,111 @@ namespace HFS_BE.Automapper
 
             CreateMap<GetFeedBackByFoodIdDaoOutputDto, GetFeedBackOutputDto>();
             CreateMap<FeedBackDaoOutputDto, FeedBackOutputDto>();
-            CreateMap<FeedBackReplyDaoOutputDto, FeedBackReplyOutputDto>();
+            CreateMap<FeedBackReplyDaoOutputDto, FeedBackReplyOutputDto>()
+                .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.CreatedDate.Value.ToString("MM/dd/yyyy hh:mm")));
+
+
+            CreateMap<AddFeedBackInputDtoBL, CreateFeedBackDaoInputDto>()
+                .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.UserDto.UserId));
+            CreateMap<AddFeedBackControllerInputDto, AddFeedBackInputDtoBL>();
+            CreateMap<Feedback, FeedBackDaoOutputDtoImage>()
+                  .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.LastName))
+                  .ForMember(dest => dest.DisplayDate, opt => opt.MapFrom(src => src.UpdateDate ?? src.CreatedDate))
+                  .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == true).ToList().Count))
+                  .ForMember(dest => dest.DisLikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == false).ToList().Count))
+                  .ForMember(dest => dest.ListVoted, opt => opt.MapFrom(src => src.FeedbackVotes));
+            CreateMap<FeedBackDaoOutputDtoImage, FeedBackDtoBL>();
+            CreateMap<GetFeedBackByFoodIdImageDaoOutputDto, ListFeedBackOutputDtoBS>();
+            CreateMap<ListFeedBackbySellerDaoOutputDto, ListFeedBackbySellerOutputDtoBL>();
+            CreateMap<FeedBackBySellerDaoOutputDto, ReplyFeedBackBLOutputDto>();
+            CreateMap<Feedback, FeedBackBySellerDaoOutputDto>()
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.LastName))
+                .ForMember(dest => dest.DisplayDate, opt => opt.MapFrom(src => src.UpdateDate ?? src.CreatedDate))
+                  .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == true).ToList().Count))
+                  .ForMember(dest => dest.DisLikeCount, opt => opt.MapFrom(src => src.FeedbackVotes.Where(x => x.IsLike == false).ToList().Count))
+                  .ForMember(dest => dest.FoodName, opt => opt.MapFrom(src => src.Food.Name));
+        }
+
+        public void Voucher()
+        {
+            CreateMap<Voucher, GetVoucherDaoOutputDto>()
+                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => VoucherStatusEnum.GetStatusString(src.Status)));
+
+
+
+        }
+
+        public void Notification()
+        {
+            CreateMap<NotificationAddNewInputDto, Notification>();
+            CreateMap<Notification, NotificationDaoOutputDto>()
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => NotificationTypeEnum.GetNotifyString(src.Type)))
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("MM/dd/yyyy hh:mm:ss tt")));
+        }
+        public void Chat()
+        {
+            CreateMap<ChatMessage, MessageDtoOuput>()
+                .ForMember(dest => dest.EmailCustomer, opt => opt.MapFrom(src => src.Customer.Email))
+                 .ForMember(dest => dest.EmailSeller, opt => opt.MapFrom(src => src.Seller.Email));
+            CreateMap<Seller, SellerMessageDtoOutput>();
+            CreateMap<Customer, CustomerMessageDtoOutput>()
+                ;
+        }
+        public void Google()
+        {
+            CreateMap<Seller, LoginGoogleInputDto>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.SellerId));
+            CreateMap<Customer, LoginGoogleInputDto>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.CustomerId));
+            CreateMap<PostModerator, LoginGoogleInputDto>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
+            CreateMap<MenuModerator, LoginGoogleInputDto>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ModId));
+            CreateMap<Shipper, LoginGoogleInputDto>()
+        .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ShipperId));
+        }
+
+
+
+        public void Comment()
+        {
+            CreateMap<Comment, CommentOutputDto>()
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.LastName));
+            CreateMap<CommentOutputDto, Customer>()
+                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.CustomerName));
+
+        }
+
+        private void ShipAddress()
+        {
+            CreateMap<ShipAddress, ShipAddressOutputDto>();
+            //CreateMap<List<ShipAddress>, List<ShipAddressOutputDto>>();
+        }
+
+        public void Transaction()
+        {
+            CreateMap<TransactionHistory, GetTransactionHistoryDaoDto>()
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate != null ? src.CreateDate.Value.ToString("dd/MM/yyyy hh:mm:ss") : ""))
+                .ForMember(dest => dest.ExpiredDate, opt => opt.MapFrom(src => src.ExpiredDate != null ? src.ExpiredDate.Value.ToString("dd/MM/yyyy hh:mm:ss") : ""));
+        }
+
+        public void ReportSeller()
+        {
+            CreateMap<SellerReportBLInputDto, SellerReportInputDto>();
+            CreateMap<SellerReportOutputDto, SellerReportBLOutputDto>();
+            CreateMap<ListSellerReportOutputDto, ListSellerReportOutputDtoBL>();
+            CreateMap<SellerReportOutputDto, SellerReportBLByCustomerOutputDto>();
+            CreateMap<ListSellerReportOutputDto, ListSellerReportByCustomerOutputDtoBL>();
+        }
+
+        private void SellerLicenseImage()
+        {
+            CreateMap<DAO.SellerLicenseImageDao.ListSellerLicenseImageOutputDto,
+                BusinessLogic.ManageSellerLicenseImage.ListSellerLicenseImageOutputDto>();
+            CreateMap<DAO.SellerLicenseImageDao.SellerLicenseImageOutputDto,
+                BusinessLogic.ManageSellerLicenseImage.SellerLicenseImageOutputDto>();
         }
     }
 }
+
+

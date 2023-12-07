@@ -1,0 +1,8 @@
+<div class="card">
+    <h1>Payment Verify</h1>
+    <h3>{{resultText}}</h3>
+    <h4>VNPay TranId: {{tranId}}</h4>
+    <h4>Value: {{value | currency:'VND'}}</h4>
+    <h4>BankCode: {{bankcode}}</h4>
+    <p-button (onClick)="onBackToWallet()">Back To Wallet</p-button>
+</div>

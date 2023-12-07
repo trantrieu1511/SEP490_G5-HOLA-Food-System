@@ -10,14 +10,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.Category
 {
-    [Authorize(Roles = "1")]
+    
     public class AddNewCategoryController : BaseController
     {
         public AddNewCategoryController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
-        [HttpPost("createcategory")]
+        [HttpPost("users/createcategory")]
         public BaseOutputDto AddNewCategory(CategoryDaoInputDto inputDto)
         {
             try

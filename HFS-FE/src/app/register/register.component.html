@@ -5,48 +5,155 @@
           <img src="assets/image/Logo.png" alt="Image" height="50" class="mb-3">
             <div class="text-900 text-3xl font-medium mb-3">Welcome FU Food</div>
             <span class="text-600 font-medium line-height-3">You have an account?</span>
-            <a href="#/login" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Login!</a>
+            <a href="login" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Login!</a>
             <div class="text-900 text-3xl font-medium mb-3">Register</div>
         </div>
 
         <div *ngIf="showForm">
           <form [formGroup]="formregister" (ngSubmit)="onSubmit()">
-            <label for="firstname" class="block text-900 font-medium mb-2">FirstName</label>
-            <input id="firstname" formControlName="firstName" type="text" placeholder="FirstName" pInputText class="w-full mb-3"(focus)="isFirstnameTouched = true" (blur)="showFirstnameError()">
-            <div *ngIf="isFirstnameTouched && formregister.get('firstName').errors?.required" class="invalid-feedback">Firstname is required!</div>
-            <label for="lastname"  class="block text-900 font-medium mb-2">LastName</label>
-            <input id="lastname" type="text" formControlName="lastName" placeholder="LastName" pInputText class="w-full mb-3" (focus)="isLastnameTouched = true" (blur)="showLastnameError()">
-            <div *ngIf="isLastnameTouched && formregister.get('lastName').errors?.required" class="invalid-feedback">LastName is required!</div>
-            <label for="email1" class="block text-900 font-medium mb-2">Email</label>
-            <input id="email1" type="text"  placeholder="Email address" formControlName="email" pInputText class="w-full mb-3">
-            <div *ngIf="formregister.get('email')!.hasError('email')" class="invalid-feedback">Incorrect Email format!</div>
-            <label for="password1" class="block text-900 font-medium mb-2">Password</label>
-            <input id="password1" type="password"  placeholder="Password" formControlName="password" pInputText class="w-full mb-3">
-            <div *ngIf="formregister.get('password')!.hasError('invalidPasswordLength')" class="invalid-feedback">Password minimum 8!</div>
-            <div *ngIf="formregister.get('password')!.hasError('missingUppercaseLetter')" class="invalid-feedback">Password contains at least 1 uppercase character!</div>
-            <div *ngIf="formregister.get('password')!.hasError('missingNumber')" class="invalid-feedback">Password contains at least 1 number character!</div>
-            <label for="password2" class="block text-900 font-medium mb-2">Confirm Password</label>
-            <input id="password2" type="password"  placeholder="Confirm Password" formControlName="confirmPassword" pInputText class="w-full mb-3">
-            <div *ngIf="formregister.get('confirmPassword')!.hasError('passwordMismatch')" class="invalid-feedback">Does not match Password</div>
-            <label for="gender">Gender:</label>
-            <input type="radio" formControlName="gender" name="gender" checked value="male" [id]="'gender' + 'male'" />
-            <label [for]="'gender' + 'male'">Male</label>
-            <input type="radio" formControlName="gender" name="gender" value="female" [id]="'gender' + 'female'" />
-            <label [for]="'gender' + 'female'">Female</label>
-
-            <label for="gender" class="block text-900 font-medium mb-2">Date of birth</label>
             <div class="flex align-items-center justify-content-between mb-3 md:w-5">
+            <select formControlName="roleId" name="role" [(ngModel)]="selectedRole" class="custom-select" (change)="onRoleChange($event)">
+              <option *ngFor="let role of roles" [value]="role.id">{{role.name}}</option>
+            </select>
+          </div>
+          <div *ngIf="selectedRoleId ==='2'">
+            <div class="flex items-center">
+              <label for="shopname" class="block text-900 font-medium mb-2">ShopName*</label>
+              <div *ngIf="isShopnameTouched && formregister.get('shopName').errors?.required" class="invalid-feedback">-ShopName is required!</div>
+
+           </div>
+           <input id="shopname" formControlName="shopName" type="text" placeholder="ShopName" pInputText class="w-full mb-3"(focus)="isShopnameTouched = true" (blur)="showShopNameError()">
+           <div class="flex items-center">
+             <label for="lastname"  class="block text-900 font-medium mb-2">ShopAdress*</label>
+             <div *ngIf="isShopAddressTouched && formregister.get('shopAddress').errors?.required" class="invalid-feedback">-ShopAddress is required!</div>
+           </div>
+           <input id="shopaddress" type="text" formControlName="shopAddress" placeholder="ShopAddress" pInputText class="w-full mb-3" (focus)="isShopAddressTouched = true" (blur)="showShopAddressError()">
+         <div>
+          <div class="container">
+            <!-- <form> -->
+              <select class="custom-select" id="province" (change)="onProvinceChange()">
+                <option value="" disabled selected>Select Province</option>
+                <option *ngFor="let province of provinces" [value]="province.code">{{ province.name }}</option>
+              </select>
+
+              <select class="custom-select" id="district" (change)="onDistrictChange()">
+                <option value="" disabled selected>Select district</option>
+                <option *ngFor="let district of districts" [value]="district.code">{{ district.name }}</option>
+              </select>
+
+              <select class="custom-select" id="ward" (change)="onWardChange()">
+                <option value="" disabled selected>Select ward</option>
+                <option *ngFor="let ward of wards" [value]="ward.code">{{ ward.name }}</option>
+              </select>
+            <!-- </form> -->
+
+            <!-- <h2 id="result">{{ selectedResult }}</h2> -->
+          </div>
+
+          <label for="shopname" class="block text-900 font-medium mb-2">Business License*</label>
+          <p-fileUpload class=" w-full"
+              #fileUploader
+              [files]="uploadedFiles"
+              [customUpload]="true"
+              (onSelect)="handleFileSelection($event)"
+              (onRemove)="handleFileRemoval($event)"
+              (onClear)="handleAllFilesClear($event)"
+              [multiple]="true" accept="image/*" [maxFileSize]="1000000"
+              [showUploadButton]="false" >
+              <ng-template pTemplate="content">
+                  <!-- <ul *ngIf="uploadedFiles.length > 0">
+                      <li *ngFor="let file of uploadedFiles">{{ file.name }}</li>
+                  </ul> -->
+              </ng-template>
+             </p-fileUpload></div>
+
+
+          </div>
+            <div *ngIf="selectedRoleId !=='2'" class="flex items-center">
+               <label for="firstname" class="block text-900 font-medium mb-2">FirstName*</label>
+               <div *ngIf="isFirstnameTouched && formregister.get('firstName').errors?.required" class="invalid-feedback">-Firstname is required!</div>
+            </div>
+            <input *ngIf="selectedRoleId !=='2'" autocomplete="new-first-field" id="firstname" formControlName="firstName" type="text" placeholder="FirstName" pInputText class="w-full mb-3"(focus)="isFirstnameTouched = true" (blur)="showFirstnameError()">
+            <div *ngIf="selectedRoleId !=='2'" class="flex items-center">
+              <label for="lastname"  class="block text-900 font-medium mb-2">LastName*</label>
+              <div *ngIf="isLastnameTouched && formregister.get('lastName').errors?.required" class="invalid-feedback">-LastName is required!</div>
+            </div>
+            <input *ngIf="selectedRoleId !=='2'" autocomplete="new-last-field" id="lastname" type="text" formControlName="lastName" placeholder="LastName" pInputText class="w-full mb-3" (focus)="isLastnameTouched = true" (blur)="showLastnameError()">
+            <div class="flex items-center">
+              <label for="phone"  class="block text-900 font-medium mb-2">PhoneNumber*</label>
+              <div *ngIf="isphoneNumberTouched && formregister.get('phoneNumber').errors?.required" class="invalid-feedback">-Phone is required!</div>
+            </div>
+            <input autocomplete="new-phone-field" id="phoneNumber" type="text" formControlName="phoneNumber" placeholder="PhoneNumber" pInputText class="w-full mb-3" (focus)="isphoneNumberTouched = true" (blur)="showPhoneNumberError()">
+
+            <div class="flex items-center">
+              <label for="email1" class="block text-900 font-medium mb-2">Email*</label>
+            <div *ngIf="formregister.get('email')!.hasError('email')" class="invalid-feedback">-Incorrect Email format!</div>
+            </div>
+            <input id="email1" type="text"  placeholder="Email address" formControlName="email" pInputText class="w-full mb-3" autocomplete="new-email-field">
+            <label for="password1" class="block text-900 font-medium mb-2">Password*</label>
+            <input id="password1" type="password"  placeholder="Password" formControlName="password" pInputText class="w-full mb-3">
+            <div *ngIf="formregister.get('password')!.hasError('invalidPasswordLength')" class="invalid-feedback">-Password minimum 8!</div>
+            <div *ngIf="formregister.get('password')!.hasError('missingUppercaseLetter')" class="invalid-feedback">-Password contains at least 1 uppercase character!</div>
+            <div *ngIf="formregister.get('password')!.hasError('missingNumber')" class="invalid-feedback">-Password contains at least 1 number character!</div>
+            <div class="flex items-center">
+              <label for="password2" class="block text-900 font-medium mb-2">Confirm Password*</label>
+            <div *ngIf="formregister.get('confirmPassword')!.hasError('passwordMismatch')" class="invalid-feedback">-Does not match Password</div>
+            </div>
+            <input id="password2" type="password"  placeholder="Confirm Password" formControlName="confirmPassword" pInputText class="w-full mb-3">
+            <label *ngIf="selectedRoleId !=='2'" for="gender">Gender*:</label>
+            <input *ngIf="selectedRoleId !=='2'" type="radio" formControlName="gender" name="gender" checked value="male" [id]="'gender' + 'male'" />
+            <label *ngIf="selectedRoleId !=='2'" [for]="'gender' + 'male'">Male</label>
+            <input *ngIf="selectedRoleId !=='2'" type="radio" formControlName="gender" name="gender" value="female" [id]="'gender' + 'female'" />
+            <label *ngIf="selectedRoleId !=='2'" [for]="'gender' + 'female'">Female</label>
+            <!-- <div class="flex align-items-center justify-content-between mb-3 md:w-5">
+              <select formControlName="roleId" name="role" [(ngModel)]="selectedRole" class="custom-select" (change)="onRoleChange($event)">
+                <option *ngFor="let role of roles" [value]="role.id">{{role.name}}</option>
+              </select>
+            </div>
+            <div *ngIf="selectedRoleId ==='2'">
+              <div class="flex items-center">
+                <label for="shopname" class="block text-900 font-medium mb-2">ShopName*</label>
+                <div *ngIf="isShopnameTouched && formregister.get('shopName').errors?.required" class="invalid-feedback">-ShopName is required!</div>
+             </div>
+             <input id="shopname" formControlName="shopName" type="text" placeholder="ShopName" pInputText class="w-full mb-3"(focus)="isShopnameTouched = true" (blur)="showShopNameError()">
+             <div class="flex items-center">
+               <label for="lastname"  class="block text-900 font-medium mb-2">ShopAdress*</label>
+               <div *ngIf="isShopAddressTouched && formregister.get('shopAddress').errors?.required" class="invalid-feedback">-ShopAddress is required!</div>
+             </div>
+             <input id="shopaddress" type="text" formControlName="shopAddress" placeholder="ShopAddress" pInputText class="w-full mb-3" (focus)="isShopAddressTouched = true" (blur)="showShopAddressError()">
+            </div> -->
+            <div *ngIf="selectedRoleId !=='2'" class="flex items-center">
+              <label for="gender" class="block text-900 font-medium mb-2">Date of birth*</label>
+              <div *ngIf="formregister.get('birthDate')!.hasError('ageRestriction')" class="invalid-feedback">-Only users over 18 years old can use the system!</div>
+            </div>
+            <div *ngIf="selectedRoleId !=='2'" class="flex align-items-center justify-content-between mb-3 md:w-5">
               <div class="flex align-items-center">
                 <p-calendar type="date" name="birthDate" [showIcon]="true" formControlName="birthDate" dateFormat="dd/m/yy" class="w-full" ></p-calendar>
             </div>
+            <div *ngIf="selectedRoleId ==='2'" class="flex align-items-center justify-content-between mb-3 md:w-5">
+              <div class="flex align-items-center">
+                2
+              <p-fileUpload class=" w-full"
+              #fileUploader
+              [files]="uploadedFiles"
+              [customUpload]="true"
+              (onSelect)="handleFileSelection($event)"
+              (onRemove)="handleFileRemoval($event)"
+              (onClear)="handleAllFilesClear($event)"
+              [multiple]="true" accept="image/*" [maxFileSize]="1000000"
+              [showUploadButton]="false" >
+              <ng-template pTemplate="content">
+                  <!-- <ul *ngIf="uploadedFiles.length > 0">
+                      <li *ngFor="let file of uploadedFiles">{{ file.name }}</li>
+                  </ul> -->
+              </ng-template>
+             </p-fileUpload>
+             </div>
 
-            <div *ngIf="formregister.get('birthDate')!.hasError('ageRestriction')" class="invalid-feedback">Only users over 18 years old can use the system!</div>
             </div>
-            <div class="flex align-items-center justify-content-between mb-3 md:w-5">
-              <select formControlName="roleId" name="role" [(ngModel)]="selectedRole">
-                <option *ngFor="let role of roles"  [value]="role.id">{{ role.name }}</option>
-              </select>
             </div>
+
+
             <div *ngIf="errorregister" class="invalid-feedback">{{ errorregister }}</div>
             <button type="submit" pButton pRipple label="Sign Up" icon="pi pi-user-plus" class="w-full p-button-success"></button>
 
@@ -54,12 +161,13 @@
           </form>
         </div>
         <div *ngIf="!showForm">
-          <p>Đăng ký thành công!</p>
+          <p>Đăng ký thành công! Vui lòng Check email để xác thực Email</p>
         </div>
 
     </div>
 
 </div>
 
-<p-toast [baseZIndex]='99999' key="app-login"></p-toast>
+<p-toast [baseZIndex]='99999' key="app-register"></p-toast>
 
+<cmis-loading></cmis-loading>

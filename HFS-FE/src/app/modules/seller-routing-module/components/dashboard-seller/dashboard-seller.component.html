@@ -1,0 +1,70 @@
+<div class="grid table-demo">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="col-12 md:col-12">
+                <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+                  <label style="margin-right: 1rem">Data time: </label>
+                  <p-calendar
+                    [(ngModel)]="rangeDates"
+                    selectionMode="range"
+                    [readonlyInput]="true"
+                    [maxDate]="currentDate"
+                    (onClose)="onCloseCalendar($event)"
+                  ></p-calendar>
+                </div>
+              </div>
+
+            <div class="overview-list">
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Order: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{dataDashboard.orderCount}}</span>
+                        <div class="data-percent"
+                            [class.text-green-500]="dataDashboard.orderCountPercent > 0"
+                            [class.text-red-500]="dataDashboard.orderCountPercent < 0"
+                        >
+                            {{dataDashboard.orderCountPercent}}%
+                        </div>
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Estimated Amount(đ): </div>
+                    </span>
+                    <div class="data">
+                        <span>{{dataDashboard.amountCount | currency : "VND"}}</span>
+                        <div class="data-percent"
+                            [class.text-green-500]="dataDashboard.amountCountPercent > 0"
+                            [class.text-red-500]="dataDashboard.amountCountPercent < 0"
+                        >
+                            {{dataDashboard.amountCountPercent}}%
+                        </div>
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Number of dishes sold: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{dataDashboard.soldCount}}</span>
+                        <div class="data-percent"
+                            [class.text-green-500]="dataDashboard.soldCountPercent > 0"
+                            [class.text-red-500]="dataDashboard.soldCountPercent < 0"
+                        >
+                            {{dataDashboard.soldCountPercent}}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <p-chart *ngIf="isDisplayChart" type="line" [data]="dataDashboard" [options]="options"></p-chart>
+        </div>
+    </div>
+    
+</div>
+<cmis-loading></cmis-loading>
+

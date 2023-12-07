@@ -3,4 +3,32 @@
         width: 90%;
         margin: 0 auto;
     }  
+
+    
+    .p-inputnumber-input{
+        border-radius: 0; 
+        width: 5rem;
+        height: 2.4rem;
+        border-left: 0;
+        border-right: 0;
+    }
+
+    .p-inputnumber-button-up
+    {
+        color: #000000;
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.38);
+        
+        border-radius: 0 4px 4px 0 !important;
+        height: 2.4rem;
+        width: 2.4rem;
+    }
+    .p-inputnumber-button-down{
+        color: #000000;
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.38);
+        border-radius: 4px 0 0 4px; 
+        height: 2.4rem;
+        width: 2.4rem;
+    }
 }

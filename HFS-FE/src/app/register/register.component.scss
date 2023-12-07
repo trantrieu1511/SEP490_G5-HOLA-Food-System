@@ -39,8 +39,8 @@
 
 .invalid-feedback {
   color: red;
-  font-size: 0.8rem;
-  margin-top: 0.25rem;
+  font-size: 1rem;
+  margin-top: 0em;
 }
 
 /* Định dạng nút "Sign Up" */
@@ -76,4 +76,24 @@
 }
 .custom-calendar .ui-datepicker-trigger {
   color: green;
+}
+.custom-select {
+  appearance: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.custom-select:hover {
+  border-color: #aaa;
+}
+
+.custom-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }

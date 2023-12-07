@@ -29,7 +29,7 @@ interface LayoutState {
 })
 export class CustomerLayoutService {
 
-    config: AppConfig = {
+    app: AppConfig = {
         ripple: false,
         inputStyle: 'outlined',
         menuMode: 'overlay',
@@ -114,7 +114,7 @@ export class CustomerLayoutService {
     }
 
     isOverlay() {
-        return this.config.menuMode === 'overlay';
+        return this.app.menuMode === 'overlay';
     }
 
     isDesktop() {
@@ -126,7 +126,7 @@ export class CustomerLayoutService {
     }
 
     onConfigUpdate() {
-        this.configUpdate.next(this.config);
+        this.configUpdate.next(this.app);
     }
 
 }
