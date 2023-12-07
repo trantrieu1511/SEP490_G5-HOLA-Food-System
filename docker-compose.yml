@@ -1,41 +1,64 @@
 version: "3"
 services: 
+    client:
+        container_name: angularfrontend
+        build:
+            context: ./HFS-FE
+            dockerfile: ./Dockerfile
+        ports: 
+            - 4200:4200
+        #volumes:
+        #    - shared:/app/dist
+        networks:
+            - internalnet
+    nginx:
+        container_name: middlenginx
+        image: nginx
+        #build: nginx
+        #restart: always
+        expose:
+            - "80"
+        ports: 
+            - "80:80"
+            - "433:433"
+        #links:
+        #    - api
+        volumes:
+
+            - ./nginx.middle.conf:/etc/nginx/conf.d/default.conf:rw
+        #    - shared:/usr/share/nginx/html
+        #    - ./nginx.conf:/etc/nginx/nginx.conf
+            
+        depends_on: 
+            - api
+        networks:
+            - internalnet
+    
+    api:
+        container_name: dotnetbackend
+        build: 
+            context: ./HFS-BE/HFS-BE
+            dockerfile: ./Dockerfile
+        ports: 
+            - 3000:3000
+        depends_on: 
+            - db
+        #links:
+        #    - db
+        networks:
+            - internalnet 
+        environment:
+            - ASPNETCORE_URLS=http://+:3000 
     db:
+        container_name: mssql
         image: "mcr.microsoft.com/mssql/server"
         environment:
             SA_PASSWORD: "Passw0rd"
             ACCEPT_EULA: "Y"
-    api:
-        build: HFS-BE/HFS-BE
-        ports: 
-            - 3000:80
-        depends_on: 
-            - db
-        links:
-            - db
-    client:
-        build: HFS-FE
-        ports: 
-            - 4200:80
-        volumes:
-            - shared:/app/dist
-    nginx:
-        image: nginx:1.13-alpine
-        build: nginx
-        restart: always
-        depends_on: 
-            - client
-            - api
-        links:
-            - api
-        volumes:
-            - shared:/usr/share/nginx/html
-            - ./nginx.conf:/etc/nginx/nginx.conf
-        ports: 
-            - 80:80
-volumes:
-  shared: {}
-networks:
+        networks:
+            - internalnet    
+#volumes:
+#  shared: {}
+networks: 
     internalnet:
-        driver: bridge
 
