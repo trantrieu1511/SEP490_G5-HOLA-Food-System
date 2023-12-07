@@ -10,14 +10,14 @@ namespace HFS_BE.DAO.CartDao
 
     public class CartItemOutputDto
     {
-        public int ShopId { get; set; }
+        public string ShopId { get; set; }
         public string ShopName { get; set; }
         public int FoodId { get; set; }
-        public int CartId { get; set; }
+        public string CartId { get; set; }
         public int Amount { get; set; }
         public decimal UnitPrice { get; set; }
         public string? Name { get; set; }
-        public List<FoodImagesDto> foodImages { get; set; }
+        public string? foodImages { get; set; }
     }
 
     public class FoodImagesDto

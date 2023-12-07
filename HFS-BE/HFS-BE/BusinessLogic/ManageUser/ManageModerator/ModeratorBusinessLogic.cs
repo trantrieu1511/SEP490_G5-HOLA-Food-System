@@ -28,12 +28,12 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageModerator
 				throw;
 			}
 		}
-		public ListPostModeratorDtoOutput ListMenuModerator()
+		public ListMenuModeratorDtoOutput ListMenuModerator()
 		{
 			try
 			{
 				var Dao = this.CreateDao<ModeratorDao>();
-				var daooutput = Dao.GetAllPostModerator();
+				var daooutput = Dao.GetAllMenuModerator();
 
 				return daooutput;
 			}
@@ -42,12 +42,26 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageModerator
 				throw;
 			}
 		}
-		public BaseOutputDto AddPostModerator(RegisterInputDto inputDto)
+		public ListAccountantsDtoOutput ListAccountants()
 		{
 			try
 			{
 				var Dao = this.CreateDao<ModeratorDao>();
-				var daoinput = mapper.Map<RegisterInputDto, RegisterDto>(inputDto);
+				var daooutput = Dao.GetAllAccountant();
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+		public BaseOutputDto AddPostModerator(CreateModerator inputDto)
+		{
+			try
+			{
+				var Dao = this.CreateDao<ModeratorDao>();
+				var daoinput = mapper.Map<CreateModerator, CreateModeratorDaoDtoInput>(inputDto);
 				var daooutput = Dao.CreatePostModerator(daoinput);
 			
 
@@ -58,13 +72,74 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageModerator
 				throw;
 			}
 		}
-		public BaseOutputDto AddMenuModerator(RegisterInputDto inputDto)
+		public BaseOutputDto AddAccountants(CreateModerator inputDto)
 		{
 			try
 			{
 				var Dao = this.CreateDao<ModeratorDao>();
-				var daoinput = mapper.Map<RegisterInputDto, RegisterDto>(inputDto);
+				var daoinput = mapper.Map<CreateModerator, CreateModeratorDaoDtoInput>(inputDto);
+				var daooutput = Dao.CreateAccountant(daoinput);
+
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+		public BaseOutputDto AddMenuModerator(CreateModerator inputDto)
+		{
+			try
+			{
+				var Dao = this.CreateDao<ModeratorDao>();
+				var daoinput = mapper.Map<CreateModerator, CreateModeratorDaoDtoInput>(inputDto);
 				var daooutput = Dao.CreateMenuModerator(daoinput);
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+		public BaseOutputDto BanMenuModerator(BanModeratorDtoinput inputDto)
+		{
+			try
+			{
+				var Dao = this.CreateDao<ModeratorDao>();
+				
+				var daooutput = Dao.BanMenuModerator(inputDto);
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+		public BaseOutputDto BanPostModerator(BanModeratorDtoinput inputDto)
+		{
+			try
+			{
+				var Dao = this.CreateDao<ModeratorDao>();
+
+				var daooutput = Dao.BanPostModerator(inputDto);
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+		public BaseOutputDto BanAccountants(BanAccountantDtoinput inputDto)
+		{
+			try
+			{
+				var Dao = this.CreateDao<ModeratorDao>();
+
+				var daooutput = Dao.BanAccountant(inputDto);
 
 				return daooutput;
 			}

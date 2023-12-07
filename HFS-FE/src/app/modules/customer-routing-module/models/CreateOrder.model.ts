@@ -1,3 +1,4 @@
+import { CartItem } from "./CartItem.model"
 import { AddToCart } from "./addToCart.model"
 
 export class CreateOrder{
@@ -12,10 +13,47 @@ export class CreateOrder{
     listShop : ListShop[]
 }
 
+export class CartItemCheckout{
+   
+    shopId : number
+    shopName : string
+    foodId : number
+    amount :number
+    unitPrice : number
+    totalPrice: number
+    name : string
+    selected: boolean = false
+    foodImages : string
+}
+
+export class ListShopCheckout{
+    public ListShop(){
+
+    }
+    shopId : number
+    shopName: string
+    totalPrice: number
+    voucherPrice: number = 0
+    voucher: string
+    foodCheckouts : FoodCheckout[]
+}
+
+export class FoodCheckout{
+    foodId : number
+    amount: number
+    foodName: string
+    foodImage: string
+    unitPrice: number
+    totalPrice: number;
+}
+
 export class ListShop{
     public ListShop(){
 
     }
     shopId : number
+    shopName: string
+    voucher : string
     cartItems : AddToCart[]
 }
+

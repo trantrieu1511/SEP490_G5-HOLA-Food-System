@@ -1,0 +1,62 @@
+<div class="grid">
+    <!-- <select id="province" (change)="onProvinceChange()">
+      <option value="" disabled selected>Chọn tỉnh</option>
+      <option *ngFor="let province of provinces" [value]="province.code">{{ province.name }}</option>
+    </select>
+
+    <select id="district" (change)="onDistrictChange()">
+      <option value="" disabled selected>Chọn quận</option>
+      <option *ngFor="let district of districts" [value]="district.code">{{ district.name }}</option>
+    </select>
+
+    <select id="ward" (change)="onWardChange()">
+      <option value="" disabled selected>Chọn phường</option>
+      <option *ngFor="let ward of wards" [value]="ward.code">{{ ward.name }}</option>
+    </select> -->
+    <div class="col-5 mb-2 lg:col-4 mb-lg-0">
+      <span class="p-input-icon-left p-float-label">
+        <p-dropdown [options]="provinces" (onChange)="onProvinceChange($event)"
+                    [(ngModel)]="provinceSelected"
+                    [showClear]="true"
+                    optionLabel="name"
+                    id="province" 
+                    ></p-dropdown>
+        <label>Provinces*</label>
+      </span>
+    </div>
+    <div class="col-5 mb-2 lg:col-4 mb-lg-0">
+      <span class="p-input-icon-left p-float-label">
+        <p-dropdown [options]="districts" (onChange)="onDistrictChange($event)"
+                    [(ngModel)]="districtSelected"
+                    [showClear]="true"
+                    optionLabel="name"
+                    id="district"
+                    ></p-dropdown>
+        <label>Districts*</label>
+      </span>
+    </div>
+    <div class="col-5 mb-2 lg:col-4 mb-lg-0">
+      <span class="p-input-icon-left p-float-label">
+        <p-dropdown [options]="wards" (onChange)="onWardChange($event)"
+                    [(ngModel)]="wardSelected"
+                    [showClear]="true"
+                    optionLabel="name"
+                    id="ward" 
+                    ></p-dropdown>
+        <label>Ward*</label>
+      </span>
+    </div>
+  <p id="result">{{ selectedResult }}</p>
+
+  <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+    <span class="p-input-icon-left p-float-label" style="width: 100%">
+      <input type="text" 
+              class="w-full" 
+              [(ngModel)]="addressDetail"
+              (input)="onAddressDetailChange($event)"
+              pInputText
+              />
+      <label>Address Detail*</label>
+    </span>
+  </div>
+</div>

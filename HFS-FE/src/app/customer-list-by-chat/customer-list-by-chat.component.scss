@@ -1,0 +1,78 @@
+.pd-contact{
+  padding: 3px;
+}
+
+.friend-list{
+  position: fixed;
+  max-width: 400px;
+  right: 25px;
+  bottom: 1px;
+  z-index: 222;
+}
+.online {
+  color: green; /* Màu chữ khi trạng thái online */
+}
+
+.offline {
+  color: red; /* Màu chữ khi trạng thái offline */
+}
+#contact{
+  max-height: 400px;
+  overflow: scroll;
+}
+
+#contact li{
+  list-style: none;
+}
+
+#contact li:hover{
+   background-color: rgb(241, 237, 237);
+   border-radius: 10px;
+   cursor: pointer;
+}
+
+.label{
+  border-radius: 10px;
+}
+
+.label-u{
+  position: absolute;
+  right: -5px;
+}
+
+.mini-list{
+  position: fixed;
+  right: 25px;
+  bottom: 45px;
+  z-index: 322;
+}
+/* You can add global styles to this file, and also import other style files */
+.img-person{
+  max-height: 45px;
+}
+
+.mr{
+  margin-right: 5px;
+}
+
+.label-danger{
+  background-color: red;
+}
+.edit{
+  background-color: rgba(233, 227, 227, 0.959);
+  height: 45px;
+  width: 45px;
+}
+
+@media screen and (max-width: 960px) {
+  .friend-list{
+    top: 0;
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
+    left: 0;
+    margin-top: 8rem !important;
+    z-index: 900;
+  }
+
+}

@@ -24,6 +24,7 @@ export class LoadingInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         this.requests.push(request);
+        
 
         if (request.reportProgress != undefined && request.reportProgress) {
             // Not show
@@ -35,18 +36,29 @@ export class LoadingInterceptor implements HttpInterceptor {
         }
         return next.handle(request).pipe(
             map((event: HttpEvent<any>) => {
+                
                 if (event instanceof HttpResponse) {
                     this.removeRequest(request);
                 }
                 return event;
             }),
             catchError(err => {
-                this.removeRequest(request);
-                return throwError(err);
-            }),
-            finalize(() => {
-                this.removeRequest(request);
+                
+                if (err.status === 401) {
+                    debugger
+                    // Handle error 401 here
+                    // You can redirect to a login page or perform any other necessary actions
+                    console.log('Error 401 occurred');
+
+                    return throwError(() => err);
+                }
+                //this.removeRequest(request);
+                return throwError(() => err);
             })
+            // ,
+            // finalize(() => {
+            //     this.removeRequest(request);
+            // })
         );
     }
 

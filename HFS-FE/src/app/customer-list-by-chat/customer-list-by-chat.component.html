@@ -1,0 +1,34 @@
+<div class="card friend-list">
+  <div class="card-header">
+      <h4 class="text-primary">Customers list</h4>
+  </div>
+  <div class="card-body">
+      <ul id="contact" style="padding-left: 0px;">
+          <li class="pd-contact" *ngFor="let item of (presence.listcusbyseller$ | async)" (click)="selectUser(item)">
+              <div class="d-flex">
+                <div class="mr-3" style="position: relative;">
+                  <img *ngIf="item.image != null; else noImg1" [src]="'data:image/gif;base64,' + item.image" alt="" class="rounded-circle img-person"  width="50" height="50" style="border-radius: 50%;">
+                   <ng-template #noImg1>
+                   <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
+                  </ng-template>
+                  <!-- <span class="badge label-u label-danger">3</span> -->
+                </div>
+                  <div>
+                      <div class="displayName">{{item.email}}</div>
+
+                      <div  class="label text-success">{{item.countMessageNotIsRead}}</div>
+
+
+                  </div>
+              </div>
+          </li>
+      </ul>
+  </div>
+
+</div>
+<div>
+  <app-chatbox *ngFor="let item of usersOnline" [right]="item.right" [user]="item.customer"
+  (miniChatBox)="miniChatBox($event)"
+  (removeChatBox)="removeChatBox($event)">
+</app-chatbox>
+</div>

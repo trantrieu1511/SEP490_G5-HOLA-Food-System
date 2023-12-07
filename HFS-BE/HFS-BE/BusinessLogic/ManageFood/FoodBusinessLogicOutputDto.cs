@@ -8,6 +8,8 @@ namespace HFS_BE.BusinessLogic.ManageFood
     public class FoodOutputSellerDto
     {
         public int FoodId { get; set; }
+        public string? SellerId { get; set; }
+        public string? SellerEmail { get; set; }
         public string? Name { get; set; }
         public decimal? UnitPrice { get; set; }
         public string? Description { get; set; }
@@ -15,6 +17,11 @@ namespace HFS_BE.BusinessLogic.ManageFood
         public string? CategoryName { get; set; }
         public int Rating { get; set; }
         public string? Status { get; set; }
+        public int? ReportedTimes { get; set; }
+        public string? BanBy { get; set; }
+        public DateTime? BanDate { get; set; }
+        public string? BanNote { get; set; }
+        public string? CreatedDate { get; set; }
         public List<FoodImageOutputSellerDto>? ImagesBase64 { get; set; } = new List<FoodImageOutputSellerDto>();
     }
 

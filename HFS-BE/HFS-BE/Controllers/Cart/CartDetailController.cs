@@ -17,6 +17,7 @@ namespace HFS_BE.Controllers.Cart
         }
 
         [HttpPost("cart/cartdetail")]
+        [Authorize]
         public CartDetailBusinessLogicOutputDto GetCartDetail(GetCartItemDaoInputDto inputDto)
         {
             try

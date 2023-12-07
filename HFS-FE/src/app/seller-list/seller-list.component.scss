@@ -1,0 +1,166 @@
+/* Thêm một ít margin và padding cho .pd-contact */
+.pd-contact {
+  padding: 10px;
+  margin: 5px 0;
+}
+
+/* Thay đổi màu nền và box-shadow cho .friend-list */
+.friend-list {
+  position: fixed;
+  max-width: 300px;
+  right: 25px;
+  bottom: 15px;
+  z-index: 222;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  margin-top: 4rem !important;
+}
+
+/* Chỉnh sửa màu cho trạng thái online và offline */
+.online {
+  color: #4CAF50; /* Màu chữ khi trạng thái online */
+}
+
+.offline {
+  color: #F44336; /* Màu chữ khi trạng thái offline */
+}
+
+/* Chỉnh sửa màu cho khi hover */
+#contact li:hover {
+  background-color: #f1f1f1;
+}
+
+/* Thêm một chút padding và đường viền cho .label */
+.label {
+  padding: 5px;
+  border: 1px solid #ddd;
+}
+
+/* Thêm một ít padding cho .mini-list */
+.mini-list {
+  position: fixed;
+  right: 25px;
+  bottom: 60px;
+  z-index: 322;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Thêm chút margin cho .mr */
+.mr {
+  margin-right: 10px;
+}
+
+/* Chỉnh sửa màu background cho .label-danger */
+.label-danger {
+  background-color: #f44336;
+  color: #fff;
+}
+
+/* Thêm chút padding cho .edit */
+.edit {
+  padding: 10px;
+  background-color: rgba(233, 227, 227, 0.959);
+  border-radius: 50%;
+}
+
+/* Thêm chút padding cho .img-person */
+.img-person {
+  max-height: 50px;
+  border-radius: 50%;
+}
+
+/* Thêm một ít padding và đường viền cho .displayName */
+.displayName {
+  padding: 5px;
+  border-radius: 5px;
+}
+.d-flex.align-items-center.pd-contact {
+  margin-bottom: 10px; /* Thay đổi giá trị theo ý muốn */
+}
+.sidebar {
+  width: 25%; /* Chiều rộng 1/4 của parent container */
+  position: fixed;
+  right: 0; /* Nằm bên phải */
+  top: 0; /* Đặt vị trí đầu tiên (hoặc theo nhu cầu của bạn) */
+  height: 100vh; /* Chiều cao 100% của viewport */
+  background-color: #fff; /* Màu nền, có thể thay đổi theo ý muốn */
+  overflow-y: auto; /* Cho phép cuộn nếu nội dung quá lớn */
+  border-left: 1px solid #ccc; /* Đường viền bên trái */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng đổ */
+  margin-top: 20px;
+}
+.unread-indicator {
+  width: 10px;
+  height: 10px;
+  background-color: rgb(0, 255, 132);
+  border-radius: 50%;
+  margin-left: 5px;
+}
+#contact {
+  margin: 0;
+  padding: 0;
+}
+
+/* Reset margin và padding cho li */
+#contact li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none; /* Ẩn dấu chấm đầu dòng */
+}
+.displayName {
+  margin-bottom: 5px; /* Thay đổi giá trị tùy thuộc vào khoảng cách mong muốn */
+}
+
+/* Thêm display: flex và align-items: center cho .d-flex để căn giữa các phần tử con */
+.d-flex {
+  display: flex;
+  align-items: center;
+}
+
+/* Điều chỉnh margin và padding cho .mr-3 */
+.mr-3 {
+  margin: 0;
+  padding: 0;
+}
+
+/* Thêm max-width cho .img-person để tránh tràn ra ngoài */
+.img-person {
+  max-width: 50px; /* Thay đổi giá trị tùy thuộc vào kích thước mong muốn *//* Thêm margin-top cho .friend-list */
+
+}
+.container {
+  display: flex;
+}
+
+.friend-list {
+  flex: 1; /* Chiếm phần tử flexbox tỷ lệ 1 */
+  max-width: 300px;
+  right: 25px;
+  bottom: 15px;
+  z-index: 1000; /* Số lớn hơn giá trị z-index của nav */
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.close-btn:hover{
+  cursor: pointer;
+}
+
+@media screen and (max-width: 960px) {
+  .friend-list{
+    top: 0;
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
+    left: 0;
+    margin-top: 8rem !important;
+    z-index: 900;
+  }
+
+}
+
+

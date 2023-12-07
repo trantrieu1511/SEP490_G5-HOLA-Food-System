@@ -1,0 +1,322 @@
+<!-- <div>All time statistics: </div>
+<p>total post in the system</p>
+<p>total banned post in the system</p>
+<p>total pending post report</p>
+<p>total approved post report</p>
+<p>total not approved post report</p>
+<p>Số post mà post mod này đã ban theo dòng thời gian</p>
+
+<div>Current month statistics: </div>
+<p>total pending post report</p>
+<p>total approved post report</p>
+<p>total not approved post report</p>
+<p>total post in the system</p>
+<p>total banned post in the system</p>
+<p>Số post mà post mod này đã ban theo dòng thời gian</p> -->
+
+<!-- <div class="dashboard-content">
+    <div class="all-time-statistics">
+        <h2>All time statistics: </h2><br>
+        <div class="grid no-gutter">
+            <div class="col-6"></div>
+            <div class="card col-6 md:col-6">
+                <div class="data-card">Total post in the system</div>
+            </div>
+            <div class="card col-6 md:col-6">
+                <div class="data-card">Total banned post in the system</div>
+            </div>
+            <div class="card col-6 md:col-6">
+                <div class="data-card">Total pending post report</div>
+            </div>
+            <div class="card col-6 md:col-6">
+                <div class="data-card">Total approved post report</div>
+            </div>
+            <div class="card col-6 md:col-6">
+                <div class="data-card">Total not approved post report</div>
+            </div>
+        </div>
+        <div class="card">Chart</div>
+    </div>
+    <div class="current-month-statistics">
+        <h3>Current month statistics: </h3>
+        <div class="card">Total post in the system</div>
+        <div class="card">Total banned post in the system</div>
+        <div class="card">Total pending post report</div>
+        <div class="card">Total approved post report</div>
+        <div class="card">Total not approved post report</div>
+        <div class="card">Chart</div>
+    </div>
+
+</div> -->
+
+<div class="grid table-demo">
+    <div class="col-12">
+        <div class="card">
+            <h2>System statistics</h2>
+            <hr>
+            <div class="statistic-type">All time</div>
+
+            <div class="overview-list">
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total posts in the system: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{allTimeStatistics.totalPosts}}</span>
+                        <!-- <div class="data-percent"
+                            [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0"
+                        >
+                            {{data.orderCountPercent}}%
+                        </div> -->
+                        <!-- <div class="data-percent">
+                            999%
+                        </div> -->
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total banned posts in the system: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{allTimeStatistics.totalBannedPosts}}</span>
+                        <!-- <div class="data-percent"
+                            [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0"
+                        >
+                            {{data.orderCountPercent}}%
+                        </div> -->
+                        <!-- <div class="data-percent">
+                            999%
+                        </div> -->
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total post reports in the system: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{allTimeStatistics.totalPostReports}}</span>
+                        <!-- <div class="data-percent"
+                            [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0"
+                        >
+                            {{data.orderCountPercent}}%
+                        </div> -->
+                        <!-- <div class="data-percent">
+                            999%
+                        </div> -->
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total pending post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{allTimeStatistics.totalPendingPostReports}}</span>
+                        <!-- <div class="data-percent"
+                            [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0"
+                        >
+                            {{data.orderCountPercent}}%
+                        </div> -->
+                        <!-- <div class="data-percent">
+                            999%
+                        </div> -->
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total approved post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{allTimeStatistics.totalApprovedPostReports}}</span>
+                        <!-- <div class="data-percent"
+                            [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0"
+                        >
+                            {{data.orderCountPercent}}%
+                        </div> -->
+                        <div class="data-percent">
+                            My data: {{myStatistics.totalApprovedPostReports}}
+                        </div>
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total not approved post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{allTimeStatistics.totalNotapprovedPostReports}}</span>
+                        <!-- <div class="data-percent"
+                            [class.text-green-500]="data.orderCountPercent > 0"
+                            [class.text-red-500]="data.orderCountPercent < 0"
+                        >
+                            {{data.orderCountPercent}}%
+                        </div> -->
+                        <div class="data-percent">
+                            My data: {{myStatistics.totalNotapprovedPostReports}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <p-chart type="bar" [data]="data" [options]="options"></p-chart> -->
+
+            <hr>
+            <div class="statistic-type">From date to date</div>
+            <div class="col-12 md:col-12">
+                <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+                    <label style="margin-right: 1rem">Data time: </label>
+                    <p-calendar [(ngModel)]="systemCalendarRangeDates" selectionMode="range" [readonlyInput]="true"
+                        [maxDate]="currentDate" (onClose)="onCloseCalendar(1,$event)"></p-calendar>
+                </div>
+            </div>
+
+            <div class="overview-list">
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total posts in the system: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{systemData.totalPosts}}</span>
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total banned posts in the system: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{systemData.totalBannedPosts}}</span>
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total post reports in the system: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{systemData.totalPostReports}}</span>
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total pending post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{systemData.totalPendingPostReports}}</span>
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total approved post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{systemData.totalApprovedPostReports}}</span>
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total not approved post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{systemData.totalNotApprovedPostReports}}</span>
+                    </div>
+                </div>
+            </div>
+            <p-chart *ngIf="isDisplaySystemChart" type="line" [data]="systemData" [options]="options"></p-chart>
+
+        </div>
+
+
+
+        <div class="card">
+            <h2>My statistics</h2>
+            <div class="col-12 md:col-12">
+                <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+                    <label style="margin-right: 1rem">Data time: </label>
+                    <p-calendar [(ngModel)]="myCalendarRangeDates" selectionMode="range" [readonlyInput]="true"
+                        [maxDate]="currentDate" (onClose)="onCloseCalendar(2,$event)"></p-calendar>
+                </div>
+            </div>
+
+            <div class="overview-list">
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Approved post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{myData.totalApprovedPostReports}}</span>
+
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Not approved post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{myData.totalNotApprovedPostReports}}</span>
+
+                    </div>
+                </div>
+            </div>
+
+            <p-chart *ngIf="isDisplayMyChart" type="line" [data]="myData" [options]="options"></p-chart>
+        </div>
+
+        <!-- <div class="card">
+            <h2>This month's statistics: </h2>
+
+            <div class="col-12 md:col-12">
+            </div>
+
+            <div class="overview-list">
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total posts in the system: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{thisMonthStatistics.totalPosts}}</span>
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total banned posts in the system: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{thisMonthStatistics.totalBannedPosts}}</span>
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total pending post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{thisMonthStatistics.totalPendingPostReports}}</span>
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total approved post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{thisMonthStatistics.totalApprovedPostReports}}</span>
+                    </div>
+                </div>
+                <div class="overview-item">
+                    <span>
+                        <div class="title">Total not approved post reports: </div>
+                    </span>
+                    <div class="data">
+                        <span>{{thisMonthStatistics.totalNotapprovedPostReports}}</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <p-chart *ngIf="isDisplayChart" type="line" [data]="data" [options]="options"></p-chart>
+            
+
+        </div> -->
+    </div>
+
+</div>
+<cmis-loading></cmis-loading>

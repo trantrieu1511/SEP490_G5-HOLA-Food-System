@@ -1,0 +1,63 @@
+<div class="card friend-list sidebar">
+  <div class="card-header">
+    <h4 class="text-primary">Seller list</h4>
+    <a class="btn btn-link close-btn" (click)=" onCloseSellerList()">
+      <i class="pi pi-times"></i>
+    </a>
+  </div>
+  <div class="card-body">
+    <ul id="contact" class="list-unstyled">
+      <li class="pd-contact" *ngFor="let item of (presence.onlineUserscus$ | async)" (click)="selectUser(item)">
+        <div class="d-flex align-items-center">
+          <div class="mr-3" style="position: relative;">
+            <img *ngIf="item.image != null; else noImg1" [src]="'data:image/gif;base64,' + item.image" alt="" class="rounded-circle img-person"  width="50" height="50" style="border-radius: 50%;">
+     <ng-template #noImg1>
+    <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
+            </ng-template>
+            <!-- <span class="badge label-u label-danger">3</span> -->
+          </div>
+          <div>
+            <div class="displayName">{{item.shopName}}</div>
+            <div class="label online">Online</div>
+            <div *ngIf="(presence.emailcustomermessage$ | async)===item.email" class="label online">{{(presence.emailcustomermessage$ | async)}}</div>
+          </div>
+          <div *ngIf="(presence.emailcustomermessage$ | async)===item.email" class="message-preview">
+            <div class="unread-indicator">{{(presence.messageUsername$ | async)}}</div>
+          </div>
+          <div *ngIf="(presence.emailcustomermessage$ | async)!==item.email" class="message-preview">
+            <div class="unread-indicator">{{item.countMessageNotIsRead}}</div>
+          </div>
+        </div>
+      </li>
+      <li class="d-flex align-items-center pd-contact" *ngFor="let item1 of (presence.offlineUserscus$ | async)" (click)="selectUser(item1)">
+        <div class="d-flex align-items-center">
+          <div class="mr-3" style="position: relative;">
+            <img *ngIf="item1.image != null; else noImg" [src]="'data:image/gif;base64,' + item1.image" alt="" class="rounded-circle img-person" width="50" height="50" style="border-radius: 50%;">
+            <ng-template #noImg>
+           <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
+                   </ng-template>
+            <!-- <span class="badge label-u label-danger">3</span> -->
+          </div>
+          <div>
+            <div class="displayName">{{item1.shopName}}</div>
+            <div class="label offline">Offline</div>
+          </div>
+
+
+          <div class="message-preview">
+            <div *ngIf="readmessage!==0" class="unread-indicator">{{item1.countMessageNotIsRead}}</div>
+            <div *ngIf="readmessage===0" class="unread-indicator">0</div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="card-footer">
+    <div class="text-success text-center">{{(presence.onlineUserscus$ | async).length}} online</div>
+  </div>
+</div>
+<div style="position: relative;">
+  <app-chatbox *ngFor="let item of usersOnline" [right]="item.right" [user]="item.seller"
+    (miniChatBox)="miniChatBox($event)" (removeChatBox)="removeChatBox($event)">
+  </app-chatbox>
+</div>

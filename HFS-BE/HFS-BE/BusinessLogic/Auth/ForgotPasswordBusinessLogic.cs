@@ -32,7 +32,7 @@ namespace HFS_BE.BusinessLogic.Auth
 			{
 				var Dao = this.CreateDao<AuthDao>();
 
-				var daooutput =  Dao.ValidateConfirmationCode(inputDto);
+				var daooutput =  Dao.ValidateConfirmationCodeForgot(inputDto);
 
 				return daooutput;
 			}

@@ -1,0 +1,100 @@
+<div class="grid table-demo">
+  <div class="col-12">
+      <div class="card">
+
+          <div class="col-12 md:col-12">
+              <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+                <label style="margin-right: 1rem">Data time: </label>
+                <p-calendar
+                  [(ngModel)]="rangeDates"
+                  selectionMode="range"
+                  [readonlyInput]="true"
+                  [maxDate]="currentDate"
+                  (onClose)="onCloseCalendar($event)"
+                ></p-calendar>
+              </div>
+            </div>
+
+          <div class="overview-list">
+              <div class="overview-item">
+                  <span>
+                      <div class="title">Total Order: </div>
+                  </span>
+                  <div class="data">
+                  <span>{{datatotal.total}}</span>
+                      <div class="data-percent"
+                      >
+
+                      </div>
+                  </div>
+              </div>
+              <div class="overview-item">
+                  <span>
+                      <div class="title">Order Day: </div>
+                  </span>
+                  <div class="data">
+                    <span>{{datatotal.orderDay}}</span>
+                      <div class="data-percent"
+
+                      >
+                      Complete:{{datatotal.orderDayCom}}
+                      InComplete:{{datatotal.orderDayInCom}}
+                      </div>
+                  </div>
+              </div>
+              <div class="overview-item">
+                  <span>
+                      <div class="title">Amout Day(đ) </div>
+                  </span>
+                  <div class="data">
+                    <span>{{datatotal.amoutDay}}</span>
+                      <div class="data-percent"
+
+                      >
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="overview-list">
+            <div class="overview-item">
+                <span>
+                    <div class="title">Order Month: </div>
+                </span>
+                <div class="data">
+                  <span>{{datatotal.orderMonth
+                  }}</span>
+                    <div class="data-percent"
+
+                    >
+                    Complete:{{datatotal.orderMothCom}}
+                    InComplete:{{datatotal.orderMothInCom}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="overview-item">
+                <span>
+                    <div class="title">Amout Month(đ) </div>
+                </span>
+                <div class="data">
+                  <span>{{datatotal.amoutMonth}}</span>
+                    <div class="data-percent"
+
+                    >
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+          <!-- <p-chart *ngIf="isDisplayChart" type="line" [data]="data" [options]="options"></p-chart> -->
+          <div class="card">
+            <p-chart type="line" [data]="data2" [options]="options2"></p-chart>
+        </div>
+      </div>
+  </div>
+
+</div>
+<cmis-loading></cmis-loading>
+

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using HFS_BE.Models;
+using HFS_BE.Services;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -10,18 +12,20 @@ namespace HFS_BE.Base
 {
     [ApiController]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
+    [ServiceFilter(typeof(JwtExpirationAuthorizationFilter))]
     public class BaseController : ControllerBase
     {
-        private readonly SEP490_HFS_2Context context;
+        public readonly SEP490_HFS_2Context context;
         public readonly IMapper mapper;
 
         public BaseController(SEP490_HFS_2Context context, IMapper mapper)
         {
-            this.context = context;
-            this.mapper = mapper;
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            //this.context.Database.BeginTransaction();
         }
 
-        [NonAction]
+        
         public T GetBusinessLogic<T>() where T : BaseBusinessLogic
         {
 
@@ -31,6 +35,7 @@ namespace HFS_BE.Base
         [NonAction]
         public T Output<T>(bool success) where T : BaseOutputDto, new()
         {
+        //    if (!success) this.context.Database.RollbackTransaction();
             return new T
             {
                 Message = success ? "Success" : "Fail",
@@ -42,6 +47,7 @@ namespace HFS_BE.Base
         [NonAction]
         public T Output<T>(bool success, string content) where T : BaseOutputDto, new()
         {
+            //if (!success) this.context.Database.RollbackTransaction();
             return new T
             {
                 Message = success ? "Success" : content,
@@ -72,5 +78,6 @@ namespace HFS_BE.Base
             }
             return null;
         }
-    }
+		
+	}
 }

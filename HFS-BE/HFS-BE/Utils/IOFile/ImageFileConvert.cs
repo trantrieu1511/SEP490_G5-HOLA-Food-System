@@ -9,7 +9,15 @@
             public string? Size { get; set; }
         }
 
-        public static ImageOutputDto? ConvertFileToBase64(string userId,string fileName, int type)
+        /// <summary>
+        /// Convert the image file (full path) into base64 string.
+        /// </summary>
+        /// <param name="userId">The id of the user, used in the full path of the stored image</param>
+        /// <param name="fileName">Name of the image file that is saved to the server database</param>
+        /// <param name="type">The category of the image (food, post, order progress,...) </param>
+        /// <returns>ImageOutputDto, which is the output object of the converted to base64 image which 
+        /// consist of attributes: ImageBase64, name and size</returns>
+        public static ImageOutputDto? ConvertFileToBase64(string userId, string fileName, int type)
         {
             if (fileName == null || fileName.Equals(""))
                 return null;
@@ -40,7 +48,7 @@
                 catch (Exception ex)
                 {
                     return null;
-                   // return "Error: " + ex.Message;
+                    // return "Error: " + ex.Message;
                 }
             }
             else
@@ -58,7 +66,17 @@
                     return "post";
                 case 1:
                     return "food";
-                default:
+                case 2:
+                    return "orderprogress";
+                case 3:
+                    return "profile";
+				case 4:
+					return "feedback";
+				case 5:
+					return "reportseller";
+				case 6:
+					return "license";
+				default:
                     return "";
             }
         }

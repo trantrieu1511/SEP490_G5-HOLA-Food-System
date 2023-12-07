@@ -1,4 +1,42 @@
 :host ::ng-deep {
+	#profile-d{
+		display: flex;
+		flex-wrap: wrap;
+		align-items: end;
+		
+
+		#profile-pic{
+			height: 15rem;
+			width: 15rem;
+			padding: 4px;
+			
+
+			img{
+				border-radius: 50%;
+				max-width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+		}
+
+		#u-name{
+			margin: 1rem 0 1rem 2rem;
+		}
+	}
+
+	#u-address{
+		margin: 1rem auto !important;
+		text-align: center;
+		font-weight: 400;
+
+	}
+
+	.custom-rating .ui-rating-star:not(.ui-rating-star-on):before {
+		content: '\2605';
+		position: absolute;
+		width: 50%;
+		overflow: hidden;
+	}
 	.p-dropdown {
 		width: 14rem;
 		font-weight: normal;
@@ -7,6 +45,16 @@
 	.product-name {
 		font-size: 1.5rem;
 		font-weight: 700;
+		display: -webkit-box;
+		/* lấy 3 dòng */
+		-webkit-line-clamp: 1;
+		-webkit-box-orient:  vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		word-break: break-word; 
+		&:hover{
+            cursor: pointer;
+        }
 	}
 
 	.product-description {
@@ -44,7 +92,7 @@
 		}
 
 		.product-price {
-			font-size: 1.5rem;
+			font-size: 1.2rem;
 			font-weight: 600;
 			margin-bottom: .5rem;
 			align-self: flex-end;
@@ -64,31 +112,152 @@
 		width: 80%;
 		margin: auto;
 	}
+	
+	.p-grid{
 
-	.product-grid-item {
-		margin: .5em;
-		border: 1px solid var(--surface-d);
-		
-		.product-grid-item-top,
-		.product-grid-item-bottom {
+		--columns: 3;
+		.col-12{
+			width: calc(100% / var(--columns));
+
+			.product-grid-item {
+				
+				margin: .5em;
+				border: 1px solid var(--surface-d);
+				
+				.product-grid-item-top,
+				.product-grid-item-bottom {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+				}
+
+				img {
+					height: 20rem;
+					width: 75%;
+					box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+					margin: 2rem 0;
+					object-fit: cover;
+					flex-shrink: 1;
+				}
+
+				.product-grid-item-content {
+					text-align: center;
+				}
+
+				.product-price {
+					font-size: 1.2rem;
+					font-weight: 600;
+				}
+			}
+		}
+	}
+
+	.p-dataview-list{
+		.p-dataview-content{
+			.grid{
+				display: block !important;
+
+				div{
+					width: 100%;
+					.product-list-item{
+						.product-list-action{
+							align-items: end;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.shop-infor{
+		flex: 1;
+		display: flex;
+		flex-wrap: wrap;
+		padding-left: 1.875rem;
+		align-items: flex-start;
+		.shop-infor_child{
 			display: flex;
-			align-items: center;
-			justify-content: space-between;
+			padding-top: .625rem;
+			padding-bottom: .625rem;
+			flex: none;
+			flex-basis: 50%;
+			overflow: hidden;
+
+			&:last-child{
+				flex-basis: 100%;
+			}
 		}
 
-		img {
-			width: 75%;
-			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-			margin: 2rem 0;
+		i{
+			margin-right: 1rem;
+		}
+	}
+
+	@media screen and (max-width: 1200.01px){
+		.shopdetail-list{
+			width: 100%;
+			margin: auto;
 		}
 
-		.product-grid-item-content {
-			text-align: center;
+		.p-icon {
+			width: 0.8rem;
+			height: 0.8rem;
 		}
 
-		.product-price {
-			font-size: 1.5rem;
-			font-weight: 600;
+		#profile-d{
+			flex-wrap: nowrap;
+			flex-direction: column;
+			align-items: start;
+
+			#profile-pic{
+				height: 10rem;
+				width: 10rem;
+				padding: 2px;
+				
+				#u-name{
+					margin: 1rem;
+				}
+			}
+		
+			#u-address{
+				text-align: center;
+				margin: 0 !important;
+			}
+		}
+		.p-grid{
+	
+			--columns: 2;
+
+			.col-12{
+				.product-grid-item {
+					
+	
+					img {
+						height: 17rem;
+					}
+				}
+			}
+		}
+		
+		p-rating{
+			div{
+				justify-content: center;
+			}
+		}
+	}
+
+	@media screen and (max-width: 960.01px){
+		.p-grid{
+	
+			--columns: 1;
+
+			.col-12{
+				.product-grid-item {
+					img {
+						height: 15rem;
+					}
+				}
+			}
 		}
 	}
 }
@@ -116,6 +285,13 @@
 		color: #8A5340;
 	}
 }
+#profile-banner-image {
+  height: 360px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+
 
 @media screen and (max-width: 576px) {
 	:host ::ng-deep .product-list-item {
@@ -126,6 +302,8 @@
 			width: 75%;
 			margin: 2rem 0;
 		}
+
+		
 
 		.product-list-detail {
 			text-align: center;
@@ -148,4 +326,7 @@
 			width: 100%;
 		}
 	}
+
+	
 }
+

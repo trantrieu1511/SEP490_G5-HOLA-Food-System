@@ -1,0 +1,69 @@
+@media only screen and (max-width: 1500px) {
+    .page-content {
+        width: 1500px;
+    }
+}
+
+u:hover {
+    cursor: pointer; /* Đổi con trỏ thành hình bàn tay */
+  }
+
+.page-content {
+    // width: 45%;
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar {
+    width: 15%;
+    height: 100%;
+}
+
+.main-body {
+    width: 85%;
+}
+
+.p-tabmenu-nav {
+    display: flex;
+
+    width: 100%;
+    padding: 1rem;
+    border-width: 0 0 2px 0;
+
+    .p-tabmenuitem {
+        flex: 1;
+        text-align: center;
+        justify-content: center;
+
+        a {
+            justify-content: center;
+            width: 100%;
+        }
+    }
+}
+
+.p-datatable-orders {
+    margin-top: 1rem;
+}
+
+.div-expand {
+    padding-left: 8rem !important;
+}
+
+.image-food_expand {
+    width: 5rem;
+}
+
+.tr-th_background-color {
+    th {
+        background-color: #f8f9fa !important;
+    }
+}
+
+p-calendar {
+    span {
+        input:disabled {
+            cursor: not-allowed;
+        }
+    }
+}

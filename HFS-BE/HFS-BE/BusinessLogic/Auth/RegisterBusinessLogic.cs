@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
+using HFS_BE.BusinessLogic.SellerReportBL;
 using HFS_BE.Dao.AuthDao;
 using HFS_BE.DAO.AuthDAO;
+using HFS_BE.DAO.SellerReportDao;
 using HFS_BE.Models;
+using HFS_BE.Utils.IOFile;
 
 namespace HFS_BE.BusinessLogic.Auth
 {
@@ -11,13 +14,13 @@ namespace HFS_BE.BusinessLogic.Auth
 		public RegisterBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
 		{
 		}
-		public BaseOutputDto Register(RegisterInputDto inputDto)
+		public async Task<BaseOutputDto> Register(RegisterInputDto inputDto)
 		{
 			try
 			{
 				var Dao = this.CreateDao<AuthDao>();
 				var daoinput = mapper.Map<RegisterInputDto,RegisterDto>(inputDto);
-				var daooutput = Dao.RegisterCustomer(daoinput);
+				var daooutput = await Dao.RegisterCustomer(daoinput);
 			
 
 				return daooutput;
@@ -27,28 +30,36 @@ namespace HFS_BE.BusinessLogic.Auth
 				throw;
 			}
 		}
-		public BaseOutputDto RegisterSeller(RegisterInputDto inputDto)
+		public async Task<BaseOutputDto> RegisterSeller(RegisterSellerInputDto inputDto)
 		{
 			try
 			{
 				var Dao = this.CreateDao<AuthNotCustomerDao>();
-				var daoinput = mapper.Map<RegisterInputDto, RegisterDto>(inputDto);
-				var daooutput = Dao.RegisterSeller(daoinput);
+				var fileNames = new List<string>();
+				var daoinput = mapper.Map<RegisterSellerInputDto, RegisterSellerDto>(inputDto);
+				if (inputDto.Images != null && inputDto.Images.Count > 0)
+					fileNames = ReadSaveImage.SaveSellerReportImages(inputDto.Images, inputDto.Email, 6);
 
-				return daooutput;
+				
+				daoinput.Images = fileNames;
+
+				var output = await Dao.RegisterSeller(daoinput);
+				
+
+				return output;
 			}
 			catch (Exception)
 			{
 				throw;
 			}
 		}
-		public BaseOutputDto RegisterShipper(RegisterInputDto inputDto)
+		public async Task<BaseOutputDto> RegisterShipper(RegisterInputDto inputDto)
 		{
 			try
 			{
 				var Dao = this.CreateDao<AuthNotCustomerDao>();
 				var daoinput = mapper.Map<RegisterInputDto, RegisterDto>(inputDto);
-				var daooutput = Dao.RegisterShipper(daoinput);
+				var daooutput = await Dao.RegisterShipper(daoinput);
 
 
 				return daooutput;

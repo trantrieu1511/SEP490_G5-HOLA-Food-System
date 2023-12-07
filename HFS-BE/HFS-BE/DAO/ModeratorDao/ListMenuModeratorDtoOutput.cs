@@ -7,4 +7,9 @@ namespace HFS_BE.DAO.ModeratorDao
 	{
 		public List<MenuModeratorDtoOutput> data { get; set; }
 	}
+
+	public class ListAccountantsDtoOutput : BaseOutputDto
+	{
+		public List<AccountantDtoOutput> data { get; set; }
+	}
 }

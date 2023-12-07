@@ -1,0 +1,18 @@
+<li class="layout-topbar-action-item" 
+    [class.notify-unread] = "!notify.isRead"
+    (click)="readNotify()"
+    >
+    <div class="flex flex-row align-items-center">
+        <div class="flex flex-column"
+                [class.ml-3] = "!layoutService.app.isRTL"
+                [class.mr-3] = "layoutService.app.isRTL"
+                style="flex-grow: 1;">
+            <div
+                class="flex align-items-center justify-content-between mb-1">
+                <span class="fs-small font-bold">{{notify.title}}</span>
+                <small>{{notify.createDate}}</small>
+            </div>
+            <span class="fs-small notify-content">{{notify.content}}</span>
+        </div>
+    </div>
+</li>

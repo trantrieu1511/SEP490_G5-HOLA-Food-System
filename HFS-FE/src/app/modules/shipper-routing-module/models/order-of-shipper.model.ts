@@ -1,3 +1,6 @@
+import { da } from "@fullcalendar/core/internal-common";
+import { OrderProgress } from "./order-progress-shipper.model";
+
 export class OrderDaoOutputDto{
         orderId:number;
         customerId :number;
@@ -5,10 +8,13 @@ export class OrderDaoOutputDto{
         requiredDate : string;
         shippedDate:string;
         shipAddress :string;
+        customerPhone:string;
         voucherId :number;
+        paymentMethod:string;
         status :boolean;
         total: number;  
-        orderDetails:OrderDetailDtoOutput[];    
+        orderDetails:OrderDetailDtoOutput[];  
+        orderProgresses:OrderProgressDtoOutput[];  
 }
 export class OrderDetailDtoOutput{
     orderId :number;
@@ -17,4 +23,18 @@ export class OrderDetailDtoOutput{
     unitPrice : number;
     quantity : number;
     status :boolean;
+    imageBase64:Images;
+}
+
+export class Images{
+    imageBase64:string;
+    name: string;
+    size:string;
+}
+
+export class OrderProgressDtoOutput{
+    imageBase64: Images;
+    note: string;
+    createDate: string;
+    status: boolean;
 }

@@ -182,7 +182,9 @@ import {VirtualScrollerModule} from 'primeng/virtualscroller';
     providers: [
         ConfirmationService, MessageService
     ],
-    declarations: [],
+    declarations: [
+        
+    ],
     exports: [
         FormsModule,
         AccordionModule,

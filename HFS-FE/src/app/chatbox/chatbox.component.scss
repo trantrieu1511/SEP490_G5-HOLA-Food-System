@@ -1,0 +1,126 @@
+.child-right{
+  margin-left: auto;
+  order: 2;
+}
+
+.message-body{
+  background-color: rgba(230, 225, 225, 0.603);
+  border-radius: 10px;
+  padding: 5px;
+  max-width: 80%;
+}
+/* Styles cho chat box trên màn hình điện thoại di động */
+
+.message-send{
+  background-color: rgba(73, 73, 250, 0.972);
+  color: white;
+}
+
+.parent-sent{
+  display: flex;
+  flex-direction:row;
+  justify-content: flex-end;
+
+}
+
+img{
+  max-height: 50px;
+}
+
+.chat{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chat-box{
+  position: fixed;
+  max-width: 320px;
+  z-index: 999;
+  right: 250px;
+  bottom: 1px;
+}
+
+
+.small-img{
+  max-height: 25px;
+}
+
+.pd-5{
+  padding: 2px;
+}
+
+.chat-frame{
+  max-height: 350px;
+  overflow-y: scroll;
+  height: 350px;
+}
+.flex-grow-1 {
+  flex: 1;
+}
+
+.align-items-center {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+.d-flex {
+  display: flex;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.rounded-circle {
+  border-radius: 50%; /* Bo tròn hình ảnh */
+
+}
+
+.chatbox-top{
+  width: 100%;
+}
+
+@media screen and (max-width: 960px) {
+  .chat-box{
+    top: 0;
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
+    left: 0;
+    margin-top: 8rem !important;
+    z-index: 999;
+  }
+  .chat-frame{
+    max-height: 100%;
+    overflow-y: scroll;
+  }
+  :host ::ng-deep {
+    .p-panel{
+      height: calc(100vh - 8rem) !important;
+    }
+
+    .p-toggleable-content{
+      height: calc(100vh - 8rem) !important;
+      .p-panel-content{
+        height: calc(100vh - 15rem) !important;
+        display: flex;
+        flex-direction: column;
+
+        .card-body{
+          flex-grow: 1;
+          max-height: 92%;
+        }
+      }
+
+    }
+    #button-thu-nho{
+      display: none;
+    }
+
+  }
+}

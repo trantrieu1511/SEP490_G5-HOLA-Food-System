@@ -10,8 +10,9 @@ namespace HFS_BE.Models
         public string ReportContent { get; set; } = null!;
         public string? UpdateBy { get; set; }
         public DateTime CreateDate { get; set; }
-        public DateTime UpdateDate { get; set; }
-        public bool IsDone { get; set; }
+        public DateTime? UpdateDate { get; set; }
+        public byte Status { get; set; }
+        public string? Note { get; set; }
 
         public virtual Food Food { get; set; } = null!;
         public virtual Customer ReportByNavigation { get; set; } = null!;

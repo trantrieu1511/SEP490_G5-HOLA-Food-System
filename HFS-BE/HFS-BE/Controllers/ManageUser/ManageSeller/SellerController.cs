@@ -5,6 +5,7 @@ using HFS_BE.BusinessLogic.ManageUser.ManageSeller;
 using HFS_BE.DAO.CustomerDao;
 using HFS_BE.DAO.SellerDao;
 using HFS_BE.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,13 +18,58 @@ namespace HFS_BE.Controllers.ManageUser.ManageSeller
 		{
 		}
 		[HttpPost("users/listseller")]
-
-		public ListSellerDtoOutput ListSeller()
+		//[Authorize(Roles ="AD")]
+		public ListSellerOutputDtoBS ListSeller()
 		{
 			try
 			{
 				var business = this.GetBusinessLogic<SellerBusinessLogic>();
 				var output = business.ListSeller();
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+		[HttpPost("users/banseller")]
+		[Authorize(Roles = "AD")]
+		public BaseOutputDto BanSeller(BanSellerDtoInput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<SellerBusinessLogic>();
+				var output = business.BanSeller(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+		[HttpPost("users/activeseller")]
+		[Authorize(Roles = "AD")]
+		public BaseOutputDto AciveSeller(ActiveSellerDtoInput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<SellerBusinessLogic>();
+				var output = business.ActiveSeller(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
+		[HttpPost("users/bansellerhistory")]
+		[Authorize(Roles = "AD")]
+		public BaseOutputDto ListHistoryBanSeller(BanSellerHistoryDtoInput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<SellerBusinessLogic>();
+				var output = business.ListHistoryBanSeller(input);
 				return output;
 			}
 			catch (Exception ex)

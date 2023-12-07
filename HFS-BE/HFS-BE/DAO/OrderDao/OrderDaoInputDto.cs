@@ -1,13 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HFS_BE.Base;
+using HFS_BE.Utils;
+using HFS_BE.Utils.CustomValidation;
+using System.ComponentModel.DataAnnotations;
 
 namespace HFS_BE.Dao.OrderDao
 {
     public class OrderByShipperDaoInputDto
     {
-        [Required(ErrorMessage = "Shipper required!")]
         public string? ShipperId { get; set; }
         public bool Status { get; set; }
     }
+
+    public class OrderByShipperHisDaoInputDto
+    {
+        public string? ShipperId { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateEnd { get; set; }
+    }
+
 
     public class CartItemDaoInputDto
     {
@@ -22,6 +32,8 @@ namespace HFS_BE.Dao.OrderDao
         public string? ShipAddress { get; set; }
         public int? VoucherId { get; set; }
         public string? Note { get; set; }
+        public int? PaymentMethod { get; set; }
+        public string? CustomerPhone { get; set; }
         public List<CartItemDaoInputDto> Items { get; set; }
     }
     public class OrderHistoryInputDto
@@ -47,9 +59,44 @@ namespace HFS_BE.Dao.OrderDao
 
     public class OrderInternalShipInputDto
     {
-        public int? OrderId { get; set; }
-        public byte? Status { get; set; }
-        public string? UserId { get; set; }
+        public int OrderId { get; set; }
+        public UserDto? User { get; set; }
         public string? ShipperId { get; set; }
     }
+
+    public class OrderExternalShipInputDto
+    {
+        public int OrderId { get; set; }
+        public string? UserId { get; set; }
+    }
+
+    public class GetOrdersCustomerDaoInputDto
+    {
+        public string? CustomerId { get; set;}
+        public int? Status { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateEnd { get; set; }
+    }
+
+    public class OrderCustomerDaoInputDto
+    {
+        public int OrderId { get; set; }
+        public string? Note { get; set; }
+        public string? CustomerId { get; set; }
+    }
+
+    public class GetOrdersCustomerFoodIdDaoInputDto
+    {
+        public string CustomerId { get; set; }
+        public int? FoodId { get; set; }
+    }
+
+    public class DashboardInputDaoDto
+    {
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateEnd { get; set; }
+
+        public string SellerId { get; set; }
+    }
+
 }

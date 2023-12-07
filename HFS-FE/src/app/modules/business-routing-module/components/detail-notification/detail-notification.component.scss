@@ -1,0 +1,47 @@
+:host ::ng-deep {
+
+}
+.grid{
+    height: 100%;
+}
+
+.card{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .top{
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 1rem 2rem;
+        i{
+            margin-right: 2rem;
+            border: 1px solid #f17126;
+            border-radius: 50%;
+            padding: 1rem;
+            background-color: #f17126;
+            color: #ffffff;
+        }
+        .top-content{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .notify-title{
+                color: #3a3d4d;
+            }
+
+            .create-date{
+                color: #909090;
+            }
+        }
+    }
+
+    .content{
+        flex: 1;
+        padding: 2rem 3rem;
+        line-height: 2.5rem;
+        white-space: wrap;
+        color: #3a3d4d;
+    }
+}

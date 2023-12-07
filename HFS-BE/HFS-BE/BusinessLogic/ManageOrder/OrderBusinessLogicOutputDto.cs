@@ -9,6 +9,7 @@ namespace HFS_BE.BusinessLogic.ManageOrder
         public int? OrderId { get; set; }
         public string? CustomerId { get; set; }
         public string? CustomerName { get; set; }
+        public string? CustomerPhone { get; set; }
         public string? OrderDate { get; set; }
         public string? RequiredDate { get; set; }
         public string? ShippedDate { get; set; }
@@ -16,14 +17,16 @@ namespace HFS_BE.BusinessLogic.ManageOrder
         public string? ShipperId { get; set; }
         public string? ShipperName { get; set; }
         public int? VoucherId { get; set; }
+        public decimal DiscountAmount { get; set; }
+        public string PaymentMethod { get; set; }
         public decimal? TotalPrice { get; set; }
         public List<DetailProgress>? OrderProgresses { get; set; }
-        public List<OrderDetailFoodDto>? OrderDetails { get; set; }
+        public List<OrderDetailFoodBLDto>? OrderDetails { get; set; }
 
     }
 
 
-    public class OrderDetailFoodDto
+    public class OrderDetailFoodBLDto
     {
         public int OrderId { get; set; }
         public int FoodId { get; set; }
@@ -32,7 +35,6 @@ namespace HFS_BE.BusinessLogic.ManageOrder
         public int? Quantity { get; set; }
         public FoodImageOutputSellerDto ImageBase64 { get; set; }
         public string CategoryName { get; set; }
-        public string? SellId { get; set; }
     }
 
     public class DetailProgress
@@ -40,6 +42,7 @@ namespace HFS_BE.BusinessLogic.ManageOrder
         public ImageFoodOutputDto? ImageBase64 { get; set; }
         public string? Note { get; set; }
         public string? CreateDate { get; set; }
+        public string? Status { get; set; }
     }
 
     public class OrderSellerDaoOutputDto : BaseOutputDto

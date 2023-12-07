@@ -1,0 +1,229 @@
+<div class="grid table-demo">
+    <div class="col-12">
+        <div class="card">
+            <h5>Food report management</h5>
+
+            <p-table #dt [value]="lstFoodReport" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+                [rows]="10" [showCurrentPageReport]="true" [paginator]="lstFoodReport.length > 5" [filterDelay]="0"
+                [rowsPerPageOptions]="[5,10,25,50]" currentPageReportTemplate="Total: {totalRecords} food reports"
+                [globalFilterFields]="['reportContent']" responsiveLayout="scroll" [loading]="loading">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-row align-items-center flex-wrap justify-content-between ">
+                        <div class="flex-1">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" #textInput
+                                    (input)="dt.filterGlobal(textInput.value, 'contains')"
+                                    placeholder="Search by reportContent" />
+                            </span>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th> -->
+                        <th pSortableColumn="foodId">
+                            <div class="flex justify-content-between align-items-center">
+                                Food id
+                                <p-sortIcon field="foodId"></p-sortIcon>
+                                <p-columnFilter type="numeric" field="foodId" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="foodName">
+                            <div class="flex justify-content-between align-items-center">
+                                Food name
+                                <p-sortIcon field="foodName"></p-sortIcon>
+                                <p-columnFilter type="text" field="foodName" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="sellerId">
+                            <div class="flex justify-content-between align-items-center">
+                                SellerId
+                                <p-sortIcon field="sellerId"></p-sortIcon>
+                                <p-columnFilter type="text" field="sellerId" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="reportBy">
+                            <div class="flex justify-content-between align-items-center">
+                                Report by
+                                <p-sortIcon field="reportBy"></p-sortIcon>
+                                <p-columnFilter type="text" field="reportBy" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="reportContent">
+                            <div class="flex justify-content-between align-items-center">
+                                Report content
+                                <p-sortIcon field="reportContent"></p-sortIcon>
+                                <p-columnFilter type="text" field="reportContent" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="createDate">
+                            <div class="flex justify-content-between align-items-center">
+                                Created date
+                                <p-sortIcon field="createDate"></p-sortIcon>
+                                <p-columnFilter type="text" field="createDate" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="updateDate">
+                            <div class="flex justify-content-between align-items-center">
+                                Updated date
+                                <p-sortIcon field="updateDate"></p-sortIcon>
+                                <p-columnFilter type="text" field="updateDate" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="updateBy">
+                            <div class="flex justify-content-between align-items-center">
+                                Updated by
+                                <p-sortIcon field="updateBy"></p-sortIcon>
+                                <p-columnFilter type="text" field="updateBy" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="status">
+                            <div class="flex justify-content-between align-items-center">
+                                Status
+                                <p-sortIcon field="status"></p-sortIcon>
+                                <p-columnFilter type="text" field="status" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="note">
+                            <div class="flex justify-content-between align-items-center">
+                                Note
+                                <p-sortIcon field="note"></p-sortIcon>
+                                <p-columnFilter type="text" field="note" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width: 8rem">
+                            <div class="flex justify-content-between align-items-center">
+                                Action
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-foodrp>
+                    <tr class="p-selectable-row">
+                        <!-- <td>
+                            <p-tableCheckbox [value]="food"></p-tableCheckbox>
+                        </td> -->
+                        <td>
+                            <span class="p-column-title">foodId</span>
+                            <span class="">{{foodrp.foodId}}</span>
+                        </td>
+                        <td>
+                            <span class="p-column-title">foodName</span>
+                            {{foodrp.foodName}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">sellerId</span>
+                            {{foodrp.sellerId}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">reportBy</span>
+                            {{foodrp.reportBy}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">ReportContent</span>
+                            <p class="report-content" (click)="viewContentDetail(foodrp.reportContent)">{{foodrp.reportContent}}</p>
+                        </td>
+                        <td>
+                            <span class="p-column-title">CreatedDate</span>
+                            {{foodrp.createDate}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">UpdatedDate</span>
+                            {{foodrp.updateDate}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">UpdateBy</span>
+                            {{foodrp.updateBy}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Status</span>
+                            <p-tag [value]="foodrp.status" [severity]="getSeverity(foodrp.status)"></p-tag>
+                        </td>
+                        <td>
+                            <span class="p-column-title">Note</span>
+                            {{foodrp.note}}
+                        </td>
+                        <td>
+                            <div *ngIf="foodrp.status === 'NotApproved' && foodrp.updateBy === userId || foodrp.status === 'Pending'"
+                                class="">
+
+                                <div class="">
+                                    <button style="margin-bottom: 5px;" pButton pRipple icon="pi pi-check-circle"
+                                        (click)="onOpenApproveNotApproveModal('Approved', foodrp)"
+                                        class="p-button-rounded p-button-success p-mr-2"></button>
+                                </div>
+                            </div>
+                            <div *ngIf="foodrp.status === 'Approved' && foodrp.updateBy === userId || foodrp.status === 'Pending'"
+                                class="">
+
+                                <div class="">
+                                    <button pButton pRipple icon="pi pi-times-circle"
+                                        (click)="onOpenApproveNotApproveModal('Not approved', foodrp)"
+                                        class="p-button-rounded p-button-danger p-mr-2"></button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">No food report yet.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-dialog [header]="foodReport.status == 'Approved' ? 'Note for approving' : 'Note for not approving'"
+    [(visible)]="isVisibleApproveNotApproveModal" [modal]="true" [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '500px' }" [draggable]="false" [resizable]="false" [responsive]="true">
+    <div class="card">
+        <!-- <div class="flex align-items-center">
+            <p-radioButton name="Approved" value="Approved" [(ngModel)]="foodReport.status"
+                inputId="Approved"></p-radioButton>
+            <label for="Approved" class="ml-2">Approved</label>
+            &nbsp;&nbsp;
+            <p-radioButton name="NotApproved" value="NotApproved" [(ngModel)]="foodReport.status"
+                inputId="NotApproved"></p-radioButton>
+            <label for="NotApproved" class="ml-2">NotApproved</label>
+        </div>
+        <br><br> -->
+        <span class="p-float-label">
+            <textarea class="w-full" id="float-input" rows="5" cols="40" [(ngModel)]="foodReport.note"
+                pInputTextarea></textarea>
+            <label for="float-input">Enter some note (Optional)</label>
+        </span>
+    </div>
+    <!-- <br> -->
+    <div style="display: flex;">
+        <p-button (click)="approveNotApproveFood(foodReport)">Save</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <p-button [text]="true" (onClick)="isVisibleApproveNotApproveModal = false">Cancel</p-button>
+    </div>
+
+    <!-- </div> -->
+</p-dialog>
+
+<p-dialog header="View detail" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}"
+    [maximizable]="true">
+    <p class="dialog-content-detail">
+        {{contentDialog}}
+    </p>
+</p-dialog>
+
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>
+
+<p-confirmPopup></p-confirmPopup>

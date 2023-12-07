@@ -1,0 +1,476 @@
+<div class="grid table-demo">
+    <div class="col-12">
+        <div class="card">
+            <h5>Food Management</h5>
+
+            <p-table #dt [value]="lstFood" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
+                [showCurrentPageReport]="true" [paginator]="lstFood.length > 5" [filterDelay]="0"
+                [rowsPerPageOptions]="[5,10,25,50]" currentPageReportTemplate="Total: {totalRecords} foods"
+                [globalFilterFields]="['name']" responsiveLayout="scroll" [loading]="loading">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-row align-items-center flex-wrap justify-content-between ">
+                        <div class="flex-1">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" #textInput
+                                    (input)="dt.filterGlobal(textInput.value, 'contains')"
+                                    placeholder="Search Food by name" />
+                            </span>
+                        </div>
+
+                        <!-- <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
+                            <div class="flex align-items-center justify-content-center">
+                                <button pButton type="button" label="Add new" icon="pi pi-plus" (click)="onCreateFood()"
+                                    style="width: auto;"></button>
+                            </div>
+                        </div> -->
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th> -->
+                        <th pSortableColumn="foodId">
+                            <div class="flex justify-content-between align-items-center">
+                                ID
+                                <p-sortIcon field="foodId"></p-sortIcon>
+                                <p-columnFilter type="numeric" field="foodId" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="sellerId">
+                            <div class="flex justify-content-between align-items-center">
+                                SellerID
+                                <p-sortIcon field="sellerId"></p-sortIcon>
+                                <p-columnFilter type="text" field="sellerId" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="sellerEmail">
+                            <div class="flex justify-content-between align-items-center">
+                                Email
+                                <p-sortIcon field="sellerEmail"></p-sortIcon>
+                                <p-columnFilter type="text" field="sellerEmail" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th> -->
+                        <th pSortableColumn="categoryName">
+                            <div class="flex justify-content-between align-items-center">
+                                Category Name
+                                <p-sortIcon field="categoryName"></p-sortIcon>
+                                <p-columnFilter type="text" field="categoryName" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="name">
+                            <div class="flex justify-content-between align-items-center">
+                                Food Name
+                                <p-sortIcon field="name"></p-sortIcon>
+                                <p-columnFilter type="text" field="name" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="description">
+                            <div class="flex justify-content-between align-items-center">
+                                Food Description
+                                <p-sortIcon field="description"></p-sortIcon>
+                                <p-columnFilter type="text" field="description" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="unitPrice">
+                            <div class="flex justify-content-between align-items-center">
+                                UnitPrice
+                                <p-sortIcon field="unitPrice"></p-sortIcon>
+                                <p-columnFilter type="text" field="unitPrice" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="rating">
+                            <div class="flex justify-content-between align-items-center">
+                                Rating
+                                <p-sortIcon field="rating"></p-sortIcon>
+                                <p-columnFilter type="numeric" field="rating" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="createdDate">
+                            <div class="flex justify-content-between align-items-center">
+                                CreatedDate
+                                <p-sortIcon field="createdDate"></p-sortIcon>
+                                <p-columnFilter type="date" field="createdDate" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="flex justify-content-between align-items-center">
+                                Images
+                            </div>
+                        </th>
+                        <th pSortableColumn="status">
+                            <div class="flex justify-content-between align-items-center">
+                                Status
+                                <p-sortIcon field="status"></p-sortIcon>
+                                <p-columnFilter type="text" field="status" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="reportedTimes">
+                            <div class="flex justify-content-between align-items-center">
+                                Approved reported times
+                                <p-sortIcon field="reportedTimes"></p-sortIcon>
+                                <p-columnFilter type="text" field="reportedTimes" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="banBy">
+                            <div class="flex justify-content-between align-items-center">
+                                BanBy
+                                <p-sortIcon field="banBy"></p-sortIcon>
+                                <p-columnFilter type="text" field="banBy" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="banDate">
+                            <div class="flex justify-content-between align-items-center">
+                                BanDate
+                                <p-sortIcon field="banDate"></p-sortIcon>
+                                <p-columnFilter type="text" field="banDate" display="menu"
+                                    class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th> -->
+                        <th style="min-width: 8rem">
+                            <div class="flex justify-content-between align-items-center">
+                                Action
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-food>
+                    <tr class="p-selectable-row">
+                        <!-- <td>
+                            <p-tableCheckbox [value]="post"></p-tableCheckbox>
+                        </td> -->
+                        <td>
+                            <span class="p-column-title">ID</span>
+                            <span class="">{{food.foodId}}</span>
+                        </td>
+                        <td>
+                            <span class="p-column-title">SellerID</span>
+                            <span class="sellerId" (click)="viewContentDetail(food.sellerEmail)">
+                                {{food.sellerId}}
+                            </span>
+                        </td>
+                        <!-- <td>
+                            <span class="p-column-title">SellerEmail</span>
+                            {{food.sellerEmail}}
+                        </td> -->
+                        <td>
+                            <span class="p-column-title">Category</span>
+                            {{food.categoryName}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Name</span>
+                            {{food.name}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Description</span>
+                            <span class="food-content"
+                                (click)="viewContentDetail(food.description)">{{food.description}}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="p-column-title">UnitPrice</span>
+                            {{food.unitPrice}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Rating</span>
+                            <p-rating [ngModel]="food.rating" [readonly]="true" [cancel]="false"></p-rating>
+
+                        </td>
+                        <td>
+                            <span class="p-column-title">CreatedDate</span>
+                            {{food.createdDate}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Image</span>
+                            <ng-container *ngIf="food.imagesBase64.length !== 0; else noneImage">
+                                <button pButton pRipple icon="pi pi-images"
+                                    (click)="onDisplayImagesDialog(food, $event)"
+                                    class="p-button-rounded p-button-text p-button-raised"></button>
+                            </ng-container>
+                            <ng-template #noneImage><span class="no-image">No Image</span></ng-template>
+                        </td>
+                        <td>
+                            <span class="p-column-title">Status</span>
+                            <p-tag [value]="food.status" [severity]="getSeverity(food.status)"></p-tag>
+                        </td>
+                        <td>
+                            <span class="p-column-title">ReportedTimes</span>
+                            {{food.reportedTimes}}
+                        </td>
+                        <!-- <td>
+                            <span class="p-column-title">BanBy</span>
+                            {{food.banBy}}
+                        </td> -->
+                        <!-- <td>
+                            <span class="p-column-title">BanDate</span>
+                            {{food.banDate}}
+                        </td> -->
+                        <td>
+                            <div class="" style="gap: 0.5rem">
+                                <!-- <div class="flex align-items-center justify-content-center">
+                                    <button pButton pRipple icon="pi pi-pencil" (click)="onUpdateFood(food)"
+                                        class="p-button-rounded p-mr-2"></button>
+                                </div> -->
+                                <div *ngIf="food.status === 'NotApproved'" class="">
+                                    <button pButton pRipple icon="pi pi-check-circle"
+                                        (click)="onDisplayFood(food, $event)"
+                                        class="p-button-rounded p-button-info"></button>
+                                </div>
+                                <ng-container *ngIf="food.status !== 'NotApproved'">
+                                    <!-- <div *ngIf="food.reportedTimes >= 3 "> -->
+                                    <div style="margin-bottom: 5px;"
+                                        *ngIf="food.status === 'Ban' && food.banBy === userId" class="">
+                                        <button pButton pRipple icon="pi pi-circle" (click)="onUnbanFood(food, $event)"
+                                            class="p-button-rounded p-button-success"></button>
+                                    </div>
+                                    <!-- <ng-template #statusBannable> -->
+                                    <div *ngIf="food.status === 'Display'
+                                        || food.status === 'Hidden'" class="">
+                                        <button pButton pRipple icon="pi pi-ban" (click)="onOpenBanNoteDialog(food)"
+                                            class="p-button-rounded p-button-danger"></button>
+                                    </div>
+                                    <div *ngIf="food.status === 'Ban'" class="">
+                                        <button pButton pRipple (click)="onOpenBanDetailDialog(food)"
+                                            class="p-button-rounded p-button-info">Ban detail</button>
+                                    </div>
+                                    <!-- </ng-template> -->
+                                    <!-- </div> -->
+                                </ng-container>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">No food yet.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Ban detail" [(visible)]="visibleBanDetailDialog" [style]="{width: '50vw'}" [maximizable]="true"
+    [modal]="true">
+    <!-- <p class="dialog-content-detail">
+        {{contentDialog.reportContent}}
+    </p> -->
+    <table class="table-ban-detail">
+        <tbody>
+            <tr>
+                <th>Ban date: </th>
+                <td>
+                    {{banDetail.banDate}}
+                </td>
+            </tr>
+            <tr>
+                <th>Ban by: </th>
+                <td>
+                    {{banDetail.banBy}}
+                </td>
+            </tr>
+            <tr>
+                <th>Ban note: </th>
+                <td>
+                    {{banDetail.banNote}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</p-dialog>
+
+<p-dialog [header]="foodModel.status == 'Ban'? 'Unban note' : 'Ban note'" [(visible)]="visibleBanNoteDialog"
+    [modal]="true" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '500px' }" [draggable]="false"
+    [resizable]="false" [responsive]="true">
+    <div class="card">
+        <span class="p-float-label">
+            <textarea class="w-full" id="float-input" rows="5" cols="40" [(ngModel)]="foodModel.banNote" pInputTextarea
+                required [class.ng-invalid]="!banUnbanInputValidation.isBanNoteValid"
+                [class.ng-dirty]="!banUnbanInputValidation.isBanNoteValid"></textarea>
+            <small [style.display]="banUnbanInputValidation.isBanNoteValid ? 'none !important' : 'block !important'"
+                class="p-error block">{{banUnbanInputValidation.banNoteMessage}}
+            </small>
+            <label *ngIf="foodModel.status == 'Ban'" for="float-input">Enter note for unbanning</label>
+            <label *ngIf="foodModel.status != 'Ban'" for="float-input">Enter note for banning</label>
+        </span>
+    </div>
+
+    <div style="display: flex;">
+        <p-button *ngIf="foodModel.status == 'Ban'"
+            (click)="banUnbanFood(foodModel, false)">Unban</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <p-button *ngIf="foodModel.status != 'Ban'"
+            (click)="banUnbanFood(foodModel, true)">Ban</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <p-button [text]="true" (onClick)="visibleBanNoteDialog = false">Cancel</p-button>
+    </div>
+</p-dialog>
+
+<!-- <p-dialog [header]="headerDialog" [(visible)]="displayDialogEditAddFood" [breakpoints]="{'960px': '75vw'}"
+    [style]="{width: '50vw'}" [draggable]="false" [resizable]="false" [maximizable]="true"
+    (onHide)="onHideDialogEditAdd()">
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <b>Food information</b>
+                    </div>
+                </p-divider>
+                <div class="grid">
+                    <ng-container *ngIf="foodModel.foodId > 0; else addModel">
+                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                            <span class="p-input-icon-left p-float-label" style="width: 100%">
+                                <input type="text" class="w-full" [(ngModel)]="foodModel.foodId" [disabled]="true"
+                                    pInputText [class.ng-invalid]="!foodValidation.isFoodIdValid"
+                                    [class.ng-dirty]="!foodValidation.isFoodIdValid" />
+                                <label>ID*</label>
+                            </span>
+                            <small
+                                [style.display]="foodValidation.isFoodIdValid ? 'none !important' : 'block !important'"
+                                id="username2-help" class="p-error block">{{foodValidation.foodIdMessage}}</small>
+                        </div>
+                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                            <span class="p-input-icon-left p-float-label" style="width: 100%">
+                                <input type="text" class="w-full" [(ngModel)]="foodModel.name" pInputText
+                                    [class.ng-invalid]="!foodValidation.isNameValid"
+                                    [class.ng-dirty]="!foodValidation.isNameValid" />
+                                <label>Name*</label>
+                            </span>
+                            <small [style.display]="foodValidation.isNameValid ? 'none !important' : 'block !important'"
+                                id="username2-help" class="p-error block">{{foodValidation.nameMessage}}</small>
+                        </div>
+                    </ng-container>
+                    <ng-template #addModel>
+                        <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+                            <span class="p-input-icon-left p-float-label" style="width: 100%">
+                                <input type="text" class="w-full" [(ngModel)]="foodModel.name" pInputText
+                                    [class.ng-invalid]="!foodValidation.isNameValid"
+                                    [class.ng-dirty]="!foodValidation.isNameValid" />
+                                <label>Name*</label>
+                            </span>
+                            <small [style.display]="foodValidation.isNameValid ? 'none !important' : 'block !important'"
+                                id="username2-help" class="p-error block">{{foodValidation.nameMessage}}</small>
+                        </div>
+                    </ng-template>
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-input-icon-left p-float-label" style="width: 100%">
+                            <input type="number" step="5000" min="0" class="w-full" [(ngModel)]="foodModel.unitPrice"
+                                pInputText [class.ng-invalid]="!foodValidation.isUnitPriceValid"
+                                [class.ng-dirty]="!foodValidation.isUnitPriceValid" />
+                            <label>UnitPrice*</label>
+                        </span>
+                        <small
+                            [style.display]="foodValidation.isUnitPriceValid ? 'none !important' : 'block !important'"
+                            id="username2-help" class="p-error block">{{foodValidation.unitPriceMessage}}</small>
+                    </div>
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-input-icon-left p-float-label">
+                            <p-dropdown [options]="lstCategory" [(ngModel)]="selectedCategory" [showClear]="true"
+                                [autoDisplayFirst]="false" optionLabel="name"
+                                [class.ng-invalid]="!foodValidation.isCategoryIdValid"
+                                [class.ng-dirty]="!foodValidation.isCategoryIdValid"></p-dropdown>
+                            <label>Category*</label>
+                        </span>
+                        <small
+                            [style.display]="foodValidation.isCategoryIdValid ? 'none !important' : 'block !important'"
+                            id="username2-help" class="p-error block">{{foodValidation.categoryIdMessage}}</small>
+                    </div>
+
+
+                    <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+                        <span class="p-input-icon-left p-float-label" style="width: 100%">
+                            <textarea class="w-full" rows="10" cols="60" pInputTextarea
+                                [(ngModel)]="foodModel.description"
+                                [class.ng-invalid]="!foodValidation.isDescriptionValid"
+                                [class.ng-dirty]="!foodValidation.isDescriptionValid"></textarea>
+                            <label>Food Description*</label>
+                        </span>
+                        <small
+                            [style.display]="foodValidation.isDescriptionValid ? 'none !important' : 'block !important'"
+                            id="username2-help" class="p-error block">{{foodValidation.descriptionMessage}}</small>
+                    </div>
+                    <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+                        <label>Images*</label>
+                        <span class="p-input-icon-left p-float-label" style="width: 100%">
+                            <p-fileUpload class=" w-full" #fileUploader [files]="uploadedFiles" [customUpload]="true"
+                                (onSelect)="handleFileSelection($event)" (onRemove)="handleFileRemoval($event)"
+                                (onClear)="handleAllFilesClear($event)" [multiple]="true" accept="image/*"
+                                [maxFileSize]="1000000" [showUploadButton]="false">
+                                <ng-template pTemplate="content">
+                                </ng-template>
+                            </p-fileUpload>
+
+
+                        </span>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-center flex-wrap" style="text-align: center">
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Save" icon="pi pi-save" (click)="onSaveFood()"
+                    style="width: 100%;"></button>
+            </div>
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Cancel" icon="pi pi-times" (click)="onCancelFood()"
+                    class="p-button-danger" style="width: 100%;"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog> -->
+
+<p-dialog header="View detail" [(visible)]="visibleDescriptionDialog" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false" [maximizable]="true">
+    <p class="dialog-content-detail">
+        {{contentDialog}}
+    </p>
+</p-dialog>
+
+
+<p-dialog header="List Image" [(visible)]="visibleImageDialog" [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false" [maximizable]="true">
+    <p-table [value]="foodImageDialog.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Size</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-foodImage>
+            <tr>
+                <td>{{foodImage.imageId}}</td>
+                <td><p-image src="data:image/gif;base64,{{foodImage.imageBase64}}" [preview]="true"
+                        [alt]="foodImage.imageId" class="dialogimages_image w-10rem shadow-2"></p-image></td>
+                <td>{{foodImage.name}}</td>
+                <td>{{foodImage.size}} KB</td>
+
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+
+<p-toast [baseZIndex]="99999" key="notify"></p-toast>
+
+<p-confirmPopup></p-confirmPopup>
+
+<p-confirmDialog key="uhideFood" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<cmis-loading></cmis-loading>

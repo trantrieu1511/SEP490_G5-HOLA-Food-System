@@ -2,25 +2,49 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared-module/shared-module.module';
-import {HashLocationStrategy, LocationStrategy} from '@angular/common';
-import {AppComponent} from '../../app.component';
+import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { SwitchCasesDirective } from './services/switch-case.directive';
+import { AppComponent } from '../../app.component';
 import { ComponentModule } from '../components-module/component.modules';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { FooddetailComponent } from './components/fooddetail/fooddetail.component';
 import { CartdetailComponent } from './components/cartdetail/cartdetail.component';
 import { ShopdetailComponent } from './components/shopdetail/shopdetail.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
-import { ManageprofileComponent } from './components/manageprofile/manageprofile.component';
-
+// import { ManageprofileComponent } from '../../profile/manageprofile.component';
+import { OrderhistoryComponent } from './components/orderhistory/orderhistory.component';
+import { WalletComponent } from './components/wallet/wallet.component';
+import { PaymentverifyComponent } from './components/paymentverify/paymentverify.component';
+import { CustomerfoodreportComponent } from './components/customerfoodreport/customerfoodreport.component';
+import { CustomerpostreportComponent } from './components/customerpostreport/customerpostreport.component';
+import { ManageshipaddressComponent } from './components/shipaddress/manageshipaddress.component';
+import { NewFeedModuleComponent } from './components/new-feed-module/new-feed-module.component';
+import { SearchComponent } from './components/search/search.component';
+import { AppMenuMyaccountComponent } from 'src/app/app-systems/app-menu/myaccount/app-menu-myaccount.component';
+import { ManageprofileComponent } from 'src/app/profile/manageprofile.component';
+import { SellerReportModuleComponent } from '../admin-routing-module/seller-report-module/seller-report-module.component';
+import { ReportSellerComponent } from './components/report-seller/report-seller.component';
+import { AddressSelectorComponent } from './address-selector/address-selector.component';
+import { AppBreadcrumbComponent } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.component';
+import { MapModuleComponent } from './map-module/map-module.component';
 
 const routes: Routes = [
-  {path: "", component: HomepageComponent},
-  {path: "shopdetail", component: ShopdetailComponent},
-  {path: "fooddetail", component: FooddetailComponent},
-  {path: "cartdetail", component: CartdetailComponent},
-  {path: "checkout", component : CheckoutComponent},
-  {path: "profile", component : ManageprofileComponent}
+  { path: "cartdetail", component: CartdetailComponent },
+  { path: "checkout", component: CheckoutComponent },
+  { path: "orderhistory", component: OrderhistoryComponent },
+  { path: "wallet", component: WalletComponent },
+  { path: "paymentverify", component: PaymentverifyComponent },
+  { path: "newfeed", component: NewFeedModuleComponent },
+  // -------------- My account page related routes -----------------
+  { path: "profile", component: ManageprofileComponent },
+  { path: "menureport", component: CustomerfoodreportComponent },
+  { path: "postreport", component: CustomerpostreportComponent },
+  { path: "shipaddress", component: ManageshipaddressComponent },
+  { path: "sellerreport", component: ReportSellerComponent },
+  { path: "address", component: AddressSelectorComponent },
+  { path: "map", component: MapModuleComponent },
 ]
+
 
 @NgModule({
   declarations: [
@@ -29,7 +53,16 @@ const routes: Routes = [
     CartdetailComponent,
     ShopdetailComponent,
     CheckoutComponent,
-    ManageprofileComponent
+    SwitchCasesDirective,
+    OrderhistoryComponent,
+    WalletComponent,
+    ManageprofileComponent,
+    CustomerfoodreportComponent,
+    CustomerpostreportComponent,
+    ManageshipaddressComponent,
+    AppMenuMyaccountComponent,
+    ReportSellerComponent,
+    AddressSelectorComponent
   ],
   imports: [
     CommonModule,
@@ -38,10 +71,11 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [
-    ManageprofileComponent
+    // AppMenuMyaccountComponent
+    AddressSelectorComponent
   ],
   providers: [
-    {provide: LocationStrategy, useClass: HashLocationStrategy}
+    { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

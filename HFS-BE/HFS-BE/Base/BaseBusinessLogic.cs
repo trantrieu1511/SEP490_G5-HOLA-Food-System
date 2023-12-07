@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using HFS_BE.Models;
+using HFS_BE.Services;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.SignalR;
 
 namespace HFS_BE.Base
 {
@@ -10,13 +12,14 @@ namespace HFS_BE.Base
         public readonly IMapper mapper;
 
         public BaseBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) {
-            this.context = context;
-            this.mapper = mapper;
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
         public T CreateDao<T>() where T : BaseDao
         {
             return (T)Activator.CreateInstance(typeof(T), context, mapper);
         }
+
 
         public T Output<T>(bool success) where T : BaseOutputDto, new()
         {
@@ -26,7 +29,7 @@ namespace HFS_BE.Base
                 Success = success,
                 Errors = null
             };
-        }
+         }
 
         public T Output<T>(bool success, string content) where T : BaseOutputDto, new()
         {

@@ -1,10 +1,15 @@
 ﻿using AutoMapper;
+using CloudinaryDotNet.Actions;
 using HFS_BE.Base;
 using HFS_BE.Dao.FoodDao;
 using HFS_BE.Dao.PostDao;
 using HFS_BE.DAO.CategoryDao;
+using HFS_BE.DAO.ModeratorDao;
+using HFS_BE.DAO.NotificationDao;
+using HFS_BE.DAO.SellerDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using HFS_BE.Utils.Enum;
 using HFS_BE.Utils.IOFile;
 
 namespace HFS_BE.BusinessLogic.ManageFood
@@ -20,7 +25,23 @@ namespace HFS_BE.BusinessLogic.ManageFood
         {
             try
             {
+
+                var sellerDao = CreateDao<SellerDao>();
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email) is null)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not exist");
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).IsVerified == false)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not verified");
+
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).IsBanned == true)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is banned");
+
                 var daoCate = CreateDao<CategoryDao>();
+                var foodDao = this.CreateDao<FoodDao>();
+                var notifyDao = CreateDao<NotificationDao>();
+                var moderatorDao = CreateDao<ModeratorDao>();
+
                 var cate = daoCate.GetCategoryById(inputDto.CategoryId);
                 if (cate == null)
                 {
@@ -29,14 +50,13 @@ namespace HFS_BE.BusinessLogic.ManageFood
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed" , errors);
                 }
 
-                var foodDao = this.CreateDao<FoodDao>();
                 //check exist food name of shop or not
                 var foods = foodDao.GetAllFoodSeller(inputDto.UserDto);
                 var existFoodName = foods.Foods.FirstOrDefault(x => x.Name.Replace(" ", "").ToLower().Equals(inputDto.Name.Replace(" ", "").ToLower()));
 
                 if (foods.Foods != null && existFoodName != null)
                 {
-                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", "Food name is current used!");
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Food name is current used!");
                 }
 
                 /*inputDto.UserDto = new UserDto
@@ -55,7 +75,25 @@ namespace HFS_BE.BusinessLogic.ManageFood
                 inputMapper.Images = fileNames;
 
                 var output = foodDao.AddNewFood(inputMapper);
-                return output;
+                if (!output.Success)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Add Failed");
+
+                // add notify
+                // 1 get all food moderator
+                var moderList = moderatorDao.GetAllMenuModerator();
+                foreach(var moder in moderList.data)
+                {
+                    // 2. gen title and content notification
+                    var notify = GenerateNotification.GetSingleton().GenNotificationAddNewFood(moder.ModId, output.FoodId);
+                    //3. add notify
+                    var noti = notifyDao.AddNewNotification(notify);
+                    if (!noti.Success)
+                    {
+                        return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                    }
+                }
+
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
             catch (Exception)
             {

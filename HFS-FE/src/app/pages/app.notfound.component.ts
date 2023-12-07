@@ -1,5 +1,8 @@
 import { Component, Renderer2, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+import { RoleNames } from '../utils/roleName';
 
 @Component({
   selector: 'app-notfound',
@@ -7,7 +10,11 @@ import { Location } from '@angular/common';
 })
 export class AppNotfoundComponent implements OnInit{
 
-  constructor(public renderer: Renderer2, private location: Location) { }
+  constructor(public renderer: Renderer2, 
+    private location: Location,
+    private authService: AuthService,
+    private router: Router  
+  ) { }
 
   ngOnInit(): void {
     const cssFilePaths = ['assets/theme/indigo/theme-light.css', 
@@ -29,6 +36,13 @@ export class AppNotfoundComponent implements OnInit{
   }
   
   backClicked() {
-    this.location.back();
+    //this.location.back();
+    const role = this.authService.getUserInfor().role;
+    if(role == null || 
+      RoleNames[role] == 'Customer'){
+        this.router.navigateByUrl('');
+    }else{
+      this.router.navigateByUrl('HFSBusiness');
+    }
   }
 }

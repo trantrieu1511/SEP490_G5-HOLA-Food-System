@@ -1,0 +1,151 @@
+:host ::ng-deep {
+    .p-fileupload-buttonbar {
+        .p-button {
+            width: auto;
+        }
+    }
+}
+
+@media only screen and (max-width: 1500px) {
+    .page-content {
+        width: 1500px;
+    }
+}
+
+// @media only screen and (min-width: 1100px) {
+//     .profilePageContent {
+//         width: 1500px;
+//     }
+
+// }
+
+.page-content {
+    // width: 45%;
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar {
+    // margin-top: 70px;
+    // padding-right: 30px;
+    width: 15%;
+    height: 100%;
+}
+
+.main-body {
+    width: 60%;
+    // background-color: #eee7d7;
+}
+
+// .profile-image-area {
+//     text-align: center;
+//     padding-left: 3%;
+//     padding-top: 3%;
+//     padding-bottom: 3%;
+//     width: 96%;
+//     border: 1px solid #E4E4E4;
+//     border-radius: 5px;
+//     background-color: white;
+// }
+
+// .profile-info-area {
+//     // text-align: center;
+//     padding-left: 3%;
+//     padding-top: 3%;
+//     padding-bottom: 3%;
+//     padding-right: 3%;
+//     // width: 90%;
+//     border: 1px solid #E4E4E4;
+//     border-radius: 5px;
+//     // background-color: #f6eee3;
+//     background-color: white;
+// }
+
+.field-info {
+    opacity: 75%;
+    width: 50%;
+}
+
+.field-title {
+    font-weight: bold;
+    width: 50%;
+}
+
+.sidebar-option:hover {
+    // text-decoration: underline;
+    opacity: 60%;
+    color: white;
+    background-color: #6366F1;
+}
+
+.sidebar-option:active {
+    // text-decoration: underline;
+    opacity: 40%;
+    // background-color: beige;
+}
+
+.sidebar-option {
+    display: block;
+    padding: 10px 0px 10px 10px;
+    border-radius: 10px;
+}
+
+.sidebar-option-selected {
+    // text-decoration: underline;
+    display: block;
+    color: white;
+    font-weight: bold;
+    background-color: #6366F1;
+    padding: 10px 0px 10px 10px;
+    border-radius: 10px;
+}
+
+.sidebar-option-selected:hover {
+    // text-decoration: underline;
+    opacity: 60%;
+}
+
+.sidebar-option-selected:active {
+    // text-decoration: underline;
+    opacity: 40%;
+}
+
+// .sidebar-option-onselected {
+//     text-decoration: underline;
+// }
+
+// .sidebar-option-onselected:hover {
+//     text-decoration: underline;
+//     background-color: grey;
+// }
+
+
+.verify-email-link:hover {
+    opacity: 60%;
+}
+
+.edit-email-link:hover {
+    opacity: 60%;
+}
+
+.edit-phonenumber-link:hover {
+    opacity: 60%;
+}
+
+.dash-line {
+    // border: 1px solid #dee2e6;
+    margin: 2px 0px 2px 0px;
+}
+
+.btn-edit-profile{
+    font-weight: 500;
+}
+
+.btn-edit-profile:active{
+    opacity: 60%;
+}
+
+.btn-edit-profile:hover{
+    opacity: 60%;
+    // text-decoration: underline;
+}
