@@ -11,15 +11,31 @@ services:
             - 3000:80
         depends_on: 
             - db
+        links:
+            - db
     client:
         build: HFS-FE
         ports: 
-            - 4000:80
+            - 4200:80
+        volumes:
+            - shared:/app/dist
     nginx:
+        image: nginx:1.13-alpine
         build: nginx
-        ports: 
-            - 80:80
         restart: always
         depends_on: 
             - client
             - api
+        links:
+            - api
+        volumes:
+            - shared:/usr/share/nginx/html
+            - ./nginx.conf:/etc/nginx/nginx.conf
+        ports: 
+            - 80:80
+volumes:
+  shared: {}
+networks:
+    internalnet:
+        driver: bridge
+
