@@ -12,8 +12,6 @@
     "HFS_BE": {
       "commandName": "Project",
       "launchBrowser": false,
-      "launchUrl": "swagger",
-      "applicationUrl": "http://localhost:3000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"
       }

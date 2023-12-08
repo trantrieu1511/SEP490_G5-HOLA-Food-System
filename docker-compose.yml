@@ -51,7 +51,7 @@ services:
             - ASPNETCORE_URLS=http://+:3000 
     db:
         container_name: mssql
-        image: "mcr.microsoft.com/mssql/server"
+        image: "mcr.microsoft.com/mssql/server:2019-latest"
         environment:
             SA_PASSWORD: "Passw0rd"
             ACCEPT_EULA: "Y"
