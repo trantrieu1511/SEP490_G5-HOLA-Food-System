@@ -18,18 +18,17 @@ namespace HFS_BE.Controllers.ManageOrderCustomer
         }
 
         [HttpPost("order/feedback")]
-        //[Authorize]
+        [Authorize]
         public async Task<BaseOutputDto> FeedBackFood(CreateFeedBackDaoInputDto inputDto)
         {
             try
             {
-                //var userInfor = this.GetUserInfor();
-                //if (!userInfor.Role.Equals("CU"))
-                //{
-                //    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You are not customer!");
-                //}
-                //inputDto.CustomerId = userInfor.UserId;
-                inputDto.CustomerId = "CU00000001";
+                var userInfor = this.GetUserInfor();
+                if (!userInfor.Role.Equals("CU"))
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You are not customer!");
+                }
+                inputDto.CustomerId = userInfor.UserId;
                 var busi = this.GetBusinessLogic<FeedBackFoodBusinessLogic>();
                 string? sellerId;
                 var output = busi.FeedBackFood(inputDto, out sellerId);

@@ -3,6 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
+using Mailjet.Client.Resources;
 using Twilio.Rest.Trunking.V1;
 using static HFS_BE.Utils.Enum.TransactionTypeEnum;
 
@@ -53,6 +54,7 @@ namespace HFS_BE.DAO.TransantionDao
                     if (inputDto.Status == 1) transaction.Note += "\n- Success";
                     if (inputDto.Status == 2) transaction.Note += "\n- Cancel";
                     transaction.AcceptBy = inputDto.AccountantId;
+                    transaction.UpdateDate = DateTime.Now;
                     this.context.Update(transaction);
                     this.context.SaveChanges();
                 }
@@ -72,8 +74,18 @@ namespace HFS_BE.DAO.TransantionDao
                 if (transaction != null)
                 {
                     transaction.Status = inputDto.Status;
-                    if (inputDto.Status == 1) transaction.Note += "\n- Accept by " + inputDto.AccountantId;
-                    if (inputDto.Status == 2) transaction.Note += "\n- Cancel by " + inputDto.AccountantId;
+                    if (inputDto.Status == 1)
+                    {
+                        transaction.Note += "\n- Accept by " + inputDto.AccountantId;
+                        transaction.AcceptBy = inputDto.AccountantId;
+                        transaction.UpdateDate = DateTime.Now;
+                    }
+                    if (inputDto.Status == 2)
+                    {
+                        transaction.Note += "\n- Reject" + inputDto.Note + "(" + inputDto.AccountantId + ")";
+                        transaction.UpdateDate = DateTime.Now;
+                    }
+                    
                     this.context.Update(transaction);
                     this.context.SaveChanges();
                 }
@@ -137,10 +149,11 @@ namespace HFS_BE.DAO.TransantionDao
                                     .ToList();
                 foreach (var item in transactions)
                 {
-                    if (item.ExpiredDate != null && DateTime.Now > item.ExpiredDate)
+                    if (item.ExpiredDate != null && DateTime.Now > item.ExpiredDate && item.Status == 0)
                     {
                         item.Status = 2;
                         item.Note = item.Note + "\n- Expired";
+                        item.UpdateDate = DateTime.Now;
                     }
                 }
 
@@ -172,6 +185,7 @@ namespace HFS_BE.DAO.TransantionDao
                     {
                         item.Status = 2;
                         item.Note = item.Note + "\n- Expired";
+                        item.UpdateDate = DateTime.Now;
                     }
                 }
 
@@ -210,7 +224,7 @@ namespace HFS_BE.DAO.TransantionDao
                     return output;
                 }
 
-                if (userCd.ExpiredDate >= DateTime.Now)
+                if (userCd.ExpiredDate >= DateTime.Now && userCd.IsUsed == false)
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Your last code is not expired! Check your mail!");
                 }
@@ -252,6 +266,12 @@ namespace HFS_BE.DAO.TransantionDao
             {
                 return this.Output<BaseOutputDto>(Constants.ResultCdFail);
             }
+        }
+
+        public TransactionHistory GetTransactionHistory(int transactionId)
+        {
+            var data = this.context.TransactionHistories.FirstOrDefault(x => x.TransactionId == transactionId);
+            return data;
         }
     }
 }

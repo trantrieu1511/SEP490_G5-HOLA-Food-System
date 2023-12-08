@@ -73,6 +73,12 @@ namespace HFS_BE.DAO.UserDao
                             return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found.");
                         dataMapper = mapper.Map<MenuModerator, UserProfile>(menuModerator);
                         break;
+                    case "AC":
+                        var accountant = context.Accountants.SingleOrDefault(mm => mm.AccountantId.Equals(userId));
+                        if (accountant == null)
+                            return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found.");
+                        dataMapper = mapper.Map<Accountant, UserProfile>(accountant);
+                        break;
                     default:
                         return Output<UserProfileOutputDto>(Constants.ResultCdFail, "Some error occured. Debug BE for more info.");
                 }
@@ -129,6 +135,14 @@ namespace HFS_BE.DAO.UserDao
 
                         break;
                     case "SE":
+                        // Check truong hop so dien thoai da ton tai trong db (So dt bi trung)
+                        var shop = context.Sellers.SingleOrDefault(se => se.SellerId.Equals(userId) == false
+                        && se.PhoneNumber.Equals(inputDto.PhoneNumber));
+                        if (shop != null)
+                        {
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, "Notification", "The phone number has already been used.");
+                        }
+
                         //Tim trong context profile cua user theo id
                         var seller = context.Sellers.SingleOrDefault(
                         se => se.SellerId.Equals(userId));
@@ -148,6 +162,14 @@ namespace HFS_BE.DAO.UserDao
 
                         break;
                     case "SH":
+                        // Check truong hop so dien thoai da ton tai trong db (So dt bi trung)
+                        var shpr = context.Shippers.SingleOrDefault(sh => sh.ShipperId.Equals(userId) == false
+                        && sh.PhoneNumber.Equals(inputDto.PhoneNumber));
+                        if (shpr != null)
+                        {
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, "Notification", "The phone number has already been used.");
+                        }
+
                         //Tim trong context profile cua user theo id
                         var shipper = context.Shippers.SingleOrDefault(
                         sh => sh.ShipperId.Equals(userId));
@@ -182,6 +204,14 @@ namespace HFS_BE.DAO.UserDao
 
                         break;
                     case "PM":
+                        // Check truong hop so dien thoai da ton tai trong db (So dt bi trung)
+                        var postmod = context.PostModerators.SingleOrDefault(pm => pm.ModId.Equals(userId) == false
+                        && pm.PhoneNumber.Equals(inputDto.PhoneNumber));
+                        if (postmod != null)
+                        {
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, "Notification", "The phone number has already been used.");
+                        }
+
                         //Tim trong context profile cua user theo id
                         var postModerator = context.PostModerators.SingleOrDefault(
                         pm => pm.ModId.Equals(userId));
@@ -199,6 +229,14 @@ namespace HFS_BE.DAO.UserDao
 
                         break;
                     case "MM":
+                        // Check truong hop so dien thoai da ton tai trong db (So dt bi trung)
+                        var menumod = context.MenuModerators.SingleOrDefault(mm => mm.ModId.Equals(userId) == false
+                        && mm.PhoneNumber.Equals(inputDto.PhoneNumber));
+                        if (menumod != null)
+                        {
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, "Notification", "The phone number has already been used.");
+                        }
+
                         //Tim trong context profile cua user theo id
                         var menuModerator = context.MenuModerators.SingleOrDefault(
                         mm => mm.ModId.Equals(userId));
@@ -213,6 +251,23 @@ namespace HFS_BE.DAO.UserDao
                         menuModerator.Gender = inputDto.Gender;
                         menuModerator.BirthDate = inputDto.BirthDate;
                         menuModerator.PhoneNumber = inputDto.PhoneNumber;
+
+                        break;
+                    case "AC":
+                        //Tim trong context profile cua user theo id
+                        var accountant = context.Accountants.SingleOrDefault(
+                        mm => mm.AccountantId.Equals(userId));
+
+                        //Check user co ton tai hay khong
+                        if (accountant == null)
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, $"User with id: {userId} is not exist!");
+
+                        //Truong hop profile nguoi dung co ton tai thi cap nhat lai cac truong thong tin
+                        accountant.FirstName = inputDto.FirstName;
+                        accountant.LastName = inputDto.LastName;
+                        accountant.Gender = inputDto.Gender;
+                        accountant.BirthDate = inputDto.BirthDate;
+                        accountant.PhoneNumber = inputDto.PhoneNumber;
 
                         break;
                     default:
@@ -292,8 +347,16 @@ namespace HFS_BE.DAO.UserDao
                             result = compute.SequenceEqual(menuMod.PasswordHash);
                         }
                         break;
+                    case "AC":
+                        var accountant = context.Accountants.SingleOrDefault(mm => mm.AccountantId.Equals(userId));
+                        using (HMACSHA256? hmac = new HMACSHA256(accountant.PasswordSalt))
+                        {
+                            var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.Password));
+                            result = compute.SequenceEqual(accountant.PasswordHash);
+                        }
+                        break;
                     default:
-                        return Output<BaseOutputDto>(Constants.ResultCdFail, "There are some errors happened in the system. Debug for more info.");
+                        return Output<BaseOutputDto>(Constants.ResultCdFail, "There are some errors happened in the system.");
                 }
                 if (!result)
                 {
@@ -373,8 +436,16 @@ namespace HFS_BE.DAO.UserDao
                             menuMod.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.NewPassword));
                         }
                         break;
+                    case "AC":
+                        var accountant = context.Accountants.SingleOrDefault(mm => mm.AccountantId.Equals(userId));
+                        using (HMACSHA256? hmac = new HMACSHA256())
+                        {
+                            accountant.PasswordSalt = hmac.Key;
+                            accountant.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.NewPassword));
+                        }
+                        break;
                     default:
-                        return Output<BaseOutputDto>(Constants.ResultCdFail, "There are some errors happened in the system. Debug for more info.");
+                        return Output<BaseOutputDto>(Constants.ResultCdFail, "There are some errors happened in the system.");
                 }
                 context.SaveChanges();
                 return Output<BaseOutputDto>(Constants.ResultCdSuccess);

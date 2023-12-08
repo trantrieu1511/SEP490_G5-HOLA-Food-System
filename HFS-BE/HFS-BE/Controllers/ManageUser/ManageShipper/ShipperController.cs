@@ -65,12 +65,14 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 		}
 		[HttpPost("users/listinvitationshipperbyshipper")]
 		[Authorize(Roles = "SH")]
-		public ListInvitationShipperbyShipperDtoOutput ListInvitationShipperByShipper(ListInvitationShipperDtoInput input)
+		public ListInvitationShipperbyShipperDtoOutput ListInvitationShipperByShipper()
 		{
 			try
 			{
 				var business = this.GetBusinessLogic<ShipperBusinessLogic>();
-				var output = business.ListInvitationShipperbyShipper(input);
+				ListInvitationShipperDtoInput input = new ListInvitationShipperDtoInput();
+				input.ShipperId = GetUserInfor().UserId;
+                var output = business.ListInvitationShipperbyShipper(input);
 				return output;
 			}
 			catch (Exception ex)

@@ -1,10 +1,10 @@
 <div class="grid table-demo">
   <div class="col-12">
     <div class="card">
-      <h5>Order Management</h5>
+      <h5>{{'orderSellerScreen.orderManagement' | translate}}</h5>
       <div class="col-12 md:col-12">
         <div class="col-12 mb-2 lg:col-4 mb-lg-0">
-          <label style="margin-right: 1rem">Data time</label>
+          <label style="margin-right: 1rem">{{'orderSellerScreen.dateTime' | translate}}</label>
           <p-calendar
             [(ngModel)]="rangeDates"
             selectionMode="range"
@@ -41,48 +41,48 @@
         [rowsPerPageOptions]="[5, 10, 25, 50]"
         responsiveLayout="scroll"
         [loading]="loading"
-        currentPageReportTemplate="Total {totalRecords} orders on this status"
+        currentPageReportTemplate="{{'orderSellerScreen.total' | translate}} {totalRecords} {{'orderSellerScreen.ordersonthisstatus' | translate}}"
         [showCurrentPageReport]="showCurrentPageReport"
       >
         <ng-template pTemplate="header">
           <tr class="tr-th_background-color">
             <th style="width: 5rem"></th>
             <th pSortableColumn="orderId">
-              Id <p-sortIcon field="orderId"></p-sortIcon>
+              {{'orderSellerScreen.id' | translate}} <p-sortIcon field="orderId"></p-sortIcon>
             </th>
             <th pSortableColumn="customerName">
-              Customer <p-sortIcon field="customerName"></p-sortIcon>
+              {{'orderSellerScreen.customer' | translate}} <p-sortIcon field="customerName"></p-sortIcon>
             </th>
             <th pSortableColumn="shipAddress">
-              Information Ship <p-sortIcon field="shipAddress"></p-sortIcon>
+              {{'orderSellerScreen.inforShip' | translate}} <p-sortIcon field="shipAddress"></p-sortIcon>
             </th>
             <th pSortableColumn="orderDate">
-              Order date <p-sortIcon field="orderDate"></p-sortIcon>
+              {{'orderSellerScreen.orderDate' | translate}} <p-sortIcon field="orderDate"></p-sortIcon>
             </th>
             <th pSortableColumn="voucher">
-              Voucher <p-sortIcon field="voucher"></p-sortIcon>
+              {{'orderSellerScreen.voucher' | translate}} <p-sortIcon field="voucher"></p-sortIcon>
             </th>
             <th pSortableColumn="paymentMethod">
-              Payment <p-sortIcon field="paymentMethod"></p-sortIcon>
+              {{'orderSellerScreen.payment' | translate}} <p-sortIcon field="paymentMethod"></p-sortIcon>
             </th>
             <th pSortableColumn="totalPrice">
-              Total Price <p-sortIcon field="totalPrice"></p-sortIcon>
+              {{'orderSellerScreen.totalPrice' | translate}} <p-sortIcon field="totalPrice"></p-sortIcon>
             </th>
             <ng-container [ngSwitch]="activeItem.id">
               <ng-container *jrSwitchCases="['2', '3', '4', '5']"
-                ><th>Shipper</th></ng-container
+                ><th>{{'orderSellerScreen.shipper' | translate}}</th></ng-container
               >
               <ng-container *ngSwitchDefault></ng-container>
             </ng-container>
 
             <ng-container [ngSwitch]="activeItem.id">
               <ng-container *jrSwitchCases="['0', '1', '4']"
-                ><th>Action</th></ng-container
+                ><th>{{'orderSellerScreen.action' | translate}}</th></ng-container
               >
               <ng-container *jrSwitchCases="['5', '6']"
                 >
-                <th>Reason</th>
-                <th>Action</th>
+                <th>{{'orderSellerScreen.reason' | translate}}</th>
+                <th>{{'orderSellerScreen.action' | translate}}</th>
               </ng-container
               >
               
@@ -105,15 +105,15 @@
             <td>{{ order.orderId }}</td>
             <td>{{ order.customerName }}</td>
             <td>
-              Phone: <a href="tel:+{{ order.customerPhone }}">{{ order.customerPhone }}</a> 
+              {{'orderSellerScreen.phone' | translate}}: <a href="tel:+{{ order.customerPhone }}">{{ order.customerPhone }}</a> 
               <br/>
-              Address: {{ order.shipAddress }}
+              {{'orderSellerScreen.address' | translate}}: {{ order.shipAddress }}
               <span class="pi pi-map" (click)="onClickMap(order)" style="cursor: pointer;"></span>
             </td>
             <td>{{ order.orderDate }}</td>
             <td *ngIf="order.voucherId; else noneVoucher">(Id:{{order.voucherId}}) -{{ order.discountAmount | currency : "VND" }}</td>
             <ng-template #noneVoucher>
-              <td class="no-voucher">None</td>
+              <td class="no-voucher">{{'orderSellerScreen.none' | translate}}</td>
             </ng-template>
             <td>{{ order.paymentMethod }}</td>
             <td>{{ order.totalPrice | currency : "VND" }}</td>
@@ -179,7 +179,7 @@
                         (click)="onInternal(order)"
                         class="p-button-info p-mr-2 p-button-outlined"
                       >
-                        Internal
+                      {{'button.internal' | translate}}
                       </button>
                     </div>
                     <div class="flex align-items-center justify-content-center">
@@ -189,7 +189,7 @@
                         (click)="onExternal(order, $event)"
                         class="p-button-secondary p-button-outlined"
                       >
-                        External
+                      {{'button.external' | translate}}
                       </button>
                     </div>
                   </div>
@@ -225,20 +225,20 @@
                   <ng-template pTemplate="header">
                     <tr class="tr-th_background-color">
                       <th pSortableColumn="id">
-                        FoodId <p-sortIcon field="foodId"></p-sortIcon>
+                        {{'orderSellerScreen.foodId' | translate}} <p-sortIcon field="foodId"></p-sortIcon>
                       </th>
                       <th pSortableColumn="customer">
-                        Name <p-sortIcon field="foodName"></p-sortIcon>
+                        {{'orderSellerScreen.name' | translate}} <p-sortIcon field="foodName"></p-sortIcon>
                       </th>
-                      <th pSortableColumn="date">Image</th>
+                      <th pSortableColumn="date">{{'orderSellerScreen.image' | translate}}</th>
                       <th pSortableColumn="amount">
-                        UnitPrice <p-sortIcon field="unitPrice"></p-sortIcon>
+                        {{'orderSellerScreen.UnitPrice' | translate}} <p-sortIcon field="unitPrice"></p-sortIcon>
                       </th>
                       <th pSortableColumn="status">
-                        Quantity <p-sortIcon field="quantity"></p-sortIcon>
+                        {{'orderSellerScreen.quantity' | translate}} <p-sortIcon field="quantity"></p-sortIcon>
                       </th>
                       <th pSortableColumn="status">
-                        Category <p-sortIcon field="categoryName"></p-sortIcon>
+                        {{'orderSellerScreen.category' | translate}} <p-sortIcon field="categoryName"></p-sortIcon>
                       </th>
                     </tr>
                   </ng-template>
@@ -263,7 +263,7 @@
                   </ng-template>
                   <ng-template pTemplate="emptymessage">
                     <tr>
-                      <td colspan="6">There are no food for this order yet.</td>
+                      <td colspan="6">{{'orderSellerScreen.emptymessage1' | translate}}</td>
                     </tr>
                   </ng-template>
                 </p-table>
@@ -273,7 +273,7 @@
         </ng-template>
         <ng-template pTemplate="emptymessage">
           <tr>
-            <td colspan="8">There are no order on this status yet.</td>
+            <td colspan="8">{{'orderSellerScreen.emptymessage' | translate}}</td>
           </tr>
         </ng-template>
       </p-table>
@@ -303,7 +303,7 @@
                 [disabled]="true"
                 pInputText
               />
-              <label>Order ID*</label>
+              <label>{{'orderSellerScreen.orderId' | translate}}</label>
             </span>
           </div>
           <div class="col-12 mb-2 lg:col-12 mb-lg-0">
@@ -318,7 +318,7 @@
                 [class.ng-invalid]="!orderCancelValidateInput.isNoteValid"
                 [class.ng-dirty]="!orderCancelValidateInput.isNoteValid"
               ></textarea>
-              <label>Input Reason*</label>
+              <label>{{'orderSellerScreen.inputReasons' | translate}}</label>
             </span>
             <small
               [style.display]="
@@ -347,7 +347,7 @@
         <button
           pButton
           type="button"
-          label="Save"
+          label="{{'button.save' | translate}}"
           icon="pi pi-save"
           (click)="onSaveDeny()"
           style="width: 100%"
@@ -360,7 +360,7 @@
         <button
           pButton
           type="button"
-          label="Cancel"
+          label="{{'button.cancel' | translate}}"
           icon="pi pi-times"
           (click)="onCancelDeny()"
           class="p-button-danger"
@@ -372,7 +372,7 @@
 </p-dialog>
 
 <p-dialog
-  header="Shipper List"
+  header="{{'orderSellerScreen.shipperList' | translate}}"
   [(visible)]="visibleShipperLstDialog"
   [breakpoints]="{ '960px': '75vw' }"
   [style]="{ width: '50vw' }"
@@ -412,13 +412,13 @@
 
           <ng-template pTemplate="header">
             <tr>
-              <th>ShipperId</th>
-              <th>Avatar</th>
-              <th>Name</th>
-              <th>Gender</th>
-              <th>BirthDate</th>
-              <th>Email</th>
-              <th>Phone</th>
+              <th>{{'orderSellerScreen.shipperId' | translate}}</th>
+              <th>{{'orderSellerScreen.avatar' | translate}}</th>
+              <th>{{'orderSellerScreen.name' | translate}}</th>
+              <th>{{'orderSellerScreen.gender' | translate}}</th>
+              <th>{{'orderSellerScreen.birthDate' | translate}}</th>
+              <th>{{'orderSellerScreen.email' | translate}}</th>
+              <th>{{'orderSellerScreen.phone' | translate}}</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-shipper>
@@ -441,7 +441,7 @@
           </ng-template>
           <ng-template pTemplate="emptymessage">
             <tr>
-              <td colspan="8">Your shop doesn't have a shipper yet</td>
+              <td colspan="8">{{'orderSellerScreen.emptymessage2' | translate}}</td>
             </tr>
           </ng-template>
         </p-table>
@@ -460,7 +460,7 @@
         <button
           pButton
           type="button"
-          label="Choose"
+          label="{{'button.choose' | translate}}"
           icon="pi pi-save"
           (click)="onChoose()"
           style="width: 100%"
@@ -473,7 +473,7 @@
         <button
           pButton
           type="button"
-          label="Cancel"
+          label="{{'button.cancel' | translate}}"
           icon="pi pi-times"
           (click)="onCancelChoose()"
           class="p-button-danger"
@@ -559,6 +559,10 @@
       </div>
     </div>
   </div>
+</p-dialog>
+<p-dialog header="Map" [(visible)]="visibleMapBox" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
+  [draggable]="false" [resizable]="false" [maximizable]="true">
+  <div id="map" style="height: 500px;"></div>
 </p-dialog>
 
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>

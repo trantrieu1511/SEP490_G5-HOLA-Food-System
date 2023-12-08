@@ -17,7 +17,18 @@ namespace HFS_BE.BusinessLogic.Transaction
             try
             {
                 var dao = this.CreateDao<TransactionDao>();
+                var transaction = dao.GetTransactionHistory(inputDto.TransactionId.Value);
                 var output = dao.UpdateTransactionStatusAccountant(inputDto);
+                if (inputDto.Status == 2)
+                {
+                    var input4 = new UpadateWalletBalanceDaoInputDto()
+                    {
+                        UserId = transaction.SenderId,
+                        Value = transaction.Value,
+                    };
+
+                    var output2 = dao.UpdateWalletBalanceSeller(input4);
+                }
                 return output;
             }
             catch (Exception)

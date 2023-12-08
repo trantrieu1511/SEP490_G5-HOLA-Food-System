@@ -2,7 +2,6 @@
     <div class="col-12">
         <div class="card">
             <h5>Post report management</h5>
-
             <p-table #dt [value]="lstPostReport" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
                 [rows]="10" [showCurrentPageReport]="true" [paginator]="lstPostReport.length > 5" [filterDelay]="0"
                 [rowsPerPageOptions]="[5,10,25,50]" currentPageReportTemplate="Total: {totalRecords} post reports"
@@ -21,9 +20,6 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <!-- <th style="width: 3rem">
-                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th> -->
                         <th pSortableColumn="postId">
                             <div class="flex justify-content-between align-items-center">
                                 Post id
@@ -97,23 +93,18 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-postrp>
                     <tr class="p-selectable-row">
-                        <!-- <td>
-                            <p-tableCheckbox [value]="post"></p-tableCheckbox>
-                        </td> -->
                         <td>
                             <span class="p-column-title">postId</span>
-                            <span class="post-id">{{postrp.postId}}</span>
+                            <span class="">{{postrp.postId}}</span>
                         </td>
                         <td>
                             <span class="p-column-title">reportBy</span>
-                            <!-- <span class="post-reportBy"> -->
                             {{postrp.reportBy}}
-                            <!-- </span> -->
                         </td>
                         <td>
                             <span class="p-column-title">ReportContent</span>
                             <span class="report-content"
-                                (click)="viewContentDetail(postrp)">{{postrp.reportContent}}</span>
+                                (click)="viewContentDetail(postrp.reportContent)">{{postrp.reportContent}}</span>
                         </td>
                         <td>
                             <span class="p-column-title">CreatedDate</span>
@@ -136,32 +127,8 @@
                             {{postrp.note}}
                         </td>
                         <td>
-                            <!-- <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem"> -->
-                            <!-- <div class="flex align-items-center justify-content-center">
-                                    <button pButton pRipple icon="pi pi-pencil"
-                                            (click)="onUpdatePost(post)"
-                                            class="p-button-rounded p-mr-2"></button>
-                                </div> -->
-                            <!-- <ng-container>
-                                    <div *ngIf="postrp.status === 'Pending' || postrp.status === 'NotApproved'"
-                                        class="flex align-items-center justify-content-center">
-                                        <button pButton pRipple icon="pi pi-check" (click)="onApprove(postrp, $event)"
-                                            class="p-button-rounded p-button-success"></button>
-                                    </div>
-                                    <div *ngIf="postrp.status === 'Pending' || postrp.status === 'Approved'"
-                                        class="flex align-items-center justify-content-center">
-                                        <button pButton pRipple icon="pi pi-times" (click)="onNotApprove(postrp, $event)"
-                                            class="p-button-rounded p-button-danger"></button>
-                                    </div>
-                                </ng-container> -->
-                            <!-- <div class="flex align-items-center justify-content-center">
-                                    <button pButton pRipple icon="pi pi-pencil"
-                                        (click)="onOpenApproveNotApproveModal(postrp)"
-                                        class="p-button-rounded p-mr-2"></button>
-                                </div> -->
-                            <!-- </div> -->
-                            <div *ngIf="postrp.status === 'NotApproved' || postrp.status === 'Pending'" class=""
-                                style="gap: 0.5rem">
+                            <div *ngIf="postrp.status === 'NotApproved' && postrp.updateBy === userId || postrp.status === 'Pending'"
+                                class="">
 
                                 <div class="">
                                     <button style="margin-bottom: 5px;" pButton pRipple icon="pi pi-check-circle"
@@ -169,8 +136,8 @@
                                         class="p-button-rounded p-button-success p-mr-2"></button>
                                 </div>
                             </div>
-                            <div *ngIf="postrp.status === 'Approved' || postrp.status === 'Pending'" class=""
-                                style="gap: 0.5rem">
+                            <div *ngIf="postrp.status === 'Approved' && postrp.updateBy === userId || postrp.status === 'Pending'"
+                                class="">
 
                                 <div class="">
                                     <button pButton pRipple icon="pi pi-times-circle"
@@ -194,56 +161,20 @@
 <p-dialog [header]="postReport.status == 'Approved' ? 'Note for approving' : 'Note for not approving'"
     [(visible)]="isVisibleApproveNotApproveModal" [modal]="true" [breakpoints]="{ '960px': '75vw' }"
     [style]="{ width: '500px' }" [draggable]="false" [resizable]="false" [responsive]="true">
-    <!-- <input type="text" [(ngModel)]="postReport.postId" disabled="true" /><hr>
-    <input type="text" [(ngModel)]="postReport.reportBy" disabled="true" /><hr> -->
-    <!-- <hr> -->
-    <!-- <br> -->
     <div class="card">
-        <!-- <div class="flex align-items-center">
-            <p-radioButton name="Approved" value="Approved" [(ngModel)]="postReport.status"
-                inputId="Approved"></p-radioButton>
-            <label for="Approved" class="ml-2">Approved</label>
-            &nbsp;&nbsp;
-            <p-radioButton name="NotApproved" value="NotApproved" [(ngModel)]="postReport.status"
-                inputId="NotApproved"></p-radioButton>
-            <label for="NotApproved" class="ml-2">NotApproved</label>
-        </div>
-        <br>
-        <br> -->
         <span class="p-float-label">
             <textarea class="w-full" id="float-input" rows="5" cols="40" [(ngModel)]="postReport.note"
                 pInputTextarea></textarea>
             <label for="float-input">Enter some note (Optional)</label>
         </span>
     </div>
-    <!-- <hr> -->
-    <!-- <span class="p-float-label">
-        <p-dropdown [options]="listApproveNotApproveOption" [(ngModel)]="approveNotApproveOption" placeholder="Select an action" optionLabel="optionName" inputId="float-label"></p-dropdown>
-        <label for="float-label">Select an action</label>
-    </span>
-    <br> -->
-    <!-- <div class="card flex justify-content-center"> -->
-    <!-- <div>Common note:</div>
-    <div>
-        <p-radioButton name="note1" value="Inappropriate report" [(ngModel)]="postReport.note"
-            inputId="note1"></p-radioButton>
-        <label for="note1" class="ml-2">Inappropriate report</label>
-    </div>
-    <br>
-    <div>
-        <p-radioButton name="NotApproved" value="NotApproved" [(ngModel)]="postReport.status"
-            inputId="NotApproved"></p-radioButton>
-        <label for="NotApproved" class="ml-2">NotApproved</label>
-    </div> -->
-
     <div style="display: flex;">
         <p-button (click)="approveNotApprovePost(postReport)">Save</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
         <p-button [text]="true" (onClick)="isVisibleApproveNotApproveModal = false">Cancel</p-button>
     </div>
-    <!-- </div> -->
 </p-dialog>
 
-<p-dialog header="View Post Content" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true">
+<p-dialog header="View detail" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true">
     <p class="dialog-content-detail">
         {{contentDialog}}
     </p>
@@ -252,5 +183,3 @@
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>
 
 <p-confirmPopup></p-confirmPopup>
-
-<!-- <p-confirmDialog key="uhidePost" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog> -->

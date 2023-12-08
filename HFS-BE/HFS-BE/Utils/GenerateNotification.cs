@@ -271,8 +271,8 @@ namespace HFS_BE.Utils
 
             notifyLst[1].Title = "Báo cáo mới";
             notifyLst[1].Content = note is null || note == "" ?
-                $"{foodName}({foodId}) có báo cáo mới" :
-                $"{foodName}({foodId}) có báo cáo mới, Ghi chú: {note}";
+                $"{foodName}({foodId}) đã bị tố cáo bởi khách hàng" :
+                $"{foodName}({foodId}) đã bị tố cáo bởi khách hàng. Ghi chú của quản trị viên thực phẩm: {note}";
 
             return notifyLst;
         }
@@ -288,8 +288,8 @@ namespace HFS_BE.Utils
 
             notifyLst[1].Title = "Báo cáo mới";
             notifyLst[1].Content = note is null || note == "" ?
-                $"Bài viết Id ({postId}) có báo cáo mới" :
-                $"Bài viết Id ({postId}) có báo cáo mới, Ghi chú: {note}";
+                $"Bài viết Id ({postId}) đã bị tố cáo bởi khách hàng" :
+                $"Bài viết Id ({postId}) đã bị tố cáo bởi khách hàng. Ghi chú của quản trị viên bài viết: {note}";
 
             return notifyLst;
         }

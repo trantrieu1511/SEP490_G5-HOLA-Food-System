@@ -3,7 +3,7 @@
     <ng-template pTemplate="profileInfo">
         <div class="formgrid grid">
             <div class="field col">
-                <label for="lastname">Lastname <span style="color: red;">*</span></label>
+                <label for="lastname">Last name <span style="color: red;">*</span></label>
                 <input type="text" pInputText id="lastname" [(ngModel)]="profile.lastName" required
                     [class.ng-invalid]="!editProfileValidation.isValidLastName"
                     [class.ng-dirty]="!editProfileValidation.isValidLastName" />
@@ -11,7 +11,7 @@
                     class="p-error block">{{editProfileValidation.LastNameValidationMessage}}</small>
             </div>
             <div class="field col">
-                <label for="firstname">Firstname <span style="color: red;">*</span></label>
+                <label for="firstname">First name <span style="color: red;">*</span></label>
                 <input type="text" pInputText id="firstname" [(ngModel)]="profile.firstName" required
                     [class.ng-invalid]="!editProfileValidation.isValidFirstName"
                     [class.ng-dirty]="!editProfileValidation.isValidFirstName" />
@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="field">
-            <label class="mb-3" for="birthDate">BirthDate</label>
+            <label class="mb-3" for="birthDate">Birth date</label>
             <input type="date" pInputText id="birthDate" [(ngModel)]="profile.birthDate"
                 [class.ng-invalid]="!editProfileValidation.isValidBirthDate"
                 [class.ng-dirty]="!editProfileValidation.isValidBirthDate" />
@@ -48,7 +48,7 @@
         </div>
         <div class="field">
             <label for="phonenumber">Phone number <span style="color: red;">*</span></label>
-            <input type="text" pInputText id="firstname" [(ngModel)]="profile.phoneNumber" required
+            <input type="text" pInputText id="phonenumber" [(ngModel)]="profile.phoneNumber" required
                 [class.ng-invalid]="!editProfileValidation.isValidPhoneNumber"
                 [class.ng-dirty]="!editProfileValidation.isValidPhoneNumber" />
             <small [style.display]="editProfileValidation.isValidPhoneNumber ? 'none !important' : 'block !important'"
@@ -113,7 +113,7 @@
 
         <div class="field">
             <label for="phonenumber">Phone number <span style="color: red;">*</span></label>
-            <input type="text" pInputText id="firstname" [(ngModel)]="profile.phoneNumber" required
+            <input type="text" pInputText id="phonenumber" [(ngModel)]="profile.phoneNumber" required
                 [class.ng-invalid]="!editProfileValidation.isValidPhoneNumber"
                 [class.ng-dirty]="!editProfileValidation.isValidPhoneNumber" />
             <small [style.display]="editProfileValidation.isValidPhoneNumber ? 'none !important' : 'block !important'"
@@ -221,7 +221,7 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="isVisibleEditLicenseDialog" [style]="{ width: '700px' }" header="Edit your license"
+<p-dialog [(visible)]="isVisibleEditLicenseDialog" [style]="{ width: '700px' }" header="Edit your license image"
     [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="EditLicense">
         <div class="col-12 mb-2 lg:col-12 mb-lg-0">
@@ -376,7 +376,7 @@
                 <!-- <div class="card" style="width: 97%;"> -->
                     <!-- <div>More</div> -->
                     <div *ngIf="role == 'SE' && !profileDisplay.isVerified">
-                        <p-button [text]="true" (onClick)="openEditLicenseDialog();">Edit my license</p-button>
+                        <p-button [text]="true" (onClick)="openEditLicenseDialog();">Edit license image</p-button>
                         <!-- <br> -->
                     </div>
                     <div>
@@ -439,11 +439,11 @@
                                     onClick="event.preventDefault();" (click)="doSomething();">Edit email</a>
                             </div> -->
 
-                            <!-- <div *ngIf="!profileDisplay.confirmedEmail && role == 'CU' ||
+                            <div *ngIf="!profileDisplay.confirmedEmail && role == 'CU' ||
                                 !profileDisplay.confirmedEmail && role == 'SE' ||
                                 !profileDisplay.confirmedEmail && role == 'SH'">
                                 <a class="verify-email-link" (click)="confirm(profileDisplay.email);">Verify email</a>
-                            </div> -->
+                            </div>
                             <div *ngIf="profileDisplay.confirmedEmail && role == 'CU'
                                 || profileDisplay.confirmedEmail && role == 'SE'
                                 || profileDisplay.confirmedEmail && role == 'SH'">
@@ -552,10 +552,10 @@
                     </div> -->
 
                     <a class="btn-edit-profile" (click)="openSellerEditProfileDiaglog();" href="javascript:void(0);"
-                        *ngIf="role == 'SE' else openOthersEditProfileDialogBtn"><i class="pi pi-pencil"></i> Edit</a>
+                        *ngIf="role == 'SE' else openOthersEditProfileDialogBtn">...<i class="pi pi-pencil"></i> Edit</a>
                     <ng-template #openOthersEditProfileDialogBtn>
                         <a class="btn-edit-profile"
-                            (click)="openOthersEditProfileDiaglog();" href="javascript:void(0);"><i
+                            (click)="openOthersEditProfileDiaglog();" href="javascript:void(0);">...<i
                                 class="pi pi-pencil"></i> Edit</a>
                     </ng-template>
                     <!-- &nbsp; -->

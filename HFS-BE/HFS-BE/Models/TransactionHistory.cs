@@ -12,6 +12,7 @@ namespace HFS_BE.Models
         public string? Note { get; set; }
         public decimal Value { get; set; }
         public DateTime? CreateDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
         public DateTime? ExpiredDate { get; set; }
         public byte? Status { get; set; }
         public string? AcceptBy { get; set; }

@@ -2,6 +2,15 @@
     <div class="col-12">
         <div class="card">
             <h5>{{'shipperhistoryScreen.allOrderhistory' | translate}}</h5>
+            
+            <p-calendar
+            [(ngModel)]="rangeDates"
+            selectionMode="range"
+            [readonlyInput]="false"
+            [maxDate]="currentDate"
+            (onClose)="onCloseCalendar($event)"
+            ></p-calendar>
+
             <p-table styleClass="p-datatable-orders" [value]="lstOrderHistory" 
                 dataKey="name" [tableStyle]="{ 'min-width': '60rem' }" [rows]="10"
                 [paginator]="true" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"

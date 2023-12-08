@@ -261,6 +261,29 @@ export class MenuDataService {
     ];
   }
 
+  menuAccountant() {
+    return [
+      {
+        label: 'Menu',
+        icon: 'pi pi-fw pi-home',
+        items: [
+          {
+            label: 'Dashboard',
+            icon: 'pi pi-fw pi-home',
+            routerLink: ['/HFSBusiness/accountant/dashboard'],
+            badgeClass: 'p-badge-info',
+          },
+          {
+            label: 'Withdraw Request',
+            icon: 'pi pi-fw pi-bell',
+            routerLink: ['/HFSBusiness/accountant/withdraw-request'],
+            badgeClass: 'p-badge-info',
+          }
+        ],
+      },
+    ];
+  }
+
   getMenusSeller() {
     return Promise.resolve(this.menusSeller());
   }

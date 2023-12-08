@@ -9,6 +9,7 @@ import { TabViewChangeEvent } from 'primeng/tabview';
 import { async } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { GetTransactionHistoryInput } from 'src/app/modules/customer-routing-module/models/GetTransactionHistoryInput.model';
+import { UpdateStatusWithdrawInput } from '../../models/UpdateStatusWithdrawInput.model';
 
 @Component({
   selector: 'app-withdraw-request',
@@ -23,11 +24,12 @@ export class WithdrawRequestComponent
   rangeDates: Date[] | undefined;
   currentDate: Date = new Date();
   displayTransaction: any
+  tabIndex : number = 0
+  updateStatusInput : UpdateStatusWithdrawInput
   tabs: any = [
-    { label: 'All', id: '0' },
-    { label: 'Waiting', id: '1' },
-    { label: 'Success', id: '2' },
-    { label: 'Cancel', id: '3' },
+    { label: 'Waiting', id: '0' },
+    { label: 'Success', id: '1' },
+    { label: 'Cancel', id: '2' },
   ];
   constructor(
     public breadcrumbService: AppBreadcrumbService,
@@ -59,7 +61,7 @@ export class WithdrawRequestComponent
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.WALLET, API.API_WALLET.HISTORY, this.transactionHistoryInput);
       if (response.success) {
         this.transactionHistory = response.listTransactions
-        this.displayTransaction = this.transactionHistory
+        this.displayTransaction = this.transactionHistory.filter(x => x.status === 0);
       }
       else {
         //this.router.navigate([response]);
@@ -69,18 +71,31 @@ export class WithdrawRequestComponent
     }
   }
 
+  async onUpdateStatus() {
+    try {
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.WALLET, API.API_WALLET.UPDATE_WITHDRAW, this.updateStatusInput);
+      if (response.success) {
+        this.onGetHistory();
+        this.showMessage(mType.success, "Notification", "Update status success!", 'notify');
+      }
+      else {
+        this.showMessage(mType.success, "Notification", response.message, 'notify');
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   onChangeTab(activeTab: TabViewChangeEvent) {
+    this.tabIndex = activeTab.index
     switch (activeTab.index) {
       case 0:
-        this.displayTransaction = this.transactionHistory;
-        break;
-      case 1:
         this.displayTransaction = this.transactionHistory.filter(x => x.status === 0);
         break;
-      case 2:
+      case 1:
         this.displayTransaction = this.transactionHistory.filter(x => x.status === 1);
         break;
-      case 3:
+      case 2:
         this.displayTransaction = this.transactionHistory.filter(x => x.status === 2);
         break;      
     }
@@ -89,4 +104,44 @@ export class WithdrawRequestComponent
   onCloseCalendar(event: any) {
     this.onGetHistory();
   } 
+
+  onAccept(transactionId : number, event){
+    this.updateStatusInput = new UpdateStatusWithdrawInput();
+    this.confirmationService.confirm({
+      target: event.target,
+      message: `Are you sure to accept this request id: ${transactionId} ?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //confirm action
+        // this.deleteFood(food, false);
+        this.updateStatusInput.transactionId = transactionId;
+        this.updateStatusInput.status = 1
+        this.onUpdateStatus();
+      },
+      reject: () => {
+        //reject action
+      }
+    });
+  }
+
+  onReject(transactionId : number, event){
+    this.updateStatusInput = new UpdateStatusWithdrawInput();
+    this.confirmationService.confirm({
+      target: event.target,
+      message: `Are you sure to reject this request id: ${transactionId} ?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //confirm action
+        // this.deleteFood(food, false);
+        this.updateStatusInput.transactionId = transactionId;
+        this.updateStatusInput.status = 2
+        this.onUpdateStatus();
+      },
+      reject: () => {
+        //reject action
+      }
+    });
+  }
+
+
 }

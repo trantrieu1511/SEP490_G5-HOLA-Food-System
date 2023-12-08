@@ -26,6 +26,7 @@ import {
 import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
 import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'post-seller',
@@ -59,7 +60,8 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
-    private signalRService: DataRealTimeService
+    private signalRService: DataRealTimeService,
+    public translate: TranslateService
   ) {
     super(messageService, breadcrumbService);
   }

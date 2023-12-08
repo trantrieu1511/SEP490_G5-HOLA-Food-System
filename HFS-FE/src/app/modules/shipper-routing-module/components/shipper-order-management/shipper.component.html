@@ -3,12 +3,12 @@
         <div class="card">
             <h5>{{'shipperScreen.allOrder' | translate}}</h5>
             <p-tabMenu (activeItemChange)="onChangeTab($event)"[model]="items" [activeItem]="activeItem">
-                <ng-template [scrollable]="true" class="flex flex-row flex-wrap" pTemplate="item" let-item let-i="index">
+                <ng-template  class="flex flex-row flex-wrap" pTemplate="item" let-item let-i="index">
                     {{item.label}}
                 </ng-template>
             </p-tabMenu>
             <p-table styleClass="p-datatable-orders" [value]="lstOrderOfShipper"
-                dataKey="name" [tableStyle]="{ 'min-width': '60rem' }" [rows]="10"
+                dataKey="orderId" [tableStyle]="{ 'min-width': '60rem' }" [rows]="10"
                 [paginator]="true" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
                 responsiveLayout="scroll"
                 [loading]="loading"
@@ -35,8 +35,8 @@
                             <td>{{ order.orderId}}</td>
                             <td>{{order.orderDate | date:'dd/MM/yyyy hh:mm a'}}</td>
                             <td>{{ order.total | currency : "VND"}}</td>
-                            <td>{{order.shipAddress}}</td>
-                            <td>{{order.customerPhone}}</td>
+                            <td>{{order.shipAddress}} <i class="pi pi-map-marker" (click)="onOpenMap(order.shipAddress)"></i></td>
+                            <td><i class="pi pi-phone" style="margin-right: 5px;"></i><a href="tel:+{{order.customerPhone}}">{{order.customerPhone}}</a></td>
                             <td *ngIf="order.paymentMethod == '0'">COD</td>
                             <td *ngIf="order.paymentMethod == '1'">WALLET</td>
                             <ng-container [ngSwitch]="activeItem.id">
@@ -357,5 +357,9 @@
         </div>
     </div>
 
+</p-dialog>
+<p-dialog header="Map" [(visible)]="visibleMapBox" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
+  [draggable]="false" [resizable]="false" [maximizable]="true">
+  <div id="map" style="height: 500px;"></div>
 </p-dialog>
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>
