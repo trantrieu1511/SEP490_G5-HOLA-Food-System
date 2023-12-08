@@ -29,8 +29,7 @@ CREATE TABLE [dbo].[Seller](
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
 	[createDate][datetime] null,
-	[lat][float]null,
-	[lng][float]null,
+	[businessCode]  NVARCHAR(50) NULL,
 )
 
 CREATE TABLE [dbo].[Admin](
@@ -563,7 +562,6 @@ CREATE TABLE [dbo].[TransactionHistory](
 	[Note] [nvarchar](200) NULL,
 	[Value] [decimal](18, 0) NOT NULL,
 	[CreateDate] [datetime] NULL,
-	[UpdateDate] [datetime] NULL,
 	[ExpiredDate] [datetime] NULL,
 	[status] [tinyint] NULL,
 	[AcceptBy] [nvarchar](50) NULL,
@@ -690,3 +688,4 @@ ALTER TABLE [dbo].[Customer]
 ADD [isPhoneVerified] [bit] NOT NULL DEFAULT('false'),
     [otpToken] [nvarchar](max) NULL,
     [otpTokenExpiryTime] [int] NULL;
+
