@@ -94,10 +94,9 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
 
   async ngOnInit(): Promise<void> {
     await this.getAllPost();
-    this.checkLoggedIn();
+    //this.checkLoggedIn();
 
     if (this.isLoggedIn) {
-      // ;
       await this.checkUsersReportPostCapability();
       this.enableDisablePostReportButtonSubmit(); // reset nut submit 
     }
@@ -119,7 +118,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       if (response && response.message === "Success") {
         this.listPost = response.posts;
         this.totalRecords=response.totalPosts;
-       
+        this.checkLoggedIn();
       }
       this.loading = false;
     } catch (e) {
