@@ -254,6 +254,14 @@ namespace HFS_BE.DAO.UserDao
 
                         break;
                     case "AC":
+                        // Check truong hop so dien thoai da ton tai trong db (So dt bi trung)
+                        var acc = context.Accountants.SingleOrDefault(ac => ac.AccountantId.Equals(userId) == false
+                        && ac.PhoneNumber.Equals(inputDto.PhoneNumber));
+                        if (acc != null)
+                        {
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, "Notification", "The phone number has already been used.");
+                        }
+
                         //Tim trong context profile cua user theo id
                         var accountant = context.Accountants.SingleOrDefault(
                         mm => mm.AccountantId.Equals(userId));

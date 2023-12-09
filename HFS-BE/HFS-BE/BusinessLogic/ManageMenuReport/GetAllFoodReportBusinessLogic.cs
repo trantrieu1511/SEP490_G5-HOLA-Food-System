@@ -6,9 +6,9 @@ using HFS_BE.Utils;
 
 namespace HFS_BE.BusinessLogic.ManageMenuReport
 {
-    public class DisplayFoodReportBusinessLogic : BaseBusinessLogic
+    public class GetAllFoodReportBusinessLogic : BaseBusinessLogic
     {
-        public DisplayFoodReportBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public GetAllFoodReportBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

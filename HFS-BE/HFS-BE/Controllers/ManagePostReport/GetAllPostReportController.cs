@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.ManagePostReport
 {
-    public class DisplayPostReportController : BaseController
+    public class GetAllPostReportController : BaseController
     {
-        public DisplayPostReportController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public GetAllPostReportController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
@@ -27,7 +27,7 @@ namespace HFS_BE.Controllers.ManagePostReport
                 {
                     return Output<ListPostReportOutputDto>(Constants.ResultCdFail, "Please login as a post moderator or customer before executing this API.");
                 }
-                var business = GetBusinessLogic<DisplayPostReportBusinessLogic>();
+                var business = GetBusinessLogic<GetAllPostReportBusinessLogic>();
                 return business.GetAllPostReports(GetUserInfor().UserId);
             }
             catch (Exception)
