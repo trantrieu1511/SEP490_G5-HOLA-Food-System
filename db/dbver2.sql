@@ -32,7 +32,7 @@ CREATE TABLE [dbo].[Seller](
 	[lat][float]null,
 	[lng][float]null,
 )
-
+GO
 CREATE TABLE [dbo].[Admin](
 	[adminId] [nvarchar](50) NOT NULL primary key,
 	[firstName] [nvarchar](50) NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE [dbo].[Admin](
 	[refreshTokenExpiryTime] [datetime],
 		[createDate][datetime] null,
 )
-
+GO
 CREATE TABLE [dbo].[PostModerator](
 	[modId] [nvarchar](50) NOT NULL primary key,
 	[firstName] [nvarchar](50) NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE [dbo].[PostModerator](
 	[reportApprovalLimit] int default 25, -- Gioi approve/not approve post report cua mot post moderator
 	[createDate][datetime] null,
 )
-
+GO
 CREATE TABLE [dbo].[MenuModerator](
 	[modId] [nvarchar](50) NOT NULL primary key,
 	[firstName] [nvarchar](50) NOT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE [dbo].[MenuModerator](
 	[reportApprovalLimit] int default 25, -- Gioi approve/not approve food report cua mot menu moderator
 	[createDate][datetime] null,
 )
-
+GO
 CREATE TABLE [dbo].[Accountant](
 	[accountantId] [nvarchar](50) NOT NULL primary key,
 	[firstName] [nvarchar](50) NOT NULL,
@@ -126,6 +126,8 @@ CREATE TABLE [dbo].[Accountant](
 --	[refreshToken] [varchar](max),
 --	[refreshTokenExpiryTime] [datetime],
 --)
+
+GO
 CREATE TABLE [dbo].[Customer](
     [customerId] [nvarchar](50) NOT NULL PRIMARY KEY,
     [firstName] [nvarchar](50) NOT NULL,
@@ -147,7 +149,7 @@ CREATE TABLE [dbo].[Customer](
 	[createDate][datetime] null,
 	--CONSTRAINT CK_S_Dates CHECK ([banStartTime] < [banEndTime]),
 );
-
+GO
 CREATE TABLE [dbo].[Shipper](
 	[shipperId] [nvarchar](50) NOT NULL primary key,
 	[firstName] [nvarchar](50) NOT NULL,
@@ -167,7 +169,7 @@ CREATE TABLE [dbo].[Shipper](
 	[createDate][datetime] null,
 	CONSTRAINT FK_Shiper_Seller FOREIGN KEY (manageBy) REFERENCES [Seller]([sellerId]),
 )
-
+GO
 /****** Object:  Table [dbo].[Category]    Script Date: 09/10/2023 11:11:40 CH ******/
 SET ANSI_NULLS ON
 GO
@@ -690,3 +692,8 @@ ALTER TABLE [dbo].[Customer]
 ADD [isPhoneVerified] [bit] NOT NULL DEFAULT('false'),
     [otpToken] [nvarchar](max) NULL,
     [otpTokenExpiryTime] [int] NULL;
+    
+INSERT [dbo].[Admin] ([adminId], [firstName], [lastName], [gender], [birthDate], [email], [phoneNumber], [PasswordSalt], [PasswordHash], [isOnline], [walletBalance], [confirmedEmail], [refreshToken], [refreshTokenExpiryTime], [createDate]) 
+VALUES 
+(N'AD00000001', N'string', N'string', N'string', CAST(N'2003-12-03' AS Date), N'admin@gmail.com', NULL, 0x243476CD2C95DC8AEEC82F8E3C9B734FD565AA7C69104A29D61C34D5762B5F837CE9F9CA4EC2DC835CCB990C161389FBBBD4C858C7BCA0EECA3448EB3F656391, 0xCB36CD2343CFD625702F66B6821FD9D9718945C2D9F0C98E0CBB48135EAC0FD0, 0, NULL, 1, N'Sb/YjzbiBud8EryUS7z7dRub7hzBqecfgKFKJJnZYcSjVmOdSpWlWr8xSKwfe+nG5VYGUiMdaEtFZy9DmgMz8w==', CAST(N'2023-12-15T23:43:47.423' AS DateTime), NULL)
+

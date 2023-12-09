@@ -13,14 +13,14 @@ services:
             - internalnet
     nginx:
         container_name: middlenginx
-        image: nginx
+        image: nginx:alpine
         #build: nginx
         #restart: always
         expose:
             - "80"
         ports: 
             - "80:80"
-            - "433:433"
+          #  - "433:433"
         #links:
         #    - api
         volumes:
@@ -37,28 +37,38 @@ services:
     api:
         container_name: dotnetbackend
         build: 
-            context: ./HFS-BE/HFS-BE
+            context: ./HFS-BE
             dockerfile: ./Dockerfile
         ports: 
-            - 3000:3000
+            - "5000:5000"
+        restart: always
         depends_on: 
             - db
         #links:
         #    - db
         networks:
             - internalnet 
-        environment:
-            - ASPNETCORE_URLS=http://+:3000 
+        #environment:
+            #- ConnectionStrings__DefaultConnection=mssql;database=SEP490_HFS_2;User Id=sa;Password=Passw0rd
+        #    - ASPNETCORE_URLS=http://+:3000 
     db:
         container_name: mssql
-        image: "mcr.microsoft.com/mssql/server:2019-latest"
+        build: 
+            context: ./db
+            dockerfile: ./Dockerfile
+        ports: 
+            - "1433:1433"
+        restart: always
         environment:
-            SA_PASSWORD: "Passw0rd"
             ACCEPT_EULA: "Y"
+            SA_PASSWORD: "Passw0rd"
+            TZ: UTC
+        volumes:
+            - database-data:/var/opt/mssql
         networks:
             - internalnet    
-#volumes:
-#  shared: {}
+volumes:
+  database-data:
 networks: 
     internalnet:
 

@@ -24,6 +24,11 @@ using Twilio.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+});
+
 // Add services to the container.
 builder.Services.AddDbContext<SEP490_HFS_2Context>(opt =>
 {
@@ -68,7 +73,7 @@ builder.Services.AddCors(act =>
     {
         options.AllowAnyHeader();
         options.AllowAnyMethod();
-        options.WithOrigins("https://fu.holafood.click", "http://localhost:4200", "https://provinces.open-api.vn/api", "https://localhost:7016", "https://be.holafood.click", "https://maps.googleapis.com/maps/api"); // Ch? ??nh ngu?n g?c c? th?
+        options.WithOrigins("https://fu.holafood.click", "http://34.142.168.36:4200","http://34.142.168.36:80", "https://provinces.open-api.vn/api", "https://localhost:7016", "https://be.holafood.click", "https://maps.googleapis.com/maps/api"); // Ch? ??nh ngu?n g?c c? th?
         options.AllowCredentials(); // Cho ph�p ch? ?? credentials
         
     });
@@ -154,16 +159,24 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRouting();
-if (!app.Environment.IsDevelopment())
+
+// [CC] In the container environment, we want to run this on 8080 for GCR
+// This means that we will need to add the environment variable in the
+// Dockerfile.
+// requires using Microsoft.AspNetCore.HttpOverrides;
+app.UseForwardedHeaders();
+if(app.Environment.IsEnvironment("container"))
+{
+    app.Urls.Add("http://0.0.0.0:5000"); // Supoorts Google Cloud Run.
+}
+/*if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
 }
+*/
+// Dockerfile />
 
-// requires using Microsoft.AspNetCore.HttpOverrides;
-app.UseForwardedHeaders(new ForwardedHeadersOptions
-{
-    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-});
+
 
 
 app.UseAuthentication();
