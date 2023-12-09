@@ -57,6 +57,12 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       {label: 'Food Management', routerLink: ['/HFSBusiness/food-management']}
     ]);
   }
+  allCount: number = 0;
+  namCount: number = 0;
+  bonCount: number = 0;
+  baCount: number = 0;
+  haiCount: number = 0;
+  motCount: number = 0;
   foodId : number
   loading: boolean;
   fooddetail: any;
@@ -68,7 +74,8 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
   category: number
   first: number = 0;
   rows: number = 10;
-
+  ImageDialog: any ;
+  visibleImageDialog:boolean =false;
   // ----------- Food report --------------
   isVisibleFoodReportModal = false; // Bien phuc vu cho viec bat tat modal
   foodReport: FoodReport = new FoodReport();
@@ -103,7 +110,12 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     await this.getFeedBack();
 
     this.checkLoggedIn();
-    
+    this.allCount=this.feedbacks.length;
+    this.namCount=this.feedbacks.filter(x => x.star === 5).length;
+    this.bonCount=this.feedbacks.filter(x => x.star === 4).length;
+    this.baCount=this.feedbacks.filter(x => x.star === 3).length;
+    this.haiCount=this.feedbacks.filter(x => x.star === 2).length;
+    this.motCount=this.feedbacks.filter(x => x.star === 1).length;
     if(!this.hasAlreadyReported){ // Neu food nay chua bi report thi moi reset nut submit (Tiet kiem tai nguyen may tinh)
       this.enableDisableFoodReportButtonSubmit();
     }
@@ -118,24 +130,26 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
 
   onTabChange(event: TabViewChangeEvent) {
     let index = event.index
+    debugger
     switch (index) {
       case 0:
-        this.displayFeedback = this.feedbacks.filter(x => x.star === 5);
+        this.displayFeedback = this.feedbacks;
+        this.allCount=this.feedbacks.length;
         break;
       case 1:
-        this.displayFeedback = this.feedbacks.filter(x => x.star === 4);
+        this.displayFeedback = this.feedbacks.filter(x => x.star === 5);
         break;
       case 2:
-        this.displayFeedback = this.feedbacks.filter(x => x.star === 3);
+        this.displayFeedback = this.feedbacks.filter(x => x.star === 4);
         break;
       case 3:
-        this.displayFeedback = this.feedbacks.filter(x => x.star === 2);
+        this.displayFeedback = this.feedbacks.filter(x => x.star === 3);
         break;
       case 4:
-        this.displayFeedback = this.feedbacks.filter(x => x.star === 1);
+        this.displayFeedback = this.feedbacks.filter(x => x.star === 2);
         break;
       default:
-        this.displayFeedback = this.feedbacks.filter(x => x.star === 5);
+        this.displayFeedback = this.feedbacks.filter(x => x.star === 1);
         break;
     }
   }
@@ -188,7 +202,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODETAIL, API.API_FOODDETAIL.GET_FEEDBACK, getfood);
       if (response && response.success === true) {
         this.feedbacks = response.feedBacks
-        this.displayFeedback = this.feedbacks.filter(x => x.star === 5).slice(this.first, this.rows);
+        this.displayFeedback = this.feedbacks.slice(this.first, this.rows);
       }
       this.loading = false;
     } catch (e) {
@@ -249,7 +263,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       getSimilarFood.categoryId = this.category
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODETAIL, API.API_FOODDETAIL.GET_SIMILARFOOD, getSimilarFood);
       if (response && response.success === true) {
-        
+
         console.log(response)
         this.similarFood = response.listFood.filter(x => x.foodId != this.foodId)
       }
@@ -273,7 +287,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     //------------ Lay cac ly do report duoc input boi nguoi dung -------------
     let rpContent: string = "";
     let i = 0;
-    // 
+    //
     console.log(this.foodReport.reportContents);
     this.foodReport.reportContents.forEach(element => {
       i++;
@@ -345,7 +359,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
 
   // Validate to make this submit button enable whenever the user input some report content
   enableDisableFoodReportButtonSubmit() {
-    // 
+    //
     // console.log($event.checked);
     // this.foodReport.reportContents.forEach(element => {
     //   console.log(element);
@@ -366,7 +380,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
 
   // Hàm này kiểm tra khả năng tố cáo bằng cách xem customer đã report cái food với id: cụ thể nào đó chưa. Nếu rồi thì sẽ không sử dụng lại tính năng tố cáo đối với cái food đó nữa.
   async checkUsersReportFoodCapability() {
-    // 
+    //
     try {
       this.loading = true;
 
@@ -407,12 +421,12 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.ADDTOCART, cartItem);
       if (response && response.message === "Success") {
         console.log(response)
-          this.showMessage(mType.success, "", "Add to cart success!", 'notify');      
+          this.showMessage(mType.success, "", "Add to cart success!", 'notify');
       }
       else{
         this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');
         this._router.navigate(['/login']);
-      } 
+      }
 
       this.loading = false;
   } catch (e) {
@@ -457,4 +471,10 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       numScroll: 1
     }
   ];
+  onDisplayImagesDialog(food: any, event: any) {
+    this.ImageDialog = food;
+    console.log(food);
+    this.visibleImageDialog = true;
+  }
+
 }

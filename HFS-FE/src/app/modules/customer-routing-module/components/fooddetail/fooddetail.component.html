@@ -102,7 +102,7 @@
                         <h3 class="label">Number Orders </h3>
                         <p> {{fooddetail.numberOrdered}}</p>
                     </div>
-                
+
                     <div class="number-div_input">
                         <h3 class="label">Numbers</h3>
                         <p-inputNumber [(ngModel)]="amount" [showButtons]="true" buttonLayout="horizontal"
@@ -157,80 +157,170 @@
         <div class="card">
             <h1>Review</h1>
             <p-tabView orientation="left" (onChange)="onTabChange($event)">
-                <p-tabPanel header="5 sao" class="line-height-3 m-0">
-                    <div class="flex-auto">
-                        <div *ngFor="let item of displayFeedback" class="comment-thread">
-                            <!-- Comment 1 start -->
-                            <div class="comment" id="comment-1">
-                                <a href="#comment-1" class="comment-border-link">
-                                    <span class="sr-only">Jump to comment-1</span>
-                                </a>
-                                <div style="margin-bottom: 10px;">
-                                    <div class="comment-heading" style="margin-bottom: 10px;">
-                                        <div class="comment-info">
-                                            <a href="#" class="comment-author">{{item.customerName}}</a>
-                                            <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
-                                            <p class="m-0">
-                                                {{item.likeCount}} Like &bull; {{item.displayDate}}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="comment-body">
-                                        <div *ngIf="item.imagesFeedBack.length > 0"
-                                            class="grid nogutter justify-center">
-                                            <img *ngFor="let image of item.imagesFeedBack"
-                                                src="data:image/gif;base64,{{image.imageBase64}}"
-                                                style=" max-width: 150px; display: block; max-height: 80%;" />
-                                        </div>
-                                        <p>
-                                            {{item.feedbackMessage}}
+              <p-tabPanel header="All({{ allCount }})" class="line-height-3 m-0">
+                <div class="flex-auto">
+                    <div *ngFor="let item of displayFeedback" class="comment-thread">
+                        <!-- Comment 1 start -->
+                        <div class="comment" id="comment-1">
+                            <a href="#" class="comment-border-link">
+                                <span class="sr-only">Jump to comment-1</span>
+                            </a>
+                            <div style="margin-bottom: 10px;">
+                                <div class="comment-heading" style="margin-bottom: 10px;">
+                                    <div class="comment-info">
+                                        <a href="#" class="comment-author">{{item.customerName}}</a>
+                                        <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
+                                        <p class="m-0">
+                                            {{item.likeCount}} Like &bull; {{item.displayDate}}
                                         </p>
-                                        <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
-                                            (click)="onLikeReview(item.feedbackId)"></p-button>
                                     </div>
                                 </div>
+                                <div class="comment-body">
+                                    <!-- <div *ngIf="item.imagesFeedBack.length > 0"
+                                        class="grid nogutter justify-center">
+                                        <img *ngFor="let image of item.imagesFeedBack"
+                                            src="data:image/gif;base64,{{image.imageBase64}}"
+                                            style=" max-width: 150px; display: block; max-height: 80%;" />
+                                    </div> -->
+                                    <div *ngIf="item.imagesFeedBack.length > 0" class="">
+                                      <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
+                                          style=" max-width: 150px; display: block; max-height: 80%;" />
+                                          <ng-container *ngIf="item.imagesFeedBack.length !== 0; else noneImage" >
+                                            <button pButton pRipple label="more"
+                                                    (click)="onDisplayImagesDialog(item.imagesFeedBack, $event)"
+                                                    class="p-button-rounded p-button-text p-button-raised"></button>
+                                        </ng-container>
+                                        <ng-template #noneImage ></ng-template>
+                                  </div>
 
-
-
-                                <div *ngFor="let replies of item.listReply" class="replies">
-                                    <!-- Comment 2 start -->
-                                    <details class="comment" id="comment-2">
-                                        <a href="#comment-2" class="comment-border-link">
-                                            <span class="sr-only">Jump to comment-2</span>
-                                        </a>
-                                        <summary>
-                                            <div class="comment-heading">
-                                                <div class="comment-info">
-                                                    <a href="#" class="comment-author">{{replies.userName}}</a>
-                                                    <p class="m-0">
-                                                        {{replies.createdDate}}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </summary>
-
-                                        <div class="comment-body">
-                                            <p>
-                                                {{replies.replyMessage}}
-                                            </p>
-                                        </div>
-                                    </details>
-                                    <!-- Comment 2 end -->
+                                    <p>
+                                        {{item.feedbackMessage}}
+                                    </p>
+                                    <button pButton pRipple  [icon]="item.isLiked ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'"
+                                        (click)="onLikeReview(item.feedbackId)"></button>
                                 </div>
                             </div>
-                            <!-- Comment 1 end -->
+
+
+
+                            <div *ngFor="let replies of item.listReply" class="replies">
+                                <!-- Comment 2 start -->
+                                <details class="comment" id="comment-2">
+                                    <a  href="#" class="comment-border-link">
+                                        <span class="sr-only">Jump to comment-2</span>
+                                    </a>
+                                    <summary>
+                                        <div class="comment-heading">
+                                            <div class="comment-info">
+                                                <a href="#" class="comment-author">{{replies.userName}}</a>
+                                                <p class="m-0">
+                                                    {{replies.createdDate}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </summary>
+
+                                    <div class="comment-body">
+                                        <p>
+                                            {{replies.replyMessage}}
+                                        </p>
+                                    </div>
+                                </details>
+                                <!-- Comment 2 end -->
+                            </div>
                         </div>
-                        <p-paginator (onPageChange)="onPageChange($event, 5)" [first]="first" [rows]="rows"
-                            [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
-                        </p-paginator>
+                        <!-- Comment 1 end -->
                     </div>
-                </p-tabPanel>
-                <p-tabPanel header="4 sao" class="line-height-3 m-0">
+                    <p-paginator (onPageChange)="onPageChange($event, 5)" [first]="first" [rows]="rows"
+                        [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
+                    </p-paginator>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel header="5 star({{ namCount }})" class="line-height-3 m-0">
+              <div class="flex-auto">
+                  <div *ngFor="let item of displayFeedback" class="comment-thread">
+                      <!-- Comment 1 start -->
+                      <div class="comment" id="comment-1">
+                          <a  class="comment-border-link">
+                              <span class="sr-only">Jump to comment-1</span>
+                          </a>
+                          <div style="margin-bottom: 10px;">
+                              <div class="comment-heading" style="margin-bottom: 10px;">
+                                  <div class="comment-info">
+                                      <a href="#" class="comment-author">{{item.customerName}}</a>
+                                      <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
+                                      <p class="m-0">
+                                          {{item.likeCount}} Like &bull; {{item.displayDate}}
+                                      </p>
+                                  </div>
+                              </div>
+                              <div class="comment-body">
+                                  <!-- <div *ngIf="item.imagesFeedBack.length > 0"
+                                      class="grid nogutter justify-center">
+                                      <img *ngFor="let image of item.imagesFeedBack"
+                                          src="data:image/gif;base64,{{image.imageBase64}}"
+                                          style=" max-width: 150px; display: block; max-height: 80%;" />
+                                  </div> -->
+                                  <div *ngIf="item.imagesFeedBack.length > 0" class="">
+                                    <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
+                                        style=" max-width: 150px; display: block; max-height: 80%;" />
+                                        <ng-container *ngIf="item.imagesFeedBack.length !== 0; else noneImage" >
+                                          <button pButton pRipple label="more"
+                                                  (click)="onDisplayImagesDialog(item.imagesFeedBack, $event)"
+                                                  class="p-button-rounded p-button-text p-button-raised"></button>
+                                      </ng-container>
+                                      <ng-template #noneImage ></ng-template>
+                                </div>
+
+                                  <p>
+                                      {{item.feedbackMessage}}
+                                  </p>
+                                  <button pButton pRipple  [icon]="item.isLiked ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'"
+                                      (click)="onLikeReview(item.feedbackId)"></button>
+                              </div>
+                          </div>
+
+
+
+                          <div *ngFor="let replies of item.listReply" class="replies">
+                              <!-- Comment 2 start -->
+                              <details class="comment" id="comment-2">
+                                  <a href="#" class="comment-border-link">
+                                      <span class="sr-only">Jump to comment-2</span>
+                                  </a>
+                                  <summary>
+                                      <div class="comment-heading">
+                                          <div class="comment-info">
+                                              <a href="#" class="comment-author">{{replies.userName}}</a>
+                                              <p class="m-0">
+                                                  {{replies.createdDate}}
+                                              </p>
+                                          </div>
+                                      </div>
+                                  </summary>
+
+                                  <div class="comment-body">
+                                      <p>
+                                          {{replies.replyMessage}}
+                                      </p>
+                                  </div>
+                              </details>
+                              <!-- Comment 2 end -->
+                          </div>
+                      </div>
+                      <!-- Comment 1 end -->
+                  </div>
+                  <p-paginator (onPageChange)="onPageChange($event, 5)" [first]="first" [rows]="rows"
+                      [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
+                  </p-paginator>
+              </div>
+          </p-tabPanel>
+                <p-tabPanel header="4 star({{ bonCount }})" class="line-height-3 m-0">
                     <div class="flex-auto">
                         <div *ngFor="let item of displayFeedback" class="comment-thread">
                             <!-- Comment 1 start -->
                             <details class="comment" id="comment-1">
-                                <a href="#comment-1" class="comment-border-link">
+                                <a href="#" class="comment-border-link">
                                     <span class="sr-only">Jump to comment-1</span>
                                 </a>
                                 <summary style="margin-bottom: 10px;">
@@ -246,22 +336,28 @@
                                 </summary>
 
                                 <div class="comment-body">
-                                    <div *ngIf="item.imagesFeedBack.length > 0" class="grid nogutter justify-center">
-                                        <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
-                                            style=" max-width: 150px; display: block; max-height: 80%;" />
-                                    </div>
-                                    <p>
-                                        {{item.feedbackMessage}}
-                                    </p>
-                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
-                                        (click)="onLikeReview(item.feedbackId)"></p-button>
+                                  <div *ngIf="item.imagesFeedBack.length > 0" class="">
+                                    <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
+                                        style=" max-width: 150px; display: block; max-height: 80%;" />
+                                        <ng-container *ngIf="item.imagesFeedBack.length !== 0; else noneImage" >
+                                          <button pButton pRipple label="more"
+                                                  (click)="onDisplayImagesDialog(item.imagesFeedBack, $event)"
+                                                  class="p-button-rounded p-button-text p-button-raised"></button>
+                                      </ng-container>
+                                      <ng-template #noneImage ></ng-template>
                                 </div>
 
+                                  <p>
+                                      {{item.feedbackMessage}}
+                                  </p>
+                                  <button pButton pRipple  [icon]="item.isLiked ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'"
+                                      (click)="onLikeReview(item.feedbackId)"></button>
+                              </div>
 
                                 <div *ngFor="let replies of item.listReply" class="replies">
                                     <!-- Comment 2 start -->
                                     <details class="comment" id="comment-2">
-                                        <a href="#comment-2" class="comment-border-link">
+                                        <a href="#" class="comment-border-link">
                                             <span class="sr-only">Jump to comment-2</span>
                                         </a>
                                         <summary>
@@ -292,12 +388,12 @@
                         </p-paginator>
                     </div>
                 </p-tabPanel>
-                <p-tabPanel header="3 sao" class="line-height-3 m-0">
+                <p-tabPanel header="3 star({{ baCount }})" class="line-height-3 m-0">
                     <div class="flex-auto">
                         <div *ngFor="let item of displayFeedback" class="comment-thread">
                             <!-- Comment 1 start -->
                             <details class="comment" id="comment-1">
-                                <a href="#comment-1" class="comment-border-link">
+                                <a href="#" class="comment-border-link">
                                     <span class="sr-only">Jump to comment-1</span>
                                 </a>
                                 <summary style="margin-bottom: 10px;">
@@ -313,21 +409,28 @@
                                 </summary>
 
                                 <div class="comment-body">
-                                    <div *ngIf="item.imagesFeedBack.length > 0" class="grid nogutter justify-center">
-                                        <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
-                                            style=" max-width: 150px; display: block; max-height: 80%;" />
-                                    </div>
-                                    <p>
-                                        {{item.feedbackMessage}}
-                                    </p>
-                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
-                                        (click)="onLikeReview(item.feedbackId)"></p-button>
+                                  <div *ngIf="item.imagesFeedBack.length > 0" class="">
+                                    <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
+                                        style=" max-width: 150px; display: block; max-height: 80%;" />
+                                        <ng-container *ngIf="item.imagesFeedBack.length !== 0; else noneImage" >
+                                          <button pButton pRipple label="more"
+                                                  (click)="onDisplayImagesDialog(item.imagesFeedBack, $event)"
+                                                  class="p-button-rounded p-button-text p-button-raised"></button>
+                                      </ng-container>
+                                      <ng-template #noneImage ></ng-template>
                                 </div>
+
+                                  <p>
+                                      {{item.feedbackMessage}}
+                                  </p>
+                                  <button pButton pRipple  [icon]="item.isLiked ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'"
+                                      (click)="onLikeReview(item.feedbackId)"></button>
+                              </div>
 
                                 <div *ngFor="let replies of item.listReply" class="replies">
                                     <!-- Comment 2 start -->
                                     <details class="comment" id="comment-2">
-                                        <a href="#comment-2" class="comment-border-link">
+                                        <a href="#" class="comment-border-link">
                                             <span class="sr-only">Jump to comment-2</span>
                                         </a>
                                         <summary>
@@ -357,12 +460,12 @@
                         </p-paginator>
                     </div>
                 </p-tabPanel>
-                <p-tabPanel header="2 sao" class="line-height-3 m-0">
+                <p-tabPanel header="2 star({{ haiCount }})" class="line-height-3 m-0">
                     <div class="flex-auto">
                         <div *ngFor="let item of displayFeedback" class="comment-thread">
                             <!-- Comment 1 start -->
                             <details class="comment" id="comment-1">
-                                <a href="#comment-1" class="comment-border-link">
+                                <a href="#" class="comment-border-link">
                                     <span class="sr-only">Jump to comment-1</span>
                                 </a>
                                 <summary style="margin-bottom: 10px;">
@@ -378,31 +481,28 @@
                                 </summary>
 
                                 <div class="comment-body">
-                                    <div *ngIf="item.imagesFeedBack.length > 0" class="grid nogutter justify-center">
-                                        <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
-                                            style=" max-width: 150px; display: block; max-height: 80%;" />
-                                    </div>
-                                    <p>
-                                        {{item.feedbackMessage}}
-                                    </p>
-                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
-                                        (click)="onLikeReview(item.feedbackId)"></p-button>
-
-                                    <!-- Reply form start -->
-                                    <div [id]="item.feedbackId" class="reply-form d-none">
-                                        <textarea placeholder="Reply to comment" rows="4"></textarea>
-                                        <p-button label="Submit" [raised]="true"></p-button>
-                                        <p-button label="Cancel" severity="danger" [raised]="true"
-                                            data-toggle="reply-form" data-target="comment-1-reply-form"
-                                            (click)="onCancel(item.feedbackId)"></p-button>
-                                    </div>
-                                    <!-- Reply form end -->
+                                  <div *ngIf="item.imagesFeedBack.length > 0" class="">
+                                    <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
+                                        style=" max-width: 150px; display: block; max-height: 80%;" />
+                                        <ng-container *ngIf="item.imagesFeedBack.length !== 0; else noneImage" >
+                                          <button pButton pRipple label="more"
+                                                  (click)="onDisplayImagesDialog(item.imagesFeedBack, $event)"
+                                                  class="p-button-rounded p-button-text p-button-raised"></button>
+                                      </ng-container>
+                                      <ng-template #noneImage ></ng-template>
                                 </div>
+
+                                  <p>
+                                      {{item.feedbackMessage}}
+                                  </p>
+                                  <button pButton pRipple  [icon]="item.isLiked ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'"
+                                      (click)="onLikeReview(item.feedbackId)"></button>
+                              </div>
 
                                 <div *ngFor="let replies of item.listReply" class="replies">
                                     <!-- Comment 2 start -->
                                     <details class="comment" id="comment-2">
-                                        <a href="#comment-2" class="comment-border-link">
+                                        <a href="#" class="comment-border-link">
                                             <span class="sr-only">Jump to comment-2</span>
                                         </a>
                                         <summary>
@@ -432,7 +532,7 @@
                         </p-paginator>
                     </div>
                 </p-tabPanel>
-                <p-tabPanel header="1 sao" class="line-height-3 m-0">
+                <p-tabPanel header="1 star({{ motCount }})" class="line-height-3 m-0">
                     <div class="flex-auto">
                         <div *ngFor="let item of displayFeedback" class="comment-thread">
                             <!-- Comment 1 start -->
@@ -453,31 +553,27 @@
                                 </summary>
 
                                 <div class="comment-body">
-                                    <div *ngIf="item.imagesFeedBack.length > 0" class="grid nogutter justify-center">
-                                        <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
-                                            style=" max-width: 150px; display: block; max-height: 80%;" />
-                                    </div>
-                                    <p>
-                                        {{item.feedbackMessage}}
-                                    </p>
-                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
-                                        (click)="onLikeReview(item.feedbackId)"></p-button>
-
-                                    <!-- Reply form start -->
-                                    <div [id]="item.feedbackId" class="reply-form d-none">
-                                        <textarea placeholder="Reply to comment" rows="4"></textarea>
-                                        <p-button label="Submit" [raised]="true"></p-button>
-                                        <p-button label="Cancel" severity="danger" [raised]="true"
-                                            data-toggle="reply-form" data-target="comment-1-reply-form"
-                                            (click)="onCancel(item.feedbackId)"></p-button>
-                                    </div>
-                                    <!-- Reply form end -->
+                                  <div *ngIf="item.imagesFeedBack.length > 0" class="">
+                                    <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
+                                        style=" max-width: 150px; display: block; max-height: 80%;" />
+                                        <ng-container *ngIf="item.imagesFeedBack.length !== 0; else noneImage" >
+                                          <button pButton pRipple label="more"
+                                                  (click)="onDisplayImagesDialog(item.imagesFeedBack, $event)"
+                                                  class="p-button-rounded p-button-text p-button-raised"></button>
+                                      </ng-container>
+                                      <ng-template #noneImage ></ng-template>
                                 </div>
 
+                                  <p>
+                                      {{item.feedbackMessage}}
+                                  </p>
+                                  <button pButton pRipple  [icon]="item.isLiked ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'"
+                                      (click)="onLikeReview(item.feedbackId)"></button>
+                              </div>
                                 <div *ngFor="let replies of item.listReply" class="replies">
                                     <!-- Comment 2 start -->
                                     <details class="comment" id="comment-2">
-                                        <a href="#comment-2" class="comment-border-link">
+                                        <a href="#" class="comment-border-link">
                                             <span class="sr-only">Jump to comment-2</span>
                                         </a>
                                         <summary>
@@ -511,5 +607,31 @@
         </div>
     </div>
 </div>
+<p-dialog header=""
+    [(visible)]="visibleImageDialog"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    [maximizable]="true"
+    >
+    <p-table [value]="ImageDialog" [paginator]="true" [rows]="5" responsiveLayout="scroll">
 
+        <ng-template pTemplate="body" let-image>
+            <tr >
+
+                <td><p-image
+                  src="data:image/gif;base64,{{image.imageBase64}}"
+                  [preview]="true"
+                  [alt]="image.imageId"
+                  class="dialogimages_image w-10rem shadow-2"
+
+                ></p-image>
+                </td>
+
+
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>
