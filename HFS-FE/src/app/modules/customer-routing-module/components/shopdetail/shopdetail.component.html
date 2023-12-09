@@ -72,7 +72,10 @@
   <div class="card">
     <div id="profile-d">
       <div id="profile-pic">
-        <img src="data:image/png;base64,{{shopInfor.avatar}}">
+        <img  *ngIf="shopInfor.avatar != null; else noImg1" src="data:image/png;base64,{{shopInfor.avatar}}">
+        <ng-template #noImg1>
+          <img src="assets/image/user.png" alt="" class="rounded-circle img-person">
+                  </ng-template>
       </div>
       <div class="shop-infor">
         <div class="shop_average-star shop-infor_child">
@@ -115,7 +118,7 @@
 
     <div>
       <h5 id="u-address" (click)="onOpenMap()">{{shopInfor.shopAddress}} <i class="pi pi-map-marker" (click)="onOpenMap()"></i></h5>
-    </div>    
+    </div>
   </div>
 </div>
 <div class="col-12 shopdetail-list">
