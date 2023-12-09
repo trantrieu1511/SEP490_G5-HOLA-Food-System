@@ -19,7 +19,7 @@ namespace HFS_BE.Controllers.CommentNewFeed
         [HttpPost("users/comment")]
         //[Authorize]
 
-        public BaseOutputDto CreateComent( CreateCommentInputDto input)
+        public BaseOutputDto CreateComment( CreateCommentInputDto input)
         {
             try
             {
