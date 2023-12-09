@@ -36,8 +36,6 @@ namespace HFS_BE.Models
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
         public DateTime? CreateDate { get; set; }
-        public double? Lat { get; set; }
-        public double? Lng { get; set; }
         public string? BusinessCode { get; set; }
 
         public virtual ICollection<ChatMessage> ChatMessages { get; set; }
