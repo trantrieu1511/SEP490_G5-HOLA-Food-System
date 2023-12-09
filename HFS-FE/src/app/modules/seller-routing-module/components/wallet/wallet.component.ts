@@ -63,12 +63,12 @@ export class WalletComponentSeller
     this.translate.get('walletSellerScreen').subscribe( (text: any) => {
 
       this.tabs = [
-        { label:  text.request, id: '0'},
-        { label:  text.preparing, id: '1'},
-        { label:  text.waitShipper, id: '2'},
-        { label:  text.shipping, id: '3'},
-        { label:  text.completed, id: '4'},
-        { label:  text.cancel, id: '5'},
+        { label:  text.All, id: '0'},
+        { label:  text.Waitting, id: '1'},
+        { label:  text.Success, id: '2'},
+        { label:  text.cancel, id: '3'},
+        { label:  text.MoneyIn, id: '4'},
+        { label:  text.MoneyOut, id: '5'},
       ];
 
       this.activeItem = this.tabs[0];

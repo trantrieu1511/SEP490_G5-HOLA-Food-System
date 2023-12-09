@@ -17,7 +17,7 @@ namespace HFS_BE.Controllers.ManageVoucher
         }
         [HttpPost("vouchers/getListvoucher")]
         //[Authorize]
-        public GetListVoucherDaoOutputDto CreateVoucher(GetListVoucherDaoInput input)
+        public GetListVoucherDaoOutputDto GetVoucher(GetListVoucherDaoInput input)
         {
             try
             {
