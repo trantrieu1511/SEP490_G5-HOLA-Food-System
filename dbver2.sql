@@ -563,6 +563,7 @@ CREATE TABLE [dbo].[TransactionHistory](
 	[Value] [decimal](18, 0) NOT NULL,
 	[CreateDate] [datetime] NULL,
 	[ExpiredDate] [datetime] NULL,
+	[UpdateDate] [datetime] NULL,
 	[status] [tinyint] NULL,
 	[AcceptBy] [nvarchar](50) NULL,
 	FOREIGN KEY([AcceptBy]) REFERENCES [dbo].[Accountant] ([accountantId]),
