@@ -5,7 +5,7 @@
           <div class="card">
               <p-divider align="left" type="solid">
                   <div class="inline-flex align-items-center">
-                    <b>Order Information</b>
+                    <b>{{'checkOutScreen.OrderInformation' | translate}}</b>
                     
                   </div>
               </p-divider>
@@ -25,13 +25,13 @@
                     <tr class="tr-th_background-color">
                       <th style="width: 5rem"></th>
                       <th pSortableColumn="totalPrice">
-                        Shop Name <p-sortIcon field="totalPrice"></p-sortIcon>
+                        {{'checkOutScreen.ShopName' | translate}} <p-sortIcon field="totalPrice"></p-sortIcon>
                       </th>
                       <th pSortableColumn="totalPrice">
-                        Total Price <p-sortIcon field="totalPrice"></p-sortIcon>
+                        {{'checkOutScreen.TotalPrice' | translate}} <p-sortIcon field="totalPrice"></p-sortIcon>
                       </th>
                       <th pSortableColumn="voucher">
-                        Voucher <p-sortIcon field="voucher"></p-sortIcon>
+                        {{'checkOutScreen.Voucher' | translate}} <p-sortIcon field="voucher"></p-sortIcon>
                       </th>
                     </tr>
                   </ng-template>
@@ -61,7 +61,7 @@
                                         pInputText
                                         (input)="checkVoucher($event, order.shopId)"
                                         />
-                                <label>Voucher (optional)</label>
+                                <label>{{'checkOutScreen.Voucher1' | translate}}</label>
                             </span>
                         </div>
                       </td>
@@ -108,8 +108,8 @@
               <p-fieldset legend="Overview Information" [toggleable]="false">
                   <div class="grid">
                       <div class="col-12 mb-2 lg:col-3 mb-lg-0 flex flex-column gap-2rem">
-                          <span>Address</span>
-                          <p-checkbox [binary]="true" label="Different" [(ngModel)]="isDifferentAddress"></p-checkbox>
+                          <span>{{'checkOutScreen.Address' | translate}}</span>
+                          <p-checkbox [binary]="true" label="{{'checkOutScreen.Different' | translate}}" [(ngModel)]="isDifferentAddress"></p-checkbox>
                       </div>
                       
                       <div class="col-12 mb-2 lg:col-9 mb-lg-0" >
@@ -137,7 +137,7 @@
                                         [autoDisplayFirst]="false"
                                         optionLabel="addressInfo"
                                         ></p-dropdown>
-                            <label>Address*</label>
+                            <label>{{'checkOutScreen.Address' | translate}}*</label>
                           </span>
                       </ng-template>
                       </div>
@@ -146,7 +146,7 @@
                   </div>
                   <div class="grid">
                     <div class="col-12 mb-2 lg:col-3 mb-lg-0">
-                        Phone
+                        {{'checkOutScreen.Phone' | translate}}
                     </div>
                     <div class="col-12 mb-2 lg:col-9 mb-lg-0">
                       <span class="p-input-icon-left p-float-label" style="width: 100%">
@@ -155,30 +155,30 @@
                                 [(ngModel)]="phone"
                                 pInputText=
                                 />
-                        <label>Phone*</label>
+                        <label>{{'checkOutScreen.Phone' | translate}}*</label>
                       </span>
                     </div>
                   </div>
                   <div class="grid">
                     <div class="col-12 mb-2 lg:col-3 mb-lg-0">
-                        Payment Method
+                        {{'checkOutScreen.PaymentMethod' | translate}}
                     </div>
                     <div class="col-5 mb-2 lg:col-5 mb-lg-0" style="text-align: end;">
                       <div class="flex flex-wrap gap-3">
                         <div class="flex align-items-center">
                             <p-radioButton name="payment" value="cod" [(ngModel)]="paymentOptions" inputId="ingredient1"></p-radioButton>
-                            <label for="ingredient1" class="ml-2">COD</label>
+                            <label for="ingredient1" class="ml-2">{{'checkOutScreen.COD' | translate}}</label>
                         </div>
                         
                         <div class="flex align-items-center">
                             <p-radioButton name="payment" value="wallet" [(ngModel)]="paymentOptions" inputId="ingredient2"></p-radioButton>
-                            <label for="ingredient2" class="ml-2">Wallet</label>
+                            <label for="ingredient2" class="ml-2">{{'checkOutScreen.Wallet' | translate}}</label>
                         </div>
                       </div>
                     </div>
                     <div *ngIf="paymentOptions === 'wallet'" class="col-7 mb-2 lg:col-4 mb-lg-0" style="text-align: end;">
                       <div class="flex flex-wrap gap-3 align-items-center">
-                        <span>Wallet: </span>
+                        <span>{{'checkOutScreen.Wallet' | translate}}: </span>
                         <span>{{balance | currency : 'VND'}}</span>
                       </div>
                     </div>
@@ -192,14 +192,14 @@
                                 [(ngModel)]="note"
                                 pInputText=
                                 />
-                        <label>Note (optional)</label>
+                        <label>{{'checkOutScreen.Note' | translate}}</label>
                     </span>
                     </div>
                   </div>
 
                   <div class="grid">
                     <div class="col-12 mb-2 lg:col-3 mb-lg-0">
-                        Total Price Order 
+                        {{'checkOutScreen.TotalPriceOrder' | translate}} 
                     </div>
                     <div class="col-12 mb-2 lg:col-9 mb-lg-0 total-price-order_all" style="text-align: end;">
                       {{totalPrice | currency : "VND"}}
@@ -210,7 +210,7 @@
               </p-fieldset>
 
               <div class="grid col-12" style="text-align: center">
-                <button pButton type="button" label="Checkout" icon="pi pi-save"
+                <button pButton type="button" label="{{'button.Checkout' | translate}}" icon="pi pi-save"
                             class="checkout-btn" (click)="onCreateOrder()"></button>
               </div>
           </div>
@@ -231,7 +231,7 @@
       <div class="col-12 md:col-12">
         <div class="card">
           <div class="grid">
-            <h1>Order Success</h1>
+            <h1>{{'checkOutScreen.OrderSuccess' | translate}}</h1>
           </div>
         </div>
       </div>
@@ -248,7 +248,7 @@
           <button
             pButton
             type="button"
-            label="Go to Order Management page"
+            label="{{'button.GotoOrderManagementpage' | translate}}"
             icon="pi pi-save"
             (click)="onClose()"
             style="width: 100%"

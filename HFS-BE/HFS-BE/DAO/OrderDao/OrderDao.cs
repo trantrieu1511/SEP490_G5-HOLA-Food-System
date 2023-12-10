@@ -89,7 +89,7 @@ namespace HFS_BE.Dao.OrderDao
                     data = query.Where(x => x.ShipperId == inputDto.ShipperId
                         && (x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 4
                             || x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 5) &&
-                                x.OrderDate.Value.Date == inputDto.DateFrom
+                                x.ShippedDate.Value.Date == inputDto.DateFrom
                         ).OrderByDescending(x => x.OrderDate)
 
                     .Select(x => mapper.Map<Order, Order>(x))
@@ -101,7 +101,7 @@ namespace HFS_BE.Dao.OrderDao
                                 x.ShipperId == inputDto.ShipperId && 
                                 (x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 4 || 
                                     x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 5) &&
-                                x.OrderDate.Value.Date >= inputDto.DateFrom && x.OrderDate.Value.Date <= inputDto.DateEnd
+                                x.ShippedDate.Value.Date >= inputDto.DateFrom && x.ShippedDate.Value.Date <= inputDto.DateEnd
                                 )
                         .OrderByDescending(x => x.OrderDate)
 

@@ -22,6 +22,7 @@ import { AddToCart } from '../../models/addToCart.model';
 import { FailedToNegotiateWithServerError } from '@microsoft/signalr/dist/esm/Errors';
 import { GetVoucherInput } from '../../models/GetVoucherInput.model';
 import { UndoIcon } from 'primeng/icons/undo';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-checkout',
@@ -64,7 +65,8 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
     private iServiceBase: iServiceBase,
     private route: ActivatedRoute,
     private router: Router,
-    private dataService: DataService
+    private dataService: DataService,
+    public translate: TranslateService 
   ){
     super(messageService);	
   }
