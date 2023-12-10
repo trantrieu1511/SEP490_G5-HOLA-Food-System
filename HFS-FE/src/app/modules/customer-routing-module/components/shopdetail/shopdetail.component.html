@@ -1,42 +1,42 @@
-<p-dialog header="Reporting the Shop" [(visible)]="isVisiblePostReportModal" [modal]="true"
+<p-dialog header="{{'shopDetailScreen.ReportingtheShop' | translate}}" [(visible)]="isVisiblePostReportModal" [modal]="true"
   [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '500px' }" [draggable]="false" [resizable]="false"
   [responsive]="true">
   <div class="card">
     <div class="align-items-center" style="padding-bottom: 5px;">
       <div style="padding-bottom: 5px; font-style: italic;">
-        Các lý do:
+        {{'shopDetailScreen.reasons' | translate}}
       </div>
       <div style="padding-bottom: 5px;">
         <p-checkbox name="reportContent" (onChange)="enableDisableReportButtonSubmit();"
           value="Người bán có đăng sản phẩm cấm" [(ngModel)]="sellerReport.reportContents"
           inputId="reportContent1"></p-checkbox>
-        <label for="reportContent1" class="ml-2">Người bán có đăng sản phẩm cấm</label>
+        <label for="reportContent1" class="ml-2">{{'shopDetailScreen.reason1' | translate}}</label>
       </div>
       <div style="padding-bottom: 5px;">
         <p-checkbox name="reportContent" (onChange)="enableDisableReportButtonSubmit();"
           value="Người dùng có dấu hiệu lừa đảo" [(ngModel)]="sellerReport.reportContents"
           inputId="reportContent2"></p-checkbox>
-        <label for="reportContent2" class="ml-2">Người dùng có dấu hiệu lừa đảo</label>
+        <label for="reportContent2" class="ml-2">{{'shopDetailScreen.reason2' | translate}}</label>
       </div>
       <div style="padding-bottom: 5px;">
         <p-checkbox name="reportContent" (onChange)="enableDisableReportButtonSubmit();" value="Vi pham quyền riêng tư"
           [(ngModel)]="sellerReport.reportContents" inputId="reportContent3"></p-checkbox>
-        <label for="reportContent3" class="ml-2">Vi pham quyền riêng tư</label>
+        <label for="reportContent3" class="ml-2">{{'shopDetailScreen.reason3' | translate}}</label>
       </div>
     </div>
     <br>
     <div style="padding-bottom: 5px;">
       <p-checkbox name="reportContent" (onChange)="enableDisableReportTextArea($event);" value="Other"
         inputId="reportContentOther"></p-checkbox>
-      <label for="reportContentOther" class="ml-2">Khác</label>
+      <label for="reportContentOther" class="ml-2">{{'shopDetailScreen.Other' | translate}}</label>
     </div>
     <span class="">
       <textarea (change)="addValueToReportContentList();" [disabled]="isDisabledPostReportTextArea" class="w-full"
-        id="float-input" rows="5" cols="50" [(ngModel)]="sellerReport.reportContent" placeholder="Điền lý do khác"
+        id="float-input" rows="5" cols="50" [(ngModel)]="sellerReport.reportContent" placeholder="{{'shopDetailScreen.Content' | translate}}"
         pInputTextarea></textarea>
     </span>
     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
-      <label>Images</label>
+      <label>{{'shopDetailScreen.Images' | translate}}</label>
       <span class="p-input-icon-left p-float-label" style="width: 100%">
         <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
               <ng-template pTemplate="content">
@@ -62,10 +62,10 @@
     </div>
   </div>
 
-  <strong>Lưu ý: Bạn sẽ không thể hủy sau khi đã tố cáo</strong>
+  <strong>{{'shopDetailScreen.Note' | translate}}</strong>
   <br>
   <br>
-  <p-button [disabled]="isDisabledPostReportBtnSubmit" (click)="submitReport()">Save</p-button>
+  <p-button [disabled]="isDisabledPostReportBtnSubmit" (click)="submitReport()">{{'button.save' | translate}}</p-button>
 </p-dialog>
 
 <div class="col-12 shopdetail-list">
@@ -84,7 +84,7 @@
         </div>
         <div class="shop_phone shop-infor_child">
           <i class="pi pi-shopping-cart"></i>
-          <a class="shop_phone-value">{{ shopInfor.numberOrdered }} Ordered</a>
+          <a class="shop_phone-value">{{ shopInfor.numberOrdered }} {{'shopDetailScreen.Ordered' | translate}}</a>
         </div>
         <div class="shop_phone shop-infor_child">
           <i class="pi pi-phone"></i>
@@ -100,13 +100,13 @@
         <div class="shop_online shop-infor_child" *ngFor="let item of (presence.onlineUserscus$ | async)">
           <ng-container *ngIf="shopInfor.email===item.email;">
             <i class="pi pi-circle-fill" style="color: green"></i>
-            <span class="shop_createdDate-value">Online</span>
+            <span class="shop_createdDate-value">{{'shopDetailScreen.Online' | translate}}</span>
           </ng-container>
         </div>
         <div class="shop_online shop-infor_child" *ngFor="let item of (presence.offlineUserscus$ | async)">
           <ng-container *ngIf="shopInfor.email===item.email;">
             <i class="pi pi-circle-fill" style="color: red"></i>
-            <span class="shop_createdDate-value">Offline</span>
+            <span class="shop_createdDate-value">{{'shopDetailScreen.Offline' | translate}}</span>
           </ng-container>
         </div>
         <div class="shop-infor-name shop-infor_child">
@@ -123,7 +123,7 @@
 </div>
 <div class="col-12 shopdetail-list">
   <div class="card">
-    <h5>Menu</h5>
+    <h5>{{'shopDetailScreen.Menu' | translate}}</h5>
     <p-dataView #dv [value]="foods" [paginator]="true" [rows]="9" filterBy="name" [sortField]="sortField"
       [sortOrder]="sortOrder" layout="grid">
       <ng-template pTemplate="header">
@@ -132,13 +132,13 @@
             <span class="p-input-icon-left p-float-label" style="width: 100%">
               <p-dropdown [options]="sortOptions" [showClear]="false" [autoDisplayFirst]="false"
                 (onChange)="onSortChange($event)" [style]="{'width': '100%'}"></p-dropdown>
-              <label>Sort By Price</label>
+              <label>{{'shopDetailScreen.SortByPrice' | translate}}</label>
             </span>
           </div>
           <div class="col-12 mb-2 lg:col-6 mb-lg-0">
             <span class="p-input-icon-left p-float-label" style="width: 100%">
               <i class="pi pi-search"></i>
-              <input style="width: 100%" type="search" pInputText placeholder="Search by Name"
+              <input style="width: 100%" type="search" pInputText placeholder="{{'shopDetailScreen.EntertoSearch' | translate}}"
                 (input)="onFilter(dv, $event)">
             </span>
           </div>
@@ -159,7 +159,7 @@
             <img src="data:image/png;base64,{{product.foodImages[0].imageBase64}}" [alt]="product.name" />
             <div class="product-list-detail">
               <div class="product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</div>
-              <div class="product-description">Ordered: {{product.numberOrdered}}</div>
+              <div class="product-description">{{'shopDetailScreen.Ordered' | translate}}: {{product.numberOrdered}}</div>
               <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>
               <i class="pi pi-tag product-category-icon"></i><span
                 class="product-category">{{product.categoryName}}</span>
@@ -186,7 +186,7 @@
             <div class="product-grid-item-content">
               <img src="data:image/png;base64,{{product.foodImages[0].imageBase64}}" [alt]="product.name" />
               <div class="product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</div>
-              <div class="product-description">Ordered: {{product.numberOrdered}}</div>
+              <div class="product-description">{{'shopDetailScreen.Ordered' | translate}}: {{product.numberOrdered}}</div>
               <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>
             </div>
             <div class="product-grid-item-bottom">

@@ -14,7 +14,9 @@
     "GotoPaymentPage":"Chuyển đến trang thanh toán",
     "SendCode":"Gửi mã",
     "Send":"Gửi",
-    "Addnew":"Thêm mới"
+    "Addnew":"Thêm mới",
+    "AddtoCart":"Thêm vào giỏ hàng",
+    "Checkout":"Thanh toán"
   },
 
   "loginScreen": {
@@ -129,20 +131,42 @@
   },
 
   "voucherScreen": {
-    "voucherManagement": "Voucher Management",
-    "addNew": "Add New",
-    "code": "Code",
-    "discountAmount": "Discount Amount",
-    "minimumOrder": "Minimum Order",
-    "effectiveDate": "Effective Date",
-    "expireDate": "Expire Date",
-    "status":"Status",
-    "action": "Action",
-    "emptymessage":"There are no order on this status yet.",
-    "emptymessage1":"There are no food for this order yet.",
-    "emptymessage2":"Your shop doesn't have a shipper yet",
+    "voucherManagement": "Quản lý mã giảm giá",
+    "SearchVoucherbyname":"Tìm mã giảm giá",
+    "code": "Mã",
+    "discountAmount": "Số tiền chiết khấu",
+    "minimumOrder": "Đơn hàng tối thiểu",
+    "effectiveDate": "Ngày có hiệu lực",
+    "expireDate": "Ngày hết hạn",
+    "status":"Trạng thái",
+    "action": "Thao Tác",
+    "emptymessage":"Chưa có mã giảm giá nào.",
     "total":"Total",
-    "ordersonthisstatus":"orders on this status"
+    "voucher":"mã giảm giá",
+    "Voucherinformation":"Thông tin mã giảm giá"
+  },
+
+  "shipperSellerScreen": {
+    "ShipperManagementbySeller": "Quản lý người giao hàng",
+    "SearchNamebyname":"Tìm kiếm theo tên",
+    "ID": "ID",
+    "Email": "Email",
+    "FullName": "Tên đầy đủ",
+    "Gender": "Giới tính",
+    "DOB": "DOB",
+    "Images":"Hình ảnh",
+    "PhoneNumber": "Số điện thoại",
+    "Action":"Thao Tác",
+    "emptymessage":"Chưa có người giao hàng.",
+    "total":"Có",
+    "foods":"người giao hàng",
+    "InvitationShipperbyEmail":"Mời người giao hàng qua email",
+    "Accept":"Chấp nhận",
+    "Pending":"Đang chờ xử lý",
+    "Accepted":"Đã chấp nhận",
+    "Rejected":"Bị từ chối",
+    "Invitation":"Lời mời",
+    "ListInvitation":"List Invitation"
   },
 
   "walletSellerScreen": {
@@ -213,6 +237,99 @@
     "ListImage":"Danh sách hình ảnh",
     "ViewPostContent":"View Post Content",
     "NoImage":"No Image"
+  },
+
+  "homePageScreen": {
+    "Food": "Thức ăn",
+    "Shop": "Cửa hàng",
+    "Hotfood": "Đồ ăn nổi bật",
+    "ShopList": "Danh sách cửa hàng",
+    "Viewdetailofshop":"Chi tiết cửa hàng",
+    "EntertoSearch": "Nhập để tìm kiếm",
+    "SortByPrice":"Sắp xếp theo giá",
+    "SearchbyName":"Tìm kiếm theo tên",
+    "OderedHightoLow":"Sắp xếp từ Cao xuống Thấp",
+    "OderedLowtoHigh":"Sắp xếp từ Thấp đến Cao",
+    "StarLowtoHigh":"Sao thấp đến cao",
+    "StarHightoLow":"Sao cao đến thấp",
+    "NumberOrdered":"Lượng đặt hàng:"
+  },
+
+  "shopDetailScreen": {
+    "Online": "Trực Tuyến",
+    "Offline": "Ngoại tuyến",
+    "Menu": "Menu",
+    "EntertoSearch": "Nhập để tìm kiếm",
+    "SortByPrice":"Sắp xếp theo giá",
+    "PriceHightoLow":"Giá Cao xuống Thấp",
+    "PriceLowtoHigh":"Giá Thấp đến Cao",
+    "Ordered":"đơn hàng",
+    "ReportingtheShop":"Báo cáo cửa hàng",
+    "reasons":"Lý do:",
+    "reason1":"Người bán có đăng sản phẩm cấm",
+    "reason2":"Người dùng có dấu hiệu lừa đảo",
+    "reason3":"Vi pham quyền riêng tư",
+    "Other": "Khác",
+    "Content":"Nội dung",
+    "Images":"Ảnh",
+    "Note":"Lưu ý: Bạn sẽ không thể hủy sau khi đã tố cáo"
+  },
+
+  "foodDetailScreen": {
+    "Report": "Báo cáo",
+    "Reported": "Đã báo cáo",
+    "Category": "Loại",
+    "Price": "Giá",
+    "NumberOrders":"Lượng đặt",
+    "Numbers":"Số lượng",
+    "Description":"Mô tả",
+    "Similarfood":"Đồ ăn tương tự",
+    "Ordered":"Đã được đặt",
+    "All":"Tất cả",
+    "star":"Sao",
+    "Jumptocomment1":"Chuyển đến bình luận-1",
+    "Like":"Thích",
+    "points":"điểm",
+    "Jumptocomment2":"Chuyển đến bình luận-2",
+    "Review":"Đánh giá",
+    "Reportingthefood":"Báo cáo thực phẩm",
+    "reasons":"Lý do",
+    "reason1":"Đồ ăn thực tế không đúng với mô tả",
+    "reason2":"Hình ảnh đồ ăn không giống với thực tế nhận được",
+    "reason3":"Đồ ăn không đảm bảo chất lượng",
+    "Other": "Khác",
+    "Content":"Nội dung",
+    "Images":"Ảnh",
+    "Note":"Lưu ý: Bạn sẽ không thể hủy sau khi đã tố cáo"
+  },
+
+  "cartDetailScreen": {
+    "OnlinCartDetaile": "Chi tiết giỏ hàng",
+    "FoodId": "FoodId",
+    "Image": "Hình ảnh",
+    "Name": "Tên",
+    "Price":"Giá tiền",
+    "Amount":"Số lượng",
+    "TotalPrice":"Tổng tiền",
+    "Action":"Thao tác"
+  },
+
+  "checkOutScreen": {
+    "OrderInformation": "Thông tin đặt hàng",
+    "ShopName": "Tên Cửa Hàng",
+    "TotalPrice": "Tổng tiền",
+    "Voucher": "Mã giảm giá",
+    "Voucher1":"Mã giảm giá (tùy chọn)",
+    "OverviewInformation":"Thông tin tổng quan",
+    "Address":"Địa chỉ",
+    "Different":"Khác",
+    "Phone":"Số điện thoại",
+    "PaymentMethod":"Phương thức thanh toán",
+    "COD":"Thanh toán khi nhận hàng",
+    "Wallet":"Sử dụng ví",
+    "Note":"Ghi chú (tùy chọn)",
+    "TotalPriceOrder":"Tổng tiền đơn hàng ",
+    "OrderSuccess":"Đặt hàng thành công"
   }
 
 

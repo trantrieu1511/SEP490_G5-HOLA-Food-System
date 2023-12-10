@@ -2,13 +2,13 @@
 <div class="grid table-demo">
   <div class="col-12">
       <div class="card">
-          <h5>Shipper Management by Seller</h5>
+          <h5>{{'shipperSellerScreen.ShipperManagementbySeller' | translate}}</h5>
 
           <p-table #dt [value]="lstShipper" dataKey="id"
                    styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
                    [showCurrentPageReport]="true"
                    [paginator]="lstShipper.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
-                   currentPageReportTemplate="Total: {totalRecords} foods"
+                   currentPageReportTemplate="{{'shipperSellerScreen.total' | translate}}: {totalRecords} {{'shipperSellerScreen.foods' | translate}}"
                    [globalFilterFields]="['shipperName']" responsiveLayout="scroll"
 
           >
@@ -19,13 +19,13 @@
                               <i class="pi pi-search"></i>
                               <input pInputText type="text"  #textInput
                                      (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                     placeholder="Search Name by name"/>
+                                     placeholder="{{'shipperSellerScreen.SearchNamebyname' | translate}}"/>
                           </span>
                       </div>
 
                       <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
                           <div class="flex align-items-center justify-content-center">
-                              <button pButton type="button" label="Invitation" icon="pi pi-plus"
+                              <button pButton type="button" label="{{'shipperSellerScreen.Invitation' | translate}}" icon="pi pi-plus"
                               (click)="onInvitation()"
                                       style="width: auto;"></button>
                           </div>
@@ -39,7 +39,7 @@
                       </th> -->
                       <th pSortableColumn="customerId">
                           <div class="flex justify-content-between align-items-center">
-                              ID
+                              {{'shipperSellerScreen.ID' | translate}}
                               <p-sortIcon field="customerId"></p-sortIcon>
                               <p-columnFilter type="numeric" field="customerId" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -47,7 +47,7 @@
                       </th>
                       <th pSortableColumn="email">
                           <div class="flex justify-content-between align-items-center">
-                            Email
+                            {{'shipperSellerScreen.Email' | translate}}
                               <p-sortIcon field="email"></p-sortIcon>
                               <p-columnFilter type="text" field="email" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -55,7 +55,7 @@
                       </th>
                       <th pSortableColumn="shipperName">
                           <div class="flex justify-content-between align-items-center">
-                            FullName
+                            {{'shipperSellerScreen.FullName' | translate}}
                               <p-sortIcon field="shipperName"></p-sortIcon>
                               <p-columnFilter type="text" field="shipperName" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -63,7 +63,7 @@
                       </th>
                       <th pSortableColumn="gender">
                           <div class="flex justify-content-between align-items-center">
-                            Gender
+                            {{'shipperSellerScreen.Gender' | translate}}
                               <p-sortIcon field="gender"></p-sortIcon>
                               <p-columnFilter type="text" field="gender" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -71,7 +71,7 @@
                       </th>
                       <th pSortableColumn="birthDate">
                           <div class="flex justify-content-between align-items-center">
-                              DOB
+                              {{'shipperSellerScreen.DOB' | translate}}
                               <p-sortIcon field="birthDate"></p-sortIcon>
                               <p-columnFilter type="text" field="birthDate" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -80,18 +80,18 @@
 
                       <th>
                           <div class="flex justify-content-between align-items-center">
-                              Images
+                              {{'shipperSellerScreen.Images' | translate}}
                           </div>
                       </th>
                       <th>
                         <div class="flex justify-content-between align-items-center">
-                          PhoneNumber
+                          {{'shipperSellerScreen.PhoneNumber' | translate}}
                         </div>
                     </th>
                       <th style="min-width: 8rem">
                           <div
                                class="flex justify-content-between align-items-center">
-                              Action
+                              {{'shipperSellerScreen.Action' | translate}}
                           </div>
                       </th>
                   </tr>
@@ -148,7 +148,7 @@
               </ng-template>
               <ng-template pTemplate="emptymessage">
                   <tr>
-                      <td colspan="8">No Shipper yet.</td>
+                      <td colspan="8">{{'shipperSellerScreen.emptymessage' | translate}}</td>
                   </tr>
               </ng-template>
           </p-table>
@@ -169,12 +169,12 @@
                 <span class="p-input-icon-left p-float-label" style="width: 100%">
                     <input type="email" class="w-full"  [(ngModel)]="addShipper"
                             pInputText/>
-                    <label>Invitation Shipper by Email*</label>
+                    <label>{{'shipperSellerScreen.InvitationShipperbyEmail' | translate}}*</label>
                 </span>
 
             </div>
             <div class="col-12 mb-2 lg:col-4 mb-lg-0">
-              <button pButton type="button" label="Invitation" icon="pi pi-plus"
+              <button pButton type="button" label="{{'shipperSellerScreen.Invitation' | translate}}" icon="pi pi-plus"
               (click)="AddShipper()"
               style="width: auto;"></button>
 
@@ -182,11 +182,11 @@
                   <p-table  [value]="listinvitation" [paginator]="true" [rows]="5" responsiveLayout="scroll">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th pSortableColumn="banCustomerId">ID<p-sortIcon field="shipperId"></p-sortIcon></th>
-                            <th>Fullname</th>
-                            <th>Email</th>
-                            <th>PhoneNumber</th>
-                            <th>Accept</th>
+                            <th pSortableColumn="banCustomerId">{{'shipperSellerScreen.ID' | translate}}<p-sortIcon field="shipperId"></p-sortIcon></th>
+                            <th>{{'shipperSellerScreen.FullName' | translate}}</th>
+                            <th>{{'shipperSellerScreen.Email' | translate}}</th>
+                            <th>{{'shipperSellerScreen.PhoneNumber' | translate}}</th>
+                            <th>{{'shipperSellerScreen.Accept' | translate}}</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-history>
@@ -196,9 +196,9 @@
                             <td>{{history.email}}</td>
                             <td>{{history.phoneNumber}}</td>
                             <td>
-                              <span style="color:gray;" *ngIf="history.accepted === 0">Pending</span>
-                              <span style="color:greenyellow;" *ngIf="history.accepted === 1">Accepted</span>
-                              <span style="color:red;" *ngIf="history.accepted === 2">Rejected</span>
+                              <span style="color:gray;" *ngIf="history.accepted === 0">{{'shipperSellerScreen.Pending' | translate}}</span>
+                              <span style="color:greenyellow;" *ngIf="history.accepted === 1">{{'shipperSellerScreen.Accepted' | translate}}</span>
+                              <span style="color:red;" *ngIf="history.accepted === 2">{{'shipperSellerScreen.Rejected' | translate}}</span>
                           </td>
                         </tr>
                     </ng-template>
