@@ -1,7 +1,23 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class MenuDataService {
+
+  dashboard: string
+  notification: string
+  orderManagement: string
+
+
+  constructor(public translate: TranslateService){
+    // this.translate.get('menuLabel').subscribe( (text: any) => {
+    //   this.dashboard = text.dashboard
+
+    // });
+
+  
+  }
+
   menusSeller() {
     return [
       {

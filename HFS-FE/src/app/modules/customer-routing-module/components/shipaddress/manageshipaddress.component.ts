@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
 import { CreateNewShipAddressInputValidation, ShipAddress, UpdateShipAddressInputValidation } from '../../models/ShipAddress.modal';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 
 class ProvinceDistrictWard {
   name: string = null;
@@ -58,7 +59,8 @@ export class ManageshipaddressComponent extends iComponentBase implements OnInit
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     public router: Router,
-    public authService: AuthService
+    public authService: AuthService,
+    public translate: TranslateService
     // private appCustomerTopBarComponent: AppCustomerTopBarComponent
   ) {
     super(messageService);
