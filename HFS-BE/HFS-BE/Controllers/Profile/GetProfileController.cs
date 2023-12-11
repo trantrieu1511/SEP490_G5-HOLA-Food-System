@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.Profile
 {
-    public class DisplayProfileController : BaseController
+    public class GetProfileController : BaseController
     {
-        public DisplayProfileController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public GetProfileController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
@@ -21,7 +21,7 @@ namespace HFS_BE.Controllers.Profile
         public UserProfileOutputDto GetProfile() {
             try
             {
-                var business = GetBusinessLogic<DisplayProfileBusinessLogic>();
+                var business = GetBusinessLogic<GetProfileBusinessLogic>();
                 string userId = GetUserInfor().UserId;
 
                 return business.GetProfile(userId);

@@ -221,7 +221,7 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="isVisibleEditLicenseDialog" [style]="{ width: '700px' }" header="Edit your license image"
+<p-dialog [(visible)]="isVisibleEditLicenseDialog" [style]="{ width: '700px' }" header="Edit your licence image"
     [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="EditLicense">
         <div class="col-12 mb-2 lg:col-12 mb-lg-0">
@@ -248,7 +248,7 @@
 
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="8">No license yet.</td>
+                        <td colspan="8">No licence yet.</td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -376,7 +376,7 @@
                 <!-- <div class="card" style="width: 97%;"> -->
                     <!-- <div>More</div> -->
                     <div *ngIf="role == 'SE' && !profileDisplay.isVerified">
-                        <p-button [text]="true" (onClick)="openEditLicenseDialog();">Edit license image</p-button>
+                        <p-button [text]="true" (onClick)="openEditLicenseDialog();">Edit licence image</p-button>
                         <!-- <br> -->
                     </div>
                     <div>

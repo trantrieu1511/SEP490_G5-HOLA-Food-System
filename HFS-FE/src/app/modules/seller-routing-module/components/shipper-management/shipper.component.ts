@@ -11,6 +11,7 @@ import {
     MessageService,
 } from "primeng/api";
 import { Shipper } from '../../models/shipper.model';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -34,7 +35,8 @@ export class ShipperComponent extends iComponentBase implements OnInit{
               private shareData: ShareData,
               public messageService: MessageService,
               private confirmationService: ConfirmationService,
-              private iServiceBase: iServiceBase) {
+              private iServiceBase: iServiceBase,
+              public translate: TranslateService) {
       super(messageService);
 
   }

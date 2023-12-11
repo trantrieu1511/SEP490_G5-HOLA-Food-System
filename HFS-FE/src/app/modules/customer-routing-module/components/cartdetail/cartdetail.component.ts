@@ -19,6 +19,7 @@ import { CartItem } from '../../models/CartItem.model';
 import { CheckboxModule } from 'primeng/checkbox';
 import { AddToCart } from '../../models/addToCart.model';
 import { async } from '@angular/core/testing';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cartdetail',
@@ -39,7 +40,8 @@ export class CartdetailComponent extends iComponentBase implements OnInit{
     private iServiceBase: iServiceBase,
     private route: ActivatedRoute,
     private router: Router,
-    private dataService: DataService
+    private dataService: DataService,
+    public translate: TranslateService 
   ){
     super(messageService);	
   }

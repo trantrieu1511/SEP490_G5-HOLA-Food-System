@@ -30,6 +30,8 @@ CREATE TABLE [dbo].[Seller](
 	[refreshTokenExpiryTime] [datetime],
 	[createDate][datetime] null,
 	[businessCode]  NVARCHAR(50) NULL,
+	--[lat][float]null,
+	--[lng][float]null,
 )
 
 CREATE TABLE [dbo].[Admin](

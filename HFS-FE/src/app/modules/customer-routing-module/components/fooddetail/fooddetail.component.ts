@@ -26,6 +26,7 @@ import { FoodReport } from 'src/app/modules/menumoderator-routing-module/models/
 import { CheckboxChangeEvent } from 'primeng/checkbox';
 import { AuthService } from 'src/app/services/auth.service';
 import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
+import { TranslateService } from '@ngx-translate/core';
 interface PageEvent {
   first?: number;
   rows?: number;
@@ -49,6 +50,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     public presence: PresenceService,
     private authService: AuthService,
     public breadcrumbService: AppBreadcrumbService,
+    public translate: TranslateService
   ) {
     super(messageService, breadcrumbService);
 

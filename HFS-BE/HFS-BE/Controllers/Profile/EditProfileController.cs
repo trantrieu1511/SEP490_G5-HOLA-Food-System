@@ -18,7 +18,7 @@ namespace HFS_BE.Controllers.Profile
 
         [HttpPut("users/editprofile")]
         [Authorize]
-        public BaseOutputDto Post(EditUserProfileInputDto inputDto)
+        public BaseOutputDto EditProfile(EditUserProfileInputDto inputDto)
         {
             try
             {

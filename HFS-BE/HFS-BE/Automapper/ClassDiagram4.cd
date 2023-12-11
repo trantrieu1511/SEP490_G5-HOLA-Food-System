@@ -1,10 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="HFS_BE.Controllers.Profile.DisplayProfileController">
-    <Position X="6.75" Y="3" Width="1.5" />
+  <Class Name="HFS_BE.Controllers.Profile.GetProfileController">
+    <Position X="3.25" Y="3.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
-      <FileName>Controllers\Profile\DisplayProfileController.cs</FileName>
+      <FileName>Controllers\Profile\GetProfileController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.Base.BaseBusinessLogic">
+    <Position X="6" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAIAAAAAAAIAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Base\BaseBusinessLogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.Base.BaseController">
+    <Position X="3.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAIAAAAAAAIAAAAAIAAABAACAAAAAAAAAA=</HashCode>
+      <FileName>Base\BaseController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.BusinessLogic.Profile.GetProfileBusinessLogic">
+    <Position X="6" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>BusinessLogic\Profile\GetProfileBusinessLogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.DAO.UserDao.UserDao">
+    <Position X="9" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIQAAAAAAAAAAgDAAAAAAAABCAAACAAAIAEAg=</HashCode>
+      <FileName>DAO\UserDao\UserDao.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.DAO.UserDao.UserProfile">
+    <Position X="12" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>FACAAEAAkDAAAACAAAQQQAwgAACAAgAAAAAEAAAAAAg=</HashCode>
+      <FileName>DAO\UserDao\UserOutputDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.DAO.UserDao.UserProfileOutputDto">
+    <Position X="6" Y="5.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>DAO\UserDao\UserOutputDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.Utils.Constants">
+    <Position X="3.5" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAABAEAAAAAAAAAAgAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Utils\Constants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.Base.BaseDao">
+    <Position X="9" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAIAAAAAAAIAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Base\BaseDao.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.Base.BaseOutputDto">
+    <Position X="7.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAgAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Base\BaseOutputDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HFS_BE.Base.ErrorsMessage">
+    <Position X="9.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Base\BaseOutputDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
