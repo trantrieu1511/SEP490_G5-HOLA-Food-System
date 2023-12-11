@@ -41,13 +41,13 @@ export class MenuDataService {
           {
             label: 'Shipper Management',
             icon: 'pi pi-fw pi-users',
-            routerLink: ['/HFSBusiness/shipper-management'],
+            routerLink: ['/HFSBusiness/seller/shipper-management'],
             badgeClass: 'p-badge-success',
           },
           {
             label: 'Voucher Management',
             icon: 'pi pi-fw pi-ticket',
-            routerLink: ['/HFSBusiness/voucher-management'],
+            routerLink: ['/HFSBusiness/seller/voucher-management'],
             badgeClass: 'p-badge-success',
           },
 
@@ -55,6 +55,12 @@ export class MenuDataService {
             label: 'Wallet Management',
             icon: 'pi pi-fw pi-dollar',
             routerLink: ['/HFSBusiness/seller/wallet'],
+            badgeClass: 'p-badge-success',
+          },
+          {
+            label: 'Feedback Management',
+            icon: 'pi pi-fw pi-dollar',
+            routerLink: ['/HFSBusiness/seller/reply'],
             badgeClass: 'p-badge-success',
           },
           // {

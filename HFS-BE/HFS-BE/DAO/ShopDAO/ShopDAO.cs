@@ -42,9 +42,12 @@ namespace HFS_BE.Dao.ShopDao
                     decimal star = 0;
                     int imgCount = 0;
                     var shop = mapper.Map<Seller, ShopDto>(item);
-                    foreach (var order in item.Orders)
+
+					foreach (var order in item.Orders)
                     {
-                        foreach (var orderdetail in order.OrderDetails)
+						var data2 = context.OrderDetails.Include(s => s.Order).
+         ThenInclude(s => s.OrderProgresses).Where(s => s.Order.OrderProgresses.Where(a => a.Status == 4).Any() && s.OrderId == order.OrderId);
+						foreach (var orderdetail in data2)
                         {
                             ordered += orderdetail.Quantity.Value;
                         }
@@ -120,7 +123,9 @@ namespace HFS_BE.Dao.ShopDao
                     int imgCount = 0;
                     foreach (var order in output.Orders)
                     {
-                        foreach (var orderdetail in order.OrderDetails)
+						var data2 = context.OrderDetails.Include(s => s.Order).
+				  ThenInclude(s => s.OrderProgresses).Where(s => s.Order.OrderProgresses.Where(a => a.Status == 4).Any() && s.OrderId == order.OrderId);
+						foreach (var orderdetail in data2)
                         {
                             ordered += orderdetail.Quantity.Value;
                         }
@@ -189,7 +194,9 @@ namespace HFS_BE.Dao.ShopDao
                     decimal star = 0;
                     foreach (var order in item.Orders)
                     {
-                        foreach (var orderdetail in order.OrderDetails)
+						var data2 = context.OrderDetails.Include(s => s.Order).
+			  ThenInclude(s => s.OrderProgresses).Where(s => s.Order.OrderProgresses.Where(a => a.Status == 4).Any() && s.OrderId == order.OrderId);
+						foreach (var orderdetail in data2)
                         {
                             ordered += orderdetail.Quantity.Value;
                         }
