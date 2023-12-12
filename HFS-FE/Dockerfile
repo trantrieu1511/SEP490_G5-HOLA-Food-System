@@ -1,31 +1,20 @@
-# syntax=docker/dockerfile:1.4
+# Stage 1: Build frontend
+FROM node:16.14.2-alpine as build-stage
 
-FROM --platform=$BUILDPLATFORM node:16.14.2 as builder
+WORKDIR /app
 
-RUN mkdir /project
-WORKDIR /project
+RUN npm install -g @angular/cli@16.2.1
 
-RUN npm install -g @angular/cli@16
-
-COPY package.json package-lock.json ./
+COPY ./package*.json /app/
 RUN npm ci
+COPY ./ /app/
 
-COPY . .
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+RUN npm run build -- --output-path=./dist/out --output-hashing=all
 
-FROM builder as dev-envs
-
-RUN <<EOF
-apt-get update
-apt-get install -y --no-install-recommends git
-EOF
-
-RUN <<EOF
-useradd -s /bin/bash -m vscode
-groupadd docker
-usermod -aG docker vscode
-EOF
-# install Docker tools (cli, buildx, compose)
-COPY --from=gloursdocker/docker / /
-
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+# Stage 2: Serve it using Ngnix
+FROM nginx
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build-stage /app/dist/out/ /usr/share/nginx/html
+#COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+#COPY ./nginx.conf /etc/nginx/nginx.conf
+#EXPOSE 80

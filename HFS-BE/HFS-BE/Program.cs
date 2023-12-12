@@ -11,6 +11,7 @@ using HFS_BE.Services;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -23,11 +24,24 @@ using Twilio.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+});
+
 // Add services to the container.
+ var server = Environment.GetEnvironmentVariable("DatabaseServer");
+    var database = Environment.GetEnvironmentVariable("DatabaseName");
+    var user = Environment.GetEnvironmentVariable("DatabaseUser");
+    var password = Environment.GetEnvironmentVariable("DatabaseUserPassword");
+    
+    var connection = String.Format("Server={0},1450;Database={1};Integrated security=true;TrustServerCertificate=true;",server,database);
+//builder.Services.AddDbContext<SEP490_HFS_2Context>();
 builder.Services.AddDbContext<SEP490_HFS_2Context>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("MyCnn"));
 });
+
 builder.Services.AddScoped<ValidationFilterAttribute>();
 builder.Services.Configure<ApiBehaviorOptions>(options
     => options.SuppressModelStateInvalidFilter = true);
@@ -67,7 +81,7 @@ builder.Services.AddCors(act =>
     {
         options.AllowAnyHeader();
         options.AllowAnyMethod();
-        options.WithOrigins("https://fu.holafood.click", "http://localhost:4200", "https://provinces.open-api.vn/api", "https://localhost:7016", "https://be.holafood.click", "https://maps.googleapis.com/maps/api"); // Ch? ??nh ngu?n g?c c? th?
+        options.WithOrigins("https://fu.holafood.click", "http://34.142.168.36:4200","http://34.142.168.36:80", "https://provinces.open-api.vn/api", "https://localhost:7016", "https://be.holafood.click", "https://maps.googleapis.com/maps/api"); // Ch? ??nh ngu?n g?c c? th?
         options.AllowCredentials(); // Cho ph�p ch? ?? credentials
         
     });
@@ -151,8 +165,28 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseRouting();
-app.UseHttpsRedirection();
+
+// [CC] In the container environment, we want to run this on 8080 for GCR
+// This means that we will need to add the environment variable in the
+// Dockerfile.
+// requires using Microsoft.AspNetCore.HttpOverrides;
+app.UseForwardedHeaders();
+if(app.Environment.IsEnvironment("container"))
+{
+    app.Urls.Add("http://0.0.0.0:5000"); // Supoorts Google Cloud Run.
+}
+/*if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+*/
+// Dockerfile />
+
+
+
+
 app.UseAuthentication();
 app.UseAuthorization();
 

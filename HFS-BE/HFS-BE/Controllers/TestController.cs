@@ -423,5 +423,24 @@ namespace HFS_BE.Controllers
 			public string destination { get; set; }
 
 		}
+		
+		[HttpGet("test/nginx")]
+		public List<object> listpost()
+		{
+		    var list = new List<object>();
+
+		    list.Add(new
+		    {
+			id = 1,
+			name = "abc"
+		    });
+		    list.Add(new
+		    {
+			id = 2,
+			name = "abc"
+		    });
+
+		    return list;
+		}
 	}
 }

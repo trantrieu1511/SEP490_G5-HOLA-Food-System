@@ -1,6 +1,6 @@
 {
     "APIGATEWAY": "http://10.0.40.33:4443",
-    "APISERVICE": "https://localhost:7016",  
+    "APISERVICE": "/api",
     "IP_UI": "",
     "PROJECT_NAME": "Recall",
     "SocketUri": "http://10.1.4.176:9000",
