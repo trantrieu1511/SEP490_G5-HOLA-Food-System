@@ -22,6 +22,7 @@ import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
 import { SellerReport } from '../../models/sellerReport.model';
 import { take } from 'rxjs';
 import { PresenceService } from 'src/app/services/presence.service';
+import { TranslateService } from '@ngx-translate/core';
 declare var google: any;
 
 @Component({
@@ -56,7 +57,8 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
     private router: Router,
     public presence: PresenceService,
     private dataService: DataService,
-    private authService: AuthService
+    private authService: AuthService,
+    public translate: TranslateService
   ) {
     super(messageService);
   }
@@ -92,10 +94,18 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
         this.getShopInfor()
       });
 
-    this.sortOptions = [
-      { label: 'Price High to Low', value: '!unitPrice' },
-      { label: 'Price Low to High', value: 'unitPrice' }
-    ];
+      this.translate.get('shopDetailScreen').subscribe( (text: any) => {
+
+        this.sortOptions = [
+          { label:  text.PriceHightoLow, value: '!unitPrice'},
+          { label:  text.PriceLowtoHigh, value: 'unitPrice'},
+        ];
+    
+      });
+    // this.sortOptions = [
+    //   { label: 'Price High to Low', value: '!unitPrice' },
+    //   { label: 'Price Low to High', value: 'unitPrice' }
+    // ];
 
   }
 
@@ -260,17 +270,18 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
       // Object.keys(this.sellerReport).forEach(function (key) {
       //   param.append(key, this.sellerReport[key]);
       // });
-
+debugger
       //
       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.REPORT_SELLER, param22);
       if (response && response.success === true) {
         this.showMessage(mType.success, "Notification", `Report the food successfully`, 'notify');
         console.log(response);
+        this.uploadedFiles = [];
         console.log('Create new food report successfully');
       }
       else {
         // this.showMessage(mType.warn, "Error", this.iServiceBase.formatMessageError(response.message), 'notify');
-        this.showMessage(mType.warn, "Error", response.message, 'notify');
+        this.showMessage(mType.error, "Error", response.message, 'notify');
         // console.log(response);
         // console.log('Internal server error, please contact for admin help!');
       }

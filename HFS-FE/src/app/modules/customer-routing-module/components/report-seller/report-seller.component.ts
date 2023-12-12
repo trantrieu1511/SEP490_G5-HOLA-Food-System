@@ -17,6 +17,7 @@ import { FoodReport } from '../../models/foodreport.model';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { reportSeller } from '../../models/reportSeller2';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-report-seller',
   templateUrl: './report-seller.component.html',
@@ -39,7 +40,8 @@ export class ReportSellerComponent extends iComponentBase implements OnInit {
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     public router: Router,
-    public authService: AuthService
+    public authService: AuthService,
+    public translate: TranslateService
     // private appCustomerTopBarComponent: AppCustomerTopBarComponent
   ) {
     super(messageService);

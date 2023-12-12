@@ -153,10 +153,10 @@ namespace HFS_BE.Utils
                 $"Food Id({foodId}) has a new report from user id: {userId}":
                 $"Food Id({foodId}) has a new report from user id: {userId}, Note: {note}";
 
-            notifyLst[1].Title = "Báo cáo mới";
+            notifyLst[1].Title = "Tố cáo mới";
             notifyLst[1].Content = note is null || note == "" ?
-                $"Food Id({foodId}) có báo cáo mới từ người dùng id: {userId}" :
-                $"Food Id({foodId}) có báo cáo mới từ người dùng id: {userId}, Ghi chú: {note}";
+                $"Food Id({foodId}) có tố cáo mới từ người dùng id: {userId}" :
+                $"Food Id({foodId}) có tố cáo mới từ người dùng id: {userId}, Ghi chú: {note}";
 
             return notifyLst;
         }
@@ -170,10 +170,10 @@ namespace HFS_BE.Utils
                 $"Post Id({postId}) has a new report from user id: {userId}" :
                 $"Post Id({postId}) has a new report from user id: {userId}, Note {note}";
 
-            notifyLst[1].Title = "Báo cáo mới";
+            notifyLst[1].Title = "Tố cáo mới";
             notifyLst[1].Content = note is null || note == "" ?
-                $"Bài viết Id({postId}) có báo cáo mới từ người dùng id: {userId}" :
-                $"Post Id({postId}) có báo cáo mới từ người dùng id: {userId}, Ghi chú: {note}";
+                $"Bài viết Id({postId}) có tố cáo mới từ người dùng id: {userId}" :
+                $"Post Id({postId}) có tố cáo mới từ người dùng id: {userId}, Ghi chú: {note}";
 
             return notifyLst;
         }
@@ -187,7 +187,7 @@ namespace HFS_BE.Utils
             notifyLst[0].Content = $"Post Id({postId}) was banned. Note: {banNote}";
 
             notifyLst[1].Title = "Bài viết bị cấm";
-            //notifyLst[1].Content = $"Post Id({postId}) đã bị cấm dựa theo báo cáo của người dùng";
+            //notifyLst[1].Content = $"Post Id({postId}) đã bị cấm dựa theo tố cáo của người dùng";
             notifyLst[1].Content = $"Post Id({postId}) đã bị cấm. Ghi chú: {banNote}";
 
             return notifyLst;
@@ -215,7 +215,7 @@ namespace HFS_BE.Utils
             notifyLst[0].Content = $"Food Id({foodId}) was banned. Note: {banNote}";
 
             notifyLst[1].Title = "Món ăn bị cấm";
-            //notifyLst[1].Content = $"Món Id({foodId}) đã bị cấm dựa theo báo cáo của người dùng";
+            //notifyLst[1].Content = $"Món Id({foodId}) đã bị cấm dựa theo tố cáo của người dùng";
             notifyLst[1].Content = $"Món Id({foodId}) đã bị cấm. Ghi chú: {banNote}";
 
             return notifyLst;
@@ -269,7 +269,7 @@ namespace HFS_BE.Utils
                 $"{foodName}({foodId}) has a new report" :
                 $"{foodName}({foodId}) has a new report, Note: {note}";
 
-            notifyLst[1].Title = "Báo cáo mới";
+            notifyLst[1].Title = "Tố cáo mới";
             notifyLst[1].Content = note is null || note == "" ?
                 $"{foodName}({foodId}) đã bị tố cáo bởi khách hàng" :
                 $"{foodName}({foodId}) đã bị tố cáo bởi khách hàng. Ghi chú của quản trị viên thực phẩm: {note}";
@@ -286,7 +286,7 @@ namespace HFS_BE.Utils
                 $"Post Id ({postId}) has a new report" :
                 $"Post Id ({postId}) has a new report, Note {note}";
 
-            notifyLst[1].Title = "Báo cáo mới";
+            notifyLst[1].Title = "Tố cáo mới";
             notifyLst[1].Content = note is null || note == "" ?
                 $"Bài viết Id ({postId}) đã bị tố cáo bởi khách hàng" :
                 $"Bài viết Id ({postId}) đã bị tố cáo bởi khách hàng. Ghi chú của quản trị viên bài viết: {note}";
@@ -305,10 +305,10 @@ namespace HFS_BE.Utils
                 $"The report about the {objectReportEng} ({reportName}) was approved" :
                 $"The report about the {objectReportEng} ({reportName}) was approved, Note: {note}";
 
-            notifyLst[1].Title = $"Báo cáo {objectReportVN}";
+            notifyLst[1].Title = $"Tố cáo {objectReportVN}";
             notifyLst[1].Content = note is null || note == "" ? 
-                $"Báo cáo về {objectReportVN} ({reportName}) đã được chấp thuận" :
-                $"Báo cáo về {objectReportVN} ({reportName}) đã được chấp thuận, Ghi chú: {note}";
+                $"Tố cáo về {objectReportVN} ({reportName}) đã được chấp thuận" :
+                $"Tố cáo về {objectReportVN} ({reportName}) đã được chấp thuận, Ghi chú: {note}";
 
             return notifyLst;
         }
@@ -324,10 +324,10 @@ namespace HFS_BE.Utils
                 $"The report about the {objectReportEng} ({foodName}) was not approved" :
                 $"The report about the {objectReportEng} ({foodName}) was not approved, Note: {note}";
 
-            notifyLst[1].Title = $"Báo cáo {objectReportVN}";
+            notifyLst[1].Title = $"Tố cáo {objectReportVN}";
             notifyLst[1].Content = note is null || note == "" ? 
-                $"Báo cáo về {objectReportVN} ({foodName}) không được chấp thuận" :
-                $"Báo cáo về {objectReportVN} ({foodName}) không được chấp thuận, Ghi chú: {note}";
+                $"Tố cáo về {objectReportVN} ({foodName}) không được chấp thuận" :
+                $"Tố cáo về {objectReportVN} ({foodName}) không được chấp thuận, Ghi chú: {note}";
 
             return notifyLst;
         }

@@ -130,6 +130,7 @@ try{
 if (response && response.message === "Success") {
  this.getAllMM();
  this.showMessage(mType.success, "Notification", "Add "+this.menuM.email+" successfully", 'notify');
+ this.displayDialogAdd = false;
 }else{
   this.showMessage(mType.error, "Notification", response.message , 'notify');
 }

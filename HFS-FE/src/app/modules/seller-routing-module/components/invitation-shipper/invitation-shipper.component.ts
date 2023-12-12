@@ -12,6 +12,7 @@ import { PostModerator } from 'src/app/modules/admin-routing-module/models/PostM
 import { Customer } from 'src/app/modules/admin-routing-module/models/Customer';
 import { AuthService, User } from 'src/app/services/auth.service';
 import { Invition, Shipper } from '../../models/shipper.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-invitation-shipper',
@@ -32,7 +33,8 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
-    private authSerivce: AuthService
+    private authSerivce: AuthService,
+    public translate: TranslateService
   ){
     super(messageService);
 

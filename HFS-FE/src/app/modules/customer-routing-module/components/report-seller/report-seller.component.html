@@ -23,10 +23,10 @@
   </div>
 
   <div class="card main-body">
-      <h2>Seller report</h2>
+      <h2>{{'shopReportScreen.Sellerreport' | translate}}</h2>
       <p-table #dt [value]="lstReport" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
           [rows]="10" [showCurrentPageReport]="true" [paginator]="lstReport.length > 5" [filterDelay]="0"
-          [rowsPerPageOptions]="[5,10,25,50]" currentPageReportTemplate="Total: {totalRecords} food reports"
+          [rowsPerPageOptions]="[5,10,25,50]" currentPageReportTemplate="{{'shopReportScreen.Total' | translate}}: {totalRecords} {{'shopReportScreen.foodreports' | translate}}"
           [globalFilterFields]="['reportContent']" responsiveLayout="scroll" [loading]="loading">
           <ng-template pTemplate="caption">
               <div class="flex flex-row align-items-center flex-wrap justify-content-between ">
@@ -35,7 +35,7 @@
                           <i class="pi pi-search"></i>
                           <input pInputText type="text" #textInput
                               (input)="dt.filterGlobal(textInput.value, 'contains')"
-                              placeholder="Search by report content" />
+                              placeholder="{{'shopReportScreen.Searchbyreportcontent' | translate}}" />
                       </span>
                   </div>
               </div>
@@ -44,7 +44,7 @@
               <tr>
                   <th pSortableColumn="reportContent">
                       <div class="flex justify-content-between align-items-center">
-                          Report Content
+                          {{'shopReportScreen.ReportContent' | translate}}
                           <p-sortIcon field="reportContent"></p-sortIcon>
                           <p-columnFilter type="text" field="reportContent" display="menu"
                               class="ml-auto"></p-columnFilter>
@@ -79,7 +79,7 @@
           </ng-template>
           <ng-template pTemplate="emptymessage">
               <tr>
-                  <td colspan="8">No seller report yet.</td>
+                  <td colspan="8">{{'shopReportScreen.emptymessage' | translate}}</td>
               </tr>
           </ng-template>
       </p-table>
@@ -94,19 +94,19 @@
   <table class="table-report-detail">
       <tbody>
           <tr>
-              <th>You created this report on: </th>
+              <th>{{'shopReportScreen.Youcreatedthisreporton' | translate}}: </th>
               <td>
                   {{contentDialog.createDate}}
               </td>
           </tr>
           <tr>
-              <th>Your report content: </th>
+              <th>{{'shopReportScreen.Yourreportcontent' | translate}}: </th>
               <td>
                   {{contentDialog.reportContent}}
               </td>
           </tr>
           <tr>
-              <th>Name of the shop: </th>
+              <th>{{'shopReportScreen.Nameoftheshop' | translate}}: </th>
               <td>
                   {{contentDialog.shopName}}
               </td>
@@ -115,27 +115,27 @@
 
           </tr>
           <tr>
-              <th>Current report status: </th>
+              <th>{{'shopReportScreen.Currentreportstatus' | translate}}: </th>
               <td>
                 <div *ngIf="contentDialog.status===0" style="color:darkgray;">
-                  <span class="post-content">Pending</span>
+                  <span class="post-content">{{'shopReportScreen.Pending' | translate}}</span>
                  </div>
                  <div *ngIf="contentDialog.status===1"  style="color:chartreuse;">
-                  Solved
+                  {{'shopReportScreen.Solved' | translate}}
                  </div>
                  <div *ngIf="contentDialog.status===2"  style="color:red;">
-                  Reject
+                  {{'shopReportScreen.Reject' | translate}}
                  </div>
               </td>
           </tr>
           <tr>
-              <th>Reply: </th>
+              <th>{{'shopReportScreen.Reply' | translate}}: </th>
               <td>
                   {{contentDialog.note}}
               </td>
           </tr>
           <tr>
-            <th>Proof: </th>
+            <th>{{'shopReportScreen.Proof' | translate}}: </th>
             <td>
 
                 <button pButton pRipple icon="pi pi-images"
@@ -159,10 +159,10 @@
     <p-table [value]="reportImg.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Size</th>
+                <th pSortableColumn="ID">{{'shopReportScreen.ID' | translate}}<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>{{'shopReportScreen.Image' | translate}}</th>
+                <th>{{'shopReportScreen.Name' | translate}}</th>
+                <th>{{'shopReportScreen.Size' | translate}}</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-image>

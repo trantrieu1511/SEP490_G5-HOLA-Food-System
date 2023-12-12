@@ -111,10 +111,11 @@ export class OrderManagementComponent
     this.rangeDates[0] = this.rangeDates[1] = new Date();
 
     this.initTabMenuitem();
+
+    
   }
 
   async ngOnInit() {
-    debugger
     await this.getAllOrders();
 
     await this.connectSignalR();

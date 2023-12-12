@@ -1,16 +1,16 @@
 <div class="card">
-    <h5>Cart Detail</h5>
+    <h5>{{'cartDetailScreen.OnlinCartDetaile' | translate}}</h5>
     <p-table [value]="items" [paginator]="true" [rows]="10" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="id">FoodId <p-sortIcon field="foodId"></p-sortIcon></th>
-                <th>Image</th>
-                <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="unitPrice">Price <p-sortIcon field="unitPrice"></p-sortIcon></th>
-                <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon></th>
-                <th pSortableColumn="totalPrice">TotalPrice <p-sortIcon field="totalPrice"></p-sortIcon></th>
+                <th pSortableColumn="id"> {{'cartDetailScreen.FoodId' | translate}}<p-sortIcon field="foodId"></p-sortIcon></th>
+                <th>{{'cartDetailScreen.Image' | translate}}</th>
+                <th pSortableColumn="name">{{'cartDetailScreen.Name' | translate}} <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="unitPrice">{{'cartDetailScreen.Price' | translate}} <p-sortIcon field="unitPrice"></p-sortIcon></th>
+                <th pSortableColumn="amount">{{'cartDetailScreen.Amount' | translate}} <p-sortIcon field="amount"></p-sortIcon></th>
+                <th pSortableColumn="totalPrice">{{'cartDetailScreen.TotalPrice' | translate}} <p-sortIcon field="totalPrice"></p-sortIcon></th>
                 <th><input type="checkbox" [checked]="isSelectAll" (change)="onSelectAll($event)"/></th>
-                <th>Action</th>
+                <th>{{'cartDetailScreen.Action' | translate}}</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-product>
@@ -38,8 +38,8 @@
             </tr>
         </ng-template>      
     </p-table>
-    <h5>Total price: {{totalprice | currency:'VND'}}</h5>
-    <button pButton pRipple label="Checkout" (click)="onCheckOut()"></button>
+    <h5>{{'cartDetailScreen.TotalPrice' | translate}}: {{totalprice | currency:'VND'}}</h5>
+    <button pButton pRipple label="{{'button.Checkout' | translate}}" (click)="onCheckOut()"></button>
 </div>
 
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>

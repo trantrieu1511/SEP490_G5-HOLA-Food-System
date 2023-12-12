@@ -49,7 +49,12 @@
 
             <!-- <h2 id="result">{{ selectedResult }}</h2> -->
           </div>
+          <div class="flex items-center">
+            <label for="businessCode" class="block text-900 font-medium mb-2">BusinessCode*</label>
+            <div *ngIf="isbusinessCodeTouched && formregister.get('businessCode').errors?.required" class="invalid-feedback">-BusinessCode is required!</div>
 
+         </div>
+         <input id="businessCode" type="text" formControlName="businessCode" placeholder="BusinessCode" pInputText class="w-full mb-3" (focus)="isbusinessCodeTouched = true" (blur)="showbusinessCodeError()">
           <label for="shopname" class="block text-900 font-medium mb-2">Business License*</label>
           <p-fileUpload class=" w-full"
               #fileUploader
@@ -161,7 +166,7 @@
           </form>
         </div>
         <div *ngIf="!showForm">
-          <p>Đăng ký thành công! Vui lòng Check email để xác thực Email</p>
+          <p>Sign Up Success! Please check your email to verify your email</p>
         </div>
 
     </div>
