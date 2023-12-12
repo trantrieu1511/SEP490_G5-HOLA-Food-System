@@ -188,7 +188,7 @@ namespace HFS_BE.Models
             modelBuilder.Entity<CartItem>(entity =>
             {
                 entity.HasKey(e => new { e.FoodId, e.CartId })
-                    .HasName("PK__CartItem__E3FF5A02D4290AB2");
+                    .HasName("PK__CartItem__E3FF5A02F4865C5B");
 
                 entity.ToTable("CartItem");
 
@@ -200,17 +200,19 @@ namespace HFS_BE.Models
 
                 entity.Property(e => e.Amount).HasColumnName("amount");
 
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
                 entity.HasOne(d => d.Cart)
                     .WithMany(p => p.CartItems)
                     .HasForeignKey(d => d.CartId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__CartItem__cartId__6754599E");
+                    .HasConstraintName("FK__CartItem__cartId__531856C7");
 
                 entity.HasOne(d => d.Food)
                     .WithMany(p => p.CartItems)
                     .HasForeignKey(d => d.FoodId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__CartItem__foodId__68487DD7");
+                    .HasConstraintName("FK__CartItem__foodId__540C7B00");
             });
 
             modelBuilder.Entity<Category>(entity =>

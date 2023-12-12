@@ -215,6 +215,7 @@ GO
 -- cart item
 CREATE TABLE [dbo].[CartItem](
 	[foodId] [int] NOT NULL,
+	[CreateDate][datetime],
 	[cartId] [nvarchar](50) NOT NULL,
 	[amount] [int] NOT NULL,
 	Foreign Key ([cartId]) REFERENCES [Customer](customerId),

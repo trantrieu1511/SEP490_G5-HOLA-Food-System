@@ -327,7 +327,8 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.Food.SellerId))
                 .ForMember(dest => dest.ShopName, opt => opt.MapFrom(src => src.Food.Seller.ShopName))
                 .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.Food.UnitPrice));
-            CreateMap<AddCartItemInputDto, CartItem>();
+            CreateMap<AddCartItemInputDto, CartItem>()
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => DateTime.Now));
 
             CreateMap<CartItemOutputDto, CartItemDto>()
                 .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => src.foodImages));
