@@ -30,10 +30,18 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 });
 
 // Add services to the container.
+ var server = Environment.GetEnvironmentVariable("DatabaseServer");
+    var database = Environment.GetEnvironmentVariable("DatabaseName");
+    var user = Environment.GetEnvironmentVariable("DatabaseUser");
+    var password = Environment.GetEnvironmentVariable("DatabaseUserPassword");
+    
+    var connection = String.Format("Server={0},1450;Database={1};Integrated security=true;TrustServerCertificate=true;",server,database);
+//builder.Services.AddDbContext<SEP490_HFS_2Context>();
 builder.Services.AddDbContext<SEP490_HFS_2Context>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("MyCnn"));
 });
+
 builder.Services.AddScoped<ValidationFilterAttribute>();
 builder.Services.Configure<ApiBehaviorOptions>(options
     => options.SuppressModelStateInvalidFilter = true);

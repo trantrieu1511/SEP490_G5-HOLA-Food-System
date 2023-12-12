@@ -6,7 +6,7 @@ export const environment = {
   apiUrl: "/api/",
   // apiUrl: "https://be.holafood.click/",
   // hubUrl: "https://be.holafood.click/hubs/",
-  hubUrl: "https://localhost:7016/hubs/",
+  hubUrl: "/api/hubs/",
   provincesUrl: "https://provinces.open-api.vn/api/?depth=1",
   
   clientId: "737110996158-747oghg2rqifouoldnkonnp2vfp174qh.apps.googleusercontent.com",

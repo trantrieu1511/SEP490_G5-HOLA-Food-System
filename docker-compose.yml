@@ -9,8 +9,6 @@ services:
             - 4200:4200
         #volumes:
         #    - shared:/app/dist
-        networks:
-            - internalnet
     nginx:
         container_name: middlenginx
         image: nginx:alpine
@@ -31,9 +29,7 @@ services:
             
         depends_on: 
             - api
-        networks:
-            - internalnet
-    
+  
     api:
         container_name: dotnetbackend
         build: 
@@ -44,31 +40,26 @@ services:
         restart: always
         depends_on: 
             - db
-        #links:
-        #    - db
-        networks:
-            - internalnet 
-        #environment:
-            #- ConnectionStrings__DefaultConnection=mssql;database=SEP490_HFS_2;User Id=sa;Password=Passw0rd
-        #    - ASPNETCORE_URLS=http://+:3000 
+
     db:
+        #image: mcr.microsoft.com/mssql/server:2019-latest
         container_name: mssql
+        hostname: mssql
+        user: root
         build: 
-            context: ./db
+            context: ./Db
             dockerfile: ./Dockerfile
+        #network_mode: "host"
         ports: 
-            - "1433:1433"
+            - "1450:1433"
         restart: always
         environment:
-            ACCEPT_EULA: "Y"
-            SA_PASSWORD: "Passw0rd"
-            TZ: UTC
+            ACCEPT_EULA: Y
+            MSSQL_SA_PASSWORD: Passw0rd
+            MSSQL_TCP_PORT: 1433
         volumes:
             - database-data:/var/opt/mssql
-        networks:
-            - internalnet    
 volumes:
   database-data:
-networks: 
-    internalnet:
+
 

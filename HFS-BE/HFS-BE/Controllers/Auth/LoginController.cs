@@ -34,6 +34,7 @@ namespace HFS_BE.Controllers.Auth
 		{
 			try
 			{
+			                 Console.WriteLine("Connecting");
 				var business = this.GetBusinessLogic<AuthNotCustomerBusinessLogin>();
 
 
