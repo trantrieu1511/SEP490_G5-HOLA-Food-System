@@ -394,6 +394,7 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
       this.locationResult = 'Geolocation is not supported by this browser.';
     }
   }
+  userlocal : any
   initMap(latitude: number, longitude: number) {
     debugger
     const map = new google.maps.Map(document.getElementById('map'), {
@@ -409,12 +410,12 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
     /// chỉ đường
     const directionsService = new google.maps.DirectionsService();
     const directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
-
+   
     // Lấy vị trí hiện tại của người dùng
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
+        this.userlocal = userLocation
         // Đặt các tham số để lấy chỉ đường từ vị trí hiện tại đến điểm cần đến
         const request = {
           origin: userLocation,
@@ -436,6 +437,12 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
         console.error('Error getting user location:', error);
       }
     );
+
+    map.addListener('click', () => {
+      // Tạo URL cho Google Maps và mở trình duyệt
+      const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${this.userlocal}&destination=${latitude},${longitude}&travelmode=driving`;
+      window.open(googleMapsUrl, '_blank');
+    });
   }
 }
 
