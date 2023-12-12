@@ -192,21 +192,26 @@ namespace HFS_BE.Hubs
 			connection.ConnectionId = Context.ConnectionId;
 			var user2 = Context.User.GetEmail();
 			connection.Email= user2; 
+			Console.WriteLine("checkaddconnect :"+connection);  
 			if (group == null)
 			{
 				group = new Group();
 				group.Name = groupName;
 				connection.GroupName = group.Name;
+				Console.WriteLine("checkadd lan 1 "+check);  
 				check =messageDao.AddGroupAndConnection(group,connection);
+				Console.WriteLine("checkadd lam 2"+check);   
 			}
 			else
 			{
+			          Console.WriteLine(connection);   
 				connection.GroupName = group.Name;
 				check=messageDao.AddConnection(connection);
+				Console.WriteLine("checkadd2 "+check);   
 			}
 		
 
-			if (check) return group;
+			if (check)  {return group;}
 
 			throw new HubException("Failed to join group");
 		}
@@ -216,7 +221,7 @@ namespace HFS_BE.Hubs
 			var connection = group.Connections.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
 			bool check = messageDao.RemoveConnection(connection);
 
-			if (check) return group;
+			if (check) {return group;}
 
 			throw new HubException("Fail to remove from group");
 		}

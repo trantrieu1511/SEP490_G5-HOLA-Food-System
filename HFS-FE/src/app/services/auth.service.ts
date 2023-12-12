@@ -222,7 +222,7 @@ export class AuthService {
   confirmforgot(model: any) {
     //
     // https://localhost:7016/home/confirmforgot
-    return this.httpClient.post("https://localhost:7016/home/confirmforgot", model).pipe(
+    return this.httpClient.post(this.path+ "home/confirmforgot", model).pipe(
       map((res: Register) => {
         const ok = res;
         //
@@ -290,7 +290,7 @@ export class AuthService {
   confirmemail(model: any) {
     //
     // https://localhost:7016/home/confirmforgot
-    return this.httpClient.post("https://localhost:7016/home/confirm", model).pipe(
+    return this.httpClient.post(this.path +"home/confirm", model).pipe(
       map((res: Register) => {
         const ok = res;
         //

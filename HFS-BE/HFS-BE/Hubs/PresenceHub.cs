@@ -57,6 +57,7 @@ namespace HFS_BE.Hubs
 				var isOnline = await _tracker.UserConnected(username, Context.ConnectionId);
 				if (isOnline)
 				{
+		                          		Console.WriteLine(username);
 
 					var user = await sellerDao.GetSellersAsync(username);
 					user.CountMessageNotIsRead = await messageDao.CountMessageCustomerNotIsRead(username, user.Email);
@@ -98,7 +99,7 @@ namespace HFS_BE.Hubs
 				var isOffline = await _tracker.CustomerConnected(username, Context.ConnectionId);
 
 			}
-			else
+			if (role == "SE")
 			{
 				var isOffline = await _tracker.UserDisconnected(username, Context.ConnectionId);
 				if (isOffline)

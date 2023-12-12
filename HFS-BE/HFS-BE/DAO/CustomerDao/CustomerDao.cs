@@ -139,19 +139,7 @@ namespace HFS_BE.DAO.CustomerDao
 		
 
 			var datmapper = mapper.Map<List<Customer>,List<CustomerMessageDtoOutput>>(user);
-			foreach (var u in datmapper)
-			{
-				var img = await context.ProfileImages.Where(s => s.UserId == u.CustomerId && s.IsReplaced == false).FirstOrDefaultAsync();
-				ImageFileConvert.ImageOutputDto? imageInfor = null;
-				if (img == null)
-				{
-					break;
-
-				}
-				imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 3);
-				//	var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>(imageInfor);
-				u.Image = imageInfor.ImageBase64;
-			}
+			
 			return datmapper;
 		}
 	}

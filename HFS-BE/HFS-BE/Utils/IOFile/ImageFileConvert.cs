@@ -22,13 +22,16 @@
             if (fileName == null || fileName.Equals(""))
                 return null;
 
-            string path = $"Resources\\Images\\" +
-                            $"{userId}\\" +
-                            $"{GetFolderNameTypeImage(type)}\\"
+            string path = $"Resources/Images/" +
+                            $"{userId}/" +
+                            $"{GetFolderNameTypeImage(type)}/"
                             + fileName;
             // Đường dẫn cơ sở cho việc lưu hình ảnh
-            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), path);
+            //string fullPath = Path.Combine(Directory.GetCurrentDirectory(), path);
 
+            // product enviroment
+            string fullPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), path);
+	  
             if (File.Exists(fullPath))
             {
                 try

@@ -23,7 +23,7 @@ namespace HFS_BE.Controllers.Homepage
             try
             {
                 var business = this.GetBusinessLogic<DisplayShopBusinessLogic>();
-                var user = this.GetAccessRight();
+             //   var user = this.GetAccessRight();
                 var output = business.DisplayShop();
                 return output;
             }

@@ -9,6 +9,7 @@
 			bool isOnline = false;
 			lock (OnlineUsers)
 			{
+				Console.WriteLine("email " +email);
 				if (OnlineUsers.ContainsKey(email))
 				{
 					OnlineUsers[email].Add(connectionId);

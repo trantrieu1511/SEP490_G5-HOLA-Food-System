@@ -56,7 +56,7 @@ namespace HFS_BE.DAO.ChatMessageDao
 		{
 			try
 			{
-			
+			Console.WriteLine(connection);
 				context.Connections.Add(connection);
 				context.SaveChanges();
 				return true;

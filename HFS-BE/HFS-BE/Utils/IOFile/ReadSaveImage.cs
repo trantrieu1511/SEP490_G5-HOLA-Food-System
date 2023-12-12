@@ -15,12 +15,15 @@ namespace HFS_BE.Utils.IOFile
         /// <returns>List of fileName in order to save to db</returns>
         public static List<string> SaveImages(IReadOnlyList<IFormFile> images, UserDto user, int type)
         {
-            string basePath = $"Resources\\Images\\" +
-                            $"{user.UserId}\\" +
+            string basePath = $"Resources/Images/" +
+                            $"{user.UserId}/" +
                             $"{GetFolderNameTypeImage(type)}";
             // Đường dẫn cơ sở cho việc lưu hình ảnh
-            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
-
+            //string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
+            Console.WriteLine("fullpath1" + Path.Combine(Directory.GetCurrentDirectory(), basePath));
+            // product enviroment
+            string fullPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), basePath);
+            Console.WriteLine("fullpath2" + fullPath);
             // Tạo thư mục nếu chưa tồn tại
             if (!Directory.Exists(fullPath))
             {
