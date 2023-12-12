@@ -22,6 +22,7 @@ import { TabView, TabViewChangeEvent } from 'primeng/tabview';
 import { RateInput } from '../../models/RateInput.model';
 import { FileRemoveEvent, FileSelectEvent, FileUpload } from 'primeng/fileupload';
 import { AuthService } from 'src/app/services/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-orderhistory',
@@ -70,7 +71,8 @@ export class OrderhistoryComponent
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private datePipe: DatePipe,
-    public authService: AuthService
+    public authService: AuthService,
+    public translate: TranslateService
   ) {
     super(messageService);
   }
@@ -98,17 +100,31 @@ export class OrderhistoryComponent
   }
 
   initTabMenuitem() {
-    this.items = [
-      { label: 'Requested', id: '0' },
-      { label: 'Preparing', id: '1' },
-      { label: 'Wait Shipper', id: '2' },
-      { label: 'Shipping', id: '3' },
-      { label: 'Completed', id: '4' },
-      { label: 'InCompleted', id: '5' },
-      { label: 'Cancel', id: '6' },
-    ];
+    this.translate.get('orderhistoryScreen').subscribe( (text: any) => {
 
-    this.activeItem = this.items[0];
+      this.items = [
+        { label:  text.request, id: '0'},
+        { label:  text.preparing, id: '1'},
+        { label:  text.waitShipper, id: '2'},
+        { label:  text.shipping, id: '3'},
+        { label:  text.completed, id: '4'},
+        { label:  text.incompleted, id: '5'},
+        { label:  text.cancel, id: '6'},
+      ];
+
+      this.activeItem = this.items[0];
+    });
+    // this.items = [
+    //   { label: 'Requested', id: '0' },
+    //   { label: 'Preparing', id: '1' },
+    //   { label: 'Wait Shipper', id: '2' },
+    //   { label: 'Shipping', id: '3' },
+    //   { label: 'Completed', id: '4' },
+    //   { label: 'InCompleted', id: '5' },
+    //   { label: 'Cancel', id: '6' },
+    // ];
+
+    //this.activeItem = this.items[0];
   }
 
   async getAllOrders() {

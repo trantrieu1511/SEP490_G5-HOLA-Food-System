@@ -45,7 +45,7 @@ import { Shipper } from '../../models/shipper.model';
 import {DatePipe} from '@angular/common';
 import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
 import { TranslateService } from '@ngx-translate/core';
-
+declare var google: any;
 @Component({
   selector: 'order-seller',
   templateUrl: './order-management.component.html',
@@ -86,7 +86,7 @@ export class OrderManagementComponent
   currentDate: Date = new Date();
   isDisableCalendar: boolean = true;
   disabledIds = ['0', '1', '2', '3'];
-
+  displayMap : boolean = false;
   label1: string;
   label2: string;
   label3: string;
@@ -111,10 +111,11 @@ export class OrderManagementComponent
     this.rangeDates[0] = this.rangeDates[1] = new Date();
 
     this.initTabMenuitem();
+
+    
   }
 
   async ngOnInit() {
-    debugger
     await this.getAllOrders();
 
     await this.connectSignalR();
@@ -487,5 +488,83 @@ export class OrderManagementComponent
 
   onClickMap(order: Order){
     this.visibleMapBox = true;
+    this.onOpenMap(order.shipAddress)
+  }
+  
+  onOpenMap(address : string){
+    debugger
+    this.displayMap = true;
+    this.geocodeAddress(address);
+  }
+
+  async geocodeAddress(address : string) {
+    const param = {
+      "address": address
+    }
+    const response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.MAP, param);
+    const location = response.results[0].geometry.location;
+    this.initMap(location.lat, location.lng);
+
+  }
+  locationResult: any;
+  getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+
+          this.locationResult = `Latitude: ${latitude}, Longitude: ${longitude}`;
+        },
+        (error) => {
+          this.locationResult = `Error getting location: ${error.message}`;
+        }
+      );
+    } else {
+      this.locationResult = 'Geolocation is not supported by this browser.';
+    }
+  }
+  initMap(latitude: number, longitude: number) {
+    debugger
+    const map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: latitude, lng: longitude },
+      zoom: 12
+    });
+
+    const marker = new google.maps.Marker({
+      position: { lat: latitude, lng: longitude },
+      map: map,
+      title: 'Specific Address'
+    });
+    /// chỉ đường
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
+
+    // Lấy vị trí hiện tại của người dùng
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+        // Đặt các tham số để lấy chỉ đường từ vị trí hiện tại đến điểm cần đến
+        const request = {
+          origin: userLocation,
+          destination: { lat: latitude, lng: longitude },
+          travelMode: google.maps.TravelMode.DRIVING
+        };
+
+        // Gửi yêu cầu chỉ đường
+        directionsService.route(request, (response, status) => {
+          if (status === google.maps.DirectionsStatus.OK) {
+            // Hiển thị chỉ đường trên bản đồ
+            directionsRenderer.setDirections(response);
+          } else {
+            console.error('Error fetching directions:', status);
+          }
+        });
+      },
+      (error) => {
+        console.error('Error getting user location:', error);
+      }
+    );
   }
 }

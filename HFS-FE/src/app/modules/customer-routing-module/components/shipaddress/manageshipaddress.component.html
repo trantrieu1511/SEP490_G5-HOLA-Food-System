@@ -21,14 +21,14 @@
 
 <!-- Modals -->
 <p-dialog [(visible)]="isVisibleCreateModal" [breakpoint]="" [style]="{ width: '500px', height: '450px' }"
-    header="Create new ship address" [modal]="true" styleClass="p-fluid">
+    header="{{'shipAddressScreen.Createnewshipaddress' | translate}}" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="createNewShipAddress">
         <!-- <div class="formgrid grid"> -->
         <div class="formgrid grid">
             <div class="field col">
-                <label for="province">Province <span style="color: red;">*</span></label>
+                <label for="province">{{'shipAddressScreen.Province' | translate}} <span style="color: red;">*</span></label>
                 <p-dropdown inputId="province" [options]="provinces" [(ngModel)]="selectedProvince" optionLabel="name" [showClear]="true"
-                    placeholder="Select a province" (onChange)="onProvinceChange(true);" [required]="true"
+                    placeholder="{{'shipAddressScreen.Selectaprovince' | translate}}" (onChange)="onProvinceChange(true);" [required]="true"
                     [class.ng-invalid]="!createNewShipAddressValidation.isValidProvince"
                     [class.ng-dirty]="!createNewShipAddressValidation.isValidProvince"></p-dropdown>
                 <small
@@ -37,9 +37,9 @@
                 </small>
             </div>
             <div class="field col">
-                <label for="district">District <span style="color: red;">*</span></label>
+                <label for="district">{{'shipAddressScreen.District' | translate}} <span style="color: red;">*</span></label>
                 <p-dropdown inputId="district" [options]="districts" [(ngModel)]="selectedDistrict" optionLabel="name" [showClear]="true"
-                    placeholder="Select a district" (onChange)="onDistrictChange(true);" [required]="true"
+                    placeholder="{{'shipAddressScreen.Selectadistrict' | translate}}" (onChange)="onDistrictChange(true);" [required]="true"
                     [class.ng-invalid]="!createNewShipAddressValidation.isValidDistrict"
                     [class.ng-dirty]="!createNewShipAddressValidation.isValidDistrict"></p-dropdown>
                 <small
@@ -48,9 +48,9 @@
                 </small>
             </div>
             <div class="field col">
-                <label for="ward">Ward <span style="color: red;">*</span></label>
+                <label for="ward">{{'shipAddressScreen.Ward' | translate}} <span style="color: red;">*</span></label>
                 <p-dropdown inputId="ward" [options]="wards" [(ngModel)]="selectedWard" optionLabel="name" [showClear]="true"
-                    placeholder="Select a ward" (onChange)="onWardChange(true);" [required]="true"
+                    placeholder="{{'shipAddressScreen.Selectaward' | translate}}" (onChange)="onWardChange(true);" [required]="true"
                     [class.ng-invalid]="!createNewShipAddressValidation.isValidWard"
                     [class.ng-dirty]="!createNewShipAddressValidation.isValidWard"></p-dropdown>
                 <small
@@ -61,9 +61,9 @@
         </div>
         <hr>
         <div class="field">
-            <label for="detailaddressinfo">Detail address information <span style="color: red;">*</span></label>
+            <label for="detailaddressinfo">{{'shipAddressScreen.Detailaddressinformation' | translate}} <span style="color: red;">*</span></label>
             <input type="text" pInputText id="detailaddressinfo" [(ngModel)]="shipAddress.detailAddressInfo" required
-                (keyup)="validateCreateNewShipAddress()" placeholder="Enter detail address information"
+                (keyup)="validateCreateNewShipAddress()" placeholder="{{'shipAddressScreen.Enterdetailaddressinformation' | translate}}"
                 [class.ng-invalid]="!createNewShipAddressValidation.isValidDetailAddressInfo"
                 [class.ng-dirty]="!createNewShipAddressValidation.isValidDetailAddressInfo" />
             <small
@@ -76,9 +76,9 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+        <button pButton pRipple label="{{'button.cancel' | translate}}" icon="pi pi-times" class="p-button-text"
             (click)="this.isVisibleCreateModal = false"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" (click)="createNewShipAddress();"></button>
+        <button pButton pRipple label="{{'button.save' | translate}}" icon="pi pi-check" (click)="createNewShipAddress();"></button>
     </ng-template>
 </p-dialog>
 
@@ -110,7 +110,7 @@
         <!-- </div> -->
         <div class="formgrid grid">
             <div class="field col">
-                <label for="province">Province <span style="color: red;">*</span></label>
+                <label for="province">{{'shipAddressScreen.Province' | translate}} <span style="color: red;">*</span></label>
                 <p-dropdown inputId="province" [options]="provinces" [(ngModel)]="selectedProvince" optionLabel="name" [showClear]="true"
                     placeholder="Select a province" (onChange)="onProvinceChange(false);" [required]="true"
                     [class.ng-invalid]="!updateShipAddressValidation.isValidProvince"
@@ -121,7 +121,7 @@
                 </small>
             </div>
             <div class="field col">
-                <label for="district">District <span style="color: red;">*</span></label>
+                <label for="district">{{'shipAddressScreen.District' | translate}} <span style="color: red;">*</span></label>
                 <p-dropdown inputId="district" [options]="districts" [(ngModel)]="selectedDistrict" optionLabel="name" [showClear]="true"
                     placeholder="Select a district" (onChange)="onDistrictChange(false);" [required]="true"
                     [class.ng-invalid]="!updateShipAddressValidation.isValidDistrict"
@@ -132,7 +132,7 @@
                 </small>
             </div>
             <div class="field col">
-                <label for="ward">Ward <span style="color: red;">*</span></label>
+                <label for="ward">{{'shipAddressScreen.Ward' | translate}} <span style="color: red;">*</span></label>
                 <p-dropdown inputId="ward" [options]="wards" [(ngModel)]="selectedWard" optionLabel="name" [showClear]="true"
                     placeholder="Select a ward" (onChange)="onWardChange(false);" [required]="true"
                     [class.ng-invalid]="!updateShipAddressValidation.isValidWard"
@@ -145,7 +145,7 @@
         </div>
         <hr>
         <div class="field">
-            <label for="detailaddressinfo">Detail address information <span style="color: red;">*</span></label>
+            <label for="detailaddressinfo">{{'shipAddressScreen.Detailaddressinformation' | translate}} <span style="color: red;">*</span></label>
             <input type="text" pInputText id="detailaddressinfo" [(ngModel)]="shipAddress.detailAddressInfo" required
                 (keyup)="validateUpdateNewShipAddress()" placeholder="Enter detail address information"
                 [class.ng-invalid]="!updateShipAddressValidation.isValidDetailAddressInfo"
@@ -158,20 +158,20 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+        <button pButton pRipple label="{{'button.cancel' | translate}}" icon="pi pi-times" class="p-button-text"
             (click)="this.isVisibleUpdateModal = false"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" (click)="updateShipAddress();"></button>
+        <button pButton pRipple label="{{'button.save' | translate}}" icon="pi pi-check" (click)="updateShipAddress();"></button>
     </ng-template>
 </p-dialog>
 
 <p-dialog [(visible)]="isVisibleDeleteModal" [style]="{ width: '450px' }" header="Delete ship address" [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="deleteShipAddress">
-        <div class="delete-shipaddress-message">Are you sure to delete this ship address?</div>
+        <div class="delete-shipaddress-message">{{'shipAddressScreen.Areyousure' | translate}}</div>
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+        <button pButton pRipple label="{{'button.cancel' | translate}}" icon="pi pi-times" class="p-button-text"
             (click)="this.isVisibleDeleteModal = false"></button>
         <button pButton pRipple label="Yes" icon="pi pi-check" (click)="deleteShipAddress();"></button>
     </ng-template>
@@ -180,13 +180,13 @@
 <p-dialog [(visible)]="isVisibleSetDefaultAddressModal" [style]="{ width: '450px' }" header="Set default ship address"
     [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="setDefaultShipAddress">
-        <div class="setdefault-shipaddress-message">Are you sure to set this ship address to the default one?</div>
+        <div class="setdefault-shipaddress-message">{{'shipAddressScreen.Areyousuretoset' | translate}}</div>
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+        <button pButton pRipple label="{{'button.cancel' | translate}}" icon="pi pi-times" class="p-button-text"
             (click)="this.isVisibleSetDefaultAddressModal = false"></button>
-        <button pButton pRipple label="Yes" icon="pi pi-check" (click)="setDefaultShipAddress();"></button>
+        <button pButton pRipple label="{{'button.yes' | translate}}" icon="pi pi-check" (click)="setDefaultShipAddress();"></button>
     </ng-template>
 </p-dialog>
 
@@ -219,7 +219,7 @@
     </div>
 
     <div class="card main-body">
-        <h2>My ship address</h2>
+        <h2>{{'shipAddressScreen.Myshipaddress' | translate}}</h2>
         <p-toolbar styleClass="mb-4 gap-2">
             <ng-template pTemplate="left">
                 <!-- <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
@@ -233,7 +233,7 @@
                 <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import"
                     class="mr-2 inline-block"></p-fileUpload>
                 <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
-                <button pButton pRipple label="Create new" icon="pi pi-plus" class="p-button-success mr-2"
+                <button pButton pRipple label="{{'button.Createnew' | translate}}" icon="pi pi-plus" class="p-button-success mr-2"
                     (click)="openCreateDialog();"></button>
             </ng-template>
         </p-toolbar>
@@ -245,7 +245,7 @@
             [showCurrentPageReport]="true" [loading]="loading" responsiveLayout="scroll">
             <ng-template pTemplate="caption">
                 <div class="flex align-items-center justify-content-between">
-                    <h5 class="m-0">Ship address</h5>
+                    <h5 class="m-0">{{'shipAddressScreen.Shipaddress' | translate}}</h5>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" #inputText (input)="dt.filterGlobal(inputText.value, 'contains')"
@@ -260,7 +260,7 @@
                     </th> -->
                     <th pSortableColumn="addressInfo" style="min-width:15rem">
                         <div class="flex justify-content-between align-items-center">
-                            Address info
+                            {{'shipAddressScreen.Addressinfo' | translate}}
                             <p-sortIcon field="addressInfo"></p-sortIcon>
                             <p-columnFilter type="text" field="addressInfo" display="menu"
                                 class="ml-auto"></p-columnFilter>
@@ -288,7 +288,7 @@
                                 </div>
                                 <br />
                                 <br />
-                                <span class="default-address">Is default address</span>
+                                <span class="default-address">{{'shipAddressScreen.Isdefaultaddress' | translate}}</span>
                             </div>
 
                             <ng-template #notDefaultShipAddress>
@@ -301,19 +301,19 @@
                             <div>
                                 <div class="action-btn-group">
                                     <a href="#" onclick="event.preventDefault();"
-                                        (click)="openUpdateDialog(shipaddress);">Update</a>&nbsp;&nbsp;
+                                        (click)="openUpdateDialog(shipaddress);">{{'shipAddressScreen.Update' | translate}}</a>&nbsp;&nbsp;
                                     <a href="#" onclick="event.preventDefault();"
                                         *ngIf="shipaddress.isDefaultAddress == false"
-                                        (click)="openDeleteDialog(shipaddress.addressId);">Delete</a>
+                                        (click)="openDeleteDialog(shipaddress.addressId);">{{'shipAddressScreen.Delete' | translate}}</a>
                                 </div>
                                 <div>
                                     <p-button (onClick)="openSetDefaultDialog(shipaddress.addressId);" [disabled]="true"
                                         *ngIf="shipaddress.isDefaultAddress == true else notDefaultShipAddressBtn">
-                                        Set default address
+                                        {{'shipAddressScreen.Setdefaultaddress' | translate}}
                                     </p-button>
                                     <ng-template #notDefaultShipAddressBtn>
                                         <p-button (onClick)="openSetDefaultDialog(shipaddress.addressId);">
-                                            Set default address
+                                            {{'shipAddressScreen.Setdefaultaddress' | translate}}
                                         </p-button>
                                     </ng-template>
                                 </div>
@@ -328,7 +328,7 @@
             </ng-template> -->
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="8">No ship address yet.</td>
+                    <td colspan="8">{{'shipAddressScreen.emptymessage' | translate}}</td>
                 </tr>
             </ng-template>
         </p-table>

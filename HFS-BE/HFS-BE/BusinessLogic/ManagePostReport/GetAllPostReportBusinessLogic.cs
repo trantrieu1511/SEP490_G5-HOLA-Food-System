@@ -6,9 +6,9 @@ using HFS_BE.Utils;
 
 namespace HFS_BE.BusinessLogic.ManagePostReport
 {
-    public class DisplayPostReportBusinessLogic : BaseBusinessLogic
+    public class GetAllPostReportBusinessLogic : BaseBusinessLogic
     {
-        public DisplayPostReportBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public GetAllPostReportBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

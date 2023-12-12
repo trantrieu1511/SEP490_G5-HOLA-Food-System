@@ -29,8 +29,9 @@ CREATE TABLE [dbo].[Seller](
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
 	[createDate][datetime] null,
-	[lat][float]null,
-	[lng][float]null,
+	[businessCode]  NVARCHAR(50) NULL,
+	--[lat][float]null,
+	--[lng][float]null,
 )
 
 CREATE TABLE [dbo].[Admin](
@@ -45,7 +46,7 @@ CREATE TABLE [dbo].[Admin](
 	[PasswordHash] [varbinary](max) NOT NULL,
 	[isOnline] [bit] NOT NULL,
 	[walletBalance] [money] NULL,
-	[confirmedEmail] [bit] not NULL DEFAULT('false'),
+	[confirmedEmail] [bit] NOT NULL DEFAULT('false'),
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
 		[createDate][datetime] null,
@@ -563,8 +564,8 @@ CREATE TABLE [dbo].[TransactionHistory](
 	[Note] [nvarchar](200) NULL,
 	[Value] [decimal](18, 0) NOT NULL,
 	[CreateDate] [datetime] NULL,
-	[UpdateDate] [datetime] NULL,
 	[ExpiredDate] [datetime] NULL,
+	[UpdateDate] [datetime] NULL,
 	[status] [tinyint] NULL,
 	[AcceptBy] [nvarchar](50) NULL,
 	FOREIGN KEY([AcceptBy]) REFERENCES [dbo].[Accountant] ([accountantId]),
@@ -690,3 +691,4 @@ ALTER TABLE [dbo].[Customer]
 ADD [isPhoneVerified] [bit] NOT NULL DEFAULT('false'),
     [otpToken] [nvarchar](max) NULL,
     [otpTokenExpiryTime] [int] NULL;
+

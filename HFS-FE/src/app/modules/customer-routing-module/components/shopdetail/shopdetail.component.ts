@@ -1,14 +1,14 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {
-    iComponentBase,
-    iServiceBase, mType,
-    ShareData
+  iComponentBase,
+  iServiceBase, mType,
+  ShareData
 } from 'src/app/modules/shared-module/shared-module';
 import * as API from "../../../../services/apiURL";
 import {
-    ConfirmationService,
-    MessageService,
-    SelectItem,
+  ConfirmationService,
+  MessageService,
+  SelectItem,
 } from "primeng/api";
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
@@ -22,7 +22,8 @@ import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
 import { SellerReport } from '../../models/sellerReport.model';
 import { take } from 'rxjs';
 import { PresenceService } from 'src/app/services/presence.service';
-
+import { TranslateService } from '@ngx-translate/core';
+declare var google: any;
 
 @Component({
   selector: 'app-shopdetail',
@@ -31,21 +32,22 @@ import { PresenceService } from 'src/app/services/presence.service';
 })
 export class ShopdetailComponent extends iComponentBase implements OnInit, AfterViewInit {
   foods: any[];
-   sortOptions: SelectItem[];
+  sortOptions: SelectItem[];
   sortOrder: number;
   loading: boolean;
   sortField: string;
-  isLoggedIn:boolean =false;
-	menuInput = new MenuInput();
-  shopid : string;
+  isLoggedIn: boolean = false;
+  menuInput = new MenuInput();
+  shopid: string;
   userId: string;
-  shopInfor : any
+  shopInfor: any
   isVisiblePostReportModal = false; // Bien phuc vu cho viec bat tat modal post report
   sellerReport: SellerReport = new SellerReport();
   isDisabledPostReportBtnSubmit: boolean = true; // Trạng thái disable của nút submit của modal post report
   isDisabledPostReportTextArea: boolean = true; // Trạng thái disable của text area của modal post report
   uploadedFiles: File[] = [];
-  vouchers : any;
+  vouchers: any;
+  displayMap: boolean = false
   constructor(
     private shareData: ShareData,
     public messageService: MessageService,
@@ -55,8 +57,9 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
     private router: Router,
     public presence: PresenceService,
     private dataService: DataService,
-    private authService: AuthService
-  ){
+    private authService: AuthService,
+    public translate: TranslateService
+  ) {
     super(messageService);
   }
   ngAfterViewInit(): void {
@@ -67,7 +70,7 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
     //   this.isLoggedIn = true;
     // }
     const user = this.authService.getUserInfor();
-    if(!user){
+    if (!user) {
       this.isLoggedIn = false;
       return;
     }
@@ -78,23 +81,31 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
     }
   }
 
-  async ngOnInit(){
+  async ngOnInit() {
     this.checkLoggedIn();
     this.route.queryParams
-    .subscribe(params => {
-      this.shopid = params['shopid'];
-      // console.log(id);
-      // Sử dụng giá trị id tại đây
-      this.menuInput.shopId = this.shopid
-      console.log(this.menuInput)
-      this.getMenu(this.menuInput)
-      this.getShopInfor()
-    });
+      .subscribe(params => {
+        this.shopid = params['shopid'];
+        // console.log(id);
+        // Sử dụng giá trị id tại đây
+        this.menuInput.shopId = this.shopid
+        console.log(this.menuInput)
+        this.getMenu(this.menuInput)
+        this.getShopInfor()
+      });
 
-    this.sortOptions = [
-      { label: 'Price High to Low', value: '!unitPrice' },
-      { label: 'Price Low to High', value: 'unitPrice' }
-  ];
+      this.translate.get('shopDetailScreen').subscribe( (text: any) => {
+
+        this.sortOptions = [
+          { label:  text.PriceHightoLow, value: '!unitPrice'},
+          { label:  text.PriceLowtoHigh, value: 'unitPrice'},
+        ];
+    
+      });
+    // this.sortOptions = [
+    //   { label: 'Price High to Low', value: '!unitPrice' },
+    //   { label: 'Price Low to High', value: 'unitPrice' }
+    // ];
 
   }
 
@@ -102,72 +113,72 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
     const value = event.value;
 
     if (value.indexOf('!') === 0) {
-        this.sortOrder = -1;
-        this.sortField = value.substring(1, value.length);
+      this.sortOrder = -1;
+      this.sortField = value.substring(1, value.length);
     } else {
-        this.sortOrder = 1;
-        this.sortField = value;
-    }
-}
-
-  async getMenu(menuInput : MenuInput){
-    try {
-        this.loading = true;
-
-        let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.SHOP_DETAIL, API.API_SHOP_DETAIL.DISPLAY_MENU, menuInput);
-        if (response && response.success == true) {
-            this.foods = response.listFood;
-        }
-
-		    console.log(this.foods);
-        this.loading = false;
-    } catch (e) {
-        console.log(e);
-        this.loading = false;
+      this.sortOrder = 1;
+      this.sortField = value;
     }
   }
 
-  async getVoucher(){
+  async getMenu(menuInput: MenuInput) {
     try {
-        this.loading = true;
+      this.loading = true;
 
-        const param = {
-          "sellerId":this.userId
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.SHOP_DETAIL, API.API_SHOP_DETAIL.DISPLAY_MENU, menuInput);
+      if (response && response.success == true) {
+        this.foods = response.listFood;
+      }
+
+      console.log(this.foods);
+      this.loading = false;
+    } catch (e) {
+      console.log(e);
+      this.loading = false;
+    }
+  }
+
+  async getVoucher() {
+    try {
+      this.loading = true;
+
+      const param = {
+        "sellerId": this.userId
       };
-        let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.VOUCHER, API.API_VOUCHER.GET_ALL_VOUCHER, param);
-        if (response && response.success == true) {
-            this.vouchers = response.listVoucher;
-        }
-        this.loading = false;
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.VOUCHER, API.API_VOUCHER.GET_ALL_VOUCHER, param);
+      if (response && response.success == true) {
+        this.vouchers = response.listVoucher;
+      }
+      this.loading = false;
     } catch (e) {
-        console.log(e);
-        this.loading = false;
+      console.log(e);
+      this.loading = false;
     }
   }
 
-  async getShopInfor(){
+  async getShopInfor() {
     try {
-        this.loading = true;
-        let shopInforInput = new GetShopInforInputDto();
-        shopInforInput.ShopId = this.shopid
-        let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.SHOP_DETAIL, API.API_SHOP_DETAIL.DISPLAY_INFOR, shopInforInput);
-        if (response && response.success === true) {
-            this.shopInfor = response;
-        }
+      this.loading = true;
+      let shopInforInput = new GetShopInforInputDto();
+      shopInforInput.ShopId = this.shopid
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.SHOP_DETAIL, API.API_SHOP_DETAIL.DISPLAY_INFOR, shopInforInput);
+      if (response && response.success === true) {
+        this.shopInfor = response;
+      }
 
-		console.log(this.foods);
-        this.loading = false;
+      console.log(this.foods);
+      this.loading = false;
     } catch (e) {
-        console.log(e);
-        this.loading = false;
+      console.log(e);
+      this.loading = false;
     }
   }
 
   onFilter(dv: DataView, event: Event) {
     dv.filter((event.target as HTMLInputElement).value);
-}
+  }
 
-  async onAddToCart(foodId : number){
+  async onAddToCart(foodId: number) {
     try {
       this.loading = true;
       let cartItem = new AddToCart();
@@ -176,21 +187,21 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.ADDTOCART, cartItem);
       if (response && response.message === "Success") {
         console.log(response)
-          this.showMessage(mType.success, "", "Add to cart success!", 'notify');
+        this.showMessage(mType.success, "", "Add to cart success!", 'notify');
       }
-      else{
+      else {
         this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');
         this.router.navigate(['/login']);
       }
 
       this.loading = false;
-  } catch (e) {
+    } catch (e) {
       console.log(e);
       this.loading = false;
-  }
+    }
   }
 
-  onFoodDetail(foodId : number){
+  onFoodDetail(foodId: number) {
     this.router.navigate(['/fooddetail'], { queryParams: { foodId: foodId } });
   }
 
@@ -241,35 +252,36 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
       }
     });
     // rpContent += ", " + this.postReport.reportContent;
-   //
+    //
     this.sellerReport.reportContent = rpContent;
     console.log("Full rp content: " + this.sellerReport.reportContent);
-   //
+    //
     // ------------------ Commit vao db --------------------
     try {
-     this.sellerReport.images=this.uploadedFiles;
-    const param22 = new FormData();
-this.loading = true;
-param22.append('sellerId',   this.sellerReport.sellerId);
-param22.append('reportContent',   this.sellerReport.reportContent);
-this.uploadedFiles.forEach(file => {
-  param22.append('images', file, file.name);
-});
+      this.sellerReport.images = this.uploadedFiles;
+      const param22 = new FormData();
+      this.loading = true;
+      param22.append('sellerId', this.sellerReport.sellerId);
+      param22.append('reportContent', this.sellerReport.reportContent);
+      this.uploadedFiles.forEach(file => {
+        param22.append('images', file, file.name);
+      });
 
-// Object.keys(this.sellerReport).forEach(function (key) {
-//   param.append(key, this.sellerReport[key]);
-// });
-
-   //
+      // Object.keys(this.sellerReport).forEach(function (key) {
+      //   param.append(key, this.sellerReport[key]);
+      // });
+debugger
+      //
       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.REPORT_SELLER, param22);
       if (response && response.success === true) {
         this.showMessage(mType.success, "Notification", `Report the food successfully`, 'notify');
         console.log(response);
+        this.uploadedFiles = [];
         console.log('Create new food report successfully');
       }
       else {
         // this.showMessage(mType.warn, "Error", this.iServiceBase.formatMessageError(response.message), 'notify');
-        this.showMessage(mType.warn, "Error", response.message, 'notify');
+        this.showMessage(mType.error, "Error", response.message, 'notify');
         // console.log(response);
         // console.log('Internal server error, please contact for admin help!');
       }
@@ -278,7 +290,7 @@ this.uploadedFiles.forEach(file => {
     } catch (e) {
       console.log(e);
       this.loading = false;
-     // this.checkUsersReportPostCapability();
+      // this.checkUsersReportPostCapability();
     }
 
     // Làm mới model để không bị ảnh hường bởi two way binding
@@ -318,5 +330,80 @@ this.uploadedFiles.forEach(file => {
     this.uploadedFiles = [];
     console.log("uploadFiles", this.uploadedFiles);
   }
+  onOpenMap(){
+    debugger
+    this.displayMap = true;
+    this.geocodeAddress();
+  }
 
+  async geocodeAddress() {
+    const param = {
+      "address": this.shopInfor.shopAddress
+    }
+    const response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.MAP, param);
+    const location = response.results[0].geometry.location;
+    this.initMap(location.lat, location.lng);
+
+  }
+  locationResult: any;
+  getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+
+          this.locationResult = `Latitude: ${latitude}, Longitude: ${longitude}`;
+        },
+        (error) => {
+          this.locationResult = `Error getting location: ${error.message}`;
+        }
+      );
+    } else {
+      this.locationResult = 'Geolocation is not supported by this browser.';
+    }
+  }
+  initMap(latitude: number, longitude: number) {
+    debugger
+    const map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: latitude, lng: longitude },
+      zoom: 12
+    });
+
+    const marker = new google.maps.Marker({
+      position: { lat: latitude, lng: longitude },
+      map: map,
+      title: 'Specific Address'
+    });
+    /// chỉ đường
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
+
+    // Lấy vị trí hiện tại của người dùng
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+        // Đặt các tham số để lấy chỉ đường từ vị trí hiện tại đến điểm cần đến
+        const request = {
+          origin: userLocation,
+          destination: { lat: latitude, lng: longitude },
+          travelMode: google.maps.TravelMode.DRIVING
+        };
+
+        // Gửi yêu cầu chỉ đường
+        directionsService.route(request, (response, status) => {
+          if (status === google.maps.DirectionsStatus.OK) {
+            // Hiển thị chỉ đường trên bản đồ
+            directionsRenderer.setDirections(response);
+          } else {
+            console.error('Error fetching directions:', status);
+          }
+        });
+      },
+      (error) => {
+        console.error('Error getting user location:', error);
+      }
+    );
+  }
 }

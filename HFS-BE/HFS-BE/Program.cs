@@ -67,7 +67,7 @@ builder.Services.AddCors(act =>
     {
         options.AllowAnyHeader();
         options.AllowAnyMethod();
-        options.WithOrigins("https://fu.holafood.click", "http://localhost:4200", "https://provinces.open-api.vn/api", "https://localhost:7016", "https://be.holafood.click"); // Ch? ??nh ngu?n g?c c? th?
+        options.WithOrigins("https://fu.holafood.click", "http://localhost:4200", "https://provinces.open-api.vn/api", "https://localhost:7016", "https://be.holafood.click", "https://maps.googleapis.com/maps/api"); // Ch? ??nh ngu?n g?c c? th?
         options.AllowCredentials(); // Cho ph�p ch? ?? credentials
         
     });

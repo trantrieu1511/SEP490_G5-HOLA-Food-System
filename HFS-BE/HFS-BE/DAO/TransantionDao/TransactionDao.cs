@@ -83,7 +83,7 @@ namespace HFS_BE.DAO.TransantionDao
                     if (inputDto.Status == 2)
                     {
                         transaction.Note += "\n- Reject" + inputDto.Note + "(" + inputDto.AccountantId + ")";
-                        transaction.UpdateDate = DateTime.Now;
+                       transaction.UpdateDate = DateTime.Now;
                     }
                     
                     this.context.Update(transaction);
@@ -153,6 +153,7 @@ namespace HFS_BE.DAO.TransantionDao
                     {
                         item.Status = 2;
                         item.Note = item.Note + "\n- Expired";
+                       
                         item.UpdateDate = DateTime.Now;
                     }
                 }

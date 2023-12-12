@@ -6,9 +6,9 @@ using HFS_BE.Utils;
 
 namespace HFS_BE.BusinessLogic.Profile
 {
-    public class DisplayProfileBusinessLogic : BaseBusinessLogic
+    public class GetProfileBusinessLogic : BaseBusinessLogic
     {
-        public DisplayProfileBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public GetProfileBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

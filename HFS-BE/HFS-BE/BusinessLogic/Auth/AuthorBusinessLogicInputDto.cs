@@ -27,7 +27,7 @@ namespace HFS_BE.BusinessLogic.Auth
 	public class RegisterSellerInputDto : BaseInputDto
 	{
 
-	
+		public string? BusinessCode { get; set; }
 		public string? PhoneNumber { get; set; }
 		public string Email { get; set; } = null!;
 		public string Password { get; set; } = null!;
