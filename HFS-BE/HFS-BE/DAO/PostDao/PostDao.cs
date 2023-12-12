@@ -297,6 +297,7 @@ namespace HFS_BE.Dao.PostDao
                 List<PostByCustomerOutputDto> data = context.Posts
                     .Include(p => p.Seller)
                     .Include(p => p.PostImages)
+                    .Include(p => p.PostVotes)
                     .Select(p => new PostByCustomerOutputDto
                     {
                         PostId = p.PostId,
@@ -305,7 +306,9 @@ namespace HFS_BE.Dao.PostDao
                         PostContent = p.PostContent,
                         CreatedDate = p.CreatedDate,
                         PostImages = p.PostImages.ToList(),
-                        Status = p.Status
+                        Status = p.Status,
+                        LikeCount = p.PostVotes.Where(x => x.IsLike == true).Count(),
+                        isLiked = p.PostVotes.Where(x => x.VoteBy.Equals(input.CustomerId)).Any(),
                     }).Where(s => s.Status == input.status).OrderByDescending(x=>x.CreatedDate).ToList();
 
                 var totalPosts = data.Count();

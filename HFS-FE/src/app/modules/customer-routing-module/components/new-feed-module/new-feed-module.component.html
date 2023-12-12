@@ -56,7 +56,7 @@
       <!-- </ng-template> -->
     </div>
     <div class="post-infor">
-      <h4 class="shop-name">{{item.shopName}}</h4>
+      <h4 (click)="onShopDetail(item.sellerId)" class="shop-name">{{item.shopName}}</h4>
       <p class="post-created-date">{{item.createdDate}}</p>
     </div>
     <div #postContent class="post-content">
@@ -109,7 +109,7 @@
     </div>
     <div class="actions">
       <div class="emote">
-        <i class="pi pi-thumbs-up like"></i>
+        <i (click)="onVote(item)" [class]="item.isLiked ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'">{{item.likeCount}}</i>
         <i class="pi pi-share-alt share"></i>
       </div>
       <button pButton pRipple label="Comment" (click)="OnCommnent($event, item)" class="p-button-link p-comment"

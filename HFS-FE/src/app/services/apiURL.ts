@@ -36,6 +36,7 @@ export class API_NEWFEED {
     public static GETALLPOST = "getNewFeed";
     public static GetALLCOMMENT = "getcomment";
     public static CREATECOMMENT = "comment";
+    public static VOTE_POST = "vote";
 }
 // Service User
 export class API_USER {

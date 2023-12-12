@@ -116,12 +116,7 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   }
 
   onShopDetail(shop: Shop) {
-    //console.log(shop);
-    this.dataService.setData(shop);
-    // this._router.navigate(['/shopdetail']);
     this._router.navigate(['/shopdetail'], { queryParams: { shopid: shop.userId } });
-    //this._router.navigate(['/shopdetail'], { queryParams: { shopInfor: shop} });
-    //this._router.navigate(['/shopdetail/'+ shop ]);
   }
 
   onSortChange(event: any) {

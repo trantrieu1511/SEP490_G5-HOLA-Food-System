@@ -21,6 +21,8 @@ namespace HFS_BE.Controllers.ManagePost
         {
             try
             {
+                var userInfor = this.GetUserInfor();
+                inputDto.CustomerId = userInfor != null ? userInfor.UserId : null;
                 var business = this.GetBusinessLogic<DisplayPostByCustomerBusinessLogic>();
 
                 return business.ListPostsByCustomer(inputDto);

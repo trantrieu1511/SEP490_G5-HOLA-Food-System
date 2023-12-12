@@ -270,7 +270,6 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
       // Object.keys(this.sellerReport).forEach(function (key) {
       //   param.append(key, this.sellerReport[key]);
       // });
-debugger
       //
       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.REPORT_SELLER, param22);
       if (response && response.success === true) {

@@ -1,5 +1,7 @@
 export class Post {
+  isLiked : boolean
   postId: number;
+  likeCount : number;
   sellerId: string;
   shopName: string;
   postContent: string;
@@ -15,4 +17,9 @@ export interface ImageBase64 {
   imageBase64: string;
   name: string;
   size: string;
-}  
+}
+
+export class PostVote {
+  isLike : boolean
+  postId: number;
+}
