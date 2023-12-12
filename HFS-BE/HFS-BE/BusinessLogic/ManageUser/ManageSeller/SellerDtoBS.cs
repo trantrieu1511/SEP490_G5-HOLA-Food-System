@@ -21,6 +21,7 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageSeller
 		public bool? ConfirmedEmail { get; set; }
 		public bool? IsBanned { get; set; }
 		public bool? IsVerified { get; set; }
+		public string? BusinessCode { get; set; }
 		public List<SellerImageOutputDto>? ImagesBase64 { get; set; } = new List<SellerImageOutputDto>();
 		public List<SellerImageLOutputDto>? ImagesBase64L { get; set; } = new List<SellerImageLOutputDto>();
 	}

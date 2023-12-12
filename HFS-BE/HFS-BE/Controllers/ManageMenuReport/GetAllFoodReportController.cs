@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.ManageMenuReport
 {
-    public class DisplayFoodReportController : BaseController
+    public class GetAllFoodReportController : BaseController
     {
-        public DisplayFoodReportController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public GetAllFoodReportController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
@@ -27,7 +27,7 @@ namespace HFS_BE.Controllers.ManageMenuReport
                 {
                     return Output<ListFoodReportOutputDto>(Constants.ResultCdFail, "Please login as a menu moderator or customer before executing this API.");
                 }
-                var business = GetBusinessLogic<DisplayFoodReportBusinessLogic>();
+                var business = GetBusinessLogic<GetAllFoodReportBusinessLogic>();
                 return business.GetAllFoodReports(GetUserInfor().UserId);
             }
             catch (Exception)

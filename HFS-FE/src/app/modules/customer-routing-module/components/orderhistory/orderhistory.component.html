@@ -8,10 +8,10 @@
   <div class="grid table-demo main-body">
     <div class="col-12">
       <div class="card">
-        <h5>Customer Order Management</h5>
+        <h5>{{'orderhistoryScreen.CustomerOrderManagement' | translate}}</h5>
         <div class="col-12 md:col-12">
           <div class="col-12 mb-2 lg:col-4 mb-lg-0">
-            <label style="margin-right: 1rem">Data time</label>
+            <label style="margin-right: 1rem">{{'orderhistoryScreen.Datatime' | translate}}</label>
             <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="false" [maxDate]="currentDate"
               [disabled]="false" (onClose)="onCloseCalendar($event)"></p-calendar>
           </div>
@@ -23,63 +23,63 @@
         <p-table styleClass="p-datatable-orders" [value]="lstOrders" dataKey="orderId"
           [tableStyle]="{ 'min-width': '60rem' }" [rows]="10" [paginator]="true" [filterDelay]="0"
           [rowsPerPageOptions]="[5, 10, 25, 50]" responsiveLayout="scroll" [loading]="loading"
-          currentPageReportTemplate="Total {totalRecords} orders on this status"
+          currentPageReportTemplate="{{'orderhistoryScreen.Total' | translate}} {totalRecords} {{'orderhistoryScreen.ordersonthisstatus' | translate}}"
           [showCurrentPageReport]="showCurrentPageReport">
           <ng-template pTemplate="header">
             <tr class="tr-th_background-color">
               <th style="width: 5rem"></th>
               <th pSortableColumn="orderId">
-                OrderId <p-sortIcon field="orderId"></p-sortIcon>
+                {{'orderhistoryScreen.OrderId' | translate}} <p-sortIcon field="orderId"></p-sortIcon>
               </th>
               <th pSortableColumn="shopName">
-                Shop <p-sortIcon field="shopName"></p-sortIcon>
+                {{'orderhistoryScreen.Shop' | translate}} <p-sortIcon field="shopName"></p-sortIcon>
               </th>
               <th pSortableColumn="orderDate">
-                OrderDate <p-sortIcon field="orderDate"></p-sortIcon>
+                {{'orderhistoryScreen.OrderDate' | translate}} <p-sortIcon field="orderDate"></p-sortIcon>
               </th>
               <th pSortableColumn="shipAddress">
-                Ship Address <p-sortIcon field="shipAddress"></p-sortIcon>
+               {{'orderhistoryScreen.ShipAddress' | translate}} <p-sortIcon field="shipAddress"></p-sortIcon>
               </th>
               <th pSortableColumn="voucherId">
-                Voucher <p-sortIcon field="voucher"></p-sortIcon>
+                {{'orderhistoryScreen.Voucher' | translate}} <p-sortIcon field="voucher"></p-sortIcon>
               </th>
               <th pSortableColumn="inventoryStatus">
-                Payment <p-sortIcon field="paymentMethod"></p-sortIcon>
+                {{'orderhistoryScreen.Payment' | translate}} <p-sortIcon field="paymentMethod"></p-sortIcon>
               </th>
               <th pSortableColumn="inventoryStatus">
-                Total Price <p-sortIcon field="totalPrice"></p-sortIcon>
+                {{'orderhistoryScreen.TotalPrice' | translate}} <p-sortIcon field="totalPrice"></p-sortIcon>
               </th>
               <ng-container [ngSwitch]="activeItem.id">
                 <ng-container *ngSwitchCase="'2'">
-                  <th>Shipper</th>
+                  <th>{{'orderhistoryScreen.Shipper' | translate}}</th>
                 </ng-container>
                 <ng-container *ngSwitchCase="'3'">
-                  <th>Shipper</th>
+                  <th>{{'orderhistoryScreen.Shipper' | translate}}</th>
                 </ng-container>
                 <ng-container *ngSwitchCase="'4'">
-                  <th>Shipper</th>
+                  <th>{{'orderhistoryScreen.Shipper' | translate}}</th>
                 </ng-container>
                 <ng-container *ngSwitchCase="'5'">
-                  <th>Shipper</th>
+                  <th>{{'orderhistoryScreen.Shipper' | translate}}</th>
                 </ng-container>
                 <ng-container *ngSwitchDefault></ng-container>
               </ng-container>
 
               <ng-container [ngSwitch]="activeItem.id">
                 <ng-container *ngSwitchCase="'0'">
-                  <th>Action</th>
+                  <th>{{'orderhistoryScreen.Action' | translate}}</th>
                 </ng-container>
                 <ng-container *ngSwitchCase="'1'">
-                  <th>Action</th>
+                  <th>{{'orderhistoryScreen.Action' | translate}}</th>
                 </ng-container>
                 <!-- <ng-container *ngSwitchCase="'4'"
                     ><th>Action</th></ng-container
                   > -->
                 <ng-container *ngSwitchCase="'5'">
-                  <th>Reason</th>
+                  <th>{{'orderhistoryScreen.Reason' | translate}}</th>
                 </ng-container>
                 <ng-container *ngSwitchCase="'6'">
-                  <th>Reason</th>
+                  <th>{{'orderhistoryScreen.Reason' | translate}}</th>
                 </ng-container>
                 <ng-container *ngSwitchCase></ng-container>
               </ng-container>
@@ -206,23 +206,23 @@
                     <ng-template pTemplate="header">
             <tr class="tr-th_background-color">
               <th pSortableColumn="id">
-                FoodId <p-sortIcon field="foodId"></p-sortIcon>
+                 {{'orderhistoryScreen.FoodId' | translate}}<p-sortIcon field="foodId"></p-sortIcon>
               </th>
               <th pSortableColumn="customer">
-                Name <p-sortIcon field="foodName"></p-sortIcon>
+                 {{'orderhistoryScreen.Name' | translate}}<p-sortIcon field="foodName"></p-sortIcon>
               </th>
               <th pSortableColumn="date">Image</th>
               <th pSortableColumn="amount">
-                UnitPrice <p-sortIcon field="unitPrice"></p-sortIcon>
+                 {{'orderhistoryScreen.UnitPrice' | translate}}<p-sortIcon field="unitPrice"></p-sortIcon>
               </th>
               <th pSortableColumn="status">
-                Quantity <p-sortIcon field="quantity"></p-sortIcon>
+                {{'orderhistoryScreen.Quantity' | translate}} <p-sortIcon field="quantity"></p-sortIcon>
               </th>
               <th pSortableColumn="status">
-                Category <p-sortIcon field="categoryName"></p-sortIcon>
+                 {{'orderhistoryScreen.Category' | translate}}<p-sortIcon field="categoryName"></p-sortIcon>
               </th>
               <th *ngSwitchCase="'4'">
-                Action
+                {{'orderhistoryScreen.Action' | translate}}
               </th>
             </tr>
           </ng-template>
@@ -257,7 +257,7 @@
           </ng-template>
           <ng-template pTemplate="emptymessage">
             <tr>
-              <td colspan="6">There are no food for this order yet.</td>
+              <td colspan="6">{{'orderhistoryScreen.emptymessage' | translate}}</td>
             </tr>
           </ng-template>
         </p-table>
@@ -267,7 +267,7 @@
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td colspan="8">There are no order on this status yet.</td>
+          <td colspan="8">{{'orderhistoryScreen.emptymessage1' | translate}}</td>
         </tr>
       </ng-template>
       </p-table>
@@ -287,7 +287,7 @@
           <div class="col-12 mb-2 lg:col-4 mb-lg-0">
             <span class="p-input-icon-left p-float-label" style="width: 100%">
               <input type="text" class="w-full" [(ngModel)]="orderCancelInput.orderId" [disabled]="true" pInputText />
-              <label>Order ID*</label>
+              <label>{{'orderhistoryScreen.OrderId' | translate}}*</label>
             </span>
           </div>
           <div class="col-12 mb-2 lg:col-12 mb-lg-0">
@@ -295,7 +295,7 @@
               <textarea class="w-full" rows="10" cols="60" pInputTextarea maxlength="1500"
                 [(ngModel)]="orderCancelInput.note" [class.ng-invalid]="!orderCancelValidateInput.isNoteValid"
                 [class.ng-dirty]="!orderCancelValidateInput.isNoteValid"></textarea>
-              <label>Input Reason*</label>
+              <label>{{'orderhistoryScreen.InputReason' | translate}}*</label>
             </span>
             <small [style.display]="
                   orderCancelValidateInput.isNoteValid
@@ -330,7 +330,7 @@
     </div>
   </ng-template>
 </p-dialog>
-<p-dialog header="Rate" [(visible)]="displayDialogRateOrder" [breakpoints]="{ '960px': '75vw' }"
+<p-dialog header="{{'button.Rate' | translate}}" [(visible)]="displayDialogRateOrder" [breakpoints]="{ '960px': '75vw' }"
   [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false" [maximizable]="true">
   <div class="grid p-fluid">
     <div class="col-12 md:col-12">
@@ -349,11 +349,11 @@
             <span class="p-input-icon-left p-float-label" style="width: 100%">
               <textarea class="w-full" rows="10" cols="60" pInputTextarea maxlength="1500"
                 [(ngModel)]="rateInput.feedBackMessage"></textarea>
-              <label>Input Feedback message*</label>
+              <label>{{'orderhistoryScreen.InputFeedbackmessage' | translate}}*</label>
             </span>
           </div>
           <div class="col-12 mb-2 lg:col-12 mb-lg-0">
-            <label>Images*</label>
+            <label>{{'orderhistoryScreen.Image' | translate}}*</label>
             <span class="p-input-icon-left p-float-label" style="width: 100%">
               <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
                       <ng-template pTemplate="content">
@@ -384,7 +384,7 @@
   <ng-template pTemplate="footer">
     <div class="flex justify-content-center flex-wrap" style="text-align: center">
       <div class="flex align-items-center justify-content-center" style="text-align: center">
-        <button pButton type="button" label="Rate" (click)="createFeedback(rateInput)" style="width: 100%"></button>
+        <button pButton type="button" label="{{'button.Rate' | translate}}" (click)="createFeedback(rateInput)" style="width: 100%"></button>
       </div>
       <!-- <div
           class="flex align-items-center justify-content-center"
@@ -411,11 +411,11 @@
         <div class="grid">
           <div class="col-12 mb-2 mb-lg-0">
             <span style="width: 100%">                           
-              <label>Shipper Name: {{shipperName}}</label>
+              <label>{{'orderhistoryScreen.ShipperName' | translate}}: {{shipperName}}</label>
             </span>
           </div>
           <div class="col-12 mb-2 mb-lg-0">        
-              Phone: <a href="tel:+{{shipperPhone}}"><u>{{shipperPhone}}</u></a> 
+              {{'orderhistoryScreen.Phone' | translate}}: <a href="tel:+{{shipperPhone}}"><u>{{shipperPhone}}</u></a> 
           </div>
         </div>
       </div>

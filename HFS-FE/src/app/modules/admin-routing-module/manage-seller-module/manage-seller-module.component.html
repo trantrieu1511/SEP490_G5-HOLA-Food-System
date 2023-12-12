@@ -111,6 +111,14 @@
                               Images
                           </div>
                       </th>
+                      <th pSortableColumn="businessCode">
+                        <div class="flex justify-content-between align-items-center">
+                          BusinessCode
+                            <p-sortIcon field="businessCode"></p-sortIcon>
+                            <p-columnFilter type="numeric" field="businessCode" display="menu"
+                                            class="ml-auto"></p-columnFilter>
+                        </div>
+                    </th>
                       <th pSortableColumn="imagesBase64L">
                         <div class="flex justify-content-between align-items-center">
                          BusinessLicense
@@ -198,6 +206,10 @@
                         </ng-container>
                           <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
                       </td>
+                      <td >
+                        <span class="p-column-title">businessCode</span>
+                        {{user.businessCode}}
+                    </td>
                       <td>
                         <span class="p-column-title">Image</span>
                         <ng-container *ngIf="user.imagesBase64L.length !== 0; else noneImage2" >
@@ -230,7 +242,7 @@
                                         class="p-button-rounded p-mr-2"></button>
                             </div>
                             <div class="flex align-items-center justify-content-center">
-                              <button  *ngIf="!user.isVerified" pButton pRipple  label="Detail"
+                              <button  pButton pRipple  label="Detail"
                               (click)="Detail(user,$event)"
                                       class="p-button-rounded p-mr-2"></button>
                           </div>
@@ -328,7 +340,7 @@
             <tr >
                 <td>{{history.banSellerId}}</td>
                 <td>{{history.reason}}</td>
-                <td>{{history.createDate}}</td>
+                <td>{{history.createDate| date:'dd/MM/yyyy hh:mm a'}}</td>
 
             </tr>
         </ng-template>

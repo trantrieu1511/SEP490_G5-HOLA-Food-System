@@ -150,7 +150,7 @@ export class ManageCategoryModuleComponent extends iComponentBase implements OnI
   onDisplayCate(cate:Category,event){
     this.confirmationService.confirm({
       target: event.target,
-      message: `Are you sure to Display this post id: ${cate.categoryId} ?`,
+      message: `Are you sure to Display this Category id: ${cate.categoryId} ?`,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         //confirm action

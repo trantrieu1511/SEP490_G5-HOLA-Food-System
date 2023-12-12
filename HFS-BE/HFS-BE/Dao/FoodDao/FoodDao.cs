@@ -41,7 +41,9 @@ namespace HFS_BE.Dao.FoodDao
                 {
                     int ordered = 0;
                     decimal star = 0;
-                    foreach (var orderdetail in item.OrderDetails)
+					var data2 = context.OrderDetails.Include(s => s.Order).
+				  ThenInclude(s => s.OrderProgresses).Where(s => s.Order.OrderProgresses.Where(a => a.Status == 4).Any() && s.FoodId == item.FoodId);
+					foreach (var orderdetail in data2)
                     {
                         ordered += orderdetail.Quantity.Value;
                     }
@@ -89,9 +91,11 @@ namespace HFS_BE.Dao.FoodDao
                 var data = this.context.Foods
                     .Include(x => x.FoodImages)
                     .Include(x => x.Category)
+                  
                     .Where(x => x.FoodId == inputDto.FoodId && x.Status == 1)
                     .FirstOrDefault();
-
+                var data2 = context.OrderDetails.Include(s => s.Order).
+                    ThenInclude(s => s.OrderProgresses).Where(s => s.Order.OrderProgresses.Where(a => a.Status == 4).Any()&&s.FoodId==inputDto.FoodId);
                 if (data == null)
                 {
                     return this.Output<FoodOutputDto>(Constants.ResultCdFail);
@@ -104,7 +108,7 @@ namespace HFS_BE.Dao.FoodDao
 
                 int ordered = 0;
                 decimal star = 0;
-                foreach (var orderdetail in data.OrderDetails)
+                foreach (var orderdetail in data2)
                 {
                     ordered += orderdetail.Quantity.Value;
                 }
@@ -439,7 +443,9 @@ namespace HFS_BE.Dao.FoodDao
                 {
                     int ordered = 0;
                     decimal star = 0;
-                    foreach (var orderdetail in item.OrderDetails)
+					var data2 = context.OrderDetails.Include(s => s.Order).
+			  ThenInclude(s => s.OrderProgresses).Where(s => s.Order.OrderProgresses.Where(a => a.Status == 4).Any() && s.FoodId == item.FoodId);
+					foreach (var orderdetail in data2)
                     {
                         ordered += orderdetail.Quantity.Value;
                     }
@@ -503,7 +509,9 @@ namespace HFS_BE.Dao.FoodDao
                     }
                     int ordered = 0;
                     decimal star = 0;
-                    foreach (var orderdetail in item.OrderDetails)
+					var data2 = context.OrderDetails.Include(s => s.Order).
+				  ThenInclude(s => s.OrderProgresses).Where(s => s.Order.OrderProgresses.Where(a => a.Status == 4).Any() && s.FoodId == item.FoodId);
+					foreach (var orderdetail in data2)
                     {
                         ordered += orderdetail.Quantity.Value;
                     }

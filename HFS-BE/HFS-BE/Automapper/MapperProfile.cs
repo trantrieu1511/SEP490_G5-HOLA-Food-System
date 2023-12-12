@@ -432,7 +432,7 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.FeedBackImages));
             CreateMap<FeedbackVote, CustomerVoted>();
             CreateMap<FeedbackReply, FeedBackReplyDaoOutputDto>()
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.FirstName + " " + src.Customer.LastName : src.Seller.ShopName));
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Seller.ShopName));
 
 
             CreateMap<GetFeedBackByFoodIdDaoOutputDto, GetFeedBackOutputDto>();

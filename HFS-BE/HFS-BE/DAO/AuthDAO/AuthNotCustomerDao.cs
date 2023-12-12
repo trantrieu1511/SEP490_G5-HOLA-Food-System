@@ -218,6 +218,7 @@ namespace HFS_BE.DAO.AuthDAO
 				ShopName=model.ShopName,
 				ShopAddress=model.ShopAddress,
 				ConfirmedEmail = false,
+				BusinessCode=model.BusinessCode,
 				IsBanned = false,
                 CreateDate = DateTime.Now,
             };

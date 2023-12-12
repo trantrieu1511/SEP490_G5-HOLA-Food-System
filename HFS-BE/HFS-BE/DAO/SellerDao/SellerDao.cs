@@ -37,7 +37,8 @@ namespace HFS_BE.DAO.SellerDao
 						 IsVerified=p.IsVerified,
 						 IsOnline=p.IsOnline,
 						 ShopName=p.ShopName,
-						 ShopAddress=p.ShopAddress,
+						 BusinessCode=p.BusinessCode,
+						 ShopAddress =p.ShopAddress,
 						 Images = context.ProfileImages
 					.Where(pi => pi.UserId == p.SellerId&&pi.IsReplaced==false)
 				   .Select(pi => new ImageSellerOutputDto

@@ -1,4 +1,4 @@
-<p-dialog header="Reporting the food: {{fooddetail.name}}" [(visible)]="isVisibleFoodReportModal" [modal]="true"
+<p-dialog header="{{'foodDetailScreen.Reportingthefood' | translate}}: {{fooddetail.name}}" [(visible)]="isVisibleFoodReportModal" [modal]="true"
     [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '500px' }" [draggable]="false" [resizable]="false"
     [responsive]="true">
     <!-- <br> -->
@@ -7,44 +7,44 @@
             <!-- <input type="text" value="{{fooddetail.foodId}}" [(ngModel)]="foodReport.foodId" disabled /> -->
             <!-- <hr> -->
             <div style="padding-bottom: 5px; font-style: italic;">
-                Các lý do phổ biến:
+                {{'foodDetailScreen.reasons' | translate}}:
             </div>
             <div style="padding-bottom: 5px;">
                 <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
                     value="Đồ ăn thực tế không đúng với mô tả" [(ngModel)]="foodReport.reportContents"
                     inputId="reportContent1"></p-checkbox>
-                <label for="reportContent1" class="ml-2">Đồ ăn thực tế không đúng với mô tả</label>
+                <label for="reportContent1" class="ml-2">{{'foodDetailScreen.reason1' | translate}}</label>
             </div>
             <div style="padding-bottom: 5px;">
                 <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
                     value="Hình ảnh đồ ăn không giống với thực tế nhận được" [(ngModel)]="foodReport.reportContents"
                     inputId="reportContent2"></p-checkbox>
-                <label for="reportContent2" class="ml-2">Hình ảnh đồ ăn không giống với thực tế nhận được</label>
+                <label for="reportContent2" class="ml-2">{{'foodDetailScreen.reason2' | translate}}</label>
             </div>
             <div style="padding-bottom: 5px;">
                 <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportButtonSubmit();"
                     value="Đồ ăn không đảm bảo chất lượng" [(ngModel)]="foodReport.reportContents"
                     inputId="reportContent3"></p-checkbox>
-                <label for="reportContent3" class="ml-2">Đồ ăn không đảm bảo chất lượng</label>
+                <label for="reportContent3" class="ml-2">{{'foodDetailScreen.reason3' | translate}}</label>
             </div>
         </div>
         <br>
         <div style="padding-bottom: 5px;">
             <p-checkbox name="reportContent" (onChange)="enableDisableFoodReportTextArea($event);" value="Other"
                 inputId="reportContentOther"></p-checkbox>
-            <label for="reportContentOther" class="ml-2">Khác/Thêm mô tả</label>
+            <label for="reportContentOther" class="ml-2">{{'foodDetailScreen.Other' | translate}}</label>
         </div>
         <span class="">
             <textarea (change)="addValueToReportContentList();" [disabled]="isDisabledFoodReportTextArea" class="w-full"
-                id="float-input" rows="5" cols="50" [(ngModel)]="foodReport.reportContent" placeholder="Điền lý do khác/Thêm mô tả cho các lý do bạn chọn trên"
+                id="float-input" rows="5" cols="50" [(ngModel)]="foodReport.reportContent" placeholder="{{'foodDetailScreen.Content' | translate}}"
                 pInputTextarea></textarea>
             <!-- <label for="float-input">Lý do khác</label> -->
         </span>
     </div>
-    <strong>Lưu ý: Bạn sẽ không thể hủy sau khi đã tố cáo</strong>
+    <strong>{{'foodDetailScreen.Note' | translate}}</strong>
     <br>
     <br>
-    <p-button [disabled]="isDisabledFoodReportBtnSubmit" (click)="submitReport()">Save</p-button>
+    <p-button [disabled]="isDisabledFoodReportBtnSubmit" (click)="submitReport()">{{'button.save' | translate}}</p-button>
 </p-dialog>
 
 <div class="grid">
@@ -75,11 +75,11 @@
                 </div> -->
                 <div class="col-5 food-infor">
                     <div *ngIf="hasAlreadyReported == true" style="text-align: right;">
-                        Đã tố cáo
+                        {{'foodDetailScreen.Reported' | translate}}
                     </div>
                     <div *ngIf="isLoggedIn == true && hasAlreadyReported == false" style="text-align: right;">
                         <p-button [text]="true" (click)="openFoodReportDialog();">
-                            <i class="pi pi-flag fs-large"></i>&nbsp;Report
+                            <i class="pi pi-flag fs-large"></i>&nbsp;{{'foodDetailScreen.Report' | translate}}
                         </p-button>
                     </div>
                     <div class="food-div_name">
@@ -88,23 +88,23 @@
                     <p-rating [ngModel]="fooddetail.averageStar" [readonly]="true" [cancel]="false"></p-rating>
 
                     <div class="category-div">
-                        <h3 class="label">Category</h3>
+                        <h3 class="label">{{'foodDetailScreen.Category' | translate}}</h3>
                         <p class="line-height-3 m-0">{{fooddetail.categoryName}}</p>
                     </div>
 
 
                     <div class="price-div">
-                        <h3 class="label">Price</h3>
+                        <h3 class="label">{{'foodDetailScreen.Price' | translate}}</h3>
                         <p> {{fooddetail.unitPrice | currency:'VND'}}</p>
                     </div>
 
                     <div class="numbers-div_order">
-                        <h3 class="label">Number Orders </h3>
+                        <h3 class="label">{{'foodDetailScreen.NumberOrders' | translate}}</h3>
                         <p> {{fooddetail.numberOrdered}}</p>
                     </div>
-                
+
                     <div class="number-div_input">
-                        <h3 class="label">Numbers</h3>
+                        <h3 class="label">{{'foodDetailScreen.Numbers' | translate}}</h3>
                         <p-inputNumber [(ngModel)]="amount" [showButtons]="true" buttonLayout="horizontal"
                             inputId="horizontal" spinnerMode="horizontal" [step]="1"
                             decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
@@ -112,13 +112,13 @@
                             [(ngModel)]="amount"></p-inputNumber>
                     </div>
                     <div class="addCart">
-                        <p-button label="Add to Cart" class="addCart_btn" icon="pi pi-shopping-cart"
+                        <p-button label="{{'button.AddtoCart' | translate}}" class="addCart_btn" icon="pi pi-shopping-cart"
                         (onClick)="onAddToCart(fooddetail.foodId)"></p-button>
                     </div>
                 </div>
 
                 <div class="col-12 food-div_description">
-                    <h4 class="line-height-3 m-0">Description </h4>
+                    <h4 class="line-height-3 m-0">{{'foodDetailScreen.Description' | translate}}</h4>
                     <p class="food-description">
                         {{fooddetail.description}}
                     </p>
@@ -128,7 +128,7 @@
     </div>
     <div class="col-12">
         <div class="card">
-            <h1>Similar food</h1>
+            <h1>{{'foodDetailScreen.Similarfood' | translate}}</h1>
             <p-carousel [value]="similarFood" [numVisible]="3" [numScroll]="3" [circular]="false"
                 [responsiveOptions]="">
                 <ng-template let-product pTemplate="item">
@@ -139,7 +139,7 @@
                         </div>
                         <div class="product-bottom">
                             <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>
-                            <div class="product-description">Ordered: {{product.numberOrdered}}</div>
+                            <div class="product-description">{{'foodDetailScreen.Ordered' | translate}}: {{product.numberOrdered}}</div>
                             <h5 class="mb-1 product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</h5>
                             <h6 class="mt-0 mb-3">{{product.unitPrice | currency : "VND" }}</h6>
                             <div class="my-5">
@@ -155,83 +155,173 @@
 
     <div class="col-12">
         <div class="card">
-            <h1>Review</h1>
+            <h1>{{'foodDetailScreen.Review' | translate}}</h1>
             <p-tabView orientation="left" (onChange)="onTabChange($event)">
-                <p-tabPanel header="5 sao" class="line-height-3 m-0">
-                    <div class="flex-auto">
-                        <div *ngFor="let item of displayFeedback" class="comment-thread">
-                            <!-- Comment 1 start -->
-                            <div class="comment" id="comment-1">
-                                <a href="#comment-1" class="comment-border-link">
-                                    <span class="sr-only">Jump to comment-1</span>
-                                </a>
-                                <div style="margin-bottom: 10px;">
-                                    <div class="comment-heading" style="margin-bottom: 10px;">
-                                        <div class="comment-info">
-                                            <a href="#" class="comment-author">{{item.customerName}}</a>
-                                            <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
-                                            <p class="m-0">
-                                                {{item.likeCount}} Like &bull; {{item.displayDate}}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="comment-body">
-                                        <div *ngIf="item.imagesFeedBack.length > 0"
-                                            class="grid nogutter justify-center">
-                                            <img *ngFor="let image of item.imagesFeedBack"
-                                                src="data:image/gif;base64,{{image.imageBase64}}"
-                                                style=" max-width: 150px; display: block; max-height: 80%;" />
-                                        </div>
-                                        <p>
-                                            {{item.feedbackMessage}}
+              <p-tabPanel header="{{'foodDetailScreen.All' | translate}}({{ allCount }})" class="line-height-3 m-0">
+                <div class="flex-auto">
+                    <div *ngFor="let item of displayFeedback" class="comment-thread">
+                        <!-- Comment 1 start -->
+                        <div class="comment" id="comment-1">
+                            <a href="#" class="comment-border-link">
+                                <span class="sr-only">{{'foodDetailScreen.Jumptocomment1' | translate}}</span>
+                            </a>
+                            <div style="margin-bottom: 10px;">
+                                <div class="comment-heading" style="margin-bottom: 10px;">
+                                    <div class="comment-info">
+                                        <a href="#" class="comment-author">{{item.customerName}}</a>
+                                        <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
+                                        <p class="m-0">
+                                            {{item.likeCount}} {{'foodDetailScreen.Like' | translate}} &bull; {{item.displayDate}}
                                         </p>
-                                        <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
-                                            (click)="onLikeReview(item.feedbackId)"></p-button>
                                     </div>
                                 </div>
+                                <div class="comment-body">
+                                    <!-- <div *ngIf="item.imagesFeedBack.length > 0"
+                                        class="grid nogutter justify-center">
+                                        <img *ngFor="let image of item.imagesFeedBack"
+                                            src="data:image/gif;base64,{{image.imageBase64}}"
+                                            style=" max-width: 150px; display: block; max-height: 80%;" />
+                                    </div> -->
+                                    <div *ngIf="item.imagesFeedBack.length > 0" class="">
+                                      <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
+                                          style=" max-width: 150px; display: block; max-height: 80%;" />
+                                          <ng-container *ngIf="item.imagesFeedBack.length !== 0; else noneImage" >
+                                            <button pButton pRipple label="more"
+                                                    (click)="onDisplayImagesDialog(item.imagesFeedBack, $event)"
+                                                    class="p-button-rounded p-button-text p-button-raised"></button>
+                                        </ng-container>
+                                        <ng-template #noneImage ></ng-template>
+                                  </div>
 
-
-
-                                <div *ngFor="let replies of item.listReply" class="replies">
-                                    <!-- Comment 2 start -->
-                                    <details class="comment" id="comment-2">
-                                        <a href="#comment-2" class="comment-border-link">
-                                            <span class="sr-only">Jump to comment-2</span>
-                                        </a>
-                                        <summary>
-                                            <div class="comment-heading">
-                                                <div class="comment-info">
-                                                    <a href="#" class="comment-author">{{replies.userName}}</a>
-                                                    <p class="m-0">
-                                                        {{replies.createdDate}}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </summary>
-
-                                        <div class="comment-body">
-                                            <p>
-                                                {{replies.replyMessage}}
-                                            </p>
-                                        </div>
-                                    </details>
-                                    <!-- Comment 2 end -->
+                                    <p>
+                                        {{item.feedbackMessage}}
+                                    </p>
+                                    <button pButton pRipple  [icon]="item.isLiked ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'"
+                                        (click)="onLikeReview(item.feedbackId)"></button>
                                 </div>
                             </div>
-                            <!-- Comment 1 end -->
+
+
+
+                            <div *ngFor="let replies of item.listReply" class="replies">
+                                <!-- Comment 2 start -->
+                                <details class="comment" id="comment-2">
+                                    <a  href="#" class="comment-border-link">
+                                        <span class="sr-only">{{'foodDetailScreen.Jumptocomment2' | translate}}</span>
+                                    </a>
+                                    <summary>
+                                        <div class="comment-heading">
+                                            <div class="comment-info">
+                                                <a href="#" class="comment-author">{{replies.userName}}</a>
+                                                <p class="m-0">
+                                                    {{replies.createdDate}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </summary>
+
+                                    <div class="comment-body">
+                                        <p>
+                                            {{replies.replyMessage}}
+                                        </p>
+                                    </div>
+                                </details>
+                                <!-- Comment 2 end -->
+                            </div>
                         </div>
-                        <p-paginator (onPageChange)="onPageChange($event, 5)" [first]="first" [rows]="rows"
-                            [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
-                        </p-paginator>
+                        <!-- Comment 1 end -->
                     </div>
-                </p-tabPanel>
-                <p-tabPanel header="4 sao" class="line-height-3 m-0">
+                    <p-paginator (onPageChange)="onPageChange($event, 5)" [first]="first" [rows]="rows"
+                        [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
+                    </p-paginator>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel header="5 {{'foodDetailScreen.star' | translate}}({{ namCount }})" class="line-height-3 m-0">
+              <div class="flex-auto">
+                  <div *ngFor="let item of displayFeedback" class="comment-thread">
+                      <!-- Comment 1 start -->
+                      <div class="comment" id="comment-1">
+                          <a  class="comment-border-link">
+                              <span class="sr-only">{{'foodDetailScreen.Jumptocomment1' | translate}}</span>
+                          </a>
+                          <div style="margin-bottom: 10px;">
+                              <div class="comment-heading" style="margin-bottom: 10px;">
+                                  <div class="comment-info">
+                                      <a href="#" class="comment-author">{{item.customerName}}</a>
+                                      <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
+                                      <p class="m-0">
+                                          {{item.likeCount}} {{'foodDetailScreen.Like' | translate}} &bull; {{item.displayDate}}
+                                      </p>
+                                  </div>
+                              </div>
+                              <div class="comment-body">
+                                  <!-- <div *ngIf="item.imagesFeedBack.length > 0"
+                                      class="grid nogutter justify-center">
+                                      <img *ngFor="let image of item.imagesFeedBack"
+                                          src="data:image/gif;base64,{{image.imageBase64}}"
+                                          style=" max-width: 150px; display: block; max-height: 80%;" />
+                                  </div> -->
+                                  <div *ngIf="item.imagesFeedBack.length > 0" class="">
+                                    <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
+                                        style=" max-width: 150px; display: block; max-height: 80%;" />
+                                        <ng-container *ngIf="item.imagesFeedBack.length !== 0; else noneImage" >
+                                          <button pButton pRipple label="more"
+                                                  (click)="onDisplayImagesDialog(item.imagesFeedBack, $event)"
+                                                  class="p-button-rounded p-button-text p-button-raised"></button>
+                                      </ng-container>
+                                      <ng-template #noneImage ></ng-template>
+                                </div>
+
+                                  <p>
+                                      {{item.feedbackMessage}}
+                                  </p>
+                                  <button pButton pRipple  [icon]="item.isLiked ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'"
+                                      (click)="onLikeReview(item.feedbackId)"></button>
+                              </div>
+                          </div>
+
+
+
+                          <div *ngFor="let replies of item.listReply" class="replies">
+                              <!-- Comment 2 start -->
+                              <details class="comment" id="comment-2">
+                                  <a href="#" class="comment-border-link">
+                                      <span class="sr-only">{{'foodDetailScreen.Jumptocomment2' | translate}}</span>
+                                  </a>
+                                  <summary>
+                                      <div class="comment-heading">
+                                          <div class="comment-info">
+                                              <a href="#" class="comment-author">{{replies.userName}}</a>
+                                              <p class="m-0">
+                                                  {{replies.createdDate}}
+                                              </p>
+                                          </div>
+                                      </div>
+                                  </summary>
+
+                                  <div class="comment-body">
+                                      <p>
+                                          {{replies.replyMessage}}
+                                      </p>
+                                  </div>
+                              </details>
+                              <!-- Comment 2 end -->
+                          </div>
+                      </div>
+                      <!-- Comment 1 end -->
+                  </div>
+                  <p-paginator (onPageChange)="onPageChange($event, 5)" [first]="first" [rows]="rows"
+                      [totalRecords]="displayFeedback.length" [rowsPerPageOptions]="[10, 20, 30]">
+                  </p-paginator>
+              </div>
+          </p-tabPanel>
+                <p-tabPanel header="4 {{'foodDetailScreen.star' | translate}}({{ bonCount }})" class="line-height-3 m-0">
                     <div class="flex-auto">
                         <div *ngFor="let item of displayFeedback" class="comment-thread">
                             <!-- Comment 1 start -->
                             <details class="comment" id="comment-1">
-                                <a href="#comment-1" class="comment-border-link">
-                                    <span class="sr-only">Jump to comment-1</span>
+                                <a href="#" class="comment-border-link">
+                                    <span class="sr-only">{{'foodDetailScreen.Jumptocomment1' | translate}}</span>
                                 </a>
                                 <summary style="margin-bottom: 10px;">
                                     <div class="comment-heading" style="margin-bottom: 10px;">
@@ -239,30 +329,36 @@
                                             <a href="#" class="comment-author">{{item.customerName}}</a>
                                             <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
                                             <p class="m-0">
-                                                {{item.likeCount}} points &bull; {{item.displayDate}}
+                                                {{item.likeCount}} {{'foodDetailScreen.points' | translate}} &bull; {{item.displayDate}}
                                             </p>
                                         </div>
                                     </div>
                                 </summary>
 
                                 <div class="comment-body">
-                                    <div *ngIf="item.imagesFeedBack.length > 0" class="grid nogutter justify-center">
-                                        <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
-                                            style=" max-width: 150px; display: block; max-height: 80%;" />
-                                    </div>
-                                    <p>
-                                        {{item.feedbackMessage}}
-                                    </p>
-                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
-                                        (click)="onLikeReview(item.feedbackId)"></p-button>
+                                  <div *ngIf="item.imagesFeedBack.length > 0" class="">
+                                    <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
+                                        style=" max-width: 150px; display: block; max-height: 80%;" />
+                                        <ng-container *ngIf="item.imagesFeedBack.length !== 0; else noneImage" >
+                                          <button pButton pRipple label="more"
+                                                  (click)="onDisplayImagesDialog(item.imagesFeedBack, $event)"
+                                                  class="p-button-rounded p-button-text p-button-raised"></button>
+                                      </ng-container>
+                                      <ng-template #noneImage ></ng-template>
                                 </div>
 
+                                  <p>
+                                      {{item.feedbackMessage}}
+                                  </p>
+                                  <button pButton pRipple  [icon]="item.isLiked ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'"
+                                      (click)="onLikeReview(item.feedbackId)"></button>
+                              </div>
 
                                 <div *ngFor="let replies of item.listReply" class="replies">
                                     <!-- Comment 2 start -->
                                     <details class="comment" id="comment-2">
-                                        <a href="#comment-2" class="comment-border-link">
-                                            <span class="sr-only">Jump to comment-2</span>
+                                        <a href="#" class="comment-border-link">
+                                            <span class="sr-only">{{'foodDetailScreen.Jumptocomment2' | translate}}</span>
                                         </a>
                                         <summary>
                                             <div class="comment-heading">
@@ -292,13 +388,13 @@
                         </p-paginator>
                     </div>
                 </p-tabPanel>
-                <p-tabPanel header="3 sao" class="line-height-3 m-0">
+                <p-tabPanel header="3 {{'foodDetailScreen.star' | translate}}({{ baCount }})" class="line-height-3 m-0">
                     <div class="flex-auto">
                         <div *ngFor="let item of displayFeedback" class="comment-thread">
                             <!-- Comment 1 start -->
                             <details class="comment" id="comment-1">
-                                <a href="#comment-1" class="comment-border-link">
-                                    <span class="sr-only">Jump to comment-1</span>
+                                <a href="#" class="comment-border-link">
+                                    <span class="sr-only">{{'foodDetailScreen.Jumptocomment1' | translate}}</span>
                                 </a>
                                 <summary style="margin-bottom: 10px;">
                                     <div class="comment-heading" style="margin-bottom: 10px;">
@@ -306,29 +402,36 @@
                                             <a href="#" class="comment-author">{{item.customerName}}</a>
                                             <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
                                             <p class="m-0">
-                                                {{item.likeCount}} points &bull; {{item.displayDate}}
+                                                {{item.likeCount}} {{'foodDetailScreen.points' | translate}} &bull; {{item.displayDate}}
                                             </p>
                                         </div>
                                     </div>
                                 </summary>
 
                                 <div class="comment-body">
-                                    <div *ngIf="item.imagesFeedBack.length > 0" class="grid nogutter justify-center">
-                                        <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
-                                            style=" max-width: 150px; display: block; max-height: 80%;" />
-                                    </div>
-                                    <p>
-                                        {{item.feedbackMessage}}
-                                    </p>
-                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
-                                        (click)="onLikeReview(item.feedbackId)"></p-button>
+                                  <div *ngIf="item.imagesFeedBack.length > 0" class="">
+                                    <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
+                                        style=" max-width: 150px; display: block; max-height: 80%;" />
+                                        <ng-container *ngIf="item.imagesFeedBack.length !== 0; else noneImage" >
+                                          <button pButton pRipple label="more"
+                                                  (click)="onDisplayImagesDialog(item.imagesFeedBack, $event)"
+                                                  class="p-button-rounded p-button-text p-button-raised"></button>
+                                      </ng-container>
+                                      <ng-template #noneImage ></ng-template>
                                 </div>
+
+                                  <p>
+                                      {{item.feedbackMessage}}
+                                  </p>
+                                  <button pButton pRipple  [icon]="item.isLiked ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'"
+                                      (click)="onLikeReview(item.feedbackId)"></button>
+                              </div>
 
                                 <div *ngFor="let replies of item.listReply" class="replies">
                                     <!-- Comment 2 start -->
                                     <details class="comment" id="comment-2">
-                                        <a href="#comment-2" class="comment-border-link">
-                                            <span class="sr-only">Jump to comment-2</span>
+                                        <a href="#" class="comment-border-link">
+                                            <span class="sr-only">{{'foodDetailScreen.Jumptocomment2' | translate}}</span>
                                         </a>
                                         <summary>
                                             <div class="comment-heading">
@@ -357,13 +460,13 @@
                         </p-paginator>
                     </div>
                 </p-tabPanel>
-                <p-tabPanel header="2 sao" class="line-height-3 m-0">
+                <p-tabPanel header="2 {{'foodDetailScreen.star' | translate}}({{ haiCount }})" class="line-height-3 m-0">
                     <div class="flex-auto">
                         <div *ngFor="let item of displayFeedback" class="comment-thread">
                             <!-- Comment 1 start -->
                             <details class="comment" id="comment-1">
-                                <a href="#comment-1" class="comment-border-link">
-                                    <span class="sr-only">Jump to comment-1</span>
+                                <a href="#" class="comment-border-link">
+                                    <span class="sr-only">{{'foodDetailScreen.Jumptocomment1' | translate}}</span>
                                 </a>
                                 <summary style="margin-bottom: 10px;">
                                     <div class="comment-heading" style="margin-bottom: 10px;">
@@ -371,39 +474,36 @@
                                             <a href="#" class="comment-author">{{item.customerName}}</a>
                                             <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
                                             <p class="m-0">
-                                                {{item.likeCount}} points &bull; {{item.displayDate}}
+                                                {{item.likeCount}} {{'foodDetailScreen.points' | translate}} &bull; {{item.displayDate}}
                                             </p>
                                         </div>
                                     </div>
                                 </summary>
 
                                 <div class="comment-body">
-                                    <div *ngIf="item.imagesFeedBack.length > 0" class="grid nogutter justify-center">
-                                        <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
-                                            style=" max-width: 150px; display: block; max-height: 80%;" />
-                                    </div>
-                                    <p>
-                                        {{item.feedbackMessage}}
-                                    </p>
-                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
-                                        (click)="onLikeReview(item.feedbackId)"></p-button>
-
-                                    <!-- Reply form start -->
-                                    <div [id]="item.feedbackId" class="reply-form d-none">
-                                        <textarea placeholder="Reply to comment" rows="4"></textarea>
-                                        <p-button label="Submit" [raised]="true"></p-button>
-                                        <p-button label="Cancel" severity="danger" [raised]="true"
-                                            data-toggle="reply-form" data-target="comment-1-reply-form"
-                                            (click)="onCancel(item.feedbackId)"></p-button>
-                                    </div>
-                                    <!-- Reply form end -->
+                                  <div *ngIf="item.imagesFeedBack.length > 0" class="">
+                                    <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
+                                        style=" max-width: 150px; display: block; max-height: 80%;" />
+                                        <ng-container *ngIf="item.imagesFeedBack.length !== 0; else noneImage" >
+                                          <button pButton pRipple label="more"
+                                                  (click)="onDisplayImagesDialog(item.imagesFeedBack, $event)"
+                                                  class="p-button-rounded p-button-text p-button-raised"></button>
+                                      </ng-container>
+                                      <ng-template #noneImage ></ng-template>
                                 </div>
+
+                                  <p>
+                                      {{item.feedbackMessage}}
+                                  </p>
+                                  <button pButton pRipple  [icon]="item.isLiked ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'"
+                                      (click)="onLikeReview(item.feedbackId)"></button>
+                              </div>
 
                                 <div *ngFor="let replies of item.listReply" class="replies">
                                     <!-- Comment 2 start -->
                                     <details class="comment" id="comment-2">
-                                        <a href="#comment-2" class="comment-border-link">
-                                            <span class="sr-only">Jump to comment-2</span>
+                                        <a href="#" class="comment-border-link">
+                                            <span class="sr-only">{{'foodDetailScreen.Jumptocomment2' | translate}}</span>
                                         </a>
                                         <summary>
                                             <div class="comment-heading">
@@ -432,13 +532,13 @@
                         </p-paginator>
                     </div>
                 </p-tabPanel>
-                <p-tabPanel header="1 sao" class="line-height-3 m-0">
+                <p-tabPanel header="1 {{'foodDetailScreen.star' | translate}}({{ motCount }})" class="line-height-3 m-0">
                     <div class="flex-auto">
                         <div *ngFor="let item of displayFeedback" class="comment-thread">
                             <!-- Comment 1 start -->
                             <details class="comment" id="comment-1">
                                 <a href="#comment-1" class="comment-border-link">
-                                    <span class="sr-only">Jump to comment-1</span>
+                                    <span class="sr-only">{{'foodDetailScreen.Jumptocomment1' | translate}}</span>
                                 </a>
                                 <summary style="margin-bottom: 10px;">
                                     <div class="comment-heading" style="margin-bottom: 10px;">
@@ -446,39 +546,35 @@
                                             <a href="#" class="comment-author">{{item.customerName}}</a>
                                             <!-- <p-button [icon]="true ? 'pi pi-heart-fill' : 'pi pi-heart'" [rounded]="true" [text]="true" severity="help"></p-button> -->
                                             <p class="m-0">
-                                                {{item.likeCount}} points &bull; {{item.displayDate}}
+                                                {{item.likeCount}} {{'foodDetailScreen.points' | translate}} &bull; {{item.displayDate}}
                                             </p>
                                         </div>
                                     </div>
                                 </summary>
 
                                 <div class="comment-body">
-                                    <div *ngIf="item.imagesFeedBack.length > 0" class="grid nogutter justify-center">
-                                        <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
-                                            style=" max-width: 150px; display: block; max-height: 80%;" />
-                                    </div>
-                                    <p>
-                                        {{item.feedbackMessage}}
-                                    </p>
-                                    <p-button [raised]="true" [label]="item.isLiked ? 'Unlike' : 'Like'"
-                                        (click)="onLikeReview(item.feedbackId)"></p-button>
-
-                                    <!-- Reply form start -->
-                                    <div [id]="item.feedbackId" class="reply-form d-none">
-                                        <textarea placeholder="Reply to comment" rows="4"></textarea>
-                                        <p-button label="Submit" [raised]="true"></p-button>
-                                        <p-button label="Cancel" severity="danger" [raised]="true"
-                                            data-toggle="reply-form" data-target="comment-1-reply-form"
-                                            (click)="onCancel(item.feedbackId)"></p-button>
-                                    </div>
-                                    <!-- Reply form end -->
+                                  <div *ngIf="item.imagesFeedBack.length > 0" class="">
+                                    <img src="data:image/gif;base64,{{item.imagesFeedBack[0].imageBase64}}"
+                                        style=" max-width: 150px; display: block; max-height: 80%;" />
+                                        <ng-container *ngIf="item.imagesFeedBack.length !== 0; else noneImage" >
+                                          <button pButton pRipple label="more"
+                                                  (click)="onDisplayImagesDialog(item.imagesFeedBack, $event)"
+                                                  class="p-button-rounded p-button-text p-button-raised"></button>
+                                      </ng-container>
+                                      <ng-template #noneImage ></ng-template>
                                 </div>
 
+                                  <p>
+                                      {{item.feedbackMessage}}
+                                  </p>
+                                  <button pButton pRipple  [icon]="item.isLiked ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'"
+                                      (click)="onLikeReview(item.feedbackId)"></button>
+                              </div>
                                 <div *ngFor="let replies of item.listReply" class="replies">
                                     <!-- Comment 2 start -->
                                     <details class="comment" id="comment-2">
-                                        <a href="#comment-2" class="comment-border-link">
-                                            <span class="sr-only">Jump to comment-2</span>
+                                        <a href="#" class="comment-border-link">
+                                            <span class="sr-only">{{'foodDetailScreen.Jumptocomment2' | translate}}</span>
                                         </a>
                                         <summary>
                                             <div class="comment-heading">
@@ -511,5 +607,31 @@
         </div>
     </div>
 </div>
+<p-dialog header=""
+    [(visible)]="visibleImageDialog"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    [maximizable]="true"
+    >
+    <p-table [value]="ImageDialog" [paginator]="true" [rows]="5" responsiveLayout="scroll">
 
+        <ng-template pTemplate="body" let-image>
+            <tr >
+
+                <td><p-image
+                  src="data:image/gif;base64,{{image.imageBase64}}"
+                  [preview]="true"
+                  [alt]="image.imageId"
+                  class="dialogimages_image w-10rem shadow-2"
+
+                ></p-image>
+                </td>
+
+
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>

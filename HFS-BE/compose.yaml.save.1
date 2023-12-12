@@ -1,0 +1,60 @@
+services:
+  web:
+    build:
+      context: angular
+      target: builder
+    ports:
+      - 4200:4200
+    volumes:
+      - ./angular:/project
+      - /project/node_modulefrontend: 
+      build:
+        context: ../HFS-FE
+        dockerfile: Dockerfile
+      ports:
+        - "4200:4200"
+      links:
+        - backend 
+      networks:
+        - backend
+
+  backend:
+    build:
+      context: HFS-BE
+    restart: always
+    secrets:
+      - db-password
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_URLS=http://+:8000
+
+  db:
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: MyComplexP@ssw0rd
+    # mssql server image isn't available for arm64 architecture, so we use azure-sql instead
+    #image: mcr.microsoft.com/azure-sql-edge:1.0.4
+    # If you really want to use MS SQL Server, uncomment the following line
+    image: mcr.microsoft.com/mssql/server
+    restart: always
+    healthcheck:
+        test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P MyComplexP@ssw0rd -Q 'SELECT 1' || exit 1"]
+        interval: 10s
+        retries: 10
+        start_period: 10s
+        timeout: 3s   
+  proxy:
+    build: proxy
+    ports:
+      - 80:80
+    depends_on: 
+      - frontend
+
+volumes:
+  db-data:
+
+secrets:
+  db-password:
+    file: db/password.txt

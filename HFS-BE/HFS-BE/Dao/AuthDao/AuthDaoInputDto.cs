@@ -72,6 +72,9 @@ namespace HFS_BE.Dao.AuthDao
 		public string? ShopAddress { get; set; }
 
 		public List<string>? Images { get; set; }
+
+		[Required(ErrorMessage = "BusinessCode is required")]
+		public string? BusinessCode { get; set; }
 	}
 	public class ForgotPasswordInputDto:BaseInputDto
 	{ 

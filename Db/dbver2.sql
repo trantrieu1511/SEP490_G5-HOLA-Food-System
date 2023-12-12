@@ -29,8 +29,9 @@ CREATE TABLE [dbo].[Seller](
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
 	[createDate][datetime] null,
-	[lat][float]null,
-	[lng][float]null,
+	[businessCode]  NVARCHAR(50) NULL,
+	--[lat][float]null,
+	--[lng][float]null,
 )
 GO
 CREATE TABLE [dbo].[Admin](
@@ -565,8 +566,8 @@ CREATE TABLE [dbo].[TransactionHistory](
 	[Note] [nvarchar](200) NULL,
 	[Value] [decimal](18, 0) NOT NULL,
 	[CreateDate] [datetime] NULL,
-	[UpdateDate] [datetime] NULL,
 	[ExpiredDate] [datetime] NULL,
+	[UpdateDate] [datetime] NULL,
 	[status] [tinyint] NULL,
 	[AcceptBy] [nvarchar](50) NULL,
 	FOREIGN KEY([AcceptBy]) REFERENCES [dbo].[Accountant] ([accountantId]),
@@ -695,5 +696,5 @@ ADD [isPhoneVerified] [bit] NOT NULL DEFAULT('false'),
     
 INSERT [dbo].[Admin] ([adminId], [firstName], [lastName], [gender], [birthDate], [email], [phoneNumber], [PasswordSalt], [PasswordHash], [isOnline], [walletBalance], [confirmedEmail], [refreshToken], [refreshTokenExpiryTime], [createDate]) 
 VALUES 
-(N'AD00000001', N'string', N'string', N'string', CAST(N'2003-12-03' AS Date), N'admin@gmail.com', NULL, 0x243476CD2C95DC8AEEC82F8E3C9B734FD565AA7C69104A29D61C34D5762B5F837CE9F9CA4EC2DC835CCB990C161389FBBBD4C858C7BCA0EECA3448EB3F656391, 0xCB36CD2343CFD625702F66B6821FD9D9718945C2D9F0C98E0CBB48135EAC0FD0, 0, NULL, 1, N'Sb/YjzbiBud8EryUS7z7dRub7hzBqecfgKFKJJnZYcSjVmOdSpWlWr8xSKwfe+nG5VYGUiMdaEtFZy9DmgMz8w==', CAST(N'2023-12-15T23:43:47.423' AS DateTime), NULL)
+(N'AD00000001', N'string', N'string', N'string', CAST(N'2003-12-03' AS Date), N'admin@gmail.com', NULL, 0x243476CD2C95DC8AEEC82F8E3C9B734FD565AA7C69104A29D61C34D5762B5F837CE9F9CA4EC2DC835CCB990C161389FBBBD4C858C7BCA0EECA3448EB3F656391, 0xCB36CD2343CFD625702F66B6821FD9D9718945C2D9F0C98E0CBB48135EAC0FD0, 0, NULL, 1, NULL, NULL, NULL)
 
