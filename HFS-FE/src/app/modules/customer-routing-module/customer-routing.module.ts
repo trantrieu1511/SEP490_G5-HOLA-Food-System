@@ -26,6 +26,7 @@ import { SellerReportModuleComponent } from '../admin-routing-module/seller-repo
 import { ReportSellerComponent } from './components/report-seller/report-seller.component';
 import { AddressSelectorComponent } from './address-selector/address-selector.component';
 import { AppBreadcrumbComponent } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.component';
+import { MapModuleComponent } from './map-module/map-module.component';
 
 const routes: Routes = [
   { path: "cartdetail", component: CartdetailComponent },
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: "shipaddress", component: ManageshipaddressComponent },
   { path: "sellerreport", component: ReportSellerComponent },
   { path: "address", component: AddressSelectorComponent },
+  { path: "map", component: MapModuleComponent },
 ]
 
 

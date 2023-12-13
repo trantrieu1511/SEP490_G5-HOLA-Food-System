@@ -23,10 +23,10 @@
     </div>
 
     <div class="card main-body">
-        <h2>My food report</h2>
+        <h2>{{'foodReportScreen.Myfoodreport' | translate}}</h2>
         <p-table #dt [value]="lstFoodReport" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
             [rows]="10" [showCurrentPageReport]="true" [paginator]="lstFoodReport.length > 5" [filterDelay]="0"
-            [rowsPerPageOptions]="[5,10,25,50]" currentPageReportTemplate="Total: {totalRecords} food reports"
+            [rowsPerPageOptions]="[5,10,25,50]" currentPageReportTemplate="Total{{'postReportScreen.Mypostreport' | translate}}: {totalRecords} food reports{{'postReportScreen.Mypostreport' | translate}}"
             [globalFilterFields]="['reportContent']" responsiveLayout="scroll" [loading]="loading">
             <ng-template pTemplate="caption">
                 <div class="flex flex-row align-items-center flex-wrap justify-content-between ">
@@ -35,7 +35,7 @@
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" #textInput
                                 (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                placeholder="Search by report content" />
+                                placeholder="{{'foodReportScreen.Searchbyreportcontent' | translate}}" />
                         </span>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                 <tr>
                     <th pSortableColumn="reportContent">
                         <div class="flex justify-content-between align-items-center">
-                            Report Content
+                            {{'foodReportScreen.ReportContent' | translate}}
                             <p-sortIcon field="reportContent"></p-sortIcon>
                             <p-columnFilter type="text" field="reportContent" display="menu"
                                 class="ml-auto"></p-columnFilter>
@@ -79,7 +79,7 @@
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="8">No food report yet.</td>
+                    <td colspan="8">{{'foodReportScreen.emptymessage' | translate}}</td>
                 </tr>
             </ng-template>
         </p-table>
@@ -94,37 +94,37 @@
     <table class="table-report-detail">
         <tbody>
             <tr>
-                <th>You created this report on: </th>
+                <th>{{'foodReportScreen.Youcreatedthisreporton' | translate}}: </th>
                 <td>
                     {{contentDialog.createDate}}
                 </td>
             </tr>
             <tr>
-                <th>Your report content: </th>
+                <th>{{'foodReportScreen.Yourreportcontent' | translate}}: </th>
                 <td>
                     {{contentDialog.reportContent}}
                 </td>
             </tr>
             <tr>
-                <th>Name of the shop: </th>
+                <th>{{'foodReportScreen.Nameoftheshop' | translate}}: </th>
                 <td>
                     {{contentDialog.shopName}}
                 </td>
             </tr>
             <tr>
-                <th>Name of the reported food: </th>
+                <th>{{'foodReportScreen.Nameofthereportedfood' | translate}}: </th>
                 <td>
                     {{contentDialog.foodName}}
                 </td>
             </tr>
             <tr>
-                <th>Current report status: </th>
+                <th>{{'foodReportScreen.Currentreportstatus' | translate}}: </th>
                 <td>
                     <p-tag [value]="contentDialog.status" [severity]="getSeverity(contentDialog.status)"></p-tag>
                 </td>
             </tr>
             <tr>
-                <th>Moderator's note: </th>
+                <th>{{'foodReportScreen.Moderatornote' | translate}}: </th>
                 <td>
                     {{contentDialog.note}}
                 </td>

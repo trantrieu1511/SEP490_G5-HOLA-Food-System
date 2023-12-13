@@ -36,6 +36,7 @@ export class API_NEWFEED {
     public static GETALLPOST = "getNewFeed";
     public static GetALLCOMMENT = "getcomment";
     public static CREATECOMMENT = "comment";
+    public static VOTE_POST = "vote";
 }
 // Service User
 export class API_USER {
@@ -62,6 +63,8 @@ export class API_USER {
      public static REPORT_SELLERCUS = "listreportsellerbyCustomer";
      public static SEND_OTP = "sendotp";
      public static CHECK_OTP = "checkotp";
+     public static MAP = "map";
+
 }
 
 // Service Role

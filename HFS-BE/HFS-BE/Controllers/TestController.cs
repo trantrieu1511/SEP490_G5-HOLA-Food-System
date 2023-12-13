@@ -377,8 +377,51 @@ namespace HFS_BE.Controllers
 
 			return token;
 		}
+		[HttpPost("/users/map")]
+		public async Task<IActionResult> GetProvinces8(GetMap get)
+		{
+			var conf = new ConfigurationBuilder()
+			.SetBasePath(Directory.GetCurrentDirectory())
+				.AddJsonFile("appsettings.json", true, true)
+				.Build();
+			string key = conf["ApplicationSettings:MapGoogle"];
+			var encodedAddress = System.Uri.EscapeDataString(get.address);
+			var apiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={encodedAddress}&key={key}";
 
-		
+			var response = await _httpClient.GetStringAsync(apiUrl);
 
+			return Content(response, "application/json");
+		}
+
+		public class GetMap
+		{
+			public string address { get; set; }
+		}
+		[HttpGet]
+		public async Task<IActionResult> GetDirections([FromQuery] string origin, [FromQuery] string destination, [FromQuery] string apiKey)
+		{
+			var conf = new ConfigurationBuilder()
+			.SetBasePath(Directory.GetCurrentDirectory())
+				.AddJsonFile("appsettings.json", true, true)
+				.Build();
+			apiKey = conf["ApplicationSettings:MapGoogle"];
+			var directions = await GetDirectionsFromGoogleMapsAsync(origin, destination, apiKey);
+			return Ok(directions);
+		}
+
+		private async Task<string> GetDirectionsFromGoogleMapsAsync(string origin, string destination, string apiKey)
+		{
+			
+				var apiUrl = $"https://maps.googleapis.com/maps/api/directions/json?origin={origin}&destination={destination}&key={apiKey}";
+				var response = await _httpClient.GetStringAsync(apiUrl);
+				return response;
+			
+		}
+		public class GetMap2
+		{
+			public string origin { get; set; }
+			public string destination { get; set; }
+
+		}
 	}
 }

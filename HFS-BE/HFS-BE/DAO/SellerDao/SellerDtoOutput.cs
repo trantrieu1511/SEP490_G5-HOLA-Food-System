@@ -20,6 +20,7 @@ namespace HFS_BE.DAO.SellerDao
 		public bool? ConfirmedEmail { get; set; }
 		public bool? IsBanned { get; set; }
 		public bool? IsVerified { get; set; }
+		public string? BusinessCode { get; set; }
 		public List<ImageSellerOutputDto>? Images { get; set; }
 		public List<SellerLicenseImage>? ImagesL { get; set; }
 

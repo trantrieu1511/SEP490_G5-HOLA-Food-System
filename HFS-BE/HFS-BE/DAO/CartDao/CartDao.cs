@@ -22,7 +22,37 @@ namespace HFS_BE.DAO.CartDao
                     .Include(x => x.Food)
                     .ThenInclude(x => x.FoodImages)
                     .Where(x => x.CartId == inputDto.CartId)
+                    .OrderByDescending(x => x.CreateDate)
                     .Select(x => mapper.Map<CartItem, CartItemOutputDto>(x));
+
+                var output = this.Output<GetCartItemDaoOutputDto>(Constants.ResultCdSuccess);
+                if (data.Any())
+                {
+                    output.ListItem = data.ToList();
+                }
+
+                return output;
+
+            }
+            catch (Exception)
+            {
+                return this.Output<GetCartItemDaoOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public GetCartItemDaoOutputDto GetCartItemPopup(GetCartItemDaoInputDto inputDto)
+        {
+            try
+            {
+                var data = this.context.CartItems
+                    .Include(x => x.Food)
+                    .ThenInclude(x => x.Seller)
+                    .Include(x => x.Food)
+                    .ThenInclude(x => x.FoodImages)
+                    .Where(x => x.CartId == inputDto.CartId)
+                    .OrderByDescending(x => x.CreateDate)
+                    .Select(x => mapper.Map<CartItem, CartItemOutputDto>(x))
+                    .Take(5);
 
                 var output = this.Output<GetCartItemDaoOutputDto>(Constants.ResultCdSuccess);
                 if (data.Any())
@@ -55,6 +85,7 @@ namespace HFS_BE.DAO.CartDao
                 if (data != null)
                 {
                     data.Amount += inputDto.Amount.Value;
+                    data.CreateDate = DateTime.Now;
                     context.Update(data);
                     context.SaveChanges();
                     return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
@@ -110,6 +141,7 @@ namespace HFS_BE.DAO.CartDao
 
                 if (cartitem != null)
                 {
+                    cartitem.CreateDate = DateTime.Now;
                     cartitem.Amount = inputDto.Amount.Value;
                 }
 

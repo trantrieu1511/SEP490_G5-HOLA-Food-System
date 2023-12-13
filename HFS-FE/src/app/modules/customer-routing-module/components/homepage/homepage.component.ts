@@ -21,6 +21,7 @@ import { User, AuthService } from 'src/app/services/auth.service';
 import { PresenceService } from 'src/app/services/presence.service';
 import { DataView } from 'primeng/dataview';
 import { AddToCart } from '../../models/addToCart.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-homepage',
@@ -47,6 +48,7 @@ export class HomepageComponent extends iComponentBase implements OnInit {
     private _route: ActivatedRoute,
     private dataService: DataService,
     public presence: PresenceService,
+    public translate: TranslateService
   ) {
     super(messageService);
   }
@@ -56,11 +58,21 @@ export class HomepageComponent extends iComponentBase implements OnInit {
     this.getAllShop();
     this.getHotFoods();
    // this.setCurrentUser();
-   this.sortOptions = [
-    { label: 'Odered High to Low', value: '!numberOrdered' },
-    { label: 'Odered Low to High', value: 'numberOrdered' },
-    { label: 'Star Low to High', value: '!star' },
-    { label: 'Star Low to High', value: 'star' }]
+   this.translate.get('homePageScreen').subscribe( (text: any) => {
+
+    this.sortOptions = [
+      { label:  text.OderedHightoLow, value: '!numberOrdered'},
+      { label:  text.OderedLowtoHigh, value: 'numberOrdered'},
+      { label:  text.StarLowtoHigh, value: '!star'},
+      { label:  text.StarHightoLow, value: 'star'} 
+    ];
+
+  });
+  //  this.sortOptions = [
+  //   { label: 'Odered High to Low', value: '!numberOrdered' },
+  //   { label: 'Odered Low to High', value: 'numberOrdered' },
+  //   { label: 'Star Low to High', value: '!star' },
+  //   { label: 'Star High to Low', value: 'star' }]
   }
   // setCurrentUser() {
   //   const user: User = JSON.parse(localStorage.getItem('user'));
@@ -104,12 +116,7 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   }
 
   onShopDetail(shop: Shop) {
-    //console.log(shop);
-    this.dataService.setData(shop);
-    // this._router.navigate(['/shopdetail']);
     this._router.navigate(['/shopdetail'], { queryParams: { shopid: shop.userId } });
-    //this._router.navigate(['/shopdetail'], { queryParams: { shopInfor: shop} });
-    //this._router.navigate(['/shopdetail/'+ shop ]);
   }
 
   onSortChange(event: any) {

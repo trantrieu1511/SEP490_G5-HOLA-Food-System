@@ -1,13 +1,13 @@
 <div class="grid table-demo">
     <div class="col-12">
         <div class="card">
-            <h5>Voucher Management</h5>
+            <h5>{{'voucherScreen.voucherManagement' | translate}}</h5>
 
             <p-table #dt [value]="lstVoucher" dataKey="id"
                      styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
                      [showCurrentPageReport]="true"
                      [paginator]="lstVoucher.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
-                     currentPageReportTemplate="Total: {totalRecords} vouchers"
+                     currentPageReportTemplate="{{'voucherScreen.total' | translate}}: {totalRecords} {{'voucherScreen.voucher' | translate}}"
                      [globalFilterFields]="['code']" responsiveLayout="scroll"
                      [loading]="loading"
             >
@@ -18,13 +18,13 @@
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text"  #textInput 
                                        (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                       placeholder="Search Voucher by name"/>
+                                       placeholder="{{'voucherScreen.SearchVoucherbyname' | translate}}"/>
                             </span>
                         </div>
 
                         <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
                             <div class="flex align-items-center justify-content-center">
-                                <button pButton type="button" label="Add new" icon="pi pi-plus"
+                                <button pButton type="button" label="{{'button.Addnew' | translate}}" icon="pi pi-plus"
                                     (click)="onCreateVoucher()"
                                         style="width: auto;"></button>
                             </div>
@@ -35,7 +35,7 @@
                     <tr>
                         <th pSortableColumn="code">
                             <div class="flex justify-content-between align-items-center">
-                                Code
+                                {{'voucherScreen.code' | translate}}
                                 <p-sortIcon field="code"></p-sortIcon>
                                 <p-columnFilter type="text" field="code" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -43,7 +43,7 @@
                         </th>
                         <th pSortableColumn="discountAmount">
                             <div class="flex justify-content-between align-items-center">
-                                Discount Amount
+                                {{'voucherScreen.discountAmount' | translate}}
                                 <p-sortIcon field="discountAmount"></p-sortIcon>
                                 <p-columnFilter type="text" field="discountAmount" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -51,7 +51,7 @@
                         </th>
                         <th pSortableColumn="minimumOrder">
                             <div class="flex justify-content-between align-items-center">
-                                Minimum Order
+                                {{'voucherScreen.minimumOrder' | translate}}
                                 <p-sortIcon field=" minimumOrder"></p-sortIcon>
                                 <p-columnFilter type="text" field="minimumOrder" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -59,7 +59,7 @@
                         </th>
                         <th pSortableColumn="effectiveDate">
                             <div class="flex justify-content-between align-items-center">
-                                Effective Date
+                                {{'voucherScreen.effectiveDate' | translate}}
                                 <p-sortIcon field="effectiveDate"></p-sortIcon>
                                 <p-columnFilter type="numeric" field="effectiveDate" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -68,7 +68,7 @@
                         
                         <th pSortableColumn="expireDate">
                             <div class="flex justify-content-between align-items-center">
-                                Expire Date
+                                {{'voucherScreen.expireDate' | translate}}
                                 <p-sortIcon field="expireDate"></p-sortIcon>
                                 <p-columnFilter type="text" field="expireDate" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -76,7 +76,7 @@
                         </th>
                         <th pSortableColumn="expireDate">
                             <div class="flex justify-content-between align-items-center">
-                                Status
+                                {{'voucherScreen.status' | translate}}
                                 <p-sortIcon field="status"></p-sortIcon>
                                 <p-columnFilter type="text" field="status" display="menu"
                                                 class="ml-auto"></p-columnFilter>
@@ -85,7 +85,7 @@
                         <th style="min-width: 8rem">
                             <div 
                                  class="flex justify-content-between align-items-center">
-                                Action
+                                {{'voucherScreen.action' | translate}}
                             </div>
                         </th>
                     </tr>
@@ -145,7 +145,7 @@
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="8">No voucher yet.</td>
+                        <td colspan="8">{{'voucherScreen.emptymessage' | translate}}</td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -163,14 +163,14 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Voucher information</b>
+                        <b>{{'voucherScreen.Voucherinformation' | translate}}</b>
                     </div>
                 </p-divider>
                 <div class="grid">
                     
                     <ng-container >
                         <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-                            <label>Discount Amount*</label>
+                            <label>{{'voucherScreen.discountAmount' | translate}}*</label>
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
                                 <input type="text"  step="5000" min="0"  class="w-full" [(ngModel)] = "voucherModel.discountAmount"
                                   pInputText 
@@ -179,7 +179,7 @@
                         </div>
                         
                         <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-                            <label>Minimum Order Value*</label>
+                            <label>{{'voucherScreen.minimumOrder' | translate}}*</label>
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
                                 <input type="text"  step="5000" min="0"  class="w-full" [(ngModel)] = "voucherModel.minimumOrderValue"
                                   pInputText
@@ -190,7 +190,7 @@
                         </div>
                     </ng-container>
                     <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-                        <label>Effective Date*</label>
+                        <label>{{'voucherScreen.effectiveDate' | translate}}*</label>
                         <span class="p-input-icon-left p-float-label" style="width: 100%">
                             <input type="datetime-local"  step="5000" min="0"  class="w-full" [(ngModel)] = "voucherModel.effectiveDate"
                                   pInputText
@@ -200,7 +200,7 @@
                         
                     </div>
                     <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-                        <label>Expire Date*</label>
+                        <label>{{'voucherScreen.expireDate' | translate}}*</label>
                         <span class="p-input-icon-left p-float-label" style="width: 100%">
                             <input type="datetime-local"  step="5000" min="0"  class="w-full" [(ngModel)] = "voucherModel.expireDate"
                                   pInputText
@@ -214,13 +214,13 @@
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div  class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Save" icon="pi pi-save"
+                <button pButton type="button" label="{{'button.save' | translate}}" icon="pi pi-save"
                  (click)="onSaveVoucher()" style="width: 100%;"
                >
                 </button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                <button pButton type="button" label="{{'button.cancel' | translate}}" icon="pi pi-times"
                         (click)="onCancelVoucher()"class="p-button-danger"
                         style="width: 100%;"></button>
             </div>

@@ -32,6 +32,7 @@ export class RegisterComponent extends iComponentBase  implements OnInit,AfterVi
   isLastnameTouched = false;
     isphoneNumberTouched = false;
   isShopnameTouched = false;
+  isbusinessCodeTouched = false;
   isShopAddressTouched = false;
   user:User;
   formregister:FormGroup;
@@ -79,7 +80,8 @@ private client_Id=environment.clientId;
     roleId:new FormControl('',[Validators.required]),
     phoneNumber:new FormControl('',[Validators.required]),
     shopName:  this.selectedRole==2? new FormControl('',[Validators.required]):new FormControl(''),
-    shopAddress:  this.selectedRole==2? new FormControl('',[Validators.required]):new FormControl('')
+    shopAddress:  this.selectedRole==2? new FormControl('',[Validators.required]):new FormControl(''),
+    businessCode:  this.selectedRole==2? new FormControl('',[Validators.required]):new FormControl('')
   });
 }
 
@@ -157,6 +159,12 @@ showShopAddressError() {
     console.log('Captcha is required!');
   }
 }
+showbusinessCodeError() {
+  const businessCodeControl = this.formregister.get('businessCode');
+  if (businessCodeControl.value === '' && businessCodeControl.touched) {
+    console.log('Captcha is required!');
+  }
+}
 onRoleChange(event: any) {
   this.selectedRoleId = event.target.value;
 
@@ -167,14 +175,15 @@ onRoleChange(event: any) {
   const lastNameControl = this.formregister.get('lastName');
   const genderControl = this.formregister.get('gender');
   const birthDateControl = this.formregister.get('birthDate');
-
+  const businessCode = this.formregister.get('businessCode');
   if (roleIdControl.value === '2') {
     // Nếu roleId là 2, enable và đặt validators cho shopName và shopAddress
     shopNameControl.enable();
     shopNameControl.setValidators([Validators.required]);
     shopAddressControl.enable();
     shopAddressControl.setValidators([Validators.required]);
-
+    businessCode.enable();
+    businessCode.setValidators([Validators.required]);
     // Tắt và xóa validators cho các trường firstName, lastName, gender, birthDate
     firstNameControl.disable();
     firstNameControl.clearValidators();
@@ -190,7 +199,8 @@ onRoleChange(event: any) {
     shopNameControl.clearValidators();
     shopAddressControl.disable();
     shopAddressControl.clearValidators();
-
+    businessCode.disable();
+    businessCode.clearValidators();
     // Enable validators cho các trường firstName, lastName, gender, birthDate
     firstNameControl.enable();
     firstNameControl.setValidators([Validators.required]);
@@ -209,6 +219,7 @@ onRoleChange(event: any) {
   lastNameControl.updateValueAndValidity();
   genderControl.updateValueAndValidity();
   birthDateControl.updateValueAndValidity();
+  businessCode.updateValueAndValidity();
 }
 async onSubmit() {
   console.log(this.formregister);
@@ -243,22 +254,22 @@ async onSubmit() {
             ].text;
 
             if (selectedDistrictText === 'Select district' && selectedProvinceText === 'Select Province' && selectedWardText === 'Select ward') {
-              this.showMessage(mType.error, "Notification", `Vui Lòng chọn địa chỉ quán ăn`, 'app-register');
+              this.showMessage(mType.error, "Notification", `Please select the restaurant address`, 'app-register');
             }
             if((selectedDistrictText === 'Select district' || selectedProvinceText === 'Select Province' || selectedWardText === 'Select ward')&&this.uploadedFiles.length<2){
-              this.showMessage(mType.error, "Notification", `Vui Lòng chọn địa chỉ quán ăn và up ít nhất 2 ảnh vào trường Business License`, 'app-register');
+              this.showMessage(mType.error, "Notification", `Please select the restaurant address and upload at least 2 photos in the Business License field`, 'app-register');
              return;
             }
             if(selectedDistrictText === 'Select district'){
-              this.showMessage(mType.error, "Notification", `Vui Lòng chọn quận`, 'app-register');
+              this.showMessage(mType.error, "Notification", `Please select district`, 'app-register');
              return;
             }
-            if(selectedDistrictText === 'Select Province'){
-              this.showMessage(mType.error, "Notification", `Vui Lòng chọn tỉnh`, 'app-register');
+            if(selectedProvinceText === 'Select Province'){
+              this.showMessage(mType.error, "Notification", `Please select Province`, 'app-register');
              return;
             }
-            if(selectedDistrictText === 'Select ward'){
-              this.showMessage(mType.error, "Notification", `Vui Lòng chọn phường`, 'app-register');
+            if(selectedWardText === 'Select ward'){
+              this.showMessage(mType.error, "Notification", `Please select ward`, 'app-register');
              return;
             }
             if(this.uploadedFiles.length<2){
@@ -272,12 +283,14 @@ async onSubmit() {
             const phone = this.formregister.get('phoneNumber');
             const password = this.formregister.get('password');
             const confirm = this.formregister.get('confirmPassword');
+            const businessCode = this.formregister.get('businessCode');
             param.append('shopName',   shopNameControl.value);
             param.append('shopAddress',   shopAddressControl);
             param.append('email',   email.value);
             param.append('phoneNumber',   phone.value);
             param.append('password',   password.value);
             param.append('confirmPassword',   confirm.value);
+            param.append('businessCode',   businessCode.value);
             this.uploadedFiles.forEach(file => {
               param.append('images', file, file.name);
             });

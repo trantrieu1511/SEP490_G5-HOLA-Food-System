@@ -45,8 +45,7 @@
 
 <div class="app-new-feed">
   <h2 class="title-app">
-    New Feed Newest 
-    Yeah Yeah
+    New Feed Fu Food
   </h2>
 
   <div *ngFor="let item of listPost; let j = index" class="post">
@@ -57,32 +56,32 @@
       <!-- </ng-template> -->
     </div>
     <div class="post-infor">
-      <h4 class="shop-name">{{item.shopName}}</h4>
+      <h4 (click)="onShopDetail(item.sellerId)" class="shop-name">{{item.shopName}}</h4>
       <p class="post-created-date">{{item.createdDate}}</p>
     </div>
     <div #postContent class="post-content">
       <p class="post-content_con">{{item.postContent}}</p>
-      <button pButton pRipple label="View More" 
-        (click)="onViewMore(j)" 
-        class="p-button-link view-more" 
+      <button pButton pRipple label="View More"
+        (click)="onViewMore(j)"
+        class="p-button-link view-more"
         ></button>
-      <button pButton pRipple label="View Less" 
-        (click)="onViewLess(j)" 
-        class="p-button-link view-more" 
+      <button pButton pRipple label="View Less"
+        (click)="onViewLess(j)"
+        class="p-button-link view-more"
         ></button>
     </div>
     <div *ngIf="item.imagesBase64 && item.imagesBase64.length > 0" class="post-image">
       <ng-container *ngIf="!layoutService.isMobile();else imagesMobile">
-        <div [class.images-list]="item.imagesBase64.length > 1" 
+        <div [class.images-list]="item.imagesBase64.length > 1"
           *ngFor="let img of item.imagesBase64 | slice:0:4; let i = index" >
-          <img 
-            src="data:image/gif;base64,{{img.imageBase64}}" 
-            alt="{{img.name}}" 
+          <img
+            src="data:image/gif;base64,{{img.imageBase64}}"
+            alt="{{img.name}}"
             (click)="onViewImage(j, i)"
             style="cursor: pointer"
             />
-          <div (click)="onViewImage(j, i)" 
-            *ngIf="item.imagesBase64.length > 3 && i == 3" 
+          <div (click)="onViewImage(j, i)"
+            *ngIf="item.imagesBase64.length > 3 && i == 3"
             class="more-image"
             style="cursor: pointer"
             >
@@ -93,13 +92,13 @@
       <ng-template #imagesMobile>
         <div class="images-list">
           <img
-            src="data:image/gif;base64,{{item.imagesBase64[0].imageBase64}}" 
-            alt="{{item.imagesBase64[0].name}}" 
+            src="data:image/gif;base64,{{item.imagesBase64[0].imageBase64}}"
+            alt="{{item.imagesBase64[0].name}}"
             (click)="onViewImage(j, 0)"
             style="cursor: pointer"
             />
-            <div (click)="onViewImage(j, 0)" 
-              *ngIf="item.imagesBase64.length > 1" 
+            <div (click)="onViewImage(j, 0)"
+              *ngIf="item.imagesBase64.length > 1"
               class="more-image"
               style="cursor: pointer"
               >
@@ -110,7 +109,7 @@
     </div>
     <div class="actions">
       <div class="emote">
-        <i class="pi pi-thumbs-up like"></i>
+        <i (click)="onVote(item)" [class]="item.isLiked ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'">{{item.likeCount}}</i>
         <i class="pi pi-share-alt share"></i>
       </div>
       <button pButton pRipple label="Comment" (click)="OnCommnent($event, item)" class="p-button-link p-comment"
@@ -143,19 +142,19 @@
         </ng-template>
     </p-galleria>
 
-  
-  <p-dialog header="Comment Post" 
-    [(visible)]="visibleCommentDialog" 
-    [breakpoints]="{ '960px': '75vw' }" 
-    [style]="{ width: '50vw' }" 
-    [draggable]="false" 
+
+  <p-dialog header="Comment Post"
+    [(visible)]="visibleCommentDialog"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
     [resizable]="false"
     [maximizable]="true"
     [style]="{ minHeight: '80vh', minWidth: '50vw'}"
 
   >
     <div *ngIf="lstComment.length > 0; else noCommentYet"  class="comments">
-        
+
       <div *ngFor="let com of lstComment" class="comment">
         <img src="https://petmaster.vn/petroom/wp-content/uploads/2020/04/meo-anh-1.jpg" alt="Avatar" />
         <div class="comment-content">
@@ -174,7 +173,7 @@
 
     <ng-template #noCommentYet>
       <div style="text-align: center; margin-top: 2rem; color: orangered">No comment yet ^^</div>
-    </ng-template>  
+    </ng-template>
 
     <ng-template *ngIf="isLoggedIn" pTemplate="footer">
       <div class="comment-form">
@@ -186,7 +185,7 @@
       </div>
     </ng-template>
   </p-dialog>
-  
+
 
 
 </div>

@@ -19,6 +19,7 @@ import { FileRemoveEvent, FileSelectEvent, FileUploadEvent } from 'primeng/fileu
 import { Router } from '@angular/router';
 import { AppCustomerTopBarComponent } from 'src/app/app-systems/app-topbar/customer/app.topbar-cus.component';
 import { AuthService } from 'src/app/services/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-manageprofile',
@@ -60,6 +61,17 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   verifyOtp: string;
   role: string;
 
+
+  //lang
+  edtUpBtn: string;
+  addUpBtn: string;
+  None1: string;
+  None2: string;
+  None3: string;
+  None4: string;
+  None5: string;
+  None6: string;
+
   constructor(
     private shareData: ShareData,
     public messageService: MessageService,
@@ -68,16 +80,32 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     public router: Router,
     public authService: AuthService,
     private el: ElementRef,
-    private iFunction: iFunction
+    private iFunction: iFunction,
+    public translate: TranslateService
     // private appCustomerTopBarComponent: AppCustomerTopBarComponent
   ) {
     super(messageService);
+    this.initLabelLang();
     // this.route.queryParams.subscribe(params => {
     //   const myData = params['shopInfor'];
     //   console.log(myData.shopName);
     //   // Sử dụng myData tại đây
     // });
 
+  }
+
+  initLabelLang() {
+    this.translate.get('profileScreen').subscribe( (text: any) => {
+      this.addUpBtn = text.Addprofileimage;
+      this.edtUpBtn = text.Editprofileimage;
+      this.None1 = text.None1;
+      this.None2 = text.None2;
+      this.None3 = text.None3;
+      this.None4 = text.None4;
+      this.None5 = text.None5;
+      this.None6 = text.None6;
+      
+    });
   }
 
   // Check whether the user has logged into Hola Food or not

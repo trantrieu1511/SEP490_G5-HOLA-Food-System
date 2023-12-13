@@ -81,6 +81,7 @@ export class ListFeedbackBySellerComponent extends iComponentBase implements OnI
     if (response && response.message === "Success") {
       this.feedreply=new ReplySeller();
       this.displayDialogReply = false;
+      this.getAllFeedback();
       this.showMessage(mType.success, "Notification", "New Reply successfully", 'notify');
     }
   else{

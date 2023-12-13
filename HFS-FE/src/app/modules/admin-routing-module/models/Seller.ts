@@ -12,6 +12,7 @@ export class Seller {
   confirmedEmail:boolean;
   isBanned: boolean;
   isVerified:boolean;
+  businessCode:string;
   imagesBase64: SellerImageBase64[] = null;
   imagesBase64L: SellerImageBase64[] = null;
 }

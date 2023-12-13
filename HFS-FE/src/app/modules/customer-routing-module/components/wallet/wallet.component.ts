@@ -11,6 +11,7 @@ import { async } from 'rxjs';
 import { GetTransactionHistoryInput } from '../../models/GetTransactionHistoryInput.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { VerifyCodeInput } from '../../models/VerifyCodeInput.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-wallet',
@@ -33,14 +34,8 @@ export class WalletComponent
   tranferInput : VerifyCodeInput = new VerifyCodeInput();
   TransferDialog : boolean = false
   userId : string
-  tabs: any = [
-    { label: 'All', id: '0' },
-    { label: 'Waiting', id: '1' },
-    { label: 'Success', id: '2' },
-    { label: 'Cancel', id: '3' },
-    { label: 'Money In', id: '4' },
-    { label: 'Money Out', id: '5' },
-  ];
+  tabs: any ;
+  activeItem:any;
   constructor(
     public breadcrumbService: AppBreadcrumbService,
     public messageService: MessageService,
@@ -50,14 +45,35 @@ export class WalletComponent
     private route: ActivatedRoute,
     private router: Router,
     public authService: AuthService,
+    public translate: TranslateService
   ) {
     super(messageService);
+    this.initTabMenuitem();
   }
 
   ngOnInit(): void {
     this.onGetBalance();
     this.setDefaultDate();
     this.onGetHistory();
+  }
+
+  initTabMenuitem() {
+    this.translate.get('walletCustomerScreen').subscribe( (text: any) => {
+
+      this.tabs = [
+        { label:  text.All, id: '0'},
+        { label:  text.Waitting, id: '1'},
+        { label:  text.Success, id: '2'},
+        { label:  text.cancel, id: '3'},
+        { label:  text.MoneyIn, id: '4'},
+        { label:  text.MoneyOut, id: '5'},
+      ];
+
+      this.activeItem = this.tabs[0];
+    });
+    
+
+    
   }
   setDefaultDate() {
     this.rangeDates = [];
@@ -108,6 +124,7 @@ export class WalletComponent
   }
 
   onChangeTab(activeTab: TabViewChangeEvent) {
+    this.activeItem = activeTab.index;
     switch (activeTab.index) {
       case 0:
         this.displayTransaction = this.transactionHistory;
