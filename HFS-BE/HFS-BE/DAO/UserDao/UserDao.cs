@@ -74,7 +74,7 @@ namespace HFS_BE.DAO.UserDao
                         dataMapper = mapper.Map<MenuModerator, UserProfile>(menuModerator);
                         break;
                     case "AC":
-                        var accountant = context.Accountants.SingleOrDefault(mm => mm.AccountantId.Equals(userId));
+                        var accountant = context.Accountants.SingleOrDefault(ac => ac.AccountantId.Equals(userId));
                         if (accountant == null)
                             return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found.");
                         dataMapper = mapper.Map<Accountant, UserProfile>(accountant);
@@ -159,6 +159,10 @@ namespace HFS_BE.DAO.UserDao
                         seller.ShopName = inputDto.ShopName;
                         seller.ShopAddress = inputDto.ShopAddress;
                         seller.PhoneNumber = inputDto.PhoneNumber;
+                        //if (inputDto.IsNewPhonenumber)
+                        //{
+                        //    seller.IsPhoneVerified = false;
+                        //}
 
                         break;
                     case "SH":
@@ -184,6 +188,10 @@ namespace HFS_BE.DAO.UserDao
                         shipper.Gender = inputDto.Gender;
                         shipper.BirthDate = inputDto.BirthDate;
                         shipper.PhoneNumber = inputDto.PhoneNumber;
+                        //if (inputDto.IsNewPhonenumber)
+                        //{
+                        //    shipper.IsPhoneVerified = false;
+                        //}
 
                         break;
                     case "AD":
@@ -264,7 +272,7 @@ namespace HFS_BE.DAO.UserDao
 
                         //Tim trong context profile cua user theo id
                         var accountant = context.Accountants.SingleOrDefault(
-                        mm => mm.AccountantId.Equals(userId));
+                        ac => ac.AccountantId.Equals(userId));
 
                         //Check user co ton tai hay khong
                         if (accountant == null)
@@ -356,7 +364,7 @@ namespace HFS_BE.DAO.UserDao
                         }
                         break;
                     case "AC":
-                        var accountant = context.Accountants.SingleOrDefault(mm => mm.AccountantId.Equals(userId));
+                        var accountant = context.Accountants.SingleOrDefault(ac => ac.AccountantId.Equals(userId));
                         using (HMACSHA256? hmac = new HMACSHA256(accountant.PasswordSalt))
                         {
                             var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inputDto.Password));
@@ -445,7 +453,7 @@ namespace HFS_BE.DAO.UserDao
                         }
                         break;
                     case "AC":
-                        var accountant = context.Accountants.SingleOrDefault(mm => mm.AccountantId.Equals(userId));
+                        var accountant = context.Accountants.SingleOrDefault(ac => ac.AccountantId.Equals(userId));
                         using (HMACSHA256? hmac = new HMACSHA256())
                         {
                             accountant.PasswordSalt = hmac.Key;

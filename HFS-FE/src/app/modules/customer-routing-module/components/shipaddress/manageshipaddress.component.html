@@ -82,7 +82,7 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="isVisibleUpdateModal" [style]="{ width: '500px', height: '450px' }" header="Update ship address" [modal]="true"
+<p-dialog [(visible)]="isVisibleUpdateModal" [style]="{ width: '500px', height: '450px' }" header="{{'shipAddressScreen.Updateshipaddress' | translate}}" [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="updateShipAddress">
         <!-- <div class="formgrid grid"> -->
@@ -164,7 +164,7 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="isVisibleDeleteModal" [style]="{ width: '450px' }" header="Delete ship address" [modal]="true"
+<p-dialog [(visible)]="isVisibleDeleteModal" [style]="{ width: '450px' }" header="{{'shipAddressScreen.Deleteshipaddress' | translate}}" [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="deleteShipAddress">
         <div class="delete-shipaddress-message">{{'shipAddressScreen.Areyousure' | translate}}</div>
@@ -177,7 +177,7 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="isVisibleSetDefaultAddressModal" [style]="{ width: '450px' }" header="Set default ship address"
+<p-dialog [(visible)]="isVisibleSetDefaultAddressModal" [style]="{ width: '450px' }" header="{{'shipAddressScreen.Setdefaultshipaddress' | translate}}"
     [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="setDefaultShipAddress">
         <div class="setdefault-shipaddress-message">{{'shipAddressScreen.Areyousuretoset' | translate}}</div>

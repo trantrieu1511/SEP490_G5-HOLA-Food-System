@@ -58,12 +58,12 @@ namespace HFS_BE.BusinessLogic.Dashboard.Menumoderator
                 //set statistics
 
                 output.TotalApprovedFoodReports = foodReportList.FoodReports
-                    .Where(fr => fr.UpdateDate.Value.Date >= inputDto.DateFrom
+                    .Where(fr => fr.UpdateDate != null && fr.UpdateDate.Value.Date >= inputDto.DateFrom
                     && fr.UpdateDate.Value.Date <= inputDto.DateEnd
                     && fr.Status == 1)
                     .Count();
                 output.TotalNotApprovedFoodReports = foodReportList.FoodReports
-                    .Where(fr => fr.UpdateDate.Value.Date >= inputDto.DateFrom
+                    .Where(fr => fr.UpdateDate != null && fr.UpdateDate.Value.Date >= inputDto.DateFrom
                     && fr.UpdateDate.Value.Date <= inputDto.DateEnd
                     && fr.Status == 2)
                     .Count();
@@ -136,13 +136,13 @@ namespace HFS_BE.BusinessLogic.Dashboard.Menumoderator
                     && fr.Status == 0)
                     .Count();
                 output.TotalApprovedFoodReports = foodReportList.FoodReports
-                    .Where(fr => fr.CreateDate.Date >= inputDto.DateFrom
-                    && fr.CreateDate.Date <= inputDto.DateEnd
+                    .Where(fr => fr.UpdateDate != null && fr.UpdateDate.Value.Date >= inputDto.DateFrom
+                    && fr.UpdateDate.Value.Date <= inputDto.DateEnd
                     && fr.Status == 1)
                     .Count();
                 output.TotalNotApprovedFoodReports = foodReportList.FoodReports
-                    .Where(fr => fr.CreateDate.Date >= inputDto.DateFrom
-                    && fr.CreateDate.Date <= inputDto.DateEnd
+                    .Where(fr => fr.UpdateDate != null && fr.UpdateDate.Value.Date >= inputDto.DateFrom
+                    && fr.UpdateDate.Value.Date <= inputDto.DateEnd
                     && fr.Status == 2)
                     .Count();
 
