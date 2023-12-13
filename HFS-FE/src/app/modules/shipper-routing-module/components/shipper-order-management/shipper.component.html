@@ -36,7 +36,7 @@
                             <td>{{order.orderDate | date:'dd/MM/yyyy hh:mm a'}}</td>
                             <td>{{ order.total | currency : "VND"}}</td>
                             <td>{{order.shipAddress}} <i class="pi pi-map-marker" (click)="onOpenMap(order.shipAddress)"></i></td>
-                            <td><i class="pi pi-phone" style="margin-right: 5px;"></i><a href="tel:+{{order.customerPhone}}">{{order.customerPhone}}</a></td>
+                            <td><i class="pi pi-phone" style="margin-right: 5px;"></i><a href="tel:{{order.customerPhone}}">{{order.customerPhone}}</a></td>
                             <td *ngIf="order.paymentMethod == '0'">COD</td>
                             <td *ngIf="order.paymentMethod == '1'">WALLET</td>
                             <ng-container [ngSwitch]="activeItem.id">

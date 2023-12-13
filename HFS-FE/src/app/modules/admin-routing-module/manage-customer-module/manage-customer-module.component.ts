@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import * as API from "../../../services/apiURL";
 import { Customer } from '../models/Customer';
 import { BanCustomer, HistoryBanCustomer } from '../models/BanCustomer';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -36,9 +37,18 @@ export class ManageCustomerModuleComponent extends iComponentBase implements OnI
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
+    public breadcrumbService: AppBreadcrumbService,
     public translate: TranslateService
   ){
-    super(messageService);
+
+
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Customer Management', routerLink: ['/HFSBusiness/admin/customer-management']}
+    ]);
+
     this.translate.get('CusAdminScreen').subscribe( (text: any) => {
       this.DetailID = text.DetailID;  
     });

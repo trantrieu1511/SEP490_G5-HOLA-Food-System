@@ -43,7 +43,12 @@ export class DashboardComponent
     private router: Router,
     public authService: AuthService,
   ) {
-    super(messageService);
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Dashboard', routerLink: ['/HFSBusiness/accountant/dashboard']}
+    ]);
   }
 
   async ngOnInit() {
@@ -101,7 +106,7 @@ export class DashboardComponent
   }
 
   async bangline() {
-    debugger
+    
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');

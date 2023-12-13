@@ -10,6 +10,7 @@ import { AuthService, User } from 'src/app/services/auth.service';
 import { MessageService } from 'primeng/api';
 import { FeedBackSeller, ReplySeller } from '../../models/feedbackseller.model';
 import { Router } from '@angular/router';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 @Component({
   selector: 'app-list-feedback-by-seller',
   templateUrl: './list-feedback-by-seller.component.html',
@@ -32,10 +33,15 @@ export class ListFeedbackBySellerComponent extends iComponentBase implements OnI
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
-    private authSerice: AuthService
+    private authSerice: AuthService,
+    public breadcrumbService: AppBreadcrumbService,
   ){
-    super(messageService);
+    super(messageService, breadcrumbService);
 
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Feedback Management', routerLink: ['/HFSBusiness/seller/reply']}
+    ]);
   }
 
   ngOnInit(): void {

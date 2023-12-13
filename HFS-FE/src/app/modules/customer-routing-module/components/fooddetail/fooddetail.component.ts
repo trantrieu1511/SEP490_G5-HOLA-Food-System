@@ -132,7 +132,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
 
   onTabChange(event: TabViewChangeEvent) {
     let index = event.index
-    debugger
+    
     switch (index) {
       case 0:
         this.displayFeedback = this.feedbacks;

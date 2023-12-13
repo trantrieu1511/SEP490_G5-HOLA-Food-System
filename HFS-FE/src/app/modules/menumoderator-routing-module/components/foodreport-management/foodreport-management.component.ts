@@ -57,6 +57,11 @@ export class FoodreportManagementComponent extends iComponentBase implements OnI
     private authService: AuthService
   ) {
     super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Menu Report Management', routerLink: ['/HFSBusiness/menureport-management']}
+    ]);
   }
 
   async ngOnInit() {

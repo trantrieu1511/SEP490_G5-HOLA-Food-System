@@ -25,7 +25,7 @@ namespace HFS_BE.Dao.OrderDao
                 var data = this.context.Orders
                     .Include(x => x.OrderDetails).ThenInclude(x => x.Food).ThenInclude(f => f.FoodImages)
                     .Include(x => x.OrderProgresses)
-                    .Where(x => x.ShipperId == inputDto.ShipperId && x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == status).OrderBy(x=>x.OrderDate)
+                    .Where(x => x.ShipperId == inputDto.ShipperId && x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == status).OrderBy(x => x.OrderDate)
                     //.Select(x => mapper.Map<Order, OrderDaoOutputDto>(x))
                     .ToList();
 
@@ -97,9 +97,9 @@ namespace HFS_BE.Dao.OrderDao
                 }
                 else
                 {
-                    data = query.Where(x => 
-                                x.ShipperId == inputDto.ShipperId && 
-                                (x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 4 || 
+                    data = query.Where(x =>
+                                x.ShipperId == inputDto.ShipperId &&
+                                (x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 4 ||
                                     x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 5) &&
                                 x.ShippedDate.Value.Date >= inputDto.DateFrom && x.ShippedDate.Value.Date <= inputDto.DateEnd
                                 )
@@ -123,7 +123,7 @@ namespace HFS_BE.Dao.OrderDao
                         output[indexOder].OrderDetails[indexDetail].SellerId = detail.Food.SellerId;
                     }
                     var status = item.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status;
-                    output[indexOder].Status = OrderStatusEnum.GetOrderStatusString(status);
+                    output[indexOder].Status = OrderProgressStatusEnum.GetOrderProgressStatusString(status);
                 }
                 var output1 = this.Output<OrderHistoryDaoOutputDto>(Constants.ResultCdSuccess);
                 output1.Orders = output;
@@ -158,7 +158,7 @@ namespace HFS_BE.Dao.OrderDao
                 return this.Output<CheckOutOrderDaoOutputDto>(Constants.ResultCdFail, e.Message);
             }
         }
-    
+
         public OrderSellerDaoOutputDto GetOrderByStatus(OrderSellerByStatusInputDto inputDto)
         {
             try
@@ -207,7 +207,7 @@ namespace HFS_BE.Dao.OrderDao
                             .ToList();
                 }
 
-                
+
 
                 /*var result = data.Select(o => new OrderDaoSellerOutputDto
                 {
@@ -259,8 +259,9 @@ namespace HFS_BE.Dao.OrderDao
             try
             {
                 var order = context.Orders.First(o => o.OrderId.Equals(inputDto.OrderId));
-                
+
                 order.ShipperId = inputDto.ShipperId;
+                order.Status = Constants.OrderInternal;
 
                 context.SaveChanges();
 
@@ -301,7 +302,7 @@ namespace HFS_BE.Dao.OrderDao
                                 && x.OrderDate.Value.Date <= inputDto.DateEnd);
 
                 var result = query.Select(o => mapper.Map<Order, OrderCustomerDaoOutputDto>(o)).ToList();
-                foreach (var item in result )
+                foreach (var item in result)
                 {
                     foreach (var details in item.OrderDetails)
                     {
@@ -385,7 +386,7 @@ namespace HFS_BE.Dao.OrderDao
                     .Include(x => x.OrderProgresses)
                     .Include(x => x.Seller)
                     .Include(x => x.Voucher)
-                    .Where(x => x.CustomerId.Equals(inputDto.CustomerId) 
+                    .Where(x => x.CustomerId.Equals(inputDto.CustomerId)
                                 && x.OrderDetails.Where(x => x.FoodId == inputDto.FoodId).Any())
                     .OrderByDescending(x => x.OrderId);
 
@@ -415,7 +416,7 @@ namespace HFS_BE.Dao.OrderDao
                     .Include(x => x.OrderProgresses)
                     .Include(x => x.Seller)
                     .Where(x => x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 2 //check order is Wait_Shipper = 2,
-                        && x.ShipperId == null // null because orderprogress : wait shipper but shipperId in order null -> wait external shipper
+                        && x.Status == Constants.OrderExternal
                 );
 
                 var result = query.Select(o => mapper.Map<Order, OrderExternalShipperOutputDto>(o)).ToList();
@@ -440,7 +441,7 @@ namespace HFS_BE.Dao.OrderDao
                     .OrderBy(x => x.OrderDate);
                 var data = new List<Order>();
                 // get before date = rangeDate to cal % increase or decrease -> analysis
-                
+
                 // check from vs to 
                 if (!inputDto.DateFrom.Equals(inputDto.DateEnd))
                 {
@@ -455,7 +456,7 @@ namespace HFS_BE.Dao.OrderDao
                 /*var a = query.Where(x =>
                         x.OrderDate.Value.Date == inputDto.DateEnd && x.SellerId.Equals(inputDto.SellerId)).ToList();*/
                 data = query.Where(x => x.OrderDate.Value.Date >= tempBeforeRangeDate.Date &&
-                        x.OrderDate.Value.Date <= inputDto.DateEnd.Value.Date && 
+                        x.OrderDate.Value.Date <= inputDto.DateEnd.Value.Date &&
                         x.SellerId.Equals(inputDto.SellerId) &&
                         x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 4
 
@@ -485,6 +486,42 @@ namespace HFS_BE.Dao.OrderDao
             {
 
                 return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
+        public BaseOutputDto CommissionOrderExternalShipper(OrderExternalShipInputDto inputDto)
+        {
+            try
+            {
+                var order = context.Orders.FirstOrDefault(o => o.OrderId.Equals(inputDto.OrderId));
+
+                order.Status = Constants.OrderExternal;
+
+                context.SaveChanges();
+
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+                return Output<BaseOutputDto>(Constants.ResultCdFail, "Commmission Failed", "Add External Shipper Failed");
+            }
+        }
+
+        public BaseOutputDto AddOrderExternalShipper(OrderExternalShipInputDto inputDto)
+        {
+            try
+            {
+                var order = context.Orders.FirstOrDefault(o => o.OrderId.Equals(inputDto.OrderId));
+
+                order.ShipperId = inputDto.UserId;
+
+                context.SaveChanges();
+
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+                return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Add External Shipper Failed");
             }
         }
     }

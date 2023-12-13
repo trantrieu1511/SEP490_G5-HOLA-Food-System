@@ -164,7 +164,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                     }                
                 }
 
-                return Output<BaseOutputDto>(Constants.ResultCdSuccess); ;
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
             }
             catch (Exception)
             {

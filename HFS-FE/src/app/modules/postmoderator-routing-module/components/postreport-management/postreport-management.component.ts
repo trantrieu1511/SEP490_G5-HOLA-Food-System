@@ -79,6 +79,11 @@ export class PostreportManagementComponent extends iComponentBase implements OnI
     private authService: AuthService
   ) {
     super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Post Report Management', routerLink: ['/HFSBusiness/postreport-management']}
+    ]);
   }
 
   async ngOnInit() {

@@ -116,7 +116,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
   }
 
   async getAllPost() {
-    debugger;
+    ;
     this.listPost = [];
     try {
       const param = {

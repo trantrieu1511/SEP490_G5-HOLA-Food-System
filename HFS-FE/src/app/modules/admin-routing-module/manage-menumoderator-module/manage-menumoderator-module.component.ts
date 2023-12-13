@@ -10,6 +10,7 @@ import { User } from 'src/app/services/auth.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import * as API from "../../../services/apiURL";
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-manage-menumoderator-module',
@@ -30,9 +31,15 @@ export class ManageMenumoderatorModuleComponent extends iComponentBase implement
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
+    public breadcrumbService: AppBreadcrumbService,
     public translate: TranslateService
   ){
-    super(messageService);
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Menu Moderator Management', routerLink: ['/HFSBusiness/admin/menu-moderator']}
+    ]);
 
   }
 

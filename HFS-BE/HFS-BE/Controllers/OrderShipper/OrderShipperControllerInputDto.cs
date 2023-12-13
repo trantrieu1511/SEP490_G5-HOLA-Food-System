@@ -20,4 +20,11 @@ namespace HFS_BE.Controllers.OrderShipper
         [DateEndAfterDateFrom(ErrorMessage = "DateEnd must be greater than or equal to DateFrom")]
         public DateTime? DateEnd { get; set; }
     }
+
+    public class ExternalShippingOrder
+    {
+        [Required]
+        public int OrderId { get; set; } 
+    }
+
 }

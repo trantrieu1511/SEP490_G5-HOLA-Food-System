@@ -11,6 +11,7 @@ export class Order{
   voucherId: string;
   discountAmount: number;
   paymentMethod: string;
+  shippingType: string;
   totalPrice: number;
   orderProgresses: DetailProgress[];
   orderDetails: OrderDetailFoodDto[];

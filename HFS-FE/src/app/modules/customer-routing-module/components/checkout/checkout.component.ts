@@ -283,7 +283,7 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
     clearTimeout(this.timeOutVoucherInput);
     this.timeOutVoucherInput = setTimeout(async () => {
       await this.onGetVoucher(voucherCd);
-      debugger
+      
       if (this.voucherDetail === undefined){
         return;
       }

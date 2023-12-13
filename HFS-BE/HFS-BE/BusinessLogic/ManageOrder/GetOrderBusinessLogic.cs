@@ -12,9 +12,9 @@ using System.Text;
 
 namespace HFS_BE.BusinessLogic.ManageOrder
 {
-    public class DisplayOrderBusinessLogic : BaseBusinessLogic
+    public class GetOrderBusinessLogic : BaseBusinessLogic
     {
-        public DisplayOrderBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public GetOrderBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
@@ -53,6 +53,15 @@ namespace HFS_BE.BusinessLogic.ManageOrder
                     // put back to element: orderdetail of ordersMapper list
                     ordersMapper.Orders[indexOrder].OrderDetails[indexDetail].ImageBase64 = imgFoodMapper;
                 }
+
+                // map shipping type
+                if (inputDto.Status >= Constants.Shipping && inputDto.Status <= Constants.InCompleted)
+                {
+                    ordersMapper.Orders[indexOrder].ShippingType = orders.Orders[indexOrder].Status == 0
+                        ? "Internal"
+                        : "External";
+                }
+
                 //check status input != Completed = 4, InCompleted = 5 -> orderProgress have no image 
                 if (inputDto.Status != 4 && inputDto.Status != 5)
                     continue;
@@ -70,6 +79,8 @@ namespace HFS_BE.BusinessLogic.ManageOrder
                 if (imgProgressBase64 == null)
                     continue;
                 var imgProgressMapper = mapper.Map<ImageFileConvert.ImageOutputDto, ImageFoodOutputDto>(imgProgressBase64);
+
+                
 
                 // put back to element: orderProgress of ordersMapper list
                 ordersMapper.Orders[indexOrder].OrderProgresses[indexProgressInOrCompleted].ImageBase64 = imgProgressMapper;
