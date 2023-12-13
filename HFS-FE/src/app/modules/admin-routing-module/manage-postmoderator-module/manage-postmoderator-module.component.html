@@ -2,13 +2,13 @@
 <div class="grid table-demo">
   <div class="col-12">
       <div class="card">
-          <h5>Post Moderator Management</h5>
+          <h5>{{'postAdminScreen.PostModeratorManagement' | translate}}</h5>
 
           <p-table #dt [value]="lstUser" dataKey="id"
                    styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
                    [showCurrentPageReport]="true"
                    [paginator]="lstUser.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
-                   currentPageReportTemplate="Total: {totalRecords} foods"
+                   currentPageReportTemplate="{{'postAdminScreen.Total' | translate}}: {totalRecords} {{'postAdminScreen.posts' | translate}}"
                    [globalFilterFields]="['firstName','lastName']" responsiveLayout="scroll"
 
           >
@@ -19,13 +19,13 @@
                               <i class="pi pi-search"></i>
                               <input pInputText type="text"  #textInput
                                      (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                     placeholder="Search Name by name"/>
+                                     placeholder="{{'postAdminScreen.SearchNamebyname' | translate}}"/>
                           </span>
                       </div>
 
                       <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
                           <div class="flex align-items-center justify-content-center">
-                              <button pButton type="button" label="Add new" icon="pi pi-plus"
+                              <button pButton type="button" label="{{'button.Addnew' | translate}}" icon="pi pi-plus"
                               (click)="onCreatePostM()"
                                       style="width: auto;"></button>
                           </div>
@@ -39,7 +39,7 @@
                       </th> -->
                       <th pSortableColumn="modId">
                           <div class="flex justify-content-between align-items-center">
-                              ID
+                              {{'postAdminScreen.ID' | translate}}
                               <p-sortIcon field="customerId"></p-sortIcon>
                               <p-columnFilter type="numeric" field="modId" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -47,7 +47,7 @@
                       </th>
                       <th pSortableColumn="firstName">
                           <div class="flex justify-content-between align-items-center">
-                            FullName
+                            {{'postAdminScreen.FullName' | translate}}
                               <p-sortIcon field="firstName"></p-sortIcon>
                               <p-columnFilter type="text" field="firstName" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -63,7 +63,7 @@
                       </th> -->
                       <th pSortableColumn="gender">
                           <div class="flex justify-content-between align-items-center">
-                            Gender
+                            {{'postAdminScreen.Gender' | translate}}
                               <p-sortIcon field="gender"></p-sortIcon>
                               <p-columnFilter type="text" field="gender" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -71,7 +71,7 @@
                       </th>
                       <th pSortableColumn="email">
                         <div class="flex justify-content-between align-items-center">
-                          Email
+                          {{'postAdminScreen.Email' | translate}}
                             <p-sortIcon field="email"></p-sortIcon>
                             <p-columnFilter type="text" field="email" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -79,7 +79,7 @@
                     </th>
                     <th pSortableColumn="phoneNumber">
                       <div class="flex justify-content-between align-items-center">
-                        PhoneNumber
+                        {{'postAdminScreen.PhoneNumber' | translate}}
                           <p-sortIcon field="phoneNumber"></p-sortIcon>
                           <p-columnFilter type="text" field="phoneNumber" display="menu"
                                           class="ml-auto"></p-columnFilter>
@@ -87,7 +87,7 @@
                   </th>
                       <th pSortableColumn="birthDate">
                           <div class="flex justify-content-between align-items-center">
-                              DOB
+                              {{'postAdminScreen.DOB' | translate}}
                               <p-sortIcon field="birthDate"></p-sortIcon>
                               <p-columnFilter type="text" field="birthDate" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -97,13 +97,13 @@
 
                       <th>
                         <div class="flex justify-content-between align-items-center">
-                            Status
+                            {{'postAdminScreen.Status' | translate}}
                         </div>
                     </th>
                       <th style="min-width: 8rem">
                           <div
                                class="flex justify-content-between align-items-center">
-                              Action
+                              {{'postAdminScreen.Action' | translate}}
                           </div>
                       </th>
                   </tr>
@@ -114,11 +114,11 @@
                           <p-tableCheckbox [value]="post"></p-tableCheckbox>
                       </td> -->
                       <td>
-                          <span class="p-column-title">ID</span>
+                          <span class="p-column-title">{{'postAdminScreen.ID' | translate}}</span>
                           <span class="post-id">{{user.modId}}</span>
                       </td>
                       <td>
-                          <span class="p-column-title">FullName</span>
+                          <span class="p-column-title">{{'postAdminScreen.FullName' | translate}}</span>
                           {{user.firstName}} {{user.lastName}}
                       </td>
                       <!-- <td >
@@ -126,29 +126,29 @@
                           {{user.lastName}}
                       </td> -->
                       <td>
-                          <span class="p-column-title">Gender</span>
+                          <span class="p-column-title">{{'postAdminScreen.Gender' | translate}}</span>
                           <span class="post-content" >{{user.gender}}</span>
                       </td>
                       <td>
-                        <span class="p-column-title">Email</span>
+                        <span class="p-column-title">{{'postAdminScreen.Email' | translate}}</span>
                         <span class="post-content" >{{user.email}}</span>
                        </td>
                       <td>
-                        <span class="p-column-title">PhoneNumber</span>
+                        <span class="p-column-title">{{'postAdminScreen.PhoneNumber' | translate}}</span>
                         <span class="post-content" >{{user.phoneNumber}}</span>
                     </td>
                       <td >
-                          <span class="p-column-title">BirthDate</span>
+                          <span class="p-column-title">{{'postAdminScreen.DOB' | translate}}</span>
                           {{user.birthDate| date:'dd/MM/yyyy'}}
                       </td>
 
                       <td >
-                        <span class="p-column-title">Status</span>
+                        <span class="p-column-title">{{'postAdminScreen.Status' | translate}}</span>
                         <div *ngIf="user.isBanned" style="color:red;">
-                          Closed
+                          {{'postAdminScreen.Closed' | translate}}
                         </div>
                         <div *ngIf="!user.isBanned"  style="color:chartreuse;">
-                          Active
+                          {{'postAdminScreen.Active' | translate}}
                         </div>
                     </td>
                       <td style="text-align: center">
@@ -165,7 +165,7 @@
               </ng-template>
               <ng-template pTemplate="emptymessage">
                   <tr>
-                      <td colspan="8">No PostModerator yet.</td>
+                      <td colspan="8">{{'postAdminScreen.emptymessage' | translate}}</td>
                   </tr>
               </ng-template>
           </p-table>
@@ -184,7 +184,7 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Post Moderator information</b>
+                        <b>{{'postAdminScreen.PostModeratorinformation' | translate}}</b>
                     </div>
                 </p-divider>
                 <div class="grid">
@@ -193,7 +193,7 @@
                           <input type="text" step="5000" min="0"  class="w-full" [(ngModel)]="postM.firstName"
                                   pInputText
                                   />
-                          <label>FirstName*</label>
+                          <label>{{'postAdminScreen.FirstName' | translate}}*</label>
                       </span>
                   </div>
                   <div class="col-12 mb-2 lg:col-6 mb-lg-0">
@@ -201,7 +201,7 @@
                       <input type="text" step="5000" min="0"  class="w-full" [(ngModel)]="postM.lastName"
                       pInputText
                       />
-                        <label>LastName*</label>
+                        <label>{{'postAdminScreen.LastName' | translate}}*</label>
                     </span>
 
                 </div>
@@ -210,7 +210,7 @@
                       <input type="text" step="5000" min="0"  class="w-full" [(ngModel)]="postM.phoneNumber"
                               pInputText
                               />
-                      <label>Phone*</label>
+                      <label>{{'postAdminScreen.Phone' | translate}}*</label>
                   </span>
               </div>
                 <div class="col-12 mb-2 ">
@@ -218,7 +218,7 @@
                       <input type="email" step="5000" min="0"  class="w-full" [(ngModel)]="postM.email"
                               pInputText
                               />
-                      <label>Email*</label>
+                      <label>{{'postAdminScreen.Email' | translate}}*</label>
                   </span>
               </div>
 
@@ -227,7 +227,7 @@
                     <input type="password" step="5000" min="0"  class="w-full" [(ngModel)]="postM.password"
                             pInputText
                             />
-                    <label>Password*</label>
+                    <label>{{'postAdminScreen.Password' | translate}}*</label>
                 </span>
             </div>
             <div class="col-12 mb-2 lg:col-6 mb-lg-0">
@@ -235,12 +235,12 @@
                 <input type="password" step="5000" min="0"  class="w-full" [(ngModel)]="postM.confirmpassword"
                 pInputText
                 />
-                  <label>CofirmPassword*</label>
+                  <label>{{'postAdminScreen.CofirmPassword' | translate}}*</label>
               </span>
 
           </div>
           <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-            <label>Dob*</label>
+            <label>{{'postAdminScreen.DOB' | translate}}*</label>
             <span style="width: 100%">
                 <input type="date"  class="w-full" [(ngModel)]="postM.birthDate"
                         pInputText
@@ -250,7 +250,7 @@
         </div>
         <div class="col-12 mb-2 lg:col-6 mb-lg-0">
           <span  style="display: flex;">
-            <label>Gender*</label>
+            <label>{{'postAdminScreen.Gender' | translate}}*</label>
             <div  class="col-3" style="display: flex; align-items: center;">
               <input type="radio"
                      class="w-full"
@@ -258,7 +258,7 @@
                      name="gender"
                      value="male"
                      id="genderMale" />
-              <label for="genderMale" style="margin-left: 10px;">Male</label>
+              <label for="genderMale" style="margin-left: 10px;">{{'postAdminScreen.Male' | translate}}</label>
             </div>
             <div class="col-3" style="display: flex; align-items: center;">
               <input type="radio"
@@ -267,7 +267,7 @@
                      name="gender"
                      value="female"
                      id="genderFemale" />
-              <label for="genderFemale" style="margin-left: 10px;">Female</label>
+              <label for="genderFemale" style="margin-left: 10px;">{{'postAdminScreen.Female' | translate}}</label>
             </div>
 
 
@@ -282,12 +282,12 @@
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Save" icon="pi pi-save"
+                <button pButton type="button" label="{{'button.save' | translate}}" icon="pi pi-save"
                         (click)="onSavePostM()"
                         style="width: 100%;"></button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                <button pButton type="button" label="{{'button.cancel' | translate}}" icon="pi pi-times"
                         (click)="onCancelPostM()" class="p-button-danger"
                         style="width: 100%;"></button>
             </div>

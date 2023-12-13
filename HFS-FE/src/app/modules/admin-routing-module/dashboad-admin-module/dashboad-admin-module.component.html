@@ -4,7 +4,7 @@
 
             <div class="col-12 md:col-12">
                 <div class="col-12 mb-2 lg:col-4 mb-lg-0">
-                    <label style="margin-right: 1rem">Data time: </label>
+                    <label style="margin-right: 1rem">{{'dashboardScreen.Datatime' | translate}}: </label>
                     <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
                         [maxDate]="currentDate" (onClose)="onCloseCalendar($event)"></p-calendar>
                 </div>
@@ -13,21 +13,21 @@
             <div class="overview-list">
                 <div class="overview-item">
                     <span>
-                        <div class="title">Total Seller: </div>
+                        <div class="title">{{'dashboardScreen.TotalSeller' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{datatotal.totalSeller}}</span>
                         <div class="data-percent" [class.text-green-500]="data.orderCountPercent > 0"
                             [class.text-red-500]="data.orderCountPercent < 0">
-                            Ban:{{datatotal.banSeller}}
-                            Verified:{{datatotal.vetifySeller}}
-                            Not verified:{{datatotal.totalSeller-datatotal.vetifySeller}}
+                            {{'dashboardScreen.Ban' | translate}}:{{datatotal.banSeller}}
+                            {{'dashboardScreen.Verified' | translate}}:{{datatotal.vetifySeller}}
+                            {{'dashboardScreen.Notverified' | translate}}:{{datatotal.totalSeller-datatotal.vetifySeller}}
                         </div>
                     </div>
                 </div>
                 <div class="overview-item">
                     <span>
-                        <div class="title">Total Customer: </div>
+                        <div class="title">{{'dashboardScreen.TotalCustomer' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{datatotal.totalCustomer}}</span>
@@ -39,29 +39,29 @@
                 </div>
                 <div class="overview-item">
                     <span>
-                        <div class="title">Total Shipper: </div>
+                        <div class="title">{{'dashboardScreen.TotalShipper' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{datatotal.totalShippper}}</span>
                         <div class="data-percent" [class.text-green-500]="data.soldCountPercent > 0"
                             [class.text-red-500]="data.soldCountPercent < 0">
-                            Managed:{{datatotal.managedShipper}}
-                            Verify:{{datatotal.vetifyShipper}}
-                            Not verified:{{datatotal.totalShippper-datatotal.vetifyShipper}}
+                            {{'dashboardScreen.Managed' | translate}}:{{datatotal.managedShipper}}
+                            {{'dashboardScreen.Verify' | translate}}:{{datatotal.vetifyShipper}}
+                            {{'dashboardScreen.Notverified' | translate}}:{{datatotal.totalShippper-datatotal.vetifyShipper}}
                         </div>
                     </div>
                 </div>
                 <div class="overview-item">
                     <span>
-                        <div class="title">Total Report Seller: </div>
+                        <div class="title">{{'dashboardScreen.TotalReportSeller' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{datatotal.totalReport}}</span>
                         <div class="data-percent" [class.text-green-500]="data.soldCountPercent > 0"
                             [class.text-red-500]="data.soldCountPercent < 0">
-                            Pending:{{datatotal.pendingReport}}
-                            Solved:{{datatotal.vetifyShipper}}
-                            Reject:{{datatotal.rejectReport}}
+                            {{'dashboardScreen.Pending' | translate}}:{{datatotal.pendingReport}}
+                            {{'dashboardScreen.Solved' | translate}}:{{datatotal.vetifyShipper}}
+                            {{'dashboardScreen.Reject' | translate}}:{{datatotal.rejectReport}}
                         </div>
                     </div>
                 </div>

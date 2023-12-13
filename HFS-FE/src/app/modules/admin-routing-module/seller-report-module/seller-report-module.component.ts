@@ -12,6 +12,7 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { User } from 'src/app/services/auth.service';
 import { ReportSellerInput, reportSeller } from '../models/reportSeller';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-seller-report-module',
   templateUrl: './seller-report-module.component.html',
@@ -37,6 +38,7 @@ export class SellerReportModuleComponent extends iComponentBase implements OnIni
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
+    public translate: TranslateService
   ){
     super(messageService);
 

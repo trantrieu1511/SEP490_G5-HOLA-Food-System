@@ -70,15 +70,15 @@
                     <tr class="p-selectable-row">
   
                         <td>
-                            <span class="p-column-title">ID</span>
+                            <span class="p-column-title">{{ 'categoryScreen.id' | translate }}</span>
                             <span class="post-id">{{cate.categoryId}}</span>
                         </td>
                         <td>
-                            <span class="p-column-title">name</span>
+                            <span class="p-column-title">{{ 'categoryScreen.name' | translate }}</span>
                             {{cate.name}}
                         </td>
                         <td >
-                            <span class="p-column-title">status</span>
+                            <span class="p-column-title">{{ 'categoryScreen.status' | translate }}</span>
                             {{cate.status}}
                         </td>
   
@@ -119,7 +119,7 @@
   </div>
 <p-dialog [header]="headerDialog" [(visible)]="displayDialogEditAddCate"
           [breakpoints]="{'960px': '75vw'}"
-          [style]="{width: '50vw'}"
+          [style]="{width: '20vw'}"
           [draggable]="false" [resizable]="false" [maximizable]="true"
           (onHide)="onHideDialogEditAdd()"
           >
@@ -134,7 +134,7 @@
                 <div class="grid">
   
                     <ng-container >
-                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <div class="col-12 mb-2 mb-lg-0">
                             <label>{{ 'categoryScreen.name1' | translate }}</label>
                             <span class="p-input-icon-left p-float-label" style="width: 100%">
                                 <input type="text" step="5000" min="0"  class="w-full" [(ngModel)] = "cateModel.name"

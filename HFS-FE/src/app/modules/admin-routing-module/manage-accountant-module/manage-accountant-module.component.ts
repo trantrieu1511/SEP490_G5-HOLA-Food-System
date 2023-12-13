@@ -11,6 +11,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import * as API from "../../../services/apiURL";
 import { AccountantsOutput, MenuModerator, MenuModeratorOutput } from '../models/menuModerator';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-manage-accountant-module',
   templateUrl: './manage-accountant-module.component.html',
@@ -22,12 +23,15 @@ export class ManageAccountantModuleComponent extends iComponentBase implements O
   displayDialogAdd: boolean = false;
   headerDialog: string = '';
   menuM:MenuModerator=new MenuModerator();
+  labelHeader1:string;
+
   constructor( private shareData: ShareData,
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
+    public translate: TranslateService
   ){
     super(messageService);
 
@@ -114,7 +118,10 @@ try {
    }
 }
 onCreateMM() {
-  this.headerDialog = 'Add New Accountant';
+  this.translate.get('aaAdminScreen').subscribe( (text: any) => {
+    this.labelHeader1 = text.AddNewAAModerator;  
+  });
+  this.headerDialog = this.labelHeader1;
 
   this.menuM = new MenuModerator();
 
