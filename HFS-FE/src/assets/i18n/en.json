@@ -412,6 +412,9 @@
 
   "shipAddressScreen": {
     "Createnewshipaddress": "Create new ship address",
+    "Updateshipaddress": "Update ship address",
+    "Deleteshipaddress": "Delete ship address",
+    "Setdefaultshipaddress": "Set default ship address",
     "Province": "Province",
     "District": "District",
     "Ward": "Ward",
@@ -483,6 +486,16 @@
     "emptymessage": "No seller report yet.",
     "Total": "Total",
     "foodreports": " reports"
+  },
+
+  "myAccountSideBarMenu":{
+    "Profile":"Profile",
+    "Order": "Order",
+    "ShipAddress": "Ship address",
+    "PostReport": "Post report",
+    "MenuReport": "Menu report",
+    "ShopReport": "Shop report",
+    "Wallet": "Wallet"
   },
 
   "profileScreen": {
