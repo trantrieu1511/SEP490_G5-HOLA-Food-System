@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import {
   iComponentBase,
   iServiceBase, mType,
@@ -24,7 +25,8 @@ export class AppMenuMyaccountComponent implements OnInit {
     private iServiceBase: iServiceBase,
     private menuService: MenuDataService,
     public router: Router,
-    public authService: AuthService
+    public authService: AuthService,
+    public translate: TranslateService
   ) {
     this.model = [];
   }
@@ -32,30 +34,30 @@ export class AppMenuMyaccountComponent implements OnInit {
   ngOnInit(): void {
     this.GetCurrentRoute();
   }
-  
+
   GetCurrentRoute() { // Get current route for class sidebar-option-selected of html template
     // ;
     // console.log(window.location.href);
     const currentRoute = window.location.href.toString();
-    if(currentRoute.includes('profile')){
+    if (currentRoute.includes('profile')) {
       this.currentRoute = 'profile';
     }
-    if(currentRoute.includes('orderhistory')){
+    if (currentRoute.includes('orderhistory')) {
       this.currentRoute = 'orderhistory';
     }
-    if(currentRoute.includes('shipaddress')){
+    if (currentRoute.includes('shipaddress')) {
       this.currentRoute = 'shipaddress';
     }
-    if(currentRoute.includes('postreport')){
+    if (currentRoute.includes('postreport')) {
       this.currentRoute = 'postreport';
     }
-    if(currentRoute.includes('menureport')){
+    if (currentRoute.includes('menureport')) {
       this.currentRoute = 'menureport';
     }
-    if(currentRoute.includes('sellerreport')){
+    if (currentRoute.includes('sellerreport')) {
       this.currentRoute = 'sellerreport';
     }
-    if(currentRoute.includes('wallet')){
+    if (currentRoute.includes('wallet')) {
       this.currentRoute = 'wallet';
     }
     // this.currentRoute = window.location.href.includes('profile') == true ? 'profile' : '';

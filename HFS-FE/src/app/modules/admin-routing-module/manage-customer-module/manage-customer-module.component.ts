@@ -12,6 +12,7 @@ import * as API from "../../../services/apiURL";
 import { Customer } from '../models/Customer';
 import { BanCustomer, HistoryBanCustomer } from '../models/BanCustomer';
 import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-manage-customer-module',
@@ -29,19 +30,28 @@ export class ManageCustomerModuleComponent extends iComponentBase implements OnI
   visibleImageDialog:boolean=false;
   cusDetail:Customer =new Customer();
   headerDialog: string = '';
+  DetailID:string;
+
   constructor( private shareData: ShareData,
     public messageService: MessageService,
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
     public breadcrumbService: AppBreadcrumbService,
+    public translate: TranslateService
   ){
+
+
     super(messageService, breadcrumbService);
 
     this.breadcrumbService.setItems([
       {label: 'HFSBusiness'},
       {label: 'Customer Management', routerLink: ['/HFSBusiness/admin/customer-management']}
     ]);
+
+    this.translate.get('CusAdminScreen').subscribe( (text: any) => {
+      this.DetailID = text.DetailID;  
+    });
 
   }
 
@@ -98,7 +108,7 @@ export class ManageCustomerModuleComponent extends iComponentBase implements OnI
 async BanCustomer1(user:Customer,event){
   this.displayDialogBan = true;
   this.cusDetail=user;
-  this.headerDialog="Detail ID: "+user.customerId;
+  this.headerDialog=this.DetailID+user.customerId;
 // this.bancus.customerId=user.customerId;
 // this.bancus.isBanned=!user.isBanned;
 }

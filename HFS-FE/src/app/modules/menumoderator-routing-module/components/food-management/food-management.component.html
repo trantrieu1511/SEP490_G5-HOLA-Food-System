@@ -229,6 +229,12 @@
                                         (click)="onDisplayFood(food, $event)"
                                         class="p-button-rounded p-button-info"></button>
                                 </div>
+                                <div *ngIf="food.status === 'Display'
+                                        || food.status === 'Hidden'
+                                        || food.status === 'NotApproved'" class="">
+                                        <button pButton pRipple icon="pi pi-ban" (click)="onOpenBanNoteDialog(food)"
+                                            class="p-button-rounded p-button-danger"></button>
+                                    </div>
                                 <ng-container *ngIf="food.status !== 'NotApproved'">
                                     <!-- <div *ngIf="food.reportedTimes >= 3 "> -->
                                     <div style="margin-bottom: 5px;"
@@ -237,11 +243,7 @@
                                             class="p-button-rounded p-button-success"></button>
                                     </div>
                                     <!-- <ng-template #statusBannable> -->
-                                    <div *ngIf="food.status === 'Display'
-                                        || food.status === 'Hidden'" class="">
-                                        <button pButton pRipple icon="pi pi-ban" (click)="onOpenBanNoteDialog(food)"
-                                            class="p-button-rounded p-button-danger"></button>
-                                    </div>
+                                    
                                     <div *ngIf="food.status === 'Ban'" class="">
                                         <button pButton pRipple (click)="onOpenBanDetailDialog(food)"
                                             class="p-button-rounded p-button-info">Ban detail</button>

@@ -11,6 +11,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import * as API from "../../../services/apiURL";
 import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-manage-menumoderator-module',
   templateUrl: './manage-menumoderator-module.component.html',
@@ -22,6 +23,8 @@ export class ManageMenumoderatorModuleComponent extends iComponentBase implement
   displayDialogAdd: boolean = false;
   headerDialog: string = '';
   menuM:MenuModerator=new MenuModerator();
+  labelHeader1:string;
+
   constructor( private shareData: ShareData,
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -29,6 +32,7 @@ export class ManageMenumoderatorModuleComponent extends iComponentBase implement
     private iFunction: iFunction,
     private _router: Router,
     public breadcrumbService: AppBreadcrumbService,
+    public translate: TranslateService
   ){
     super(messageService, breadcrumbService);
 
@@ -120,7 +124,11 @@ try {
    }
 }
 onCreateMM() {
-  this.headerDialog = 'Add New Menu Moderator';
+
+  this.translate.get('menuAdminScreen').subscribe( (text: any) => {
+    this.labelHeader1 = text.AddNewMenuModerator;  
+  });
+  this.headerDialog = this.labelHeader1;
 
   this.menuM = new MenuModerator();
 
