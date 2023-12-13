@@ -39,6 +39,8 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   sortField: string;
   searchText : string;
   searchOptions : any = "0"
+  lstCategory : any[];
+  searchCategory : any[]
 
   constructor(private shareData: ShareData,
     public messageService: MessageService,
@@ -57,6 +59,7 @@ export class HomepageComponent extends iComponentBase implements OnInit {
 
     this.getAllShop();
     this.getHotFoods();
+    this.getCategory();
    // this.setCurrentUser();
    this.translate.get('homePageScreen').subscribe( (text: any) => {
 
@@ -83,6 +86,23 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   //     this.presence.createHubConnection(token);
   //   }
   // }
+
+  async getCategory() {
+    try {
+      this.loading = true;
+
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.HOME, API.API_HOME.GET_CATEGORY, null);
+      console.log(response)
+      if (response && response.message === "Success") {
+        this.lstCategory = response.listCategory;
+      }
+      this.loading = false;
+    } catch (e) {
+      console.log(e);
+      this.loading = false;
+    }
+  }
+
   async getAllShop() {
     try {
       this.loading = true;
@@ -136,9 +156,10 @@ onFoodDetail(foodId : number){
 }
 
 onSearch(){
-  if (this.searchText.length > 0){
-    this._router.navigate(['/search'], { queryParams: { key: this.searchText, type : this.searchOptions } });
+  if (this.searchOptions === "1") {
+    this.searchCategory = []
   }
+    this._router.navigate(['/search'], { queryParams: { key: this.searchText, type : this.searchOptions,category : this.searchCategory } });
 }
 
 onFilter(dv: DataView, event: Event) {

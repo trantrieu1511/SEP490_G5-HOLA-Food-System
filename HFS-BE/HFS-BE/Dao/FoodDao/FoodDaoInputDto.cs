@@ -11,6 +11,7 @@ namespace HFS_BE.Dao.FoodDao
     {
         public string? SearchKey { get; set; }
         public string? Type { get; set; }
+        public List<int> Category { get; set; }
     }
 
     public class GetFoodDetailDaoInputDto
