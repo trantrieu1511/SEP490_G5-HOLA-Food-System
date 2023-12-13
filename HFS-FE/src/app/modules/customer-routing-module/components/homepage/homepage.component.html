@@ -58,7 +58,7 @@
     <div class="card">
         <h5>{{'homePageScreen.ShopList' | translate}}</h5>
         <p-dataView #dv [value]="lstShop" [rows]="9" filterBy="shopName" [sortField]="sortField"
-            [sortOrder]="sortOrder" layout="grid">
+            [sortOrder]="sortOrder" layout="grid" [paginator]="true">
             <ng-template pTemplate="header">
                 <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
                     <p-dropdown class="w-full " [options]="sortOptions"
@@ -119,7 +119,7 @@
             </ng-template>
             <p-paginator (onPageChange)="onPageChange($event, 1)" [first]="paging.pageNum" [rows]="paging.pageSize"
                             [totalRecords]="total">
-                        </p-paginator>
+            </p-paginator>
         </p-dataView>
     </div>
 </div>

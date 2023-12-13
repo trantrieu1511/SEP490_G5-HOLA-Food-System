@@ -47,7 +47,7 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   searchOptions : any = "0"
   lstCategory : any[];
   searchCategory : any[]
-  paging : BaseInput
+  paging : BaseInput = new BaseInput();
   total : number
   constructor(private shareData: ShareData,
     public messageService: MessageService,
@@ -63,9 +63,8 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   }
 
   ngOnInit() {
-
     this.paging.pageSize = 9;
-    this.paging.pageNum = 0
+    this.paging.pageNum = 0;
     this.getAllShop();
     this.getHotFoods();
     this.getCategory();
@@ -114,6 +113,7 @@ export class HomepageComponent extends iComponentBase implements OnInit {
 
   async getAllShop() {
     try {
+      debugger
       this.loading = true;
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.HOME, API.API_HOME.DISPLAY_SHOP, this.paging);
       console.log(response)
