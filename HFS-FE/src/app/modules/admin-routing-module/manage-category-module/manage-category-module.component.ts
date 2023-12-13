@@ -24,6 +24,8 @@ export class ManageCategoryModuleComponent extends iComponentBase implements OnI
   displayDialogEditAddCate: boolean = false;
   headerDialog: string = '';
   cateModel: Category = new Category();
+  labelHeader1: string ;
+  labelHeader2: string ;
 
   constructor(
     public breadcrumbService: AppBreadcrumbService,
@@ -36,6 +38,10 @@ export class ManageCategoryModuleComponent extends iComponentBase implements OnI
     private signalRService: DataRealTimeService
   ) {
     super(messageService, breadcrumbService);
+    this.translate.get('categoryScreen').subscribe( (text: any) => {
+      this.labelHeader1 = text.AddNewCategory;  
+      this.labelHeader2 = text.EditCategory;
+    });
   }
   ngOnInit(): void {
     this.getAllCate();
@@ -57,7 +63,8 @@ export class ManageCategoryModuleComponent extends iComponentBase implements OnI
     }
 }
   onCreateCate(){
-    this.headerDialog = 'Add New Category';
+    
+    this.headerDialog = this.labelHeader1;
 
     this.cateModel = new Category();
 
@@ -126,7 +133,7 @@ export class ManageCategoryModuleComponent extends iComponentBase implements OnI
     }
   }
   onUpdateCate(cate:Category) {
-    this.headerDialog = `Edit Category: ${cate.categoryId}`;
+    this.headerDialog = this.labelHeader2 + cate.categoryId;
 
     this.displayDialogEditAddCate=true;
 

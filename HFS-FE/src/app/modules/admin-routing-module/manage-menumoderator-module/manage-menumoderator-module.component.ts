@@ -10,6 +10,7 @@ import { User } from 'src/app/services/auth.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import * as API from "../../../services/apiURL";
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-manage-menumoderator-module',
   templateUrl: './manage-menumoderator-module.component.html',
@@ -21,12 +22,15 @@ export class ManageMenumoderatorModuleComponent extends iComponentBase implement
   displayDialogAdd: boolean = false;
   headerDialog: string = '';
   menuM:MenuModerator=new MenuModerator();
+  labelHeader1:string;
+
   constructor( private shareData: ShareData,
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
+    public translate: TranslateService
   ){
     super(messageService);
 
@@ -113,7 +117,11 @@ try {
    }
 }
 onCreateMM() {
-  this.headerDialog = 'Add New Menu Moderator';
+
+  this.translate.get('menuAdminScreen').subscribe( (text: any) => {
+    this.labelHeader1 = text.AddNewMenuModerator;  
+  });
+  this.headerDialog = this.labelHeader1;
 
   this.menuM = new MenuModerator();
 

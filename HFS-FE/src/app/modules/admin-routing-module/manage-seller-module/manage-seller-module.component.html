@@ -1,13 +1,13 @@
 <div class="grid table-demo">
   <div class="col-12">
       <div class="card">
-          <h5>Seller Management</h5>
+          <h5>{{'sellerAdminScreen.SellerManagement' | translate}}</h5>
 
           <p-table #dt [value]="listSeller" dataKey="id"
                    styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
                    [showCurrentPageReport]="true"
                    [paginator]="listSeller.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
-                   currentPageReportTemplate="Total: {totalRecords} foods"
+                   currentPageReportTemplate="{{'sellerAdminScreen.Total' | translate}}: {totalRecords} {{'sellerAdminScreen.foods' | translate}}"
                    [globalFilterFields]="['firstName','lastName']" responsiveLayout="scroll"
 
           >
@@ -18,7 +18,7 @@
                               <i class="pi pi-search"></i>
                               <input pInputText type="text"  #textInput
                                      (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                     placeholder="Search Name by name"/>
+                                     placeholder="{{'sellerAdminScreen.SearchNamebyname' | translate}}"/>
                           </span>
                       </div>
 
@@ -36,7 +36,7 @@
                       </th> -->
                       <th pSortableColumn="customerId">
                           <div class="flex justify-content-between align-items-center">
-                              ID
+                              {{'sellerAdminScreen.ID' | translate}}
                               <p-sortIcon field="customerId"></p-sortIcon>
                               <p-columnFilter type="numeric" field="customerId" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -44,7 +44,7 @@
                       </th>
                       <th pSortableColumn="shopName">
                           <div class="flex justify-content-between align-items-center">
-                            ShopName
+                            {{'sellerAdminScreen.ShopName' | translate}}
                               <p-sortIcon field="shopName"></p-sortIcon>
                               <p-columnFilter type="text" field="shopName" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -52,7 +52,7 @@
                       </th>
                       <th pSortableColumn="shopAddress">
                           <div class="flex justify-content-between align-items-center">
-                            ShopAddress
+                            {{'sellerAdminScreen.ShopAddress' | translate}}
                               <p-sortIcon field="shopAddress"></p-sortIcon>
                               <p-columnFilter type="text" field="shopAddress" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -60,7 +60,7 @@
                       </th>
                       <th pSortableColumn="email">
                         <div class="flex justify-content-between align-items-center">
-                          Email
+                          {{'sellerAdminScreen.Email' | translate}}
                             <p-sortIcon field="email"></p-sortIcon>
                             <p-columnFilter type="text" field="email" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -84,7 +84,7 @@
                       </th> -->
                       <th pSortableColumn="phoneNumber">
                         <div class="flex justify-content-between align-items-center">
-                          PhoneNumber
+                          {{'sellerAdminScreen.PhoneNumber' | translate}}
                             <p-sortIcon field="phoneNumber"></p-sortIcon>
                             <p-columnFilter type="text" field="phoneNumber" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -100,7 +100,7 @@
                       </th> -->
                       <th pSortableColumn="isVerified">
                         <div class="flex justify-content-between align-items-center">
-                          Verification
+                          {{'sellerAdminScreen.Verification' | translate}}
                             <p-sortIcon field="isVerified"></p-sortIcon>
                             <p-columnFilter type="numeric" field="isVerified" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -108,12 +108,12 @@
                     </th>
                       <th>
                           <div class="flex justify-content-between align-items-center">
-                              Images
+                              {{'sellerAdminScreen.Images' | translate}}
                           </div>
                       </th>
                       <th pSortableColumn="businessCode">
                         <div class="flex justify-content-between align-items-center">
-                          BusinessCode
+                          {{'sellerAdminScreen.BusinessCode' | translate}}
                             <p-sortIcon field="businessCode"></p-sortIcon>
                             <p-columnFilter type="numeric" field="businessCode" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -121,7 +121,7 @@
                     </th>
                       <th pSortableColumn="imagesBase64L">
                         <div class="flex justify-content-between align-items-center">
-                         BusinessLicense
+                         {{'sellerAdminScreen.BusinessLicense' | translate}}
                             <p-sortIcon field="imagesBase64L"></p-sortIcon>
                             <p-columnFilter type="numeric" field="imagesBase64L" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -129,7 +129,7 @@
                     </th>
                       <th>
                         <div class="flex justify-content-between align-items-center">
-                            Ban
+                            {{'sellerAdminScreen.Ban' | translate}}
                         </div>
                     </th>
                        <!-- <th>
@@ -146,7 +146,7 @@
                       <th style="min-width: 8rem">
                           <div
                                class="flex justify-content-between align-items-center">
-                              Action
+                              {{'sellerAdminScreen.Action' | translate}}
                           </div>
                       </th>
                   </tr>
@@ -157,24 +157,24 @@
                           <p-tableCheckbox [value]="post"></p-tableCheckbox>
                       </td> -->
                       <td>
-                          <span class="p-column-title">ID</span>
+                          <span class="p-column-title">{{'sellerAdminScreen.ID' | translate}}</span>
                           <span class="post-id">{{user.sellerId}}</span>
                       </td>
                       <td >
-                        <span class="p-column-title">ShopName</span>
+                        <span class="p-column-title">{{'sellerAdminScreen.ShopName' | translate}}</span>
                         {{user.shopName}}
                       </td>
                         <td >
-                        <span class="p-column-title">ShopAddress</span>
+                        <span class="p-column-title">{{'sellerAdminScreen.ShopAddress' | translate}}</span>
                         {{user.shopAddress}}
                     </td>
                       <td >
-                        <span class="p-column-title">Email</span>
+                        <span class="p-column-title">{{'sellerAdminScreen.Email' | translate}}</span>
                         {{user.email}}
                     </td>
 
                       <td >
-                        <span class="p-column-title">PhoneNumber</span>
+                        <span class="p-column-title">{{'sellerAdminScreen.PhoneNumber' | translate}}</span>
                         {{user.phoneNumber}}
                     </td>
 
@@ -188,30 +188,30 @@
                         </div>
                     </td> -->
                       <td >
-                        <span class="p-column-title">Verification</span>
+                        <span class="p-column-title">{{'sellerAdminScreen.Verification' | translate}}</span>
                         <div *ngIf="user.isVerified" style="color:chartreuse;">
-                          Verified
+                          {{'sellerAdminScreen.Verified' | translate}}
                         </div>
                         <div *ngIf="!user.isVerified"  style="color:red;">
-                          Not verified
+                          {{'sellerAdminScreen.Notverified' | translate}}
                         </div>
                     </td>
 
                       <td>
-                          <span class="p-column-title">Image</span>
+                          <span class="p-column-title">{{'sellerAdminScreen.Images' | translate}}</span>
                           <ng-container *ngIf="user.imagesBase64.length !== 0; else noneImage" >
                             <button pButton pRipple icon="pi pi-images"
                                     (click)="onDisplayImagesDialog(user, $event)"
                                     class="p-button-rounded p-button-text p-button-raised"></button>
                         </ng-container>
-                          <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+                          <ng-template #noneImage ><span class="no-image">{{'sellerAdminScreen.NoImage' | translate}}</span></ng-template>
                       </td>
                       <td >
-                        <span class="p-column-title">businessCode</span>
+                        <span class="p-column-title">{{'sellerAdminScreen.BusinessCode' | translate}}</span>
                         {{user.businessCode}}
                     </td>
                       <td>
-                        <span class="p-column-title">Image</span>
+                        <span class="p-column-title">{{'sellerAdminScreen.Images' | translate}}</span>
                         <ng-container *ngIf="user.imagesBase64L.length !== 0; else noneImage2" >
                           <button pButton pRipple icon="pi pi-images"
                                   (click)="onDisplayImagesDialog2(user, $event)"
@@ -220,12 +220,12 @@
                         <ng-template #noneImage2 ><span class="no-image">No Image</span></ng-template>
                     </td>
                       <td >
-                        <span class="p-column-title">IsBanned</span>
+                        <span class="p-column-title">{{'sellerAdminScreen.IsBanned' | translate}}</span>
                         <div *ngIf="user.isBanned" style="color:red;">
-                         <span class="post-content" (click)="onHistoryBan(user.sellerId)">Ban</span>
+                         <span class="post-content" (click)="onHistoryBan(user.sellerId)">{{'sellerAdminScreen.Ban' | translate}}</span>
                         </div>
                         <div *ngIf="!user.isBanned"  style="color:chartreuse;">
-                          Not Ban
+                          {{'sellerAdminScreen.NotBan' | translate}}
                         </div>
                     </td>
 
@@ -252,7 +252,7 @@
               </ng-template>
               <ng-template pTemplate="emptymessage">
                   <tr>
-                      <td colspan="8">No Seller yet.</td>
+                      <td colspan="8">{{'sellerAdminScreen.emptymessage' | translate}}</td>
                   </tr>
               </ng-template>
           </p-table>
@@ -270,7 +270,7 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Ban Reason</b>
+                        <b>{{'sellerAdminScreen.BanReason' | translate}}</b>
                     </div>
                 </p-divider>
                 <div class="grid">
@@ -290,7 +290,7 @@
                     [(ngModel)]="banseller.reason"
 
                     ></textarea>
-                      <label>Reason*</label>
+                      <label>{{'sellerAdminScreen.Reason' | translate}}*</label>
                   </span>
               </div>
 
@@ -307,19 +307,19 @@
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Save" icon="pi pi-save"
+                <button pButton type="button" label="{{'button.save' | translate}}" icon="pi pi-save"
                         (click)="onSaveBan()"
                         style="width: 100%;"></button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                <button pButton type="button" label="{{'button.cancel' | translate}}" icon="pi pi-times"
                         (click)="onCancelBan()" class="p-button-danger"
                         style="width: 100%;"></button>
             </div>
         </div>
     </ng-template>
 </p-dialog>
-<p-dialog header="List Ban History"
+<p-dialog header="{{'sellerAdminScreen.ListBanHistory' | translate}}"
     [(visible)]="visiblebanHistoryDialog"
     [breakpoints]="{ '960px': '75vw' }"
     [style]="{ width: '50vw' }"
@@ -330,9 +330,9 @@
     <p-table  [value]="listhistoryBan" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="banCustomerId">ID<p-sortIcon field="banCustomerId"></p-sortIcon></th>
-                <th>Reason</th>
-                <th>Create Date</th>
+                <th pSortableColumn="banCustomerId">{{'sellerAdminScreen.ID' | translate}}<p-sortIcon field="banCustomerId"></p-sortIcon></th>
+                <th>{{'sellerAdminScreen.Reason' | translate}}</th>
+                <th>{{'sellerAdminScreen.CreateDate' | translate}}</th>
 
             </tr>
         </ng-template>
@@ -346,7 +346,7 @@
         </ng-template>
     </p-table>
 </p-dialog>
-<p-dialog header="List Image"
+<p-dialog header="{{'sellerAdminScreen.ListImage' | translate}}"
     [(visible)]="visibleImageDialog"
     [breakpoints]="{ '960px': '75vw' }"
     [style]="{ width: '50vw' }"
@@ -357,10 +357,10 @@
     <p-table [value]="sellerImg.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Size</th>
+                <th pSortableColumn="ID">{{'sellerAdminScreen.ID' | translate}}<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>{{'sellerAdminScreen.Images' | translate}}</th>
+                <th>{{'sellerAdminScreen.Name' | translate}}</th>
+                <th>{{'sellerAdminScreen.Size' | translate}}</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-image>
@@ -376,7 +376,7 @@
         </ng-template>
     </p-table>
 </p-dialog>
-<p-dialog header="List Image License"
+<p-dialog header="{{'sellerAdminScreen.ListImageLicense' | translate}}"
     [(visible)]="visibleImageDialog2"
     [breakpoints]="{ '960px': '75vw' }"
     [style]="{ width: '50vw' }"
@@ -387,10 +387,10 @@
     <p-table [value]="sellerImg.imagesBase64L" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Size</th>
+                <th pSortableColumn="ID">{{'sellerAdminScreen.ID' | translate}}<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>{{'sellerAdminScreen.Images' | translate}}</th>
+                <th>{{'sellerAdminScreen.Name' | translate}}</th>
+                <th>{{'sellerAdminScreen.Size' | translate}}</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-image>
@@ -406,7 +406,7 @@
         </ng-template>
     </p-table>
 </p-dialog>
-<p-dialog header="Report detail" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true"
+<p-dialog header="{{'sellerAdminScreen.Reportdetail' | translate}}" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true"
   [modal]="true">
   <!-- <p class="dialog-content-detail">
       {{contentDialog.reportContent}}
@@ -414,68 +414,68 @@
   <table class="table-report-detail">
       <tbody>
           <tr>
-              <th>ShopName: </th>
+              <th>{{'sellerAdminScreen.ShopName' | translate}}: </th>
               <td>
                   {{sellerDetail.shopName}}
               </td>
           </tr>
           <tr>
-              <th>ShopAddress: </th>
+              <th>{{'sellerAdminScreen.ShopAddress' | translate}}: </th>
               <td>
                   {{sellerDetail.shopAddress}}
               </td>
           </tr>
           <tr>
-              <th>PhoneNumber </th>
+              <th>{{'sellerAdminScreen.PhoneNumber' | translate}} </th>
               <td>
                   {{sellerDetail.phoneNumber}}
               </td>
           </tr>
           <tr>
-            <th>Email </th>
+            <th>{{'sellerAdminScreen.Email' | translate}} </th>
             <td>
                 {{sellerDetail.email}}
             </td>
           </tr>
           <tr>
-              <th>Verification </th>
+              <th>{{'sellerAdminScreen.Verification' | translate}} </th>
               <td>
 
                  <div *ngIf="sellerDetail.isVerified===true"  style="color:chartreuse;">
-               	Verified
+               	{{'sellerAdminScreen.Verified' | translate}}
                  </div>
                  <div *ngIf="sellerDetail.isVerified===false"  style="color:red;">
-                 	Not verified
+                 	{{'sellerAdminScreen.Notverified' | translate}}
                  </div>
               </td>
           </tr>
           <tr>
-            <th>ConfirmEmail </th>
+            <th>{{'sellerAdminScreen.ConfirmEmail' | translate}} </th>
             <td>
 
                <div *ngIf="sellerDetail.confirmedEmail===true"  style="color:chartreuse;">
-               Confirmed
+               {{'sellerAdminScreen.Confirmed' | translate}}
                </div>
                <div *ngIf="sellerDetail.confirmedEmail===false"  style="color:red;">
-                Not confirmed yet
+                {{'sellerAdminScreen.Notconfirmedyet' | translate}}
                </div>
             </td>
         </tr>
           <tr>
-            <th>Ban </th>
+            <th>{{'sellerAdminScreen.Ban' | translate}} </th>
             <td>
 
                <div *ngIf="sellerDetail.isBanned===true"  style="color:chartreuse;">
-                Not Ban
+                {{'sellerAdminScreen.NotBan' | translate}}
                </div>
                <div *ngIf="sellerDetail.isBanned===false"  style="color:red;">
-                Ban
+                {{'sellerAdminScreen.Ban' | translate}}
                </div>
             </td>
         </tr>
 
           <tr>
-            <th>Image: </th>
+            <th>{{'sellerAdminScreen.Images' | translate}}: </th>
             <td >
 
                 <button pButton pRipple icon="pi pi-images"
@@ -487,7 +487,7 @@
 
         </tr>
         <tr>
-          <th>Business License: </th>
+          <th>{{'sellerAdminScreen.BusinessLicense' | translate}}: </th>
           <td  *ngIf="sellerDetail.imagesBase64L !== null">
 
               <button pButton pRipple icon="pi pi-images"
