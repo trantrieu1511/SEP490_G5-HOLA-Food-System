@@ -41,7 +41,12 @@ export class WithdrawRequestComponent
     private router: Router,
     public authService: AuthService,
   ) {
-    super(messageService);
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Withdraw Request', routerLink: ['/HFSBusiness/accountant/withdraw-request']}
+    ]);
   }
   
   ngOnInit(): void {

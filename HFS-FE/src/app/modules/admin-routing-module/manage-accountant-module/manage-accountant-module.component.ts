@@ -11,6 +11,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import * as API from "../../../services/apiURL";
 import { AccountantsOutput, MenuModerator, MenuModeratorOutput } from '../models/menuModerator';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 @Component({
   selector: 'app-manage-accountant-module',
   templateUrl: './manage-accountant-module.component.html',
@@ -28,8 +29,14 @@ export class ManageAccountantModuleComponent extends iComponentBase implements O
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
+    public breadcrumbService: AppBreadcrumbService,
   ){
-    super(messageService);
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Accountant Management', routerLink: ['/HFSBusiness/admin/accountant']}
+    ]);
 
   }
 

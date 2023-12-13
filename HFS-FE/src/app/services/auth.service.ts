@@ -64,7 +64,7 @@ export class AuthService {
     )
   }
   loginnotcus(model: any) {
-    debugger
+    
     return this.httpClient.post(this.path + 'home/loginnotcustomer', model).pipe(
       map((res: any) => {
         const token = res;

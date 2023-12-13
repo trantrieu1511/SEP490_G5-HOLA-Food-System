@@ -9,6 +9,7 @@ import * as API from "../../../services/apiURL";
 import { BanShipper, HistoryBanShipper, Shipper } from '../models/Shipper';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 @Component({
   selector: 'app-manage-shipper-module',
   templateUrl: './manage-shipper-module.component.html',
@@ -28,8 +29,14 @@ export class ManageShipperModuleComponent extends iComponentBase implements OnIn
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
+    public breadcrumbService: AppBreadcrumbService,
   ){
-    super(messageService);
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Shipper Management', routerLink: ['/HFSBusiness/admin/shipper-management']}
+    ]);
 
   }
   ngOnInit(): void {

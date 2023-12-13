@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import * as API from "../../../services/apiURL";
 import { Customer } from '../models/Customer';
 import { BanCustomer, HistoryBanCustomer } from '../models/BanCustomer';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 
 @Component({
   selector: 'app-manage-customer-module',
@@ -33,8 +34,14 @@ export class ManageCustomerModuleComponent extends iComponentBase implements OnI
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
+    public breadcrumbService: AppBreadcrumbService,
   ){
-    super(messageService);
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Customer Management', routerLink: ['/HFSBusiness/admin/customer-management']}
+    ]);
 
   }
 

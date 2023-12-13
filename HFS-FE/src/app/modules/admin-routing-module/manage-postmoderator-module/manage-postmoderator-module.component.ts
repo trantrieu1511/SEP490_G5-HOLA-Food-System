@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import * as API from "../../../services/apiURL";
 import { User } from 'src/app/services/auth.service';
 import { PostModerator, PostModeratorOutput } from '../models/PostModerator';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 
 @Component({
   selector: 'app-manage-postmoderator-module',
@@ -29,8 +30,14 @@ export class ManagePostmoderatorModuleComponent extends iComponentBase implement
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
+    public breadcrumbService: AppBreadcrumbService,
   ){
-    super(messageService);
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Post Moderator Management', routerLink: ['/HFSBusiness/admin/post-moderator']}
+    ]);
 
   }
 

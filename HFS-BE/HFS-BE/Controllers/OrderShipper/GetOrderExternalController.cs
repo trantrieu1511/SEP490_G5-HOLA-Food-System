@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.OrderShipper
 {
-    public class OrderExternalController : BaseController
+    public class GetOrderExternalController : BaseController
     {
-        public OrderExternalController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public GetOrderExternalController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
@@ -20,7 +20,7 @@ namespace HFS_BE.Controllers.OrderShipper
         {
             try
             {
-                var busi = this.GetBusinessLogic<OrderExternalBusinessLogic>();
+                var busi = this.GetBusinessLogic<GetOrderExternalBusinessLogic>();
                 return busi.GetAllOrderExternalShipper();
             }
             catch (Exception)

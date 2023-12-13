@@ -1,8 +1,8 @@
 ﻿namespace HFS_BE.Utils.Enum
 {
-    public static class OrderStatusEnum
+    public static class OrderProgressStatusEnum
     {
-        public enum OrderStatus
+        public enum OrderProgressStatus
         {
             Requested = 0,
             Preparing = 1,
@@ -13,23 +13,23 @@
             Cancel = 6,
         }
 
-        public static string GetOrderStatusString(byte? status)
+        public static string GetOrderProgressStatusString(byte? status)
         {
             switch (status)
             {
-                case (int)OrderStatus.Requested:
+                case (int)OrderProgressStatus.Requested:
                     return "Requested";
-                case (int)OrderStatus.Preparing:
+                case (int)OrderProgressStatus.Preparing:
                     return "Preparing";
-                case (int)OrderStatus.Wait_Shipper:
+                case (int)OrderProgressStatus.Wait_Shipper:
                     return "Wait Shipper";
-                case (int)OrderStatus.Shipping:
+                case (int)OrderProgressStatus.Shipping:
                     return "Shipping";
-                case (int)OrderStatus.Completed:
+                case (int)OrderProgressStatus.Completed:
                     return "Completed";
-                case (int)OrderStatus.InCompleted:
+                case (int)OrderProgressStatus.InCompleted:
                     return "InCompleted";
-                case (int)OrderStatus.Cancel:
+                case (int)OrderProgressStatus.Cancel:
                     return "Cancel";
                 default:
                     return "unknown";

@@ -11,9 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace HFS_BE.Controllers.ManagePost
 {
 
-    public class DisplayPostController : BaseController
+    public class GetPostController : BaseController
     {
-        public DisplayPostController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public GetPostController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
@@ -24,7 +24,7 @@ namespace HFS_BE.Controllers.ManagePost
         {
             try
             {
-                var business = this.GetBusinessLogic<DisplayPostBusinessLogic>();
+                var business = this.GetBusinessLogic<GetPostBusinessLogic>();
                 return business.ListPosts(this.GetUserInfor());
                 //return business.ListPosts(new UserDto { UserId = "PM000000001"});
             }

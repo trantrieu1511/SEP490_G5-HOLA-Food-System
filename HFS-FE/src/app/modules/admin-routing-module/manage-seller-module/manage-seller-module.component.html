@@ -203,7 +203,7 @@
                             <button pButton pRipple icon="pi pi-images"
                                     (click)="onDisplayImagesDialog(user, $event)"
                                     class="p-button-rounded p-button-text p-button-raised"></button>
-                        </ng-container>
+                          </ng-container>
                           <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
                       </td>
                       <td >
@@ -478,10 +478,13 @@
             <th>Image: </th>
             <td >
 
-                <button pButton pRipple icon="pi pi-images"
+                
+                <ng-container *ngIf="sellerDetail.imagesBase64 && sellerDetail.imagesBase64.length !== 0; else noneImage1" >
+                  <button pButton pRipple icon="pi pi-images"
                         (click)="onDisplayImagesDialog(sellerDetail, $event)"
                         class="p-button-rounded p-button-text p-button-raised"></button>
-
+                </ng-container>
+                <ng-template #noneImage1 ><span class="no-image">No Image</span></ng-template>
 
             </td>
 

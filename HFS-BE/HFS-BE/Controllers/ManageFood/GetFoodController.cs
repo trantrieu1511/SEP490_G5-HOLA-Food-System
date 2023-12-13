@@ -10,19 +10,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.ManageFood
 {
-    public class DisplayFoodController : BaseController
+    public class GetFoodController : BaseController
     {
-        public DisplayFoodController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public GetFoodController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
         [HttpGet("foods/getFoods")]
         [Authorize]
-        public ListFoodOutputSellerDto DisplayFood()
+        public ListFoodOutputSellerDto GetFood()
         {
             try
             {
-                var business = this.GetBusinessLogic<DisplayFoodBusinessLogic>();
+                var business = this.GetBusinessLogic<GetFoodBusinessLogic>();
 
                 return business.ListFoods(this.GetUserInfor());
             }

@@ -36,6 +36,10 @@ export class ManageCategoryModuleComponent extends iComponentBase implements OnI
     private signalRService: DataRealTimeService
   ) {
     super(messageService, breadcrumbService);
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Category Management', routerLink: ['/HFSBusiness/admin/category-management']}
+    ]);
   }
   ngOnInit(): void {
     this.getAllCate();
