@@ -160,7 +160,8 @@ export class HomepageComponent extends iComponentBase implements OnInit {
     }
 }
 
-onPageChange(event: PageEvent, star: number) {
+onPageChange(event: PageEvent) {
+  debugger
   this.paging.pageNum = event.first;
   this.paging.pageSize = event.rows;
   this.getAllShop();
