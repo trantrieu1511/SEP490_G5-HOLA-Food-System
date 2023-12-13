@@ -224,7 +224,7 @@
                                     <button pButton pRipple icon="pi pi-pencil" (click)="onUpdateFood(food)"
                                         class="p-button-rounded p-mr-2"></button>
                                 </div> -->
-                                <div *ngIf="food.status === 'NotApproved'" class="">
+                                <div *ngIf="food.status === 'NotApproved'" class="" style="margin-bottom: 5px;">
                                     <button pButton pRipple icon="pi pi-check-circle"
                                         (click)="onDisplayFood(food, $event)"
                                         class="p-button-rounded p-button-info"></button>
