@@ -17,6 +17,7 @@ namespace HFS_BE.Dao.ShopDao
     public class DisplayShopDaoOutputDto : BaseOutputDto
     {
         public List<ShopDto> ListShop { get; set; }
+        public int total { get; set; }
     }
 
     public class GetShopDetailDaoOutputDto : BaseOutputDto

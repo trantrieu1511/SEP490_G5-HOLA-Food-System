@@ -22,7 +22,13 @@ import { PresenceService } from 'src/app/services/presence.service';
 import { DataView } from 'primeng/dataview';
 import { AddToCart } from '../../models/addToCart.model';
 import { TranslateService } from '@ngx-translate/core';
-
+import { BaseInput } from '../../models/BaseInput.model';
+interface PageEvent {
+  first?: number;
+  rows?: number;
+  page?: number;
+  pageCount?: number;
+}
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
@@ -41,7 +47,8 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   searchOptions : any = "0"
   lstCategory : any[];
   searchCategory : any[]
-
+  paging : BaseInput
+  total : number
   constructor(private shareData: ShareData,
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -57,6 +64,8 @@ export class HomepageComponent extends iComponentBase implements OnInit {
 
   ngOnInit() {
 
+    this.paging.pageSize = 9;
+    this.paging.pageNum = 0
     this.getAllShop();
     this.getHotFoods();
     this.getCategory();
@@ -106,11 +115,11 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   async getAllShop() {
     try {
       this.loading = true;
-
-      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.HOME, API.API_HOME.DISPLAY_SHOP, null);
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.HOME, API.API_HOME.DISPLAY_SHOP, this.paging);
       console.log(response)
       if (response && response.message === "Success") {
         this.lstShop = response.listShop;
+        this.total = response.total
       }
       this.loading = false;
     } catch (e) {
@@ -149,6 +158,12 @@ export class HomepageComponent extends iComponentBase implements OnInit {
         this.sortOrder = 1;
         this.sortField = value;
     }
+}
+
+onPageChange(event: PageEvent, star: number) {
+  this.paging.pageNum = event.first;
+  this.paging.pageSize = event.rows;
+  this.getAllShop();
 }
 
 onFoodDetail(foodId : number){

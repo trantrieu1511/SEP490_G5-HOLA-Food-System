@@ -379,6 +379,7 @@ namespace HFS_BE.Dao.FoodDao
                     .Include(x => x.FoodImages)
                     .Include(x => x.Category)
                     .Where(x => x.CategoryId.Equals(inputDto.CategoryId) && x.Status == 1)
+                    .Take(12)
                     .ToList();
 
                 var output = this.Output<FoodShopDaoOutputDto>(Constants.ResultCdSuccess);
@@ -439,6 +440,7 @@ namespace HFS_BE.Dao.FoodDao
                     .ToList();
 
                 var listfood = new List<FoodOutputDto>();
+                int total = 0;
                 foreach (var item in data)
                 {
                     int ordered = 0;
@@ -473,6 +475,8 @@ namespace HFS_BE.Dao.FoodDao
                     }
 
                     listfood.Add(food);
+                    total++;
+                    if (total == 12) break;
                 }
 
                 listfood = listfood.OrderByDescending(x => x.NumberOrdered).ThenByDescending(x => x.AverageStar).Take(10).ToList();
@@ -504,7 +508,7 @@ namespace HFS_BE.Dao.FoodDao
                 var listfood = new List<FoodOutputDto>();
                 foreach (var item in data)
                 {
-                    if (string.IsNullOrEmpty(key) || !RemoveAccents(item.Name).Contains(key))
+                    if (!string.IsNullOrEmpty(key) && !RemoveAccents(item.Name).Contains(key))
                     {
                         continue;
                     }
