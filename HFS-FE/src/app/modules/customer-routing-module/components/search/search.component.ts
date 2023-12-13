@@ -45,7 +45,6 @@ export class SearchComponent extends iComponentBase implements OnInit {
   async ngOnInit() {
     debugger
       this._route.queryParams.subscribe(params => {
-      //this.searchCategory = params['category']
       this.searchInput.searchKey = params['key'];
       this.searchText = params['key'];
       this.list = params['category'];
@@ -55,6 +54,7 @@ export class SearchComponent extends iComponentBase implements OnInit {
       this.type = params['type'];
       this.searchOptions = params['type'];
       this.searchInput.type = params['type']
+      this.searchInput.category = this.searchCategory
     })
     await this.getCategory()
     this.onGetSearchData()
