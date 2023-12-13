@@ -9,6 +9,7 @@ import {
 } from 'src/app/modules/shared-module/shared-module';
 import { BanSeller, HistoryBanSeller, Seller } from '../models/Seller';
 import * as API from "../../../services/apiURL";
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-manage-seller-module',
   templateUrl: './manage-seller-module.component.html',
@@ -31,6 +32,7 @@ export class ManageSellerModuleComponent extends iComponentBase implements OnIni
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
+    public translate: TranslateService
   ){
     super(messageService);
 

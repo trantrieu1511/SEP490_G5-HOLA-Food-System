@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
 
 import { ColorLineChart } from 'src/app/utils/colorLineChart';
 import { DashboardSeller } from '../../seller-routing-module/models/dashboard-seller.model';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-dashboad-admin-module',
   templateUrl: './dashboad-admin-module.component.html',
@@ -28,10 +29,15 @@ export class DashboadAdminModuleComponent extends iComponentBase implements OnIn
   currentDate: Date = new Date();
   isDisplayChart: boolean = false;
 
+  Seller:string;
+  Customer:string;
+  Shipper:string;
+
   constructor(
     private datePipe: DatePipe,
     public messageService: MessageService,
     private iServiceBase: iServiceBase,
+    public translate: TranslateService
   ) {
     super(messageService);
     this.rangeDates = [];
@@ -183,6 +189,12 @@ export class DashboadAdminModuleComponent extends iComponentBase implements OnIn
       API.API_DASHBOARD.DASHBOARD_ADMINLINE,
       param2
     );
+
+    this.translate.get('dashboardScreen').subscribe( (text: any) => {
+      this.Seller = text.Seller;
+      this.Shipper = text.Shipper;
+      this.Customer = text.Customer;
+    });
     console.log(response);
     const seller = response.filter(item => item.user === 'Seller').map(item => item.data);
     const cus = response.filter(item => item.user === 'Customer').map(item => item.data);
@@ -191,14 +203,14 @@ export class DashboadAdminModuleComponent extends iComponentBase implements OnIn
       labels: dateList.map(item => item),
       datasets: [
         {
-          label: 'Seller',
+          label: this.Seller,
           data: seller,
           fill: false,
           tension: 0.4,
           borderColor: documentStyle.getPropertyValue('--blue-500')
         },
         {
-          label: 'Shipper',
+          label: this.Shipper,
           data: shipper,
           fill: false,
           borderDash: [5, 5],
@@ -206,7 +218,7 @@ export class DashboadAdminModuleComponent extends iComponentBase implements OnIn
           borderColor: documentStyle.getPropertyValue('--teal-500')
         },
         {
-          label: 'Customer',
+          label: this.Customer,
           data: cus,
           fill: true,
           borderColor: documentStyle.getPropertyValue('--orange-500'),
