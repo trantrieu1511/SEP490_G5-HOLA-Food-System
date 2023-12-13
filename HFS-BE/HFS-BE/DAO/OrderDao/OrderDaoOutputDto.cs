@@ -96,6 +96,7 @@ namespace HFS_BE.Dao.OrderDao
         public int? VoucherId { get; set; }
         public decimal DiscountAmount { get; set; }
         public string PaymentMethod { get; set; }
+        public int Status { get; set; }
         public decimal? TotalPrice { get; set; }
         public List<DetailProgress>? OrderProgresses { get; set; }
         public List<OrderDetailFoodDto>? OrderDetails { get; set; }

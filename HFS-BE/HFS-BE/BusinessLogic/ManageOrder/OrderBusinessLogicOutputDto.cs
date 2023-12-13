@@ -19,6 +19,7 @@ namespace HFS_BE.BusinessLogic.ManageOrder
         public int? VoucherId { get; set; }
         public decimal DiscountAmount { get; set; }
         public string PaymentMethod { get; set; }
+        public string? ShippingType { get; set; }
         public decimal? TotalPrice { get; set; }
         public List<DetailProgress>? OrderProgresses { get; set; }
         public List<OrderDetailFoodBLDto>? OrderDetails { get; set; }

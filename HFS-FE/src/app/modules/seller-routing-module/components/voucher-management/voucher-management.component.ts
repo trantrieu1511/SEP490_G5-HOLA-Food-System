@@ -44,7 +44,10 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
   ) {
     super(messageService, breadcrumbService);
 
-    
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Voucher Management', routerLink: ['/HFSBusiness/seller/voucher-management']}
+    ]);
   }
   ngOnInit(): void {
     this.userId = this.authService.getUserInfor().userId;

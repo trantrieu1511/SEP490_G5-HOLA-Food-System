@@ -45,7 +45,7 @@ export class LoadingInterceptor implements HttpInterceptor {
             catchError(err => {
                 
                 if (err.status === 401) {
-                    debugger
+                    
                     // Handle error 401 here
                     // You can redirect to a login page or perform any other necessary actions
                     console.log('Error 401 occurred');

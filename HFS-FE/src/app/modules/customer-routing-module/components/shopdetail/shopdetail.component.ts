@@ -331,7 +331,7 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
     console.log("uploadFiles", this.uploadedFiles);
   }
   onOpenMap(){
-    debugger
+    
     this.displayMap = true;
     this.geocodeAddress();
   }
@@ -364,7 +364,7 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
     }
   }
   initMap(latitude: number, longitude: number) {
-    debugger
+    
     const map = new google.maps.Map(document.getElementById('map'), {
       center: { lat: latitude, lng: longitude },
       zoom: 12

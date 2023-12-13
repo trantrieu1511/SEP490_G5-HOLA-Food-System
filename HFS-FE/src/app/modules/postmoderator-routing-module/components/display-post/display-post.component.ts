@@ -65,6 +65,10 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
     private authService: AuthService
   ) {
     super(messageService, breadcrumbService);
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Post Management', routerLink: ['/HFSBusiness/post-management']}
+    ]);
   }
 
   // Not allow the user to access the page if they are not post moderator

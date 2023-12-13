@@ -9,6 +9,7 @@ import {
 } from 'src/app/modules/shared-module/shared-module';
 import { BanSeller, HistoryBanSeller, Seller } from '../models/Seller';
 import * as API from "../../../services/apiURL";
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-manage-seller-module',
@@ -32,9 +33,15 @@ export class ManageSellerModuleComponent extends iComponentBase implements OnIni
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
+    public breadcrumbService: AppBreadcrumbService,
     public translate: TranslateService
   ){
-    super(messageService);
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Seller Management', routerLink: ['/HFSBusiness/admin/seller-management']}
+    ]);
 
   }
   ngOnInit(): void {
@@ -43,7 +50,7 @@ this.getAllSeller();
 
   async getAllSeller() {
     this.listSeller = [];
- debugger
+ 
     try {
 
 
@@ -146,5 +153,7 @@ console.log(this.banseller);
   Detail(s:Seller,event){
     this.visibleContentDialog=true;
     this.sellerDetail=s;
+
+    //console.log(this.sellerDetail.imagesBase64)
   }
 }

@@ -20,9 +20,6 @@ import { AppTopBarComponent } from 'src/app/app-systems/app-topbar/app.topbar.co
 import { AppFooterComponent } from 'src/app/app-systems/app-footer/app.footer.component';
 import { AppMenuComponent } from 'src/app/app-systems/app-menu/app-menu.component';
 import { AppMenuitemComponent } from 'src/app/app-systems/app-menuitem/app.menuitem.component';
-import { MapBoxComponent } from './components/map-box/map-box.component';
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
-import { environment } from 'src/environments/environment';
 
 
 @NgModule({
@@ -34,9 +31,7 @@ import { environment } from 'src/environments/environment';
     ReactiveFormsModule,
     StyleClassModule,
     TranslateModule,
-    NgxMapboxGLModule.withConfig({
-        accessToken: environment.mapTokenKey, // Optional, can also be set per map (accessToken input of mgl-map)
-    })
+
   ],
   providers: [
       iServiceBase,
@@ -58,7 +53,6 @@ import { environment } from 'src/environments/environment';
       AppFooterComponent,
       AppMenuComponent,
       AppMenuitemComponent,
-      MapBoxComponent,
 
   ],
   exports: [
@@ -74,8 +68,6 @@ import { environment } from 'src/environments/environment';
       AppFooterComponent,
       AppMenuComponent,
       AppMenuitemComponent,
-      NgxMapboxGLModule,
-      MapBoxComponent
 
   ],
 })

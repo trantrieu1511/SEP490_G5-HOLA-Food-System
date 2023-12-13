@@ -19,9 +19,10 @@
         (activeItemChange)="onChangeTab($event)"
         [model]="items"
         [activeItem]="activeItem"
+        [scrollable]="true"
       >
         <ng-template
-          [scrollable]="true"
+          
           class="flex flex-row flex-wrap"
           pTemplate="item"
           let-item
@@ -105,7 +106,7 @@
             <td>{{ order.orderId }}</td>
             <td>{{ order.customerName }}</td>
             <td>
-              {{'orderSellerScreen.phone' | translate}}: <a href="tel:+{{ order.customerPhone }}">{{ order.customerPhone }}</a> 
+              {{'orderSellerScreen.phone' | translate}}: <a href="tel:{{ order.customerPhone }}">{{ order.customerPhone }}</a> 
               <br/>
               {{'orderSellerScreen.address' | translate}}: {{ order.shipAddress }}
               <span class="pi pi-map" (click)="onClickMap(order)" style="cursor: pointer;"></span>
@@ -126,7 +127,9 @@
                 </ng-template>
               </ng-container>
               <ng-container *jrSwitchCases="['3', '4', '5']">
-                <td>{{ order.shipperId }}</td>
+                <td>{{ order.shipperId }}
+                  <p-tag [value]="order.shippingType" [severity]="getSeverity(order.shippingType)"></p-tag>
+                </td>
               </ng-container>
               <ng-container *ngSwitchDefault></ng-container>
             </ng-container>
@@ -413,7 +416,6 @@
           <ng-template pTemplate="header">
             <tr>
               <th>{{'orderSellerScreen.shipperId' | translate}}</th>
-              <th>{{'orderSellerScreen.avatar' | translate}}</th>
               <th>{{'orderSellerScreen.name' | translate}}</th>
               <th>{{'orderSellerScreen.gender' | translate}}</th>
               <th>{{'orderSellerScreen.birthDate' | translate}}</th>
@@ -424,14 +426,14 @@
           <ng-template pTemplate="body" let-shipper>
             <tr [pSelectableRow]="shipper">
               <td>{{ shipper.shipperId }}</td>
-              <td>
+              <!-- <td>
                 <img
                   src="data:image/gif;base64,{{ shipper.avatarBase64 }}"
                   [alt]="shipper.shipperId"
                   width="10rem"
                   class="shadow-4"
                 />
-              </td>
+              </td> -->
               <td>{{ shipper.shipperName }}</td>
               <td>{{ shipper.gender }}</td>
               <td>{{ shipper.birthDate }}</td>
@@ -541,25 +543,6 @@
   </div>
 </p-dialog>
 
-<p-dialog
-  [header]="headerDialog"
-  [(visible)]="visibleMapBox"
-  [breakpoints]="{ '960px': '75vw' }"
-  [style]="{ width: '50vw' }"
-  [draggable]="false"
-  [resizable]="false"
-  [maximizable]="true"
->
-  <div class="grid p-fluid">
-    <div class="col-12 md:col-12">
-      <div class="card">
-        <div class="grid">
-          <app-map-box></app-map-box>
-        </div>
-      </div>
-    </div>
-  </div>
-</p-dialog>
 <p-dialog header="Map" [(visible)]="visibleMapBox" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
   [draggable]="false" [resizable]="false" [maximizable]="true">
   <div id="map" style="height: 500px;"></div>

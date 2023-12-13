@@ -184,7 +184,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
 
   async getProfileInfo() {
     try {
-      // debugger
+      // 
       //
       // const params = {
       //   userId: sessionStorage.getItem("userId")

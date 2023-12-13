@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
 
 import { ColorLineChart } from 'src/app/utils/colorLineChart';
 import { DashboardSeller } from '../../seller-routing-module/models/dashboard-seller.model';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-dashboad-admin-module',
@@ -37,9 +38,15 @@ export class DashboadAdminModuleComponent extends iComponentBase implements OnIn
     private datePipe: DatePipe,
     public messageService: MessageService,
     private iServiceBase: iServiceBase,
+    public breadcrumbService: AppBreadcrumbService,
     public translate: TranslateService
   ) {
-    super(messageService);
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Dashboard', routerLink: ['/HFSBusiness/admin/dashboard']}
+    ]);
     this.rangeDates = [];
     this.rangeDates[0] = this.rangeDates[1] = new Date();
   }
