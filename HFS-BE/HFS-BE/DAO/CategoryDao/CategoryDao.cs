@@ -115,6 +115,24 @@ namespace HFS_BE.DAO.CategoryDao
             }
         }
 
+        public ListcategoryOutptuDto GetCategoryCustomer()
+        {
+            try
+            {
+                var data = context.Categories.Where(x => x.Status == 1).ToList();
+                if (data == null)
+                {
+                    return this.Output<ListcategoryOutptuDto>(Constants.ResultCdFail);
+                }
+                var output = this.Output<ListcategoryOutptuDto>(Constants.ResultCdSuccess);
+                output.ListCategory = mapper.Map<List<Category>, List<GetCategoryOutputDto>>(data);
+                return output;
+            }
+            catch (Exception)
+            {
 
+                return this.Output<ListcategoryOutptuDto>(Constants.ResultCdFail);
+            }
+        }
     }
 }

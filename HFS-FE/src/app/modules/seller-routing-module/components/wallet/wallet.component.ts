@@ -49,8 +49,26 @@ export class WalletComponentSeller
     private router: Router,
     public translate: TranslateService
   ) {
-    super(messageService);
+    super(messageService, breadcrumbService);
+
+    this.tabs = [
+      { label:  "All", id: '0'},
+      { label:  "Waiting", id: '1'},
+      { label:  "Success", id: '2'},
+      { label:  "Cancel", id: '3'},
+      { label:  "MoneyIn", id: '4'},
+      { label:  "MoneyOut", id: '5'},
+    ];
+
+    this.activeItem = this.tabs[0];
+
+
     this.initTabMenuitem();
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Wallet Management', routerLink: ['/HFSBusiness/seller/wallet']}
+    ]);
   }
 
   ngOnInit(): void {
@@ -64,7 +82,7 @@ export class WalletComponentSeller
 
       this.tabs = [
         { label:  text.All, id: '0'},
-        { label:  text.Waitting, id: '1'},
+        { label:  text.Waiting, id: '1'},
         { label:  text.Success, id: '2'},
         { label:  text.cancel, id: '3'},
         { label:  text.MoneyIn, id: '4'},
@@ -223,7 +241,7 @@ export class WalletComponentSeller
 
   async onSendRequest() {
     try {
-      debugger
+      
       if (this.withDrawRequestInput.code.trim().length === 0){
         this.showMessage(mType.warn, "Notification", "Code is required! Send code and check your mail!", 'notify');
         return

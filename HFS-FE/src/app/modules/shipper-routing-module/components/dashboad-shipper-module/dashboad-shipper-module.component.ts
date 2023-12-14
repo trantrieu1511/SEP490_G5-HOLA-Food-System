@@ -9,6 +9,7 @@ import { DashboardSeller } from 'src/app/modules/seller-routing-module/models/da
 import { MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { ColorLineChart } from 'src/app/utils/colorLineChart';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 @Component({
   selector: 'app-dashboad-shipper-module',
   templateUrl: './dashboad-shipper-module.component.html',
@@ -28,8 +29,15 @@ export class DashboadShipperModuleComponent extends iComponentBase implements On
     private datePipe: DatePipe,
     public messageService: MessageService,
     private iServiceBase: iServiceBase,
+    public breadcrumbService: AppBreadcrumbService,
   ){
-    super(messageService);
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Dashboard', routerLink: ['/HFSBusiness/shipper/dashboad']}
+    ]);
+
     this.rangeDates = [];
     this.rangeDates[0] = this.rangeDates[1] = new Date();
 

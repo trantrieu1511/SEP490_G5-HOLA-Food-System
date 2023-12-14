@@ -8,7 +8,7 @@ namespace HFS_BE.Utils.CustomValidation
     {
         public override bool IsValid(object value)
         {
-            var statusStr = OrderStatusEnum.GetOrderStatusString((byte)value);
+            var statusStr = OrderProgressStatusEnum.GetOrderProgressStatusString((byte)value);
             if (!statusStr.Equals("unknown"))
             {
                 return true;

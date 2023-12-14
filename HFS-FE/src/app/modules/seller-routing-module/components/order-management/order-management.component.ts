@@ -110,14 +110,27 @@ export class OrderManagementComponent
     this.rangeDates = [];
     this.rangeDates[0] = this.rangeDates[1] = new Date();
 
-    this.initTabMenuitem();
+    this.items = [
+      { label:  "Requested", id: '0'},
+      { label:  "Preparing", id: '1'},
+      { label:  "Wait Shipper", id: '2'},
+      { label:  "Shipping", id: '3'},
+      { label:  "InCompleted", id: '4'},
+      { label:  "Completed", id: '5'},
+      { label:  "Cancel", id: '6'},
+    ];
+
+    this.activeItem = this.items[0];
+
+    
   }
 
-  async ngOnInit() {
-    debugger
-    await this.getAllOrders();
-
-    await this.connectSignalR();
+  ngOnInit() {
+    this.initTabMenuitem();
+    
+    this.getAllOrders();
+    
+    this.connectSignalR();
     
     this.showCurrentPageReport = true;
   }
@@ -178,9 +191,9 @@ export class OrderManagementComponent
 
   async getAllOrders() {
     this.lstOrders = [];
-    debugger
+    
     try {
-      debugger
+      
       this.loading = true;
       if(this.rangeDates){
         this.orderParamInput.dateFrom = this.datePipe.transform(this.rangeDates[0], "yyyy-MM-dd");
@@ -200,7 +213,7 @@ export class OrderManagementComponent
 
       if (response && response.message === 'Success') {
         this.lstOrders = response.orders;
-        //console.log(this.lstOrders);
+        console.log("day", this.lstOrders[0].orderId);
       }
       this.loading = false;
     } catch (e) {
@@ -365,7 +378,7 @@ export class OrderManagementComponent
       accept: () => {
          document.body.style.cursor = 'wait';
          //confirm action
-        this.commissionExternalShipper();
+        this.commissionExternalShipper(order);
       },
       reject: () => {
         //reject action
@@ -446,11 +459,9 @@ export class OrderManagementComponent
   }
 
   
-  async commissionExternalShipper() {
-    const orderId = this.orderPreparingSelected.orderId;
-
+  async commissionExternalShipper(order: Order) {
     const param: OrderExternalInput = new OrderExternalInput(
-      orderId
+      order.orderId
     );
     let response = await this.iServiceBase.postDataAsync(
       API.PHAN_HE.ORDER,
@@ -463,7 +474,7 @@ export class OrderManagementComponent
       this.showMessage(
         mType.success,
         'Notification',
-        `Commission external shipper to orderId: ${orderId} successfully`,
+        `Commission external shipper to orderId: ${order.orderId} successfully`,
         'notify'
       );
 
@@ -491,9 +502,9 @@ export class OrderManagementComponent
   }
   
   onOpenMap(address : string){
-    debugger
+    
     this.displayMap = true;
-    this.geocodeAddress(address);
+    //this.geocodeAddress(address);
   }
 
   async geocodeAddress(address : string) {
@@ -524,7 +535,7 @@ export class OrderManagementComponent
     }
   }
   initMap(latitude: number, longitude: number) {
-    debugger
+    
     const map = new google.maps.Map(document.getElementById('map'), {
       center: { lat: latitude, lng: longitude },
       zoom: 12
@@ -565,5 +576,16 @@ export class OrderManagementComponent
         console.error('Error getting user location:', error);
       }
     );
+  }
+
+  getSeverity(status: string) {
+    switch (status) {
+      case 'External':
+        return 'success';
+      case 'Internal':
+        return 'secondary';
+      default:
+        return 'error';
+    }
   }
 }

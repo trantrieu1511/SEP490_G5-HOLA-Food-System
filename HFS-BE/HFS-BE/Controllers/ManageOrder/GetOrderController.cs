@@ -8,19 +8,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HFS_BE.Controllers.ManageOrder
 {
-    public class DisplayOrderController : BaseController
+    public class GetOrderController : BaseController
     {
-        public DisplayOrderController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public GetOrderController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 
         [HttpPost("orders/getOrdersSeller")]
         [Authorize]
-        public OrderSellerDaoOutputDto DisplayOrderSeller(OrderSellerByStatusInputDto inputDto)
+        public OrderSellerDaoOutputDto GetOrderSeller(OrderSellerByStatusInputDto inputDto)
         {
             try
             {
-                var business = this.GetBusinessLogic<DisplayOrderBusinessLogic>();
+                var business = this.GetBusinessLogic<GetOrderBusinessLogic>();
                 Dao.OrderDao.OrderSellerByStatusInputDto inputBL = new Dao.OrderDao.OrderSellerByStatusInputDto
                 {
                     Status = inputDto.Status,

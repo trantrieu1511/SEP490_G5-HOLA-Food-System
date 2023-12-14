@@ -82,9 +82,22 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
     private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase, private authService: AuthService,
     private signalRService: DataRealTimeService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    public breadcrumbService: AppBreadcrumbService,
   ) {
-    super(messageService);
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Order Management', routerLink: ['/HFSBusiness/order-management']}
+    ]);
+
+    this.items = [
+      { label: "Request", id: '0' },
+      { label: "Shipping", id: '1' },
+    ];
+
+    this.activeItem = this.items[0];
     
     this.initTabMenuitem();
 
@@ -103,7 +116,7 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
 
       this.activeItem = this.items[0];
       this.userId = this.authService.getUserInfor().userId;
-      this.getAllOrder();
+      
     });
   }
 
@@ -112,9 +125,9 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
   }
 
   async ngOnInit() {
-     
-    await this.getAllInvitionbyshipper();
-    await this.connectSignalR();
+    this.getAllOrder();
+    this.getAllInvitionbyshipper();
+    this.connectSignalR();
     
    // await this.getAllInvitionbyshipper();
     this.showCurrentPageReport = true;
@@ -198,7 +211,7 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
   }
 
   async getAllInvitionbyshipper() {
-    debugger
+    
     this.listinvitationbyshipper = [];
     try {
       this.loading = true;
@@ -362,7 +375,7 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
   }
 
   onOpenMap(address : string){
-    debugger
+    
     this.visibleMapBox = true;
     this.geocodeAddress(address);
   }
@@ -394,8 +407,9 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
       this.locationResult = 'Geolocation is not supported by this browser.';
     }
   }
+  userlocal : any
   initMap(latitude: number, longitude: number) {
-    debugger
+    
     const map = new google.maps.Map(document.getElementById('map'), {
       center: { lat: latitude, lng: longitude },
       zoom: 12
@@ -409,12 +423,12 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
     /// chỉ đường
     const directionsService = new google.maps.DirectionsService();
     const directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
-
+   
     // Lấy vị trí hiện tại của người dùng
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
+        this.userlocal = userLocation
         // Đặt các tham số để lấy chỉ đường từ vị trí hiện tại đến điểm cần đến
         const request = {
           origin: userLocation,
@@ -436,6 +450,12 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
         console.error('Error getting user location:', error);
       }
     );
+
+    map.addListener('click', () => {
+      // Tạo URL cho Google Maps và mở trình duyệt
+      const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${this.userlocal}&destination=${latitude},${longitude}&travelmode=driving`;
+      window.open(googleMapsUrl, '_blank');
+    });
   }
 }
 

@@ -113,5 +113,19 @@ namespace HFS_BE.DAO.OrderProgressDao
             return context.OrderProgresses.Where(x => x.OrderId == orderId).ToList();
         }
 
+        public BaseOutputDto AddNewOrderProgress(OrderProgress orderProgress)
+        {
+            try
+            {
+                context.OrderProgresses.Add(orderProgress);
+                context.SaveChanges();
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+                return Output<BaseOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
     }
 }

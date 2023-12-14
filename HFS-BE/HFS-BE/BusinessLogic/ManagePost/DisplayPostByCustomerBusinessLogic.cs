@@ -16,16 +16,10 @@ namespace HFS_BE.BusinessLogic.ManagePost
         {
             try
             {
-          
-        
+
+
                 var Dao = this.CreateDao<PostDao>();
-
-
-               var dao = Dao.ListPostsByCustomer( input);
-
-          
-
-                
+                var dao = Dao.ListPostsByCustomer(input);
                 var output = mapper.Map<Dao.PostDao.ListPostByCustomerOutputDto, ListPostOutputCustomerDto>(dao);
 
                 foreach (var post in dao.Posts)
@@ -39,9 +33,9 @@ namespace HFS_BE.BusinessLogic.ManagePost
                         ImageFileConvert.ImageOutputDto? imageInfor = null;
                         // convert to base64
                         // post moderator case
-                      
-                            imageInfor = ImageFileConvert.ConvertFileToBase64(post.SellerId, img.Path, 0);
-                       
+
+                        imageInfor = ImageFileConvert.ConvertFileToBase64(post.SellerId, img.Path, 0);
+
                         if (imageInfor == null)
                             continue;
 

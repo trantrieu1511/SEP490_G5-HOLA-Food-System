@@ -22,7 +22,13 @@ import { PresenceService } from 'src/app/services/presence.service';
 import { DataView } from 'primeng/dataview';
 import { AddToCart } from '../../models/addToCart.model';
 import { TranslateService } from '@ngx-translate/core';
-
+import { BaseInput } from '../../models/BaseInput.model';
+interface PageEvent {
+  first?: number;
+  rows?: number;
+  page?: number;
+  pageCount?: number;
+}
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
@@ -31,6 +37,8 @@ import { TranslateService } from '@ngx-translate/core';
 export class HomepageComponent extends iComponentBase implements OnInit {
   @ViewChild('dt') table: Table;
 
+  first : number = 0;
+  row : number = 9;
   loading: boolean;
   lstShop: any[];
   hotfoods : any[]
@@ -39,7 +47,10 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   sortField: string;
   searchText : string;
   searchOptions : any = "0"
-
+  lstCategory : any[];
+  searchCategory : any[]
+  paging : BaseInput = new BaseInput();
+  total : number
   constructor(private shareData: ShareData,
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -54,9 +65,11 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   }
 
   ngOnInit() {
-
+    this.paging.pageSize = this.row;
+    this.paging.pageNum = this.first;
     this.getAllShop();
     this.getHotFoods();
+    this.getCategory();
    // this.setCurrentUser();
    this.translate.get('homePageScreen').subscribe( (text: any) => {
 
@@ -83,14 +96,32 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   //     this.presence.createHubConnection(token);
   //   }
   // }
-  async getAllShop() {
+
+  async getCategory() {
     try {
       this.loading = true;
 
-      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.HOME, API.API_HOME.DISPLAY_SHOP, null);
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.HOME, API.API_HOME.GET_CATEGORY, null);
+      console.log(response)
+      if (response && response.message === "Success") {
+        this.lstCategory = response.listCategory;
+      }
+      this.loading = false;
+    } catch (e) {
+      console.log(e);
+      this.loading = false;
+    }
+  }
+
+  async getAllShop() {
+    try {
+      debugger
+      this.loading = true;
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.HOME, API.API_HOME.DISPLAY_SHOP, this.paging);
       console.log(response)
       if (response && response.message === "Success") {
         this.lstShop = response.listShop;
+        this.total = response.total
       }
       this.loading = false;
     } catch (e) {
@@ -116,12 +147,7 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   }
 
   onShopDetail(shop: Shop) {
-    //console.log(shop);
-    this.dataService.setData(shop);
-    // this._router.navigate(['/shopdetail']);
     this._router.navigate(['/shopdetail'], { queryParams: { shopid: shop.userId } });
-    //this._router.navigate(['/shopdetail'], { queryParams: { shopInfor: shop} });
-    //this._router.navigate(['/shopdetail/'+ shop ]);
   }
 
   onSortChange(event: any) {
@@ -136,14 +162,22 @@ export class HomepageComponent extends iComponentBase implements OnInit {
     }
 }
 
+onPageChange(event: PageEvent) {
+  debugger
+  this.paging.pageNum = event.page;
+  this.paging.pageSize = event.rows;
+  this.getAllShop();
+}
+
 onFoodDetail(foodId : number){
   this._router.navigate(['/fooddetail'], { queryParams: { foodId: foodId } });
 }
 
 onSearch(){
-  if (this.searchText.length > 0){
-    this._router.navigate(['/search'], { queryParams: { key: this.searchText, type : this.searchOptions } });
+  if (this.searchOptions === "1") {
+    this.searchCategory = []
   }
+    this._router.navigate(['/search'], { queryParams: { key: this.searchText, type : this.searchOptions,category : this.searchCategory } });
 }
 
 onFilter(dv: DataView, event: Event) {

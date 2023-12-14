@@ -74,12 +74,12 @@ namespace HFS_BE.BusinessLogic.Dashboard.Postmoderator
                 //set statistics
 
                 output.TotalApprovedPostReports = postReportList.PostReports
-                    .Where(pr => pr.UpdateDate.Value.Date >= inputDto.DateFrom
+                    .Where(pr => pr.UpdateDate != null && pr.UpdateDate.Value.Date >= inputDto.DateFrom
                     && pr.UpdateDate.Value.Date <= inputDto.DateEnd
                     && pr.Status == 1)
                     .Count();
                 output.TotalNotApprovedPostReports = postReportList.PostReports
-                    .Where(pr => pr.UpdateDate.Value.Date >= inputDto.DateFrom
+                    .Where(pr => pr.UpdateDate != null && pr.UpdateDate.Value.Date >= inputDto.DateFrom
                     && pr.UpdateDate.Value.Date <= inputDto.DateEnd
                     && pr.Status == 2)
                     .Count();
@@ -159,13 +159,13 @@ namespace HFS_BE.BusinessLogic.Dashboard.Postmoderator
                     && pr.Status == 0)
                     .Count();
                 output.TotalApprovedPostReports = postReportList.PostReports
-                    .Where(pr => pr.CreateDate.Date >= inputDto.DateFrom
-                    && pr.CreateDate.Date <= inputDto.DateEnd
+                    .Where(pr => pr.UpdateDate != null && pr.UpdateDate.Value.Date >= inputDto.DateFrom
+                    && pr.UpdateDate.Value.Date <= inputDto.DateEnd
                     && pr.Status == 1)
                     .Count();
                 output.TotalNotApprovedPostReports = postReportList.PostReports
-                    .Where(pr => pr.CreateDate.Date >= inputDto.DateFrom
-                    && pr.CreateDate.Date <= inputDto.DateEnd
+                    .Where(pr => pr.UpdateDate != null && pr.UpdateDate.Value.Date >= inputDto.DateFrom
+                    && pr.UpdateDate.Value.Date <= inputDto.DateEnd
                     && pr.Status == 2)
                     .Count();
 

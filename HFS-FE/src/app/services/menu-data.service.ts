@@ -1,7 +1,23 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class MenuDataService {
+
+  dashboard: string
+  notification: string
+  orderManagement: string
+
+
+  constructor(public translate: TranslateService){
+    // this.translate.get('menuLabel').subscribe( (text: any) => {
+    //   this.dashboard = text.dashboard
+
+    // });
+
+  
+  }
+
   menusSeller() {
     return [
       {
@@ -10,8 +26,8 @@ export class MenuDataService {
         items: [
           {
             label: 'Dashboard',
-            icon: 'pi pi-fw pi-home',
-            routerLink: ['/HFSBusiness'],
+            icon: 'pi pi-fw pi-chart-line',
+            routerLink: ['/HFSBusiness/seller/dashboard'],
             badgeClass: 'p-badge-info',
           },
           {
@@ -59,7 +75,7 @@ export class MenuDataService {
           },
           {
             label: 'Feedback Management',
-            icon: 'pi pi-fw pi-dollar',
+            icon: 'pi pi-fw pi-comments',
             routerLink: ['/HFSBusiness/seller/reply'],
             badgeClass: 'p-badge-success',
           },
@@ -95,7 +111,7 @@ export class MenuDataService {
         items: [
           {
             label: 'Dashboard',
-            icon: 'pi pi-fw pi-home',
+            icon: 'pi pi-fw pi-chart-line',
             routerLink: ['/HFSBusiness/admin/dashboard'],
             badgeClass: 'p-badge-info',
           },
@@ -170,7 +186,7 @@ export class MenuDataService {
         items: [
           {
             label: 'Dashboard',
-            icon: 'pi pi-fw pi-home',
+            icon: 'pi pi-fw pi-chart-line',
             routerLink: ['/HFSBusiness/shipper/dashboad'],
             badgeClass: 'p-badge-info',
           },
@@ -205,7 +221,7 @@ export class MenuDataService {
         items: [
           {
             label: 'Dashboard',
-            icon: 'pi pi-fw pi-home',
+            icon: 'pi pi-fw pi-chart-line',
             routerLink: ['/HFSBusiness/postmoderator/dashboard'],
             badgeClass: 'p-badge-info',
           },
@@ -240,7 +256,7 @@ export class MenuDataService {
         items: [
           {
             label: 'Dashboard',
-            icon: 'pi pi-fw pi-home',
+            icon: 'pi pi-fw pi-chart-line',
             routerLink: ['/HFSBusiness/menumoderator/dashboard'],
             badgeClass: 'p-badge-info',
           },
@@ -275,7 +291,7 @@ export class MenuDataService {
         items: [
           {
             label: 'Dashboard',
-            icon: 'pi pi-fw pi-home',
+            icon: 'pi pi-fw pi-chart-line',
             routerLink: ['/HFSBusiness/accountant/dashboard'],
             badgeClass: 'p-badge-info',
           },

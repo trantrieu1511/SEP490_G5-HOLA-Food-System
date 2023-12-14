@@ -7,9 +7,9 @@ using HFS_BE.Utils.IOFile;
 
 namespace HFS_BE.BusinessLogic.ManagePost
 {
-    public class DisplayPostBusinessLogic : BaseBusinessLogic
+    public class GetPostBusinessLogic : BaseBusinessLogic
     {
-        public DisplayPostBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public GetPostBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

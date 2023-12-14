@@ -10,9 +10,9 @@ using HFS_BE.Utils.IOFile;
 
 namespace HFS_BE.BusinessLogic.ManageFood
 {
-    public class DisplayFoodBusinessLogic : BaseBusinessLogic
+    public class GetFoodBusinessLogic : BaseBusinessLogic
     {
-        public DisplayFoodBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public GetFoodBusinessLogic(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
 

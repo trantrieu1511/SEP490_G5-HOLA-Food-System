@@ -12,6 +12,7 @@ namespace HFS_BE.Dao.PostDao
     }
     public class PostStatusInputDto
     {
+        public string? CustomerId { get; set; }
         public byte status { get; set; }
         public int page { get; set; }
         public int pageSize { get; set; }

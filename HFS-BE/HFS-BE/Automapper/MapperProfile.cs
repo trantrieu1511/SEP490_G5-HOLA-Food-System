@@ -167,7 +167,7 @@ namespace HFS_BE.Automapper
 
             CreateMap<OrderDetailDto, OrderDetailBLDto>();
             CreateMap<Dao.OrderDao.OrderProgressDto, BusinessLogic.OrderShipper.OrderProgressBLDto>()
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => OrderStatusEnum.GetOrderStatusString(src.Status)));
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => OrderProgressStatusEnum.GetOrderProgressStatusString(src.Status)));
 
 
 
@@ -238,7 +238,7 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
                 .ForMember(dest => dest.Note, opt => opt.MapFrom(src => src.Note))
                 .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("dd/MM/yyyy - HH:mm:ss")))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => OrderStatusEnum.GetOrderStatusString(src.Status)));
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => OrderProgressStatusEnum.GetOrderProgressStatusString(src.Status)));
             //CreateMap<ICollection<OrderProgress>, List<DetailProgress>>();
 
             CreateMap<OrderDetail, Dao.OrderDao.OrderDetailFoodDto>()
@@ -327,7 +327,8 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.ShopId, opt => opt.MapFrom(src => src.Food.SellerId))
                 .ForMember(dest => dest.ShopName, opt => opt.MapFrom(src => src.Food.Seller.ShopName))
                 .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.Food.UnitPrice));
-            CreateMap<AddCartItemInputDto, CartItem>();
+            CreateMap<AddCartItemInputDto, CartItem>()
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => DateTime.Now));
 
             CreateMap<CartItemOutputDto, CartItemDto>()
                 .ForMember(dest => dest.foodImages, opt => opt.MapFrom(src => src.foodImages));

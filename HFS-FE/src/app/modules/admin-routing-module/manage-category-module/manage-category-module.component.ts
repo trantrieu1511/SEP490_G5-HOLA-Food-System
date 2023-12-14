@@ -24,6 +24,8 @@ export class ManageCategoryModuleComponent extends iComponentBase implements OnI
   displayDialogEditAddCate: boolean = false;
   headerDialog: string = '';
   cateModel: Category = new Category();
+  labelHeader1: string ;
+  labelHeader2: string ;
 
   constructor(
     public breadcrumbService: AppBreadcrumbService,
@@ -36,6 +38,14 @@ export class ManageCategoryModuleComponent extends iComponentBase implements OnI
     private signalRService: DataRealTimeService
   ) {
     super(messageService, breadcrumbService);
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Category Management', routerLink: ['/HFSBusiness/admin/category-management']}
+    ]);
+    this.translate.get('categoryScreen').subscribe( (text: any) => {
+      this.labelHeader1 = text.AddNewCategory;  
+      this.labelHeader2 = text.EditCategory;
+    });
   }
   ngOnInit(): void {
     this.getAllCate();
@@ -57,7 +67,8 @@ export class ManageCategoryModuleComponent extends iComponentBase implements OnI
     }
 }
   onCreateCate(){
-    this.headerDialog = 'Add New Category';
+    
+    this.headerDialog = this.labelHeader1;
 
     this.cateModel = new Category();
 
@@ -126,7 +137,7 @@ export class ManageCategoryModuleComponent extends iComponentBase implements OnI
     }
   }
   onUpdateCate(cate:Category) {
-    this.headerDialog = `Edit Category: ${cate.categoryId}`;
+    this.headerDialog = this.labelHeader2 + cate.categoryId;
 
     this.displayDialogEditAddCate=true;
 
@@ -150,7 +161,7 @@ export class ManageCategoryModuleComponent extends iComponentBase implements OnI
   onDisplayCate(cate:Category,event){
     this.confirmationService.confirm({
       target: event.target,
-      message: `Are you sure to Display this post id: ${cate.categoryId} ?`,
+      message: `Are you sure to Display this Category id: ${cate.categoryId} ?`,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         //confirm action

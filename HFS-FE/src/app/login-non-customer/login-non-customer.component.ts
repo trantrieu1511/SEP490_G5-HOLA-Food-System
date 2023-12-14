@@ -15,6 +15,7 @@ import {
   iFunction
 } from 'src/app/modules/shared-module/shared-module';
 import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-login-non-customer',
   templateUrl: './login-non-customer.component.html',
@@ -37,6 +38,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
     private _ngZone: NgZone,
      public messageService: MessageService,
     private service: AuthService,
+    public translate: TranslateService,
     // private cdr: ChangeDetectorRef
   ) {
     super(messageService);
@@ -190,7 +192,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
       try {
         //
 
-        debugger
+        
         this.service.loginnotcus(this.form.value).subscribe(res => {
           if(res===undefined&&this.user===null){
             this.refreshCaptcha();

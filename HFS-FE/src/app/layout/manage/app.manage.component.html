@@ -33,10 +33,11 @@
             <router-outlet></router-outlet>
         </div>
         <p-scrollTop styleClass="custom-scrolltop" icon="pi pi-chevron-up"></p-scrollTop>
+        <app-footer ></app-footer>
     </div>
 
     <div *ngIf="layoutService.state.mobileMenuActive" class="layout-mask modal-in"></div>
-
+    
 </div>
 <div>
   <app-customer-list-by-chat *ngIf="isCustomerListVisible"></app-customer-list-by-chat>

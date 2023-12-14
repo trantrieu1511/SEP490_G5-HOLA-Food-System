@@ -2,13 +2,13 @@
 <div class="grid table-demo">
   <div class="col-12">
       <div class="card">
-          <h5>Menu Moderator Management</h5>
+          <h5>{{'menuAdminScreen.MenuModeratorManagement' | translate}}</h5>
 
           <p-table #dt [value]="lstUser" dataKey="id"
                    styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
                    [showCurrentPageReport]="true"
                    [paginator]="lstUser.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
-                   currentPageReportTemplate="Total: {totalRecords} foods"
+                   currentPageReportTemplate="{{'menuAdminScreen.Total' | translate}}: {totalRecords} {{'menuAdminScreen.posts' | translate}}"
                    [globalFilterFields]="['firstName','lastName']" responsiveLayout="scroll"
 
           >
@@ -19,13 +19,13 @@
                               <i class="pi pi-search"></i>
                               <input pInputText type="text"  #textInput
                                      (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                     placeholder="Search Name by name"/>
+                                     placeholder="{{'menuAdminScreen.SearchNamebyname' | translate}}"/>
                           </span>
                       </div>
 
                       <div class="flex-4 flex flex-row flex-wrap justify-content-center gap-3" style="gap: 0.5rem">
                           <div class="flex align-items-center justify-content-center">
-                              <button pButton type="button" label="Add new" icon="pi pi-plus"
+                              <button pButton type="button" label="{{'button.Addnew' | translate}}" icon="pi pi-plus"
                               (click)="onCreateMM()"
                                       style="width: auto;"></button>
                           </div>
@@ -39,7 +39,7 @@
                       </th> -->
                       <th pSortableColumn="modId">
                           <div class="flex justify-content-between align-items-center">
-                              ID
+                              {{'menuAdminScreen.ID' | translate}}
                               <p-sortIcon field="customerId"></p-sortIcon>
                               <p-columnFilter type="numeric" field="modId" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -47,7 +47,7 @@
                       </th>
                       <th pSortableColumn="firstName">
                           <div class="flex justify-content-between align-items-center">
-                            FullName
+                            {{'menuAdminScreen.FullName' | translate}}
                               <p-sortIcon field="firstName"></p-sortIcon>
                               <p-columnFilter type="text" field="firstName" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -63,7 +63,7 @@
                       </th> -->
                       <th pSortableColumn="gender">
                           <div class="flex justify-content-between align-items-center">
-                            Gender
+                            {{'menuAdminScreen.Gender' | translate}}
                               <p-sortIcon field="gender"></p-sortIcon>
                               <p-columnFilter type="text" field="gender" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -71,7 +71,7 @@
                       </th>
                       <th pSortableColumn="email">
                         <div class="flex justify-content-between align-items-center">
-                          Email
+                          {{'menuAdminScreen.Email' | translate}}
                             <p-sortIcon field="email"></p-sortIcon>
                             <p-columnFilter type="text" field="email" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -79,7 +79,7 @@
                     </th>
                     <th pSortableColumn="phoneNumber">
                       <div class="flex justify-content-between align-items-center">
-                        PhoneNumber
+                        {{'menuAdminScreen.PhoneNumber' | translate}}
                           <p-sortIcon field="phoneNumber"></p-sortIcon>
                           <p-columnFilter type="text" field="phoneNumber" display="menu"
                                           class="ml-auto"></p-columnFilter>
@@ -87,7 +87,7 @@
                   </th>
                       <th pSortableColumn="birthDate">
                           <div class="flex justify-content-between align-items-center">
-                              DOB
+                              {{'menuAdminScreen.DOB' | translate}}
                               <p-sortIcon field="birthDate"></p-sortIcon>
                               <p-columnFilter type="text" field="birthDate" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -108,13 +108,13 @@
                       </th> -->
                       <th>
                         <div class="flex justify-content-between align-items-center">
-                          Status
+                          {{'menuAdminScreen.Status' | translate}}
                         </div>
                     </th>
                       <th style="min-width: 8rem">
                           <div
                                class="flex justify-content-between align-items-center">
-                              Action
+                              {{'menuAdminScreen.Action' | translate}}
                           </div>
                       </th>
                   </tr>
@@ -125,11 +125,11 @@
                           <p-tableCheckbox [value]="post"></p-tableCheckbox>
                       </td> -->
                       <td>
-                          <span class="p-column-title">ID</span>
+                          <span class="p-column-title">{{'menuAdminScreen.ID' | translate}}</span>
                           <span class="post-id">{{user.modId}}</span>
                       </td>
                       <td>
-                          <span class="p-column-title">FullName</span>
+                          <span class="p-column-title">{{'menuAdminScreen.FullName' | translate}}</span>
                           {{user.firstName}} {{user.lastName}}
                       </td>
                       <!-- <td >
@@ -137,19 +137,19 @@
                           {{user.lastName}}
                       </td> -->
                       <td>
-                          <span class="p-column-title">Gender</span>
+                          <span class="p-column-title">{{'menuAdminScreen.Gender' | translate}}</span>
                           <span class="post-content" >{{user.gender}}</span>
                       </td>
                       <td>
-                        <span class="p-column-title">Email</span>
+                        <span class="p-column-title">{{'menuAdminScreen.Email' | translate}}</span>
                         <span class="post-content" >{{user.email}}</span>
                        </td>
                        <td>
-                        <span class="p-column-title">PhoneNumber</span>
+                        <span class="p-column-title">{{'menuAdminScreen.PhoneNumber' | translate}}</span>
                         <span class="post-content" >{{user.phoneNumber}}</span>
                     </td>
                       <td >
-                          <span class="p-column-title">BirthDate</span>
+                          <span class="p-column-title">{{'menuAdminScreen.DOB' | translate}}</span>
                           {{user.birthDate| date:'dd/MM/yyyy'}}
                       </td>
                       <!-- <td >
@@ -163,12 +163,12 @@
                     </td> -->
 
                       <td >
-                        <span class="p-column-title">Status</span>
+                        <span class="p-column-title">{{'menuAdminScreen.Status' | translate}}</span>
                         <div *ngIf="user.isBanned" style="color:red;">
-                          Closed
+                          {{'menuAdminScreen.Closed' | translate}}
                         </div>
                         <div *ngIf="!user.isBanned"  style="color:chartreuse;">
-                          Active
+                          {{'menuAdminScreen.Active' | translate}}
                         </div>
                     </td>
                       <td style="text-align: center">
@@ -189,7 +189,7 @@
               </ng-template>
               <ng-template pTemplate="emptymessage">
                   <tr>
-                      <td colspan="8">No MenuModerator yet.</td>
+                      <td colspan="8">{{'menuAdminScreen.emptymessage' | translate}}</td>
                   </tr>
               </ng-template>
           </p-table>
@@ -208,7 +208,7 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Menu Moderator information</b>
+                        <b>{{'menuAdminScreen.MenuModeratorinformation' | translate}}</b>
                     </div>
                 </p-divider>
                 <div class="grid">
@@ -217,7 +217,7 @@
                           <input type="text" step="5000" min="0"  class="w-full" [(ngModel)]="menuM.firstName"
                                   pInputText
                                   />
-                          <label>FirstName*</label>
+                          <label>{{'menuAdminScreen.FirstName' | translate}}*</label>
                       </span>
                   </div>
                   <div class="col-12 mb-2 lg:col-6 mb-lg-0">
@@ -225,7 +225,7 @@
                       <input type="text" step="5000" min="0"  class="w-full" [(ngModel)]="menuM.lastName"
                       pInputText
                       />
-                        <label>LastName*</label>
+                        <label>{{'menuAdminScreen.LastName' | translate}}*</label>
                     </span>
 
                 </div>
@@ -234,7 +234,7 @@
                       <input type="text" step="5000" min="0"  class="w-full" [(ngModel)]="menuM.phoneNumber"
                               pInputText
                               />
-                      <label>Phone*</label>
+                      <label>{{'menuAdminScreen.Phone' | translate}}*</label>
                   </span>
               </div>
                 <div class="col-12 mb-2 ">
@@ -242,7 +242,7 @@
                       <input type="email" step="5000" min="0"  class="w-full" [(ngModel)]="menuM.email"
                               pInputText
                               />
-                      <label>Email*</label>
+                      <label>{{'menuAdminScreen.Email' | translate}}*</label>
                   </span>
               </div>
 
@@ -251,7 +251,7 @@
                     <input type="password" step="5000" min="0"  class="w-full" [(ngModel)]="menuM.password"
                             pInputText
                             />
-                    <label>Password*</label>
+                    <label>{{'menuAdminScreen.Password' | translate}}*</label>
                 </span>
             </div>
             <div class="col-12 mb-2 ">
@@ -259,12 +259,12 @@
                 <input type="password" step="5000" min="0"  class="w-full" [(ngModel)]="menuM.confirmpassword"
                 pInputText
                 />
-                  <label>CofirmPassword*</label>
+                  <label>{{'menuAdminScreen.CofirmPassword' | translate}}*</label>
               </span>
 
           </div>
           <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-            <label>Dob*</label>
+            <label>{{'menuAdminScreen.DOB' | translate}}*</label>
             <!-- <span class="p-input-icon-left p-float-label">
              <p-calendar class="w-full"  [(ngModel)]="menuM.birthDate" dateFormat="dd/mm/yy"></p-calendar>
                 <label>Dob*</label>
@@ -281,7 +281,7 @@
         </div>
         <div class="col-12 mb-2 lg:col-6 mb-lg-0">
           <span  style="display: flex;">
-            <label>Gender*</label>
+            <label>{{'menuAdminScreen.Gender' | translate}}*</label>
             <div  class="col-3" style="display: flex; align-items: center;">
               <input type="radio"
                      class="w-full"
@@ -289,7 +289,7 @@
                      name="gender"
                      value="male"
                      id="genderMale" />
-              <label for="genderMale" style="margin-left: 10px;">Male</label>
+              <label for="genderMale" style="margin-left: 10px;">{{'menuAdminScreen.Male' | translate}}</label>
             </div>
             <div class="col-3" style="display: flex; align-items: center;">
               <input type="radio"
@@ -298,7 +298,7 @@
                      name="gender"
                      value="female"
                      id="genderFemale" />
-              <label for="genderFemale" style="margin-left: 10px;">Female</label>
+              <label for="genderFemale" style="margin-left: 10px;">{{'menuAdminScreen.Female' | translate}}</label>
             </div>
 
 
@@ -313,12 +313,12 @@
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Save" icon="pi pi-save"
+                <button pButton type="button" label="{{'button.save' | translate}}" icon="pi pi-save"
                         (click)="onSaveMM()"
                         style="width: 100%;"></button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                <button pButton type="button" label="{{'button.cancel' | translate}}" icon="pi pi-times"
                         (click)="onCancelMM()" class="p-button-danger"
                         style="width: 100%;"></button>
             </div>

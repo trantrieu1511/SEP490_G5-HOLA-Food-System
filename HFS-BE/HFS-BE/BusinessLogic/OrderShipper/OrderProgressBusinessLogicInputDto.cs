@@ -12,4 +12,10 @@ namespace HFS_BE.BusinessLogic.OrderShipper
 
         public UserDto UserDto { get; set; }
     }
+
+    public class ExternalShippingOrderBL
+    {
+        public int OrderId { get; set; }
+        public UserDto UserDto { get; set; }
+    }
 }

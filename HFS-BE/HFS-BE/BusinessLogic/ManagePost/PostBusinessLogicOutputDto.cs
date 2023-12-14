@@ -55,6 +55,8 @@ namespace HFS_BE.BusinessLogic.ManagePost
     }
     public class PostOutputCustomerDto
     {
+        public bool isLiked { get; set; } = false;
+        public int LikeCount { get; set; }
         public int PostId { get; set; }
         public string? SellerId { get; set; }
         public string? ShopName{ get; set; }

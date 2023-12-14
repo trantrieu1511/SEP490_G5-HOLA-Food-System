@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 import * as API from "../../../services/apiURL";
 import { User } from 'src/app/services/auth.service';
 import { PostModerator, PostModeratorOutput } from '../models/PostModerator';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-manage-postmoderator-module',
@@ -22,6 +24,7 @@ export class ManagePostmoderatorModuleComponent extends iComponentBase implement
   user:User;
   displayDialogAdd: boolean = false;
   headerDialog: string = '';
+  labelHeader1: string ;
   postM:PostModerator=new PostModerator();
   constructor( private shareData: ShareData,
     public messageService: MessageService,
@@ -29,8 +32,15 @@ export class ManagePostmoderatorModuleComponent extends iComponentBase implement
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
+    public breadcrumbService: AppBreadcrumbService,
+    public translate: TranslateService
   ){
-    super(messageService);
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Post Moderator Management', routerLink: ['/HFSBusiness/admin/post-moderator']}
+    ]);
 
   }
 
@@ -115,7 +125,12 @@ try {
    }
 }
 onCreatePostM() {
-  this.headerDialog = 'Add New PostModerator';
+
+  this.translate.get('postAdminScreen').subscribe( (text: any) => {
+    this.labelHeader1 = text.AddNewPostModerator;  
+    
+  });
+  this.headerDialog = this.labelHeader1;
 
   this.postM = new PostModerator();
 

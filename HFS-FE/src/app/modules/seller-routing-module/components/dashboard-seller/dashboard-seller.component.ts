@@ -9,6 +9,7 @@ import * as API from '../../../../services/apiURL';
 import { MessageService } from 'primeng/api';
 import { DashboardSeller } from '../../models/dashboard-seller.model';
 import { ColorLineChart } from 'src/app/utils/colorLineChart';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 
 @Component({
   selector: 'dashboard-seller',
@@ -28,10 +29,16 @@ export class DashboardSellerComponent extends iComponentBase implements OnInit{
     private datePipe: DatePipe,
     public messageService: MessageService,
     private iServiceBase: iServiceBase,
+    public breadcrumbService: AppBreadcrumbService,
   ){
-    super(messageService);
+    super(messageService, breadcrumbService);
     this.rangeDates = [];
     this.rangeDates[0] = this.rangeDates[1] = new Date();
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Dashboard', routerLink: ['/HFSBusiness/seller/dashboard']}
+    ]);
   }
 
 

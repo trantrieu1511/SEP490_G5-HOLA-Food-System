@@ -6,7 +6,7 @@ using HFS_BE.DAO.OrderProgressDao;
 using HFS_BE.DAO.TransantionDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
-using static HFS_BE.Utils.Enum.OrderStatusEnum;
+using static HFS_BE.Utils.Enum.OrderProgressStatusEnum;
 
 namespace HFS_BE.BusinessLogic.ManageOrderCustomer
 {

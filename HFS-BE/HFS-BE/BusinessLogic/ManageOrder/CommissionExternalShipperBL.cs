@@ -26,7 +26,10 @@ namespace HFS_BE.BusinessLogic.ManageOrder
                 var order = orderDao.GetOrderByOrderIdAndSellerId(input.OrderId, input.UserId);
                 if (order == null)
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Order is not exist");
-                // don't need update order 
+                // update order 
+                var outputAddExternal = orderDao.CommissionOrderExternalShipper(input);
+                if (!outputAddExternal.Success)
+                    return outputAddExternal;
                 // next
                 var oProgressDao = CreateDao<OrderProgressDao>();
                 var inputExternal = mapper.Map<OrderExternalShipInputDto, OrderProgressStatusInputDto>(input);
