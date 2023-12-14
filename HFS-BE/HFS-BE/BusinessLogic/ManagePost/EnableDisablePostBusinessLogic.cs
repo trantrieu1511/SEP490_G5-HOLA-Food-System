@@ -22,7 +22,7 @@ namespace HFS_BE.BusinessLogic.ManagePost
                 if (sellerDao.GetSellerByEmail(input.UserDto.Email) is null)
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not exist");
 
-                if (sellerDao.GetSellerByEmail(input.UserDto.Email).IsVerified == false)
+                if (sellerDao.GetSellerByEmail(input.UserDto.Email).Status != 1)
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not verified");
 
                 if (sellerDao.GetSellerByEmail(input.UserDto.Email).IsBanned == true)

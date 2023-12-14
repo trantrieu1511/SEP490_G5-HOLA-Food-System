@@ -22,7 +22,7 @@ namespace HFS_BE.DAO.ShipperDao
             // get shipper of shop
             // with condition: not ban and verified
             var data = context.Shippers
-                .Where(s => s.ManageBy.Equals(sellerId) && s.IsVerified == true)
+                .Where(s => s.ManageBy.Equals(sellerId) && s.Status == 1)
                 .Select(s => mapper.Map<Shipper, ShipperInfor>(s))
                 .ToList();
             var output = Output<ShipperInforList>(Constants.ResultCdSuccess);
@@ -67,7 +67,7 @@ namespace HFS_BE.DAO.ShipperDao
 					PhoneNumber=s.PhoneNumber,
 					ManageBy=s.ManageBy,
 					ConfirmedEmail=s.ConfirmedEmail,
-					IsVerified=s.IsVerified,
+					IsVerified=s.Status,
 					Images= context.ProfileImages
 					.Where(pi => pi.UserId == s.ShipperId && pi.IsReplaced == false)
 				   .Select(pi => new ImageShipperOutputDto
@@ -136,7 +136,7 @@ namespace HFS_BE.DAO.ShipperDao
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Shipper is not in data ");
 				}
-				user.IsVerified = input.IsVerified;
+				user.Status =(byte) input.Status;
 				context.Shippers.Update(user);
 				context.SaveChanges();
 				var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
@@ -187,7 +187,7 @@ namespace HFS_BE.DAO.ShipperDao
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
 				}
 				var data = context.Shippers.FirstOrDefault(s => s.Email == input.Email);
-				var datacheckis = context.Shippers.FirstOrDefault(s => s.Email == input.Email && s.IsVerified == true);
+				var datacheckis = context.Shippers.FirstOrDefault(s => s.Email == input.Email && s.Status == 1);
 
 				var datainv = context.Invitations.Include(s => s.Shipper).FirstOrDefault(s => s.Shipper.Email == input.Email && s.SellerId == input.SellerId && s.Accepted == 0);
 				if (data.ManageBy != null)

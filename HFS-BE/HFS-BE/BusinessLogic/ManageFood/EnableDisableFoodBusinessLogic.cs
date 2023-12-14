@@ -5,6 +5,7 @@ using HFS_BE.Dao.PostDao;
 using HFS_BE.DAO.SellerDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace HFS_BE.BusinessLogic.ManageFood
 {
@@ -47,10 +48,13 @@ namespace HFS_BE.BusinessLogic.ManageFood
                     if (sellerDao.GetSellerByEmail(input.UserDto.Email) is null)
                         return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not exist");
 
-                    if (sellerDao.GetSellerByEmail(input.UserDto.Email).IsVerified == false)
+                    if (sellerDao.GetSellerByEmail(input.UserDto.Email).Status != 1)
                         return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not verified");
 
-                    if (sellerDao.GetSellerByEmail(input.UserDto.Email).IsBanned == true)
+					if (sellerDao.GetSellerByEmail(input.UserDto.Email).IsPhoneVerified == false)
+						return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not verified PhoneNumber");
+
+					if (sellerDao.GetSellerByEmail(input.UserDto.Email).IsBanned == true)
                         return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is banned");
 
                     if (food.Status == 0)

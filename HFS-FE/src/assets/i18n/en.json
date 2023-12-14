@@ -161,7 +161,7 @@
     "total":"Total",
     "voucher":"vouchers",
     "Voucherinformation":"Voucher information"
-    
+
   },
 
   "shipperSellerScreen": {
@@ -211,7 +211,7 @@
     "EmailCode":"Email Code*",
     "WithdrawValue":"Withdraw Value*",
     "BankInformation":"Bank Information*"
-    
+
   },
 
   "foodSellerScreen": {
@@ -453,7 +453,7 @@
     "emptymessage": "No post report yet.",
     "Total": "Total",
     "postreports": "post reports"
-    
+
   },
 
   "foodReportScreen": {
@@ -527,6 +527,7 @@
     "Listlicenseimages":"List license images",
     "ID": "ID",
     "Image": "Image",
+    "EditLicenseImageSection": "Edit image",
     "Name": "Name",
     "Size": "Size",
     "emptymessage": "No licence yet.",
@@ -622,7 +623,8 @@
     "Ban":"Ban",
     "Action":"Action",
     "Verified":"Verified",
-    "Notverified":"Not verified",
+    "Notverified":"Reject",
+    "Pending":"Pending",
     "NotBan":"Not Ban",
     "IsBanned":"IsBanned",
     "emptymessage":"No Seller yet.",
@@ -698,7 +700,7 @@
     "Phone":"Phone",
     "Password":"Password",
     "Action":"Action",
-    "CofirmPassword":"CofirmPassword",   
+    "CofirmPassword":"CofirmPassword",
     "emptymessage":"No PostModerator yet.",
     "Male":"Male",
     "Female":"Female",
@@ -725,7 +727,7 @@
     "Phone":"Phone",
     "Password":"Password",
     "Action":"Action",
-    "CofirmPassword":"CofirmPassword",   
+    "CofirmPassword":"CofirmPassword",
     "emptymessage":"No MenuModerator yet.",
     "Male":"Male",
     "Female":"Female",
@@ -752,7 +754,7 @@
     "Phone":"Phone",
     "Password":"Password",
     "Action":"Action",
-    "CofirmPassword":"CofirmPassword",   
+    "CofirmPassword":"CofirmPassword",
     "emptymessage":"No Accountant yet.",
     "Male":"Male",
     "Female":"Female",
@@ -780,7 +782,7 @@
     "Action":"Action",
     "Pending":"Pending",
     "Solved":"Solved",
-    "Reject":"Reject",   
+    "Reject":"Reject",
     "Detail":"Detail",
     "emptymessage":"No Report yet.",
     "ListImage":"List Image",
@@ -811,7 +813,7 @@
     "PhoneNumber":"PhoneNumber",
     "Phoneisrequired":"Phone is required",
     "Email":"Email",
-    "IncorrectEmailformat":"Incorrect Email format",   
+    "IncorrectEmailformat":"Incorrect Email format",
     "Password":"Password",
     "Passwordminimum8":"Password minimum 8",
     "Passwordcontainsatleast1uppercasecharacter":"Password contains at least 1 uppercase character",

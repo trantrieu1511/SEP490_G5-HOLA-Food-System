@@ -97,6 +97,7 @@ export class API_MANAGE{
     public static LIST_SELLER = "listseller";
     public static BAN_SELLER = "banseller";
     public static ACTIVE_SELLER = "activeseller";
+    public static REJECT_SELLER = "rejectseller";
     public static HIS_SELLER = "bansellerhistory";
     public static HIS_SHIPPER = "banshipperhistory";
     public static LIST_SHIPPER = "listshipperbyadmin";

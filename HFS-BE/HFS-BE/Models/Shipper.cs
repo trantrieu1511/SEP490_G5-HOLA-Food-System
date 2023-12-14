@@ -24,11 +24,14 @@ namespace HFS_BE.Models
         public bool? IsOnline { get; set; }
         public string? ManageBy { get; set; }
         public bool? ConfirmedEmail { get; set; }
-        public bool? IsVerified { get; set; }
-        //public bool? IsPhoneVerified { get; set; }
+        public byte Status { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
         public DateTime? CreateDate { get; set; }
+        public string? Note { get; set; }
+        public bool? IsPhoneVerified { get; set; }
+        public string? OtpToken { get; set; }
+        public int? OtpTokenExpiryTime { get; set; }
 
         public virtual Seller? ManageByNavigation { get; set; }
         public virtual ICollection<Invitation> Invitations { get; set; }

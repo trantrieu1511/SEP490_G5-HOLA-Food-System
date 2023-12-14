@@ -189,11 +189,14 @@
                     </td> -->
                       <td >
                         <span class="p-column-title">{{'sellerAdminScreen.Verification' | translate}}</span>
-                        <div *ngIf="user.isVerified" style="color:chartreuse;">
+                        <div *ngIf="user.status===1" style="color:chartreuse;">
                           {{'sellerAdminScreen.Verified' | translate}}
                         </div>
-                        <div *ngIf="!user.isVerified"  style="color:red;">
+                        <div *ngIf="user.status===2"  style="color:red;">
                           {{'sellerAdminScreen.Notverified' | translate}}
+                        </div>
+                        <div *ngIf="user.status===0"  style="color:rgb(74, 66, 66)(89, 76, 76);">
+                          {{'sellerAdminScreen.Pending' | translate}}
                         </div>
                     </td>
 
@@ -237,15 +240,21 @@
                                           class="p-button-rounded p-mr-2"></button>
                               </div>
                               <div class="flex align-items-center justify-content-center">
-                                <button  *ngIf="!user.isVerified" pButton pRipple  label="Verification"
-                                (click)="ActiveSeller(user)"
+                                <button  *ngIf="user.status!==1" pButton pRipple  label="Verification"
+                                (click)="ActiveSeller(user,$event)"
                                         class="p-button-rounded p-mr-2"></button>
                             </div>
+                            <div class="flex align-items-center justify-content-center">
+                              <button  *ngIf="user.status!==1" pButton pRipple  label="Reject"
+                              (click)="RejectSeller(user)"
+                                      class="p-button-rounded p-mr-2"></button>
+                          </div>
                             <div class="flex align-items-center justify-content-center">
                               <button  pButton pRipple  label="Detail"
                               (click)="Detail(user,$event)"
                                       class="p-button-rounded p-mr-2"></button>
                           </div>
+
                           </div>
                       </td>
                   </tr>
@@ -441,12 +450,15 @@
               <th>{{'sellerAdminScreen.Verification' | translate}} </th>
               <td>
 
-                 <div *ngIf="sellerDetail.isVerified===true"  style="color:chartreuse;">
+                 <div *ngIf="sellerDetail.status===0"  style="color:chartreuse;">
                	{{'sellerAdminScreen.Verified' | translate}}
                  </div>
-                 <div *ngIf="sellerDetail.isVerified===false"  style="color:red;">
+                 <div *ngIf="sellerDetail.status!==1"  style="color:red;">
                  	{{'sellerAdminScreen.Notverified' | translate}}
                  </div>
+                 <div *ngIf="sellerDetail.status===2"  style="color:rgb(103, 96, 96);">
+                 Pending
+                </div>
               </td>
           </tr>
           <tr>
@@ -461,6 +473,13 @@
                </div>
             </td>
         </tr>
+        <tr>
+          <th>Note: </th>
+          <td>
+           {{sellerDetail.note}}
+
+          </td>
+      </tr>
           <tr>
             <th>{{'sellerAdminScreen.Ban' | translate}} </th>
             <td>
@@ -478,7 +497,7 @@
             <th>{{'sellerAdminScreen.Images' | translate}}: </th>
             <td >
 
-                
+
                 <ng-container *ngIf="sellerDetail.imagesBase64 && sellerDetail.imagesBase64.length !== 0; else noneImage1" >
                   <button pButton pRipple icon="pi pi-images"
                         (click)="onDisplayImagesDialog(sellerDetail, $event)"
@@ -503,6 +522,59 @@
       </tr>
       </tbody>
   </table>
+</p-dialog>
+<p-dialog [header]="headerDialog" [(visible)]="displayDialogReject"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '50vw'}"
+          [draggable]="false" [resizable]="false" [maximizable]="true"
+
+          >
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <b>Reason</b>
+                    </div>
+                </p-divider>
+                <div class="grid">
+                  <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                      <span class="p-input-icon-left p-float-label" style="width: 100%">
+                          <input type="hidden" step="5000" min="0"  class="w-full" [(ngModel)]="rejectseller.sellerId"
+                                  pInputText
+                                  />
+
+                      </span>
+                  </div>
+
+                <div class="col-12 mb-2 ">
+                  <span class="p-input-icon-left p-float-label" style="width: 100%">
+                    <textarea class="w-full" rows="10" cols="60"
+                    pInputTextarea
+                    [(ngModel)]="rejectseller.note"
+
+                    ></textarea>
+                      <label>Reason*</label>
+                  </span>
+              </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-center flex-wrap" style="text-align: center">
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Save" icon="pi pi-save"
+                        (click)="onSaveReject()"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="flex align-items-center justify-content-center" style="text-align: center">
+                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                        (click)="onCancelReject()" class="p-button-danger"
+                        style="width: 100%;"></button>
+            </div>
+        </div>
+    </ng-template>
 </p-dialog>
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>
 

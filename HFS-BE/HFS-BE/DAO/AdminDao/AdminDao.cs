@@ -189,15 +189,15 @@ namespace HFS_BE.DAO.AdminDao
 
 			{
 				DashboadAdminOutputDto outputDto = new DashboadAdminOutputDto();
-				int sellervetify = context.Sellers.Where(s => s.IsVerified == true).Count();
+				int sellervetify = context.Sellers.Where(s => s.Status == 1).Count();
 				int sellerban = context.Sellers.Where(s => s.IsBanned == true).Count();
 				int totalseller = context.Sellers.Count();
 				int totalcus = context.Customers.Count();
-				int seller = context.Sellers.Where(s => s.IsBanned == false && s.IsVerified == true).Count();
+				int seller = context.Sellers.Where(s => s.IsBanned == false && s.Status == 1).Count();
 				int cusban = 0;
 				int shipper = 0;
-				int shipperban = context.Shippers.Where(s => s.IsVerified == true&&s.ManageBy!=null).Count();
-				int shippervetify = context.Shippers.Where(s => s.IsVerified == true).Count();
+				int shipperban = context.Shippers.Where(s => s.Status == 1 &&s.ManageBy!=null).Count();
+				int shippervetify = context.Shippers.Where(s => s.Status == 1).Count();
 				int totalshipper= context.Shippers.Count();
 	            int totalreport= context.SellerReports.Count();
 				int solvereport = context.SellerReports.Where(s=>s.Status==1).Count();

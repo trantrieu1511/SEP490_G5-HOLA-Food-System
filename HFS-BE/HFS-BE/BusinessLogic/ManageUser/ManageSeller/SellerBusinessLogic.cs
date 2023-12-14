@@ -105,6 +105,20 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageSeller
 				throw;
 			}
 		}
+		public async Task<BaseOutputDto> RejectSeller(RejectSellerDtoInput input)
+		{
+			try
+			{
+				var Dao = this.CreateDao<SellerDao>();
+				var daooutput =await Dao.RejectSeller(input);
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
 		public ListHistoryBanSeller ListHistoryBanSeller(BanSellerHistoryDtoInput input)
 		{
 			try

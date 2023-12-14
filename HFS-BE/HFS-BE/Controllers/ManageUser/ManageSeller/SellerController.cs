@@ -62,6 +62,21 @@ namespace HFS_BE.Controllers.ManageUser.ManageSeller
 				throw;
 			}
 		}
+		[HttpPost("users/rejectseller")]
+		[Authorize(Roles = "AD")]
+		public async Task<BaseOutputDto> RejectSeller(RejectSellerDtoInput input)
+		{
+			try
+			{
+				var business = this.GetBusinessLogic<SellerBusinessLogic>();
+				var output = await business.RejectSeller(input);
+				return output;
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
+		}
 		[HttpPost("users/bansellerhistory")]
 		[Authorize(Roles = "AD")]
 		public BaseOutputDto ListHistoryBanSeller(BanSellerHistoryDtoInput input)

@@ -58,6 +58,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
 
   // ------- Verify phone number variables ---------
   phoneOtp: string;
+  usedIdOtp: string;
   verifyOtp: string;
   role: string;
 
@@ -104,7 +105,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       this.None4 = text.None4;
       this.None5 = text.None5;
       this.None6 = text.None6;
-      
+
     });
   }
 
@@ -184,7 +185,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
 
   async getProfileInfo() {
     try {
-      // 
+      //
       //
       // const params = {
       //   userId: sessionStorage.getItem("userId")
@@ -361,7 +362,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
           // console.log(response.message);
           if(response.errors){
             this.showMessage(mType.error, response.message
-            , response.errors.systemErrors, 'notify');  
+            , response.errors.systemErrors, 'notify');
             return;
           }
           this.showMessage(mType.error, 'Notification'
@@ -646,13 +647,16 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   // }
 
 
-  async openVerifyPhonenumberModal(phone: string) {
+  async openVerifyPhonenumberModal(phone: string,userId:string) {
     this.isVisibleVerifyPhoneNumberModal = true;
     this.phoneOtp = phone;
+    this.usedIdOtp=userId;
     const param = {
-      "phoneNumber": phone
+      "phoneNumber": phone,
+      "userId":userId
     }
     try {
+      debugger;
       // let response ;
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_USER.SEND_OTP, param);
 
@@ -690,13 +694,16 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   async verifyPhonenumber() {
     const param = {
       "phoneNumber": this.phoneOtp,
-      "otp": this.verifyOtp
+      "otp": this.verifyOtp,
+      "userId": this.usedIdOtp
     }
     try {
+      debugger;
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_USER.CHECK_OTP, param);
 
       if (response && response.message === 'Success') {
         this.isVisibleVerifyPhoneNumberModal = false;
+        this.getProfileInfo();
         this.showMessage(
           mType.success,
           'Notification',
