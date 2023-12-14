@@ -52,7 +52,7 @@ namespace HFS_BE.BusinessLogic.ManageFood
                         return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not verified");
 
 					if (sellerDao.GetSellerByEmail(input.UserDto.Email).IsPhoneVerified == false)
-						return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not PhoneNumber");
+						return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not verified PhoneNumber");
 
 					if (sellerDao.GetSellerByEmail(input.UserDto.Email).IsBanned == true)
                         return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is banned");

@@ -91,15 +91,15 @@ namespace HFS_BE.Controllers.SendOTP
 					
 				}
 
-				var phoneNumber = new Twilio.Types.PhoneNumber("+84974280518");
+				//var phoneNumber = new Twilio.Types.PhoneNumber("+84974280518");
 
-				var smsMessage = await MessageResource.CreateAsync(
-					body: "HOLAFOOD OTP:" + randomso.ToString(),
-					from: new Twilio.Types.PhoneNumber(_twilioPhoneNumber),
-					to: phoneNumber
-				);
+				//var smsMessage = await MessageResource.CreateAsync(
+				//	body: "HOLAFOOD OTP:" + randomso.ToString(),
+				//	from: new Twilio.Types.PhoneNumber(_twilioPhoneNumber),
+				//	to: phoneNumber
+				//);
 
-				Console.WriteLine($"Twilio Message SID: {smsMessage.Sid}");
+				//Console.WriteLine($"Twilio Message SID: {smsMessage.Sid}");
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess); ;
 			}
 			catch (Exception ex)

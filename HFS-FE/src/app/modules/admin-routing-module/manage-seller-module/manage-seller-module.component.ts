@@ -53,7 +53,7 @@ this.getAllSeller();
 
   async getAllSeller() {
     this.listSeller = [];
- 
+
     try {
 
 

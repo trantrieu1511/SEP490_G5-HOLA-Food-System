@@ -189,11 +189,14 @@
                     </td> -->
                       <td >
                         <span class="p-column-title">{{'sellerAdminScreen.Verification' | translate}}</span>
-                        <div *ngIf="user.isVerified" style="color:chartreuse;">
+                        <div *ngIf="user.status===1" style="color:chartreuse;">
                           {{'sellerAdminScreen.Verified' | translate}}
                         </div>
-                        <div *ngIf="!user.isVerified"  style="color:red;">
+                        <div *ngIf="user.status===2"  style="color:red;">
                           {{'sellerAdminScreen.Notverified' | translate}}
+                        </div>
+                        <div *ngIf="user.status===0"  style="color:rgb(74, 66, 66)(89, 76, 76);">
+                          {{'sellerAdminScreen.Pending' | translate}}
                         </div>
                     </td>
 
@@ -450,7 +453,7 @@
                  <div *ngIf="sellerDetail.status===0"  style="color:chartreuse;">
                	{{'sellerAdminScreen.Verified' | translate}}
                  </div>
-                 <div *ngIf="sellerDetail.status!===1"  style="color:red;">
+                 <div *ngIf="sellerDetail.status!==1"  style="color:red;">
                  	{{'sellerAdminScreen.Notverified' | translate}}
                  </div>
                  <div *ngIf="sellerDetail.status===2"  style="color:rgb(103, 96, 96);">

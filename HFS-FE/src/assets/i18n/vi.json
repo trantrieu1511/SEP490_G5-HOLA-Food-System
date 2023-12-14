@@ -451,7 +451,7 @@
     "emptymessage": "Chưa có bài đăng nào bị bạn tố cáo.",
     "Total": "Tổng",
     "postreports": "tố cáo"
-    
+
   },
 
   "foodReportScreen": {
@@ -467,7 +467,7 @@
     "emptymessage": "Chưa có thực phẩm nào bị bạn tố cáo.",
     "Total": "Tổng",
     "foodreports": "tố cáo thực phẩm"
-    
+
   },
 
   "shopReportScreen": {
@@ -621,7 +621,8 @@
     "Ban":"Cấm",
     "Action":"Thao Tác",
     "Verified":"Đã xác minh",
-    "Notverified":"Chưa xác minh",
+    "Notverified":"Từ chối",
+    "Pending":"Chờ",
     "NotBan":"Không Cấm",
     "IsBanned":"Được cấm",
     "emptymessage":"Chưa có người bán.",
@@ -697,7 +698,7 @@
     "Phone":"Số điện thoại",
     "Password":"Mật khẩu",
     "Action":"Thao Tác",
-    "CofirmPassword":"Xác nhận mật khẩu",   
+    "CofirmPassword":"Xác nhận mật khẩu",
     "emptymessage":"Chưa có người điều hành.",
     "Male":"Nam",
     "Female":"Nữ",
@@ -724,7 +725,7 @@
     "Phone":"Số điện thoại",
     "Password":"Mật khẩu",
     "Action":"Thao Tác",
-    "CofirmPassword":"Xác nhận mật khẩu",   
+    "CofirmPassword":"Xác nhận mật khẩu",
     "emptymessage":"Chưa có người điều hành nào.",
     "Male":"Nam",
     "Female":"Nữ",
@@ -751,7 +752,7 @@
     "Phone":"Số điện thoại",
     "Password":"Mật khẩu",
     "Action":"Thao Tác",
-    "CofirmPassword":"Xác nhận mật khẩu",   
+    "CofirmPassword":"Xác nhận mật khẩu",
     "emptymessage":"Chưa có nhân viên kế toán.",
     "Male":"Nam",
     "Female":"Nữ",
@@ -779,7 +780,7 @@
     "Action":"Thao Tác",
     "Pending":"Đang chờ xử lý",
     "Solved":"Đã giải quyết",
-    "Reject":"Từ chối",   
+    "Reject":"Từ chối",
     "Detail":"Chi tiết",
     "emptymessage":"Chưa có báo cáo.",
     "ListImage":"Danh sách hình ảnh",
@@ -810,7 +811,7 @@
     "PhoneNumber":"Số điện thoại",
     "Phoneisrequired":"Số điện thoại là bắt buộc",
     "Email":"Email",
-    "IncorrectEmailformat":"Định dạng email không chính xác",   
+    "IncorrectEmailformat":"Định dạng email không chính xác",
     "Password":"Mật khẩu",
     "Passwordminimum8":"Mật khẩu tối thiểu 8 ký tự",
     "Passwordcontainsatleast1uppercasecharacter":"Mật khẩu chứa ít nhất 1 ký tự viết hoa",
