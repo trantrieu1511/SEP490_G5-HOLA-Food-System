@@ -23,6 +23,8 @@ import { DataView } from 'primeng/dataview';
 import { AddToCart } from '../../models/addToCart.model';
 import { TranslateService } from '@ngx-translate/core';
 import { BaseInput } from '../../models/BaseInput.model';
+import { ShoppingCartPopupService } from 'src/app/services/shopping-cart-popup.service';
+import { FoodPopUp } from '../../models/food-popup.model';
 interface PageEvent {
   first?: number;
   rows?: number;
@@ -59,7 +61,8 @@ export class HomepageComponent extends iComponentBase implements OnInit {
     private _route: ActivatedRoute,
     private dataService: DataService,
     public presence: PresenceService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private shoppingCartService: ShoppingCartPopupService
   ) {
     super(messageService);
   }
@@ -115,7 +118,7 @@ export class HomepageComponent extends iComponentBase implements OnInit {
 
   async getAllShop() {
     try {
-      debugger
+      
       this.loading = true;
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.HOME, API.API_HOME.DISPLAY_SHOP, this.paging);
       console.log(response)
@@ -184,16 +187,17 @@ onFilter(dv: DataView, event: Event) {
   dv.filter((event.target as HTMLInputElement).value);
 }
 
-async onAddToCart(foodId : number){
+async onAddToCart(food: any){
   try {
     this.loading = true;
     let cartItem = new AddToCart();
-    cartItem.foodId = foodId
+    cartItem.foodId = food.foodId
     cartItem.amount = 1
     let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.ADDTOCART, cartItem);
     if (response && response.message === "Success") {
-      console.log(response)
-        this.showMessage(mType.success, "", "Add to cart success!", 'notify');      
+      //console.log(response)
+      this.shoppingCartService.onAddToCart()
+      this.showMessage(mType.success, "", "Add to cart success!", 'notify');      
     }
     else{
       this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');

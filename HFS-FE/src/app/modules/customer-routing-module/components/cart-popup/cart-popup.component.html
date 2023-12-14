@@ -1,0 +1,96 @@
+<li class="layout-topbar-item shoppingcart">
+    <a class="layout-topbar-action rounded-circle"
+        (click)="layoutService.onTopbarItemClick($event, 'shoppingcart'); onViewCartPopup()"
+         pRipple> 
+        <span class="p-overlay-badge">
+            <i class="pi pi-shopping-cart fs-large"></i>
+            <span class="amount-cart dot-new-cart" 
+                [class.cart-dot]="isNewAddCart == true"
+                [style.display]="amountCart !== '0' ? 'block' : 'none'"
+                >{{amountCart}}</span>
+        </span>
+    </a>
+
+    <div *ngIf="!role; else loggedin">
+        <ul class="layout-topbar-action-panel shadow-6" 
+            [@topbarActionPanelAnimation]="'visible'"
+            *ngIf="layoutService.state.activeTopbarItem === 'shoppingcart'">
+            <li class="">
+                <div class="flex flex-row align-items-center">
+                    <div class="flex flex-column"
+                            [class.ml-3] = "!layoutService.app.isRTL"
+                            [class.mr-3] = "layoutService.app.isRTL"
+                            style="flex-grow: 1;"
+                            >
+                        <div class="flex align-items-center justify-content-center mb-1" style="min-height: 10rem;">
+                            Login to view Cart
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="">
+                <div class="flex flex-row align-items-center">
+                    <div class="flex flex-column"
+                            [class.ml-3] = "!layoutService.app.isRTL"
+                            [class.mr-3] = "layoutService.app.isRTL"
+                            style="flex-grow: 1;"
+                            >
+                        <div class="flex align-items-center justify-content-center mb-1">
+                            <button  pButton pRipple style="flex-grow: 1; text-align: center;"
+                                routerLink="/login"
+                                class="p-button-text p-button-Primary justify-content-center">Login</button>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <ng-template #loggedin>
+        <ul class="layout-topbar-action-panel shadow-6" [@topbarActionPanelAnimation]="'visible'"
+            *ngIf="layoutService.state.activeTopbarItem === 'shoppingcart'">
+
+            <ng-container *ngIf="lstFoodCart && lstFoodCart.length > 0; else emptyCart">
+                <app-cart-popup-item [layoutService]="layoutService" 
+                    (onViewFood)="onViewFood($event)"
+                    [food]="food" 
+                    *ngFor="let food of lstFoodCart"
+                >
+                </app-cart-popup-item>
+            </ng-container>
+            <ng-template #emptyCart>
+                <li class="">
+                    <div class="flex flex-row align-items-center">
+                        <div class="flex flex-column"
+                                [class.ml-3] = "!layoutService.app.isRTL"
+                                [class.mr-3] = "layoutService.app.isRTL"
+                                style="flex-grow: 1;"
+                                >
+                            <div class="flex align-items-center justify-content-center mb-1" style="min-height: 10rem;">
+                                Add food to see magic!
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ng-template>
+            
+            <li class="view-all mt-3">
+                <div class="flex flex-row align-items-center">
+                    <div class="flex flex-column"
+                            [class.ml-3] = "!layoutService.app.isRTL"
+                            [class.mr-3] = "layoutService.app.isRTL"
+                            style="flex-grow: 1;">
+                        <div class="flex align-items-center justify-content-center mb-1">
+                            <a class="text-sm font-bold link-btn"
+                            (click)="onViewCart($event)"
+                            >View Cart</a>
+                            <i class="text-sm pi pi-chevron-right"
+                                style="margin-left: 0.3rem; color: #212121; margin-top: 0.2rem;"
+                            ></i>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </ng-template>
+</li>

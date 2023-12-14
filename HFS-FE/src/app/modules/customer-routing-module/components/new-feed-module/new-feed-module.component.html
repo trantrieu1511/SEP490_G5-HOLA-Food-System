@@ -109,8 +109,9 @@
     </div>
     <div class="actions">
       <div class="emote">
-        <i (click)="onVote(item)" [class]="item.isLiked ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'">{{item.likeCount}}</i>
-        <i class="pi pi-share-alt share"></i>
+        <i (click)="onVote(item)" [class]="item.isLiked ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'" ></i>
+        <span style="margin-left: 5px;margin-right: 10px;">{{item.likeCount}}</span>
+        <!-- <i class="pi pi-share-alt share"></i> -->
       </div>
       <button pButton pRipple label="Comment" (click)="OnCommnent($event, item)" class="p-button-link p-comment"
         icon="pi pi-comment"></button>
@@ -164,7 +165,7 @@
           <div class="comment-actions">
             <i class="far fa-thumbs-up"></i>
             <i class="far fa-comment-alt"></i>
-            <i class="far fa-share-square"></i>
+            <!-- <i class="far fa-share-square"></i> -->
           </div>
         </div>
       </div>

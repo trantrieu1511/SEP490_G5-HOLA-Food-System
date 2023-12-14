@@ -27,6 +27,8 @@ import { ReportSellerComponent } from './components/report-seller/report-seller.
 import { AddressSelectorComponent } from './address-selector/address-selector.component';
 import { AppBreadcrumbComponent } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.component';
 import { MapModuleComponent } from './map-module/map-module.component';
+import { CartPopupComponent } from './components/cart-popup/cart-popup.component';
+import { CartPopupItemComponent } from './components/cart-popup-item/cart-popup-item.component';
 
 const routes: Routes = [
   { path: "cartdetail", component: CartdetailComponent },
@@ -62,7 +64,9 @@ const routes: Routes = [
     ManageshipaddressComponent,
     AppMenuMyaccountComponent,
     ReportSellerComponent,
-    AddressSelectorComponent
+    AddressSelectorComponent,
+    CartPopupComponent,
+    CartPopupItemComponent,
   ],
   imports: [
     CommonModule,
@@ -72,7 +76,8 @@ const routes: Routes = [
   ],
   exports: [
     // AppMenuMyaccountComponent
-    AddressSelectorComponent
+    AddressSelectorComponent,
+    CartPopupComponent
   ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }

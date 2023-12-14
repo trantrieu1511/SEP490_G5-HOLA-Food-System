@@ -1,0 +1,18 @@
+<li class="layout-topbar-action-item"
+    (click)="onViewFoodClick()"
+>
+    <div class="flex flex-row align-items-center">
+        <div>
+            <img class="" src="data:image/gif;base64,{{food.foodImages}}" alt="food.name" width="50" />
+        </div>
+        <div class="flex flex-column"
+            [ngClass]="{'ml-3': !layoutService.app.isRTL, 'mr-3': layoutService.app.isRTL}"
+            style="flex-grow: 1;">
+            <div class="flex align-items-center justify-content-between mb-1">
+                <span class="fs-small font-bold food_name">{{food.name}}</span>
+                <span class="fs-small">{{food.unitPrice | currency:'VND'}}</span>
+            </div>
+            <span class="fs-small food_amount">x {{food.amount}}</span>
+        </div>
+    </div>
+</li>

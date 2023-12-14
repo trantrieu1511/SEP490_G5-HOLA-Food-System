@@ -15,6 +15,10 @@ export class NotificationBellService {
 
   readNotifyHandle = this.readNotify.asObservable();
 
+  private markAllNotify = new BehaviorSubject<any>(null);
+
+  markAllNotifyHandle = this.markAllNotify.asObservable();
+
   constructor() { }
 
   onIsNewNotifyYet(isNew: boolean){
@@ -23,5 +27,9 @@ export class NotificationBellService {
 
   onReadNotify(notifyRead: Notification){
     this.readNotify.next(notifyRead);
+  }
+
+  onMarkAllNotify(){
+    this.markAllNotify.next(null);
   }
 }

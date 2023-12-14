@@ -82,15 +82,19 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
     private clipboard: ClipboardService
   ) {
     super(messageService);
+
+    this.checkLoggedIn();
   }
 
   checkLoggedIn() {
     // if (sessionStorage.getItem('userId') != null) {
     //   this.isLoggedIn = true;
     // }
-    this.userId = this.authService.getUserInfor().userId;
-    if (this.userId != null) {
+    var user = this.authService.getUserInfor();
+    if (user != null) {
+      this.userId = user.userId;
       this.isLoggedIn = true;
+
     }
   }
 
@@ -106,7 +110,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
 
   async ngOnInit(): Promise<void> {
     await this.getAllPost();
-    //this.checkLoggedIn();
+    
 
     if (this.isLoggedIn) {
       await this.checkUsersReportPostCapability();

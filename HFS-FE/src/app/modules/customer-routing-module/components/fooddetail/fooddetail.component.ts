@@ -27,6 +27,7 @@ import { CheckboxChangeEvent } from 'primeng/checkbox';
 import { AuthService } from 'src/app/services/auth.service';
 import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ShoppingCartPopupService } from 'src/app/services/shopping-cart-popup.service';
 interface PageEvent {
   first?: number;
   rows?: number;
@@ -50,7 +51,8 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     public presence: PresenceService,
     private authService: AuthService,
     public breadcrumbService: AppBreadcrumbService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private shoppingCartService: ShoppingCartPopupService
   ) {
     super(messageService, breadcrumbService);
 
@@ -243,6 +245,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.ADDTOCART, cartItem);
       if (response && response.message === "Success") {
         console.log(response)
+        this.shoppingCartService.onAddToCart()
         this.showMessage(mType.success, "", "Add to cart success!", 'notify');
       }
       else {

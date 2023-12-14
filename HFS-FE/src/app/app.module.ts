@@ -76,12 +76,11 @@ import { CustomerRoutingModule } from './modules/customer-routing-module/custome
 import { SellerRoutingModule } from './modules/seller-routing-module/seller-routing.module';
 import { ManageAccountantModuleComponent } from './modules/admin-routing-module/manage-accountant-module/manage-accountant-module.component';
 import { MapModuleComponent } from './modules/customer-routing-module/map-module/map-module.component';
+import { AppManageLayoutModule } from './layout/manage/app.manage.module';
 //import {AgmCoreModule } from '@agm/core'
 @NgModule({
   declarations: [
     AppComponent,
-    AppManageLayoutComponent,
-
     AppNotfoundComponent,
     AppErrorComponent,
     AppAccessdeniedComponent,
@@ -130,6 +129,7 @@ import { MapModuleComponent } from './modules/customer-routing-module/map-module
     BusinessRoutingModule,
     CustomerRoutingModule,
     SellerRoutingModule,
+    AppManageLayoutModule,
 
     // JwtModule.forRoot({
     //   config: {
