@@ -29,7 +29,7 @@ namespace HFS_BE.DAO.ShipperDao
 		public string? ManageBy { get; set; }
 		public bool? ConfirmedEmail { get; set; }
 		public bool? IsBanned { get; set; }
-		public bool? IsVerified { get; set; }
+		public byte IsVerified { get; set; }
 		public List<ImageShipperOutputDto>? Images { get; set; }
 	}
 	public class ImageShipperOutputDto

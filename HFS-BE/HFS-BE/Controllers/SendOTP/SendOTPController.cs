@@ -21,6 +21,7 @@ using Twilio.Jwt.AccessToken;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 using HFS_BE.Utils;
+using Microsoft.OpenApi.Writers;
 
 namespace HFS_BE.Controllers.SendOTP
 {
@@ -48,16 +49,46 @@ namespace HFS_BE.Controllers.SendOTP
 
 				using (SEP490_HFS_2Context context = new SEP490_HFS_2Context())
 				{
-					var user = context.Customers.FirstOrDefault(s => s.PhoneNumber == inputDto.phoneNumber);
-
-					if (user == null)
+					
+					if (inputDto.UserId.Substring(0, 2).Equals("CU"))
 					{
-						return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+						var user = context.Customers.FirstOrDefault(s => s.PhoneNumber == inputDto.phoneNumber);
+						if (user == null)
+						{
+							return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+						}
+						otp = new JwtSecurityTokenHandler().WriteToken(token);
+						user.OtpToken = otp;
+						user.OtpTokenExpiryTime = 5;
+						context.SaveChanges();
 					}
-					otp = new JwtSecurityTokenHandler().WriteToken(token);
-					user.OtpToken = otp;
-					user.OtpTokenExpiryTime = 5;
-					context.SaveChanges();
+					else if(inputDto.UserId.Substring(0, 2).Equals("SE"))
+					{
+						var seller = context.Sellers.FirstOrDefault(s => s.PhoneNumber == inputDto.phoneNumber);
+						if (seller == null)
+						{
+							return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+						}
+						otp = new JwtSecurityTokenHandler().WriteToken(token);
+						seller.OtpToken = otp;
+						seller.OtpTokenExpiryTime = 5;
+						context.SaveChanges();
+
+					}
+					else if (inputDto.UserId.Substring(0, 2).Equals("SH"))
+					{
+						var shipper = context.Shippers.FirstOrDefault(s => s.PhoneNumber == inputDto.phoneNumber);
+						if (shipper == null)
+						{
+							return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+						}
+						otp = new JwtSecurityTokenHandler().WriteToken(token);
+						shipper.OtpToken = otp;
+						shipper.OtpTokenExpiryTime = 5;
+						context.SaveChanges();
+					}
+					
+					
 				}
 
 				var phoneNumber = new Twilio.Types.PhoneNumber("+84974280518");
@@ -114,31 +145,94 @@ namespace HFS_BE.Controllers.SendOTP
 			{
 				using (SEP490_HFS_2Context context = new SEP490_HFS_2Context())
 				{
-					var user = context.Customers.FirstOrDefault(s => s.PhoneNumber == inputDto.phoneNumber);
-					if (user == null)
+					if (inputDto.UserId.Substring(0, 2).Equals("CU"))
 					{
-						return this.Output<BaseOutputDto>(Constants.ResultCdFail);
-					}
-					tokenHandler.ValidateToken(user.OtpToken, new TokenValidationParameters
-					{
-						ValidateIssuerSigningKey = true,
-						IssuerSigningKey = new SymmetricSecurityKey(key),
-						ValidateIssuer = false,
-						ValidateAudience = false,
-						ClockSkew = TimeSpan.Zero
-					}, out SecurityToken validatedToken);
+						var user = context.Customers.FirstOrDefault(s => s.PhoneNumber == inputDto.phoneNumber);
+						if (user == null)
+						{
+							return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+						}
+						tokenHandler.ValidateToken(user.OtpToken, new TokenValidationParameters
+						{
+							ValidateIssuerSigningKey = true,
+							IssuerSigningKey = new SymmetricSecurityKey(key),
+							ValidateIssuer = false,
+							ValidateAudience = false,
+							ClockSkew = TimeSpan.Zero
+						}, out SecurityToken validatedToken);
 
-					var jwtToken = (JwtSecurityToken)validatedToken;
-					string otpdata = jwtToken.Claims.First(c => c.Type == "OTP").Value;
-					if (otpdata.Equals(inputDto.otp.ToString()))
+						var jwtToken = (JwtSecurityToken)validatedToken;
+						string otpdata = jwtToken.Claims.First(c => c.Type == "OTP").Value;
+						if (otpdata.Equals(inputDto.otp.ToString()))
+						{
+							result = true;
+						}
+						if (result)
+						{
+							user.IsPhoneVerified = true;
+							context.SaveChanges();
+						}
+					}else if(inputDto.UserId.Substring(0, 2).Equals("SE"))
 					{
-						result = true;
+						var user = context.Sellers.FirstOrDefault(s => s.PhoneNumber == inputDto.phoneNumber);
+						if (user == null)
+						{
+							return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+						}
+						tokenHandler.ValidateToken(user.OtpToken, new TokenValidationParameters
+						{
+							ValidateIssuerSigningKey = true,
+							IssuerSigningKey = new SymmetricSecurityKey(key),
+							ValidateIssuer = false,
+							ValidateAudience = false,
+							ClockSkew = TimeSpan.Zero
+						}, out SecurityToken validatedToken);
+
+						var jwtToken = (JwtSecurityToken)validatedToken;
+						string otpdata = jwtToken.Claims.First(c => c.Type == "OTP").Value;
+						if (otpdata.Equals(inputDto.otp.ToString()))
+						{
+							result = true;
+						}
+						if (result)
+						{
+							user.IsPhoneVerified = true;
+							context.SaveChanges();
+						}
+
+
 					}
-					if (result)
+					else if (inputDto.UserId.Substring(0, 2).Equals("SH"))
 					{
-						user.IsPhoneVerified = true;
-						context.SaveChanges();
+						var user = context.Shippers.FirstOrDefault(s => s.PhoneNumber == inputDto.phoneNumber);
+						if (user == null)
+						{
+							return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+						}
+						tokenHandler.ValidateToken(user.OtpToken, new TokenValidationParameters
+						{
+							ValidateIssuerSigningKey = true,
+							IssuerSigningKey = new SymmetricSecurityKey(key),
+							ValidateIssuer = false,
+							ValidateAudience = false,
+							ClockSkew = TimeSpan.Zero
+						}, out SecurityToken validatedToken);
+
+						var jwtToken = (JwtSecurityToken)validatedToken;
+						string otpdata = jwtToken.Claims.First(c => c.Type == "OTP").Value;
+						if (otpdata.Equals(inputDto.otp.ToString()))
+						{
+							result = true;
+						}
+						if (result)
+						{
+							user.IsPhoneVerified = true;
+							context.SaveChanges();
+						}
+
+
 					}
+
 
 					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 

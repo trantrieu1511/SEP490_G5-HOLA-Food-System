@@ -25,11 +25,12 @@ CREATE TABLE [dbo].[Seller](
 	[walletBalance] [money] NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 	[isBanned] [bit] not null DEFAULT('false'),
-	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Seller) da duoc admin xac nhan cho phep kinh doanh o HFS chua
+	[Status] [tinyint] not null DEFAULT('0'), -- The hien rang nguoi dung nay (Seller) da duoc admin xac nhan cho phep kinh doanh o HFS chua
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
 	[createDate][datetime] null,
 	[businessCode]  NVARCHAR(50) NULL,
+	[Note]  NVARCHAR(MAX),
 	--[lat][float]null,
 	--[lng][float]null,
 )
@@ -162,10 +163,11 @@ CREATE TABLE [dbo].[Shipper](
 	[isOnline] [bit] NOT NULL DEFAULT('false'),
 	[manageBy] [nvarchar](50) NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
-	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Shipper) da duoc admin xac nhan cho phep kinh doanh o HFS chua
+	[Status] [tinyint] not null DEFAULT('0'), -- The hien rang nguoi dung nay (Shipper) da duoc admin xac nhan cho phep kinh doanh o HFS chua
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
 	[createDate][datetime] null,
+	[Note]  NVARCHAR(MAX) null,
 	CONSTRAINT FK_Shiper_Seller FOREIGN KEY (manageBy) REFERENCES [Seller]([sellerId]),
 )
 
@@ -692,3 +694,13 @@ ADD [isPhoneVerified] [bit] NOT NULL DEFAULT('false'),
     [otpToken] [nvarchar](max) NULL,
     [otpTokenExpiryTime] [int] NULL;
 
+
+ALTER TABLE [dbo].[Seller]
+ADD [isPhoneVerified] [bit] NOT NULL DEFAULT('false'),
+    [otpToken] [nvarchar](max) NULL,
+    [otpTokenExpiryTime] [int] NULL;
+	
+ALTER TABLE [dbo].[Shipper]
+ADD [isPhoneVerified] [bit] NOT NULL DEFAULT('false'),
+    [otpToken] [nvarchar](max) NULL,
+    [otpTokenExpiryTime] [int] NULL;

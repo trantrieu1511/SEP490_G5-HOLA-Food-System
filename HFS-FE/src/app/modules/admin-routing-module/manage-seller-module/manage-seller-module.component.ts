@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import {
   iComponentBase,
   iServiceBase, mType,
   ShareData,
   iFunction
 } from 'src/app/modules/shared-module/shared-module';
-import { BanSeller, HistoryBanSeller, Seller } from '../models/Seller';
+import { BanSeller, HistoryBanSeller, RejectSeller, Seller } from '../models/Seller';
 import * as API from "../../../services/apiURL";
 @Component({
   selector: 'app-manage-seller-module',
@@ -18,6 +18,7 @@ export class ManageSellerModuleComponent extends iComponentBase implements OnIni
    listSeller:Seller []=[];
    visibleContentDialog:boolean=false;
   displayDialogBan: boolean = false;
+  displayDialogReject: boolean = false;
   visiblebanHistoryDialog:boolean=false;
   visibleImageDialog:boolean=false;
   visibleImageDialog2:boolean=false;
@@ -26,8 +27,10 @@ export class ManageSellerModuleComponent extends iComponentBase implements OnIni
   headerDialog: string = '';
   listhistoryBan:HistoryBanSeller []=[];
   banseller:BanSeller= new BanSeller();
+  rejectseller:RejectSeller= new RejectSeller();
   constructor( private shareData: ShareData,
     public messageService: MessageService,
+    private confirmationService: ConfirmationService,
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
@@ -109,16 +112,33 @@ console.log(this.banseller);
     this.banseller = new BanSeller();
     this.displayDialogBan = false;
   }
-  async ActiveSeller(user:Seller){
+  async ActiveSeller(user:Seller,event){
+    this.confirmationService.confirm({
+      target: event.target,
+      message: `Are you sure to Verify  id: ${user.sellerId} ?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //confirm action
+        this.ActiveSeller1(user);
+      },
+      reject: () => {
+        //reject action
+      },
+    });
+
+
+  }
+  async ActiveSeller1(user:Seller){
     const param={
       "sellerId": user.sellerId,
-      "isVerified": !user.isVerified
+      "status": 1
     }
     try{
-
+      debugger
     let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.ACTIVE_SELLER,param);
 
     if (response && response.message === "Success") {
+
      this.getAllSeller();
      this.showMessage(mType.success, "Notification", "Verification "+user.sellerId+" successfully", 'notify');
      this.banseller = new BanSeller();
@@ -132,7 +152,37 @@ console.log(this.banseller);
 
 
   }
+  RejectSeller(user:Seller){
+    this.headerDialog="Reject Id: "+user.sellerId;
+    this.displayDialogReject = true;
+    this.rejectseller.status=2;
+    this.rejectseller.sellerId=user.sellerId;
+  }
+  onCancelReject(){
+    this.rejectseller = new RejectSeller();
+    this.displayDialogReject = false;
+  }
+  async onSaveReject(){
+debugger
+    try{
+      debugger
+    let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.REJECT_SELLER,this.rejectseller);
 
+    if (response && response.message === "Success") {
+
+     this.getAllSeller();
+     this.showMessage(mType.success, "Notification", "Verification "+"user.sellerId"+" successfully", 'notify');
+     this.rejectseller = new RejectSeller();
+     this.displayDialogBan = false;
+    }
+   ;
+  } catch (e) {
+    console.log(e);
+    this.showMessage(mType.error, "Notification", "Verificationn "+"user.sellerId"+" failure", 'notify');
+  }
+
+
+  }
   onDisplayImagesDialog(s: Seller, event: any) {
     this.sellerImg = s;
     this.visibleImageDialog = true;
