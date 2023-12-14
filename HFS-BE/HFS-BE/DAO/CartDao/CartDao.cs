@@ -51,15 +51,14 @@ namespace HFS_BE.DAO.CartDao
                     .ThenInclude(x => x.FoodImages)
                     .Where(x => x.CartId == inputDto.CartId)
                     .OrderByDescending(x => x.CreateDate)
-                    .Select(x => mapper.Map<CartItem, CartItemOutputDto>(x))
-                    .Take(5);
+                    .Select(x => mapper.Map<CartItem, CartItemOutputDto>(x));
 
                 var output = this.Output<GetCartItemDaoOutputDto>(Constants.ResultCdSuccess);
                 if (data.Any())
                 {
-                    output.ListItem = data.ToList();
+                    output.ListItem = data.Take(5).ToList();
                 }
-
+                output.Total = data.Count();
                 return output;
 
             }
