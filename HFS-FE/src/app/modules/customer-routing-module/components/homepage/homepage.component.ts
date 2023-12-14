@@ -37,8 +37,6 @@ interface PageEvent {
 export class HomepageComponent extends iComponentBase implements OnInit {
   @ViewChild('dt') table: Table;
 
-  first : number = 0;
-  row : number = 9;
   loading: boolean;
   lstShop: any[];
   hotfoods : any[]
@@ -65,8 +63,8 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   }
 
   ngOnInit() {
-    this.paging.pageSize = this.row;
-    this.paging.pageNum = this.first;
+    this.paging.pageSize = 9;
+    this.paging.pageNum = 0;
     this.getAllShop();
     this.getHotFoods();
     this.getCategory();
