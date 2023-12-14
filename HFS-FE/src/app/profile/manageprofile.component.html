@@ -1,9 +1,10 @@
-<p-dialog [(visible)]="isVisibleOthersEditProfileDialog" [style]="{ width: '450px' }" header="{{'profileScreen.Profiledetails' | translate}}"
-    [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="isVisibleOthersEditProfileDialog" [style]="{ width: '450px' }"
+    header="{{'profileScreen.Profiledetails' | translate}}" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="profileInfo">
         <div class="formgrid grid">
             <div class="field col">
-                <label for="lastname">{{'profileScreen.Lastname' | translate}} <span style="color: red;">*</span></label>
+                <label for="lastname">{{'profileScreen.Lastname' | translate}} <span
+                        style="color: red;">*</span></label>
                 <input type="text" pInputText id="lastname" [(ngModel)]="profile.lastName" required
                     [class.ng-invalid]="!editProfileValidation.isValidLastName"
                     [class.ng-dirty]="!editProfileValidation.isValidLastName" />
@@ -11,7 +12,8 @@
                     class="p-error block">{{editProfileValidation.LastNameValidationMessage}}</small>
             </div>
             <div class="field col">
-                <label for="firstname">{{'profileScreen.Firstname' | translate}} <span style="color: red;">*</span></label>
+                <label for="firstname">{{'profileScreen.Firstname' | translate}} <span
+                        style="color: red;">*</span></label>
                 <input type="text" pInputText id="firstname" [(ngModel)]="profile.firstName" required
                     [class.ng-invalid]="!editProfileValidation.isValidFirstName"
                     [class.ng-dirty]="!editProfileValidation.isValidFirstName" />
@@ -47,7 +49,8 @@
             </div>
         </div>
         <div class="field">
-            <label for="phonenumber">{{'profileScreen.Phonenumber' | translate}} <span style="color: red;">*</span></label>
+            <label for="phonenumber">{{'profileScreen.Phonenumber' | translate}} <span
+                    style="color: red;">*</span></label>
             <input type="text" pInputText id="phonenumber" [(ngModel)]="profile.phoneNumber" required
                 [class.ng-invalid]="!editProfileValidation.isValidPhoneNumber"
                 [class.ng-dirty]="!editProfileValidation.isValidPhoneNumber" />
@@ -59,7 +62,8 @@
     <ng-template pTemplate="footer">
         <button pButton pRipple label="{{'button.cancel' | translate}}" icon="pi pi-times" class="p-button-text"
             (click)="this.isVisibleOthersEditProfileDialog = false"></button>
-        <button pButton pRipple label="{{'button.save' | translate}}" icon="pi pi-check" (click)="editProfile()"></button>
+        <button pButton pRipple label="{{'button.save' | translate}}" icon="pi pi-check"
+            (click)="editProfile()"></button>
     </ng-template>
 </p-dialog>
 
@@ -112,7 +116,8 @@
         </div> -->
 
         <div class="field">
-            <label for="phonenumber">{{'profileScreen.Phonenumber' | translate}} <span style="color: red;">*</span></label>
+            <label for="phonenumber">{{'profileScreen.Phonenumber' | translate}} <span
+                    style="color: red;">*</span></label>
             <input type="text" pInputText id="phonenumber" [(ngModel)]="profile.phoneNumber" required
                 [class.ng-invalid]="!editProfileValidation.isValidPhoneNumber"
                 [class.ng-dirty]="!editProfileValidation.isValidPhoneNumber" />
@@ -129,7 +134,8 @@
                 class="p-error block">{{editProfileValidation.ShopNameValidationMessage}}</small>
         </div>
         <div class="field">
-            <label for="shopaddress">{{'profileScreen.Shopaddress' | translate}} <span style="color: red;">*</span></label>
+            <label for="shopaddress">{{'profileScreen.Shopaddress' | translate}} <span
+                    style="color: red;">*</span></label>
             <textarea class="w-full" rows="5" cols="60" pInputTextarea maxlength="200" id="shopaddress"
                 [(ngModel)]="profile.shopAddress" required
                 [class.ng-invalid]="!editProfileValidation.isValidShopAddress"
@@ -143,16 +149,18 @@
     <ng-template pTemplate="footer">
         <button pButton pRipple label="{{'button.cancel' | translate}}" icon="pi pi-times" class="p-button-text"
             (click)="this.isVisibleSellerEditProfileDialog = false"></button>
-        <button pButton pRipple label="{{'button.save' | translate}}" icon="pi pi-check" (click)="editProfile()"></button>
+        <button pButton pRipple label="{{'button.save' | translate}}" icon="pi pi-check"
+            (click)="editProfile()"></button>
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="isVisibleChangePasswordModal" [style]="{ width: '450px' }" header="{{'profileScreen.Changeyourpassword' | translate}}"
-    [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="isVisibleChangePasswordModal" [style]="{ width: '450px' }"
+    header="{{'profileScreen.Changeyourpassword' | translate}}" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="ChangePassword">
         <!-- <div class="formgrid grid"> -->
         <div class="field">
-            <label for="newpassword">{{'profileScreen.Newpassword' | translate}} <span style="color: red;">*</span></label>
+            <label for="newpassword">{{'profileScreen.Newpassword' | translate}} <span
+                    style="color: red;">*</span></label>
             <input type="password" pInputText id="newpassword" [(ngModel)]="profile.newPassword" required
                 [class.ng-invalid]="!changePasswordValidation.isValidPassword"
                 [class.ng-dirty]="!changePasswordValidation.isValidPassword" (keyup)="validateChangePasswordInput()" />
@@ -160,7 +168,8 @@
                 class="p-error block">{{changePasswordValidation.PasswordValidationMessage}}</small>
         </div>
         <div class="field">
-            <label for="confirmnewpassword">{{'profileScreen.Confirmnewpassword' | translate}} <span style="color: red;">*</span></label>
+            <label for="confirmnewpassword">{{'profileScreen.Confirmnewpassword' | translate}} <span
+                    style="color: red;">*</span></label>
             <input type="password" pInputText id="confirmnewpassword" [(ngModel)]="profile.confirmNewPassword" required
                 [class.ng-invalid]="!changePasswordValidation.isValidConfirmPassword"
                 [class.ng-dirty]="!changePasswordValidation.isValidConfirmPassword"
@@ -175,16 +184,18 @@
     <ng-template pTemplate="footer">
         <button pButton pRipple label="{{'button.cancel' | translate}}" icon="pi pi-times" class="p-button-text"
             (click)="this.isVisibleChangePasswordModal = false"></button>
-        <button pButton pRipple label="{{'button.save' | translate}}" icon="pi pi-check" (click)="changePassword()"></button>
+        <button pButton pRipple label="{{'button.save' | translate}}" icon="pi pi-check"
+            (click)="changePassword()"></button>
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="isVisibleVerifyYourselfModal" [style]="{ width: '450px' }" header="{{'profileScreen.Verifyyouridentity' | translate}}"
-    [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="isVisibleVerifyYourselfModal" [style]="{ width: '450px' }"
+    header="{{'profileScreen.Verifyyouridentity' | translate}}" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="VerifyIdentity">
         <!-- <div class="formgrid grid"> -->
         <div class="field">
-            <label for="oldpassword">{{'profileScreen.Enteryouraccountpassword' | translate}} <span style="color: red;">*</span></label>
+            <label for="oldpassword">{{'profileScreen.Enteryouraccountpassword' | translate}} <span
+                    style="color: red;">*</span></label>
             <input type="password" pInputText id="oldpassword" [(ngModel)]="profile.oldPassword" required
                 [class.ng-invalid]="!verifyIdentityValidation.isValidPassword"
                 [class.ng-dirty]="!verifyIdentityValidation.isValidPassword" />
@@ -202,8 +213,8 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="isVisibleVerifyPhoneNumberModal" [style]="{ width: '450px' }" header="{{'profileScreen.VerifyYourPhonenumber' | translate}}"
-    [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="isVisibleVerifyPhoneNumberModal" [style]="{ width: '450px' }"
+    header="{{'profileScreen.VerifyYourPhonenumber' | translate}}" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="VerifyPhonenumber">
         <!-- <div class="formgrid grid"> -->
         <div class="field">
@@ -221,14 +232,15 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="isVisibleEditLicenseDialog" [style]="{ width: '700px' }" header="{{'profileScreen.Edityourlicenceimage' | translate}}"
-    [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="isVisibleEditLicenseDialog" [style]="{ width: '700px' }"
+    header="{{'profileScreen.Edityourlicenceimage' | translate}}" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="EditLicense">
         <div class="col-12 mb-2 lg:col-12 mb-lg-0">
             <p-table [value]="licenseImages" [paginator]="true" [rows]="5" responsiveLayout="scroll">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="ID">{{'profileScreen.ID' | translate}}<p-sortIcon field="ID"></p-sortIcon></th>
+                        <th pSortableColumn="ID">{{'profileScreen.ID' | translate}}<p-sortIcon field="ID"></p-sortIcon>
+                        </th>
                         <th>{{'profileScreen.Image' | translate}}</th>
                         <th>{{'profileScreen.Name' | translate}}</th>
                         <th>{{'profileScreen.Size' | translate}}</th>
@@ -255,7 +267,7 @@
 
             <hr>
 
-            <label>{{'profileScreen.Image' | translate}} <span style="color: red;">*</span></label>
+            <label>{{'profileScreen.EditLicenseImageSection' | translate}} <span style="color: red;">*</span></label>
             <span class="p-input-icon-left p-float-label" style="width: 100%">
                 <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
                     <ng-template pTemplate="content">
@@ -284,8 +296,9 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog header="{{'profileScreen.Listlicenseimages' | translate}}" [(visible)]="visibleLicenseImageDialog" [breakpoints]="{ '960px': '75vw' }"
-    [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false" [maximizable]="true">
+<p-dialog header="{{'profileScreen.Listlicenseimages' | translate}}" [(visible)]="visibleLicenseImageDialog"
+    [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false"
+    [maximizable]="true">
     <p-table [value]="licenseImages" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
@@ -364,9 +377,9 @@
                     <br><br>
                     <!-- <p-button >import img</p-button> -->
                     <p-fileUpload [files]="uploadedFiles" mode="basic"
-                        [chooseLabel]="profileImage.imageBase64 == undefined ? addUpBtn : edtUpBtn"
-                        name="demo[]" [showUploadButton]="false" [customUpload]="true" accept="image/*"
-                        [maxFileSize]="1000000" (onSelect)="handleFileSelection($event);" [auto]="true"></p-fileUpload>
+                        [chooseLabel]="profileImage.imageBase64 == undefined ? addUpBtn : edtUpBtn" name="demo[]"
+                        [showUploadButton]="false" [customUpload]="true" accept="image/*" [maxFileSize]="1000000"
+                        (onSelect)="handleFileSelection($event);" [auto]="true"></p-fileUpload>
                     <!-- <br><br> -->
                 </div>
 
@@ -374,15 +387,16 @@
                 <!-- <div style="margin-top: 3%;"></div> -->
 
                 <!-- <div class="card" style="width: 97%;"> -->
-                    <!-- <div>More</div> -->
-                    <div *ngIf="role == 'SE' && !profileDisplay.isVerified">
-                        <p-button [text]="true" (onClick)="openEditLicenseDialog();">{{'profileScreen.Editlicenceimage' | translate}}</p-button>
-                        <!-- <br> -->
-                    </div>
-                    <div>
-                        <p-button *ngIf="profileDisplay.confirmedEmail" (click)="openVerifyIdentityModal();"
-                            [text]="true">{{'profileScreen.Changepassword' | translate}}</p-button>
-                    </div>
+                <!-- <div>More</div> -->
+                <div *ngIf="role == 'SE' && !profileDisplay.isVerified">
+                    <p-button [text]="true" (onClick)="openEditLicenseDialog();">{{'profileScreen.Editlicenceimage' |
+                        translate}}</p-button>
+                    <!-- <br> -->
+                </div>
+                <div>
+                    <p-button *ngIf="profileDisplay.confirmedEmail" (click)="openVerifyIdentityModal();"
+                        [text]="true">{{'profileScreen.Changepassword' | translate}}</p-button>
+                </div>
                 <!-- </div> -->
 
             </div>
@@ -442,12 +456,15 @@
                             <div *ngIf="!profileDisplay.confirmedEmail && role == 'CU' ||
                                 !profileDisplay.confirmedEmail && role == 'SE' ||
                                 !profileDisplay.confirmedEmail && role == 'SH'">
-                                <a class="verify-email-link" (click)="confirm(profileDisplay.email);">{{'profileScreen.Verifyemail' | translate}}</a>
+                                <a class="verify-email-link"
+                                    (click)="confirm(profileDisplay.email);">{{'profileScreen.Verifyemail' |
+                                    translate}}</a>
                             </div>
                             <div *ngIf="profileDisplay.confirmedEmail && role == 'CU'
                                 || profileDisplay.confirmedEmail && role == 'SE'
                                 || profileDisplay.confirmedEmail && role == 'SH'">
-                                <p style="color: rgb(23, 170, 23);">{{'profileScreen.Emailhasbeenverified' | translate}}</p>
+                                <p style="color: rgb(23, 170, 23);">{{'profileScreen.Emailhasbeenverified' | translate}}
+                                </p>
                             </div>
                         </div>
                         <!-- <ng-template #RegisterEmail>
@@ -460,21 +477,25 @@
                         <!-- <p class="field-info" *ngIf="profileDisplay.phoneNumber != undefined else RegisterPhoneNumber"> -->
                         <div class="field-info">
                             {{profileDisplay.phoneNumber == undefined ?
-                                None3
+                            None3
                             : profileDisplay.phoneNumber }}
                             <!-- <p-button [text]="true" (onClick)="verifyPhonenumber();">verify phonenumber</p-button> -->
-                            <div *ngIf="!profileDisplay.isPhoneVerified && role == 'CU'">
-                                <div>
-                                    <a style="color: #6366F1;" class="edit-phonenumber-link" href="#"
-                                        onClick="event.preventDefault();"
-                                        (click)="openVerifyPhonenumberModal(profileDisplay.phoneNumber,profileDisplay.userId);">{{'profileScreen.VerifiedPhoneNumber' | translate}}</a>
+                            <div *ngIf="role == 'CU' || role == 'SE' || role == 'SH'">
+                                <div *ngIf="!profileDisplay.isPhoneVerified">
+                                    <div>
+                                        <a style="color: #6366F1;" class="edit-phonenumber-link" href="#"
+                                            onClick="event.preventDefault();"
+                                            (click)="openVerifyPhonenumberModal(profileDisplay.phoneNumber,profileDisplay.userId);">{{'profileScreen.VerifiedPhoneNumber'
+                                            | translate}}</a>
+                                    </div>
+                                    <div>
+                                        <p style="color: red;">{{'profileScreen.Notverified' | translate}}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p style="color: red;">{{'profileScreen.Notverified' | translate}}</p>
+                                <div *ngIf="profileDisplay.isPhoneVerified">
+                                    <p style="color: rgb(23, 170, 23);">{{'profileScreen.Phonenumberhasbeenverified' |
+                                        translate}}</p>
                                 </div>
-                            </div>
-                            <div *ngIf="profileDisplay.isPhoneVerified && role == 'CU'">
-                                <p style="color: rgb(23, 170, 23);">{{'profileScreen.Phonenumberhasbeenverified' | translate}}</p>
                             </div>
                         </div>
                         <!-- <ng-template #RegisterPhoneNumber>
@@ -529,7 +550,7 @@
                                         style="color: green; font-size: large;"></i>
                                 </span>
                                 <span *ngIf="!profileDisplay.isVerified" style="color: red;">
-                                   {{'profileScreen.Notverified' | translate}}
+                                    {{'profileScreen.Notverified' | translate}}
                                 </span>
                             </p>
                         </div>
@@ -551,11 +572,12 @@
                     </div> -->
 
                     <a class="btn-edit-profile" (click)="openSellerEditProfileDiaglog();" href="javascript:void(0);"
-                        *ngIf="role == 'SE' else openOthersEditProfileDialogBtn">...<i class="pi pi-pencil"></i> {{'profileScreen.Edit' | translate}}</a>
+                        *ngIf="role == 'SE' else openOthersEditProfileDialogBtn">...<i class="pi pi-pencil"></i>
+                        {{'profileScreen.Edit' | translate}}</a>
                     <ng-template #openOthersEditProfileDialogBtn>
-                        <a class="btn-edit-profile"
-                            (click)="openOthersEditProfileDiaglog();" href="javascript:void(0);">...<i
-                                class="pi pi-pencil"></i> {{'profileScreen.Edit' | translate}}</a>
+                        <a class="btn-edit-profile" (click)="openOthersEditProfileDiaglog();"
+                            href="javascript:void(0);">...<i class="pi pi-pencil"></i> {{'profileScreen.Edit' |
+                            translate}}</a>
                     </ng-template>
                     <!-- &nbsp; -->
                 </div>
