@@ -16,7 +16,7 @@
               </div>
 
             <div class="overview-list">
-                <div class="overview-item">
+                <div class="overview-item" (click)="chooseLine(0)" [class.choose-item-order]="chooseDisplayLine == 0">
                     <span>
                         <div class="title">Order: </div>
                     </span>
@@ -30,7 +30,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="overview-item">
+                <div class="overview-item" (click)="chooseLine(1)" [class.choose-item-amount]="chooseDisplayLine == 1">
                     <span>
                         <div class="title">Estimated Amount(đ): </div>
                     </span>
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="overview-item">
+                <div class="overview-item" (click)="chooseLine(2)" [class.choose-item-sold]="chooseDisplayLine == 2">
                     <span>
                         <div class="title">Number of dishes sold: </div>
                     </span>
@@ -60,8 +60,8 @@
                 </div>
             </div>
 
-
-            <p-chart *ngIf="isDisplayChart" type="line" [data]="dataDashboard" [options]="options"></p-chart>
+            <!-- <p-chart type="pie" [data]="dataDashboardPie" [options]="optionsPie" class="col-12 mb-2 lg:col-4 mb-lg-0" width="30%"></p-chart> -->
+            <p-chart *ngIf="isDisplayChart" type="line" [data]="dataDashboardDisplay" [options]="options" class="col-12 mb-2 lg:col-8 mb-lg-0"></p-chart>
         </div>
     </div>
     

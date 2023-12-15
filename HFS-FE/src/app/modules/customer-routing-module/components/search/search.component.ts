@@ -9,6 +9,7 @@ import * as API from "../../../../services/apiURL";
 import { DataView } from 'primeng/dataview';
 import { AddToCart } from '../../models/addToCart.model';
 import { Shop } from '../../models/shop.model';
+import { ShoppingCartPopupService } from 'src/app/services/shopping-cart-popup.service';
 
 @Component({
   selector: 'app-search',
@@ -36,14 +37,15 @@ export class SearchComponent extends iComponentBase implements OnInit {
     private _router: Router,
     private _route: ActivatedRoute,
     private dataService: DataService,
-    public presence: PresenceService
+    public presence: PresenceService,
+    private shoppingCartService: ShoppingCartPopupService
   ) {
     super(messageService);
     
   }
 
   async ngOnInit() {
-    debugger
+    
       this._route.queryParams.subscribe(params => {
       this.searchInput.searchKey = params['key'];
       this.searchText = params['key'];
@@ -145,13 +147,13 @@ export class SearchComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.ADDTOCART, cartItem);
       if (response && response.message === "Success") {
         console.log(response)
+        this.shoppingCartService.onAddToCart()
         this.showMessage(mType.success, "", "Add to cart success!", 'notify');
       }
       else {
         this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');
         this._router.navigate(['/login']);
       }
-
       this.loading = false;
     } catch (e) {
       console.log(e);

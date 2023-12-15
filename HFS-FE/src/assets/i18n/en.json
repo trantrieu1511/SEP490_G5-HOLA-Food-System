@@ -528,6 +528,7 @@
     "Listlicenseimages":"List license images",
     "ID": "ID",
     "Image": "Image",
+    "EditLicenseImageSection": "Edit image",
     "Name": "Name",
     "Size": "Size",
     "emptymessage": "No licence yet.",

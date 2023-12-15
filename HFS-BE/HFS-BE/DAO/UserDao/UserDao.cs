@@ -159,10 +159,10 @@ namespace HFS_BE.DAO.UserDao
                         seller.ShopName = inputDto.ShopName;
                         seller.ShopAddress = inputDto.ShopAddress;
                         seller.PhoneNumber = inputDto.PhoneNumber;
-                        //if (inputDto.IsNewPhonenumber)
-                        //{
-                        //    seller.IsPhoneVerified = false;
-                        //}
+                        if (inputDto.IsNewPhonenumber)
+                        {
+                            seller.IsPhoneVerified = false;
+                        }
 
                         break;
                     case "SH":
@@ -188,10 +188,10 @@ namespace HFS_BE.DAO.UserDao
                         shipper.Gender = inputDto.Gender;
                         shipper.BirthDate = inputDto.BirthDate;
                         shipper.PhoneNumber = inputDto.PhoneNumber;
-                        //if (inputDto.IsNewPhonenumber)
-                        //{
-                        //    shipper.IsPhoneVerified = false;
-                        //}
+                        if (inputDto.IsNewPhonenumber)
+                        {
+                            shipper.IsPhoneVerified = false;
+                        }
 
                         break;
                     case "AD":

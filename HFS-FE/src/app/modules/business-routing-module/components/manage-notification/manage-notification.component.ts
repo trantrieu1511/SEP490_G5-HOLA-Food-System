@@ -22,6 +22,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { RoleNames } from 'src/app/utils/roleName';
 import { TranslateService } from '@ngx-translate/core';
+import { NotificationBellService } from 'src/app/services/notification-bell.service';
 
 
 
@@ -44,6 +45,7 @@ export class ManageNotificationComponent extends iComponentBase implements OnIni
     private _route: Router,
     public authService: AuthService,
     public translate: TranslateService,
+    private notifyService: NotificationBellService
   ){
     super(messageService, breadcrumbService);
 
@@ -95,6 +97,7 @@ export class ManageNotificationComponent extends iComponentBase implements OnIni
 
       if (response && response.message === 'Success') {
         await this.getAllNotification();
+        this.notifyService.onMarkAllNotify();
       }else{
         var messageError = this.iServiceBase.formatMessageError(response);
         this.showMessage(mType.error, response.message, messageError, 'notify');

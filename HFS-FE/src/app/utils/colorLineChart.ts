@@ -4,5 +4,8 @@ export const ColorLineChart: { [key: number]: string } = {
   2: "--pink-400",
   3: "--red-400",
   4: "--green-400",
-  5: "--bluegray-400"
+  5: "--bluegray-400",
+  6: "--blue-500",
+  7: "--yellow-500",
+  8: "--pink-500",
 };

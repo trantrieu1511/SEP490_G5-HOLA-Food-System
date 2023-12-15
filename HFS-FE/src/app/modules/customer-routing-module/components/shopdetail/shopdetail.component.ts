@@ -23,6 +23,7 @@ import { SellerReport } from '../../models/sellerReport.model';
 import { take } from 'rxjs';
 import { PresenceService } from 'src/app/services/presence.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ShoppingCartPopupService } from 'src/app/services/shopping-cart-popup.service';
 declare var google: any;
 
 @Component({
@@ -59,7 +60,8 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
     public presence: PresenceService,
     private dataService: DataService,
     private authService: AuthService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private shoppingCartService: ShoppingCartPopupService
   ) {
     super(messageService);
   }
@@ -188,6 +190,7 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.ADDTOCART, cartItem);
       if (response && response.message === "Success") {
         console.log(response)
+        this.shoppingCartService.onAddToCart()
         this.showMessage(mType.success, "", "Add to cart success!", 'notify');
       }
       else {

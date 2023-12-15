@@ -28,10 +28,13 @@ namespace HFS_BE.Controllers.SendOTP
 
 	public class SendOTPController : BaseController
 	{
-		private readonly string _accountSid = "AC07cc5d2950187dd5ba62b18cf58fa774";
-		private readonly string _authToken = "31e539186dc5406e286c152f283e9e99";
+		//private readonly string _accountSid = "AC07cc5d2950187dd5ba62b18cf58fa774";
+		//private readonly string _authToken = "31e539186dc5406e286c152f283e9e99";
+		private readonly string _accountSid = "ACa94af58875970c9219b70cb061ffac31";
+		private readonly string _authToken = "002c506cc69ac8a77361a4c0fedda1ae";
 
-		private readonly string _twilioPhoneNumber = "+17274751881";
+		//private readonly string _twilioPhoneNumber = "+17274751881"; // Lu
+		private readonly string _twilioPhoneNumber = "+18177179100"; // Trieu
 		public SendOTPController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
 		{
 			TwilioClient.Init(_accountSid, _authToken);
@@ -91,7 +94,7 @@ namespace HFS_BE.Controllers.SendOTP
 					
 				}
 
-				//var phoneNumber = new Twilio.Types.PhoneNumber("+84974280518");
+				//var phoneNumber = new Twilio.Types.PhoneNumber("+84868342491");
 
 				//var smsMessage = await MessageResource.CreateAsync(
 				//	body: "HOLAFOOD OTP:" + randomso.ToString(),
@@ -100,7 +103,7 @@ namespace HFS_BE.Controllers.SendOTP
 				//);
 
 				//Console.WriteLine($"Twilio Message SID: {smsMessage.Sid}");
-				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess); ;
+				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}
 			catch (Exception ex)
 			{
@@ -123,7 +126,8 @@ namespace HFS_BE.Controllers.SendOTP
 
 			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddMinutes(timeexp),
+					//expires: DateTime.Now.AddMinutes(timeexp),
+					expires: DateTime.Now.AddSeconds(timeexp),
 					claims: authClaims,
 					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)); ;
 

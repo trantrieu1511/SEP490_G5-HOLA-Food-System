@@ -16,6 +16,7 @@ import {
 } from 'src/app/modules/shared-module/shared-module';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
+import { SelectButtonOptionClickEvent } from 'primeng/selectbutton';
 @Component({
   selector: 'app-login-non-customer',
   templateUrl: './login-non-customer.component.html',
@@ -33,6 +34,9 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
   showLoginForm: boolean = true;
   captchacheck:string;
   private client_Id = environment.clientId;
+
+  valueLang: string;
+
   constructor(private router: Router,
     public renderer: Renderer2,
     private _ngZone: NgZone,
@@ -97,6 +101,7 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
       this.renderer.appendChild(document.head, cssLink);
     });
 
+    this.valueLang = this.translate.currentLang;
   }
 
   loadGoogleLibrary() {
@@ -292,5 +297,10 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
         window.location.reload();
 
     }
+  }
+
+  onOptionLangClick(event: SelectButtonOptionClickEvent) {
+    this.translate.use(event.option);
+    localStorage.setItem("LANG", event.option);
   }
 }

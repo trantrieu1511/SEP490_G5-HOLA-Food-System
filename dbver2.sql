@@ -460,7 +460,6 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[PostVote]    Script Date: 09/10/2023 11:11:40 CH ******/
 /****** Object:  Table [dbo].[Post]    Script Date: 09/10/2023 11:11:40 CH ******/
 SET ANSI_NULLS ON
 GO
@@ -481,26 +480,6 @@ CREATE TABLE [dbo].[Post](
 	primary key([postId]),
 	)
 
-GO
-
-/****** Object:  Table [dbo].[Post]    Script Date: 09/10/2023 11:11:40 CH ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].PostVote(
-	[voteId] [int] IDENTITY(1,1) NOT NULL,
-	[PostId] [int] NOT NULL,
-	[isLike] [bit] NULL,
-	[createdDate] [datetime] NULL,
-	[voteBy] [nvarchar](50) Not Null,
-	Foreign Key ([voteBy]) REFERENCES [Customer](customerId),
-	Foreign Key ([PostId]) REFERENCES Post(PostId),
-PRIMARY KEY CLUSTERED 
-(
-	[voteId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
 GO
 
 /****** Object:  Table [dbo].[PostVote]    Script Date: 09/10/2023 11:11:40 CH ******/

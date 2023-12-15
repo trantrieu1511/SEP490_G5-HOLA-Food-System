@@ -42,6 +42,22 @@
             font-weight: 200;
         }
     }
+
+    &:hover{
+        cursor: pointer;    
+    }
+}
+
+.choose-item-order{
+    box-shadow: var(--blue-400) 0px 3px 8px;
+}
+
+.choose-item-amount{
+    box-shadow: var(--yellow-400) 0px 3px 8px;
+}
+
+.choose-item-sold{
+    box-shadow: var(--pink-400) 0px 3px 8px;
 }
 
 @media screen and (max-width: 960px){

@@ -172,6 +172,7 @@ export class API_CART {
     public static CART_DETAIL = "getcartitem"
     public static UPDATE_AMOUNT = "updateamount"
     public static DELETE_ITEM = "deleteitem"
+    public static CART_ITEM_POPUP = "getcartitempopup"
 }
 
 export class API_FOOD {
