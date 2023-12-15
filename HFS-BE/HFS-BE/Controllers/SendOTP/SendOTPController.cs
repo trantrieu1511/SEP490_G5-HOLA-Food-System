@@ -171,6 +171,7 @@ namespace HFS_BE.Controllers.SendOTP
 						{
 							result = true;
 						}
+					
 						if (result)
 						{
 							user.IsPhoneVerified = true;
@@ -198,6 +199,7 @@ namespace HFS_BE.Controllers.SendOTP
 						{
 							result = true;
 						}
+						
 						if (result)
 						{
 							user.IsPhoneVerified = true;
@@ -228,6 +230,7 @@ namespace HFS_BE.Controllers.SendOTP
 						{
 							result = true;
 						}
+						
 						if (result)
 						{
 							user.IsPhoneVerified = true;
@@ -247,7 +250,7 @@ namespace HFS_BE.Controllers.SendOTP
 			}
 			catch (Exception ex)
 			{
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "OTP is expired");
 			}
 		}
 	}

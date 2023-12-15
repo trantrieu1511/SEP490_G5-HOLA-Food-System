@@ -163,8 +163,8 @@ namespace HFS_BE.DAO.UserDao
                         {
                             seller.IsPhoneVerified = false;
                         }
-
-                        break;
+						
+						break;
                     case "SH":
                         // Check truong hop so dien thoai da ton tai trong db (So dt bi trung)
                         var shpr = context.Shippers.SingleOrDefault(sh => sh.ShipperId.Equals(userId) == false
@@ -192,7 +192,7 @@ namespace HFS_BE.DAO.UserDao
                         {
                             shipper.IsPhoneVerified = false;
                         }
-
+               
                         break;
                     case "AD":
                         //Tim trong context profile cua user theo id

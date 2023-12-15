@@ -714,7 +714,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
         this.showMessage(
           mType.error,
           'Notification',
-          'Verify OTP fail',
+          response.message ,
           'notify'
         );
       }
