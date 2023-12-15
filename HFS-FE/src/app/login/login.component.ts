@@ -247,6 +247,7 @@ export class LoginComponent extends iComponentBase implements OnInit, AfterViewI
         this.service.login(this.form.value).subscribe(
           (res) => {
             if(res===undefined&&this.user===null){
+              this.refreshCaptcha();
               this.showMessage(mType.error, "Notification", this.error, 'app-login');
             }else{
             //this.toastr.success('Login success');

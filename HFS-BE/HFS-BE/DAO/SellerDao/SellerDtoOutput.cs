@@ -9,7 +9,7 @@ namespace HFS_BE.DAO.SellerDao
 		public string FirstName { get; set; } = null!;
 		public string LastName { get; set; } = null!;
 		public string? Gender { get; set; }
-		public DateTime? BirthDate { get; set; }
+		public DateTime? CreateDate { get; set; }
 		public string Email { get; set; } = null!;
 		public string? PhoneNumber { get; set; }
 		public string? Avatar { get; set; }

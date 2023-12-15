@@ -415,13 +415,19 @@
         </ng-template>
     </p-table>
 </p-dialog>
-<p-dialog header="{{'sellerAdminScreen.Reportdetail' | translate}}" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true"
+<p-dialog header="{{'sellerAdminScreen.DetailSeller' | translate}}" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true"
   [modal]="true">
   <!-- <p class="dialog-content-detail">
       {{contentDialog.reportContent}}
   </p> -->
   <table class="table-report-detail">
       <tbody>
+        <tr>
+          <th>ID: </th>
+          <td>
+              {{sellerDetail.sellerId}}
+          </td>
+      </tr>
           <tr>
               <th>{{'sellerAdminScreen.ShopName' | translate}}: </th>
               <td>
@@ -435,34 +441,34 @@
               </td>
           </tr>
           <tr>
-              <th>{{'sellerAdminScreen.PhoneNumber' | translate}} </th>
+              <th>{{'sellerAdminScreen.PhoneNumber' | translate}}: </th>
               <td>
                   {{sellerDetail.phoneNumber}}
               </td>
           </tr>
           <tr>
-            <th>{{'sellerAdminScreen.Email' | translate}} </th>
+            <th>{{'sellerAdminScreen.Email' | translate}}:</th>
             <td>
                 {{sellerDetail.email}}
             </td>
           </tr>
           <tr>
-              <th>{{'sellerAdminScreen.Verification' | translate}} </th>
+              <th>{{'sellerAdminScreen.Verification' | translate}}: </th>
               <td>
 
-                 <div *ngIf="sellerDetail.status===0"  style="color:chartreuse;">
+                 <div *ngIf="sellerDetail.status===1"  style="color:chartreuse;">
                	{{'sellerAdminScreen.Verified' | translate}}
                  </div>
-                 <div *ngIf="sellerDetail.status!==1"  style="color:red;">
+                 <div *ngIf="sellerDetail.status===2"  style="color:red;">
                  	{{'sellerAdminScreen.Notverified' | translate}}
                  </div>
-                 <div *ngIf="sellerDetail.status===2"  style="color:rgb(103, 96, 96);">
-                 Pending
+                 <div *ngIf="sellerDetail.status===0"  style="color:rgb(103, 96, 96);">
+                  {{'sellerAdminScreen.Pending' | translate}}
                 </div>
               </td>
           </tr>
           <tr>
-            <th>{{'sellerAdminScreen.ConfirmEmail' | translate}} </th>
+            <th>{{'sellerAdminScreen.ConfirmEmail' | translate}}: </th>
             <td>
 
                <div *ngIf="sellerDetail.confirmedEmail===true"  style="color:chartreuse;">
@@ -480,14 +486,21 @@
 
           </td>
       </tr>
+      <tr>
+        <th>{{'sellerAdminScreen.CreateDate' | translate}}: </th>
+        <td>
+         {{sellerDetail.createDate|date:'dd/MM/yyyy'}}
+
+        </td>
+    </tr>
           <tr>
             <th>{{'sellerAdminScreen.Ban' | translate}} </th>
             <td>
 
-               <div *ngIf="sellerDetail.isBanned===true"  style="color:chartreuse;">
+               <div *ngIf="sellerDetail.isBanned===false"  style="color:chartreuse;">
                 {{'sellerAdminScreen.NotBan' | translate}}
                </div>
-               <div *ngIf="sellerDetail.isBanned===false"  style="color:red;">
+               <div *ngIf="sellerDetail.isBanned===true"  style="color:red;">
                 {{'sellerAdminScreen.Ban' | translate}}
                </div>
             </td>
@@ -534,13 +547,13 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Reason</b>
+                        <b>Note*</b>
                     </div>
                 </p-divider>
                 <div class="grid">
                   <div class="col-12 mb-2 lg:col-6 mb-lg-0">
                       <span class="p-input-icon-left p-float-label" style="width: 100%">
-                          <input type="hidden" step="5000" min="0"  class="w-full" [(ngModel)]="rejectseller.sellerId"
+                          <input type="hidden" step="5000" min="0"  class="w-full" [(ngModel)]="activeseller.sellerId"
                                   pInputText
                                   />
 
@@ -551,10 +564,11 @@
                   <span class="p-input-icon-left p-float-label" style="width: 100%">
                     <textarea class="w-full" rows="10" cols="60"
                     pInputTextarea
-                    [(ngModel)]="rejectseller.note"
+                    (input)="checkSaveButtonStatus()"
+                    [(ngModel)]="activeseller.note"
 
                     ></textarea>
-                      <label>Reason*</label>
+                      <label>Note*</label>
                   </span>
               </div>
                 </div>
@@ -564,8 +578,8 @@
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Save" icon="pi pi-save"
-                        (click)="onSaveReject()"
+                <button pButton type="button" label="Save" icon="pi pi-save" [disabled]="isSaveButtonDisabled"
+                        (click)="onSave()"
                         style="width: 100%;"></button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">

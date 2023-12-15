@@ -49,12 +49,12 @@ namespace HFS_BE.Controllers.ManageUser.ManageSeller
 		}
 		[HttpPost("users/activeseller")]
 		[Authorize(Roles = "AD")]
-		public BaseOutputDto AciveSeller(ActiveSellerDtoInput input)
+		public async Task<BaseOutputDto> AciveSeller(ActiveSellerDtoInput input)
 		{
 			try
 			{
 				var business = this.GetBusinessLogic<SellerBusinessLogic>();
-				var output = business.ActiveSeller(input);
+				var output = await business.ActiveSeller(input);
 				return output;
 			}
 			catch (Exception ex)

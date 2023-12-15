@@ -1,7 +1,7 @@
 export class Seller {
   sellerId: string;
   gender: string;
-  birthDate: Date;
+  createDate: Date;
   email: string;
   phoneNumber: string;
   isOnline:boolean;

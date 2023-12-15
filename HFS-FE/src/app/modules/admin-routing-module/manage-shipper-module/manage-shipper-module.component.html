@@ -61,6 +61,14 @@
                                             class="ml-auto"></p-columnFilter>
                         </div>
                     </th>
+                    <th pSortableColumn="email">
+                      <div class="flex justify-content-between align-items-center">
+                        PhoneNumber
+                          <p-sortIcon field="email"></p-sortIcon>
+                          <p-columnFilter type="text" field="email" display="menu"
+                                          class="ml-auto"></p-columnFilter>
+                      </div>
+                  </th>
                       <th pSortableColumn="gender">
                           <div class="flex justify-content-between align-items-center">
                             Gender
@@ -86,6 +94,7 @@
                                             class="ml-auto"></p-columnFilter>
                         </div>
                     </th>
+
                       <th>
                           <div class="flex justify-content-between align-items-center">
                               Images
@@ -124,6 +133,10 @@
                         <span class="p-column-title">Email</span>
                         {{user.email}}
                     </td>
+                    <td >
+                      <span class="p-column-title">PhoneNumber</span>
+                      {{user.phoneNumber}}
+                  </td>
                       <td>
                           <span class="p-column-title">Gender</span>
                           <span class="post-content" >{{user.gender}}</span>
@@ -134,13 +147,15 @@
                       </td>
                       <td >
                         <span class="p-column-title">Verification</span>
-                        <div *ngIf="user.isVerified" style="color:chartreuse;">
+                        <div *ngIf="user.status===1" style="color:chartreuse;">
                           Verified
                         </div>
-                        <div *ngIf="!user.isVerified"  style="color:red;">
-                          Not verified
+                        <div *ngIf="user.status===2"  style="color:red;">
+                         Recject
                         </div>
-
+                        <div *ngIf="user.status===0"  style="color:rgb(79, 68, 68);">
+                          Pending
+                         </div>
                     </td>
                       <td>
                           <span class="p-column-title">Image</span>
@@ -180,9 +195,19 @@
                               </div> -->
                               <div class="flex align-items-center justify-content-center">
                                 <button *ngIf="!user.isVerified" pButton pRipple  label="Verification"
-                                (click)="ActiveShipper(user)"
+                                (click)="ActiveShipper(user,1)"
                                         class="p-button-rounded p-mr-2"></button>
                             </div>
+                            <div class="flex align-items-center justify-content-center">
+                              <button *ngIf="!user.isVerified" pButton pRipple  label="Reject"
+                              (click)="RejectShipper(user,2)"
+                                      class="p-button-rounded p-mr-2"></button>
+                          </div>
+                          <div class="flex align-items-center justify-content-center">
+                            <button  pButton pRipple  label="Detail"
+                            (click)="Detail(user)"
+                                    class="p-button-rounded p-mr-2"></button>
+                        </div>
                           </div>
                       </td>
                   </tr>
@@ -196,7 +221,7 @@
       </div>
   </div>
 </div>
-<p-dialog [header]="headerDialog" [(visible)]="displayDialogBan"
+<p-dialog [header]="headerDialog" [(visible)]="displayDialogNote"
           [breakpoints]="{'960px': '75vw'}"
           [style]="{width: '50vw'}"
           [draggable]="false" [resizable]="false" [maximizable]="true"
@@ -207,13 +232,13 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Ban Reason</b>
+                        <b>Note*</b>
                     </div>
                 </p-divider>
                 <div class="grid">
                   <div class="col-12 mb-2 lg:col-6 mb-lg-0">
                       <span class="p-input-icon-left p-float-label" style="width: 100%">
-                          <input type="hidden" step="5000" min="0"  class="w-full" [(ngModel)]="banshipper.shipperId"
+                          <input type="hidden" step="5000" min="0"  class="w-full" [(ngModel)]="activeshipper.shipperId"
                                   pInputText
                                   />
 
@@ -224,10 +249,10 @@
                   <span class="p-input-icon-left p-float-label" style="width: 100%">
                     <textarea class="w-full" rows="10" cols="60"
                     pInputTextarea
-                    [(ngModel)]="banshipper.reason"
-
+                    [(ngModel)]="activeshipper.note"
+                    (input)="checkSaveButtonStatus()"
                     ></textarea>
-                      <label>Reason*</label>
+                      <label>Note*</label>
                   </span>
               </div>
 
@@ -244,15 +269,16 @@
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Save" icon="pi pi-save"
-                        (click)="onSaveBan()"
+                <button pButton type="button" label="Save" icon="pi pi-save" [disabled]="isSaveButtonDisabled"
+                        (click)="ActiveShipper1()"
                         style="width: 100%;"></button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
                 <button pButton type="button" label="Cancel" icon="pi pi-times"
-                        (click)="onCancelBan()" class="p-button-danger"
+                        (click)="ActiveShipperCancel()" class="p-button-danger"
                         style="width: 100%;"></button>
             </div>
+
         </div>
     </ng-template>
 </p-dialog>
@@ -315,7 +341,111 @@
     </p-table>
 </p-dialog>
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>
+<p-dialog header="{{'sellerAdminScreen.DetailSeller' | translate}}" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true"
+  [modal]="true">
+  <!-- <p class="dialog-content-detail">
+      {{contentDialog.reportContent}}
+  </p> -->
+  <table class="table-report-detail">
+      <tbody>
+        <tr>
+          <th>ID: </th>
+          <td>
+              {{shipperDetail.shipperId}}
+          </td>
+      </tr>
+          <tr>
+              <th>Name: </th>
+              <td>
+                  {{shipperDetail.shipperName}}
+              </td>
+          </tr>
+          <tr>
+              <th>VerifyPhone: </th>
+              <td>
+                <div *ngIf="shipperDetail.isPhoneVerified===true"  style="color:chartreuse;">
+                  Confirmed
+                  </div>
+                  <div *ngIf="shipperDetail.isPhoneVerified===false"  style="color:red;">
+                   Not confirmed yet
+                  </div>
 
+              </td>
+          </tr>
+          <tr>
+              <th>PhoneNumber: </th>
+              <td>
+                  {{shipperDetail.phoneNumber}}
+              </td>
+          </tr>
+          <tr>
+            <th>ManageBy:</th>
+            <td>
+                {{shipperDetail.manageBy}}
+            </td>
+          </tr>
+          <tr>
+              <th>Verification: </th>
+              <td>
+
+                 <div *ngIf="shipperDetail.status===1"  style="color:chartreuse;">
+                 Verified
+                 </div>
+                 <div *ngIf="shipperDetail.status===2"  style="color:red;">
+                 	Reject
+                 </div>
+                 <div *ngIf="shipperDetail.status===0"  style="color:rgb(103, 96, 96);">
+                         Pending
+                </div>
+              </td>
+          </tr>
+          <tr>
+            <th>ConfirmEmail: </th>
+            <td>
+
+               <div *ngIf="shipperDetail.confirmedEmail===true"  style="color:chartreuse;">
+                Confirmed
+               </div>
+               <div *ngIf="shipperDetail.confirmedEmail===false"  style="color:red;">
+               Not confirmed yet
+               </div>
+            </td>
+        </tr>
+        <tr>
+          <th>Note: </th>
+          <td>
+           {{shipperDetail.note}}
+
+          </td>
+      </tr>
+      <tr>
+        <th>CreateDate: </th>
+        <td>
+         {{shipperDetail.createDate|date:'dd/MM/yyyy'}}
+
+        </td>
+    </tr>
+
+
+          <tr>
+            <th>Image: </th>
+            <td >
+
+
+                <ng-container *ngIf="shipperDetail.imagesBase64 && shipperDetail.imagesBase64.length !== 0; else noneImage1" >
+                  <button pButton pRipple icon="pi pi-images"
+                        (click)="onDisplayImagesDialog(shipperDetail, $event)"
+                        class="p-button-rounded p-button-text p-button-raised"></button>
+                </ng-container>
+                <ng-template #noneImage1 ><span class="no-image">No Image</span></ng-template>
+
+            </td>
+
+        </tr>
+
+      </tbody>
+  </table>
+</p-dialog>
 <p-confirmPopup></p-confirmPopup>
 
 <p-confirmDialog key="uhideFood" header="Hide/UnHide Post" icon="pi pi-exclamation-triangle"></p-confirmDialog>

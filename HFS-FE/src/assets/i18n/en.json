@@ -30,7 +30,8 @@
   },
 
   "loginScreen": {
-    "welcomeToFUFood": "Welcome to FU Food",
+    "welcomeToFUFood": "Welcome to HOLA Food",
+    "welcomeToFUFoodBS":"Welcome to HOLA Food Business",
     "doNotHaveAnAccount": "Don't have an account",
     "areYouBusinessMember": "Are you a business member",
     "Areyouacustomer": "Are you a customer",
@@ -540,6 +541,7 @@
     "VerifiedPhoneNumber":"Verified PhoneNumber",
     "Verified":"Verified",
     "Notverified":"Not verified",
+    "Pending":"Pending",
     "Edit":"Edit",
     "Phonenumberhasbeenverified":"Phonenumber has been verified",
     "Addprofileimage":"Add profile image",
@@ -642,8 +644,9 @@
     "Notconfirmedyet":"Not confirmed yet",
     "ListBanHistory":"List Ban History",
     "ListImage":"List Image",
-    "Reportdetail":"Report detail",
+    "DetailSeller":"Detail",
     "ListImageLicense":"List Image License"
+
   },
 
   "shipAdminScreen": {

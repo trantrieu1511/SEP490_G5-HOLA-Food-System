@@ -46,6 +46,7 @@ namespace HFS_BE.DAO.ShipperDao
 	public class ActiveShipperDtoInput : BaseInputDto
 	{
 		public string ShipperId { get; set; } = null!;
+		public string Note { get; set; } = null!;
 		public byte Status { get; set; }
 	}
 

@@ -6,9 +6,13 @@ export class Shipper {
   email: string;
   phoneNumber: string;
   avatar: string;
+  isPhoneVerified:boolean;
   confirmedEmail:boolean;
   isBanned: boolean;
-  isVerified:boolean;
+  manageBy:string
+  status:number;
+  note:string;
+  createDate:Date;
   imagesBase64: ShipperImageBase64[] = null;
 }
 export interface ShipperImageBase64 {
@@ -27,7 +31,12 @@ export class BanShipper {
   reason:string;
   isBanned: boolean;
 }
-export class ActiveShipper {
+export class ActiveShipper1 {
   shipperId: string;
   isVerified:boolean;
+}
+export class ActiveShipper {
+  shipperId: string;
+  note:string;
+  status: number;
 }

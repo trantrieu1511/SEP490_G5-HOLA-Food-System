@@ -15,7 +15,10 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageShipper
 		public string? ManageBy { get; set; }
 		public bool? ConfirmedEmail { get; set; }
 		public bool? IsBanned { get; set; }
-		public bool? IsVerified { get; set; }
+		public byte Status { get; set; }
+		public DateTime? CreateDate { get; set; }
+		public string? Note { get; set; }
+		public bool? IsPhoneVerified { get; set; }
 		public List<ShipperImageOutputDto>? ImagesBase64 { get; set; } = new List<ShipperImageOutputDto>();
 	}
 	public class ShipperImageOutputDto

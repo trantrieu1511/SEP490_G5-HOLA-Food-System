@@ -43,7 +43,7 @@ export class RegisterComponent extends iComponentBase  implements OnInit,AfterVi
   errorregister: string;
   selectedRole: number = 3;
   selectedRoleId: string = '';
-  
+
 
 private client_Id=environment.clientId;
  constructor(private router: Router,
@@ -107,10 +107,10 @@ registerData: Register;
       {name: text.Customer, id: 3},
       {name: text.Seller, id: 2},
       {name: text.Shipper, id: 4}
-  
-    ]; 
+
+    ];
   });
-  
+
 
   const cssFilePaths = ['assets/theme/indigo/theme-light.css',
         'assets/layout/css/layout-light.css'];
@@ -215,7 +215,7 @@ onRoleChange(event: any) {
     genderControl.enable();
     genderControl.setValidators([Validators.required]);
     birthDateControl.enable();
-    birthDateControl.setValidators([Validators.required]);
+    birthDateControl.setValidators([Validators.required,DateOfBirthValidator()]);
   }
 
   // Cập nhật validators và trạng thái của các trường

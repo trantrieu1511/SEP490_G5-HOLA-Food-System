@@ -30,7 +30,8 @@
   },
 
   "loginScreen": {
-    "welcomeToFUFood": "Chào mừng đến với FU Food",
+    "welcomeToFUFood": "Chào mừng đến với HOLA Food",
+    "welcomeToFUFoodBS": "Chào mừng đến với HOLA Food Business",
     "doNotHaveAnAccount": "Không có tài khoản à",
     "areYouBusinessMember": "Bạn có phải là đối tác không",
     "Areyouacustomer": "Bạn có phải là khách hàng không",
@@ -641,7 +642,7 @@
     "Notconfirmedyet":"Chưa được xác nhận",
     "ListBanHistory":"Lịch sử cấm",
     "ListImage":"Danh sách hình ảnh",
-    "Reportdetail":"Báo cáo chi tiết",
+    "DetailSeller":"Chi tiết",
     "ListImageLicense":"Hình ảnh giấy phép kinh doanh"
   },
 

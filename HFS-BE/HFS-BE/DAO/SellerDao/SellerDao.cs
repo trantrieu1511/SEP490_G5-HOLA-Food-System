@@ -41,7 +41,8 @@ namespace HFS_BE.DAO.SellerDao
 						 ShopName=p.ShopName,
 						 BusinessCode=p.BusinessCode,
 						 ShopAddress =p.ShopAddress,
-						 Note=p.Note,
+						 CreateDate=p.CreateDate,
+						 Note =p.Note,
 						 Images = context.ProfileImages
 					.Where(pi => pi.UserId == p.SellerId&&pi.IsReplaced==false)
 				   .Select(pi => new ImageSellerOutputDto
@@ -109,7 +110,7 @@ namespace HFS_BE.DAO.SellerDao
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail,ex.ToString());
 			}
 		}
-		public BaseOutputDto ActiveSeller(ActiveSellerDtoInput input)
+		public async Task<BaseOutputDto> ActiveSeller(ActiveSellerDtoInput input)
 		{
 			try
 			{ 
@@ -120,8 +121,11 @@ namespace HFS_BE.DAO.SellerDao
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Seller is not in data ");
 				}
 				user.Status = input.Status;
+				user.Note = input.Note;
 				context.Sellers.Update(user);
 				context.SaveChanges();
+				input.Note = input.Note + "\n Thân mến, HOLA Food.";
+				await SendEmailAsync(user.Email, "Đăng ký người bán thành công", input.Note);
 				var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 
 				return output;
@@ -145,7 +149,8 @@ namespace HFS_BE.DAO.SellerDao
 				user.Note = input.Note;
 				context.Sellers.Update(user);
 				context.SaveChanges();
-				await SendEmailAsync(user.Email, "Từ chối đăng ký người bán", user.Note);
+				input.Note = input.Note + ".\n Nếu bạn đã thay đổi thông tin vui lòng trả lời email này. \n Thân mến, HOLA Food.";
+				await SendEmailAsync(user.Email, "Chưa chấp nhận người bán", input.Note);
 				var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 
 				return output;

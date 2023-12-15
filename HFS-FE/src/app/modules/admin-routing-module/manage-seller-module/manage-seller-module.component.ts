@@ -29,7 +29,9 @@ export class ManageSellerModuleComponent extends iComponentBase implements OnIni
   headerDialog: string = '';
   listhistoryBan:HistoryBanSeller []=[];
   banseller:BanSeller= new BanSeller();
-  rejectseller:RejectSeller= new RejectSeller();
+  activeseller:RejectSeller= new RejectSeller();
+
+  isSaveButtonDisabled: boolean = true;
   constructor( private shareData: ShareData,
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -51,12 +53,14 @@ export class ManageSellerModuleComponent extends iComponentBase implements OnIni
 this.getAllSeller();
   }
 
+  checkSaveButtonStatus() {
+    // Example condition: enable the button if both note and status are filled
+    this.isSaveButtonDisabled = !this.activeseller.note;
+}
   async getAllSeller() {
     this.listSeller = [];
 
     try {
-
-
         let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.LIST_SELLER,"");
 
         if (response && response.message === "Success") {
@@ -92,6 +96,7 @@ this.getAllSeller();
       }
   }
   BanSeller(user:Seller){
+    this.headerDialog="Ban Id: "+user.sellerId;
     this.displayDialogBan = true;
     this.banseller.sellerId=user.sellerId;
     this.banseller.isBanned=!user.isBanned;
@@ -122,41 +127,44 @@ console.log(this.banseller);
     this.displayDialogBan = false;
   }
   async ActiveSeller(user:Seller,event){
-    this.confirmationService.confirm({
-      target: event.target,
-      message: `Are you sure to Verify  id: ${user.sellerId} ?`,
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        //confirm action
-        this.ActiveSeller1(user);
-      },
-      reject: () => {
-        //reject action
-      },
-    });
-
+    // this.confirmationService.confirm({
+    //   target: event.target,
+    //   message: `Are you sure to Verify  id: ${user.sellerId} ?`,
+    //   icon: 'pi pi-exclamation-triangle',
+    //   accept: () => {
+    //     //confirm action
+    //     this.ActiveSeller1(user);
+    //   },
+    //   reject: () => {
+    //     //reject action
+    //   },
+  //  });
+  this.headerDialog="Verify Id: "+user.sellerId;
+  this.displayDialogReject = true;
+  this.activeseller.status=1;
+  this.activeseller.sellerId=user.sellerId;
 
   }
-  async ActiveSeller1(user:Seller){
-    const param={
-      "sellerId": user.sellerId,
-      "status": 1
-    }
+  async ActiveSeller1(){
+    // const param={
+    //   "sellerId": user.sellerId,
+    //   "status": 1
+    // }
     try{
       debugger
-    let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.ACTIVE_SELLER,param);
+    let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.ACTIVE_SELLER,this.activeseller);
 
     if (response && response.message === "Success") {
 
      this.getAllSeller();
-     this.showMessage(mType.success, "Notification", "Verification "+user.sellerId+" successfully", 'notify');
+     this.showMessage(mType.success, "Notification", "Verification "+this.activeseller.sellerId+" successfully", 'notify');
      this.banseller = new BanSeller();
-     this.displayDialogBan = false;
+     this.displayDialogReject = false;
     }
    ;
   } catch (e) {
     console.log(e);
-    this.showMessage(mType.error, "Notification", "Verificationn "+user.sellerId+" failure", 'notify');
+    this.showMessage(mType.error, "Notification", "Verificationn "+this.activeseller.sellerId+" failure", 'notify');
   }
 
 
@@ -164,30 +172,41 @@ console.log(this.banseller);
   RejectSeller(user:Seller){
     this.headerDialog="Reject Id: "+user.sellerId;
     this.displayDialogReject = true;
-    this.rejectseller.status=2;
-    this.rejectseller.sellerId=user.sellerId;
+    this.activeseller.status=2;
+    this.activeseller.sellerId=user.sellerId;
   }
   onCancelReject(){
-    this.rejectseller = new RejectSeller();
+    this.activeseller = new RejectSeller();
     this.displayDialogReject = false;
   }
+
+
+  async onSave(){
+     if(this.activeseller.status===2){
+      this.onSaveReject();
+     }
+     if(this.activeseller.status===1){
+      this.ActiveSeller1();
+     }
+  }
+
   async onSaveReject(){
 debugger
     try{
       debugger
-    let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.REJECT_SELLER,this.rejectseller);
+    let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.REJECT_SELLER,this.activeseller);
 
     if (response && response.message === "Success") {
 
      this.getAllSeller();
-     this.showMessage(mType.success, "Notification", "Verification "+"user.sellerId"+" successfully", 'notify');
-     this.rejectseller = new RejectSeller();
-     this.displayDialogBan = false;
+     this.showMessage(mType.success, "Notification", "Reject "+this.activeseller.sellerId+" successfully", 'notify');
+     this.activeseller = new RejectSeller();
+     this.displayDialogReject = false;
     }
    ;
   } catch (e) {
     console.log(e);
-    this.showMessage(mType.error, "Notification", "Verificationn "+"user.sellerId"+" failure", 'notify');
+    this.showMessage(mType.error, "Notification", "Reject "+this.activeseller.sellerId+" failure", 'notify');
   }
 
 
