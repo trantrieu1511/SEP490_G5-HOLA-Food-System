@@ -483,7 +483,7 @@
                         translate}}</p-button>
                     <!-- <br> -->
                 </div>
-                <div *ngIf="role == 'SH' && !profileDisplay.isVerified">
+                <div *ngIf="role == 'SH' && profileDisplay.status != 1">
                   <p-button [text]="true" (onClick)="openEditIdcardDialog();">{{'profileScreen.Editlicenceimage' |
                       translate}}</p-button>
                   <!-- <br> -->

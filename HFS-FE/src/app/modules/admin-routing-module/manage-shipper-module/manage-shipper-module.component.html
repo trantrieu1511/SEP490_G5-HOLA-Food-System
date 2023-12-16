@@ -455,7 +455,21 @@
             </td>
 
         </tr>
+        <tr>
+          <th>Image: </th>
+          <td >
 
+
+            <ng-container *ngIf="shipperDetail.imageBase64Id1 !== null; else noneImage" >
+                <button pButton pRipple icon="pi pi-images"
+                      (click)="onDisplayImagesDialogId(shipperDetail, $event)"
+                      class="p-button-rounded p-button-text p-button-raised"></button>
+              </ng-container>
+              <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+
+          </td>
+
+      </tr>
       </tbody>
   </table>
 </p-dialog>
@@ -469,6 +483,10 @@
     >
        <table>
         <tbody>
+          <tr>
+            <th> ID Card: </th>
+            <td>{{shipperImg.idcardNumber}}</td>
+          </tr>
           <tr>
 
 
