@@ -524,6 +524,7 @@
     "Enteryouraccountpassword": "Enter your account password",
     "VerifyYourPhonenumber":"Verify Your Phonenumber",
     "OTP": "OTP(4 digit code)",
+    "Notice": "*Notice: Otp will expire in a minute",
     "Edityourlicenceimage":"Edit your licence image",
     "Listlicenseimages":"List license images",
     "ID": "ID",
@@ -834,6 +835,13 @@
     "Seller":"Seller",
     "Shipper":"Shipper",
     "SignUp":"Sign Up"
+  },
+
+  "AppTopBar":{
+    "MyProfile": "My profile",
+    "MyAccount": "My account",
+    "Login": "Login",
+    "Logout": "Logout"
   }
 
 }

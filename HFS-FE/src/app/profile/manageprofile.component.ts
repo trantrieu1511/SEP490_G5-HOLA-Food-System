@@ -649,6 +649,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
 
   async openVerifyPhonenumberModal(phone: string,userId:string) {
     this.isVisibleVerifyPhoneNumberModal = true;
+    this.verifyOtp = '';
     this.phoneOtp = phone;
     this.usedIdOtp=userId;
     const param = {
