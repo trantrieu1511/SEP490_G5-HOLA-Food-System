@@ -239,10 +239,7 @@ namespace HFS_BE.DAO.ShipperDao
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Please wait for the admin to approve the shipper");
 				}
-				if (datacheckis == null)
-				{
-					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Please wait for the admin to approve the shipper");
-				}
+			
 				if (datainv != null)
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You invited them to be the shipper");
