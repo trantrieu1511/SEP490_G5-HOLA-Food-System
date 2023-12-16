@@ -73,6 +73,9 @@ namespace HFS_BE.DAO.ShipperDao
 					Status=s.Status,
 					CreateDate=s.CreateDate,
 					Note=s.Note,
+					IdcardNumber=s.IdcardNumber,
+					IdcardFrontImage=s.IdcardFrontImage,
+					IdcardBackImage=s.IdcardBackImage,
 					Images= context.ProfileImages
 					.Where(pi => pi.UserId == s.ShipperId && pi.IsReplaced == false)
 				   .Select(pi => new ImageShipperOutputDto

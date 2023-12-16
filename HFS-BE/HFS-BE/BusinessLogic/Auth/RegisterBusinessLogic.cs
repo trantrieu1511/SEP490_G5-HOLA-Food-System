@@ -53,15 +53,22 @@ namespace HFS_BE.BusinessLogic.Auth
 				throw;
 			}
 		}
-		public async Task<BaseOutputDto> RegisterShipper(RegisterInputDto inputDto)
+		public async Task<BaseOutputDto> RegisterShipper(RegisterShipperInputDto inputDto)
 		{
 			try
 			{
 				var Dao = this.CreateDao<AuthNotCustomerDao>();
-				var daoinput = mapper.Map<RegisterInputDto, RegisterDto>(inputDto);
+				var fileNames1 = string.Empty;
+				var fileNames2 = string.Empty;
+				var daoinput = mapper.Map<RegisterShipperInputDto, RegisterShipperDto>(inputDto);
+				if (inputDto.Images1 != null)
+					fileNames1 = ReadSaveImage.SaveIdCardImages(inputDto.Images1, inputDto.Email, 7);
+				if (inputDto.Images2 != null)
+					fileNames2 = ReadSaveImage.SaveIdCardImages(inputDto.Images2, inputDto.Email, 7);
+
+				daoinput.IdcardBackImage = fileNames1;
+				daoinput.IdcardFrontImage = fileNames2;
 				var daooutput = await Dao.RegisterShipper(daoinput);
-
-
 				return daooutput;
 			}
 			catch (Exception)

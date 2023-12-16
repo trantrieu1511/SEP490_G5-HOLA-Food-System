@@ -13,6 +13,9 @@ export class Shipper {
   status:number;
   note:string;
   createDate:Date;
+  idcardNumber:string;
+  imageBase64Id1:string;
+  imageBase64Id2:string;
   imagesBase64: ShipperImageBase64[] = null;
 }
 export interface ShipperImageBase64 {

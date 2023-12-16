@@ -15,6 +15,9 @@ export class Profile {
     walletBalance: number;
     manageBy: number;
     password: string;
+    idcardNumber:string;
+    idcardBackImage:string;
+    idcardFrontImage:string;
     oldPassword: string;
     newPassword: string;
     confirmNewPassword: string;

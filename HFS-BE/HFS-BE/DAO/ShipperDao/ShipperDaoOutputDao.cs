@@ -32,7 +32,10 @@ namespace HFS_BE.DAO.ShipperDao
 		public byte Status { get; set; }
 		public DateTime? CreateDate { get; set; }
 		public string? Note { get; set; }
-		public bool? IsPhoneVerified { get; set; }  
+		public bool? IsPhoneVerified { get; set; }
+		public string? IdcardNumber { get; set; }
+		public string? IdcardFrontImage { get; set; }
+		public string? IdcardBackImage { get; set; }
 		public List<ImageShipperOutputDto>? Images { get; set; }
 	}
 	public class ImageShipperOutputDto
