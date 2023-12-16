@@ -389,7 +389,7 @@
 
                 <!-- <div class="card" style="width: 97%;"> -->
                 <!-- <div>More</div> -->
-                <div *ngIf="role == 'SE' && !profileDisplay.isVerified">
+                <div *ngIf="role == 'SE' && profileDisplay.status != 1">
                     <p-button [text]="true" (onClick)="openEditLicenseDialog();">{{'profileScreen.Editlicenceimage' |
                         translate}}</p-button>
                     <!-- <br> -->
@@ -543,15 +543,18 @@
                     </div>
                     <div *ngIf="role == 'SE' || role == 'SH'">
                         <div style="display: flex;">
-                            <p class="field-title">{{'profileScreen.Verified' | translate}}: </p>
+                            <p class="field-title">{{'profileScreen.VerifiedStatus' | translate}}: </p>
                             <!-- <p class="field-info" *ngIf="profileDisplay.phoneNumber != undefined else RegisterPhoneNumber"> -->
                             <p class="field-info">
+                                <span *ngIf="profileDisplay.status == 0" style="color: grey;">
+                                    {{'profileScreen.PendingVerify' | translate}}
+                                </span>
                                 <span>
-                                    <i *ngIf="profileDisplay.isVerified" class="pi pi-verified"
+                                    <i *ngIf="profileDisplay.status == 1" class="pi pi-verified"
                                         style="color: green; font-size: large;"></i>
                                 </span>
-                                <span *ngIf="!profileDisplay.isVerified" style="color: red;">
-                                    {{'profileScreen.Notverified' | translate}}
+                                <span *ngIf="profileDisplay.status == 2" style="color: red;">
+                                    {{'profileScreen.Rejected' | translate}}
                                 </span>
                             </p>
                         </div>

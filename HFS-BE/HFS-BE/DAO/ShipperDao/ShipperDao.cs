@@ -305,7 +305,7 @@ namespace HFS_BE.DAO.ShipperDao
 				shipper.ManageBy = input.SellerId;
 				context.Shippers.Update(shipper);
 				context.SaveChanges();
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Accept successfully");
+				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess, "Accept successfully");
 			}
 			else
 			{
