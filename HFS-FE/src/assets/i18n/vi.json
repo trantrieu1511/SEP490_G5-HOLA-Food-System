@@ -523,6 +523,7 @@
     "Enteryouraccountpassword": "Nhập mật khẩu tài khoản của bạn",
     "VerifyYourPhonenumber":"Xác minh số điện thoại của bạn",
     "OTP": "OTP(mã 4 chữ số)",
+    "Notice": "*Lưu ý: Otp chỉ có hạn trong vòng 1 phút",
     "Edityourlicenceimage":"Chỉnh sửa hình ảnh giấy phép của bạn",
     "Listlicenseimages":"Liệt kê hình ảnh giấy phép",
     "ID": "ID",
@@ -550,7 +551,7 @@
     "None3":"Không. Sử dụng chức năng chỉnh sửa để nhập số điện thoại của bạn",
     "None4":"Không. Sử dụng chức năng chỉnh sửa để nhập tên cửa hàng của bạn",
     "None5":"Không. Sử dụng chức năng chỉnh sửa để nhập địa chỉ cửa hàng của bạn",
-    "None6":"Không. Bạn có thể chấp nhận lời mời làm việc từ người bán do họ quản lý"
+    "None6":"Không. Bạn có thể chấp nhận lời mời làm việc từ người bán để được họ quản lý"
   },
 
   "dashboardScreen": {
@@ -831,7 +832,13 @@
     "Customer":"Khách hàng",
     "Seller":"Người bán",
     "Shipper":"Người giao hàng"
-  }
+  },
 
+  "AppTopBar":{
+    "MyProfile": "Hồ sơ của tôi",
+    "MyAccount": "Tài khoản của tôi",
+    "Login": "Đăng nhập",
+    "Logout": "Đăng xuất"
+  }
 
 }

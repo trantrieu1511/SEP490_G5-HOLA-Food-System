@@ -48,7 +48,7 @@ namespace HFS_BE.Controllers.SendOTP
 				Random random = new Random();
 				int randomso = random.Next(1000, 9999);
 				Console.WriteLine(randomso);
-				JwtSecurityToken token = GenerateSecurityToken(randomso, 5);
+				JwtSecurityToken token = GenerateSecurityToken(randomso, 60);
 
 				using (SEP490_HFS_2Context context = new SEP490_HFS_2Context())
 				{
