@@ -34,7 +34,7 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 		}
 
 		[HttpPost("users/listshipperbyadmin")]
-		[Authorize(Roles = "AD")]
+		//[Authorize(Roles = "AD")]
 		public ListShipperbyAdminOutputDtoBS ListShipperbyAdmin()
 		{
 			try

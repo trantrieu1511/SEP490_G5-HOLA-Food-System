@@ -100,6 +100,11 @@
                               Images
                           </div>
                       </th>
+                      <th>
+                        <div class="flex justify-content-between align-items-center">
+                            ImagesIdCard
+                        </div>
+                    </th>
                       <th pSortableColumn="confirmedEmail">
                         <div class="flex justify-content-between align-items-center">
                           ConfirmEmail
@@ -166,8 +171,16 @@
                         </ng-container>
                           <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
                       </td>
-
-                      <td >
+                      <td>
+                        <span class="p-column-title">Image</span>
+                        <ng-container *ngIf="user.imagesBase64Id1 !== null; else noneImage" >
+                          <button pButton pRipple icon="pi pi-images"
+                                  (click)="onDisplayImagesDialogId(user, $event)"
+                                  class="p-button-rounded p-button-text p-button-raised"></button>
+                      </ng-container>
+                        <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+                    </td>
+                      <td>
                         <span class="p-column-title">ConfirmEmail</span>
                         <div *ngIf="user.confirmedEmail===true"  style="color:chartreuse;">
                           Confirmed
@@ -442,9 +455,59 @@
             </td>
 
         </tr>
+        <tr>
+          <th>Image: </th>
+          <td >
 
+
+            <ng-container *ngIf="shipperDetail.imageBase64Id1 !== null; else noneImage" >
+                <button pButton pRipple icon="pi pi-images"
+                      (click)="onDisplayImagesDialogId(shipperDetail, $event)"
+                      class="p-button-rounded p-button-text p-button-raised"></button>
+              </ng-container>
+              <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+
+          </td>
+
+      </tr>
       </tbody>
   </table>
+</p-dialog>
+<p-dialog header="List Image Id"
+    [(visible)]="visibleImageDialogId"
+    [breakpoints]="{ '960px': '75vw' }"
+    [style]="{ width: '30vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    [maximizable]="true"
+    >
+       <table>
+        <tbody>
+          <tr>
+            <th> ID Card: </th>
+            <td>{{shipperImg.idcardNumber}}</td>
+          </tr>
+          <tr>
+
+
+            <th>Image Font ID Card: </th>
+            <td><p-image src="data:image/gif;base64,{{shipperImg.imageBase64Id1}}" [preview]="true"
+              class="dialogimages_image w-30rem shadow-15"
+              ></p-image></td>
+
+          </tr>
+          <tr>
+            <th>Image Back ID Card: </th>
+            <td><p-image src="data:image/gif;base64,{{shipperImg.imageBase64Id2}}" [preview]="true"
+              class="dialogimages_image w-30rem shadow-15"
+              ></p-image></td>
+          </tr>
+        </tbody>
+       </table>
+
+
+
+
 </p-dialog>
 <p-confirmPopup></p-confirmPopup>
 

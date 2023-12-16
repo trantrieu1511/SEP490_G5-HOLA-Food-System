@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.Auth;
+using HFS_BE.Dao.AuthDao;
 using HFS_BE.DAO.ChatMessageDao;
 using HFS_BE.Models;
 using HFS_BE.Services;
 using HFS_BE.Utils;
+using HFS_BE.Utils.IOFile;
 using Mailjet.Client.Resources;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
@@ -51,10 +53,20 @@ namespace HFS_BE.DAO.UserDao
                         break;
                     case "SH":
                         var shipper = context.Shippers.SingleOrDefault(sh => sh.ShipperId.Equals(userId));
+
                         if (shipper == null)
                             return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found.");
-                        dataMapper = mapper.Map<Shipper, UserProfile>(shipper);
-                        break;
+
+
+						ImageFileConvert.ImageOutputDto? imageInforIdcard1 = null;
+						ImageFileConvert.ImageOutputDto? imageInforIdcard2 = null;
+						imageInforIdcard1 = ImageFileConvert.ConvertFileToBase64(shipper.Email, shipper.IdcardBackImage, 7);
+						imageInforIdcard2 = ImageFileConvert.ConvertFileToBase64(shipper.Email, shipper.IdcardFrontImage, 7);
+
+						dataMapper = mapper.Map<Shipper, UserProfile>(shipper);
+                        dataMapper.IdcardBackImage = imageInforIdcard1.ImageBase64;
+						dataMapper.IdcardFrontImage = imageInforIdcard2.ImageBase64;
+						break;
                     case "AD":
                         var admin = context.Admins.SingleOrDefault(ad => ad.AdminId.Equals(userId));
                         if (admin == null)
@@ -473,8 +485,28 @@ namespace HFS_BE.DAO.UserDao
             }
 
         }
+		public BaseOutputDto EditIdCard(ShipperEditInputDto inputDto)
+		{
+			try
+			{
+                var shipper = context.Shippers.FirstOrDefault(s => s.ShipperId == inputDto.UserId);
+                if (shipper == null)
+				{
+					return Output<BaseOutputDto>(Constants.ResultCdFail);
 
-        public GetOrderInfoOutputDto GetUserInfo(GetOrderInfoInputDto inputDto)
+				}
+                shipper.IdcardNumber = inputDto.IdcardNumber;
+                shipper.IdcardFrontImage = inputDto.IdcardFrontImage;
+                shipper.IdcardBackImage = inputDto.IdcardBackImage;
+                context.SaveChanges();
+				return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+			}
+			catch (Exception)
+			{
+				return this.Output<GetOrderInfoOutputDto>(Constants.ResultCdFail);
+			}
+		}
+		public GetOrderInfoOutputDto GetUserInfo(GetOrderInfoInputDto inputDto)
         {
             try
             {

@@ -227,6 +227,12 @@ namespace HFS_BE.Dao.PostDao
                         return Output<BaseOutputDto>(Constants.ResultCdFail, "Post not found");
                     }
 
+                    // Check whether the post has been banned by someone else or not
+                    if (post.BanBy != null && post.BanBy != userId)
+                    {
+                        return Output<BaseOutputDto>(Constants.ResultCdFail, "The post has been banned by another post moderator");
+                    }
+
                     if (input.isBanned)
                     {
                         // set status banned

@@ -29,7 +29,10 @@ export class RegisterComponent extends iComponentBase  implements OnInit,AfterVi
   wards: any[] = [];
   selectedResult: string = '';
   uploadedFiles:File[]=[];
+  uploadedFilesShippper:File[]=[];
+  uploadedFilesShippper2:File[]=[];
   isFirstnameTouched = false;
+  isIdCardTouched = false;
   isLastnameTouched = false;
     isphoneNumberTouched = false;
   isShopnameTouched = false;
@@ -85,7 +88,8 @@ private client_Id=environment.clientId;
     phoneNumber:new FormControl('',[Validators.required]),
     shopName:  this.selectedRole==2? new FormControl('',[Validators.required]):new FormControl(''),
     shopAddress:  this.selectedRole==2? new FormControl('',[Validators.required]):new FormControl(''),
-    businessCode:  this.selectedRole==2? new FormControl('',[Validators.required]):new FormControl('')
+    businessCode:  this.selectedRole==2? new FormControl('',[Validators.required]):new FormControl(''),
+    idcardNumber:  this.selectedRole==4? new FormControl('',[Validators.required]):new FormControl('')
   });
 }
 
@@ -171,6 +175,12 @@ showbusinessCodeError() {
     console.log('Captcha is required!');
   }
 }
+showIdCardCodeError() {
+  const idcardCodeControl = this.formregister.get('idcard');
+  if (idcardCodeControl.value === '' && idcardCodeControl.touched) {
+    console.log('Captcha is required!');
+  }
+}
 onRoleChange(event: any) {
   this.selectedRoleId = event.target.value;
 
@@ -182,6 +192,9 @@ onRoleChange(event: any) {
   const genderControl = this.formregister.get('gender');
   const birthDateControl = this.formregister.get('birthDate');
   const businessCode = this.formregister.get('businessCode');
+  const idcard = this.formregister.get('idcardNumber');
+
+
   if (roleIdControl.value === '2') {
     // Nếu roleId là 2, enable và đặt validators cho shopName và shopAddress
     shopNameControl.enable();
@@ -199,7 +212,16 @@ onRoleChange(event: any) {
     genderControl.clearValidators();
     birthDateControl.disable();
     birthDateControl.clearValidators();
+    idcard.disable();
+    idcard.clearValidators();
   } else {
+    if(roleIdControl.value === '4'){
+      idcard.enable();
+      idcard.setValidators([Validators.required]);
+    }else{
+      idcard.disable();
+    idcard.clearValidators();
+    }
     // Nếu roleId không phải là 2, tắt và xóa validators cho shopName và shopAddress
     shopNameControl.disable();
     shopNameControl.clearValidators();
@@ -229,7 +251,7 @@ onRoleChange(event: any) {
 }
 async onSubmit() {
   console.log(this.formregister);
-  ;
+  debugger
   if (this.formregister.valid) {
 
     switch(this.formregister.value.roleId.toString()){
@@ -328,11 +350,50 @@ async onSubmit() {
           case "4":
             try {
 
+              if(this.uploadedFilesShippper.length<1){
+                this.showMessage(mType.error, "Notification", `Please upload at 1 photos in the ID Card Front field`, 'app-register');
+               return;
+              }
+              if(this.uploadedFilesShippper2.length<1){
+                this.showMessage(mType.error, "Notification", `Please upload at 1 photos in the ID Card Back field`, 'app-register');
+               return;
+              }
+              const param = new FormData();
+              const firstNameControl = this.formregister.get('firstName');
+              const lastNameControl = this.formregister.get('lastName');
+              const genderControl = this.formregister.get('gender');
+              const birthDateControl = this.formregister.get('birthDate');
+              const idcard = this.formregister.get('idcardNumber');
+              const email = this.formregister.get('email');
+              const gender = this.formregister.get('gender');
+              const phone = this.formregister.get('phoneNumber');
+              const password = this.formregister.get('password');
+              const confirm = this.formregister.get('confirmPassword');
+              const originalDate = new Date(birthDateControl.value);
+              param.append('firstName',   firstNameControl.value);
+              param.append('lastName',   lastNameControl.value);
+              param.append('email',   email.value);
+              param.append('phoneNumber',   phone.value);
+              param.append('password',   password.value);
+              param.append('confirmPassword',   confirm.value);
+              param.append('idcardNumber',   idcard.value);
+              param.append('gender',   gender.value);
+              param.append('birthDate',this.formatDate(originalDate) );
+              this.uploadedFilesShippper.forEach(file => {
+                param.append('images1', file, file.name);
+              });
+              this.uploadedFilesShippper2.forEach(file => {
+                param.append('images2', file, file.name);
+              });
+              let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.HOME, API.API_USER.REGISTER_SHIPPER, param);
+            if (response && response.success === true) {
+             this.showForm=false;
+                 this.showMessage(mType.success, "Notification", `Register successfully`, 'app-register');
+              console.log(response);
 
-              this.service.registershipper(this.formregister.value).subscribe(res=>{
-                this.service.showregister$.subscribe(showregister => {
-                  this.showForm = showregister;})
-              })
+           }else{
+            this.showMessage(mType.success, "Notification",response.message, 'app-register');
+           }
             }catch (err) {
               this.showMessage(mType.error, "Notification", err, 'app-register');
             }
@@ -367,6 +428,44 @@ handleAllFilesClear(event: Event) {
 
   this.uploadedFiles = [];
   console.log("uploadFiles", this.uploadedFiles);
+}
+handleFileSelection1(event: any) {
+  // Lấy ảnh đầu tiên nếu có
+  if (event.files.length > 0) {
+    // Xóa tất cả ảnh đã chọn trước đó
+    this.uploadedFilesShippper = [];
+    // Thêm ảnh đầu tiên vào mảng
+    this.uploadedFilesShippper.push(event.files[0]);
+  }
+}
+
+handleFileRemoval1(event: any) {
+  // Xóa tất cả ảnh khi một ảnh bị xóa
+  this.uploadedFilesShippper = [];
+}
+
+handleAllFilesClear1(event: any) {
+  // Xóa tất cả ảnh khi tất cả các ảnh bị xóa
+  this.uploadedFilesShippper = [];
+}
+handleFileSelection2(event: any) {
+  // Lấy ảnh đầu tiên nếu có
+  if (event.files.length > 0) {
+    // Xóa tất cả ảnh đã chọn trước đó
+    this.uploadedFilesShippper2 = [];
+    // Thêm ảnh đầu tiên vào mảng
+    this.uploadedFilesShippper2.push(event.files[0]);
+  }
+}
+
+handleFileRemoval2(event: any) {
+  // Xóa tất cả ảnh khi một ảnh bị xóa
+  this.uploadedFilesShippper2 = [];
+}
+
+handleAllFilesClear2(event: any) {
+  // Xóa tất cả ảnh khi tất cả các ảnh bị xóa
+  this.uploadedFilesShippper2 = [];
 }
 async callAPI(api: string, target: string) {
 
@@ -438,6 +537,17 @@ printResult() {
     this.selectedResult = `${selectedWardText} - ${selectedDistrictText} - ${selectedProvinceText}`;
 
   }
+}
+ formatDate(date) {
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // Month is zero-based
+  const year = date.getFullYear();
+
+  // Ensure that day and month have two digits
+  const formattedDay = day < 10 ? '0' + day : day;
+  const formattedMonth = month < 10 ? '0' + month : month;
+
+  return formattedDay + '/' + formattedMonth + '/' + year;
 }
 }
 interface Role {

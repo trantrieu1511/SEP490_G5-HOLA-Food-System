@@ -263,7 +263,7 @@ namespace HFS_BE.DAO.AuthDAO
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
 			}
 		}
-		public async Task<BaseOutputDto> RegisterShipper(RegisterDto model)
+		public async Task<BaseOutputDto> RegisterShipper(RegisterShipperDto model)
 		{
 			var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
 			var validationResults = new List<ValidationResult>();
@@ -336,7 +336,9 @@ namespace HFS_BE.DAO.AuthDAO
 				PhoneNumber = model.PhoneNumber,
 				ConfirmedEmail = false,
 				CreateDate = DateTime.Now,
-
+				IdcardBackImage = model.IdcardBackImage,
+				IdcardFrontImage = model.IdcardFrontImage,
+				IdcardNumber=model.IdcardNumber
 			};
 			using (HMACSHA256? hmac = new HMACSHA256())
 			{

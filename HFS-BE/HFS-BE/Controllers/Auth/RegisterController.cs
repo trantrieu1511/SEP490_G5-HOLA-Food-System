@@ -42,7 +42,7 @@ namespace HFS_BE.Controllers.Auth
 			}
 		}
 		[HttpPost("home/registershipper")]
-		public async Task<BaseOutputDto> RegisterShipper(RegisterInputDto inputDto)
+		public async Task<BaseOutputDto> RegisterShipper([FromForm] RegisterShipperInputDto inputDto)
 		{
 			try
 			{

@@ -15,6 +15,9 @@ export class Profile {
     walletBalance: number;
     manageBy: number;
     password: string;
+    idcardNumber:string;
+    idcardBackImage:string;
+    idcardFrontImage:string;
     oldPassword: string;
     newPassword: string;
     confirmNewPassword: string;
@@ -33,7 +36,8 @@ export class ProfileDisplay {
     shopName: string;
     shopAddress: string;
     isOnline: boolean;
-    isVerified: boolean;
+    // isVerified: boolean;
+    status: number;
     isPhoneVerified:boolean;
     walletBalance: number;
     manageBy: number;

@@ -76,6 +76,8 @@
 					return "reportseller";
 				case 6:
 					return "license";
+				case 7:
+					return "idcard";
 				default:
                     return "";
             }

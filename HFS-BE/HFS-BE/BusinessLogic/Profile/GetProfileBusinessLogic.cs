@@ -3,6 +3,7 @@ using HFS_BE.Base;
 using HFS_BE.DAO.UserDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using HFS_BE.Utils.IOFile;
 
 namespace HFS_BE.BusinessLogic.Profile
 {
@@ -20,6 +21,7 @@ namespace HFS_BE.BusinessLogic.Profile
                 //    return Output<UserProfileOutputDto>(Constants.ResultCdFail, "Please login before using this API.");
                 //}
                 var dao = CreateDao<UserDao>();
+         
                 return dao.GetUserProfileById(userId);
             }
             catch (Exception)

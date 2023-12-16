@@ -7,20 +7,27 @@ namespace HFS_BE.DAO.UserDao
         public int UserId { get; set; }
     }
 
-    public class EditUserProfileInputDto
+    public class EditCardInputDto
     {
-        //public string UserId { get; set; }
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public string? Gender { get; set; }
-        public DateTime? BirthDate { get; set; }
-        public string? ShopName { get; set; }
-        public string? ShopAddress { get; set; }
-        public string PhoneNumber { get; set; } = string.Empty;
-        public bool IsNewPhonenumber { get; set; }
-    }
+		public string Email { get; set; }
+		public string IdcardNumber { get; set; }
+		public IFormFile? Images1 { get; set; } = null;
+		public IFormFile? Images2 { get; set; } = null;
 
-    public class VerifyIdentityInputDto
+	}
+	public class EditUserProfileInputDto
+	{
+		//public string UserId { get; set; }
+		public string FirstName { get; set; } = string.Empty;
+		public string LastName { get; set; } = string.Empty;
+		public string? Gender { get; set; }
+		public DateTime? BirthDate { get; set; }
+		public string? ShopName { get; set; }
+		public string? ShopAddress { get; set; }
+		public string PhoneNumber { get; set; } = string.Empty;
+		public bool IsNewPhonenumber { get; set; }
+	}
+	public class VerifyIdentityInputDto
     {
         public string Password { get; set; } = string.Empty; // Password nhap boi nguoi dung de xac nhan danh tinh
         //public byte[] PasswordSalt { get; set; } = null!;
@@ -37,8 +44,14 @@ namespace HFS_BE.DAO.UserDao
     {
         public string? UserId { get; set; }
     }
-
-    public class GetAddressInfoInputDto
+	public class ShipperEditInputDto
+	{
+		public string? UserId { get; set; }
+		public string IdcardNumber { get; set; }
+		public string? IdcardBackImage { get; set; } = null;
+		public string? IdcardFrontImage { get; set; } = null;
+	}
+	public class GetAddressInfoInputDto
     {
         public string? UserId { get; set; }
     }
