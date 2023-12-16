@@ -55,12 +55,12 @@ namespace HFS_BE.Utils.IOFile
 
         public static string SaveImagesOrderProgress(IFormFile image, UserDto user, int type)
         {
-            string basePath = $"Resources\\Images\\" +
-                            $"{user.UserId}\\" +
+            string basePath = $"Resources/Images/" +
+                            $"{user.UserId}/" +
                             $"{GetFolderNameTypeImage(type)}";
             // Đường dẫn cơ sở cho việc lưu hình ảnh
-            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
-
+           // string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
+string fullPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), basePath);
             // Tạo thư mục nếu chưa tồn tại
             if (!Directory.Exists(fullPath))
             {
@@ -98,12 +98,13 @@ namespace HFS_BE.Utils.IOFile
         /// <returns>The file's name, in order to save to db</returns>
         public static string SaveProfileImage(IFormFile image, string userId)
         {
-            string basePath = $"Resources\\Images\\" +
-                            $"{userId}\\" +
+             string basePath = $"Resources/Images/" +
+                            $"{userId}/" +
                             $"{GetFolderNameTypeImage(3)}";
             // Đường dẫn cơ sở cho việc lưu hình ảnh
-            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
-
+        //    string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
+           // product enviroment
+            string fullPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), basePath);
             // Tạo thư mục nếu chưa tồn tại
             if (!Directory.Exists(fullPath))
             {
@@ -128,12 +129,13 @@ namespace HFS_BE.Utils.IOFile
         }
 		public static List<string> SaveSellerReportImages(IReadOnlyList<IFormFile> images, string userId, int type)
 		{
-			string basePath = $"Resources\\Images\\" +
-							$"{userId}\\" +
-							$"{GetFolderNameTypeImage(type)}";
+			 string basePath = $"Resources/Images/" +
+                            $"{userId}/" +
+                            $"{GetFolderNameTypeImage(type)}";
 			// Đường dẫn cơ sở cho việc lưu hình ảnh
-			string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
-
+		//	string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
+                       // product enviroment
+                    string fullPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), basePath);
 			// Tạo thư mục nếu chưa tồn tại
 			if (!Directory.Exists(fullPath))
 			{
@@ -165,12 +167,12 @@ namespace HFS_BE.Utils.IOFile
 
         public static List<string> SaveLicenseImages(IReadOnlyList<IFormFile> images, UserDto user, int type)
         {
-            string basePath = $"Resources\\Images\\" +
-                            $"{user.Email}\\" +
+            string basePath = $"Resources/Images/" +
+                            $"{user.UserId}/" +
                             $"{GetFolderNameTypeImage(type)}";
             // Đường dẫn cơ sở cho việc lưu hình ảnh
-            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
-
+       //     string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
+               string fullPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), basePath);
             // Tạo thư mục nếu chưa tồn tại
             if (!Directory.Exists(fullPath))
             {

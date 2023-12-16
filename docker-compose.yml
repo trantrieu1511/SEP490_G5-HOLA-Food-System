@@ -40,7 +40,8 @@ services:
         restart: always
         depends_on: 
             - db
-
+        volumes:
+            - image-data:/app/Resources
     db:
         #image: mcr.microsoft.com/mssql/server:2019-latest
         container_name: mssql
@@ -61,5 +62,5 @@ services:
             - database-data:/var/opt/mssql
 volumes:
   database-data:
-
+  image-data:
 
