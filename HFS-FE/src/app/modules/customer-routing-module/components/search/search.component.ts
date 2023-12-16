@@ -10,6 +10,7 @@ import { DataView } from 'primeng/dataview';
 import { AddToCart } from '../../models/addToCart.model';
 import { Shop } from '../../models/shop.model';
 import { ShoppingCartPopupService } from 'src/app/services/shopping-cart-popup.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search',
@@ -38,7 +39,8 @@ export class SearchComponent extends iComponentBase implements OnInit {
     private _route: ActivatedRoute,
     private dataService: DataService,
     public presence: PresenceService,
-    private shoppingCartService: ShoppingCartPopupService
+    private shoppingCartService: ShoppingCartPopupService,
+    public translate: TranslateService
   ) {
     super(messageService);
     
@@ -60,18 +62,26 @@ export class SearchComponent extends iComponentBase implements OnInit {
     })
     await this.getCategory()
     this.onGetSearchData()
+    
     if (this.type === "0") {
-      this.sortOptions = [
-        { label: 'Odered High to Low', value: '!numberOrdered' },
-        { label: 'Odered Low to High', value: 'numberOrdered' },
-        { label: 'Star High to Low', value: '!averageStar' },
-        { label: 'Star Low to High', value: 'averageStar' }]
+      this.translate.get('searchCusScreen').subscribe( (text: any) => {
+        this.sortOptions = [
+          { label: text.OderedHightoLow, value: '!numberOrdered' },
+          { label: text.OderedLowtoHigh, value: 'numberOrdered' },
+          { label: text.StarHightoLow, value: '!averageStar' },
+          { label: text.StarLowtoHigh, value: 'averageStar' }]
+      });
+      
     }
-    else this.sortOptions = [
-      { label: 'Odered High to Low', value: '!numberOrdered' },
-      { label: 'Odered Low to High', value: 'numberOrdered' },
-      { label: 'Star High to Low', value: '!star' },
-      { label: 'Star Low to High', value: 'star' }]
+    else 
+    this.translate.get('searchCusScreen').subscribe( (text: any) => {
+      
+    this.sortOptions = [
+      { label:  text.OderedHightoLow, value: '!numberOrdered' },
+      { label: text.OderedLowtoHigh, value: 'numberOrdered' },
+      { label: text.StarHightoLow, value: '!star' },
+      { label: text.StarLowtoHigh, value: 'star' }]
+    });
       console.log(this.searchCategory);
   }
 

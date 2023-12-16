@@ -840,6 +840,21 @@
     "SignUp":"Sign Up"
   },
 
+  "searchCusScreen": {
+    "SortBy":"Sort By",
+    "EntertoSearch":"Enter to Search",
+    "Food":"Food",
+    "Shop":"Shop",
+    "SearchList":"Search List",
+    "SearchbyName":"Search by Name",
+    "Ordered":"Ordered",
+    "Address":"Address",
+    "ShopDetail":"Shop Detail",
+    "OderedHightoLow":"Ordered High to Low",
+    "OderedLowtoHigh":"Ordered Low to High",
+    "StarLowtoHigh":"Star Low to High",
+    "StarHightoLow":"Star High to Low"
+  },
   "AppTopBar":{
     "MyProfile": "My profile",
     "MyAccount": "My account",

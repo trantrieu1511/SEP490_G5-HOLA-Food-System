@@ -17,7 +17,7 @@ namespace HFS_BE.Controllers.ManageVoucher
         {
         }
         [HttpPost("vouchers/addNewVoucher")]
-        //[Authorize]
+        [Authorize(Roles = "SE")]
 
         public BaseOutputDto CreateVoucher([FromForm] CreateVoucherDaoInputDto input)
         {
