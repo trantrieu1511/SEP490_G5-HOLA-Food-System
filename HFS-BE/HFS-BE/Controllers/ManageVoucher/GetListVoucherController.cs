@@ -16,7 +16,7 @@ namespace HFS_BE.Controllers.ManageVoucher
         {
         }
         [HttpPost("vouchers/getListvoucher")]
-        //[Authorize]
+        [Authorize(Roles = "SE")]
         public GetListVoucherDaoOutputDto GetVoucher(GetListVoucherDaoInput input)
         {
             try

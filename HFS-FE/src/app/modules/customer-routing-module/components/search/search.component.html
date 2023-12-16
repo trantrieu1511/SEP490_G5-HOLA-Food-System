@@ -3,17 +3,17 @@
         <div class="p-inputgroup">
             <button type="button" pButton pRipple class="pi pi-search" (click)="onSearch()"></button>
             <input [(ngModel)]="searchText" type="text" pInputText
-                placeholder="{{'homePageScreen.EntertoSearch' | translate}}" (keyup.enter)="onSearch()">&nbsp;&nbsp;
+                placeholder="{{'searchCusScreen.EntertoSearch' | translate}}" (keyup.enter)="onSearch()">&nbsp;&nbsp;
         </div>
     </div>
     <div class="flex align-items-center">
         <p-radioButton name="pizza" value="0" [(ngModel)]="searchOptions" inputId="ingredient1"></p-radioButton>
-        <label for="ingredient1" class="ml-2">{{'homePageScreen.Food' | translate}}</label>
+        <label for="ingredient1" class="ml-2">{{'searchCusScreen.Food' | translate}}</label>
     </div>&nbsp;&nbsp;
 
     <div class="flex align-items-center">
         <p-radioButton name="pizza" value="1" [(ngModel)]="searchOptions" inputId="ingredient2"></p-radioButton>
-        <label for="ingredient2" class="ml-2">{{'homePageScreen.Shop' | translate}}</label>
+        <label for="ingredient2" class="ml-2">{{'searchCusScreen.Shop' | translate}}</label>
     </div>
 </div>&nbsp;&nbsp;
 <div *ngIf="searchOptions === '0'" style="display: flex; align-items: center; justify-content: center;">
@@ -23,16 +23,16 @@
     </div>
 </div>&nbsp;&nbsp;
 <div style="margin-left: 50px; margin-right: 50px;" class="card">
-    <h5>Search List</h5>
+    <h5>{{'searchCusScreen.SearchList' | translate}}</h5>
     <p-dataView #dv [value]="searchData" [paginator]="true" [rows]="9" filterBy="name" [sortField]="sortField"
         [sortOrder]="sortOrder" layout="list">
         <ng-template pTemplate="header">
             <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
-                <p-dropdown [options]="sortOptions" placeholder="Sort By"
+                <p-dropdown [options]="sortOptions" placeholder="{{'searchCusScreen.SortBy' | translate}}"
                     (onChange)="onSortChange($event)"></p-dropdown>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
-                    <input type="search" pInputText placeholder="Search by Name" (input)="onFilter(dv, $event)">
+                    <input type="search" pInputText placeholder="{{'searchCusScreen.SearchbyName' | translate}}" (input)="onFilter(dv, $event)">
                 </span>
             </div>
         </ng-template>
@@ -42,13 +42,13 @@
                     <img [src]="'data:image/png;base64,' + product.foodImages[0].imageBase64" [alt]="product.name"/>
                     <div class="product-list-detail">
                         <div class="product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</div>
-                        <div class="product-description">Ordered: {{product.numberOrdered}}</div>
+                        <div class="product-description">{{'searchCusScreen.Ordered' | translate}}: {{product.numberOrdered}}</div>
                         <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>
                         <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{product.categoryName}}</span>
                     </div>
                     <div class="product-list-action">
                         <span class="product-price">{{product.unitPrice | currency:'VND'}}</span>
-                        <p-button icon="pi pi-shopping-cart" label="Add to Cart" (onClick)="onAddToCart(product.foodId)"></p-button>
+                        <p-button icon="pi pi-shopping-cart" label="{{'button.AddtoCart' | translate}}" (onClick)="onAddToCart(product.foodId)"></p-button>
                         <!-- <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
                     </div>
                 </div>
@@ -63,12 +63,12 @@
                               </ng-template>
                     <div class="product-list-detail">
                         <div class="product-name" (click)="onShopDetail(product)">{{product.shopName}}</div>
-                        <div class="product-description">Ordered: {{product.numberOrdered}}</div>
-                        <div class="product-description">Address: {{product.shopAddress}}</div>
+                        <div class="product-description">{{'searchCusScreen.Ordered' | translate}}: {{product.numberOrdered}}</div>
+                        <div class="product-description">{{'searchCusScreen.Address' | translate}}: {{product.shopAddress}}</div>
                         <p-rating [ngModel]="product.star" [readonly]="true" [cancel]="false"></p-rating>
                     </div>
                     <div class="product-list-action">
-                        <p-button icon="pi pi-search" label="Shop Detail" (onClick)="onShopDetail(product)"></p-button>
+                        <p-button icon="pi pi-search" label="{{'searchCusScreen.ShopDetail' | translate}}" (onClick)="onShopDetail(product)"></p-button>
                         <!-- <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
                     </div>
                 </div>

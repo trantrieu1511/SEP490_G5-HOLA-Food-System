@@ -302,7 +302,7 @@
     "Numbers":"Số lượng",
     "Description":"Mô tả",
     "Similarfood":"Đồ ăn tương tự",
-    "Ordered":"Đã được đặt",
+    "Ordered":"Lượng đặt hàng",
     "All":"Tất cả",
     "star":"Sao",
     "Jumptocomment1":"Chuyển đến bình luận-1",
@@ -831,6 +831,22 @@
     "Customer":"Khách hàng",
     "Seller":"Người bán",
     "Shipper":"Người giao hàng"
+  },
+  
+  "searchCusScreen": {
+    "SortBy":"Sắp xếp theo",
+    "EntertoSearch":"Nhập để tìm kiếm",
+    "Food":"Thức ăn",
+    "Shop":"Cửa hàng",
+    "SearchList":"Tìm kiếm theo danh sách",
+    "SearchbyName":"Tìm kiếm theo tên",
+    "Ordered":"Lượng đặt hàng",
+    "Address":"Địa chỉ",
+    "ShopDetail":"Chi tiết cửa hàng",
+    "OderedHightoLow":"Sắp xếp từ Cao xuống Thấp",
+    "OderedLowtoHigh":"Sắp xếp từ Thấp đến Cao",
+    "StarLowtoHigh":"Sao thấp đến cao",
+    "StarHightoLow":"Sao cao đến thấp"
   }
 
 
