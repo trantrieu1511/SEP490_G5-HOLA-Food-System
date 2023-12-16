@@ -7,7 +7,7 @@ using HFS_BE.Models;
 using HFS_BE.Utils;
 using HFS_BE.Utils.Enum;
 using Microsoft.AspNetCore.Components.Forms;
-using static HFS_BE.Utils.Enum.OrderStatusEnum;
+using static HFS_BE.Utils.Enum.OrderProgressStatusEnum;
 
 namespace HFS_BE.BusinessLogic.ManageOrder
 {

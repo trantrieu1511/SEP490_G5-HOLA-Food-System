@@ -25,11 +25,12 @@ CREATE TABLE [dbo].[Seller](
 	[walletBalance] [money] NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
 	[isBanned] [bit] not null DEFAULT('false'),
-	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Seller) da duoc admin xac nhan cho phep kinh doanh o HFS chua
+	[Status] [tinyint] not null DEFAULT('0'), -- The hien rang nguoi dung nay (Seller) da duoc admin xac nhan cho phep kinh doanh o HFS chua
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
 	[createDate][datetime] null,
 	[businessCode]  NVARCHAR(50) NULL,
+	[Note]  NVARCHAR(MAX),
 	--[lat][float]null,
 	--[lng][float]null,
 )
@@ -164,10 +165,11 @@ CREATE TABLE [dbo].[Shipper](
 	[isOnline] [bit] NOT NULL DEFAULT('false'),
 	[manageBy] [nvarchar](50) NULL,
 	[confirmedEmail] [bit] not NULL DEFAULT('false'),
-	[isVerified] [bit] not null DEFAULT('false'), -- The hien rang nguoi dung nay (Shipper) da duoc admin xac nhan cho phep kinh doanh o HFS chua
+	[Status] [tinyint] not null DEFAULT('0'), -- The hien rang nguoi dung nay (Shipper) da duoc admin xac nhan cho phep kinh doanh o HFS chua
 	[refreshToken] [varchar](max),
 	[refreshTokenExpiryTime] [datetime],
 	[createDate][datetime] null,
+	[Note]  NVARCHAR(MAX) null,
 	CONSTRAINT FK_Shiper_Seller FOREIGN KEY (manageBy) REFERENCES [Seller]([sellerId]),
 )
 GO
@@ -217,6 +219,7 @@ GO
 -- cart item
 CREATE TABLE [dbo].[CartItem](
 	[foodId] [int] NOT NULL,
+	[CreateDate][datetime],
 	[cartId] [nvarchar](50) NOT NULL,
 	[amount] [int] NOT NULL,
 	Foreign Key ([cartId]) REFERENCES [Customer](customerId),
@@ -478,7 +481,29 @@ CREATE TABLE [dbo].[Post](
 	Foreign Key ([sellerId]) REFERENCES [Seller](SellerId),
 	primary key([postId]),
 	)
+
 GO
+
+/****** Object:  Table [dbo].[PostVote]    Script Date: 09/10/2023 11:11:40 CH ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].PostVote(
+	[voteId] [int] IDENTITY(1,1) NOT NULL,
+	[PostId] [int] NOT NULL,
+	[isLike] [bit] NULL,
+	[createdDate] [datetime] NULL,
+	[voteBy] [nvarchar](50) Not Null,
+	Foreign Key ([voteBy]) REFERENCES [Customer](customerId),
+	Foreign Key ([PostId]) REFERENCES Post(PostId),
+PRIMARY KEY CLUSTERED 
+(
+	[voteId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
 /****** Object:  Table [dbo].[PostImage]    Script Date: 09/10/2023 11:11:40 CH ******/
 SET ANSI_NULLS ON
 GO
@@ -698,3 +723,13 @@ INSERT [dbo].[Admin] ([adminId], [firstName], [lastName], [gender], [birthDate],
 VALUES 
 (N'AD00000001', N'string', N'string', N'string', CAST(N'2003-12-03' AS Date), N'admin@gmail.com', NULL, 0x243476CD2C95DC8AEEC82F8E3C9B734FD565AA7C69104A29D61C34D5762B5F837CE9F9CA4EC2DC835CCB990C161389FBBBD4C858C7BCA0EECA3448EB3F656391, 0xCB36CD2343CFD625702F66B6821FD9D9718945C2D9F0C98E0CBB48135EAC0FD0, 0, NULL, 1, NULL, NULL, NULL)
 
+
+ALTER TABLE [dbo].[Seller]
+ADD [isPhoneVerified] [bit] NOT NULL DEFAULT('false'),
+    [otpToken] [nvarchar](max) NULL,
+    [otpTokenExpiryTime] [int] NULL;
+	
+ALTER TABLE [dbo].[Shipper]
+ADD [isPhoneVerified] [bit] NOT NULL DEFAULT('false'),
+    [otpToken] [nvarchar](max) NULL,
+    [otpTokenExpiryTime] [int] NULL;

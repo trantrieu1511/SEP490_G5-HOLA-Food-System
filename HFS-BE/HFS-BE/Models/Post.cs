@@ -10,6 +10,7 @@ namespace HFS_BE.Models
             Comments = new HashSet<Comment>();
             PostImages = new HashSet<PostImage>();
             PostReports = new HashSet<PostReport>();
+            PostVotes = new HashSet<PostVote>();
         }
 
         public int PostId { get; set; }
@@ -26,5 +27,6 @@ namespace HFS_BE.Models
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<PostImage> PostImages { get; set; }
         public virtual ICollection<PostReport> PostReports { get; set; }
+        public virtual ICollection<PostVote> PostVotes { get; set; }
     }
 }

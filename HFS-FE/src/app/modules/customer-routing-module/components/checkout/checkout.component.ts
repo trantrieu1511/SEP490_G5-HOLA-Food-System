@@ -23,6 +23,7 @@ import { FailedToNegotiateWithServerError } from '@microsoft/signalr/dist/esm/Er
 import { GetVoucherInput } from '../../models/GetVoucherInput.model';
 import { UndoIcon } from 'primeng/icons/undo';
 import { TranslateService } from '@ngx-translate/core';
+import { ShoppingCartPopupService } from 'src/app/services/shopping-cart-popup.service';
 
 @Component({
   selector: 'app-checkout',
@@ -66,7 +67,8 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
     private route: ActivatedRoute,
     private router: Router,
     private dataService: DataService,
-    public translate: TranslateService 
+    public translate: TranslateService,
+    private shoppingCartService: ShoppingCartPopupService
   ){
     super(messageService);	
   }
@@ -200,6 +202,7 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
         }
         else{
           this.displaySuccess = true;
+          this.shoppingCartService.onCheckOut();
           this.showMessage(mType.success, "", "Create Order success!", 'notify');
         }         
       }
@@ -283,7 +286,7 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
     clearTimeout(this.timeOutVoucherInput);
     this.timeOutVoucherInput = setTimeout(async () => {
       await this.onGetVoucher(voucherCd);
-      debugger
+      
       if (this.voucherDetail === undefined){
         return;
       }

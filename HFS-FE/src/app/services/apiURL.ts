@@ -36,6 +36,7 @@ export class API_NEWFEED {
     public static GETALLPOST = "getNewFeed";
     public static GetALLCOMMENT = "getcomment";
     public static CREATECOMMENT = "comment";
+    public static VOTE_POST = "vote";
 }
 // Service User
 export class API_USER {
@@ -96,6 +97,7 @@ export class API_MANAGE{
     public static LIST_SELLER = "listseller";
     public static BAN_SELLER = "banseller";
     public static ACTIVE_SELLER = "activeseller";
+    public static REJECT_SELLER = "rejectseller";
     public static HIS_SELLER = "bansellerhistory";
     public static HIS_SHIPPER = "banshipperhistory";
     public static LIST_SHIPPER = "listshipperbyadmin";
@@ -156,6 +158,7 @@ export class API_HOME {
     public static DISPLAY_SHOP = "displayshop";
     public static HOT_FOOD = "hotfoods";
     public static SEARCH = "search";
+    public static GET_CATEGORY = "getcategory";
     public static SEND_CONFIRM_EMAIL = "sendconfirm";
 }
 
@@ -169,6 +172,7 @@ export class API_CART {
     public static CART_DETAIL = "getcartitem"
     public static UPDATE_AMOUNT = "updateamount"
     public static DELETE_ITEM = "deleteitem"
+    public static CART_ITEM_POPUP = "getcartitempopup"
 }
 
 export class API_FOOD {

@@ -137,12 +137,12 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageShipper
 				throw;
 			}
 		}
-		public BaseOutputDto ActiveShipper(ActiveShipperDtoInput input)
+		public async Task<BaseOutputDto> ActiveShipper(ActiveShipperDtoInput input)
 		{
 			try
 			{
 				var Dao = this.CreateDao<ShipperDao>();
-				var daooutput = Dao.ActiveShipper(input);
+				var daooutput =await Dao.ActiveShipper(input);
 
 				return daooutput;
 			}

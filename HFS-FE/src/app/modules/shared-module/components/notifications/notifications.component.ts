@@ -48,6 +48,8 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
 
   readNotifySubscription: Subscription;
 
+  markNotifySubscription: Subscription;
+
   role: string;
 
   constructor(
@@ -62,7 +64,7 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
     
   ){
     super(messageService);
-    if(iFunction.getCookie("token")){
+    if(this.iFunction.getCookie("token")){
       this.connectSignalR();
       this.getAllNotification();
 
@@ -77,6 +79,13 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
           this.lstNotification[index].isRead = true;
         }
       })
+
+      this.markNotifySubscription = notifyService.markAllNotifyHandle.subscribe(res => {
+        this.lstNotification.forEach(notification => {
+          notification.isRead = true;
+        });
+        this.isNewNotify = false;
+      })
     }
   }
 
@@ -85,7 +94,7 @@ export class NotificationsComponent extends iComponentBase implements OnInit, On
     // console.log(this.translate)
     const user = this.authService.getUserInfor();
     if(user != null)
-      this.role = this.authService.getUserInfor().role;
+      this.role = user.role;
   }
 
   ngOnDestroy() {

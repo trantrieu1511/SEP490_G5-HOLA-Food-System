@@ -20,7 +20,7 @@ namespace HFS_BE.Dao.ShopDao
         }
 
 
-        public DisplayShopDaoOutputDto DisplayShop()
+        public DisplayShopDaoOutputDto DisplayShop(BaseInputDto inputDto)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace HFS_BE.Dao.ShopDao
                     .ThenInclude(x => x.FoodImages)
                     .Include(x => x.Orders)
                     .ThenInclude(x => x.OrderDetails)
-                    .Where(x => x.IsVerified == true).ToList();
+                    .Where(x => x.Status == 1).ToList();
 
                 DisplayShopDaoOutputDto outputDto = this.Output<DisplayShopDaoOutputDto>(Constants.ResultCdSuccess);
                 //output = this.Paginate(output, inputDto.Pagination);
@@ -89,8 +89,9 @@ namespace HFS_BE.Dao.ShopDao
                     listshop.Add(shop);
                 }
 
-                outputDto.ListShop = listshop.Where(x => x.FoodImages.Count >= 3).ToList();
-
+                var data = listshop.Where(x => x.FoodImages.Count >= 3).ToList();
+                outputDto.total = data.Count();
+                outputDto.ListShop = data.Skip(inputDto.pageSize.Value *inputDto.pageNum.Value).Take(inputDto.pageSize.Value).ToList();
 
                 return outputDto;
             }
@@ -111,7 +112,7 @@ namespace HFS_BE.Dao.ShopDao
                     .ThenInclude(x => x.FoodImages)
                     .Include(x => x.Orders)
                     .ThenInclude(x => x.OrderDetails)
-                    .Where(x => x.SellerId.Equals(inputDto.ShopId) && x.IsVerified == true)
+                    .Where(x => x.SellerId.Equals(inputDto.ShopId) && x.Status == 1)
                     .FirstOrDefault();
 
                 
@@ -179,14 +180,14 @@ namespace HFS_BE.Dao.ShopDao
                     .ThenInclude(x => x.Feedbacks)
                     .Include(x => x.Orders)
                     .ThenInclude(x => x.OrderDetails)
-                    .Where(x => x.IsVerified == true).ToList();
+                    .Where(x => x.Status == 1&&x.IsBanned==false).ToList();
 
                 DisplayShopDaoOutputDto outputDto = this.Output<DisplayShopDaoOutputDto>(Constants.ResultCdSuccess);
                 //output = this.Paginate(output, inputDto.Pagination);
                 var listshop = new List<ShopDto>();
                 foreach (var item in output)
                 {
-                    if (!RemoveAccents(item.ShopName).Contains(key))
+                    if (!string.IsNullOrEmpty(key) && !RemoveAccents(item.ShopName).Contains(key))
                     {
                         continue;
                     }
@@ -225,7 +226,7 @@ namespace HFS_BE.Dao.ShopDao
                     shop.NumberOrdered = ordered;
                     if (this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(item.SellerId)) != null)
                     {
-                        shop.Avatar = ImageFileConvert.ConvertFileToBase64(item.SellerId, this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(item.SellerId)).Path, 3).ImageBase64;
+                        shop.Avatar = ImageFileConvert.ConvertFileToBase64(item.SellerId, this.context.ProfileImages.FirstOrDefault(x => x.UserId.Equals(item.SellerId) && !x.IsReplaced).Path, 3).ImageBase64;
                     }
 
                     listshop.Add(shop);
@@ -244,9 +245,16 @@ namespace HFS_BE.Dao.ShopDao
 
         private string RemoveAccents(string input)
         {
-            string normalized = input.Normalize(NormalizationForm.FormKD);
-            Regex regex = new Regex("[\\p{Mn}]", RegexOptions.Compiled);
-            return regex.Replace(normalized, string.Empty).ToLower();
+            try
+            {
+                string normalized = input.Normalize(NormalizationForm.FormKD);
+                Regex regex = new Regex("[\\p{Mn}]", RegexOptions.Compiled);
+                return regex.Replace(normalized, string.Empty).ToLower();
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
     }
 }

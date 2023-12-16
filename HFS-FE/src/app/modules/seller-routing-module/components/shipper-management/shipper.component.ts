@@ -12,6 +12,7 @@ import {
 } from "primeng/api";
 import { Shipper } from '../../models/shipper.model';
 import { TranslateService } from '@ngx-translate/core';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 
 
 @Component({
@@ -36,8 +37,15 @@ export class ShipperComponent extends iComponentBase implements OnInit{
               public messageService: MessageService,
               private confirmationService: ConfirmationService,
               private iServiceBase: iServiceBase,
-              public translate: TranslateService) {
-      super(messageService);
+              public translate: TranslateService,
+              public breadcrumbService: AppBreadcrumbService,
+              ) {
+      super(messageService, breadcrumbService);
+      
+      this.breadcrumbService.setItems([
+        {label: 'HFSBusiness'},
+        {label: 'Shipper Management', routerLink: ['/HFSBusiness/seller/shipper-management']}
+      ]);
 
   }
 

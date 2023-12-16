@@ -8,6 +8,8 @@ using HFS_BE.Utils.IOFile;
 using Mailjet.Client.Resources;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
+using System.Net.Mail;
 
 namespace HFS_BE.DAO.SellerDao
 {
@@ -34,11 +36,13 @@ namespace HFS_BE.DAO.SellerDao
 						// BirthDate = p.BirthDate,
 						 Email = p.Email,
 						 IsBanned = p.IsBanned,
-						 IsVerified=p.IsVerified,
+						 Status=p.Status,
 						 IsOnline=p.IsOnline,
 						 ShopName=p.ShopName,
 						 BusinessCode=p.BusinessCode,
 						 ShopAddress =p.ShopAddress,
+						 CreateDate=p.CreateDate,
+						 Note =p.Note,
 						 Images = context.ProfileImages
 					.Where(pi => pi.UserId == p.SellerId&&pi.IsReplaced==false)
 				   .Select(pi => new ImageSellerOutputDto
@@ -106,18 +110,47 @@ namespace HFS_BE.DAO.SellerDao
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail,ex.ToString());
 			}
 		}
-		public BaseOutputDto ActiveSeller(ActiveSellerDtoInput input)
+		public async Task<BaseOutputDto> ActiveSeller(ActiveSellerDtoInput input)
 		{
 			try
-			{
+			{ 
+				
 				var user = this.context.Sellers.FirstOrDefault(s => s.SellerId == input.SellerId);
 				if (user == null)
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Seller is not in data ");
 				}
-				user.IsVerified = input.IsVerified;
+				user.Status = input.Status;
+				user.Note = input.Note;
 				context.Sellers.Update(user);
 				context.SaveChanges();
+				input.Note = input.Note + "\n Thân mến, HOLA Food.";
+				await SendEmailAsync(user.Email, "Đăng ký người bán thành công", input.Note);
+				var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+				return output;
+			}
+			catch (Exception)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+			}
+		}
+		public async Task<BaseOutputDto> RejectSeller(RejectSellerDtoInput input)
+		{
+			try
+			{
+
+				var user = this.context.Sellers.FirstOrDefault(s => s.SellerId == input.SellerId);
+				if (user == null)
+				{
+					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Seller is not in data ");
+				}
+				user.Status = input.Status;
+				user.Note = input.Note;
+				context.Sellers.Update(user);
+				context.SaveChanges();
+				input.Note = input.Note + ".\n Nếu bạn đã thay đổi thông tin vui lòng trả lời email này. \n Thân mến, HOLA Food.";
+				await SendEmailAsync(user.Email, "Chưa chấp nhận người bán", input.Note);
 				var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 
 				return output;
@@ -128,6 +161,32 @@ namespace HFS_BE.DAO.SellerDao
 			}
 		}
 
+		private async Task<bool> SendEmailAsync(string toEmail, string subject, string content)
+		{
+			try
+			{
+				string from = "holafoodfpt@gmail.com";
+				string pass = "wqsq fqmv iwhu ablr";
+				MailMessage mail = new MailMessage();
+				SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+
+				mail.To.Add(toEmail);
+				mail.From = new MailAddress(from);
+				mail.Subject = subject;
+				mail.Body = "HOLA FOOD:" + content;
+				smtp.EnableSsl = true;
+				smtp.Port = 587;
+				smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+				smtp.Credentials = new NetworkCredential(from, pass);
+				await smtp.SendMailAsync(mail);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+
+		}
 		public ListHistoryBanSeller ListHistorySeller(BanSellerHistoryDtoInput Id)
 		{
 			try
@@ -156,7 +215,7 @@ namespace HFS_BE.DAO.SellerDao
 		public async Task<SellerMessageDtoOutput> GetSellersAsync(string email)
 		{
 			var user = await context.Sellers
-				.FirstOrDefaultAsync(x => x.Email == email && x.IsVerified == true && x.IsBanned == false);
+				.FirstOrDefaultAsync(x => x.Email == email && x.Status == 1 && x.IsBanned == false);
 			
 			var datmapper = mapper.Map<Seller, SellerMessageDtoOutput>(user);
 			
@@ -212,7 +271,7 @@ namespace HFS_BE.DAO.SellerDao
 
 				foreach (var u in userOnline)
 				{
-					var seller = await context.Sellers.Where(s=>s.Email== u&&s.IsBanned == false && s.IsVerified == true).SingleOrDefaultAsync();
+					var seller = await context.Sellers.Where(s=>s.Email== u&&s.IsBanned == false && s.Status == 1).SingleOrDefaultAsync();
 					var datmapper = mapper.Map<Seller, SellerMessageDtoOutput>(seller);
 					datmapper.IsOnline = true;
 					var img = await context.ProfileImages.Where(s => s.UserId == datmapper.SellerId && s.IsReplaced == false).FirstOrDefaultAsync();
@@ -249,7 +308,7 @@ namespace HFS_BE.DAO.SellerDao
 
 				foreach (var u in userOnline)
 				{
-					var seller = await context.Sellers.Where(s => s.Email == u&& s.IsBanned == false && s.IsVerified == true).SingleOrDefaultAsync();
+					var seller = await context.Sellers.Where(s => s.Email == u&& s.IsBanned == false && s.Status == 1).SingleOrDefaultAsync();
 					var datmapper = mapper.Map<Seller, SellerMessageDtoOutput>(seller);
 					datmapper.IsOnline = true;
 					var img= await context.ProfileImages.Where(s=>s.UserId== datmapper.SellerId&&s.IsReplaced==false).FirstOrDefaultAsync();
@@ -282,7 +341,7 @@ namespace HFS_BE.DAO.SellerDao
 			try
 			{
 				var listUserOffline = new List<SellerMessageDtoOutput>();
-				List<SellerMessageDtoOutput> listseller = await context.Sellers.Where(x => x.IsBanned == false && x.IsVerified == true)
+				List<SellerMessageDtoOutput> listseller = await context.Sellers.Where(x => x.IsBanned == false && x.Status == 1)
 					.Select(s => mapper.Map<Seller, SellerMessageDtoOutput>(s)).ToListAsync();
 
 
@@ -311,7 +370,7 @@ namespace HFS_BE.DAO.SellerDao
 			try
 			{
 				var listUserOffline = new List<SellerMessageDtoOutput>();
-				List<SellerMessageDtoOutput> listseller = await context.Sellers.Where(x => x.IsBanned == false&& x.IsVerified == true)
+				List<SellerMessageDtoOutput> listseller = await context.Sellers.Where(x => x.IsBanned == false&& x.Status == 1)
 					.Select(s => mapper.Map<Seller, SellerMessageDtoOutput>(s)).ToListAsync();
 
 

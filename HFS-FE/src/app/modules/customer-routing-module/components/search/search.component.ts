@@ -9,6 +9,7 @@ import * as API from "../../../../services/apiURL";
 import { DataView } from 'primeng/dataview';
 import { AddToCart } from '../../models/addToCart.model';
 import { Shop } from '../../models/shop.model';
+import { ShoppingCartPopupService } from 'src/app/services/shopping-cart-popup.service';
 
 @Component({
   selector: 'app-search',
@@ -24,8 +25,11 @@ export class SearchComponent extends iComponentBase implements OnInit {
   sortOrder: number;
   sortField: string;
   searchText: string;
-  type : string
-  searchOptions : any = "0"
+  type: string
+  searchOptions: any = "0"
+  lstCategory: any[];
+  searchCategory: number[] = []
+  list : any[]
   constructor(private shareData: ShareData,
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -33,36 +37,58 @@ export class SearchComponent extends iComponentBase implements OnInit {
     private _router: Router,
     private _route: ActivatedRoute,
     private dataService: DataService,
-    public presence: PresenceService
+    public presence: PresenceService,
+    private shoppingCartService: ShoppingCartPopupService
   ) {
     super(messageService);
     
   }
 
-  ngOnInit() {
-    this._route.queryParams.subscribe(params => {
+  async ngOnInit() {
+    
+      this._route.queryParams.subscribe(params => {
       this.searchInput.searchKey = params['key'];
       this.searchText = params['key'];
+      this.list = params['category'];
+      this.list.forEach(x => {
+        this.searchCategory.push(parseInt(x));
+      })
       this.type = params['type'];
       this.searchOptions = params['type'];
       this.searchInput.type = params['type']
+      this.searchInput.category = this.searchCategory
     })
+    await this.getCategory()
     this.onGetSearchData()
-    
-
-    if (this.type === "0"){
+    if (this.type === "0") {
       this.sortOptions = [
         { label: 'Odered High to Low', value: '!numberOrdered' },
         { label: 'Odered Low to High', value: 'numberOrdered' },
-        { label: 'Star Low to High', value: '!averageStar' },
+        { label: 'Star High to Low', value: '!averageStar' },
         { label: 'Star Low to High', value: 'averageStar' }]
     }
     else this.sortOptions = [
       { label: 'Odered High to Low', value: '!numberOrdered' },
       { label: 'Odered Low to High', value: 'numberOrdered' },
-      { label: 'Star Low to High', value: '!star' },
+      { label: 'Star High to Low', value: '!star' },
       { label: 'Star Low to High', value: 'star' }]
-    
+      console.log(this.searchCategory);
+  }
+
+  async getCategory() {
+    try {
+      this.loading = true;
+
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.HOME, API.API_HOME.GET_CATEGORY, null);
+      console.log(response)
+      if (response && response.message === "Success") {
+        this.lstCategory = response.listCategory;
+      }
+      this.loading = false;
+    } catch (e) {
+      console.log(e);
+      this.loading = false;
+    }
   }
 
   onShopDetail(shop: Shop) {
@@ -76,21 +102,21 @@ export class SearchComponent extends iComponentBase implements OnInit {
 
   async onGetSearchData() {
     this.searchData = []
-      try {
-        this.loading = true;
-        let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.HOME, API.API_HOME.SEARCH, this.searchInput);
-        console.log(response)
-        if (response && response.message === "Success") {
-          if (this.type === "0"){
-            this.searchData = response.listFood;
-          }
-          else this.searchData = response.listShop;
+    try {
+      this.loading = true;
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.HOME, API.API_HOME.SEARCH, this.searchInput);
+      console.log(response)
+      if (response && response.message === "Success") {
+        if (this.type === "0") {
+          this.searchData = response.listFood;
         }
-        this.loading = false;
-      } catch (e) {
-        console.log(e);
-        this.loading = false;
+        else this.searchData = response.listShop;
       }
+      this.loading = false;
+    } catch (e) {
+      console.log(e);
+      this.loading = false;
+    }
   }
 
   onSortChange(event: any) {
@@ -108,11 +134,11 @@ export class SearchComponent extends iComponentBase implements OnInit {
     dv.filter((event.target as HTMLInputElement).value);
   }
 
-  onFoodDetail(foodId : number){
+  onFoodDetail(foodId: number) {
     this._router.navigate(['/fooddetail'], { queryParams: { foodId: foodId } });
   }
 
-  async onAddToCart(foodId : number){
+  async onAddToCart(foodId: number) {
     try {
       this.loading = true;
       let cartItem = new AddToCart();
@@ -121,29 +147,30 @@ export class SearchComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.ADDTOCART, cartItem);
       if (response && response.message === "Success") {
         console.log(response)
-          this.showMessage(mType.success, "", "Add to cart success!", 'notify');      
+        this.shoppingCartService.onAddToCart()
+        this.showMessage(mType.success, "", "Add to cart success!", 'notify');
       }
-      else{
+      else {
         this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');
         this._router.navigate(['/login']);
-      } 
-
+      }
       this.loading = false;
-  } catch (e) {
+    } catch (e) {
       console.log(e);
       this.loading = false;
-  }
+    }
   }
 
-  onSearch(){
-    if (this.searchText.length > 0){
-      this._router.routeReuseStrategy.shouldReuseRoute = function () {
-        return false;
-      }
-      this._router.onSameUrlNavigation = 'reload';
-      this._router.navigate(['/search'], { queryParams: { key: this.searchText, type : this.searchOptions } });
-      this.type = this.searchOptions
-      this.onGetSearchData();
+  onSearch() {
+    if (this.searchOptions === "1") {
+      this.searchCategory = []
     }
+    this._router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    }
+    this._router.onSameUrlNavigation = 'reload';
+    this._router.navigate(['/search'], { queryParams: { key: this.searchText, type: this.searchOptions,category : this.searchCategory } });
+    this.type = this.searchOptions
+    this.onGetSearchData();
   }
 }

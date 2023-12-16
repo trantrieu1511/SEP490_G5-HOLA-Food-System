@@ -91,12 +91,26 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageSeller
 				throw;
 			}
 		}
-		public BaseOutputDto ActiveSeller(ActiveSellerDtoInput input)
+		public async Task<BaseOutputDto> ActiveSeller(ActiveSellerDtoInput input)
 		{
 			try
 			{
 				var Dao = this.CreateDao<SellerDao>();
-				var daooutput = Dao.ActiveSeller(input);
+				var daooutput = await Dao.ActiveSeller(input);
+
+				return daooutput;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+		public async Task<BaseOutputDto> RejectSeller(RejectSellerDtoInput input)
+		{
+			try
+			{
+				var Dao = this.CreateDao<SellerDao>();
+				var daooutput =await Dao.RejectSeller(input);
 
 				return daooutput;
 			}

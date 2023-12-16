@@ -32,11 +32,15 @@ namespace HFS_BE.Models
         public decimal? WalletBalance { get; set; }
         public bool? ConfirmedEmail { get; set; }
         public bool? IsBanned { get; set; }
-        public bool? IsVerified { get; set; }
+        public byte Status { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
         public DateTime? CreateDate { get; set; }
         public string? BusinessCode { get; set; }
+        public string? Note { get; set; }
+        public bool? IsPhoneVerified { get; set; }
+        public string? OtpToken { get; set; }
+        public int? OtpTokenExpiryTime { get; set; }
 
         public virtual ICollection<ChatMessage> ChatMessages { get; set; }
         public virtual ICollection<FeedbackReply> FeedbackReplies { get; set; }

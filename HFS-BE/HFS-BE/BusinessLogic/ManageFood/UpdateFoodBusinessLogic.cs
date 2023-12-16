@@ -27,10 +27,12 @@ namespace HFS_BE.BusinessLogic.ManageFood
                 if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email) is null)
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", "Your acccount is not exist");
 
-                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).IsVerified == false)
+                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).Status != 1)
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", "Your acccount is not verified");
+				if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).IsPhoneVerified == false)
+					return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Your acccount is not verified PhoneNumber");
 
-                if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).IsBanned == true)
+				if (sellerDao.GetSellerByEmail(inputDto.UserDto.Email).IsBanned == true)
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Update Failed", "Your acccount is banned");
 
                 var daoCate = CreateDao<CategoryDao>();

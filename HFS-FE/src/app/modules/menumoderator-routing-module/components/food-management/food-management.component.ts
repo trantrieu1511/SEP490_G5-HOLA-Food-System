@@ -73,6 +73,12 @@ export class FoodManagementComponent extends iComponentBase implements OnInit {
     private authService: AuthService
   ) {
     super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Menu Management', routerLink: ['/HFSBusiness/menu-management']}
+    ]);
+
     this.foodForm = this.fb.group({
       foodId: ['', Validators.required],
       name: ['', Validators.required],
@@ -151,7 +157,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit {
 
       if (response && response.message === "Success") {
         this.lstFood = response.foods;
-        // debugger
+        // 
         this.lstFood.forEach(element => {
           if (element.banDate != undefined)
             element.banDate = this.iServiceBase.formatDatetime(element.banDate)

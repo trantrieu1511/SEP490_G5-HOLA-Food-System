@@ -2,7 +2,9 @@
   <div class="flex align-items-center justify-content-center min-h-screen">
     <div class="surface-card p-4 shadow-2 border-round w-full lg:w-5">
       <div class="text-center mb-5">
-        <img src="assets/image/Logo.png" alt="Image" height="50" class="mb-3">
+        <a class="layout-topbar-logo" href="/">
+          <img src="assets/image/Logo.png" alt="Image" height="50" class="mb-3">
+        </a>
         <div class="text-900 text-3xl font-medium mb-3">{{'loginScreen.welcomeToFUFood' | translate}}</div>
         <span class="text-600 font-medium line-height-3">{{'loginScreen.doNotHaveAnAccount' | translate}}?</span>
         <a href="register"
@@ -22,25 +24,23 @@
           <div class="flex items-center">
             <label for="email1" class="block text-900 font-medium mb-2 flex-shrink-0">{{'loginScreen.email' |
               translate}}*</label>
-            <div *ngIf="form.get('email')!.hasError('email')" class="text-red-500 ml-2">Incorrect Email format!</div>
+            <div *ngIf="form.get('email')!.hasError('email')" class="text-red-500 ml-2">{{'loginScreen.IncorrectEmailformat' | translate}}!</div>
           </div>
-          <input id="email1" type="text" placeholder="Email address" formControlName="email" pInputText
+          <input id="email1" type="text" placeholder="{{'loginScreen.email' |  translate}}" formControlName="email" pInputText
             class="w-full mb-3">
 
           <div class="flex items-center">
             <label for="password1" class="block text-900 font-medium mb-2">{{'loginScreen.password' | translate}}*
             </label>
-            <div *ngIf="isPasswordTouched && form.get('password').errors?.required" class="invalid-feedback">Password is
-              required!</div>
+            <div *ngIf="isPasswordTouched && form.get('password').errors?.required" class="invalid-feedback">{{'loginScreen.Passwordisrequired' | translate}}!</div>
           </div>
-          <input id="password1" type="password" placeholder="Password" formControlName="password" pInputText class="w-full mb-3" (focus)="isPasswordTouched = true" (blur)="showPasswordError()">
+          <input id="password1" type="password" placeholder="{{'loginScreen.password' | translate}}" formControlName="password" pInputText class="w-full mb-3" (focus)="isPasswordTouched = true" (blur)="showPasswordError()">
           <div *ngIf="unsuccessfulLoginAttempts > 1" class="flex items-center">
-            <label for="captchaInput" class="block text-900 font-medium mb-2 flex-shrink-0">CAPTCHA*</label>
-            <div *ngIf="isCaptchaTouched && form.get('captcha').errors?.required" class="invalid-feedback">Captcha is
-              required!</div>
+            <label for="captchaInput" class="block text-900 font-medium mb-2 flex-shrink-0">{{'loginScreen.CAPTCHA' | translate}}*</label>
+            <div *ngIf="isCaptchaTouched && form.get('captcha').errors?.required" class="invalid-feedback">{{'loginScreen.Captchaisrequired' | translate}}!</div>
           </div>
           <div *ngIf="unsuccessfulLoginAttempts > 1">
-            <input id="captchaInput" type="text" placeholder="Enter CAPTCHA" formControlName="captcha" pInputText class="w-full mb-3" (focus)="isCaptchaTouched = true" (blur)="showCaptchaError()">
+            <input id="captchaInput" type="text" placeholder="{{'loginScreen.CAPTCHA' | translate}}" formControlName="captcha" pInputText class="w-full mb-3" (focus)="isCaptchaTouched = true" (blur)="showCaptchaError()">
 
             <!-- Display CAPTCHA image -->
             <img [src]="captchaImage" alt="CAPTCHA" (click)="refreshCaptcha()" />

@@ -16,14 +16,7 @@ export class SellerListComponent {
   miniUser:SellerChatBox[] = [];
   chatOnline: string[] = [];
 readmessage:number;
-  dataUser = [
-    {userName: 'hoainam10th', displayName:'Nguyen Hoai Nam'},
-    {userName: 'ubuntu', displayName:'Tran Hoai Nam'},
-    {userName: 'lisa', displayName:'Nguyen Minh Bac'},
-    {userName: 'tony', displayName:'Nguyen Hoai Phong'},
-    {userName: 'agutech', displayName:'Technology'},
-    {userName: 'android', displayName:'Android 11'}
-  ]
+
   isSellerListVisible: boolean = false;
   @Output() closeSellerList = new EventEmitter<void>();
 

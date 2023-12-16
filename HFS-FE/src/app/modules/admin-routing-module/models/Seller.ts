@@ -1,7 +1,7 @@
 export class Seller {
   sellerId: string;
   gender: string;
-  birthDate: Date;
+  createDate: Date;
   email: string;
   phoneNumber: string;
   isOnline:boolean;
@@ -11,7 +11,8 @@ export class Seller {
   shopAddress:string;
   confirmedEmail:boolean;
   isBanned: boolean;
-  isVerified:boolean;
+  status:number;
+  note:string;
   businessCode:string;
   imagesBase64: SellerImageBase64[] = null;
   imagesBase64L: SellerImageBase64[] = null;
@@ -50,6 +51,11 @@ export class BanSeller {
   sellerId: string;
   reason:string;
   isBanned: boolean;
+}
+export class RejectSeller {
+  sellerId: string;
+  note:string;
+  status: number;
 }
 export class ActiveSeller {
   sellerId: string;

@@ -5,6 +5,7 @@ namespace HFS_BE.DAO.CartDao
     public class GetCartItemDaoOutputDto : BaseOutputDto
     {
         public List<CartItemOutputDto> ListItem { get; set; }
+        public int? Total { get; set; }
     }
 
 

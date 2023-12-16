@@ -5,7 +5,7 @@ import {
   ShareData
 } from 'src/app/modules/shared-module/shared-module';
 import * as API from "../../../../services/apiURL";
-import { ImageBase64, Post } from '../../models/post.model';
+import { ImageBase64, Post, PostVote } from '../../models/post.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -13,6 +13,7 @@ import { CommentNewFeed, InputComment } from '../../models/comment.model';
 import { PostReport } from '../../models/postreport.model';
 import { LayoutService } from '../../../../layout/service/app.layout.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ClipboardModule, ClipboardService } from 'ngx-clipboard';
 
 @Component({
   selector: 'app-new-feed-module',
@@ -77,24 +78,39 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
     private router: Router,
     private dataService: DataService,
     public layoutService: LayoutService,
-    private authService: AuthService
+    private authService: AuthService,
+    private clipboard: ClipboardService
   ) {
     super(messageService);
+
+    this.checkLoggedIn();
   }
 
   checkLoggedIn() {
     // if (sessionStorage.getItem('userId') != null) {
     //   this.isLoggedIn = true;
     // }
-    this.userId = this.authService.getUserInfor().userId;
-    if (this.userId != null) {
+    var user = this.authService.getUserInfor();
+    if (user != null) {
+      this.userId = user.userId;
       this.isLoggedIn = true;
+
     }
+  }
+
+  copyToClipboard() {
+      const isCopied: boolean = this.clipboard.copyFromContent("");
+
+      if (isCopied) {
+        console.log('URL copied to clipboard');
+      } else {
+        console.error('Error copying URL to clipboard');
+      }
   }
 
   async ngOnInit(): Promise<void> {
     await this.getAllPost();
-    //this.checkLoggedIn();
+    
 
     if (this.isLoggedIn) {
       await this.checkUsersReportPostCapability();
@@ -104,20 +120,20 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
   }
 
   async getAllPost() {
-    debugger;
+    ;
     this.listPost = [];
     try {
       const param = {
         "status": 1,
-        "page":this.first / this.rows + 1,
-        "pageSize":this.rows
+        "page": this.first / this.rows + 1,
+        "pageSize": this.rows
       }
       this.loading = true;
 
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_NEWFEED.GETALLPOST, param, false);
       if (response && response.message === "Success") {
         this.listPost = response.posts;
-        this.totalRecords=response.totalPosts;
+        this.totalRecords = response.totalPosts;
         this.checkLoggedIn();
       }
       this.loading = false;
@@ -126,13 +142,13 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       this.loading = false;
     }
   }
-// product-list.component.ts
+  // product-list.component.ts
 
-onPageChange(event: any): void {
-  this.first = event.first;
-  this.rows = event.rows;
-  this.getAllPost();
-}
+  onPageChange(event: any): void {
+    this.first = event.first;
+    this.rows = event.rows;
+    this.getAllPost();
+  }
 
   OnCommnent(event: any, item: Post) {
     event.preventDefault();
@@ -141,6 +157,36 @@ onPageChange(event: any): void {
     this.getAllComment(item.postId);
     this.postId = item.postId;
 
+  }
+
+  onShopDetail(shop: string) {
+    this.router.navigate(['/shopdetail'], { queryParams: { shopid: shop } });
+  }
+
+  async onVote(item: Post) {
+    try {
+      this.loading = true;
+      let vote = new PostVote();
+      vote.postId = item.postId
+      vote.isLike = !item.isLiked      
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POST, API.API_NEWFEED.VOTE_POST, vote);
+      if (response && response.success === true) {
+        this.listPost
+        .filter(x => x.postId === item.postId)
+        .forEach(x => {
+          if (!x.isLiked) x.likeCount++;
+          if (x.isLiked) x.likeCount--;
+          x.isLiked = !x.isLiked;
+        })
+      }
+      else{
+        this.showMessage(mType.warn, "Notification", response.message, 'notify');
+      }
+      this.loading = false;
+    } catch (e) {
+      this.showMessage(mType.warn, "", "There was some problem please try againg or contact for admin help!", 'notify');
+      this.loading = false;
+    }
   }
 
   bindingDataCommentModel(): InputComment {

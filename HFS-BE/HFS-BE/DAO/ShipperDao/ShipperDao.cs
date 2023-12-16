@@ -7,6 +7,8 @@ using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
+using System.Net.Mail;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace HFS_BE.DAO.ShipperDao
@@ -22,7 +24,7 @@ namespace HFS_BE.DAO.ShipperDao
             // get shipper of shop
             // with condition: not ban and verified
             var data = context.Shippers
-                .Where(s => s.ManageBy.Equals(sellerId) && s.IsVerified == true)
+                .Where(s => s.ManageBy.Equals(sellerId) && s.Status == 1)
                 .Select(s => mapper.Map<Shipper, ShipperInfor>(s))
                 .ToList();
             var output = Output<ShipperInforList>(Constants.ResultCdSuccess);
@@ -67,7 +69,10 @@ namespace HFS_BE.DAO.ShipperDao
 					PhoneNumber=s.PhoneNumber,
 					ManageBy=s.ManageBy,
 					ConfirmedEmail=s.ConfirmedEmail,
-					IsVerified=s.IsVerified,
+					IsPhoneVerified=s.IsPhoneVerified,
+					Status=s.Status,
+					CreateDate=s.CreateDate,
+					Note=s.Note,
 					Images= context.ProfileImages
 					.Where(pi => pi.UserId == s.ShipperId && pi.IsReplaced == false)
 				   .Select(pi => new ImageShipperOutputDto
@@ -127,7 +132,7 @@ namespace HFS_BE.DAO.ShipperDao
 		//	}
 		//}
 
-		public BaseOutputDto ActiveShipper(ActiveShipperDtoInput input)
+		public async Task<BaseOutputDto> ActiveShipper(ActiveShipperDtoInput input)
 		{
 			try
 			{
@@ -136,9 +141,20 @@ namespace HFS_BE.DAO.ShipperDao
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Shipper is not in data ");
 				}
-				user.IsVerified = input.IsVerified;
+				user.Status =(byte) input.Status;
+				user.Note = input.Note;
 				context.Shippers.Update(user);
 				context.SaveChanges();
+				if (input.Status == 1)
+				{
+					input.Note = input.Note + "\n Thân mến, HOLA Food.";
+					await SendEmailAsync(user.Email, "Đăng ký người giao hàng thành công", input.Note);
+				}
+				if (input.Status == 2)
+				{
+					input.Note = input.Note + ".\n Nếu bạn đã thay đổi thông tin vui lòng trả lời email này. \n Thân mến, HOLA Food.";
+					await SendEmailAsync(user.Email, "Chưa chấp nhận người giao hàng", input.Note);
+				}
 				var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 
 				return output;
@@ -148,7 +164,32 @@ namespace HFS_BE.DAO.ShipperDao
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
 			}
 		}
+		private async Task<bool> SendEmailAsync(string toEmail, string subject, string content)
+		{
+			try
+			{
+				string from = "holafoodfpt@gmail.com";
+				string pass = "wqsq fqmv iwhu ablr";
+				MailMessage mail = new MailMessage();
+				SmtpClient smtp = new SmtpClient("smtp.gmail.com");
 
+				mail.To.Add(toEmail);
+				mail.From = new MailAddress(from);
+				mail.Subject = subject;
+				mail.Body = "HOLA FOOD:" + content;
+				smtp.EnableSsl = true;
+				smtp.Port = 587;
+				smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+				smtp.Credentials = new NetworkCredential(from, pass);
+				await smtp.SendMailAsync(mail);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+
+		}
 		//public ListHistoryBanShipper ListHistoryShipper(BanShipperHistoryDtoInput Id)
 		//{
 		//	try
@@ -187,7 +228,7 @@ namespace HFS_BE.DAO.ShipperDao
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
 				}
 				var data = context.Shippers.FirstOrDefault(s => s.Email == input.Email);
-				var datacheckis = context.Shippers.FirstOrDefault(s => s.Email == input.Email && s.IsVerified == true);
+				var datacheckis = context.Shippers.FirstOrDefault(s => s.Email == input.Email && s.Status == 1);
 
 				var datainv = context.Invitations.Include(s => s.Shipper).FirstOrDefault(s => s.Shipper.Email == input.Email && s.SellerId == input.SellerId && s.Accepted == 0);
 				if (data.ManageBy != null)

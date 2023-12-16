@@ -163,12 +163,12 @@ namespace HFS_BE.Controllers.ManageUser.ManageShipper
 		//}
 		[HttpPost("users/activeshipper")]
 		[Authorize(Roles = "AD")]
-		public BaseOutputDto AciveShipper(ActiveShipperDtoInput input)
+		public async Task<BaseOutputDto> AciveShipper(ActiveShipperDtoInput input)
 		{
 			try
 			{
 				var business = this.GetBusinessLogic<ShipperBusinessLogic>();
-				var output = business.ActiveShipper(input);
+				var output =await business.ActiveShipper(input);
 				return output;
 			}
 			catch (Exception ex)

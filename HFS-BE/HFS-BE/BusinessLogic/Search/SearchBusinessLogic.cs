@@ -19,7 +19,6 @@ namespace HFS_BE.BusinessLogic.Search
             try
             {
                 var dao = this.CreateDao<FoodDao>();
-                var dao2 = this.CreateDao<ShopDao>();
                 return dao.FoodByName(inputDto);
             }
             catch (Exception)

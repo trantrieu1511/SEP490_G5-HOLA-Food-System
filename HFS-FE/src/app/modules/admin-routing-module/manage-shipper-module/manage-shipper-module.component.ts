@@ -6,9 +6,10 @@ import {
   iFunction
 } from 'src/app/modules/shared-module/shared-module';
 import * as API from "../../../services/apiURL";
-import { BanShipper, HistoryBanShipper, Shipper } from '../models/Shipper';
+import { ActiveShipper, BanShipper, HistoryBanShipper, Shipper } from '../models/Shipper';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 @Component({
   selector: 'app-manage-shipper-module',
   templateUrl: './manage-shipper-module.component.html',
@@ -16,20 +17,30 @@ import { Router } from '@angular/router';
 })
 export class ManageShipperModuleComponent extends iComponentBase implements OnInit {
   listShipper:Shipper []=[];
-  displayDialogBan: boolean = false;
+  isSaveButtonDisabled:boolean= false;
+  displayDialogNote: boolean = false;
+  visibleContentDialog:boolean=false;
   visibleImageDialog:boolean=false;
   visiblebanHistoryDialog:boolean=false;
   shipperImg:Shipper =new Shipper();
+  shipperDetail:Shipper =new Shipper();;
   headerDialog: string = '';
   listhistoryBan:HistoryBanShipper []=[];
   banshipper:BanShipper= new BanShipper();
+  activeshipper:ActiveShipper =new ActiveShipper();
   constructor( private shareData: ShareData,
     public messageService: MessageService,
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private _router: Router,
+    public breadcrumbService: AppBreadcrumbService,
   ){
-    super(messageService);
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Shipper Management', routerLink: ['/HFSBusiness/admin/shipper-management']}
+    ]);
 
   }
   ngOnInit(): void {
@@ -77,29 +88,46 @@ this.getAllShipper();
       }
   }
   BanShipper(user:Shipper){
-    this.displayDialogBan = true;
+    this.displayDialogNote = true;
     this.banshipper.shipperId=user.shipperId;
     this.banshipper.isBanned=!user.isBanned;
 console.log(this.banshipper);
   }
-  async ActiveShipper(user:Shipper){
-    const param={
-      "shipperId": user.shipperId,
-      "isVerified": !user.isVerified
-    }
+
+  async ActiveShipper(user:Shipper,so:number){
+    this.headerDialog="Verify ID: "+user.shipperId ;
+    this.displayDialogNote = true;
+
+    this.activeshipper.shipperId=user.shipperId;
+    this.activeshipper.status=so;
+  }
+  async RejectShipper(user:Shipper,so:number){
+    this.headerDialog="Reject ID: "+user.shipperId ;
+    this.displayDialogNote = true;
+    this.activeshipper.status=so;
+  }
+  async ActiveShipperCancel(){
+    this.displayDialogNote = false;
+    this.activeshipper=new ActiveShipper();
+  }
+  async ActiveShipper1(){
+    // const param={
+    //   "shipperId": user.shipperId,
+    //   "status": user.status
+    // }
     try{
-    let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.ACTVIVE_SHIPPER,param);
+    let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.ACTVIVE_SHIPPER, this.activeshipper);
 
     if (response && response.message === "Success") {
      this.getAllShipper();
-     this.showMessage(mType.success, "Notification", "Verification "+user.shipperId+" successfully", 'notify');
+     this.showMessage(mType.success, "Notification", "Update "+this.activeshipper.shipperId+" successfully", 'notify');
      this.banshipper = new BanShipper();
-     this.displayDialogBan = false;
+     this.displayDialogNote = false;
     }
    ;
   } catch (e) {
     console.log(e);
-    this.showMessage(mType.error, "Notification", "Verificationn "+user.shipperId+" failure", 'notify');
+    this.showMessage(mType.error, "Notification", "Update "+this.activeshipper.shipperId+" failure", 'notify');
     }
    }
    async onSaveBan(){
@@ -111,7 +139,7 @@ console.log(this.banshipper);
      this.getAllShipper();
      this.showMessage(mType.success, "Notification", "Ban "+this.banshipper.shipperId+" successfully", 'notify');
      this.banshipper = new BanShipper();
-     this.displayDialogBan = false;
+     this.displayDialogNote = false;
     }else{
       this.showMessage(mType.error, "Notification",response.message, 'notify');
     }
@@ -123,10 +151,18 @@ console.log(this.banshipper);
   }
   onCancelBan(){
     this.banshipper = new BanShipper();
-    this.displayDialogBan = false;
+    this.displayDialogNote = false;
   }
   onDisplayImagesDialog(s: Shipper, event: any) {
     this.shipperImg = s;
     this.visibleImageDialog = true;
   }
+  Detail(user:Shipper){
+this.visibleContentDialog=true;
+this.shipperDetail=user;
+  }
+  checkSaveButtonStatus() {
+    // Example condition: enable the button if both note and status are filled
+    this.isSaveButtonDisabled = !this.activeshipper.note;
+}
 }

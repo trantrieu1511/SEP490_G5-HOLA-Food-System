@@ -1,13 +1,13 @@
 <div class="grid table-demo">
   <div class="col-12">
       <div class="card">
-          <h5>Customer Management</h5>
+          <h5>{{'CusAdminScreen.CustomerManagement' | translate}}</h5>
 
           <p-table #dt [value]="lstUser" dataKey="id"
                    styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
                    [showCurrentPageReport]="true"
                    [paginator]="lstUser.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
-                   currentPageReportTemplate="Total: {totalRecords} customer"
+                   currentPageReportTemplate="{{'CusAdminScreen.Total' | translate}}: {totalRecords} {{'CusAdminScreen.customer' | translate}}"
                    [globalFilterFields]="['firstName','lastName']" responsiveLayout="scroll"
 
           >
@@ -18,7 +18,7 @@
                               <i class="pi pi-search"></i>
                               <input pInputText type="text"  #textInput
                                      (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                     placeholder="Search Name by name"/>
+                                     placeholder="{{'CusAdminScreen.SearchNamebyname' | translate}}"/>
                           </span>
                       </div>
 
@@ -32,7 +32,7 @@
                       </th> -->
                       <th pSortableColumn="customerId">
                           <div class="flex justify-content-between align-items-center">
-                              ID
+                              {{'CusAdminScreen.ID' | translate}}
                               <p-sortIcon field="customerId"></p-sortIcon>
                               <p-columnFilter type="numeric" field="customerId" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -40,7 +40,7 @@
                       </th>
                       <th pSortableColumn="firstName">
                           <div class="flex justify-content-between align-items-center">
-                            FullName
+                            {{'CusAdminScreen.FullName' | translate}}
                               <p-sortIcon field="firstName"></p-sortIcon>
                               <p-columnFilter type="text" field="firstName" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -56,7 +56,7 @@
                       </th> -->
                       <th pSortableColumn="email">
                         <div class="flex justify-content-between align-items-center">
-                          Email
+                          {{'CusAdminScreen.Email' | translate}}
                             <p-sortIcon field="email"></p-sortIcon>
                             <p-columnFilter type="text" field="email" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -64,7 +64,7 @@
                     </th>
                       <th pSortableColumn="gender">
                           <div class="flex justify-content-between align-items-center">
-                            Gender
+                            {{'CusAdminScreen.Gender' | translate}}
                               <p-sortIcon field="gender"></p-sortIcon>
                               <p-columnFilter type="text" field="gender" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -72,7 +72,7 @@
                       </th>
                       <th pSortableColumn="phoneNumber">
                         <div class="flex justify-content-between align-items-center">
-                          PhoneNumber
+                          {{'CusAdminScreen.PhoneNumber' | translate}}
                             <p-sortIcon field="gender"></p-sortIcon>
                             <p-columnFilter type="text" field="phoneNumber" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -80,7 +80,7 @@
                     </th>
                       <th pSortableColumn="birthDate">
                           <div class="flex justify-content-between align-items-center">
-                              DOB
+                              {{'CusAdminScreen.DOB' | translate}}
                               <p-sortIcon field="birthDate"></p-sortIcon>
                               <p-columnFilter type="text" field="birthDate" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -88,7 +88,7 @@
                       </th>
                       <th pSortableColumn="confirmedEmail">
                         <div class="flex justify-content-between align-items-center">
-                          ConfirmedEmail
+                          {{'CusAdminScreen.ConfirmedEmail' | translate}}
                             <p-sortIcon field="confirmedEmail"></p-sortIcon>
                             <p-columnFilter type="text" field="confirmedEmail" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -96,7 +96,7 @@
                     </th>
                     <th pSortableColumn="isPhoneVerified">
                       <div class="flex justify-content-between align-items-center">
-                        ConfirmedPhoneNumber
+                        {{'CusAdminScreen.ConfirmedPhoneNumber' | translate}}
                           <p-sortIcon field="isPhoneVerified"></p-sortIcon>
                           <p-columnFilter type="text" field="isPhoneVerified" display="menu"
                                           class="ml-auto"></p-columnFilter>
@@ -112,12 +112,12 @@
                       </th> -->
                       <th>
                           <div class="flex justify-content-between align-items-center">
-                              Images
+                              {{'CusAdminScreen.Images' | translate}}
                           </div>
                       </th>
                       <th pSortableColumn="numberOfViolations">
                         <div class="flex justify-content-between align-items-center">
-                          NumberOfViolations
+                          {{'CusAdminScreen.NumberOfViolations' | translate}}
                             <p-sortIcon field="birthDate"></p-sortIcon>
                             <p-columnFilter type="text" field="numberOfViolations" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -126,7 +126,7 @@
                       <th style="min-width: 8rem">
                           <div
                                class="flex justify-content-between align-items-center">
-                              Action
+                              {{'CusAdminScreen.Action' | translate}}
                           </div>
                       </th>
                   </tr>
@@ -137,11 +137,11 @@
                           <p-tableCheckbox [value]="post"></p-tableCheckbox>
                       </td> -->
                       <td>
-                          <span class="p-column-title">ID</span>
+                          <span class="p-column-title">{{'CusAdminScreen.ID' | translate}}</span>
                           <span class="post-id">{{user.customerId}}</span>
                       </td>
                       <td>
-                          <span class="p-column-title">FullName</span>
+                          <span class="p-column-title">{{'CusAdminScreen.FullName' | translate}}</span>
                           {{user.firstName}}    {{user.lastName}}
                       </td>
                       <!-- <td >
@@ -149,19 +149,19 @@
                           {{user.lastName}}
                       </td> -->
                       <td >
-                        <span class="p-column-title">Email</span>
+                        <span class="p-column-title">{{'CusAdminScreen.Email' | translate}}</span>
                         {{user.email}}
                     </td>
                       <td>
-                          <span class="p-column-title">Gender</span>
+                          <span class="p-column-title">{{'CusAdminScreen.Gender' | translate}}</span>
                           <span class="post-content" >{{user.gender}}</span>
                       </td>
                       <td>
-                        <span class="p-column-title">PhoneNumber</span>
+                        <span class="p-column-title">{{'CusAdminScreen.PhoneNumber' | translate}}</span>
                         <span class="post-content" >{{user.phoneNumber}}</span>
                     </td>
                       <td >
-                          <span class="p-column-title">BirthDate</span>
+                          <span class="p-column-title">{{'CusAdminScreen.BirthDate' | translate}}</span>
                           {{user.birthDate| date:'dd/MM/yyyy'}}
                       </td>
                       <!-- <td >
@@ -174,36 +174,36 @@
                         </div>
                     </td> -->
                     <td>
-                      <span class="p-column-title">ConfirmedEmail</span>
+                      <span class="p-column-title">{{'CusAdminScreen.ConfirmedEmail' | translate}}</span>
 
                       <div *ngIf="user.confirmedEmail===true"  style="color:chartreuse;">
-                        Confirmed
+                        {{'CusAdminScreen.Confirmed' | translate}}
                         </div>
                         <div *ngIf="user.confirmedEmail===false"  style="color:red;">
-                         Not confirmed yet
+                        {{'CusAdminScreen.Notconfirmedyet' | translate}}
                         </div>
                   </td>
                   <td>
-                    <span class="p-column-title">ConfirmedPhoneNumber</span>
+                    <span class="p-column-title">{{'CusAdminScreen.ConfirmedPhoneNumber' | translate}}</span>
 
                     <div *ngIf="user.isPhoneVerified===true"  style="color:chartreuse;">
-                      Confirmed
+                      {{'CusAdminScreen.Confirmed' | translate}}
                       </div>
                       <div *ngIf="user.isPhoneVerified===false"  style="color:red;">
-                       Not confirmed yet
+                       {{'CusAdminScreen.Notconfirmedyet' | translate}}
                       </div>
                 </td>
                       <td>
-                          <span class="p-column-title">Image</span>
+                          <span class="p-column-title">{{'CusAdminScreen.Images' | translate}}</span>
                           <ng-container *ngIf="user.imagesBase64.length !== 0; else noneImage" >
                             <button pButton pRipple icon="pi pi-images"
                                     (click)="onDisplayImagesDialog(user, $event)"
                                     class="p-button-rounded p-button-text p-button-raised"></button>
                         </ng-container>
-                          <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+                          <ng-template #noneImage ><span class="no-image">{{'CusAdminScreen.NoImage' | translate}}</span></ng-template>
                       </td>
                       <td >
-                        <span class="p-column-title">NumberOfViolations</span>
+                        <span class="p-column-title">{{'CusAdminScreen.NumberOfViolations' | translate}}</span>
                         <!-- <div *ngIf="user.isBanned" style="color:red;">
                          <span class="post-content" (click)="onHistoryBan(user.customerId)">Ban</span>
                         </div>
@@ -217,7 +217,7 @@
                               <div class="flex align-items-center justify-content-center">
                                   <button pButton pRipple
                                   (click)="BanCustomer1(user,$event)"
-                                          class="p-button-rounded p-mr-2">Detail</button>
+                                          class="p-button-rounded p-mr-2">{{'CusAdminScreen.Detail' | translate}}</button>
                               </div>
 
                           </div>
@@ -226,7 +226,7 @@
               </ng-template>
               <ng-template pTemplate="emptymessage">
                   <tr>
-                      <td colspan="8">No Customer yet.</td>
+                      <td colspan="8">{{'CusAdminScreen.emptymessage' | translate}}</td>
                   </tr>
               </ng-template>
           </p-table>
@@ -244,89 +244,89 @@
           <table class="table-report-detail">
             <tbody>
               <tr>
-                <th>ID:</th>
+                <th>{{'CusAdminScreen.ID' | translate}}:</th>
                 <td>
                     {{cusDetail.customerId}}
                 </td>
             </tr>
                 <tr>
 
-                    <th>FullName: </th>
+                    <th>{{'CusAdminScreen.FullName' | translate}}: </th>
                     <td>
                         {{cusDetail.firstName}}  {{cusDetail.lastName}}
                     </td>
                 </tr>
 
                 <tr>
-                    <th>PhoneNumber: </th>
+                    <th>{{'CusAdminScreen.PhoneNumber' | translate}}: </th>
                     <td>
                         {{cusDetail.phoneNumber}}
                     </td>
                 </tr>
                 <tr>
-                  <th>Gender: </th>
+                  <th>{{'CusAdminScreen.Gender' | translate}}: </th>
                   <td>
                       {{cusDetail.gender}}
                   </td>
               </tr>
               <tr>
-                <th>BirthDate: </th>
+                <th>{{'CusAdminScreen.DOB' | translate}}: </th>
                 <td>
                     {{cusDetail.birthDate| date:'dd/MM/yyyy'}}
                 </td>
             </tr>
                 <tr>
-                  <th>Email: </th>
+                  <th>{{'CusAdminScreen.Email' | translate}}: </th>
                   <td>
                       {{cusDetail.email}}
                   </td>
                 </tr>
 
                 <tr>
-                  <th>ConfirmEmail: </th>
+                  <th>{{'CusAdminScreen.ConfirmedEmail' | translate}}: </th>
                   <td>
 
                      <div *ngIf="cusDetail.confirmedEmail===true"  style="color:chartreuse;">
-                     Confirmed
+                     {{'CusAdminScreen.Confirmed' | translate}}
                      </div>
                      <div *ngIf="cusDetail.confirmedEmail===false"  style="color:red;">
-                      Not confirmed yet
+                      {{'CusAdminScreen.Notconfirmedyet' | translate}}
                      </div>
                   </td>
               </tr>
               <tr>
-                <th>ConfirmedPhoneNumber: </th>
+                <th>{{'CusAdminScreen.ConfirmedPhoneNumber' | translate}}: </th>
                 <td>
 
 
                   <div *ngIf="cusDetail.isPhoneVerified===true"  style="color:chartreuse;">
-                    Confirmed
+                    {{'CusAdminScreen.Confirmed' | translate}}
                     </div>
                     <div *ngIf="cusDetail.isPhoneVerified===false"  style="color:red;">
-                     Not confirmed yet
+                     {{'CusAdminScreen.Notconfirmedyet' | translate}}
                     </div>
               </td>
               </tr>
 
                 <tr>
-                  <th>NumberOfViolations: </th>
+                  <th>{{'CusAdminScreen.NumberOfViolations' | translate}}: </th>
                   <td>
                     {{cusDetail.numberOfViolations}}
                 </td>
               </tr>
 
                 <tr>
-                  <th>Delivery Unsuccessful: </th>
+                  <th>{{'CusAdminScreen.DeliveryUnsuccessful' | translate}}: </th>
                   <td >
 
                     <p-table  [value]="cusDetail.orders" [paginator]="true" [rows]="5" responsiveLayout="scroll">
                       <ng-template pTemplate="header">
                           <tr>
-                              <th pSortableColumn="orderId">OrderId<p-sortIcon field="orderId"></p-sortIcon></th>
-                              <th>Reason</th>
-                              <th>OrderDate</th>
-                              <th>ShipperId</th>
-                              <th>ShipAddress</th>
+                              <th pSortableColumn="orderId">{{'CusAdminScreen.OrderId' | translate}}<p-sortIcon field="orderId"></p-sortIcon></th>
+                              <th>{{'CusAdminScreen.Reason' | translate}}</th>
+                              <th>{{'CusAdminScreen.OrderDate' | translate}}</th>
+                              <th>{{'CusAdminScreen.ShipperId' | translate}}</th>
+                              <th>{{'CusAdminScreen.ShipAddress' | translate}}</th>
                           </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-order>
@@ -375,9 +375,9 @@
     <p-table  [value]="listhistoryBan" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="banCustomerId">ID<p-sortIcon field="banCustomerId"></p-sortIcon></th>
-                <th>Reason</th>
-                <th>Create Date</th>
+                <th pSortableColumn="banCustomerId">{{'CusAdminScreen.ID' | translate}}<p-sortIcon field="banCustomerId"></p-sortIcon></th>
+                <th>{{'CusAdminScreen.Reason' | translate}}</th>
+                <th>{{'CusAdminScreen.CreateDate' | translate}}</th>
 
             </tr>
         </ng-template>
@@ -402,10 +402,10 @@
     <p-table [value]="cusImg.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Size</th>
+                <th pSortableColumn="ID">{{'CusAdminScreen.ID' | translate}}<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>{{'CusAdminScreen.Image' | translate}}</th>
+                <th>{{'CusAdminScreen.Name' | translate}}</th>
+                <th>{{'CusAdminScreen.Size' | translate}}</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-image>

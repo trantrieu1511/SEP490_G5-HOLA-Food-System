@@ -23,6 +23,7 @@ import { SellerReport } from '../../models/sellerReport.model';
 import { take } from 'rxjs';
 import { PresenceService } from 'src/app/services/presence.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ShoppingCartPopupService } from 'src/app/services/shopping-cart-popup.service';
 declare var google: any;
 
 @Component({
@@ -31,6 +32,7 @@ declare var google: any;
   styleUrls: ['./shopdetail.component.scss']
 })
 export class ShopdetailComponent extends iComponentBase implements OnInit, AfterViewInit {
+  userloca:string;
   foods: any[];
   sortOptions: SelectItem[];
   sortOrder: number;
@@ -58,7 +60,8 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
     public presence: PresenceService,
     private dataService: DataService,
     private authService: AuthService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private shoppingCartService: ShoppingCartPopupService
   ) {
     super(messageService);
   }
@@ -187,6 +190,7 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.ADDTOCART, cartItem);
       if (response && response.message === "Success") {
         console.log(response)
+        this.shoppingCartService.onAddToCart()
         this.showMessage(mType.success, "", "Add to cart success!", 'notify');
       }
       else {
@@ -270,7 +274,6 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
       // Object.keys(this.sellerReport).forEach(function (key) {
       //   param.append(key, this.sellerReport[key]);
       // });
-debugger
       //
       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.REPORT_SELLER, param22);
       if (response && response.success === true) {
@@ -331,7 +334,7 @@ debugger
     console.log("uploadFiles", this.uploadedFiles);
   }
   onOpenMap(){
-    debugger
+    
     this.displayMap = true;
     this.geocodeAddress();
   }
@@ -364,7 +367,7 @@ debugger
     }
   }
   initMap(latitude: number, longitude: number) {
-    debugger
+    
     const map = new google.maps.Map(document.getElementById('map'), {
       center: { lat: latitude, lng: longitude },
       zoom: 12
@@ -383,7 +386,7 @@ debugger
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
+        this.userloca=`${position.coords.latitude},${position.coords.longitude}`;
         // Đặt các tham số để lấy chỉ đường từ vị trí hiện tại đến điểm cần đến
         const request = {
           origin: userLocation,
@@ -405,5 +408,11 @@ debugger
         console.error('Error getting user location:', error);
       }
     );
+
+    map.addListener('click', () => {
+      // Tạo URL cho Google Maps và mở trình duyệt
+      const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${this.userloca}&destination=${latitude},${longitude}&travelmode=driving`;
+      window.open(googleMapsUrl, '_blank');
+    });
   }
 }

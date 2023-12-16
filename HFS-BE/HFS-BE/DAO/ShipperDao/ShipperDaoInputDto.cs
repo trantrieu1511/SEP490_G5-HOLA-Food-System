@@ -46,7 +46,8 @@ namespace HFS_BE.DAO.ShipperDao
 	public class ActiveShipperDtoInput : BaseInputDto
 	{
 		public string ShipperId { get; set; } = null!;
-		public bool? IsVerified { get; set; }
+		public string Note { get; set; } = null!;
+		public byte Status { get; set; }
 	}
 
 	public class BanShipperHistoryDtoInput : BaseInputDto

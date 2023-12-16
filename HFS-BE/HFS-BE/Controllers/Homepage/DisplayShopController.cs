@@ -18,14 +18,13 @@ namespace HFS_BE.Controllers.Homepage
         //[Authorize]
         [HttpPost("home/displayshop")]
 		
-		public DisplayShopOutputDto DisplayShop()
+		public DisplayShopOutputDto DisplayShop(BaseInputDto inputDto)
         {
             try
             {
                 var business = this.GetBusinessLogic<DisplayShopBusinessLogic>();
-             //   var user = this.GetAccessRight();
-                var output = business.DisplayShop();
-                Console.WriteLine(output); 
+                var user = this.GetAccessRight();
+                var output = business.DisplayShop(inputDto);
                 return output;
             }
             catch (Exception ex)

@@ -1,37 +1,53 @@
 <div style="display: flex; align-items: center; justify-content: center;">
-    <input type="search" [(ngModel)]="searchText" pInputText placeholder="{{'homePageScreen.EntertoSearch' | translate}}" (keyup.enter)="onSearch()">&nbsp;&nbsp;
+    <div class="flex align-items-center">
+        <div class="p-inputgroup">
+            <button type="button" pButton pRipple class="pi pi-search" (click)="onSearch()"></button>
+            <input [(ngModel)]="searchText" type="text" pInputText
+                placeholder="{{'homePageScreen.EntertoSearch' | translate}}" (keyup.enter)="onSearch()">&nbsp;&nbsp;
+        </div>
+    </div>
     <div class="flex align-items-center">
         <p-radioButton name="pizza" value="0" [(ngModel)]="searchOptions" inputId="ingredient1"></p-radioButton>
         <label for="ingredient1" class="ml-2">{{'homePageScreen.Food' | translate}}</label>
     </div>&nbsp;&nbsp;
-    
+
     <div class="flex align-items-center">
         <p-radioButton name="pizza" value="1" [(ngModel)]="searchOptions" inputId="ingredient2"></p-radioButton>
         <label for="ingredient2" class="ml-2">{{'homePageScreen.Shop' | translate}}</label>
     </div>
+</div>&nbsp;&nbsp;
+<div *ngIf="searchOptions === '0'" style="display: flex; align-items: center; justify-content: center;">
+    <div *ngFor="let item of lstCategory" class="flex align-items-center gap-1">
+        <p-checkbox name="group1" [value]="item.categoryId" [(ngModel)]="searchCategory"
+            [inputId]="item.categoryId"></p-checkbox>
+        <label [for]="item.categoryId">{{item.name}}</label>&nbsp;&nbsp;
+    </div>&nbsp;&nbsp;
 </div>
+<br />
 <div class="col-12 shopdetail-list">
     <div class="card">
         <h5>{{'homePageScreen.Hotfood' | translate}}</h5>
         <p-carousel [value]="hotfoods" [numVisible]="3" [numScroll]="3" [circular]="true"
-            [responsiveOptions]="carouselResponsiveOptions"
-            [autoplayInterval]="3000"
-            >
+            [responsiveOptions]="carouselResponsiveOptions" [autoplayInterval]="3000">
             <!-- [autoplayInterval]="3000" -->
             <ng-template let-product pTemplate="item">
-                <div class="border-round m-2 text-center p-2 product-content" style="border: 1px solid var(--surface-d)">
+                <div class="border-round m-2 text-center p-2 product-content"
+                    style="border: 1px solid var(--surface-d)">
                     <div class="my-5 product-top">
-                        <img [src]="'data:image/png;base64,' + product.foodImages[0].imageBase64" [alt]="product.name" (click)="onFoodDetail(product.foodId)"
-                            class="shadow-4" />
+                        <img [src]="'data:image/png;base64,' + product.foodImages[0].imageBase64" [alt]="product.name"
+                            (click)="onFoodDetail(product.foodId)" class="shadow-4" />
                     </div>
                     <div class="product-bottom">
                         <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>
-                        <div class="product-description">{{'homePageScreen.NumberOrdered' | translate}}: {{product.numberOrdered}}</div>
+                        <div class="product-description">{{'homePageScreen.NumberOrdered' | translate}}:
+                            {{product.numberOrdered}}</div>
                         <h5 class="mb-1 product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</h5>
                         <h6 class="mt-0 mb-3">{{product.unitPrice | currency : "VND" }}</h6>
                         <div class="my-5">
-                            <button pButton pRipple icon="pi pi-search" class="mr-2 p-button-rounded" (click)="onFoodDetail(product.foodId)"></button>
-                            <button pButton pRipple icon="pi pi-shopping-cart" class="mr-2 p-button-rounded" (click)="onAddToCart(product.foodId)"></button>
+                            <button pButton pRipple icon="pi pi-search" class="mr-2 p-button-rounded"
+                                (click)="onFoodDetail(product.foodId)"></button>
+                            <button pButton pRipple icon="pi pi-shopping-cart" class="mr-2 p-button-rounded"
+                                (click)="onAddToCart(product)"></button>
                         </div>
                     </div>
                 </div>
@@ -42,15 +58,17 @@
 <div class="col-12 shopdetail-list">
     <div class="card">
         <h5>{{'homePageScreen.ShopList' | translate}}</h5>
-        <p-dataView #dv [value]="lstShop" [paginator]="true" [rows]="9" filterBy="shopName" [sortField]="sortField"
-            [sortOrder]="sortOrder" layout="grid">
+        <p-dataView #dv [value]="lstShop" filterBy="shopName" [sortField]="sortField" [sortOrder]="sortOrder"
+            layout="grid">
             <ng-template pTemplate="header">
                 <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
-                    <p-dropdown class="w-full " [options]="sortOptions" placeholder="{{'homePageScreen.SortByPrice' | translate}}"
+                    <p-dropdown class="w-full " [options]="sortOptions"
+                        placeholder="{{'homePageScreen.SortByPrice' | translate}}"
                         (onChange)="onSortChange($event)"></p-dropdown>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
-                        <input class="a-input_search" type="search" pInputText placeholder="{{'homePageScreen.SearchbyName' | translate}}" (input)="onFilter(dv, $event)">
+                        <input class="a-input_search" type="search" pInputText
+                            placeholder="{{'homePageScreen.SearchbyName' | translate}}" (input)="onFilter(dv, $event)">
                     </span>
                 </div>
             </ng-template>
@@ -60,7 +78,8 @@
                         <div class="product-grid-item-top">
                             <div class="card-product_top">
                                 <div class="shop-avatar">
-                                    <img *ngIf="shop.avatar;else noAvatar" [src]="'data:image/png;base64,' + shop.avatar" [alt]="shop.name" />
+                                    <img *ngIf="shop.avatar;else noAvatar"
+                                        [src]="'data:image/png;base64,' + shop.avatar" [alt]="shop.name" />
                                     <ng-template #noAvatar>
                                         <img src="../../../../../assets/image/user.png" [alt]="shop.name" />
                                     </ng-template>
@@ -68,11 +87,11 @@
                                 <div class="shop-infor">
                                     <h5 class="shop-name">{{shop.shopName}}</h5>
                                     <p-rating [ngModel]="shop.star" [readonly]="true" [cancel]="false"></p-rating>
-                                    <span class="product-description">{{'homePageScreen.NumberOrdered' | translate}} {{shop.numberOrdered}}</span>
+                                    <span class="product-description">{{'homePageScreen.NumberOrdered' | translate}}
+                                        {{shop.numberOrdered}}</span>
                                     <div class="shop-address">
                                         <i class="text-sm pi pi-building"
-                                            style="margin-right: 0.3rem; color: #212121; margin-top: 0.2rem;"
-                                        ></i>
+                                            style="margin-right: 0.3rem; color: #212121; margin-top: 0.2rem;"></i>
                                         <span class="shop-address_content"> {{shop.shopAddress}} </span>
                                     </div>
                                 </div>
@@ -80,8 +99,8 @@
                             <!-- <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
                         </div>
                         <div class="product-grid-item-content">
-                            <div class="food-images" >
-                                <ng-container *ngFor="let food of shop.foodImages; index as i" >
+                            <div class="food-images">
+                                <ng-container *ngFor="let food of shop.foodImages; index as i">
                                     <div class="food-image">
                                         <img [src]="'data:image/png;base64,' + food" [alt]="shop.name" />
                                     </div>
@@ -89,18 +108,20 @@
                             </div>
                         </div>
                         <div class="product-grid-item-bottom">
-                            <div class="flex align-items-center justify-content-center mb-1" >
-                                <a class="text-sm font-bold link-btn"
-                                >{{'homePageScreen.Viewdetailofshop' | translate}}</a>
+                            <div class="flex align-items-center justify-content-center mb-1">
+                                <a class="text-sm font-bold link-btn">{{'homePageScreen.Viewdetailofshop' |
+                                    translate}}</a>
                                 <i class="text-sm pi pi-chevron-right"
-                                    style="margin-left: 0.3rem; color: #212121; margin-top: 0.2rem;"
-                                ></i>
+                                    style="margin-left: 0.3rem; color: #212121; margin-top: 0.2rem;"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </ng-template>
         </p-dataView>
+        <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="row"
+            [totalRecords]="total">
+        </p-paginator>
     </div>
 </div>
 

@@ -1,13 +1,13 @@
 <div class="grid table-demo">
   <div class="col-12">
       <div class="card">
-          <h5>Report Seller Management</h5>
+          <h5>{{'reportSellerAdminScreen.ReportSellerManagement' | translate}}</h5>
 
           <p-table #dt [value]="lstReport" dataKey="id"
                    styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
                    [showCurrentPageReport]="true"
                    [paginator]="lstReport.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
-                   currentPageReportTemplate="Total: {totalRecords} customer"
+                   currentPageReportTemplate="{{'reportSellerAdminScreen.Total' | translate}}: {totalRecords} {{'reportSellerAdminScreen.sellers' | translate}}"
                    [globalFilterFields]="['firstName','lastName']" responsiveLayout="scroll"
 
           >
@@ -18,7 +18,7 @@
                               <i class="pi pi-search"></i>
                               <input pInputText type="text"  #textInput
                                      (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                     placeholder="Search Name by name"/>
+                                     placeholder="{{'reportSellerAdminScreen.SearchNamebyname' | translate}}"/>
                           </span>
                       </div>
 
@@ -32,7 +32,7 @@
                       </th> -->
                       <th pSortableColumn="sellerReportId">
                           <div class="flex justify-content-between align-items-center">
-                              ID
+                              {{'reportSellerAdminScreen.ID' | translate}}
                               <p-sortIcon field="sellerReportId"></p-sortIcon>
                               <p-columnFilter type="numeric" field="sellerReportId" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -40,7 +40,7 @@
                       </th>
                       <th pSortableColumn="sellerId">
                           <div class="flex justify-content-between align-items-center">
-                            SellerId
+                            {{'reportSellerAdminScreen.SellerId' | translate}}
                               <p-sortIcon field="sellerId"></p-sortIcon>
                               <p-columnFilter type="text" field="sellerId" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -48,7 +48,7 @@
                       </th>
                       <th pSortableColumn="shopName">
                           <div class="flex justify-content-between align-items-center">
-                            ShopName
+                            {{'reportSellerAdminScreen.ShopName' | translate}}
                               <p-sortIcon field="shopName"></p-sortIcon>
                               <p-columnFilter type="text" field="shopName" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -56,7 +56,7 @@
                       </th>
                       <th pSortableColumn="reportBy">
                         <div class="flex justify-content-between align-items-center">
-                          ReportBy
+                          {{'reportSellerAdminScreen.ReportBy' | translate}}
                             <p-sortIcon field="reportBy"></p-sortIcon>
                             <p-columnFilter type="text" field="reportBy" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -64,7 +64,7 @@
                     </th>
                       <th pSortableColumn="reportByName">
                           <div class="flex justify-content-between align-items-center">
-                            ReportByName
+                            {{'reportSellerAdminScreen.ReportByName' | translate}}
                               <p-sortIcon field="reportByName"></p-sortIcon>
                               <p-columnFilter type="text" field="reportByName" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -72,7 +72,7 @@
                       </th>
                       <th pSortableColumn="reportContent">
                         <div class="flex justify-content-between align-items-center">
-                          ReportContent
+                          {{'reportSellerAdminScreen.ReportContent' | translate}}
                             <p-sortIcon field="reportContent"></p-sortIcon>
                             <p-columnFilter type="text" field="reportContent" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -80,7 +80,7 @@
                     </th>
                       <th pSortableColumn="createDate">
                         <div class="flex justify-content-between align-items-center">
-                          CreateDate
+                          {{'reportSellerAdminScreen.CreateDate' | translate}}
                             <p-sortIcon field="createDate"></p-sortIcon>
                             <p-columnFilter type="text" field="createDate" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -88,7 +88,7 @@
                     </th>
                       <th pSortableColumn="updateDate">
                           <div class="flex justify-content-between align-items-center">
-                            UpdateDate
+                            {{'reportSellerAdminScreen.UpdateDate' | translate}}
                               <p-sortIcon field="updateDate"></p-sortIcon>
                               <p-columnFilter type="text" field="updateDate" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -96,7 +96,7 @@
                       </th>
                       <th pSortableColumn="updateBy">
                           <div class="flex justify-content-between align-items-center">
-                            UpdateBy
+                            {{'reportSellerAdminScreen.UpdateBy' | translate}}
                               <p-sortIcon field="updateBy"></p-sortIcon>
                               <p-columnFilter type="numeric" field="updateBy" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -104,12 +104,12 @@
                       </th>
                       <th>
                           <div class="flex justify-content-between align-items-center">
-                              Images
+                              {{'reportSellerAdminScreen.Images' | translate}}
                           </div>
                       </th>
                       <th pSortableColumn="status">
                         <div class="flex justify-content-between align-items-center">
-                          Status
+                          {{'reportSellerAdminScreen.Status' | translate}}
                             <p-sortIcon field="status"></p-sortIcon>
                             <p-columnFilter type="text" field="status" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -117,7 +117,7 @@
                     </th>
                     <th pSortableColumn="note">
                       <div class="flex justify-content-between align-items-center">
-                        Note
+                        {{'reportSellerAdminScreen.Note' | translate}}
                           <p-sortIcon field="updateDate"></p-sortIcon>
                           <p-columnFilter type="text" field="note" display="menu"
                                           class="ml-auto"></p-columnFilter>
@@ -126,7 +126,7 @@
                       <th style="min-width: 8rem">
                           <div
                                class="flex justify-content-between align-items-center">
-                              Action
+                              {{'reportSellerAdminScreen.Action' | translate}}
                           </div>
                       </th>
                   </tr>
@@ -137,64 +137,64 @@
                           <p-tableCheckbox [value]="post"></p-tableCheckbox>
                       </td> -->
                       <td>
-                          <span class="p-column-title">ID</span>
+                          <span class="p-column-title">{{'reportSellerAdminScreen.ID' | translate}}</span>
                           <span class="post-id">{{user.sellerReportId}}</span>
                       </td>
                       <td>
-                          <span class="p-column-title">SellerId</span>
+                          <span class="p-column-title">{{'reportSellerAdminScreen.SellerId' | translate}}</span>
                            {{user.sellerId}}
                       </td>
                       <td >
-                          <span class="p-column-title">ShopName</span>
+                          <span class="p-column-title">{{'reportSellerAdminScreen.ShopName' | translate}}</span>
                           {{user.shopName}}
                       </td>
                       <td >
-                        <span class="p-column-title">ReportBy</span>
+                        <span class="p-column-title">{{'reportSellerAdminScreen.ReportBy' | translate}}</span>
                         {{user.reportBy}}
                     </td>
                       <td>
-                          <span class="p-column-title">ReportByName</span>
+                          <span class="p-column-title">{{'reportSellerAdminScreen.ReportByName' | translate}}</span>
                           <span class="post-content" >{{user.reportByName}}</span>
                       </td>
                       <td>
-                        <span class="p-column-title">ReportContent</span>
+                        <span class="p-column-title">{{'reportSellerAdminScreen.ReportContent' | translate}}</span>
                         <span class="post-content" >{{user.reportContent}}</span>
                     </td>
                       <td >
-                          <span class="p-column-title">CreateDate</span>
+                          <span class="p-column-title">{{'reportSellerAdminScreen.CreateDate' | translate}}</span>
                           {{user.createDate| date:'dd/MM/yyyy hh:mm a'}}
                       </td>
                       <td >
-                        <span class="p-column-title">UpdateDate</span>
+                        <span class="p-column-title">{{'reportSellerAdminScreen.UpdateDate' | translate}}</span>
                         {{user.updateDate| date:'dd/MM/yyyy hh:mm a'}}
                     </td>
                     <td >
-                      <span class="p-column-title">UpdateBy</span>
+                      <span class="p-column-title">{{'reportSellerAdminScreen.UpdateBy' | translate}}</span>
                       {{user.updateBy}}
                   </td>
                       <td>
-                          <span class="p-column-title">Image</span>
+                          <span class="p-column-title">{{'reportSellerAdminScreen.Images' | translate}}</span>
                           <ng-container *ngIf="user.imagesBase64.length !== 0; else noneImage" >
                             <button pButton pRipple icon="pi pi-images"
                                     (click)="onDisplayImagesDialog(user, $event)"
                                     class="p-button-rounded p-button-text p-button-raised"></button>
                         </ng-container>
-                          <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+                          <ng-template #noneImage ><span class="no-image">{{'reportSellerAdminScreen.NoImage' | translate}}</span></ng-template>
                       </td>
                       <td >
-                        <span class="p-column-title">status</span>
+                        <span class="p-column-title">{{'reportSellerAdminScreen.Status' | translate}}</span>
                         <div *ngIf="user.status===0" style="color:darkgray;">
-                          <span class="post-content">Pending</span>
+                          <span class="post-content">{{'reportSellerAdminScreen.Pending' | translate}}</span>
                          </div>
                          <div *ngIf="user.status===1"  style="color:chartreuse;">
-                          Solved
+                          {{'reportSellerAdminScreen.Solved' | translate}}
                          </div>
                          <div *ngIf="user.status===2"  style="color:red;">
-                          Reject
+                          {{'reportSellerAdminScreen.Reject' | translate}}
                          </div>
                     </td>
                       <td >
-                        <span class="p-column-title">Note</span>
+                        <span class="p-column-title">{{'reportSellerAdminScreen.Note' | translate}}</span>
                         {{user.note}}
                     </td>
                       <td style="text-align: center">
@@ -207,7 +207,7 @@
                               <div class="flex align-items-center justify-content-center">
                                 <button pButton pRipple
                                 (click)="Detail(user,$event)"
-                                        class="p-button-rounded p-mr-2">Detail</button>
+                                        class="p-button-rounded p-mr-2">{{'reportSellerAdminScreen.Detail' | translate}}</button>
                             </div>
                           </div>
                       </td>
@@ -215,7 +215,7 @@
               </ng-template>
               <ng-template pTemplate="emptymessage">
                   <tr>
-                      <td colspan="8">No Report yet.</td>
+                      <td colspan="8">{{'reportSellerAdminScreen.emptymessage' | translate}}</td>
                   </tr>
               </ng-template>
           </p-table>
@@ -242,11 +242,11 @@
 
 
                       </span>
-                      <label for="gender">Status*:</label>
+                      <label for="gender">{{'reportSellerAdminScreen.Status' | translate}}*:</label>
                       <input type="radio"  name="gender" [(ngModel)]="inputreply.status"  checked value="1" [id]="'gender' + 'male'"   (change)="checkSaveButtonStatus()"/>
-                      <label [for]="'gender' + 'male'">Sloved</label>
+                      <label [for]="'gender' + 'male'">{{'reportSellerAdminScreen.Solved' | translate}}</label>
                       <input type="radio" [(ngModel)]="inputreply.status"   name="gender" value="2" [id]="'gender' + 'female'"  (change)="checkSaveButtonStatus()" />
-                      <label [for]="'gender' + 'female'">Reject</label>
+                      <label [for]="'gender' + 'female'">{{'reportSellerAdminScreen.Reject' | translate}}</label>
                   </div>
 
                 <div class="col-12 mb-2 ">
@@ -257,7 +257,7 @@
                     [(ngModel)]="inputreply.note"
 
                     ></textarea>
-                      <label>Note*</label>
+                      <label>{{'reportSellerAdminScreen.Note' | translate}}*</label>
                   </span>
               </div>
 
@@ -274,19 +274,19 @@
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button [disabled]="isSaveButtonDisabled" pButton type="button" label="Save" icon="pi pi-save"
+                <button [disabled]="isSaveButtonDisabled" pButton type="button" label="{{'button.save' | translate}}" icon="pi pi-save"
                         (click)="onSave()"
                         style="width: 100%;"></button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                <button pButton type="button" label="{{'button.cancel' | translate}}" icon="pi pi-times"
                         (click)="onCancel()" class="p-button-danger"
                         style="width: 100%;"></button>
             </div>
         </div>
     </ng-template>
 </p-dialog>
-<p-dialog header="Detail"
+<p-dialog header="{{'reportSellerAdminScreen.Detail' | translate}}"
     [(visible)]="visiblebanHistoryDialog"
     [breakpoints]="{ '960px': '75vw' }"
     [style]="{ width: '50vw' }"
@@ -308,33 +308,33 @@
               </div> -->
               <div class="col-12 mb-2 lg:col-6 mb-lg-0">
 
-                  <label for="gender">SellerId:</label>
+                  <label for="gender">{{'reportSellerAdminScreen.SellerId' | translate}}:</label>
                   <input type="text"  class="w-full"    pInputText [(ngModel)]="detailreport.sellerId" [readonly]="true" />
 
 
             </div>
             <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-              <label for="gender">ShopName:</label>
+              <label for="gender">{{'reportSellerAdminScreen.ShopName' | translate}}:</label>
                 <input type="text"  class="w-full"   pInputText [(ngModel)]="detailreport.shopName" [readonly]="true" />
 
           </div>
           <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-            <label for="gender">ReportBy:</label>
+            <label for="gender">{{'reportSellerAdminScreen.ReportBy' | translate}}:</label>
               <input type="text"  class="w-full"    pInputText [(ngModel)]="detailreport.reportBy" [readonly]="true" />
 
         </div>
         <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-          <label for="gender">ReportByName:</label>
+          <label for="gender">{{'reportSellerAdminScreen.ReportByName' | translate}}:</label>
             <input type="text"  class="w-full"  pInputText [(ngModel)]="detailreport.reportByName" [readonly]="true" />
 
       </div>
       <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-        <label for="gender">CreateDate:</label>
+        <label for="gender">{{'reportSellerAdminScreen.CreateDate' | translate}}:</label>
           <input type="text"  class="w-full"   pInputText [(ngModel)]="detailreport.createDate" [readonly]="true" />
 
        </div>
        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-        <label for="gender">UpdateDate:</label>
+        <label for="gender">{{'reportSellerAdminScreen.UpdateDate' | translate}}:</label>
           <input type="text"  class="w-full"   pInputText [(ngModel)]="detailreport.updateDate" [readonly]="true" />
 
        </div>
@@ -345,23 +345,23 @@
           [(ngModel)]="detailreport.reportContent"
           [readonly]="true"
           ></textarea>
-            <label>ReportContent</label>
+            <label>{{'reportSellerAdminScreen.ReportContent' | translate}}</label>
         </span>
     </div>
           <div class="col-12 mb-2 lg:col-6 mb-lg-0">
 
-              Status
+              {{'reportSellerAdminScreen.Status' | translate}}
                 <div *ngIf="detailreport.status===0" class="col-3" style="display: flex; align-items: center;">
 
-                Pending
+                {{'reportSellerAdminScreen.Pending' | translate}}
                 </div>
                 <div *ngIf="detailreport.status===1"  class="col-3" style="display: flex; align-items: center;color:chartreuse">
 
-              Solved
+              {{'reportSellerAdminScreen.Solved' | translate}}
                 </div>
                 <div *ngIf="detailreport.status===2" class="col-3" style="display: flex; align-items: center; color:red">
 
-               Reject
+               {{'reportSellerAdminScreen.Reject' | translate}}
                 </div>
 
         </div>
@@ -373,7 +373,7 @@
                 [(ngModel)]="detailreport.note"
                 [readonly]="true"
                 ></textarea>
-                  <label>Note*</label>
+                  <label>{{'reportSellerAdminScreen.Note' | translate}}*</label>
               </span>
           </div>
               </div>
@@ -381,7 +381,7 @@
         </div>
         </div>
 </p-dialog>
-<p-dialog header="List Image"
+<p-dialog header="{{'reportSellerAdminScreen.ListImage' | translate}}"
     [(visible)]="visibleImageDialog"
     [breakpoints]="{ '960px': '75vw' }"
     [style]="{ width: '50vw' }"
@@ -392,10 +392,10 @@
     <p-table [value]="cusImg.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Size</th>
+                <th pSortableColumn="ID">{{'reportSellerAdminScreen.ID' | translate}}<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>{{'reportSellerAdminScreen.Images' | translate}}</th>
+                <th>{{'reportSellerAdminScreen.Name' | translate}}</th>
+                <th>{{'reportSellerAdminScreen.Size' | translate}}</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-image>

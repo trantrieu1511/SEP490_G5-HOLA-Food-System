@@ -13,6 +13,7 @@ import { Customer } from 'src/app/modules/admin-routing-module/models/Customer';
 import { AuthService, User } from 'src/app/services/auth.service';
 import { Invition, Shipper } from '../../models/shipper.model';
 import { TranslateService } from '@ngx-translate/core';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 
 @Component({
   selector: 'app-invitation-shipper',
@@ -34,9 +35,15 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
     private iFunction: iFunction,
     private _router: Router,
     private authSerivce: AuthService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    public breadcrumbService: AppBreadcrumbService,
   ){
-    super(messageService);
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Shipper Management', routerLink: ['/HFSBusiness/seller/shipper-management']}
+    ]);
 
   }
 

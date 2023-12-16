@@ -196,12 +196,18 @@ namespace HFS_BE.DAO.AuthDAO
 				}
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
 			}
+			var dataphone = context.Sellers.Where(s => s.PhoneNumber.ToLower() == model.PhoneNumber.ToLower()).FirstOrDefault();
+			if (dataphone != null)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Phone Number has been used");
+			}
 			var data = context.Customers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data5 = context.Admins.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
-			if (data != null || data2 != null || data3 != null || data4 != null || data5 != null)
+			var data6 = context.Accountants.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			if (data != null || data2 != null || data3 != null || data4 != null || data5 != null||data6!=null)
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email has been used");
 			}
@@ -291,6 +297,11 @@ namespace HFS_BE.DAO.AuthDAO
 					err += item.ToString() + " ";
 				}
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, err);
+			}
+			var dataphone = context.Shippers.Where(s => s.PhoneNumber.ToLower() == model.PhoneNumber.ToLower()).FirstOrDefault();
+			if (dataphone != null)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Phone Number has been used");
 			}
 			var data = context.Customers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();

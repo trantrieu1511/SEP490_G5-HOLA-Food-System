@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardSellerComponent },
   { path: 'wallet', component: WalletComponentSeller },
   { path: 'paymentverify', component: PaymentverifySellerComponent },
-  { path: '', component: ListFeedbackBySellerComponent },
+  { path: 'reply', component: ListFeedbackBySellerComponent },
 ]
 // food-management
 @NgModule({

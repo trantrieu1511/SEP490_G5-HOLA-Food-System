@@ -20,6 +20,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DashboardMenuModStatistic } from '../../../menumoderator-routing-module/models/dashboard-menumod.model';
 import { DatePipe } from '@angular/common';
 import { ColorLineChart } from 'src/app/utils/colorLineChart';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 
 @Component({
     selector: 'app-dashboard-menumod',
@@ -48,8 +49,14 @@ export class DashboardMenumodComponent extends iComponentBase implements OnInit 
         private iServiceBase: iServiceBase,
         public router: Router,
         public authService: AuthService,
+        public breadcrumbService: AppBreadcrumbService,
     ) {
-        super(messageService);
+        super(messageService, breadcrumbService);
+
+        this.breadcrumbService.setItems([
+            {label: 'HFSBusiness'},
+            {label: 'Dashboard', routerLink: ['/HFSBusiness/menumoderator/dashboard']}
+        ]);
         this.systemCalendarRangeDates = [];
         this.systemCalendarRangeDates[0] = this.systemCalendarRangeDates[1] = new Date();
         this.myCalendarRangeDates = [];

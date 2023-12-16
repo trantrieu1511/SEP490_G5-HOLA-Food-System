@@ -9,6 +9,7 @@ import * as API from '../../../../services/apiURL';
 import { MessageService } from 'primeng/api';
 import { DashboardSeller } from '../../models/dashboard-seller.model';
 import { ColorLineChart } from 'src/app/utils/colorLineChart';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 
 @Component({
   selector: 'dashboard-seller',
@@ -17,21 +18,33 @@ import { ColorLineChart } from 'src/app/utils/colorLineChart';
 })
 export class DashboardSellerComponent extends iComponentBase implements OnInit{
   dataDashboard: DashboardSeller = new DashboardSeller();
+  dataDashboardDisplay: any;
+
+  dataDashboardPie: any;
 
   options: any;
+  optionsPie: any;
 
   rangeDates: Date[] | undefined;
   currentDate: Date = new Date();
   isDisplayChart: boolean = false;
 
+  chooseDisplayLine: any = 0;
+
   constructor(
     private datePipe: DatePipe,
     public messageService: MessageService,
     private iServiceBase: iServiceBase,
+    public breadcrumbService: AppBreadcrumbService,
   ){
-    super(messageService);
+    super(messageService, breadcrumbService);
     this.rangeDates = [];
     this.rangeDates[0] = this.rangeDates[1] = new Date();
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'Dashboard', routerLink: ['/HFSBusiness/seller/dashboard']}
+    ]);
   }
 
 
@@ -95,6 +108,17 @@ export class DashboardSellerComponent extends iComponentBase implements OnInit{
             }
         }
     };
+
+    this.optionsPie = {
+      plugins: {
+          legend: {
+              labels: {
+                  usePointStyle: true,
+                  color: textColor
+              }
+          }
+      }
+  };
   }
 
   async getAllData(){
@@ -131,6 +155,14 @@ export class DashboardSellerComponent extends iComponentBase implements OnInit{
           element.tension = 0,4;
           return element;
         });
+
+        this.dataDashboardDisplay = {
+          labels: this.dataDashboard.labels,
+          datasets: [this.dataDashboard.datasets[this.chooseDisplayLine]] 
+        };
+
+        //this.mapToPie(documentStyle);
+
       }
 
     }
@@ -145,5 +177,55 @@ export class DashboardSellerComponent extends iComponentBase implements OnInit{
     }
     this.isDisplayChart = fromDate != endDate ? true : false;
     this.getAllData();
+  }
+
+  mapToPie(documentStyle: any){
+  
+    // this.dataDashboard.datasets.forEach((element, index) => {
+    //   var temp = {
+    //     data: element.data,
+    //     backgroundColor: [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500')],
+    //     hoverBackgroundColor: [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--green-400')]
+    //   }
+    //   return temp;
+    // })
+
+    this.dataDashboardPie = {
+      labels: ['Order', 'Amount', 'Sold'],
+      datasets: [
+          {
+              data: [this.dataDashboard.orderCount, this.dataDashboard.amountCount, this.dataDashboard.soldCount],
+              backgroundColor: [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500')],
+              hoverBackgroundColor: [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--green-400')]
+          }
+      ]
+    };
+  }
+
+  chooseLine(type: number){
+    this.chooseDisplayLine = type;
+
+    switch (type) {
+      case 0:
+          this.dataDashboardDisplay = {
+            labels: this.dataDashboard.labels,
+            datasets: [this.dataDashboard.datasets[0]] 
+          };
+        break;
+      case 1:
+        this.dataDashboardDisplay = {
+          labels: this.dataDashboard.labels,
+          datasets: [this.dataDashboard.datasets[1]] 
+        };
+        break;
+      case 2:
+        this.dataDashboardDisplay = {
+          labels: this.dataDashboard.labels,
+          datasets: [this.dataDashboard.datasets[2]] 
+        };
+        break;
+      default:
+        break;
+    }
   }
 }

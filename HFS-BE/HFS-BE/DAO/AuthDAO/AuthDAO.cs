@@ -305,8 +305,7 @@ namespace HFS_BE.Dao.AuthDao
 			//}
 
 			string subject = "Xác nhận thay đổi trạng thái";
-			string message = $"Vui lòng nhấp vào liên kết sau để xác nhận thay đổi trạng thái: {GetConfirmEmailLink("1", confirmationCode)}";
-
+			string message = "Vui lòng nhấp vào liên kết sau để xác nhận thay đổi trạng thái: <a href=\"" + GetConfirmEmailLink("1", confirmationCode) + "\">tại đây</a>";
 			try
 			{
 				await SendEmail2Async(model.Email, subject, message);

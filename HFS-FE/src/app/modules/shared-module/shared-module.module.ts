@@ -20,12 +20,12 @@ import { AppTopBarComponent } from 'src/app/app-systems/app-topbar/app.topbar.co
 import { AppFooterComponent } from 'src/app/app-systems/app-footer/app.footer.component';
 import { AppMenuComponent } from 'src/app/app-systems/app-menu/app-menu.component';
 import { AppMenuitemComponent } from 'src/app/app-systems/app-menuitem/app.menuitem.component';
+import { CustomerRoutingModule } from '../customer-routing-module/customer-routing.module';
 
 
 @NgModule({
   imports: [
-
-  ComponentModule,
+    ComponentModule,
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
@@ -48,11 +48,7 @@ import { AppMenuitemComponent } from 'src/app/app-systems/app-menuitem/app.menui
       SellerListComponent,
       ChatboxComponent,
       CustomerListByChatComponent,
-      AppBreadcrumbComponent,
-      AppTopBarComponent,
-      AppFooterComponent,
-      AppMenuComponent,
-      AppMenuitemComponent,
+      
 
   ],
   exports: [
@@ -63,11 +59,11 @@ import { AppMenuitemComponent } from 'src/app/app-systems/app-menuitem/app.menui
       SellerListComponent,
       CustomerListByChatComponent,
       TranslateModule,
-      AppBreadcrumbComponent,
-      AppTopBarComponent,
-      AppFooterComponent,
-      AppMenuComponent,
-      AppMenuitemComponent,
+      // AppBreadcrumbComponent,
+      // AppTopBarComponent,
+      // AppFooterComponent,
+      // AppMenuComponent,
+      // AppMenuitemComponent,
 
   ],
 })

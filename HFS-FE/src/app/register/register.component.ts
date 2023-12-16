@@ -17,6 +17,7 @@ import {
 import { Register } from './models/register';
 import { MessageService } from 'primeng/api';
 import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -42,6 +43,8 @@ export class RegisterComponent extends iComponentBase  implements OnInit,AfterVi
   errorregister: string;
   selectedRole: number = 3;
   selectedRoleId: string = '';
+
+
 private client_Id=environment.clientId;
  constructor(private router: Router,
   public renderer: Renderer2,
@@ -49,6 +52,7 @@ private client_Id=environment.clientId;
   public messageService: MessageService,
   private service: AuthService,
   private iServiceBase: iServiceBase,
+  public translate: TranslateService
  // private cdr: ChangeDetectorRef
 ){
    super(messageService);
@@ -98,13 +102,15 @@ registerData: Register;
    this.showMessage(mType.error, "Notification", errorregister, 'app-register');
 
   })
+  this.translate.get('loginRegisterScreen').subscribe( (text: any) => {
+    this.roles = [
+      {name: text.Customer, id: 3},
+      {name: text.Seller, id: 2},
+      {name: text.Shipper, id: 4}
 
-  this.roles = [
-    {name: 'Customer', id: 3},
-    {name: 'Seller', id: 2},
-    {name: 'Shipper', id: 4}
+    ];
+  });
 
-  ];
 
   const cssFilePaths = ['assets/theme/indigo/theme-light.css',
         'assets/layout/css/layout-light.css'];
@@ -209,7 +215,7 @@ onRoleChange(event: any) {
     genderControl.enable();
     genderControl.setValidators([Validators.required]);
     birthDateControl.enable();
-    birthDateControl.setValidators([Validators.required]);
+    birthDateControl.setValidators([Validators.required,DateOfBirthValidator()]);
   }
 
   // Cập nhật validators và trạng thái của các trường
@@ -223,7 +229,7 @@ onRoleChange(event: any) {
 }
 async onSubmit() {
   console.log(this.formregister);
-  debugger;
+  ;
   if (this.formregister.valid) {
 
     switch(this.formregister.value.roleId.toString()){

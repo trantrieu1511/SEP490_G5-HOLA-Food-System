@@ -10,6 +10,7 @@ import * as API from "../../../../services/apiURL";
 import { OrderDaoOutputDto, OrderDetailDtoOutput, OrderProgressDtoOutput } from '../../models/order-of-shipper.model';
 import { TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
+import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
 
 @Component({
   selector: 'app-shipper-history-management',
@@ -40,8 +41,13 @@ export class ShipperHistoryManagementComponent extends iComponentBase implements
   constructor(private elementRef: ElementRef, private renderer: Renderer2, public messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
-    private iServiceBase: iServiceBase, private authService: AuthService, public translate: TranslateService) {
-    super(messageService);
+    private iServiceBase: iServiceBase, private authService: AuthService, public translate: TranslateService,public breadcrumbService: AppBreadcrumbService) {
+    super(messageService, breadcrumbService);
+
+    this.breadcrumbService.setItems([
+      {label: 'HFSBusiness'},
+      {label: 'History Management', routerLink: ['/HFSBusiness/shipper/history']}
+    ]);
     this.rangeDates = [];
     this.rangeDates[0] = this.rangeDates[1] = new Date();
   }
@@ -68,7 +74,7 @@ export class ShipperHistoryManagementComponent extends iComponentBase implements
     };
     let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.SHIPPER, API.API_SHIPPER.HISTORY, param);
     if (response && response.success) {
-      debugger
+      
       
       this.lstOrderHistory = response.orders ? response.orders : [];
       console.log('his nef', this.lstOrderHistory);
