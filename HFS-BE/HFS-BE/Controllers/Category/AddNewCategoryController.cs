@@ -18,6 +18,7 @@ namespace HFS_BE.Controllers.Category
         }
 
         [HttpPost("users/createcategory")]
+        [Authorize(Roles = "AD")]
         public BaseOutputDto AddNewCategory(CategoryDaoInputDto inputDto)
         {
             try

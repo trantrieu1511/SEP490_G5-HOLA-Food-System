@@ -727,3 +727,12 @@ ALTER TABLE [dbo].[Shipper]
 ADD [isPhoneVerified] [bit] NOT NULL DEFAULT('false'),
     [otpToken] [nvarchar](max) NULL,
     [otpTokenExpiryTime] [int] NULL;
+ALTER TABLE [dbo].[Shipper]
+ ADD    [IDcardNumber] [nvarchar](20) NULL,    
+     [IDcardFrontImage] [nvarchar](max) NULL,-- Dữ liệu ảnh mặt trước CMT
+    [IDcardBackImage] [nvarchar](max) NULL;
+
+
+
+
+

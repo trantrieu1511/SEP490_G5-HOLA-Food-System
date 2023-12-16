@@ -22,7 +22,7 @@ namespace HFS_BE.BusinessLogic.Auth
 		public string Email { get; set; } = null!;
 		public string Password { get; set; } = null!;
 		public string ConfirmPassword { get; set; }
-
+		
 	}
 	public class RegisterSellerInputDto : BaseInputDto
 	{
@@ -37,8 +37,23 @@ namespace HFS_BE.BusinessLogic.Auth
 
 		public IReadOnlyList<IFormFile>? Images { get; set; } = null;
 	}
+	public class RegisterShipperInputDto : BaseInputDto
+	{
 
-    public class TokenApiModelBL
+		public string FirstName { get; set; } = null!;
+		public string LastName { get; set; } = null!;
+		public string? Gender { get; set; }
+		public string? PhoneNumber { get; set; }
+		public DateTime? BirthDate { get; set; }
+		public string Email { get; set; } = null!;
+		public string Password { get; set; } = null!;
+		public string ConfirmPassword { get; set; }
+		public string IdcardNumber { get; set; }
+		public IFormFile? Images1 { get; set; } = null;
+		public IFormFile? Images2 { get; set; } = null;
+
+	}
+	public class TokenApiModelBL
     {
         public string? RefreshToken { get; set; }
     }

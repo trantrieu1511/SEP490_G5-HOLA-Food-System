@@ -16,6 +16,7 @@ import { ProfileImage } from 'src/app/profile/models/profile';
 import { AuthService, User } from 'src/app/services/auth.service';
 import { RoleNames } from 'src/app/utils/roleName';
 import { ManageprofileComponent } from 'src/app/profile/manageprofile.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-topbar',
@@ -52,7 +53,8 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
         public presence: PresenceService,
         public profileService: ManageprofileComponent,
         private authService: AuthService,
-        private iFunction: iFunction
+        private iFunction: iFunction,
+        public translate: TranslateService
     ) {
         super(messageService);
         if(this.checkLink()){

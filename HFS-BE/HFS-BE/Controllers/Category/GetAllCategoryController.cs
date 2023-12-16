@@ -6,6 +6,7 @@ using HFS_BE.DAO.CategoryDao;
 using HFS_BE.DAO.CommentNewFeedDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace HFS_BE.Controllers.Category
         {
         }
         [HttpPost("users/getallcategory")]
+        [Authorize(Roles = "AD")]
         public ListcategoryOutptuDto GetAll()
         {
             try

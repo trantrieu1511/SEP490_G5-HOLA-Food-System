@@ -17,8 +17,12 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageShipper
 		public bool? IsBanned { get; set; }
 		public byte Status { get; set; }
 		public DateTime? CreateDate { get; set; }
+
 		public string? Note { get; set; }
 		public bool? IsPhoneVerified { get; set; }
+		public string? IdcardNumber { get; set; }
+		public string? ImageBase64Id1 { get; set; }
+		public string? ImageBase64Id2 { get; set; }
 		public List<ShipperImageOutputDto>? ImagesBase64 { get; set; } = new List<ShipperImageOutputDto>();
 	}
 	public class ShipperImageOutputDto

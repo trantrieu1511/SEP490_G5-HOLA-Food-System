@@ -73,6 +73,9 @@ namespace HFS_BE.DAO.ShipperDao
 					Status=s.Status,
 					CreateDate=s.CreateDate,
 					Note=s.Note,
+					IdcardNumber=s.IdcardNumber,
+					IdcardFrontImage=s.IdcardFrontImage,
+					IdcardBackImage=s.IdcardBackImage,
 					Images= context.ProfileImages
 					.Where(pi => pi.UserId == s.ShipperId && pi.IsReplaced == false)
 				   .Select(pi => new ImageShipperOutputDto
@@ -229,7 +232,7 @@ namespace HFS_BE.DAO.ShipperDao
 				}
 				var data = context.Shippers.FirstOrDefault(s => s.Email == input.Email);
 				var datacheckis = context.Shippers.FirstOrDefault(s => s.Email == input.Email && s.Status == 1);
-
+				
 				var datainv = context.Invitations.Include(s => s.Shipper).FirstOrDefault(s => s.Shipper.Email == input.Email && s.SellerId == input.SellerId && s.Accepted == 0);
 				if (data.ManageBy != null)
 				{
@@ -239,6 +242,7 @@ namespace HFS_BE.DAO.ShipperDao
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Please wait for the admin to approve the shipper");
 				}
+			
 				if (datainv != null)
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You invited them to be the shipper");
@@ -281,11 +285,15 @@ namespace HFS_BE.DAO.ShipperDao
 		{
 			var data = context.Shippers.FirstOrDefault(s => s.ManageBy == input.SellerId && s.ShipperId == input.ShipperId);
 			var datainv = context.Invitations.FirstOrDefault(s => s.SellerId == input.SellerId && s.ShipperId == input.ShipperId&&s.Accepted==0);
+			var datacheck = context.Shippers.FirstOrDefault(s => s.ShipperId == input.ShipperId&&s.ConfirmedEmail==true&&s.IsPhoneVerified==true);
 			if (data != null)
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Shipper has a manager");
 			}
-
+			if (datacheck == null)
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Please verify all personal information to receive invitation");
+			}
 			if (datainv == null)
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You are not invited to be a shipper for them");
@@ -300,7 +308,7 @@ namespace HFS_BE.DAO.ShipperDao
 				shipper.ManageBy = input.SellerId;
 				context.Shippers.Update(shipper);
 				context.SaveChanges();
-				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Accept successfully");
+				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess, "Accept successfully");
 			}
 			else
 			{

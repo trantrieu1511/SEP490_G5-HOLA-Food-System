@@ -21,7 +21,7 @@ namespace HFS_BE.Controllers.OrderShipper
         }
 
         [HttpPost("shipper/order")]
-        [Authorize]
+        [Authorize(Roles = "SH")]
         public OrderByShipperBLOutputDto GetAllOrder(GetAllOrderControllerInputDto inputDto)
         {
             try
@@ -41,7 +41,7 @@ namespace HFS_BE.Controllers.OrderShipper
         }
 
         [HttpPost("shipper/orderprogress")]
-        //[Authorize(Roles = "SH")]
+        [Authorize(Roles = "SH")]
         public async Task<BaseOutputDto> CreateOrderProgress([FromForm] OrderProgressControllerInputDto inputDto)
         {
             try
@@ -79,7 +79,7 @@ namespace HFS_BE.Controllers.OrderShipper
         }
 
         [HttpPost("shipper/history/detail")]
-        //[Authorize(Roles = "4")]
+        [Authorize(Roles = "SH")]
         public BaseOutputDto GetHistoryDetail(int orderId)
         {
             try

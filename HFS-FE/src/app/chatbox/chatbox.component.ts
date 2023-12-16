@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { AuthService, User } from '../services/auth.service';
 import { MessageChatService } from '../services/messagechat.service';
 import { iFunction } from '../modules/shared-module/shared-module';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -30,7 +31,8 @@ role:string;
   constructor(
     public messageChatService: MessageChatService, 
     private authService: AuthService,
-    private iFunction: iFunction
+    private iFunction: iFunction,
+    public translate: TranslateService
     ) { }
 
   ngOnInit(): void {

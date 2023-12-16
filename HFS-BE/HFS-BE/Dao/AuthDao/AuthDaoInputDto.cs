@@ -76,6 +76,43 @@ namespace HFS_BE.Dao.AuthDao
 		[Required(ErrorMessage = "BusinessCode is required")]
 		public string? BusinessCode { get; set; }
 	}
+
+	public class RegisterShipperDto
+	{
+
+		[Required(ErrorMessage = "First name is required")]
+		public string FirstName { get; set; } = null!;
+
+		[Required(ErrorMessage = "Last name is required")]
+		public string LastName { get; set; } = null!;
+
+		[Required(ErrorMessage = "Gender is required")]
+		public string? Gender { get; set; }
+
+		[Required(ErrorMessage = "Birth date is required")]
+		[MinimumAge(18, 100, ErrorMessage = "You must be at least 18 years old and not older than 100 years old ")]
+		public DateTime? BirthDate { get; set; }
+		[Required(ErrorMessage = "Phone is required")]
+		[PhoneNumber(ErrorMessage = "Invalid phone number.")]
+		public string? PhoneNumber { get; set; }
+
+
+		[Required(ErrorMessage = "Email is required")]
+		[EmailAddress(ErrorMessage = "Invalid email address")]
+		public string Email { get; set; } = null!;
+
+		[Password(8, ErrorMessage = "Invalid password.")]
+		public string Password { get; set; }
+
+		[Compare("Password", ErrorMessage = "Confirm password does not match.")]
+		public string ConfirmPassword { get; set; }
+		[Required(ErrorMessage = "IdcardNumber is required")]
+		public string IdcardNumber { get; set; }
+		[Required(ErrorMessage = "IdcardFrontImage is required")]
+		public string? IdcardFrontImage { get; set; }
+		[Required(ErrorMessage = "IdcardBackImage is required")]
+		public string? IdcardBackImage { get; set; }
+	}
 	public class ForgotPasswordInputDto:BaseInputDto
 	{ 
 		[Required(ErrorMessage = "Email is required")]

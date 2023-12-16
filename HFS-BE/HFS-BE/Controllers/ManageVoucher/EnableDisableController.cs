@@ -4,6 +4,7 @@ using HFS_BE.BusinessLogic.ManageVoucher;
 using HFS_BE.DAO.VoucherDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,7 @@ namespace HFS_BE.Controllers.ManageVoucher
         {
         }
         [HttpPost("vouchers/Enable_Disable")]
-        //[Authorize]
+        [Authorize(Roles = "SE")]
 
         public BaseOutputDto EnableDisableVoucher(Enable_Disable_VoucherDaoInput input)
         {

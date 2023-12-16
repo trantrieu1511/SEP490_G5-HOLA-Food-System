@@ -88,8 +88,8 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
     super(messageService, breadcrumbService);
 
     this.breadcrumbService.setItems([
-      {label: 'HFSBusiness'},
-      {label: 'Order Management', routerLink: ['/HFSBusiness/order-management']}
+      { label: 'HFSBusiness' },
+      { label: 'Order Management', routerLink: ['/HFSBusiness/order-management'] }
     ]);
 
     this.items = [
@@ -98,13 +98,13 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
     ];
 
     this.activeItem = this.items[0];
-    
+
     this.initTabMenuitem();
 
   }
 
   initTabMenuitem() {
-    
+
     this.translate.get('shipperScreen').subscribe((text: any) => {
       this.requestLabel = text.request;
       this.shippingLabel = text.shipping;
@@ -116,7 +116,7 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
 
       this.activeItem = this.items[0];
       this.userId = this.authService.getUserInfor().userId;
-      
+
     });
   }
 
@@ -128,8 +128,8 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
     this.getAllOrder();
     this.getAllInvitionbyshipper();
     this.connectSignalR();
-    
-   // await this.getAllInvitionbyshipper();
+
+    // await this.getAllInvitionbyshipper();
     this.showCurrentPageReport = true;
   }
 
@@ -185,7 +185,7 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
   }
 
   async getAllOrder() {
-    
+
     this.lstOrderOfShipper = [];
     try {
       this.loading = true;
@@ -211,7 +211,7 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
   }
 
   async getAllInvitionbyshipper() {
-    
+
     this.listinvitationbyshipper = [];
     try {
       this.loading = true;
@@ -355,6 +355,7 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
       };
 
       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_SHIPPER.ACCEPT, param);
+      // debugger
       if (response && response.message === "Success") {
 
         this.showMessage(mType.success, "Notification", response.message, 'notify');
@@ -362,9 +363,14 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
 
 
       } else {
-
-        this.showMessage(mType.success, "Notification", response.message, 'notify');
-        this.ListinvitationDialog = false;
+        if (response.message === 'Reject successfully') {
+          this.showMessage(mType.success, "Notification", response.message, 'notify');
+          this.ListinvitationDialog = false;
+          this.loading = false;
+          return;
+        }
+        this.showMessage(mType.error, "Notification", response.message, 'notify');
+        this.ListinvitationDialog = true;
       }
 
       this.loading = false;
@@ -374,13 +380,13 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
     }
   }
 
-  onOpenMap(address : string){
-    
+  onOpenMap(address: string) {
+
     this.visibleMapBox = true;
     this.geocodeAddress(address);
   }
 
-  async geocodeAddress(address : string) {
+  async geocodeAddress(address: string) {
     const param = {
       "address": address
     }
@@ -407,9 +413,9 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
       this.locationResult = 'Geolocation is not supported by this browser.';
     }
   }
-  userlocal : any
+  userlocal: any
   initMap(latitude: number, longitude: number) {
-    
+
     const map = new google.maps.Map(document.getElementById('map'), {
       center: { lat: latitude, lng: longitude },
       zoom: 12
@@ -423,7 +429,7 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
     /// chỉ đường
     const directionsService = new google.maps.DirectionsService();
     const directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
-   
+
     // Lấy vị trí hiện tại của người dùng
     navigator.geolocation.getCurrentPosition(
       (position) => {

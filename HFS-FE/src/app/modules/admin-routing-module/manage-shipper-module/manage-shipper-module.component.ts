@@ -21,6 +21,7 @@ export class ManageShipperModuleComponent extends iComponentBase implements OnIn
   displayDialogNote: boolean = false;
   visibleContentDialog:boolean=false;
   visibleImageDialog:boolean=false;
+  visibleImageDialogId:boolean=false;
   visiblebanHistoryDialog:boolean=false;
   shipperImg:Shipper =new Shipper();
   shipperDetail:Shipper =new Shipper();;
@@ -156,6 +157,10 @@ console.log(this.banshipper);
   onDisplayImagesDialog(s: Shipper, event: any) {
     this.shipperImg = s;
     this.visibleImageDialog = true;
+  }
+  onDisplayImagesDialogId(s: Shipper, event: any) {
+    this.shipperImg = s;
+    this.visibleImageDialogId = true;
   }
   Detail(user:Shipper){
 this.visibleContentDialog=true;
