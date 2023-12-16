@@ -30,5 +30,19 @@ namespace HFS_BE.Controllers.Profile
                 return Output<UserProfileOutputDto>(Constants.ResultCdFail);
             }
         }
-    }
+		[HttpPost("home/editidcard")]
+		//[Authorize]
+		public BaseOutputDto EditIdcard([FromForm] EditCardInputDto inputDto)
+		{
+			try
+			{
+				var business = GetBusinessLogic<EditProfileBusinessLogic>();
+				return business.EditIdCard(inputDto, GetUserInfor().UserId);
+			}
+			catch (Exception)
+			{
+				return Output<UserProfileOutputDto>(Constants.ResultCdFail);
+			}
+		}
+	}
 }

@@ -25,13 +25,23 @@ namespace HFS_BE.BusinessLogic.OrderShipper
             {
                 inputDto.UserDto.UserId = "SH00000001";
 
-
                 var orderDao = CreateDao<OrderDao>();
                 var order = orderDao.GetOrderByOrderId(inputDto.OrderId);
                 //check order
                 if (order == null)
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Order is not exist");
-
+                //check order status
+                if(order.Status != Constants.OrderExternal)
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Order is not external for ship");
+                // check order is wait shipper or not
+                var progressDao = CreateDao<OrderProgressDao>();
+                var progress = progressDao.GetOrderProgresByOrderId(order.OrderId);
+                var statusLast = progress.OrderByDescending(y => y.CreateDate).FirstOrDefault().Status;
+                if(statusLast != Constants.Wait_Shipper)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Order does not accept shippers");
+                }
+                //check shipper has been add or not
                 if (order.ShipperId != null)
                     return Output<BaseOutputDto>(Constants.ResultCdFail, "Add Failed", "Order has been delivered to the shipper");
 
@@ -45,7 +55,6 @@ namespace HFS_BE.BusinessLogic.OrderShipper
                     UserId = inputDto.UserDto.UserId
                 });
 
-                var progressDao = CreateDao<OrderProgressDao>();
                 var outputP = progressDao.AddNewOrderProgress(new OrderProgress
                 {
                     Note = "External Shipping",
