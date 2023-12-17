@@ -10,6 +10,7 @@ import { ActiveShipper, BanShipper, HistoryBanShipper, Shipper } from '../models
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-manage-shipper-module',
   templateUrl: './manage-shipper-module.component.html',
@@ -35,6 +36,7 @@ export class ManageShipperModuleComponent extends iComponentBase implements OnIn
     private iFunction: iFunction,
     private _router: Router,
     public breadcrumbService: AppBreadcrumbService,
+    public translate: TranslateService
   ){
     super(messageService, breadcrumbService);
 
@@ -155,10 +157,12 @@ console.log(this.banshipper);
     this.displayDialogNote = false;
   }
   onDisplayImagesDialog(s: Shipper, event: any) {
+    this.headerDialog="Image: "+s.shipperId;
     this.shipperImg = s;
     this.visibleImageDialog = true;
   }
   onDisplayImagesDialogId(s: Shipper, event: any) {
+    this.headerDialog="Image Id Card: "+s.shipperId;
     this.shipperImg = s;
     this.visibleImageDialogId = true;
   }

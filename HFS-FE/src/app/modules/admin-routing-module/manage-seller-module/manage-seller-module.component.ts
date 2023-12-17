@@ -139,6 +139,7 @@ console.log(this.banseller);
     //     //reject action
     //   },
   //  });
+  this.activeseller.note="";
   this.headerDialog="Verify Id: "+user.sellerId;
   this.displayDialogReject = true;
   this.activeseller.status=1;
@@ -158,7 +159,7 @@ console.log(this.banseller);
 
      this.getAllSeller();
      this.showMessage(mType.success, "Notification", "Verification "+this.activeseller.sellerId+" successfully", 'notify');
-     this.banseller = new BanSeller();
+     this.activeseller = new RejectSeller();
      this.displayDialogReject = false;
     }
    ;
@@ -171,6 +172,7 @@ console.log(this.banseller);
   }
   RejectSeller(user:Seller){
     this.headerDialog="Reject Id: "+user.sellerId;
+    this.activeseller.note="";
     this.displayDialogReject = true;
     this.activeseller.status=2;
     this.activeseller.sellerId=user.sellerId;

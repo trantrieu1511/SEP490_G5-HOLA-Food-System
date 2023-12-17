@@ -650,8 +650,8 @@
     "ListBanHistory":"List Ban History",
     "ListImage":"List Image",
     "DetailSeller":"Detail",
-    "ListImageLicense":"List Image License"
-
+    "ListImageLicense":"List Image License",
+    "Note":"Note"
   },
 
   "shipAdminScreen": {
@@ -684,7 +684,16 @@
     "Name":"Name",
     "Size":"Size",
     "Detail":"Detail",
-    "DetailID":"Detail ID:"
+    "DetailID":"Detail ID:",
+    "ImagesIdCard":"Image Id Card",
+    "IdCard":"Id card number",
+    "FontIDCard":"Photo of the front of the ID card",
+    "BackIDCard":"Photo of the back of the ID card",
+    "Pending":"Pending",
+    "Recject":"Recject",
+    "Verification":"Verification",
+    "Note":"Note",
+    "ManageBy":"ManageBy"
   },
 
   "postAdminScreen": {

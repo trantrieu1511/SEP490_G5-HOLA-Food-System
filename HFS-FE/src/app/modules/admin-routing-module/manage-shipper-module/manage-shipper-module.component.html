@@ -1,7 +1,7 @@
 <div class="grid table-demo">
   <div class="col-12">
       <div class="card">
-          <h5>Shipper Management</h5>
+          <h5>{{'shipAdminScreen.ShipperManagement' | translate}}</h5>
 
           <p-table #dt [value]="listShipper" dataKey="id"
                    styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
@@ -18,7 +18,7 @@
                               <i class="pi pi-search"></i>
                               <input pInputText type="text"  #textInput
                                      (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                     placeholder="Search Name by name"/>
+                                     placeholder="{{'shipAdminScreen.SearchNamebyname' | translate}}"/>
                           </span>
                       </div>
 
@@ -47,7 +47,7 @@
 
                       <th pSortableColumn="shipperName">
                           <div class="flex justify-content-between align-items-center">
-                            FullName
+                            {{'shipAdminScreen.FullName' | translate}}
                               <p-sortIcon field="lastName"></p-sortIcon>
                               <p-columnFilter type="text" field="shipperName" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -63,7 +63,7 @@
                     </th>
                     <th pSortableColumn="email">
                       <div class="flex justify-content-between align-items-center">
-                        PhoneNumber
+                        {{'shipAdminScreen.PhoneNumber' | translate}}
                           <p-sortIcon field="email"></p-sortIcon>
                           <p-columnFilter type="text" field="email" display="menu"
                                           class="ml-auto"></p-columnFilter>
@@ -71,7 +71,7 @@
                   </th>
                       <th pSortableColumn="gender">
                           <div class="flex justify-content-between align-items-center">
-                            Gender
+                             {{'shipAdminScreen.Gender' | translate}}
                               <p-sortIcon field="gender"></p-sortIcon>
                               <p-columnFilter type="text" field="gender" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -79,7 +79,7 @@
                       </th>
                       <th pSortableColumn="birthDate">
                           <div class="flex justify-content-between align-items-center">
-                              DOB
+                               {{'shipAdminScreen.DOB' | translate}}
                               <p-sortIcon field="birthDate"></p-sortIcon>
                               <p-columnFilter type="text" field="birthDate" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -88,7 +88,7 @@
 
                       <th pSortableColumn="isVerified">
                         <div class="flex justify-content-between align-items-center">
-                          Verification
+                            {{'shipAdminScreen.Verification' | translate}}
                             <p-sortIcon field="isVerified"></p-sortIcon>
                             <p-columnFilter type="numeric" field="isVerified" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -97,17 +97,17 @@
 
                       <th>
                           <div class="flex justify-content-between align-items-center">
-                              Images
+                                {{'shipAdminScreen.Images' | translate}}
                           </div>
                       </th>
                       <th>
                         <div class="flex justify-content-between align-items-center">
-                            ImagesIdCard
+                              {{'shipAdminScreen.DOB' | translate}}
                         </div>
                     </th>
                       <th pSortableColumn="confirmedEmail">
                         <div class="flex justify-content-between align-items-center">
-                          ConfirmEmail
+                            {{'shipAdminScreen.ConfirmedEmail' | translate}}
                             <p-sortIcon field="confirmedEmail"></p-sortIcon>
                             <p-columnFilter type="numeric" field="confirmedEmail" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -116,7 +116,7 @@
                       <th style="min-width: 8rem">
                           <div
                                class="flex justify-content-between align-items-center">
-                              Action
+                                {{'shipAdminScreen.Action' | translate}}
                           </div>
                       </th>
                   </tr>
@@ -153,13 +153,13 @@
                       <td >
                         <span class="p-column-title">Verification</span>
                         <div *ngIf="user.status===1" style="color:chartreuse;">
-                          Verified
+                            {{'shipAdminScreen.Verified' | translate}}
                         </div>
                         <div *ngIf="user.status===2"  style="color:red;">
-                         Recject
+                           {{'shipAdminScreen.Recject' | translate}}
                         </div>
                         <div *ngIf="user.status===0"  style="color:rgb(79, 68, 68);">
-                          Pending
+                            {{'shipAdminScreen.Pending' | translate}}
                          </div>
                     </td>
                       <td>
@@ -169,7 +169,7 @@
                                     (click)="onDisplayImagesDialog(user, $event)"
                                     class="p-button-rounded p-button-text p-button-raised"></button>
                         </ng-container>
-                          <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+                          <ng-template #noneImage ><span class="no-image">{{'shipAdminScreen.NoImage' | translate}}</span></ng-template>
                       </td>
                       <td>
                         <span class="p-column-title">Image</span>
@@ -178,15 +178,15 @@
                                   (click)="onDisplayImagesDialogId(user, $event)"
                                   class="p-button-rounded p-button-text p-button-raised"></button>
                       </ng-container>
-                        <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+                        <ng-template #noneImage ><span class="no-image"> {{'shipAdminScreen.NoImage' | translate}}</span></ng-template>
                     </td>
                       <td>
                         <span class="p-column-title">ConfirmEmail</span>
                         <div *ngIf="user.confirmedEmail===true"  style="color:chartreuse;">
-                          Confirmed
+                            {{'shipAdminScreen.Confirmed' | translate}}
                           </div>
                           <div *ngIf="user.confirmedEmail===false"  style="color:red;">
-                           Not confirmed yet
+                      {{'shipAdminScreen.Notconfirmedyet' | translate}}
                           </div>
 
                     </td>
@@ -207,17 +207,17 @@
                                           class="p-button-rounded p-mr-2"></button>
                               </div> -->
                               <div class="flex align-items-center justify-content-center">
-                                <button *ngIf="!user.isVerified" pButton pRipple  label="Verification"
+                                <button *ngIf="!user.isVerified" pButton pRipple  label=" {{'shipAdminScreen.Verification' | translate}}"
                                 (click)="ActiveShipper(user,1)"
                                         class="p-button-rounded p-mr-2"></button>
                             </div>
                             <div class="flex align-items-center justify-content-center">
-                              <button *ngIf="!user.isVerified" pButton pRipple  label="Reject"
+                              <button *ngIf="!user.isVerified" pButton pRipple  label="  {{'shipAdminScreen.Recject' | translate}}"
                               (click)="RejectShipper(user,2)"
                                       class="p-button-rounded p-mr-2"></button>
                           </div>
                           <div class="flex align-items-center justify-content-center">
-                            <button  pButton pRipple  label="Detail"
+                            <button  pButton pRipple  label="  {{'shipAdminScreen.Detail' | translate}}"
                             (click)="Detail(user)"
                                     class="p-button-rounded p-mr-2"></button>
                         </div>
@@ -227,7 +227,7 @@
               </ng-template>
               <ng-template pTemplate="emptymessage">
                   <tr>
-                      <td colspan="8">No Shipper yet.</td>
+                      <td colspan="8"> {{'shipAdminScreen.emptymessage' | translate}}.</td>
                   </tr>
               </ng-template>
           </p-table>
@@ -245,7 +245,7 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Note*</b>
+                        <b>  {{'shipAdminScreen.Note' | translate}}*</b>
                     </div>
                 </p-divider>
                 <div class="grid">
@@ -265,7 +265,7 @@
                     [(ngModel)]="activeshipper.note"
                     (input)="checkSaveButtonStatus()"
                     ></textarea>
-                      <label>Note*</label>
+                      <label>  {{'shipAdminScreen.Note' | translate}}*</label>
                   </span>
               </div>
 
@@ -282,12 +282,12 @@
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Save" icon="pi pi-save" [disabled]="isSaveButtonDisabled"
+                <button pButton type="button" label="  {{'button.save' | translate}}" icon="pi pi-save" [disabled]="isSaveButtonDisabled"
                         (click)="ActiveShipper1()"
                         style="width: 100%;"></button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                <button pButton type="button" label="  {{'button.cancel' | translate}}" icon="pi pi-times"
                         (click)="ActiveShipperCancel()" class="p-button-danger"
                         style="width: 100%;"></button>
             </div>
@@ -295,7 +295,7 @@
         </div>
     </ng-template>
 </p-dialog>
-<p-dialog header="List Ban History"
+<p-dialog header="List Ban History "
     [(visible)]="visiblebanHistoryDialog"
     [breakpoints]="{ '960px': '75vw' }"
     [style]="{ width: '50vw' }"
@@ -323,7 +323,7 @@
     </p-table>
 </p-dialog>
 
-<p-dialog header="List Image"
+<p-dialog header="{{headerDialog}}"
     [(visible)]="visibleImageDialog"
     [breakpoints]="{ '960px': '75vw' }"
     [style]="{ width: '50vw' }"
@@ -335,9 +335,9 @@
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Size</th>
+                <th>  {{'shipAdminScreen.Image' | translate}}</th>
+                <th>  {{'shipAdminScreen.Name' | translate}}</th>
+                <th>  {{'shipAdminScreen.Size' | translate}}</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-image>
@@ -362,77 +362,77 @@
   <table class="table-report-detail">
       <tbody>
         <tr>
-          <th>ID: </th>
+          <th>ID : </th>
           <td>
               {{shipperDetail.shipperId}}
           </td>
       </tr>
           <tr>
-              <th>Name: </th>
+              <th>{{'shipAdminScreen.FullName' | translate}}: </th>
               <td>
                   {{shipperDetail.shipperName}}
               </td>
           </tr>
           <tr>
-              <th>VerifyPhone: </th>
+              <th>  {{'shipAdminScreen.ConfirmedPhoneNumber' | translate}}: </th>
               <td>
                 <div *ngIf="shipperDetail.isPhoneVerified===true"  style="color:chartreuse;">
-                  Confirmed
+                    {{'shipAdminScreen.Confirmed' | translate}}
                   </div>
                   <div *ngIf="shipperDetail.isPhoneVerified===false"  style="color:red;">
-                   Not confirmed yet
+                    {{'shipAdminScreen.Notconfirmedyet' | translate}}
                   </div>
 
               </td>
           </tr>
           <tr>
-              <th>PhoneNumber: </th>
+              <th>  {{'shipAdminScreen.PhoneNumber' | translate}}: </th>
               <td>
                   {{shipperDetail.phoneNumber}}
               </td>
           </tr>
           <tr>
-            <th>ManageBy:</th>
+            <th>  {{'shipAdminScreen.DOB' | translate}}:</th>
             <td>
-                {{shipperDetail.manageBy}}
+                {{shipperDetail.birthDate|date:'dd/MM/yyyy'}}
             </td>
           </tr>
           <tr>
-              <th>Verification: </th>
+              <th>  {{'shipAdminScreen.Verification' | translate}}: </th>
               <td>
 
                  <div *ngIf="shipperDetail.status===1"  style="color:chartreuse;">
-                 Verified
+                   {{'shipAdminScreen.Verified' | translate}}
                  </div>
                  <div *ngIf="shipperDetail.status===2"  style="color:red;">
-                 	Reject
+                 	  {{'shipAdminScreen.Reject' | translate}}
                  </div>
                  <div *ngIf="shipperDetail.status===0"  style="color:rgb(103, 96, 96);">
-                         Pending
+                           {{'shipAdminScreen.Pending' | translate}}
                 </div>
               </td>
           </tr>
           <tr>
-            <th>ConfirmEmail: </th>
+            <th>  {{'shipAdminScreen.ConfirmedEmail' | translate}}: </th>
             <td>
 
                <div *ngIf="shipperDetail.confirmedEmail===true"  style="color:chartreuse;">
-                Confirmed
+                  {{'shipAdminScreen.Confirmed' | translate}}
                </div>
                <div *ngIf="shipperDetail.confirmedEmail===false"  style="color:red;">
-               Not confirmed yet
+                 {{'shipAdminScreen.Notconfirmedyet' | translate}}
                </div>
             </td>
         </tr>
         <tr>
-          <th>Note: </th>
+          <th>  {{'shipAdminScreen.Note' | translate}}: </th>
           <td>
            {{shipperDetail.note}}
 
           </td>
       </tr>
       <tr>
-        <th>CreateDate: </th>
+        <th>  {{'shipAdminScreen.CreateDate' | translate}}: </th>
         <td>
          {{shipperDetail.createDate|date:'dd/MM/yyyy'}}
 
@@ -441,7 +441,7 @@
 
 
           <tr>
-            <th>Image: </th>
+            <th> {{'shipAdminScreen.Image' | translate}}: </th>
             <td >
 
 
@@ -450,13 +450,13 @@
                         (click)="onDisplayImagesDialog(shipperDetail, $event)"
                         class="p-button-rounded p-button-text p-button-raised"></button>
                 </ng-container>
-                <ng-template #noneImage1 ><span class="no-image">No Image</span></ng-template>
+                <ng-template #noneImage1 ><span class="no-image">{{'shipAdminScreen.NoImage' | translate}}</span></ng-template>
 
             </td>
 
         </tr>
         <tr>
-          <th>Image: </th>
+          <th>{{'shipAdminScreen.ImagesIdCard' | translate}}: </th>
           <td >
 
 
@@ -465,7 +465,7 @@
                       (click)="onDisplayImagesDialogId(shipperDetail, $event)"
                       class="p-button-rounded p-button-text p-button-raised"></button>
               </ng-container>
-              <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+              <ng-template #noneImage ><span class="no-image">{{'shipAdminScreen.NoImage' | translate}}</span></ng-template>
 
           </td>
 
@@ -473,7 +473,7 @@
       </tbody>
   </table>
 </p-dialog>
-<p-dialog header="List Image Id"
+<p-dialog header="{{headerDialog}}"
     [(visible)]="visibleImageDialogId"
     [breakpoints]="{ '960px': '75vw' }"
     [style]="{ width: '30vw' }"
@@ -484,20 +484,20 @@
        <table>
         <tbody>
           <tr>
-            <th> ID Card: </th>
+            <th> {{'shipAdminScreen.IdCard' | translate}}: </th>
             <td>{{shipperImg.idcardNumber}}</td>
           </tr>
           <tr>
 
 
-            <th>Image Font ID Card: </th>
+            <th>{{'shipAdminScreen.FontIDCard' | translate}}: </th>
             <td><p-image src="data:image/gif;base64,{{shipperImg.imageBase64Id1}}" [preview]="true"
               class="dialogimages_image w-30rem shadow-15"
               ></p-image></td>
 
           </tr>
           <tr>
-            <th>Image Back ID Card: </th>
+            <th>{{'shipAdminScreen.BackIDCard' | translate}}: </th>
             <td><p-image src="data:image/gif;base64,{{shipperImg.imageBase64Id2}}" [preview]="true"
               class="dialogimages_image w-30rem shadow-15"
               ></p-image></td>
