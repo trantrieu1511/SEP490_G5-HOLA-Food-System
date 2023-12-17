@@ -102,14 +102,12 @@ export class CartPopupComponent extends iComponentBase implements OnInit, OnDest
   }
 
   onViewFood(foodId: number){
-    console.log("clicked", foodId);
-    // redirect here
-  
+    this._route.navigate(['/fooddetail'], { queryParams: { foodId: foodId } });
   }
 
   onViewCart(event: any){
     event.preventDefault();
-    // redirect here
+    this._route.navigate(['/cartdetail']);
   }
 
   mapCart(food: FoodPopUp){
