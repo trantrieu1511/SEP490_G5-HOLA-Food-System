@@ -187,7 +187,7 @@ namespace HFS_BE.Dao.ShopDao
                 var listshop = new List<ShopDto>();
                 foreach (var item in output)
                 {
-                    if (!string.IsNullOrEmpty(key) && !RemoveAccents(item.ShopName).Contains(key))
+                    if (!string.IsNullOrEmpty(key) && (!RemoveAccents(item.ShopName).Contains(key) || item.SellerId.Contains(key)))
                     {
                         continue;
                     }
