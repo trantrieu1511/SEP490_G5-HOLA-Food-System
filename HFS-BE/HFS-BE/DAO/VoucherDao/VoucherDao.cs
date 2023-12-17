@@ -62,6 +62,28 @@ namespace HFS_BE.DAO.VoucherDao
                 return this.Output<GetListVoucherDaoOutputDto>(Constants.ResultCdFail);
             }
         }
+        public GetListVoucherDaoOutputDto GetShopVoucher(GetListVoucherDaoInput inputDto)
+        {
+            try
+            {
+                var data = this.context.Vouchers
+                    .Where(x => x.SellerId == inputDto.SellerId
+                                && x.EffectiveDate <= DateTime.Now
+                                && x.ExpireDate >= DateTime.Now
+                                && x.Status == 1)
+                    .ToList();
+
+                var output = this.Output<GetListVoucherDaoOutputDto>(Constants.ResultCdSuccess);
+                output.listVoucher = mapper.Map<List<Voucher>, List<GetVoucherDaoOutputDto>>(data);
+                return output;
+            }
+            catch (Exception)
+            {
+
+                return this.Output<GetListVoucherDaoOutputDto>(Constants.ResultCdFail);
+            }
+        }
+
 
         public BaseOutputDto UpdateVoucher(UpdateVoucherDaoInput inputDto)
         {

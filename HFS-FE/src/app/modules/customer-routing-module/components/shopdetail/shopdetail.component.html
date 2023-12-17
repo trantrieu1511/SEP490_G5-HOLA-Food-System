@@ -130,6 +130,10 @@
             <div class="flex flex-row align-items-center ">
               <div class="flex flex-column voucher-content" style="flex-grow: 1; text-align: left;">
                 <p class="fs-small voucher-attr">
+                  <span class="voucher-content_lb">Voucher: </span>
+                  {{voucher.code}}
+                  </p>
+                <p class="fs-small voucher-attr">
                   <span class="voucher-content_lb">Discount: </span>
                   {{voucher.discountAmount | currency : "VND"}} 
                   </p>
@@ -151,6 +155,7 @@
                         pButton
                         pRipple
                         class="p-button-primary"
+                        (click)="onCopyToClipboard(voucher.code)"
                       >
                       Copy
                       </button>
