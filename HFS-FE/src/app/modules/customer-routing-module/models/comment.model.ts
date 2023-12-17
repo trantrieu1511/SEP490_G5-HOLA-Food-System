@@ -5,6 +5,7 @@ export class CommentNewFeed{
     commentContent : string;
     createdDate : string;
     customerId: string;
+    avartar:string;
 }
 
 export class InputComment{

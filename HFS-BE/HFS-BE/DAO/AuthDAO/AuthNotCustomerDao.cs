@@ -202,12 +202,13 @@ namespace HFS_BE.DAO.AuthDAO
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Phone Number has been used");
 			}
 			var data = context.Customers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data1 = context.Shippers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data5 = context.Admins.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data6 = context.Accountants.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
-			if (data != null || data2 != null || data3 != null || data4 != null || data5 != null||data6!=null)
+			if (data != null ||data1!=null|| data2 != null || data3 != null || data4 != null || data5 != null||data6!=null)
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email has been used");
 			}
@@ -304,12 +305,13 @@ namespace HFS_BE.DAO.AuthDAO
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Phone Number has been used");
 			}
 			var data = context.Customers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data1 = context.Shippers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data5 = context.Admins.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
 			var data6 = context.Accountants.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
-			if (data != null || data2 != null || data3 != null || data4 != null || data5 != null || data6 != null)
+			if (data != null || data1 != null || data2 != null || data3 != null || data4 != null || data5 != null || data6 != null)
 			{
 				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Email has been used");
 			}

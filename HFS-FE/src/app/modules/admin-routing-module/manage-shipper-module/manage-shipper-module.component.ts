@@ -18,7 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ManageShipperModuleComponent extends iComponentBase implements OnInit {
   listShipper:Shipper []=[];
-  isSaveButtonDisabled:boolean= false;
+  isSaveButtonDisabled:boolean= true;
   displayDialogNote: boolean = false;
   visibleContentDialog:boolean=false;
   visibleImageDialog:boolean=false;
@@ -46,6 +46,11 @@ export class ManageShipperModuleComponent extends iComponentBase implements OnIn
     ]);
 
   }
+  checkSaveButtonStatus() {
+    // Example condition: enable the button if both note and status are filled
+
+    this.isSaveButtonDisabled = !this.activeshipper.note;
+}
   ngOnInit(): void {
 this.getAllShipper();
   }
@@ -100,12 +105,13 @@ console.log(this.banshipper);
   async ActiveShipper(user:Shipper,so:number){
     this.headerDialog="Verify ID: "+user.shipperId ;
     this.displayDialogNote = true;
-
+ this.activeshipper.note=null;
     this.activeshipper.shipperId=user.shipperId;
     this.activeshipper.status=so;
   }
   async RejectShipper(user:Shipper,so:number){
     this.headerDialog="Reject ID: "+user.shipperId ;
+    this.activeshipper.note=null;
     this.displayDialogNote = true;
     this.activeshipper.status=so;
   }
@@ -170,8 +176,5 @@ console.log(this.banshipper);
 this.visibleContentDialog=true;
 this.shipperDetail=user;
   }
-  checkSaveButtonStatus() {
-    // Example condition: enable the button if both note and status are filled
-    this.isSaveButtonDisabled = !this.activeshipper.note;
-}
+
 }

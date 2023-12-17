@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.DAO.CommentNewFeedDao;
+using HFS_BE.DAO.UserDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
+using HFS_BE.Utils.IOFile;
+using Mailjet.Client.Resources;
 
 namespace HFS_BE.BusinessLogic.CommentNewFeed
 {
@@ -16,9 +19,24 @@ namespace HFS_BE.BusinessLogic.CommentNewFeed
             try
             {
                 var dao = this.CreateDao<CommentNewFeedDao>();
-                var output = dao.GetCommentByPost(inputDto);
 
-                return output;
+                var output = dao.GetCommentByPost(inputDto);
+				
+                foreach (var item in output.ListComment)
+                {
+					ImageFileConvert.ImageOutputDto? imageInfor = null;
+					if (item.Avartar == null)
+					{
+                        break;
+
+					}
+					imageInfor = ImageFileConvert.ConvertFileToBase64(item.CustomerId, item.Avartar, 3);
+                    item.Avartar = imageInfor.ImageBase64;
+
+				}
+			
+			
+				return output;
 
             }
             catch (Exception)

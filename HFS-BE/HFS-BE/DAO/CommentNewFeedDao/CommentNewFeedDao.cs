@@ -40,11 +40,21 @@ namespace HFS_BE.DAO.CommentNewFeedDao
             {
                 var data = context.Comments
                     .Include(x => x.Customer)
-                    .Where(x => x.PostId == inputDto.PostId)
+                    .Where(x => x.PostId == inputDto.PostId).Select(s=>new CommentOutputDto
+					{
+                        CustomerId=s.CustomerId,
+                        CommentContent=s.CommentContent,
+						CustomerName=s.Customer.FirstName+" "+s.Customer.LastName,
+                        CreatedDate=s.CreatedDate,
+                        Avartar=context.ProfileImages.FirstOrDefault(pi => pi.UserId == s.CustomerId && pi.IsReplaced == false).Path
+
+					})
                     .ToList();
-                var output = this.Output<GetCommentByPostOutputDto>(Constants.ResultCdSuccess);
-                output.ListComment = mapper.Map<List<Comment>, List<CommentOutputDto>>(data);
-                return output;
+				
+				var output = this.Output<GetCommentByPostOutputDto>(Constants.ResultCdSuccess);
+                output.ListComment = data;
+				
+				return output;
             }
             catch (Exception)
             {

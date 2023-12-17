@@ -157,7 +157,8 @@
     <div *ngIf="lstComment.length > 0; else noCommentYet"  class="comments">
 
       <div *ngFor="let com of lstComment" class="comment">
-        <img src="https://petmaster.vn/petroom/wp-content/uploads/2020/04/meo-anh-1.jpg" alt="Avatar" />
+        <img  *ngIf="com.avartar"  src="data:image/gif;base64,{{com.avartar}}" alt="Avatar" />
+        <img *ngIf="!com.avartar" src="assets/image/user.png" alt="Avatar" />
         <div class="comment-content">
           <div class="comment-text">
             <strong>{{com.customerName}}: {{com.commentContent}}</strong>
