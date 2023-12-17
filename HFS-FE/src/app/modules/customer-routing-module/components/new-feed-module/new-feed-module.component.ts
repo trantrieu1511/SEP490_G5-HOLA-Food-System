@@ -233,6 +233,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       if (response && response.message === "Success") {
         this.showMessage(mType.success, "Notification", "Create successfully", 'notify');
         this.getAllComment(this.postId);
+        this.commentModel= new CommentNewFeed();
       } else {
         this.showMessage(mType.success, "Notification", "Create failure", 'notify');
       }
