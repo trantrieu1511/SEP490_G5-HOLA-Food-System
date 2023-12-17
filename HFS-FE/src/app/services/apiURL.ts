@@ -168,6 +168,7 @@ export class API_HOME {
 export class API_SHOP_DETAIL {
     public static DISPLAY_MENU = "foods";
     public static DISPLAY_INFOR = "shopinfor";
+    public static GET_VOUCHER = "voucher"
 }
 
 export class API_CART {
