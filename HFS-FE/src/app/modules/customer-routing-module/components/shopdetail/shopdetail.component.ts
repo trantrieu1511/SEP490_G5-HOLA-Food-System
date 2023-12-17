@@ -50,6 +50,9 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
   uploadedFiles: File[] = [];
   vouchers: any;
   displayMap: boolean = false
+  responsiveOptions: any[] | undefined
+
+
   constructor(
     private shareData: ShareData,
     public messageService: MessageService,
@@ -95,6 +98,25 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
         console.log(this.menuInput)
         this.getMenu(this.menuInput)
         this.getShopInfor()
+        this.getVoucher()
+        this.responsiveOptions = [
+          {
+              breakpoint: '1199px',
+              numVisible: 1,
+              numScroll: 1
+          },
+          {
+              breakpoint: '991px',
+              numVisible: 2,
+              numScroll: 1
+          },
+          {
+              breakpoint: '767px',
+              numVisible: 1,
+              numScroll: 1
+          }
+        ];
+
       });
 
       this.translate.get('shopDetailScreen').subscribe( (text: any) => {
@@ -146,7 +168,7 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
       this.loading = true;
 
       const param = {
-        "sellerId": this.userId
+        "sellerId": this.shopid
       };
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.VOUCHER, API.API_VOUCHER.GET_ALL_VOUCHER, param);
       if (response && response.success == true) {

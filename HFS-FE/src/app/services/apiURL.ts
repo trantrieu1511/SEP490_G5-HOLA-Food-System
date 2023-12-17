@@ -26,6 +26,7 @@ export class PHAN_HE {
     public static CUSTOMER = "customer";
     public static AUTH = "auth";
     public static DASHBOARD = "dashboard";
+    public static CATEGORY = "category";
 }
 
 export class API_TEST {
@@ -234,7 +235,8 @@ export class API_FOODREPORT {
 export class API_PROFILEIMAGE {
     public static GET_PROFILEIMAGE = "getProfileImage";
     public static IMPORT_PROFILEIMAGE = "importProfileImage";
-}
+}import { Category } from './../modules/admin-routing-module/models/Category';
+
 
 export class API_PAYMENT {
     public static GET_URL = "getpaymenturl"
@@ -279,4 +281,8 @@ export class API_WALLET {
     public static WITHDRAW = "withdraw"
     public static UPDATE_WITHDRAW = "updatewithdrawstatus"
     public static DASH_BOARD = "dashboard"
+}
+
+export class API_CATEGORY {
+    public static GET_ALL_CATE_DISPLAY = "getAllCategoryDisplay"
 }
