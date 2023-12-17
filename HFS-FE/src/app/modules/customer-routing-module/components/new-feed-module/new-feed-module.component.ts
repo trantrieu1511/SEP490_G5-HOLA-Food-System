@@ -28,6 +28,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
   commentModel: CommentNewFeed = new CommentNewFeed();
   userId: string;
   postId: number;
+  isSaveButtonDisabled :boolean=true;
   first = 0;
   rows = 10;
   totalRecords = 0;
@@ -107,14 +108,17 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
         console.error('Error copying URL to clipboard');
       }
   }
-
+  checkSaveButtonStatus() {
+    // Example condition: enable the button if both note and status are filled
+    this.isSaveButtonDisabled = !this.commentModel.commentContent.trim;
+}
   async ngOnInit(): Promise<void> {
     await this.getAllPost();
-    
+
 
     if (this.isLoggedIn) {
       await this.checkUsersReportPostCapability();
-      this.enableDisablePostReportButtonSubmit(); // reset nut submit 
+      this.enableDisablePostReportButtonSubmit(); // reset nut submit
     }
 
   }
@@ -168,7 +172,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       this.loading = true;
       let vote = new PostVote();
       vote.postId = item.postId
-      vote.isLike = !item.isLiked      
+      vote.isLike = !item.isLiked
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POST, API.API_NEWFEED.VOTE_POST, vote);
       if (response && response.success === true) {
         this.listPost
@@ -301,7 +305,7 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
 
   openPostReportDialog(postId: number) {
     this.postReport = new PostReport();
-    this.enableDisablePostReportButtonSubmit(); // reset nut submit 
+    this.enableDisablePostReportButtonSubmit(); // reset nut submit
 
     this.postReport.postId = postId;
     this.isVisiblePostReportModal = true;

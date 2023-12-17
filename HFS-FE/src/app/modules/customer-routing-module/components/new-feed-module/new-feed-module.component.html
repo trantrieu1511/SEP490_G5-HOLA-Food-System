@@ -180,10 +180,12 @@
     <ng-template *ngIf="isLoggedIn" pTemplate="footer">
       <div class="comment-form">
         <span class="p-float-label">
-          <textarea id="float-input" rows="4" pInputTextarea [(ngModel)]="commentModel.commentContent" ></textarea>
+          <textarea id="float-input" rows="4" pInputTextarea (input)="checkSaveButtonStatus()"
+          [(ngModel)]="commentModel.commentContent" ></textarea>
           <label for="float-input">Comment here</label>
+
         </span>
-        <button pButton pRipple label="Comment" (click)="OnSaveCommnent(postViewComment.postId)" class="p-button-success" ></button>
+        <button   [disabled]="isSaveButtonDisabled" pButton pRipple label="Comment" (click)="OnSaveCommnent(postViewComment.postId)" class="p-button-success" ></button>
       </div>
     </ng-template>
   </p-dialog>
