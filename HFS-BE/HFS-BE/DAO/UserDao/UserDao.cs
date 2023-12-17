@@ -57,16 +57,41 @@ namespace HFS_BE.DAO.UserDao
                         if (shipper == null)
                             return Output<UserProfileOutputDto>(Constants.ResultCdFail, "User not found.");
 
+                        dataMapper = mapper.Map<Shipper, UserProfile>(shipper);
+                        if (shipper.IdcardNumber != null && shipper.IdcardBackImage != null && shipper.IdcardFrontImage != null) // Check shipper phai co anh cccd moi hien
+                        {
+                            ImageFileConvert.ImageOutputDto? imageInforIdcard1 = null;
+                            ImageFileConvert.ImageOutputDto? imageInforIdcard2 = null;
 
-						ImageFileConvert.ImageOutputDto? imageInforIdcard1 = null;
-						ImageFileConvert.ImageOutputDto? imageInforIdcard2 = null;
-						imageInforIdcard1 = ImageFileConvert.ConvertFileToBase64(shipper.Email, shipper.IdcardBackImage, 7);
-						imageInforIdcard2 = ImageFileConvert.ConvertFileToBase64(shipper.Email, shipper.IdcardFrontImage, 7);
+                            if (shipper.IdcardBackImage != "" && shipper.IdcardFrontImage != "") // Check truong hop ng dung them ca anh mat truoc va mat sau
+                            {   
+                                imageInforIdcard1 = ImageFileConvert.ConvertFileToBase64(shipper.Email, shipper.IdcardBackImage, 7);
+                                imageInforIdcard2 = ImageFileConvert.ConvertFileToBase64(shipper.Email, shipper.IdcardFrontImage, 7);
 
-						dataMapper = mapper.Map<Shipper, UserProfile>(shipper);
-                        dataMapper.IdcardBackImage = imageInforIdcard1.ImageBase64;
-						dataMapper.IdcardFrontImage = imageInforIdcard2.ImageBase64;
-						break;
+                                dataMapper.IdcardBackImage = imageInforIdcard1.ImageBase64;
+                                dataMapper.IdcardFrontImage = imageInforIdcard2.ImageBase64;
+                            }
+                            else if (shipper.IdcardBackImage == "" && shipper.IdcardFrontImage != "") // Check truong hop ng dung them anh mat truoc nhung khong them mat sau
+                            {
+                                imageInforIdcard2 = ImageFileConvert.ConvertFileToBase64(shipper.Email, shipper.IdcardFrontImage, 7);
+
+                                dataMapper.IdcardBackImage = "";
+                                dataMapper.IdcardFrontImage = imageInforIdcard2.ImageBase64;
+                            }
+                            else if (shipper.IdcardBackImage != "" && shipper.IdcardFrontImage == "") // Check truong hop ng dung them anh mat sau nhung khong them mat truoc
+                            {
+                                imageInforIdcard1 = ImageFileConvert.ConvertFileToBase64(shipper.Email, shipper.IdcardBackImage, 7);
+
+                                dataMapper.IdcardBackImage = imageInforIdcard1.ImageBase64;
+                                dataMapper.IdcardFrontImage = "";
+                            }
+                            else // Khong them anh mat truoc va mat sau
+                            {
+                                dataMapper.IdcardBackImage = "";
+                                dataMapper.IdcardFrontImage = "";
+                            }
+                        }
+                        break;
                     case "AD":
                         var admin = context.Admins.SingleOrDefault(ad => ad.AdminId.Equals(userId));
                         if (admin == null)
@@ -175,8 +200,8 @@ namespace HFS_BE.DAO.UserDao
                         {
                             seller.IsPhoneVerified = false;
                         }
-						
-						break;
+
+                        break;
                     case "SH":
                         // Check truong hop so dien thoai da ton tai trong db (So dt bi trung)
                         var shpr = context.Shippers.SingleOrDefault(sh => sh.ShipperId.Equals(userId) == false
@@ -204,7 +229,7 @@ namespace HFS_BE.DAO.UserDao
                         {
                             shipper.IsPhoneVerified = false;
                         }
-               
+
                         break;
                     case "AD":
                         //Tim trong context profile cua user theo id
@@ -485,28 +510,28 @@ namespace HFS_BE.DAO.UserDao
             }
 
         }
-		public BaseOutputDto EditIdCard(ShipperEditInputDto inputDto)
-		{
-			try
-			{
+        public BaseOutputDto EditIdCard(ShipperEditInputDto inputDto)
+        {
+            try
+            {
                 var shipper = context.Shippers.FirstOrDefault(s => s.ShipperId == inputDto.UserId);
                 if (shipper == null)
-				{
-					return Output<BaseOutputDto>(Constants.ResultCdFail);
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail);
 
-				}
+                }
                 shipper.IdcardNumber = inputDto.IdcardNumber;
                 shipper.IdcardFrontImage = inputDto.IdcardFrontImage;
                 shipper.IdcardBackImage = inputDto.IdcardBackImage;
                 context.SaveChanges();
-				return Output<BaseOutputDto>(Constants.ResultCdSuccess);
-			}
-			catch (Exception)
-			{
-				return this.Output<GetOrderInfoOutputDto>(Constants.ResultCdFail);
-			}
-		}
-		public GetOrderInfoOutputDto GetUserInfo(GetOrderInfoInputDto inputDto)
+                return Output<BaseOutputDto>(Constants.ResultCdSuccess);
+            }
+            catch (Exception)
+            {
+                return this.Output<GetOrderInfoOutputDto>(Constants.ResultCdFail);
+            }
+        }
+        public GetOrderInfoOutputDto GetUserInfo(GetOrderInfoInputDto inputDto)
         {
             try
             {

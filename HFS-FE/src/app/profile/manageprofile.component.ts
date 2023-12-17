@@ -38,8 +38,8 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   profileImage: ProfileImage = new ProfileImage();
   profileModal: Profile = new Profile(); // instance dung de bind len modal
   licenseImages: LicenseImage[] = [];
-  uploadedFilesShippper:File[]=[];
-  uploadedFilesShippper2:File[]=[];
+  uploadedFilesShippper: File[] = [];
+  uploadedFilesShippper2: File[] = [];
   // ------------- UI component variables ---------------
   isVisibleChangePasswordModal: boolean = false;
   isVisibleVerifyYourselfModal: boolean = false;
@@ -98,7 +98,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   }
 
   initLabelLang() {
-    this.translate.get('profileScreen').subscribe( (text: any) => {
+    this.translate.get('profileScreen').subscribe((text: any) => {
       this.addUpBtn = text.Addprofileimage;
       this.edtUpBtn = text.Editprofileimage;
       this.None1 = text.None1;
@@ -215,7 +215,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
         const formattedDate = (ddstr != '' ? ddstr : dd) + '/' + (mmstr != '' ? mmstr : mm) + '/' + yyyy;
         this.profileDisplay.birthDate = (formattedDate == "NaN/NaN/NaN" ? '' : formattedDate); // Dang ky bang gg se bi gap truong hop NaN/NaN/NaN nhu vay
 
-         console.log(this.profile);
+        console.log(this.profile);
         // console.log(this.profileDisplay);
 
       } else {
@@ -362,9 +362,9 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
         } else {
           console.log(response);
           // console.log(response.message);
-          if(response.errors){
+          if (response.errors) {
             this.showMessage(mType.error, response.message
-            , response.errors.systemErrors, 'notify');
+              , response.errors.systemErrors, 'notify');
             return;
           }
           this.showMessage(mType.error, 'Notification'
@@ -649,14 +649,14 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   // }
 
 
-  async openVerifyPhonenumberModal(phone: string,userId:string) {
+  async openVerifyPhonenumberModal(phone: string, userId: string) {
     this.isVisibleVerifyPhoneNumberModal = true;
     this.verifyOtp = '';
     this.phoneOtp = phone;
-    this.usedIdOtp=userId;
+    this.usedIdOtp = userId;
     const param = {
       "phoneNumber": phone,
-      "userId":userId
+      "userId": userId
     }
     try {
       debugger;
@@ -717,7 +717,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
         this.showMessage(
           mType.error,
           'Notification',
-          response.message ,
+          response.message,
           'notify'
         );
       }
@@ -738,20 +738,28 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     this.uploadedFilesShippper = [];
     this.uploadedFilesShippper2 = [];
     if (this.profile) {
-
-        var fileimage = this.iFunction.convertImageBase64toFile(this.profile.idcardBackImage , "ID Card Font");
-        this.uploadedFilesShippper.push(fileimage);
-        var fileimage2 = this.iFunction.convertImageBase64toFile(this.profile.idcardFrontImage, "ID Card Back");
-        this.uploadedFilesShippper2.push(fileimage2);
-
+      if (this.profile.idcardNumber != undefined && this.profile.idcardBackImage != undefined && this.profile.idcardFrontImage != undefined) {
+        if (this.profile.idcardBackImage != '' && this.profile.idcardFrontImage != '') { // Co ca 2 mat
+          var fileimage = this.iFunction.convertImageBase64toFile(this.profile.idcardFrontImage, "ID Card Front");
+          this.uploadedFilesShippper.push(fileimage);
+          var fileimage2 = this.iFunction.convertImageBase64toFile(this.profile.idcardBackImage, "ID Card Back");
+          this.uploadedFilesShippper2.push(fileimage2);
+        } else if (this.profile.idcardBackImage == '' && this.profile.idcardFrontImage != '') { // Co anh mat truoc nhung k co mat sau
+          var fileimage = this.iFunction.convertImageBase64toFile(this.profile.idcardFrontImage, "ID Card Front");
+          this.uploadedFilesShippper.push(fileimage);
+        } else if (this.profile.idcardBackImage != '' && this.profile.idcardFrontImage == '') { // Co anh mat sau nhung k co mat truoc
+          var fileimage2 = this.iFunction.convertImageBase64toFile(this.profile.idcardBackImage, "ID Card Back");
+          this.uploadedFilesShippper2.push(fileimage2);
+        }
+      }
     }
     this.isVisibleShipperEditIdDialog = true;
   }
-  async editIdCard(){
+  async editIdCard() {
     debugger
     try {
       const param = new FormData();
-      param.append('idcardNumber',  this.profile.idcardNumber);
+      param.append('idcardNumber', this.profile.idcardNumber);
       param.append('email', this.profile.email);
       this.uploadedFilesShippper.forEach(file => {
         param.append('images1', file, file.name);
@@ -766,7 +774,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
         this.showMessage(mType.success, "Notification"
           , "Update ID CARD image updated successfully", 'notify');
 
-      this.getProfileInfo();
+        this.getProfileInfo();
 
         this.isVisibleShipperEditIdDialog = true;
 
@@ -860,42 +868,42 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       this.showMessage(mType.error, 'Error', 'System error. Please contact admin for further help.', 'notify');
     }
   }
-handleFileSelection1(event: any) {
-  // Lấy ảnh đầu tiên nếu có
-  if (event.files.length > 0) {
-    // Xóa tất cả ảnh đã chọn trước đó
+  handleFileSelection1(event: any) {
+    // Lấy ảnh đầu tiên nếu có
+    if (event.files.length > 0) {
+      // Xóa tất cả ảnh đã chọn trước đó
+      this.uploadedFilesShippper = [];
+      // Thêm ảnh đầu tiên vào mảng
+      this.uploadedFilesShippper.push(event.files[0]);
+    }
+  }
+
+  handleFileRemoval1(event: any) {
+    // Xóa tất cả ảnh khi một ảnh bị xóa
     this.uploadedFilesShippper = [];
-    // Thêm ảnh đầu tiên vào mảng
-    this.uploadedFilesShippper.push(event.files[0]);
   }
-}
 
-handleFileRemoval1(event: any) {
-  // Xóa tất cả ảnh khi một ảnh bị xóa
-  this.uploadedFilesShippper = [];
-}
+  handleAllFilesClear1(event: any) {
+    // Xóa tất cả ảnh khi tất cả các ảnh bị xóa
+    this.uploadedFilesShippper = [];
+  }
+  handleFileSelection2(event: any) {
+    // Lấy ảnh đầu tiên nếu có
+    if (event.files.length > 0) {
+      // Xóa tất cả ảnh đã chọn trước đó
+      this.uploadedFilesShippper2 = [];
+      // Thêm ảnh đầu tiên vào mảng
+      this.uploadedFilesShippper2.push(event.files[0]);
+    }
+  }
 
-handleAllFilesClear1(event: any) {
-  // Xóa tất cả ảnh khi tất cả các ảnh bị xóa
-  this.uploadedFilesShippper = [];
-}
-handleFileSelection2(event: any) {
-  // Lấy ảnh đầu tiên nếu có
-  if (event.files.length > 0) {
-    // Xóa tất cả ảnh đã chọn trước đó
+  handleFileRemoval2(event: any) {
+    // Xóa tất cả ảnh khi một ảnh bị xóa
     this.uploadedFilesShippper2 = [];
-    // Thêm ảnh đầu tiên vào mảng
-    this.uploadedFilesShippper2.push(event.files[0]);
   }
-}
 
-handleFileRemoval2(event: any) {
-  // Xóa tất cả ảnh khi một ảnh bị xóa
-  this.uploadedFilesShippper2 = [];
-}
-
-handleAllFilesClear2(event: any) {
-  // Xóa tất cả ảnh khi tất cả các ảnh bị xóa
-  this.uploadedFilesShippper2 = [];
-}
+  handleAllFilesClear2(event: any) {
+    // Xóa tất cả ảnh khi tất cả các ảnh bị xóa
+    this.uploadedFilesShippper2 = [];
+  }
 }
