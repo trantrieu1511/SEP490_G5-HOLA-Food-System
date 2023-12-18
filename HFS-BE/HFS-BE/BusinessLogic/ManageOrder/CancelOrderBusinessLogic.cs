@@ -101,7 +101,7 @@ namespace HFS_BE.BusinessLogic.ManageOrder
             }
 
             // 2. gen title and content notification
-            var notifyBase = GenerateNotification.GetSingleton().GenNotificationCancelOrder(customerId, order.OrderId);
+            var notifyBase = GenerateNotification.GetSingleton().GenNotificationCancelOrder(customerId, order.OrderId, input.Note);
             //3. add notify
             var noti = notifyDao.AddNewNotification(notifyBase);
             if (!noti.Success)
