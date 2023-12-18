@@ -1,6 +1,6 @@
 <div class="card">
     <h1>Payment Verify</h1>
-    <h3>{{resultText}}</h3>
+    <h3 [style]="status ? 'color : green' : 'color : red'">{{resultText}}</h3>
     <h4>VNPay TranId: {{tranId}}</h4>
     <h4>Value: {{value | currency:'VND'}}</h4>
     <h4>BankCode: {{bankcode}}</h4>

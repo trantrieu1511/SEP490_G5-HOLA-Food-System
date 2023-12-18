@@ -24,7 +24,7 @@
 </div>&nbsp;&nbsp;
 <div style="margin-left: 50px; margin-right: 50px;" class="card">
     <h5>{{'searchCusScreen.SearchList' | translate}}</h5>
-    <p-dataView #dv [value]="searchData" [paginator]="true" [rows]="9" filterBy="name" [sortField]="sortField"
+    <p-dataView #dv [value]="searchData"  filterBy="name" [sortField]="sortField"
         [sortOrder]="sortOrder" layout="list">
         <ng-template pTemplate="header">
             <div class="flex flex-column md:flex-row md:justify-content-between gap-2">
@@ -44,7 +44,9 @@
                         <div class="product-name" (click)="onFoodDetail(product.foodId)">{{product.name}}</div>
                         <div class="product-description">{{'searchCusScreen.Ordered' | translate}}: {{product.numberOrdered}}</div>
                         <p-rating [ngModel]="product.averageStar" [readonly]="true" [cancel]="false"></p-rating>
-                        <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{product.categoryName}}</span>
+                        <br>
+                        <i class="pi pi-tag product-category-icon"></i>
+                        <span class="product-category">{{product.categoryName}}</span>
                     </div>
                     <div class="product-list-action">
                         <span class="product-price">{{product.unitPrice | currency:'VND'}}</span>
@@ -75,6 +77,9 @@
             </div>
         </ng-template>
     </p-dataView>
+    <p-paginator (onPageChange)="onPageChange($event)" [first]="0" [rows]="2"
+            [totalRecords]="total">
+        </p-paginator>
 </div>
 
 <p-toast [baseZIndex]="99999" key="notify"></p-toast>

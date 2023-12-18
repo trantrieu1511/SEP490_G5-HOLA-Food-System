@@ -5,4 +5,6 @@ export class SearchInput{
     searchKey : string
     type : string
     category : number[]
+    pageSize : number
+    pageNum : number
 }
