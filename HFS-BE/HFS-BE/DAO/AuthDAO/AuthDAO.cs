@@ -710,9 +710,10 @@ namespace HFS_BE.Dao.AuthDao
 			var data2 = context.Sellers.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
 			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
 			var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
-			//var data5 = context.Admins.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
-	
-			if (user != null)
+            var accountant = context.Accountants.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
+            //var data5 = context.Admins.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
+
+            if (user != null)
 			{
 				//if (user.IsBanned == true)
 				//{
@@ -722,7 +723,8 @@ namespace HFS_BE.Dao.AuthDao
 				var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(user);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-				return output;
+                output.UserId = user.CustomerId;
+                return output;
 			}
 			else if (data2 != null)
 			{
@@ -733,7 +735,8 @@ namespace HFS_BE.Dao.AuthDao
 				var dapmapper = mapper.Map<Seller, LoginGoogleInputDto>(data2);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-				return output;
+                output.UserId = data2.SellerId;
+                return output;
 			}
 			else if (data3 != null)
 			{
@@ -744,7 +747,8 @@ namespace HFS_BE.Dao.AuthDao
 				var dapmapper = mapper.Map<PostModerator, LoginGoogleInputDto>(data3);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-				return output;
+                output.UserId = data3.ModId;
+                return output;
 			}
 			else if (data4 != null)
 			{
@@ -755,16 +759,26 @@ namespace HFS_BE.Dao.AuthDao
 				var dapmapper = mapper.Map<MenuModerator, LoginGoogleInputDto>(data4);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-				return output;
+                output.UserId = data4.ModId;
+                return output;
 			}
 			else if (data5 != null)
 			{
 				var dapmapper = mapper.Map<Shipper, LoginGoogleInputDto>(data5);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-				return output;
+                output.UserId = data5.ShipperId;
+                return output;
 			}
-			else
+            else if (accountant != null)
+            {
+                var dapmapper = mapper.Map<Accountant, LoginGoogleInputDto>(accountant);
+                JwtSecurityToken token = GenerateSecurityToken(dapmapper);
+                output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+                output.UserId = accountant.AccountantId;
+                return output;
+            }
+            else
 			{
 				var cusall = context.Customers.ToList();
 				int cuschinhId = 0;
@@ -807,11 +821,12 @@ namespace HFS_BE.Dao.AuthDao
 				try
 				{
 					await context.Customers.AddAsync(user1);
-					context.SaveChangesAsync();
+                    await context.SaveChangesAsync();
 					
 					var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(user1);
 					JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 					output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+					output.UserId = user1.CustomerId;
 					return output;
 				}
 				catch (Exception ex)
