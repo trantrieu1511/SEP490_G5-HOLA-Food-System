@@ -21,7 +21,8 @@ namespace HFS_BE.DAO.CartDao
                     .ThenInclude(x => x.Seller)
                     .Include(x => x.Food)
                     .ThenInclude(x => x.FoodImages)
-                    .Where(x => x.CartId == inputDto.CartId)
+                    .Where(x => x.CartId == inputDto.CartId && x.Food.Status == 1
+                            && x.Food.Seller.Status == 1 && !x.Food.Seller.IsBanned.Value && x.Food.Seller.ConfirmedEmail.Value && x.Food.Seller.IsPhoneVerified.Value)
                     .OrderByDescending(x => x.CreateDate)
                     .Select(x => mapper.Map<CartItem, CartItemOutputDto>(x));
 
@@ -49,7 +50,8 @@ namespace HFS_BE.DAO.CartDao
                     .ThenInclude(x => x.Seller)
                     .Include(x => x.Food)
                     .ThenInclude(x => x.FoodImages)
-                    .Where(x => x.CartId == inputDto.CartId)
+                    .Where(x => x.CartId == inputDto.CartId && x.Food.Status == 1
+                            && x.Food.Seller.Status == 1 && !x.Food.Seller.IsBanned.Value && x.Food.Seller.ConfirmedEmail.Value && x.Food.Seller.IsPhoneVerified.Value)
                     .OrderByDescending(x => x.CreateDate)
                     .Select(x => mapper.Map<CartItem, CartItemOutputDto>(x));
 
