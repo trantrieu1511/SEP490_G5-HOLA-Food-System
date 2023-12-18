@@ -40,7 +40,7 @@ export class HomepageComponent extends iComponentBase implements OnInit {
   @ViewChild('dt') table: Table;
 
   first : number = 0;
-  row : number = 9;
+  row : number = 15;
   loading: boolean;
   lstShop: any[];
   hotfoods : any[]
