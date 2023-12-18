@@ -226,12 +226,13 @@
     [draggable]="false"
     [resizable]="false"
     [maximizable]="true"
+    [modal]="true"
   >
     <div class="grid p-fluid">
       <div class="col-12 md:col-12">
         <div class="card">
-          <div class="grid">
-            <h1>{{'checkOutScreen.OrderSuccess' | translate}}</h1>
+          <div style="align-items: center; justify-content: center;" class="grid">
+            <h1 style="color: green;">{{'checkOutScreen.OrderSuccess' | translate}}</h1>
           </div>
         </div>
       </div>
