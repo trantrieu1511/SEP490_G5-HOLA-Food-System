@@ -723,6 +723,7 @@ namespace HFS_BE.Dao.AuthDao
 				var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(user);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+				output.UserId = user.CustomerId;
 				return output;
 			}
 			else if (data2 != null)
@@ -734,6 +735,7 @@ namespace HFS_BE.Dao.AuthDao
 				var dapmapper = mapper.Map<Seller, LoginGoogleInputDto>(data2);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+				output.UserId = data2.SellerId;
 				return output;
 			}
 			else if (data3 != null)
@@ -745,6 +747,7 @@ namespace HFS_BE.Dao.AuthDao
 				var dapmapper = mapper.Map<PostModerator, LoginGoogleInputDto>(data3);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+				output.UserId = data3.ModId;
 				return output;
 			}
 			else if (data4 != null)
@@ -756,6 +759,7 @@ namespace HFS_BE.Dao.AuthDao
 				var dapmapper = mapper.Map<MenuModerator, LoginGoogleInputDto>(data4);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+				output.UserId = data4.ModId;
 				return output;
 			}
 			else if (data5 != null)
@@ -763,6 +767,7 @@ namespace HFS_BE.Dao.AuthDao
 				var dapmapper = mapper.Map<Shipper, LoginGoogleInputDto>(data5);
 				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+				output.UserId = data5.ShipperId;
 				return output;
 			}
 			else
@@ -813,7 +818,9 @@ namespace HFS_BE.Dao.AuthDao
 					var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(user1);
 					JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 					output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-					return output;
+					output.UserId = user1.CustomerId;
+
+                    return output;
 				}
 				catch (Exception ex)
 				{
