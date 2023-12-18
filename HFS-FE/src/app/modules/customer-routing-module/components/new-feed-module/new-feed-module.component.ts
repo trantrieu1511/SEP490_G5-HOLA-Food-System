@@ -14,6 +14,7 @@ import { PostReport } from '../../models/postreport.model';
 import { LayoutService } from '../../../../layout/service/app.layout.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ClipboardModule, ClipboardService } from 'ngx-clipboard';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-new-feed-module',
@@ -80,7 +81,8 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
     private dataService: DataService,
     public layoutService: LayoutService,
     private authService: AuthService,
-    private clipboard: ClipboardService
+    private clipboard: ClipboardService,
+    public translate: TranslateService
   ) {
     super(messageService);
 
