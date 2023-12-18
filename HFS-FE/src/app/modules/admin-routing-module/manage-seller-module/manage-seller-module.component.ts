@@ -102,6 +102,13 @@ this.getAllSeller();
     this.banseller.isBanned=!user.isBanned;
 console.log(this.banseller);
   }
+  UnBanSeller(user:Seller){
+    this.headerDialog="Unban Id: "+user.sellerId;
+    this.displayDialogBan = true;
+    this.banseller.sellerId=user.sellerId;
+    this.banseller.isBanned=!user.isBanned;
+console.log(this.banseller);
+  }
   async onSaveBan(){
     console.log(this.banseller);
     try{
