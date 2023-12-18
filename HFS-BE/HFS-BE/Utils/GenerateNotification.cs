@@ -80,15 +80,15 @@ namespace HFS_BE.Utils
             return notifyLst;
         }
 
-        public List<NotificationAddNewInputDto> GenNotificationCancelOrder(string receiver, int orderId)
+        public List<NotificationAddNewInputDto> GenNotificationCancelOrder(string receiver, int orderId, string note)
         {
             var notifyLst = GenNotificationBase(receiver, "System", "System"); 
 
             notifyLst[0].Title = "Update order";
-            notifyLst[0].Content = $"Order ID: {orderId} has been cancelled";
+            notifyLst[0].Content = $"Order ID: {orderId} has been cancelled, Reason: {note}";
 
             notifyLst[1].Title = "Cập nhật đơn hàng";
-            notifyLst[1].Content = $"Đơn hàng ID: {orderId} đã bị từ chối";
+            notifyLst[1].Content = $"Đơn hàng ID: {orderId} đã bị từ chối, Lý do: {note}";
 
             return notifyLst;
         }

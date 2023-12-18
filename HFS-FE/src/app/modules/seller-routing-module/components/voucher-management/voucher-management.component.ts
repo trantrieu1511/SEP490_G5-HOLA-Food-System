@@ -221,7 +221,7 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
         this.showMessage(mType.success, "Notification", "Update successfully", 'notify');
         this.displayDialogEditAddVoucher = false;
       }else{
-        this.showMessage(mType.success, "Notification", "Update failure", 'notify');
+        this.showMessage(mType.error, "Notification", response.message, 'notify');
       }
     } catch (e) {
       console.log(e);
@@ -231,25 +231,28 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
   async createVoucher(voucherEntity : VoucherInput){
     try {
       
-      const param = new FormData();  
-      //this.userId = sessionStorage.getItem('userId');  
-      param.append('sellerId',this.userId);    
-      param.append('discountAmount',voucherEntity.discountAmount.toString());
-      param.append('minimumOrderValue',voucherEntity.minimumOrderValue.toString());
-      param.append('effectiveDate',voucherEntity.effectiveDate.toString());
-      param.append('expireDate',voucherEntity.expireDate.toString());
-
+      const param = {
+        sellerId: this.userId,
+        discountAmount: voucherEntity.discountAmount,
+        minimumOrderValue: voucherEntity.minimumOrderValue,
+        effectiveDate: voucherEntity.effectiveDate,
+        expireDate: voucherEntity.expireDate
+      };  
+      
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.VOUCHER, API.API_VOUCHER.CREATE_VOUCHER,param,true);
       if (response && response.message === "Success") {
         this.GetAllVoucher();
         this.showMessage(mType.success, "Notification", "Create successfully", 'notify');
         this.displayDialogEditAddVoucher = false;
       }else{
-        this.showMessage(mType.error, "Notification", "Create failure", 'notify');
+        var messageError = this.iServiceBase.formatMessageError(response);
+        console.log(messageError);
+        this.showMessage(mType.error, response.message, messageError, 'notify');
+        //his.showMessage(mType.error, "Notification", response.message, 'notify');
       }
     } catch (e) {
       console.log(e);
-        this.showMessage(mType.error, "Notification", "Create failure", 'notify');
+        this.showMessage(mType.error, "Notification", "Create failure alo", 'notify');
     }
   }
   
