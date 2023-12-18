@@ -1,10 +1,10 @@
 <div class="grid table-demo">
     <div class="col-12">
         <div class="card">
-            <h5>Post report management</h5>
+            <h5>{{'adPostRpManagementScreen.Postreportmanagement' | translate}}</h5>
             <p-table #dt [value]="lstPostReport" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
                 [rows]="10" [showCurrentPageReport]="true" [paginator]="lstPostReport.length > 5" [filterDelay]="0"
-                [rowsPerPageOptions]="[5,10,25,50]" currentPageReportTemplate="Total: {totalRecords} post reports"
+                [rowsPerPageOptions]="[5,10,25,50]" currentPageReportTemplate="{{'adPostRpManagementScreen.Total' | translate}}: {totalRecords} {{'adPostRpManagementScreen.postreports' | translate}}"
                 [globalFilterFields]="['reportContent']" responsiveLayout="scroll" [loading]="loading">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-row align-items-center flex-wrap justify-content-between ">
@@ -13,7 +13,7 @@
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text" #textInput
                                     (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                    placeholder="Search post report by report content" />
+                                    placeholder="{{'adPostRpManagementScreen.Searchpostreport' | translate}}" />
                             </span>
                         </div>
                     </div>
@@ -22,7 +22,7 @@
                     <tr>
                         <th pSortableColumn="postId">
                             <div class="flex justify-content-between align-items-center">
-                                Post id
+                                {{'adPostRpManagementScreen.PostId' | translate}}
                                 <p-sortIcon field="postId"></p-sortIcon>
                                 <p-columnFilter type="numeric" field="postId" display="menu"
                                     class="ml-auto"></p-columnFilter>
@@ -30,7 +30,7 @@
                         </th>
                         <th pSortableColumn="reportBy">
                             <div class="flex justify-content-between align-items-center">
-                                Report by
+                                {{'adPostRpManagementScreen.ReportBy' | translate}}
                                 <p-sortIcon field="reportBy"></p-sortIcon>
                                 <p-columnFilter type="text" field="reportBy" display="menu"
                                     class="ml-auto"></p-columnFilter>
@@ -38,7 +38,7 @@
                         </th>
                         <th pSortableColumn="reportContent">
                             <div class="flex justify-content-between align-items-center">
-                                Report content
+                                {{'adPostRpManagementScreen.ReportContent' | translate}}
                                 <p-sortIcon field="reportContent"></p-sortIcon>
                                 <p-columnFilter type="text" field="reportContent" display="menu"
                                     class="ml-auto"></p-columnFilter>
@@ -46,7 +46,7 @@
                         </th>
                         <th pSortableColumn="createDate">
                             <div class="flex justify-content-between align-items-center">
-                                Created date
+                                {{'adPostRpManagementScreen.CreatedDate' | translate}}
                                 <p-sortIcon field="createDate"></p-sortIcon>
                                 <p-columnFilter type="text" field="createDate" display="menu"
                                     class="ml-auto"></p-columnFilter>
@@ -54,7 +54,7 @@
                         </th>
                         <th pSortableColumn="updateDate">
                             <div class="flex justify-content-between align-items-center">
-                                Updated date
+                                {{'adPostRpManagementScreen.UpdatedDate' | translate}}
                                 <p-sortIcon field="updateDate"></p-sortIcon>
                                 <p-columnFilter type="text" field="updateDate" display="menu"
                                     class="ml-auto"></p-columnFilter>
@@ -62,7 +62,7 @@
                         </th>
                         <th pSortableColumn="updateBy">
                             <div class="flex justify-content-between align-items-center">
-                                Updated by
+                                {{'adPostRpManagementScreen.UpdatedBy' | translate}}
                                 <p-sortIcon field="updateBy"></p-sortIcon>
                                 <p-columnFilter type="text" field="updateBy" display="menu"
                                     class="ml-auto"></p-columnFilter>
@@ -70,7 +70,7 @@
                         </th>
                         <th pSortableColumn="status">
                             <div class="flex justify-content-between align-items-center">
-                                Status
+                                {{'adPostRpManagementScreen.Status' | translate}}
                                 <p-sortIcon field="status"></p-sortIcon>
                                 <p-columnFilter type="text" field="status" display="menu"
                                     class="ml-auto"></p-columnFilter>
@@ -78,7 +78,7 @@
                         </th>
                         <th pSortableColumn="note">
                             <div class="flex justify-content-between align-items-center">
-                                Note
+                                {{'adPostRpManagementScreen.Note' | translate}}
                                 <p-sortIcon field="status"></p-sortIcon>
                                 <p-columnFilter type="text" field="note" display="menu"
                                     class="ml-auto"></p-columnFilter>
@@ -86,7 +86,7 @@
                         </th>
                         <th style="min-width: 8rem">
                             <div class="flex justify-content-between align-items-center">
-                                Action
+                                {{'adPostRpManagementScreen.Action' | translate}}
                             </div>
                         </th>
                     </tr>
@@ -94,36 +94,36 @@
                 <ng-template pTemplate="body" let-postrp>
                     <tr class="p-selectable-row">
                         <td>
-                            <span class="p-column-title">postId</span>
+                            <span class="p-column-title">{{'adPostRpManagementScreen.PostId' | translate}}</span>
                             <span class="">{{postrp.postId}}</span>
                         </td>
                         <td>
-                            <span class="p-column-title">reportBy</span>
+                            <span class="p-column-title">{{'adPostRpManagementScreen.ReportBy' | translate}}</span>
                             {{postrp.reportBy}}
                         </td>
                         <td>
-                            <span class="p-column-title">ReportContent</span>
+                            <span class="p-column-title">{{'adPostRpManagementScreen.ReportContent' | translate}}</span>
                             <span class="report-content"
                                 (click)="viewContentDetail(postrp.reportContent)">{{postrp.reportContent}}</span>
                         </td>
                         <td>
-                            <span class="p-column-title">CreatedDate</span>
+                            <span class="p-column-title">{{'adPostRpManagementScreen.CreatedDate' | translate}}</span>
                             {{postrp.createDate}}
                         </td>
                         <td>
-                            <span class="p-column-title">UpdatedDate</span>
+                            <span class="p-column-title">{{'adPostRpManagementScreen.UpdatedDate' | translate}}</span>
                             {{postrp.updateDate}}
                         </td>
                         <td>
-                            <span class="p-column-title">UpdatedBy</span>
+                            <span class="p-column-title">{{'adPostRpManagementScreen.UpdatedBy' | translate}}</span>
                             {{postrp.updateBy}}
                         </td>
                         <td>
-                            <span class="p-column-title">Status</span>
+                            <span class="p-column-title">{{'adPostRpManagementScreen.Status' | translate}}</span>
                             <p-tag [value]="postrp.status" [severity]="getSeverity(postrp.status)"></p-tag>
                         </td>
                         <td>
-                            <span class="p-column-title">Note</span>
+                            <span class="p-column-title">{{'adPostRpManagementScreen.Note' | translate}}</span>
                             {{postrp.note}}
                         </td>
                         <td>
@@ -150,7 +150,7 @@
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="8">No post report yet.</td>
+                        <td colspan="8">{{'adPostRpManagementScreen.emptymessage' | translate}}</td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -165,12 +165,12 @@
         <span class="p-float-label">
             <textarea class="w-full" id="float-input" rows="5" cols="40" [(ngModel)]="postReport.note"
                 pInputTextarea></textarea>
-            <label for="float-input">Enter some note (Optional)</label>
+            <label for="float-input">{{'adPostRpManagementScreen.Entersomenote' | translate}}</label>
         </span>
     </div>
     <div style="display: flex;">
-        <p-button (click)="approveNotApprovePost(postReport)">Save</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <p-button [text]="true" (onClick)="isVisibleApproveNotApproveModal = false">Cancel</p-button>
+        <p-button (click)="approveNotApprovePost(postReport)">{{'adPostRpManagementScreen.Save' | translate}}</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <p-button [text]="true" (onClick)="isVisibleApproveNotApproveModal = false">{{'adPostRpManagementScreen.Cancel' | translate}}</p-button>
     </div>
 </p-dialog>
 
