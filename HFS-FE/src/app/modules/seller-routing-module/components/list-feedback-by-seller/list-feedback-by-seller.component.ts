@@ -11,6 +11,7 @@ import { MessageService } from 'primeng/api';
 import { FeedBackSeller, ReplySeller } from '../../models/feedbackseller.model';
 import { Router } from '@angular/router';
 import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-list-feedback-by-seller',
   templateUrl: './list-feedback-by-seller.component.html',
@@ -28,6 +29,7 @@ export class ListFeedbackBySellerComponent extends iComponentBase implements OnI
   feedreply:ReplySeller = new ReplySeller();
   visibleImageDialog:boolean=false;
   displayDialogReply:boolean=false;
+  Reply1:string;
   constructor( private shareData: ShareData,
     public messageService: MessageService,
     private iServiceBase: iServiceBase,
@@ -35,9 +37,12 @@ export class ListFeedbackBySellerComponent extends iComponentBase implements OnI
     private _router: Router,
     private authSerice: AuthService,
     public breadcrumbService: AppBreadcrumbService,
+    public translate: TranslateService
   ){
     super(messageService, breadcrumbService);
-
+    this.translate.get('feedBackSellerScreen').subscribe( (text: any) => {
+      this.Reply1 = text.Reply;  
+    });
     this.breadcrumbService.setItems([
       {label: 'HFSBusiness'},
       {label: 'Feedback Management', routerLink: ['/HFSBusiness/seller/reply']}
@@ -72,7 +77,7 @@ export class ListFeedbackBySellerComponent extends iComponentBase implements OnI
 }
    Reply(feed:FeedBackSeller){
     this.displayDialogReply = true;
-    this.contentDialog="Reply "+feed.feedbackId
+    this.contentDialog= this.Reply1 + feed.feedbackId
     this.feedreply.customerId=feed.customerId;
     //this.feedreply.sellerId=sessionStorage.getItem('userId');
     this.feedreply.sellerId = this.user.userId

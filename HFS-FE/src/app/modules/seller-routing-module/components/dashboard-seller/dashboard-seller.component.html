@@ -4,7 +4,7 @@
 
             <div class="col-12 md:col-12">
                 <div class="col-12 mb-2 lg:col-4 mb-lg-0">
-                  <label style="margin-right: 1rem">Data time: </label>
+                  <label style="margin-right: 1rem">{{'dashSellerScreen.Datatime' | translate}}: </label>
                   <p-calendar
                     [(ngModel)]="rangeDates"
                     selectionMode="range"
@@ -18,7 +18,7 @@
             <div class="overview-list">
                 <div class="overview-item" (click)="chooseLine(0)" [class.choose-item-order]="chooseDisplayLine == 0">
                     <span>
-                        <div class="title">Order: </div>
+                        <div class="title">{{'dashSellerScreen.Order' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{dataDashboard.orderCount}}</span>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="overview-item" (click)="chooseLine(1)" [class.choose-item-amount]="chooseDisplayLine == 1">
                     <span>
-                        <div class="title">Estimated Amount(đ): </div>
+                        <div class="title">{{'dashSellerScreen.EstimatedAmount' | translate}}(đ): </div>
                     </span>
                     <div class="data">
                         <span>{{dataDashboard.amountCount | currency : "VND"}}</span>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="overview-item" (click)="chooseLine(2)" [class.choose-item-sold]="chooseDisplayLine == 2">
                     <span>
-                        <div class="title">Number of dishes sold: </div>
+                        <div class="title">{{'dashSellerScreen.Numberofdishessold' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{dataDashboard.soldCount}}</span>

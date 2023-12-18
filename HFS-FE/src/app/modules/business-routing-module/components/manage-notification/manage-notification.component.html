@@ -1,18 +1,18 @@
 <div class="grid table-demo" >
     <div class="col-12">
         <div class="card">
-            <h5>Notification Management</h5>
+            <h5>{{'notiScreen.NotificationManagement' | translate}}</h5>
 
             <p-dataView [value]="lstNotification" [rows]="10" [paginator]="true">
                 <ng-template pTemplate="header">
                     <div class="flex flex-column md:flex-row md:justify-content-between">
-                        <button pButton type="button" label="Mark all notifications as read" 
+                        <button pButton type="button" label="{{'notiScreen.Markallnotificationsasread' | translate}}" 
                             (click)="onMarkAllRead()"
                             [class.mark-all_disabled]="!isNewNotify"
                             style="width: auto; background-color: #f17126"></button>
                     </div>
                 </ng-template>
-                <ng-template let-notify pTemplate="listItem" >
+                <ng-template let-notify pTemplate="{{'notiScreen.listItem' | translate}}" >
                     <!-- <div class="flex align-items-center p-3 w-full flex-wrap">
                         <div class="flex-1">
                             <h5 class="mb-2 text-base">{{ product.name }}</h5>
