@@ -31,7 +31,7 @@ namespace HFS_BE.Dao.ShopDao
                     .ThenInclude(x => x.FoodImages)
                     .Include(x => x.Orders)
                     .ThenInclude(x => x.OrderDetails)
-                    .Where(x => x.Status == 1&&x.IsBanned==false).ToList();
+                    .Where(x => x.Status == 1 && x.IsBanned == false && x.ConfirmedEmail.Value && x.IsPhoneVerified.Value).ToList();
 
                 DisplayShopDaoOutputDto outputDto = this.Output<DisplayShopDaoOutputDto>(Constants.ResultCdSuccess);
                 //output = this.Paginate(output, inputDto.Pagination);
@@ -90,7 +90,7 @@ namespace HFS_BE.Dao.ShopDao
                 }
 
                 var data = listshop.Where(x => x.FoodImages.Count >= 3).ToList();
-                outputDto.total = data.Count();
+                outputDto.Total = data.Count();
                 outputDto.ListShop = data.Skip(inputDto.pageSize.Value *inputDto.pageNum.Value).Take(inputDto.pageSize.Value).ToList();
 
                 return outputDto;
@@ -180,14 +180,15 @@ namespace HFS_BE.Dao.ShopDao
                     .ThenInclude(x => x.Feedbacks)
                     .Include(x => x.Orders)
                     .ThenInclude(x => x.OrderDetails)
-                    .Where(x => x.Status == 1&&x.IsBanned==false).ToList();
+                    .Where(x => x.Status == 1 && x.IsBanned == false && x.ConfirmedEmail.Value && x.IsPhoneVerified.Value)
+                    .ToList();
 
                 DisplayShopDaoOutputDto outputDto = this.Output<DisplayShopDaoOutputDto>(Constants.ResultCdSuccess);
                 //output = this.Paginate(output, inputDto.Pagination);
                 var listshop = new List<ShopDto>();
                 foreach (var item in output)
                 {
-                    if (!string.IsNullOrEmpty(key) && (!RemoveAccents(item.ShopName).Contains(key) || item.SellerId.Contains(key)))
+                    if (!string.IsNullOrEmpty(key) && (!RemoveAccents(item.ShopName).Contains(key) && !item.SellerId.Contains(key)))
                     {
                         continue;
                     }
@@ -232,8 +233,8 @@ namespace HFS_BE.Dao.ShopDao
                     listshop.Add(shop);
                 }
 
-                outputDto.ListShop = listshop;
-
+                outputDto.Total = listshop.Count();
+                outputDto.ListShop = listshop.Skip(inputDto.pageSize.Value * inputDto.pageNum.Value).Take(inputDto.pageSize.Value).ToList();
 
                 return outputDto;
             }

@@ -11,7 +11,12 @@ import { AddToCart } from '../../models/addToCart.model';
 import { Shop } from '../../models/shop.model';
 import { ShoppingCartPopupService } from 'src/app/services/shopping-cart-popup.service';
 import { TranslateService } from '@ngx-translate/core';
-
+interface PageEvent {
+  first?: number;
+  rows?: number;
+  page?: number;
+  pageCount?: number;
+}
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -30,7 +35,8 @@ export class SearchComponent extends iComponentBase implements OnInit {
   searchOptions: any = "0"
   lstCategory: any[];
   searchCategory: number[] = []
-  list : any[]
+  list : any
+  total : number
   constructor(private shareData: ShareData,
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -47,19 +53,27 @@ export class SearchComponent extends iComponentBase implements OnInit {
   }
 
   async ngOnInit() {
-    
       this._route.queryParams.subscribe(params => {
       this.searchInput.searchKey = params['key'];
       this.searchText = params['key'];
-      this.list = params['category'];
-      this.list.forEach(x => {
-        this.searchCategory.push(parseInt(x));
-      })
+      this.list = params['category']; // "1" [""]
+      if (this.list instanceof Array){
+        this.list.forEach(x => {
+          this.searchCategory.push(parseInt(x));
+        })
+      }
+      else{
+        if (this.list){
+          this.searchCategory.push(parseInt(this.list));
+        }       
+      }
       this.type = params['type'];
       this.searchOptions = params['type'];
       this.searchInput.type = params['type']
       this.searchInput.category = this.searchCategory
     })
+    this.searchInput.pageNum = 0;
+    this.searchInput.pageSize = 2;
     await this.getCategory()
     this.onGetSearchData()
     
@@ -83,6 +97,12 @@ export class SearchComponent extends iComponentBase implements OnInit {
       { label: text.StarLowtoHigh, value: 'star' }]
     });
       console.log(this.searchCategory);
+  }
+
+  onPageChange(event: PageEvent) {
+    this.searchInput.pageNum = event.page;
+    this.searchInput.pageSize = event.rows
+    this.onGetSearchData();
   }
 
   async getCategory() {
@@ -121,6 +141,7 @@ export class SearchComponent extends iComponentBase implements OnInit {
           this.searchData = response.listFood;
         }
         else this.searchData = response.listShop;
+        this.total = response.total
       }
       this.loading = false;
     } catch (e) {

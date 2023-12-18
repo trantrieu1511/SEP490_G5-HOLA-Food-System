@@ -28,6 +28,7 @@ namespace HFS_BE.Dao.FoodDao
     public class FoodShopDaoOutputDto : BaseOutputDto
     {
         public List<FoodOutputDto> ListFood { get; set; }
+        public int Total { get; set; }
     }
 
     public class FoodOutputSellerDto : BaseOutputDto

@@ -129,7 +129,6 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     this.first = event.first;
     this.rows = event.rows;
     this.displayFeedback = this.feedbacks.filter(x => x.star === star).slice(event.page, event.rows);
-    console.log(this.displayFeedback)
   }
 
   onTabChange(event: TabViewChangeEvent) {

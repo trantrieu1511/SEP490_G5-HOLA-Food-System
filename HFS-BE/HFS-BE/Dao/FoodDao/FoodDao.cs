@@ -498,7 +498,7 @@ namespace HFS_BE.Dao.FoodDao
                     if (total == 12) break;
                 }
 
-                listfood = listfood.OrderByDescending(x => x.NumberOrdered).ThenByDescending(x => x.AverageStar).Take(10).ToList();
+                listfood = listfood.OrderByDescending(x => x.NumberOrdered).ThenByDescending(x => x.AverageStar).ToList();
 
                 var output = this.Output<FoodShopDaoOutputDto>(Constants.ResultCdSuccess);
                 output.ListFood = listfood;
@@ -567,7 +567,8 @@ namespace HFS_BE.Dao.FoodDao
 
 
                 var output = this.Output<FoodShopDaoOutputDto>(Constants.ResultCdSuccess);
-                output.ListFood = listfood;
+                output.Total = listfood.Count();
+                output.ListFood = listfood.Skip(inputDto.pageSize.Value * inputDto.pageNum.Value).Take(inputDto.pageSize.Value).ToList();
                 return output;
             }
             catch (Exception)
