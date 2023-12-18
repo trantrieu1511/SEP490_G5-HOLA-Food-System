@@ -846,7 +846,10 @@
     "SignUp": "Đăng ký",
     "Customer": "Khách hàng",
     "Seller": "Người bán",
-    "Shipper": "Người giao hàng"
+    "Shipper": "Người giao hàng",
+    "IdCard":"Số Căn Cước",
+    "FontIDCard":"Ảnh mặt trước thẻ căn cước",
+    "BackIDCard":"Ảnh mặt sau thẻ căn cước"
   },
   "searchCusScreen": {
     "SortBy": "Sắp xếp theo",
