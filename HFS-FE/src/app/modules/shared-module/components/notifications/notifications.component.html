@@ -22,7 +22,7 @@
                             style="flex-grow: 1;"
                             >
                         <div class="flex align-items-center justify-content-center mb-1" style="min-height: 10rem;">
-                            Login to view Notifications
+                            {{'notiScreen.LogintoviewNotifications' | translate}}
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                         <div class="flex align-items-center justify-content-center mb-1">
                             <button  pButton pRipple style="flex-grow: 1; text-align: center;"
                                 routerLink="/login"
-                                class="p-button-text p-button-Primary justify-content-center">Login</button>
+                                class="p-button-text p-button-Primary justify-content-center">{{'notiScreen.Login' | translate}}</button>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                                 style="flex-grow: 1;"
                                 >
                             <div class="flex align-items-center justify-content-center mb-1" style="min-height: 10rem;">
-                                You have no Notifications
+                                {{'notiScreen.YouhavenoNotifications' | translate}}
                             </div>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                         <div class="flex align-items-center justify-content-center mb-1">
                             <a class="text-sm font-bold link-btn"
                             (click)="onViewAll($event)"
-                            >View All Notifications</a>
+                            >{{'notiScreen.ViewAllNotifications' | translate}}</a>
                             <i class="text-sm pi pi-chevron-right"
                                 style="margin-left: 0.3rem; color: #212121; margin-top: 0.2rem;"
                             ></i>
@@ -99,7 +99,7 @@
                         <div class="flex align-items-center justify-content-center">
                             <a class="text-xs font-bold text-600 link-btn" 
                             [class.mark-all_disabled]="!isNewNotify"
-                            (click)="onMarkAllRead()">Mark all notifications as read</a>
+                            (click)="onMarkAllRead()">{{'notiScreen.Markallnotificationsasread' | translate}}</a>
                         </div>
                     </div>
                 </div>

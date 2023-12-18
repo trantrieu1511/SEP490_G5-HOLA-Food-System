@@ -29,6 +29,8 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
   check :boolean = false;
   displayDialogEditAddVoucher: boolean = false;
   check2: boolean = true;
+  header1:string;
+  header2:string;
 
   constructor(
     public breadcrumbService: AppBreadcrumbService,
@@ -48,6 +50,11 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
       {label: 'HFSBusiness'},
       {label: 'Voucher Management', routerLink: ['/HFSBusiness/seller/voucher-management']}
     ]);
+
+    this.translate.get('voucherScreen').subscribe( (text: any) => {
+      this.header1 = text.AddNewVoucher;  
+      this.header2 = text.EditVoucher;
+    });
   }
   ngOnInit(): void {
     this.userId = this.authService.getUserInfor().userId;
@@ -177,7 +184,7 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
   }
 
   onCreateVoucher(){
-    this.headerDialog = 'Add New Voucher';
+    this.headerDialog = this.header1;
 
     this.voucherModel = new Voucher();
 
@@ -185,7 +192,7 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
   }
 
   onUpdateVoucher(voucher: Voucher) {
-    this.headerDialog = `Edit Voucher: ${voucher.code}`;
+    this.headerDialog = this.header2 + voucher.code;
 
     this.displayDialogEditAddVoucher=true;
 
@@ -238,7 +245,7 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
         this.showMessage(mType.success, "Notification", "Create successfully", 'notify');
         this.displayDialogEditAddVoucher = false;
       }else{
-        this.showMessage(mType.success, "Notification", "Create failure", 'notify');
+        this.showMessage(mType.error, "Notification", "Create failure", 'notify');
       }
     } catch (e) {
       console.log(e);

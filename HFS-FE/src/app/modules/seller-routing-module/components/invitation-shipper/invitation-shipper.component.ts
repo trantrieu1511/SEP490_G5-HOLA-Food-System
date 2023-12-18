@@ -28,6 +28,9 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
   headerDialog: string = '';
   addShipper:string;
   postM:PostModerator=new PostModerator();
+  header1:string;
+
+
   constructor( private shareData: ShareData,
     public messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -45,6 +48,9 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
       {label: 'Shipper Management', routerLink: ['/HFSBusiness/seller/shipper-management']}
     ]);
 
+    this.translate.get('shipperSellerScreen').subscribe( (text: any) => {
+      this.header1 = text.ListInvitation; 
+    });
   }
 
   ngOnInit(): void {
@@ -119,7 +125,7 @@ export class InvitationShipperComponent extends iComponentBase implements OnInit
   }
   }
   onInvitation(){
-    this.headerDialog = 'List Invitation';
+    this.headerDialog = this.header1;
     this.displayDialogAdd = true;
    // 
     this.getInvitation();
