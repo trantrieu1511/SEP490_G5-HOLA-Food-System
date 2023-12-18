@@ -9,7 +9,7 @@ namespace HFS_BE.Utils.CustomValidation
         {
             if (value is DateTime dateTime)
             {
-                return dateTime >= DateTime.Now;
+                return dateTime.Date >= DateTime.Now.Date;
             }
             return false;
         }
