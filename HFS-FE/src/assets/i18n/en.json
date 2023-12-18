@@ -847,7 +847,10 @@
     "Customer": "Customer",
     "Seller": "Seller",
     "Shipper": "Shipper",
-    "SignUp": "Sign Up"
+    "SignUp": "Sign Up",
+    "IdCard":"Id card number",
+    "FontIDCard":"Id card front",
+    "BackIDCard":"Id card back"
   },
   "searchCusScreen": {
     "SortBy": "Sort By",
@@ -927,7 +930,7 @@
     "ViewAllNotifications":"View All Notifications",
     "Markallnotificationsasread":"Mark all notifications as read"
   },
-  
+
   "footerScreen": {
     "Contactforcooperation":"Contact for cooperation",
     "Connectwithus":"Connect with us"
