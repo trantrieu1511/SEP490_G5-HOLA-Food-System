@@ -832,7 +832,7 @@ namespace HFS_BE.Dao.AuthDao
 				try
 				{
 					await context.Customers.AddAsync(user1);
-					context.SaveChangesAsync();
+					await context.SaveChangesAsync();
 					var userregistergoogle = context.Customers.Where(x => x.Email.ToLower() == payload.Email).FirstOrDefault();
 					var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(userregistergoogle);
 					JwtSecurityToken token = GenerateSecurityToken(dapmapper);
