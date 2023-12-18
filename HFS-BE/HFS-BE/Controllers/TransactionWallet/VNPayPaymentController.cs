@@ -31,8 +31,8 @@ namespace HFS_BE.Controllers.TransactionWallet
                 string vnp_TmnCode = "UL1C3DJ9";
                 string vnp_HashSecret = "WEEDAMWSSYKXZVVRHGSSPRDZLICKFZMN";
                 string vnp_Returnurl = "";
-                if (userInfo.Role.Equals("CU")) vnp_Returnurl = "http://localhost:4200/paymentverify";
-                else if (userInfo.Role.Equals("SE")) vnp_Returnurl = "http://localhost:4200/HFSBusiness/seller/paymentverify";
+                if (userInfo.Role.Equals("CU")) vnp_Returnurl = "https://holafood.id.vn/paymentverify";
+                else if (userInfo.Role.Equals("SE")) vnp_Returnurl = "https://holafood.id.vn/HFSBusiness/seller/paymentverify";
                 string ipAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 
                 // Create TransactionHistory
