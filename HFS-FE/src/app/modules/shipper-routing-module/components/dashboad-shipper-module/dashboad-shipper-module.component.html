@@ -4,7 +4,7 @@
 
           <div class="col-12 md:col-12">
               <div class="col-12 mb-2 lg:col-4 mb-lg-0">
-                <label style="margin-right: 1rem">Data time: </label>
+                <label style="margin-right: 1rem">{{'dashboadShipperScreen.Datatime' | translate}}: </label>
                 <p-calendar
                   [(ngModel)]="rangeDates"
                   selectionMode="range"
@@ -18,7 +18,7 @@
           <div class="overview-list">
               <div class="overview-item">
                   <span>
-                      <div class="title">Total Order: </div>
+                      <div class="title">{{'dashboadShipperScreen.TotalOrder' | translate}}: </div>
                   </span>
                   <div class="data">
                   <span>{{datatotal.total}}</span>
@@ -30,21 +30,21 @@
               </div>
               <div class="overview-item">
                   <span>
-                      <div class="title">Order Day: </div>
+                      <div class="title">{{'dashboadShipperScreen.OrderDay' | translate}}: </div>
                   </span>
                   <div class="data">
                     <span>{{datatotal.orderDay}}</span>
                       <div class="data-percent"
 
                       >
-                      Complete:{{datatotal.orderDayCom}}
-                      InComplete:{{datatotal.orderDayInCom}}
+                      {{'dashboadShipperScreen.Complete' | translate}}:{{datatotal.orderDayCom}}
+                      {{'dashboadShipperScreen.InComplete' | translate}}:{{datatotal.orderDayInCom}}
                       </div>
                   </div>
               </div>
               <div class="overview-item">
                   <span>
-                      <div class="title">Amout Day(đ) </div>
+                      <div class="title">{{'dashboadShipperScreen.AmoutDay' | translate}}(đ) </div>
                   </span>
                   <div class="data">
                     <span>{{datatotal.amoutDay}}</span>
@@ -59,7 +59,7 @@
           <div class="overview-list">
             <div class="overview-item">
                 <span>
-                    <div class="title">Order Month: </div>
+                    <div class="title">{{'dashboadShipperScreen.OrderMonth' | translate}}: </div>
                 </span>
                 <div class="data">
                   <span>{{datatotal.orderMonth
@@ -67,15 +67,15 @@
                     <div class="data-percent"
 
                     >
-                    Complete:{{datatotal.orderMothCom}}
-                    InComplete:{{datatotal.orderMothInCom}}
+                    {{'dashboadShipperScreen.Complete' | translate}}:{{datatotal.orderMothCom}}
+                    {{'dashboadShipperScreen.InComplete' | translate}}:{{datatotal.orderMothInCom}}
                     </div>
                 </div>
             </div>
 
             <div class="overview-item">
                 <span>
-                    <div class="title">Amout Month(đ) </div>
+                    <div class="title">{{'dashboadShipperScreen.AmoutMonth' | translate}}(đ) </div>
                 </span>
                 <div class="data">
                   <span>{{datatotal.amoutMonth}}</span>

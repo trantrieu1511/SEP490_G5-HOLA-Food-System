@@ -37,8 +37,8 @@
                             <td>{{ order.total | currency : "VND"}}</td>
                             <td>{{order.shipAddress}} <i class="pi pi-map-marker" (click)="onOpenMap(order.shipAddress)"></i></td>
                             <td><i class="pi pi-phone" style="margin-right: 5px;"></i><a href="tel:{{order.customerPhone}}">{{order.customerPhone}}</a></td>
-                            <td *ngIf="order.paymentMethod == '0'">COD</td>
-                            <td *ngIf="order.paymentMethod == '1'">WALLET</td>
+                            <td *ngIf="order.paymentMethod == '0'">{{'shipperScreen.COD' | translate}}</td>
+                            <td *ngIf="order.paymentMethod == '1'">{{'shipperScreen.WALLET' | translate}}</td>
                             <ng-container [ngSwitch]="activeItem.id">
                                 <ng-container *ngSwitchCase = "0">
                                     <td style="text-align: center">
@@ -46,7 +46,7 @@
                                             <div class="flex align-items-center justify-content-center">
                                                 <button pButton pRipple icon="pi pi-check"
                                                         (click)="onUpdateOrder(order)"
-                                                        class="p-button-rounded p-mr-2 p-button-outlined">Start Shipping
+                                                        class="p-button-rounded p-mr-2 p-button-outlined">{{'shipperScreen.StartShipping' | translate}}
                                                     </button>
                                             </div>
 
@@ -59,12 +59,12 @@
                                             <div class="flex align-items-center justify-content-center">
                                                 <button pButton pRipple
                                                     (click)="Complete(order.orderId,0)"
-                                                        class="p-button-info p-mr-2 p-button-outlined">Complete</button>
+                                                        class="p-button-info p-mr-2 p-button-outlined">{{'shipperScreen.Complete' | translate}}</button>
                                             </div>
                                             <div class="flex align-items-center justify-content-center">
                                                 <button pButton pRipple
                                                 (click)="InComplete(order.orderId,1)"
-                                                        class="p-button-secondary p-button-outlined">InComplete</button>
+                                                        class="p-button-secondary p-button-outlined">{{'shipperScreen.InComplete' | translate}}</button>
                                             </div>
                                         </div>
                                     </td>
@@ -102,7 +102,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="emptymessage">
                                             <tr>
-                                                <td colspan="6">There are no order for this product yet.</td>
+                                                <td colspan="6">{{'shipperScreen.emptymessage1' | translate}}</td>
                                             </tr>
                                         </ng-template>
                                     </p-table>
@@ -128,7 +128,7 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Confirm</b>
+                        <b>{{'shipperScreen.Confirm' | translate}}</b>
                     </div>
                 </p-divider>
                 <div class="grid">
@@ -136,12 +136,12 @@
                         <div class="flex flex-wrap gap-3">
                           <div class="flex align-items-center">
                               <p-radioButton name="payment" value="0" checked="checked" [(ngModel)]="check" inputId="ingredient1"></p-radioButton>
-                              <label for="ingredient1" class="ml-2">Customer</label>
+                              <label for="ingredient1" class="ml-2">{{'shipperScreen.Customer' | translate}}</label>
                           </div>
                           
                           <div class="flex align-items-center">
                               <p-radioButton name="payment" value="1" [(ngModel)]="check"  inputId="ingredient2"></p-radioButton>
-                              <label for="ingredient2" class="ml-2">Shop</label>
+                              <label for="ingredient2" class="ml-2">{{'shipperScreen.Shop' | translate}}</label>
                           </div>
                         </div>
                       </div>
@@ -152,13 +152,13 @@
                                 <p-checkbox name="reportContent" 
                                   value="1" [(ngModel)]="note"
                                   inputId="Content1"></p-checkbox>
-                                <label for="reportContent1" class="ml-2">Customers don't answer the phone</label>
+                                <label for="reportContent1" class="ml-2">{{'shipperScreen.reportContent1' | translate}}</label>
                               </div>
                               <div style="padding-bottom: 5px;">
                                 <p-checkbox name="reportContent" 
                                   value="2" [(ngModel)]="note"
                                   inputId="Content2"></p-checkbox>
-                                <label for="reportContent2" class="ml-2">The customer does not accept the order</label>
+                                <label for="reportContent2" class="ml-2">{{'shipperScreen.reportContent2' | translate}}</label>
                               </div>
                         </ng-container>
                         <ng-template #seller>
@@ -166,13 +166,13 @@
                                 <p-checkbox name="reportContent" 
                                   value="3" [(ngModel)]="note"
                                   inputId="Content3"></p-checkbox>
-                                <label for="reportContent3" class="ml-2">The order does not match the customer's requirements</label>
+                                <label for="reportContent3" class="ml-2">{{'shipperScreen.reportContent3' | translate}}</label>
                               </div>
                               <div style="padding-bottom: 5px;">
                                   <p-checkbox name="reportContent" 
                                     value="4" [(ngModel)]="note"
                                     inputId="Content4"></p-checkbox>
-                                  <label for="reportContent3" class="ml-2">Delivery time is too long</label>
+                                  <label for="reportContent4" class="ml-2">{{'shipperScreen.reportContent4' | translate}}</label>
                                 </div>
                         </ng-template>
                       </div>
@@ -184,7 +184,7 @@
                         </span>
                     </div>  -->
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
-                        <label>Images</label>
+                        <label>{{'shipperScreen.image' | translate}}</label>
 					    <span class="p-input-icon-left p-float-label" style="width: 100%">
                             <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
                                 <ng-template pTemplate="content">
@@ -219,12 +219,12 @@
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Save" icon="pi pi-save"
+                <button pButton type="button" label="{{'button.save' | translate}}" icon="pi pi-save"
                         (click)="Save()"
                         style="width: 100%;"></button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                <button pButton type="button" label="{{'button.cancel' | translate}}" icon="pi pi-times"
                         (click)="onCancel()" class="p-button-danger"
                         style="width: 100%;"></button>
             </div>
@@ -241,7 +241,7 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Confirm</b>
+                        <b>{{'shipperScreen.Confirm' | translate}}</b>
                     </div>
                 </p-divider>
                 <div class="grid">
@@ -250,11 +250,11 @@
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
                         <span class="p-input-icon-left p-float-label" style="width: 100%" >
                             <textarea class="w-full" rows="10" cols="60" pInputTextarea [(ngModel)]="note"></textarea>
-                            <label>Other*</label>
+                            <label>{{'shipperScreen.Other' | translate}}*</label>
                         </span>
                     </div> 
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
-                        <label>Images</label>
+                        <label>{{'shipperScreen.image' | translate}}</label>
 					    <span class="p-input-icon-left p-float-label" style="width: 100%">
                             <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
                                 <ng-template pTemplate="content">
@@ -289,12 +289,12 @@
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Save" icon="pi pi-save"
+                <button pButton type="button" label="{{'button.save' | translate}}" icon="pi pi-save"
                         (click)="Save()"
                         style="width: 100%;"></button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                <button pButton type="button" label="{{'button.cancel' | translate}}" icon="pi pi-times"
                         (click)="onCancel()" class="p-button-danger"
                         style="width: 100%;"></button>
             </div>
@@ -322,12 +322,12 @@
                   <p-table  [value]="listinvitationbyshipper" [paginator]="true" [rows]="5" responsiveLayout="scroll">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th pSortableColumn="banCustomerId">ID<p-sortIcon field="sellerId"></p-sortIcon></th>
-                            <th>Fullname Seller</th>
-                            <th>Email</th>
-                            <th>PhoneNumber</th>
-                            <th>Accept</th>
-                            <th>Action</th>
+                            <th pSortableColumn="banCustomerId">{{'shipperScreen.id' | translate}}<p-sortIcon field="sellerId"></p-sortIcon></th>
+                            <th>{{'shipperScreen.FullnameSeller' | translate}}</th>
+                            <th>{{'shipperScreen.Email' | translate}}</th>
+                            <th>{{'shipperScreen.PhoneNumber' | translate}}</th>
+                            <th>{{'shipperScreen.Accept' | translate}}</th>
+                            <th>{{'shipperScreen.Action' | translate}}</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-history>
@@ -337,15 +337,15 @@
                             <td>{{history.email}}</td>
                             <td>{{history.phoneNumber}}</td>
                             <td>
-                              <span style="color:gray;" *ngIf="history.accepted === 0">Pending</span>
-                              <span style="color:greenyellow;" *ngIf="history.accepted === 1">Accepted</span>
-                              <span style="color:red;" *ngIf="history.accepted === 2">Rejected</span>
+                              <span style="color:gray;" *ngIf="history.accepted === 0">{{'shipperScreen.Pending' | translate}}</span>
+                              <span style="color:greenyellow;" *ngIf="history.accepted === 1">{{'shipperScreen.Accepted' | translate}}</span>
+                              <span style="color:red;" *ngIf="history.accepted === 2">{{'shipperScreen.Rejected' | translate}}</span>
                           </td>
 
-                          <td>   <button pButton type="button" label="Accept" icon="pi pi-check"
+                          <td>   <button pButton type="button" label="{{'shipperScreen.Accept' | translate}}" icon="pi pi-check"
                             (click)="UpdateInv(history,1)"
                             style="width: 100%;"></button>
-                            <button pButton type="button" label="Reject" icon="pi pi-times"
+                            <button pButton type="button" label="{{'shipperScreen.Reject' | translate}}" icon="pi pi-times"
                             (click)="UpdateInv(history,2)" class="p-button-danger"
                             style="width: 100%;"></button></td>
                         </tr>

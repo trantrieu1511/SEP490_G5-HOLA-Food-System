@@ -51,6 +51,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
 
   inputValidation: PostInputValidation = new PostInputValidation();
 
+  header1:string;
+  EditPostID:string;
+
   @ViewChild('dt') table: Table;
 
   constructor(
@@ -64,6 +67,10 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
     public translate: TranslateService
   ) {
     super(messageService, breadcrumbService);
+    this.translate.get('postSellerScreen').subscribe( (text: any) => {
+      this.header1 = text.AddNewPost; 
+      this.EditPostID = text.EditPostID; 
+    });
   }
 
   async ngOnInit() {
@@ -111,7 +118,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
   }
 
   onCreatePost() {
-    this.headerDialog = 'Add New Post';
+    this.headerDialog = this.header1;
 
     this.uploadedFiles = [];
 
@@ -123,7 +130,7 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
   }
 
   onUpdatePost(post: Post) {
-    this.headerDialog = `Edit Post ID: ${post.postId}`;
+    this.headerDialog = this.EditPostID + post.postId;
 
     this.postModel = Object.assign({}, post);
 

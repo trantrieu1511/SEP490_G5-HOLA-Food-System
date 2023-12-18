@@ -2,13 +2,13 @@
 <div class="grid table-demo">
   <div class="col-12">
       <div class="card">
-          <h5>FeedBack Management by Seller</h5>
+          <h5>{{'feedBackSellerScreen.FeedBackManagement' | translate}}</h5>
 
           <p-table #dt [value]="lstFeed" dataKey="id"
                    styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
                    [showCurrentPageReport]="true"
                    [paginator]="lstFeed.length > 5" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
-                   currentPageReportTemplate="Total: {totalRecords} foods"
+                   currentPageReportTemplate="{{'feedBackSellerScreen.Total' | translate}}: {totalRecords} {{'feedBackSellerScreen.feedback' | translate}}"
                    [globalFilterFields]="['shipperName']" responsiveLayout="scroll"
 
           >
@@ -19,7 +19,7 @@
                               <i class="pi pi-search"></i>
                               <input pInputText type="text"  #textInput
                                      (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                     placeholder="Search Name by name"/>
+                                     placeholder="{{'feedBackSellerScreen.Searchbyname' | translate}}"/>
                           </span>
                       </div>
 
@@ -39,7 +39,7 @@
                       </th> -->
                       <th pSortableColumn="feedbackId">
                           <div class="flex justify-content-between align-items-center">
-                              ID
+                              {{'feedBackSellerScreen.ID' | translate}}
                               <p-sortIcon field="feedbackId"></p-sortIcon>
                               <p-columnFilter type="numeric" field="feedbackId" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -47,7 +47,7 @@
                       </th>
                       <th pSortableColumn="foodName">
                           <div class="flex justify-content-between align-items-center">
-                            FoodName
+                            {{'feedBackSellerScreen.FoodName' | translate}}
                               <p-sortIcon field="foodName"></p-sortIcon>
                               <p-columnFilter type="text" field="foodName" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -55,7 +55,7 @@
                       </th>
                       <th pSortableColumn="customerName">
                           <div class="flex justify-content-between align-items-center">
-                            CustomerName
+                            {{'feedBackSellerScreen.CustomerName' | translate}}
                               <p-sortIcon field="customerName"></p-sortIcon>
                               <p-columnFilter type="text" field="customerName" display="menu"
                                               class="ml-auto"></p-columnFilter>
@@ -63,7 +63,7 @@
                       </th>
                       <th pSortableColumn="star">
                         <div class="flex justify-content-between align-items-center">
-                            Star
+                            {{'feedBackSellerScreen.Star' | translate}}
                             <p-sortIcon field="star"></p-sortIcon>
                             <p-columnFilter type="text" field="star" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -71,7 +71,7 @@
                     </th>
                     <th pSortableColumn="feedbackMessage">
                       <div class="flex justify-content-between align-items-center">
-                        FeedBack
+                        {{'feedBackSellerScreen.FeedBack' | translate}}
                           <p-sortIcon field="gender"></p-sortIcon>
                           <p-columnFilter type="text" field="feedbackMessage" display="menu"
                                           class="ml-auto"></p-columnFilter>
@@ -80,12 +80,12 @@
 
                       <th>
                           <div class="flex justify-content-between align-items-center">
-                              CreateDate
+                              {{'feedBackSellerScreen.CreateDate' | translate}}
                           </div>
                       </th>
                       <th pSortableColumn="gender">
                         <div class="flex justify-content-between align-items-center">
-                          FeedBackImage
+                          {{'feedBackSellerScreen.FeedBackImage' | translate}}
                             <p-sortIcon field="gender"></p-sortIcon>
                             <p-columnFilter type="text" field="gender" display="menu"
                                             class="ml-auto"></p-columnFilter>
@@ -94,7 +94,7 @@
                       <th style="min-width: 8rem">
                           <div
                                class="flex justify-content-between align-items-center">
-                              Action
+                              {{'feedBackSellerScreen.Action' | translate}}
                           </div>
                       </th>
                   </tr>
@@ -105,38 +105,38 @@
                           <p-tableCheckbox [value]="post"></p-tableCheckbox>
                       </td> -->
                       <td>
-                          <span class="p-column-title">ID</span>
+                          <span class="p-column-title">{{'feedBackSellerScreen.ID' | translate}}</span>
                             <span class="post-id">{{feed.feedbackId}}</span>
                       </td>
                       <td >
-                        <span class="p-column-title">FoodName</span>
+                        <span class="p-column-title">{{'feedBackSellerScreen.FoodName' | translate}}</span>
                         {{feed.foodName}}
                     </td>
                       <td >
-                          <span class="p-column-title">CustomerName</span>
+                          <span class="p-column-title">{{'feedBackSellerScreen.CustomerName' | translate}}</span>
                           {{feed.customerName}}
                       </td>
                       <td>
-                          <span class="p-column-title">Star</span>
+                          <span class="p-column-title">{{'feedBackSellerScreen.Star' | translate}}</span>
                           <span class="post-content" >{{feed.star}}</span>
                       </td>
                       <td >
-                        <span class="p-column-title">Feedback</span>
+                        <span class="p-column-title">{{'feedBackSellerScreen.Feedback' | translate}}</span>
                         {{feed.feedbackMessage}}
                     </td>
                       <td >
-                          <span class="p-column-title">CreateDate</span>
+                          <span class="p-column-title">{{'feedBackSellerScreen.CreateDate' | translate}}</span>
                           {{feed.displayDate| date:'dd/MM/yyyy hh:mm a'}}
                       </td>
 
                       <td>
-                          <span class="p-column-title">FeedBackImage</span>
+                          <span class="p-column-title">{{'feedBackSellerScreen.FeedBackImage' | translate}}</span>
                           <ng-container *ngIf="feed.imagesBase64.length !== 0; else noneImage" >
                             <button pButton pRipple icon="pi pi-images"
                                     (click)="onDisplayImagesDialog(feed, $event)"
                                     class="p-button-rounded p-button-text p-button-raised"></button>
                         </ng-container>
-                          <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
+                          <ng-template #noneImage ><span class="no-image">{{'feedBackSellerScreen.NoImage' | translate}}</span></ng-template>
                       </td>
 
                       <td style="text-align: center">
@@ -155,7 +155,7 @@
               </ng-template>
               <ng-template pTemplate="emptymessage">
                   <tr>
-                      <td colspan="8">No Feedback yet.</td>
+                      <td colspan="8">{{'feedBackSellerScreen.emptymessage' | translate}}</td>
                   </tr>
               </ng-template>
           </p-table>
@@ -177,7 +177,7 @@
   <div class="card">
       <p-divider align="left">
           <div class="p-d-inline-flex p-ai-center">
-              <b>Reply</b>
+              <b>{{'feedBackSellerScreen.Reply' | translate}}</b>
           </div>
       </p-divider>
       <div class="grid">
@@ -192,7 +192,7 @@
           [(ngModel)]="feedreply.replyMessage"
 
           ></textarea>
-            <label>Reply*</label>
+            <label>{{'feedBackSellerScreen.Reply' | translate}}*</label>
         </span>
     </div>
       </div>
@@ -202,19 +202,19 @@
 <ng-template pTemplate="footer">
 <div class="flex justify-content-center flex-wrap" style="text-align: center">
   <div class="flex align-items-center justify-content-center" style="text-align: center">
-      <button pButton type="button" label="Save" icon="pi pi-save"
+      <button pButton type="button" label="{{'button.save' | translate}}" icon="pi pi-save"
               (click)="onSave()"
               style="width: 100%;"></button>
   </div>
   <div class="flex align-items-center justify-content-center" style="text-align: center">
-      <button pButton type="button" label="Cancel" icon="pi pi-times"
+      <button pButton type="button" label="{{'button.cancel' | translate}}" icon="pi pi-times"
               (click)="onCancel()" class="p-button-danger"
               style="width: 100%;"></button>
   </div>
 </div>
 </ng-template>
 </p-dialog>
-<p-dialog header="List Image"
+<p-dialog header="{{'feedBackSellerScreen.ListImage' | translate}}"
     [(visible)]="visibleImageDialog"
     [breakpoints]="{ '960px': '75vw' }"
     [style]="{ width: '50vw' }"
@@ -225,10 +225,10 @@
     <p-table [value]="feedImg.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Size</th>
+                <th pSortableColumn="ID">{{'feedBackSellerScreen.ID' | translate}}<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>{{'feedBackSellerScreen.Image' | translate}}</th>
+                <th>{{'feedBackSellerScreen.Name' | translate}}</th>
+                <th>{{'feedBackSellerScreen.Size' | translate}}</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-image>
