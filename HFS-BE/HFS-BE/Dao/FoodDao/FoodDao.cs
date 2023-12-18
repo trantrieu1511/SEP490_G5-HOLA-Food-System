@@ -265,6 +265,15 @@ namespace HFS_BE.Dao.FoodDao
                 // Add food
                 var food = context.Foods.FirstOrDefault(x => x.FoodId == input.FoodId);
 
+                if (input.isMenuMod) // Check cac truong hop lien quan den menu mod
+                {
+                    // Check truong hop food da duoc approved boi menu mod khac
+                    if (food.Status == 1)
+                    {
+                        return Output<BaseOutputDto>(Constants.ResultCdFail, "Info", "The food is already approved by another menu moderator");
+                    }
+                }
+
                 if (input.Type)
                 {
                     // set status Display
@@ -304,6 +313,12 @@ namespace HFS_BE.Dao.FoodDao
                     if (food == null)
                     {
                         return Output<BaseOutputDto>(Constants.ResultCdFail, "Food not found");
+                    }
+
+                    // Check whether the food has been banned by someone else or not
+                    if (food.BanBy != null && food.BanBy != userId)
+                    {
+                        return Output<BaseOutputDto>(Constants.ResultCdFail, "The food has been banned by another menu moderator");
                     }
 
                     if (input.isBanned)

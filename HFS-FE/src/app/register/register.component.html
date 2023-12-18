@@ -127,6 +127,58 @@
              </div>
              <input id="shopaddress" type="text" formControlName="shopAddress" placeholder="ShopAddress" pInputText class="w-full mb-3" (focus)="isShopAddressTouched = true" (blur)="showShopAddressError()">
             </div> -->
+            <div *ngIf="selectedRoleId ==='4'" class="flex items-center">
+              <label for="gender" class="block text-900 font-medium mb-2">ID Card Number*</label>
+              <div *ngIf="isIdCardTouched&& formregister.get('idcardNumber')!.errors?.required" class="invalid-feedback">-ID Card Number is required!</div>
+            </div>
+            <input *ngIf="selectedRoleId ==='4'" autocomplete="new-first-field" id="idcardNumber" formControlName="idcardNumber" type="text" placeholder="ID Card Number" pInputText class="w-full mb-3"(focus)="isIdCardTouched = true" (blur)="showIdCardCodeError()">
+            <div *ngIf="selectedRoleId ==='4'" class="flex items-center">
+              <label for="gender" class="block text-900 font-medium mb-2">ID Card Front*</label>
+            </div>
+              <div *ngIf="selectedRoleId ==='4'" class="row">
+                <div class="col-md-6">
+                  <div class="flex align-items-center">
+                    <p-fileUpload class="w-full"
+                                  #fileUploader1
+                                  [files]="uploadedFilesShippper"
+                                  [customUpload]="true"
+                                  (onSelect)="handleFileSelection1($event)"
+                                  (onRemove)="handleFileRemoval1($event)"
+                                  (onClear)="handleAllFilesClear1($event)"
+                                  [multiple]="false"
+                                  accept="image/*" [maxFileSize]="1000000"
+                                  [showUploadButton]="false">
+                      <ng-template pTemplate="content">
+                        <!-- Nội dung tùy chỉnh (nếu cần) -->
+                      </ng-template>
+                    </p-fileUpload>
+                  </div>
+                </div>
+                <div *ngIf="selectedRoleId ==='4'" class="flex items-center">
+                  <label for="gender" class="block text-900 font-medium mb-2">ID Card Back*</label>
+                </div>
+                <div class="col-md-6">
+                  <div class="flex align-items-center">
+                    <p-fileUpload class="w-full"
+                                  #fileUploader2
+                                  [files]="uploadedFilesShippper2"
+                                  [customUpload]="true"
+                                  (onSelect)="handleFileSelection2($event)"
+                                  (onRemove)="handleFileRemoval2($event)"
+                                  (onClear)="handleAllFilesClear2($event)"
+                                  [multiple]="false"
+                                  accept="image/*" [maxFileSize]="1000000"
+                                  [showUploadButton]="false">
+                      <ng-template pTemplate="content">
+                        <!-- Nội dung tùy chỉnh (nếu cần) -->
+                      </ng-template>
+                    </p-fileUpload>
+                  </div>
+                </div>
+              </div>
+
+
+
             <div *ngIf="selectedRoleId !=='2'" class="flex items-center">
               <label for="gender" class="block text-900 font-medium mb-2">{{'loginRegisterScreen.Dateofbirth' | translate}}*</label>
               <div *ngIf="formregister.get('birthDate')!.hasError('ageRestriction')" class="invalid-feedback">-{{'loginRegisterScreen.Onlyusersover18yearsoldcanusethesystem' | translate}}!</div>

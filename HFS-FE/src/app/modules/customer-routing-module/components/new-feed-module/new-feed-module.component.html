@@ -157,7 +157,8 @@
     <div *ngIf="lstComment.length > 0; else noCommentYet"  class="comments">
 
       <div *ngFor="let com of lstComment" class="comment">
-        <img src="https://petmaster.vn/petroom/wp-content/uploads/2020/04/meo-anh-1.jpg" alt="Avatar" />
+        <img  *ngIf="com.avartar"  src="data:image/gif;base64,{{com.avartar}}" alt="Avatar" />
+        <img *ngIf="!com.avartar" src="assets/image/user.png" alt="Avatar" />
         <div class="comment-content">
           <div class="comment-text">
             <strong>{{com.customerName}}: {{com.commentContent}}</strong>
@@ -179,10 +180,12 @@
     <ng-template *ngIf="isLoggedIn" pTemplate="footer">
       <div class="comment-form">
         <span class="p-float-label">
-          <textarea id="float-input" rows="4" pInputTextarea [(ngModel)]="commentModel.commentContent" ></textarea>
+          <textarea id="float-input" rows="4" pInputTextarea (input)="checkSaveButtonStatus()"
+          [(ngModel)]="commentModel.commentContent" ></textarea>
           <label for="float-input">Comment here</label>
+
         </span>
-        <button pButton pRipple label="Comment" (click)="OnSaveCommnent(postViewComment.postId)" class="p-button-success" ></button>
+        <button   [disabled]="isSaveButtonDisabled" pButton pRipple label="Comment" (click)="OnSaveCommnent(postViewComment.postId)" class="p-button-success" ></button>
       </div>
     </ng-template>
   </p-dialog>

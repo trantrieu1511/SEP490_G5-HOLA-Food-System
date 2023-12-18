@@ -10,6 +10,7 @@ import { ActiveShipper, BanShipper, HistoryBanShipper, Shipper } from '../models
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-manage-shipper-module',
   templateUrl: './manage-shipper-module.component.html',
@@ -17,10 +18,11 @@ import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.bre
 })
 export class ManageShipperModuleComponent extends iComponentBase implements OnInit {
   listShipper:Shipper []=[];
-  isSaveButtonDisabled:boolean= false;
+  isSaveButtonDisabled:boolean= true;
   displayDialogNote: boolean = false;
   visibleContentDialog:boolean=false;
   visibleImageDialog:boolean=false;
+  visibleImageDialogId:boolean=false;
   visiblebanHistoryDialog:boolean=false;
   shipperImg:Shipper =new Shipper();
   shipperDetail:Shipper =new Shipper();;
@@ -34,6 +36,7 @@ export class ManageShipperModuleComponent extends iComponentBase implements OnIn
     private iFunction: iFunction,
     private _router: Router,
     public breadcrumbService: AppBreadcrumbService,
+    public translate: TranslateService
   ){
     super(messageService, breadcrumbService);
 
@@ -43,6 +46,11 @@ export class ManageShipperModuleComponent extends iComponentBase implements OnIn
     ]);
 
   }
+  checkSaveButtonStatus() {
+    // Example condition: enable the button if both note and status are filled
+
+    this.isSaveButtonDisabled = !this.activeshipper.note;
+}
   ngOnInit(): void {
 this.getAllShipper();
   }
@@ -97,12 +105,13 @@ console.log(this.banshipper);
   async ActiveShipper(user:Shipper,so:number){
     this.headerDialog="Verify ID: "+user.shipperId ;
     this.displayDialogNote = true;
-
+ this.activeshipper.note=null;
     this.activeshipper.shipperId=user.shipperId;
     this.activeshipper.status=so;
   }
   async RejectShipper(user:Shipper,so:number){
     this.headerDialog="Reject ID: "+user.shipperId ;
+    this.activeshipper.note=null;
     this.displayDialogNote = true;
     this.activeshipper.status=so;
   }
@@ -154,15 +163,18 @@ console.log(this.banshipper);
     this.displayDialogNote = false;
   }
   onDisplayImagesDialog(s: Shipper, event: any) {
+    this.headerDialog="Image: "+s.shipperId;
     this.shipperImg = s;
     this.visibleImageDialog = true;
+  }
+  onDisplayImagesDialogId(s: Shipper, event: any) {
+    this.headerDialog="Image Id Card: "+s.shipperId;
+    this.shipperImg = s;
+    this.visibleImageDialogId = true;
   }
   Detail(user:Shipper){
 this.visibleContentDialog=true;
 this.shipperDetail=user;
   }
-  checkSaveButtonStatus() {
-    // Example condition: enable the button if both note and status are filled
-    this.isSaveButtonDisabled = !this.activeshipper.note;
-}
+
 }

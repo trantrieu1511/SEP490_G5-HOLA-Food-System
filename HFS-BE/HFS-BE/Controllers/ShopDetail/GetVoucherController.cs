@@ -1,31 +1,29 @@
 ﻿using AutoMapper;
 using HFS_BE.Base;
 using HFS_BE.BusinessLogic.ManageVoucher;
+using HFS_BE.BusinessLogic.ShopDetail;
 using HFS_BE.DAO.VoucherDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HFS_BE.Controllers.ManageVoucher
+namespace HFS_BE.Controllers.ShopDetail
 {
-    public class GetListVoucherController : BaseController
+    public class GetVoucherController : BaseController
     {
-        public GetListVoucherController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
+        public GetVoucherController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
         {
         }
-        [HttpPost("vouchers/getListvoucher")]
-        [Authorize(Roles = "SE")]
+
+        [HttpPost("shopdetail/voucher")]
         public GetListVoucherDaoOutputDto GetVoucher(GetListVoucherDaoInput input)
         {
             try
             {
-                var business = this.GetBusinessLogic<GetVoucherBusinessLogic>();
+                var business = this.GetBusinessLogic<GetShopVoucherBusinessLogic>();
 
                 var output = business.GetListVoucher(input);
-
-                // call signalR to Post Modelrator
 
                 return output;
             }

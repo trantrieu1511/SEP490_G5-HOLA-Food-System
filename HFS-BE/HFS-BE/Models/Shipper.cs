@@ -32,6 +32,9 @@ namespace HFS_BE.Models
         public bool? IsPhoneVerified { get; set; }
         public string? OtpToken { get; set; }
         public int? OtpTokenExpiryTime { get; set; }
+        public string? IdcardNumber { get; set; }
+        public string? IdcardFrontImage { get; set; }
+        public string? IdcardBackImage { get; set; }
 
         public virtual Seller? ManageByNavigation { get; set; }
         public virtual ICollection<Invitation> Invitations { get; set; }

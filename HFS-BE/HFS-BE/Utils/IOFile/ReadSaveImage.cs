@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace HFS_BE.Utils.IOFile
 {
@@ -164,8 +165,37 @@ string fullPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.
 			}
 			return output;
 		}
+		public static string SaveIdCardImages(IFormFile? image, string userId, int type)
+		{
+			string basePath = $"Resources\\Images\\" +
+							$"{userId}\\" +
+							$"{GetFolderNameTypeImage(type)}";
+			// Đường dẫn cơ sở cho việc lưu hình ảnh
+			string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
 
-        public static List<string> SaveLicenseImages(IReadOnlyList<IFormFile> images, UserDto user, int type)
+			// Tạo thư mục nếu chưa tồn tại
+			if (!Directory.Exists(fullPath))
+			{
+				Directory.CreateDirectory(fullPath);
+			}
+
+			string insertTime = $"_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}";
+			string fileName = Path.GetFileNameWithoutExtension(image.FileName).Replace(" ", "")
+				+ insertTime
+				+ Path.GetExtension(image.FileName);
+
+			string filePath = Path.Combine(fullPath, fileName);
+
+			using (var stream = new FileStream(filePath, FileMode.Create))
+			{
+				image.CopyTo(stream);
+			}
+
+			string? output = fileName;
+
+			return output;
+		}
+		public static List<string> SaveLicenseImages(IReadOnlyList<IFormFile> images, UserDto user, int type)
         {
             string basePath = $"Resources/Images/" +
                             $"{user.UserId}/" +
@@ -220,6 +250,8 @@ string fullPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.
 					return "reportseller";
 				case 6:
 					return "license";
+				case 7:
+					return "idcard";
 				default:
                     return "";
             }

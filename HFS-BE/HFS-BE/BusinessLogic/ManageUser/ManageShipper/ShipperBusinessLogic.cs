@@ -23,9 +23,17 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageShipper
 				var outputBL = mapper.Map<ShipperInforListByAdmin, ListShipperbyAdminOutputDtoBS>(daooutput);//chua map
 				foreach (var ship in daooutput.Shippers)
 				{
+				
 					// get current index
 					var index = daooutput.Shippers.IndexOf(ship);
-
+					ImageFileConvert.ImageOutputDto? imageInforIdcard1 = null;
+					ImageFileConvert.ImageOutputDto? imageInforIdcard2 = null;
+					imageInforIdcard1 = ImageFileConvert.ConvertFileToBase64(ship.Email, ship.IdcardBackImage, 7);
+					imageInforIdcard2 = ImageFileConvert.ConvertFileToBase64(ship.Email, ship.IdcardFrontImage, 7);
+					//if (imageInforIdcard1 == null)
+					//	continue;
+					outputBL.Shippers[index].ImageBase64Id1 = imageInforIdcard1.ImageBase64;
+					outputBL.Shippers[index].ImageBase64Id2 = imageInforIdcard2.ImageBase64;
 					if (ship.Images == null || ship.Images.Count < 1)
 					{
 						continue;
@@ -44,6 +52,7 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageShipper
 						// add to ouput list
 						outputBL.Shippers[index].ImagesBase64.Add(imageMapper);
 					}
+					
 				}
 				return outputBL;
 			}

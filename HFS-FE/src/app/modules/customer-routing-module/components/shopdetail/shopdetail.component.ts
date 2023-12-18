@@ -24,6 +24,7 @@ import { take } from 'rxjs';
 import { PresenceService } from 'src/app/services/presence.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ShoppingCartPopupService } from 'src/app/services/shopping-cart-popup.service';
+import { ClipboardService } from 'ngx-clipboard';
 declare var google: any;
 
 @Component({
@@ -50,6 +51,9 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
   uploadedFiles: File[] = [];
   vouchers: any;
   displayMap: boolean = false
+  responsiveOptions: any[] | undefined
+
+
   constructor(
     private shareData: ShareData,
     public messageService: MessageService,
@@ -61,7 +65,8 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
     private dataService: DataService,
     private authService: AuthService,
     public translate: TranslateService,
-    private shoppingCartService: ShoppingCartPopupService
+    private shoppingCartService: ShoppingCartPopupService,
+    private clipboard: ClipboardService
   ) {
     super(messageService);
   }
@@ -95,6 +100,25 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
         console.log(this.menuInput)
         this.getMenu(this.menuInput)
         this.getShopInfor()
+        this.getVoucher()
+        this.responsiveOptions = [
+          {
+              breakpoint: '1199px',
+              numVisible: 1,
+              numScroll: 1
+          },
+          {
+              breakpoint: '991px',
+              numVisible: 2,
+              numScroll: 1
+          },
+          {
+              breakpoint: '767px',
+              numVisible: 1,
+              numScroll: 1
+          }
+        ];
+
       });
 
       this.translate.get('shopDetailScreen').subscribe( (text: any) => {
@@ -140,15 +164,24 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
       this.loading = false;
     }
   }
+  onCopyToClipboard(code : string){
+    const isCopied: boolean = this.clipboard.copyFromContent(code);
+
+      if (isCopied) {
+        this.showMessage(mType.success, "", "Voucher copied to clipboard!", 'notify');
+      } else {
+        this.showMessage(mType.error, "", "Error copying voucher to clipboard!", 'notify');
+      }
+  }
 
   async getVoucher() {
     try {
       this.loading = true;
 
       const param = {
-        "sellerId": this.userId
+        "sellerId": this.shopid
       };
-      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.VOUCHER, API.API_VOUCHER.GET_ALL_VOUCHER, param);
+      let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.SHOP_DETAIL, API.API_SHOP_DETAIL.GET_VOUCHER, param);
       if (response && response.success == true) {
         this.vouchers = response.listVoucher;
       }

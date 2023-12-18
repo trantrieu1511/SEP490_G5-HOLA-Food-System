@@ -36,7 +36,7 @@
                 </li>
                 <app-notifications [layoutService]="layoutService"></app-notifications>
                 <app-cart-popup [layoutService]="layoutService"></app-cart-popup>
-                
+
                 <li *ngIf="isLoggedInState == true" class="layout-topbar-item">
                     <a class="layout-topbar-action flex flex-row justify-content-center align-items-center px-2 rounded-circle"
                         (click)="layoutService.onTopbarItemClick($event, 'profile')" pRipple>
@@ -51,7 +51,7 @@
                             <a class="flex flex-row align-items-center" pRipple (click)="viewProfile()">
                                 <i class="pi pi-user"
                                     [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>&nbsp;
-                                <span>My account</span>
+                                <span>{{ 'AppTopBar.MyAccount' | translate }}</span>
                             </a>
                         </li>
                         <!-- <li class="layout-topbar-action-item">
@@ -72,7 +72,7 @@
                             <a class="flex flex-row align-items-center" (click)="logOut($event)" pRipple>
                                 <i class="pi pi-power-off"
                                     [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>&nbsp;
-                                <span>Logout</span>
+                                <span>{{ 'AppTopBar.Logout' | translate }}</span>
                             </a>
                         </li>
                     </ul>
@@ -80,7 +80,7 @@
                 <li *ngIf="!isLoggedInState" class="layout-topbar-item">
                     <a class="layout-topbar-action flex flex-row justify-content-center align-items-center px-2 rounded-circle"
                         (click)="goToLoginPage();" pRipple>
-                        Login
+                        {{ 'AppTopBar.Login' | translate }}
                     </a>
                 </li>
 
@@ -92,7 +92,8 @@
                             (click)="layoutService.onTopbarItemClick($event, 'search')" pRipple>
                             <i class="pi pi-search fs-large"></i>
                         </a> -->
-                        <a *ngIf="isSeller" class="layout-topbar-action rounded-circle" (click)="toggleCustomerList()" pRipple>
+                        <a *ngIf="isSeller" class="layout-topbar-action rounded-circle" (click)="toggleCustomerList()"
+                            pRipple>
                             <i class="pi pi-comment fs-large"></i>
                         </a>
                         <!-- <div class="layout-search-panel p-inputgroup" [@topbarActionPanelAnimation]="'visible'"
@@ -125,7 +126,7 @@
                                 <a class="flex flex-row align-items-center" (click)="viewProfile()" pRipple>
                                     <i class="pi pi-user"
                                         [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>
-                                    <span>My profile</span>
+                                    <span>{{ 'AppTopBar.MyProfile' | translate }}</span>
                                 </a>
                             </li>
                             <!-- <li class="layout-topbar-action-item">
@@ -146,7 +147,7 @@
                                 <a class="flex flex-row align-items-center" (click)="logOut($event)" pRipple>
                                     <i class="pi pi-power-off"
                                         [ngClass]="{'mr-2': !layoutService.app.isRTL, 'ml-2': layoutService.app.isRTL}"></i>
-                                    <span>Logout</span>
+                                    <span>{{ 'AppTopBar.Logout' | translate }}</span>
                                 </a>
                             </li>
                         </ul>
@@ -155,7 +156,7 @@
                         <a class="layout-topbar-action rounded-circle" (click)="goToLoginPage();" pRipple>
                             <span class="p-overlay-badge">
                                 <!-- <i class="pi pi-sign-in fs-large"></i> -->
-                                <span>Login</span>
+                                <span>{{ 'AppTopBar.Login' | translate }}</span>
                             </span>
                         </a>
                     </li>

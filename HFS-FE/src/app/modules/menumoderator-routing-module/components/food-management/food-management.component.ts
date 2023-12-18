@@ -75,8 +75,8 @@ export class FoodManagementComponent extends iComponentBase implements OnInit {
     super(messageService, breadcrumbService);
 
     this.breadcrumbService.setItems([
-      {label: 'HFSBusiness'},
-      {label: 'Menu Management', routerLink: ['/HFSBusiness/menu-management']}
+      { label: 'HFSBusiness' },
+      { label: 'Menu Management', routerLink: ['/HFSBusiness/menu-management'] }
     ]);
 
     this.foodForm = this.fb.group({
@@ -437,8 +437,13 @@ export class FoodManagementComponent extends iComponentBase implements OnInit {
         this.getAllFood();
 
       } else {
+        // debugger
         var messageError = this.iServiceBase.formatMessageError(response);
         console.log(messageError);
+        if (messageError == 'The food is already approved by another menu moderator') {
+          this.showMessage(mType.info, response.message, messageError, 'notify');
+          return;
+        }
         this.showMessage(mType.error, response.message, messageError, 'notify');
       }
     } catch (e) {

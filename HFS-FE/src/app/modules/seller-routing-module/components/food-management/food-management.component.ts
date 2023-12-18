@@ -94,7 +94,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
     this.lstCategory = [];
 
     try {
-        let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.LIST_CATEGORY,"");
+        let response = await this.iServiceBase.getDataAsync(API.PHAN_HE.CATEGORY, API.API_CATEGORY.GET_ALL_CATE_DISPLAY);
 
         if (response && response.message === "Success") {
             this.lstCategory = response.listCategory;
@@ -157,9 +157,9 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
   onCreateFood() {
     this.headerDialog = 'Add New Food';
 
-      this.uploadedFiles = [];
+    this.uploadedFiles = [];
 
-      this.foodModel = new Food();
+    this.foodModel = new Food();
 
     this.foodModel = new Food();
 
@@ -175,8 +175,9 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
     this.foodModel = Object.assign({}, food);
 
     this.selectedCategory = new Category();
-    this.selectedCategory.categoryId = food.categoryId;
-    this.selectedCategory.name = food.categoryName;
+    //this.selectedCategory.categoryId = food.categoryId;
+    //this.selectedCategory.name = food.categoryName;
+    this.selectedCategory = this.lstCategory.find(item => item.categoryId === food.categoryId);
 
     food.imagesBase64.forEach(image => {
       var fileimage = this.iFunction.convertImageBase64toFile(image.imageBase64, image.name);

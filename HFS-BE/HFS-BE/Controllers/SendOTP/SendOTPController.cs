@@ -48,7 +48,7 @@ namespace HFS_BE.Controllers.SendOTP
 				Random random = new Random();
 				int randomso = random.Next(1000, 9999);
 				Console.WriteLine(randomso);
-				JwtSecurityToken token = GenerateSecurityToken(randomso, 5);
+				JwtSecurityToken token = GenerateSecurityToken(randomso, 2);
 
 				using (SEP490_HFS_2Context context = new SEP490_HFS_2Context())
 				{
@@ -126,8 +126,8 @@ namespace HFS_BE.Controllers.SendOTP
 
 			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					//expires: DateTime.Now.AddMinutes(timeexp),
-					expires: DateTime.Now.AddSeconds(timeexp),
+					expires: DateTime.Now.AddMinutes(timeexp),
+					//expires: DateTime.Now.AddSeconds(timeexp),
 					claims: authClaims,
 					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)); ;
 
@@ -171,6 +171,10 @@ namespace HFS_BE.Controllers.SendOTP
 						{
 							result = true;
 						}
+						else
+						{
+							return Output<BaseOutputDto>(Constants.ResultCdFail, "Incorrect Otp.");
+						}
 					
 						if (result)
 						{
@@ -198,9 +202,13 @@ namespace HFS_BE.Controllers.SendOTP
 						if (otpdata.Equals(inputDto.otp.ToString()))
 						{
 							result = true;
-						}
-						
-						if (result)
+                        }
+                        else
+                        {
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, "Incorrect Otp.");
+                        }
+
+                        if (result)
 						{
 							user.IsPhoneVerified = true;
 							context.SaveChanges();
@@ -229,9 +237,13 @@ namespace HFS_BE.Controllers.SendOTP
 						if (otpdata.Equals(inputDto.otp.ToString()))
 						{
 							result = true;
-						}
-						
-						if (result)
+                        }
+                        else
+                        {
+                            return Output<BaseOutputDto>(Constants.ResultCdFail, "Incorrect Otp.");
+                        }
+
+                        if (result)
 						{
 							user.IsPhoneVerified = true;
 							context.SaveChanges();

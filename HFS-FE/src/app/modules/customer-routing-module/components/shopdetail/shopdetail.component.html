@@ -121,6 +121,51 @@
     </div>
   </div>
 </div>
+<div class="col-12 voucher-list" *ngIf="vouchers && vouchers.length > 0">
+  <div class="card">
+    <!-- [circular]="true" [autoplayInterval]="3000" -->
+    <p-carousel [value]="vouchers" [numVisible]="3" [numScroll]="3"  [responsiveOptions]="responsiveOptions" >
+      <ng-template let-voucher pTemplate="item">
+          <div class="border-1 surface-border border-round m-2 text-center px-3 carousel-div_cus">
+            <div class="flex flex-row align-items-center ">
+              <div class="flex flex-column voucher-content" style="flex-grow: 1; text-align: left;">
+                <p class="fs-small voucher-attr">
+                  <span class="voucher-content_lb">Voucher: </span>
+                  {{voucher.code}}
+                  </p>
+                <p class="fs-small voucher-attr">
+                  <span class="voucher-content_lb">Discount: </span>
+                  {{voucher.discountAmount | currency : "VND"}} 
+                  </p>
+                <p class="fs-small voucher-attr">
+                  <span class="voucher-content_lb">Minimum Order: </span>
+                  {{voucher.minimumOrderValue | currency : "VND"}} 
+                </p>
+                <p class="fs-small voucher-attr">
+                  <span class="voucher-content_lb">From : </span>
+                  {{voucher.effectiveDate | date:'dd-MM-yyyy HH:mm:ss' }}
+                </p>
+                <p class="fs-small voucher-attr">
+                  <span class="voucher-content_lb">To : </span>
+                  {{voucher.expireDate | date:'dd-MM-yyyy HH:mm:ss' }} 
+                </p>
+              </div>
+              <div class="copy_btn">
+                <button
+                        pButton
+                        pRipple
+                        class="p-button-primary"
+                        (click)="onCopyToClipboard(voucher.code)"
+                      >
+                      Copy
+                      </button>
+              </div>
+            </div>
+          </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+</div>
 <div class="col-12 shopdetail-list">
   <div class="card">
     <h5>{{'shopDetailScreen.Menu' | translate}}</h5>

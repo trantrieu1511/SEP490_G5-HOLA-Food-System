@@ -806,6 +806,9 @@ export class iServiceBase {
                 case API.PHAN_HE.WALLET: {
                     return localStorage.getItem('APISERVICE') + '/wallet/';
                 }
+                case API.PHAN_HE.CATEGORY: {
+                    return localStorage.getItem('APISERVICE') + '/categories/';
+                }
                 default: {
                     return '';
                 }

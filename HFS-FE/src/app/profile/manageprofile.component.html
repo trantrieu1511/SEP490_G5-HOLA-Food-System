@@ -221,6 +221,7 @@
             <label for="otpHayGiDay">{{'profileScreen.OTP' | translate}}: <span style="color: red;">*</span></label>
             <input type="number" pInputText id="otpHayGiDay" placeholder="Enter Your OTP" maxlength="4"
                 [(ngModel)]="verifyOtp" />
+            <small style="font-style: italic;">{{'profileScreen.Notice' | translate}}</small>
         </div>
         <!-- </div> -->
     </ng-template>
@@ -321,6 +322,88 @@
     </p-table>
 </p-dialog>
 
+<p-dialog [(visible)]="isVisibleShipperEditIdDialog" [style]="{ width: '500px' }"
+    header="{{'profileScreen.EditYourIDCardImage' | translate}}" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="EditLicense">
+        <div class="col-12 mb-2 lg:col-12 mb-lg-0">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>{{ 'profileScreen.ImageFrontIdCard' | translate }}</th>
+                        <td><p-image src="data:image/gif;base64,{{profile.idcardFrontImage}}" [preview]="true"
+                                width="350" height="250" class="dialogimages_image w-30rem shadow-15"></p-image>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{{ 'profileScreen.ImageBackIdCard' | translate }}</th>
+                        <td><p-image src="data:image/gif;base64,{{profile.idcardBackImage}}" [preview]="true"
+                                width="350" height="250" class="dialogimages_image w-30rem shadow-15"></p-image></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <hr>
+
+            <div style="font-weight: bold;">{{'profileScreen.EditLicenseImageSection' | translate}}</div><br>
+            <!-- <span class="p-input-icon-left p-float-label" style="width: 100%"> -->
+            <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
+                    <ng-template pTemplate="content">
+                        <ul *ngIf="foodModel.images.length">
+                        </ul>
+                    </ng-template>
+                </p-fileUpload> -->
+            <div>
+                <label>{{ 'profileScreen.IdCardNumber' | translate }} <span style="color: red;">*</span></label>
+                <input type="text" class="w-full" [(ngModel)]="this.profile.idcardNumber" pInputText />
+            </div>
+            <br />
+            <div class="grid">
+                <div class="col-12">
+                    <div class="flex items-center">
+                        <label for="editCardFront" class="block text-900 font-medium mb-2">{{
+                            'profileScreen.IdCardFront' | translate }} <span style="color: red;">*</span></label>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-fileUpload itemid="editCardFront" class="w-full" #fileUploader1
+                            [files]="uploadedFilesShippper" [customUpload]="true"
+                            (onSelect)="handleFileSelection1($event)" (onRemove)="handleFileRemoval1($event)"
+                            (onClear)="handleAllFilesClear1($event)" [multiple]="false" accept="image/*"
+                            [maxFileSize]="1000000" [showUploadButton]="false">
+                            <ng-template pTemplate="content">
+                                <!-- Nội dung tùy chỉnh (nếu cần) -->
+                            </ng-template>
+                        </p-fileUpload>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="flex items-center">
+                        <label for="editCardBack" class="block text-900 font-medium mb-2">{{ 'profileScreen.IdCardBack'
+                            | translate }} <span style="color: red;">*</span></label>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-fileUpload itemid="editCardBack" class="w-full" #fileUploader2
+                            [files]="uploadedFilesShippper2" [customUpload]="true"
+                            (onSelect)="handleFileSelection2($event)" (onRemove)="handleFileRemoval2($event)"
+                            (onClear)="handleAllFilesClear2($event)" [multiple]="false" accept="image/*"
+                            [maxFileSize]="1000000" [showUploadButton]="false">
+                            <ng-template pTemplate="content">
+                                <!-- Nội dung tùy chỉnh (nếu cần) -->
+                            </ng-template>
+                        </p-fileUpload>
+                    </div>
+                </div>
+            </div>
+            <!-- </span> -->
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="{{'button.cancel' | translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="this.isVisibleShipperEditIdDialog = false"></button>
+        <button pButton pRipple label="{{'button.save' | translate}}" (click)="editIdCard();"></button>
+    </ng-template>
+</p-dialog>
+
 
 <!--<p-dialog header="Edit profile" [(visible)]="visible" [modal]="true" [style]="{ width: '500px' }" [draggable]="false"
     [resizable]="false">
@@ -388,8 +471,13 @@
 
                 <!-- <div class="card" style="width: 97%;"> -->
                 <!-- <div>More</div> -->
-                <div *ngIf="role == 'SE' && !profileDisplay.isVerified">
+                <div *ngIf="role == 'SE' && profileDisplay.status != 1">
                     <p-button [text]="true" (onClick)="openEditLicenseDialog();">{{'profileScreen.Editlicenceimage' |
+                        translate}}</p-button>
+                    <!-- <br> -->
+                </div>
+                <div *ngIf="role == 'SH' && profileDisplay.status != 1">
+                    <p-button [text]="true" (onClick)="openEditIdcardDialog();">{{'profileScreen.EditIDCardImage' |
                         translate}}</p-button>
                     <!-- <br> -->
                 </div>
@@ -542,15 +630,18 @@
                     </div>
                     <div *ngIf="role == 'SE' || role == 'SH'">
                         <div style="display: flex;">
-                            <p class="field-title">{{'profileScreen.Verified' | translate}}: </p>
+                            <p class="field-title">{{'profileScreen.VerifiedStatus' | translate}}: </p>
                             <!-- <p class="field-info" *ngIf="profileDisplay.phoneNumber != undefined else RegisterPhoneNumber"> -->
                             <p class="field-info">
+                                <span *ngIf="profileDisplay.status == 0" style="color: grey;">
+                                    {{'profileScreen.PendingVerify' | translate}}
+                                </span>
                                 <span>
-                                    <i *ngIf="profileDisplay.isVerified" class="pi pi-verified"
+                                    <i *ngIf="profileDisplay.status == 1" class="pi pi-verified"
                                         style="color: green; font-size: large;"></i>
                                 </span>
-                                <span *ngIf="!profileDisplay.isVerified" style="color: red;">
-                                    {{'profileScreen.Notverified' | translate}}
+                                <span *ngIf="profileDisplay.status == 2" style="color: red;">
+                                    {{'profileScreen.Rejected' | translate}}
                                 </span>
                             </p>
                         </div>

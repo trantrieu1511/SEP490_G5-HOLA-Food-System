@@ -240,17 +240,17 @@
                                           class="p-button-rounded p-mr-2"></button>
                               </div>
                               <div class="flex align-items-center justify-content-center">
-                                <button  *ngIf="user.status!==1" pButton pRipple  label="Verification"
+                                <button  *ngIf="user.status!==1" pButton pRipple  label="{{'sellerAdminScreen.Verification' | translate}}"
                                 (click)="ActiveSeller(user,$event)"
                                         class="p-button-rounded p-mr-2"></button>
                             </div>
                             <div class="flex align-items-center justify-content-center">
-                              <button  *ngIf="user.status!==1" pButton pRipple  label="Reject"
+                              <button  *ngIf="user.status!==1" pButton pRipple  label="{{'sellerAdminScreen.Reject' | translate}}"
                               (click)="RejectSeller(user)"
                                       class="p-button-rounded p-mr-2"></button>
                           </div>
                             <div class="flex align-items-center justify-content-center">
-                              <button  pButton pRipple  label="Detail"
+                              <button  pButton pRipple  label="{{'sellerAdminScreen.DetailSeller' | translate}}"
                               (click)="Detail(user,$event)"
                                       class="p-button-rounded p-mr-2"></button>
                           </div>
@@ -480,7 +480,7 @@
             </td>
         </tr>
         <tr>
-          <th>Note: </th>
+          <th>{{'sellerAdminScreen.Note' | translate}}: </th>
           <td>
            {{sellerDetail.note}}
 
@@ -547,7 +547,7 @@
             <div class="card">
                 <p-divider align="left">
                     <div class="p-d-inline-flex p-ai-center">
-                        <b>Note*</b>
+                        <b>{{'sellerAdminScreen.Note' | translate}}*:</b>
                     </div>
                 </p-divider>
                 <div class="grid">
@@ -568,7 +568,7 @@
                     [(ngModel)]="activeseller.note"
 
                     ></textarea>
-                      <label>Note*</label>
+                      <label>{{'sellerAdminScreen.Note' | translate}}*</label>
                   </span>
               </div>
                 </div>
@@ -578,12 +578,12 @@
     <ng-template pTemplate="footer">
         <div class="flex justify-content-center flex-wrap" style="text-align: center">
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Save" icon="pi pi-save" [disabled]="isSaveButtonDisabled"
+                <button pButton type="button" label="{{'button.save' | translate}}" icon="pi pi-save" [disabled]="isSaveButtonDisabled"
                         (click)="onSave()"
                         style="width: 100%;"></button>
             </div>
             <div class="flex align-items-center justify-content-center" style="text-align: center">
-                <button pButton type="button" label="Cancel" icon="pi pi-times"
+                <button pButton type="button" label="{{'button.cancel' | translate}}" icon="pi pi-times"
                         (click)="onCancelReject()" class="p-button-danger"
                         style="width: 100%;"></button>
             </div>
