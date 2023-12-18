@@ -221,7 +221,7 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
         this.showMessage(mType.success, "Notification", "Update successfully", 'notify');
         this.displayDialogEditAddVoucher = false;
       }else{
-        this.showMessage(mType.success, "Notification", "Update failure", 'notify');
+        this.showMessage(mType.error, "Notification", response.message, 'notify');
       }
     } catch (e) {
       console.log(e);
@@ -245,7 +245,10 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
         this.showMessage(mType.success, "Notification", "Create successfully", 'notify');
         this.displayDialogEditAddVoucher = false;
       }else{
-        this.showMessage(mType.error, "Notification", "Create failure", 'notify');
+        var messageError = this.iServiceBase.formatMessageError(response);
+        console.log(messageError);
+        this.showMessage(mType.error, response.message, messageError, 'notify');
+        //his.showMessage(mType.error, "Notification", response.message, 'notify');
       }
     } catch (e) {
       console.log(e);
