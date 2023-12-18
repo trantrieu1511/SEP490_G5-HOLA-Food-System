@@ -368,7 +368,7 @@ namespace HFS_BE.Dao.AuthDao
 		}
 		private string GetForgotPasswordLink(string userId, string confirmationCode)
 		{
-			string baseUrl = "http://holafood.ddns.net/forgot";
+			string baseUrl = "https://holafood.id.vn/forgot";
 			//	var query = new Dictionary<string, string>
 			//{
 			//	{ "userId", userId },
@@ -380,7 +380,7 @@ namespace HFS_BE.Dao.AuthDao
 
 		private string GetConfirmEmailLink(string userId, string confirmationCode)
 		{
-			string baseUrl = "http://holafood.ddns.net/confirm";
+			string baseUrl = "https://holafood.id.vn/confirm";
 			//	var query = new Dictionary<string, string>
 			//{
 			//	{ "userId", userId },
@@ -562,6 +562,7 @@ namespace HFS_BE.Dao.AuthDao
 				var data2 = context.Shippers.Where(s => s.Email == email).FirstOrDefault();
 				var data3 = context.PostModerators.Where(s => s.Email == email).FirstOrDefault();
 				var data4 = context.MenuModerators.Where(s => s.Email == email).FirstOrDefault();
+				var data5 = context.MenuModerators.Where(s => s.Email == email).FirstOrDefault();
 				if (data != null)
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
@@ -583,6 +584,11 @@ namespace HFS_BE.Dao.AuthDao
 
 				}
 				else if (data4 != null)
+				{
+					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+				}
+				else if (data5 != null)
 				{
 					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 
@@ -711,8 +717,9 @@ namespace HFS_BE.Dao.AuthDao
 			var data2 = context.Sellers.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
 			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
 			var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
+			var data1 = context.Accountants.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
 			//var data5 = context.Admins.Where(s => s.Email.ToLower() == payload.Email.ToLower()).FirstOrDefault();
-	
+
 			if (user != null)
 			{
 				//if (user.IsBanned == true)
@@ -770,6 +777,14 @@ namespace HFS_BE.Dao.AuthDao
 				output.UserId = data5.ShipperId;
 				return output;
 			}
+			else if (data1 != null)
+			{
+				var dapmapper = mapper.Map<Accountant, LoginGoogleInputDto>(data1);
+				JwtSecurityToken token = GenerateSecurityToken(dapmapper);
+				output.Token = new JwtSecurityTokenHandler().WriteToken(token);
+				output.UserId = data1.AccountantId;
+				return output;
+			}
 			else
 			{
 				var cusall = context.Customers.ToList();
@@ -794,7 +809,11 @@ namespace HFS_BE.Dao.AuthDao
 				paddedString = "CU" + paddedString.Substring(2);
 
 				string[] FullName = payload.Name.Split(" ");
-				var user1 = new HFS_BE.Models.Customer {CustomerId= paddedString, Email = payload.Email, FirstName = FullName[0], LastName = FullName[1], Gender = "Null", ConfirmedEmail=true, CreateDate = DateTime.Now, };
+				var user1 = new HFS_BE.Models.Customer {
+					CustomerId= paddedString,
+					Email = payload.Email,
+					FirstName = FullName[0], 
+					LastName = FullName[1], Gender = "Null", ConfirmedEmail=true, CreateDate = DateTime.Now, };
 				if (FullName.Length == 3)
 				{
 					user1 = new HFS_BE.Models.Customer { CustomerId = paddedString, Email = payload.Email, FirstName = FullName[0], LastName = FullName[1] + FullName[2], Gender = "Null", ConfirmedEmail = true, CreateDate = DateTime.Now, };
@@ -814,11 +833,11 @@ namespace HFS_BE.Dao.AuthDao
 				{
 					await context.Customers.AddAsync(user1);
 					context.SaveChangesAsync();
-					
-					var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(user1);
+					var userregistergoogle = context.Customers.Where(x => x.Email.ToLower() == payload.Email).FirstOrDefault();
+					var dapmapper = mapper.Map<Customer, LoginGoogleInputDto>(userregistergoogle);
 					JwtSecurityToken token = GenerateSecurityToken(dapmapper);
 					output.Token = new JwtSecurityTokenHandler().WriteToken(token);
-					output.UserId = user1.CustomerId;
+					output.UserId = userregistergoogle.CustomerId;
 
                     return output;
 				}
