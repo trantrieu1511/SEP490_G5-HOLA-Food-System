@@ -235,10 +235,15 @@
                       <td style="text-align: center">
                           <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
                               <div class="flex align-items-center justify-content-center">
-                                  <button pButton pRipple  [icon]="user.isBanned ? 'pi pi-lock-open' : 'pi pi-ban'"
+                                  <button  *ngIf="!user.isBanned" pButton pRipple  [icon]="'pi pi-ban'"
                                   (click)="BanSeller(user)"
                                           class="p-button-rounded p-mr-2"></button>
                               </div>
+                              <div class="flex align-items-center justify-content-center">
+                                <button  *ngIf="user.isBanned" pButton pRipple  [icon]="'pi pi-lock-open'"
+                                (click)="UnBanSeller(user)"
+                                        class="p-button-rounded p-mr-2"></button>
+                            </div>
                               <div class="flex align-items-center justify-content-center">
                                 <button  *ngIf="user.status!==1" pButton pRipple  label="{{'sellerAdminScreen.Verification' | translate}}"
                                 (click)="ActiveSeller(user,$event)"
