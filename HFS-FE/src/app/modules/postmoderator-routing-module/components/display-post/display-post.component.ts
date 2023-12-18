@@ -20,6 +20,7 @@ import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
 import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-display-post',
@@ -62,7 +63,8 @@ export class DisplayPostComponent extends iComponentBase implements OnInit {
     private iFunction: iFunction,
     private signalRService: DataRealTimeService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    public translate: TranslateService
   ) {
     super(messageService, breadcrumbService);
     this.breadcrumbService.setItems([

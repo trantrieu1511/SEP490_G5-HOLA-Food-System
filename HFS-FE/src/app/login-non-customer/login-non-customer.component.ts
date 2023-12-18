@@ -139,11 +139,22 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
               this.router.navigateByUrl('/homepage');
               break;
             case "AD":
+              this.router.navigateByUrl('/HFSBusiness/admin/dashboard');
+              break;
             case "SE":
+              this.router.navigateByUrl('/HFSBusiness/order-management');
+              break;
             case "SH":
+              this.router.navigateByUrl('/HFSBusiness/order-management');
+              break;
             case "PM":
+              this.router.navigateByUrl('/HFSBusiness/postreport-management');
+              break;
             case "MM":
-              this.router.navigateByUrl('/HFSBusiness');
+              this.router.navigateByUrl('/HFSBusiness/menureport-management');
+              break;
+            case "AC":
+              this.router.navigateByUrl('/HFSBusiness/accountant/withdraw-request');
               break;
             default: this.router.navigateByUrl('/login-2');
           }
@@ -211,12 +222,22 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
                 this.router.navigateByUrl('/homepage');
                 break;
               case "AD":
-               case "AC":
+                this.router.navigateByUrl('/HFSBusiness/admin/dashboard');
+                break;
               case "SE":
+                this.router.navigateByUrl('/HFSBusiness/order-management');
+                break;
               case "SH":
+                this.router.navigateByUrl('/HFSBusiness/order-management');
+                break;
               case "PM":
+                this.router.navigateByUrl('/HFSBusiness/postreport-management');
+                break;
               case "MM":
-                this.router.navigateByUrl('/HFSBusiness');
+                this.router.navigateByUrl('/HFSBusiness/menureport-management');
+                break;
+              case "AC":
+                this.router.navigateByUrl('/HFSBusiness/accountant/withdraw-request');
                 break;
               default: this.router.navigateByUrl('/login-2');
             }
@@ -292,10 +313,8 @@ export class LoginNonCustomerComponent extends iComponentBase  implements OnInit
       case 'MM':
         this.router.navigateByUrl('/HFSBusiness');
         break;
-
       default:
         window.location.reload();
-
     }
   }
 

@@ -112,7 +112,7 @@ namespace HFS_BE.Dao.ShopDao
                     .ThenInclude(x => x.FoodImages)
                     .Include(x => x.Orders)
                     .ThenInclude(x => x.OrderDetails)
-                    .Where(x => x.SellerId.Equals(inputDto.ShopId) && x.Status == 1)
+                    .Where(x => x.SellerId.Equals(inputDto.ShopId) && x.Status == 1 && !x.IsBanned.Value && x.ConfirmedEmail.Value && x.IsPhoneVerified.Value)
                     .FirstOrDefault();
 
                 

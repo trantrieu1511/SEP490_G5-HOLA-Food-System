@@ -63,7 +63,7 @@
               (onSelect)="handleFileSelection($event)"
               (onRemove)="handleFileRemoval($event)"
               (onClear)="handleAllFilesClear($event)"
-              [multiple]="true" accept="image/*" [maxFileSize]="1000000"
+              [multiple]="true" accept="image/*" [maxFileSize]="25000000 "
               [showUploadButton]="false" >
               <ng-template pTemplate="content">
                   <!-- <ul *ngIf="uploadedFiles.length > 0">
@@ -146,7 +146,7 @@
                                   (onRemove)="handleFileRemoval1($event)"
                                   (onClear)="handleAllFilesClear1($event)"
                                   [multiple]="false"
-                                  accept="image/*" [maxFileSize]="1000000"
+                                  accept="image/*" [maxFileSize]="25000000 "
                                   [showUploadButton]="false">
                       <ng-template pTemplate="content">
                         <!-- Nội dung tùy chỉnh (nếu cần) -->
@@ -167,7 +167,7 @@
                                   (onRemove)="handleFileRemoval2($event)"
                                   (onClear)="handleAllFilesClear2($event)"
                                   [multiple]="false"
-                                  accept="image/*" [maxFileSize]="1000000"
+                                  accept="image/*" [maxFileSize]="25000000 "
                                   [showUploadButton]="false">
                       <ng-template pTemplate="content">
                         <!-- Nội dung tùy chỉnh (nếu cần) -->
@@ -197,7 +197,7 @@
               (onSelect)="handleFileSelection($event)"
               (onRemove)="handleFileRemoval($event)"
               (onClear)="handleAllFilesClear($event)"
-              [multiple]="true" accept="image/*" [maxFileSize]="1000000"
+              [multiple]="true" accept="image/*" [maxFileSize]="25000000 "
               [showUploadButton]="false" >
               <ng-template pTemplate="content">
                   <!-- <ul *ngIf="uploadedFiles.length > 0">

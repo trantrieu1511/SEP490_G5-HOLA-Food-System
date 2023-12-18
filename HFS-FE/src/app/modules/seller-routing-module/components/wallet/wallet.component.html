@@ -72,7 +72,7 @@
             <div class="col-12 mb-2 lg:col-4 mb-lg-0">
               <span class="p-input-icon-left p-float-label" style="width: 100%">
                 <input
-                  type="text"
+                  type="number"
                   class="w-full"
                   [(ngModel)]="value"
                   pInputText
@@ -128,7 +128,7 @@
         <div class="grid">
           <div class="col-12 mb-2 mb-lg-0">
             <span class="p-input-icon-left p-float-label" style="width: 100%">
-              <input type="text" class="w-full" [(ngModel)]="tranferInput.value" pInputText />
+              <input type="number" class="w-full" [(ngModel)]="tranferInput.value" pInputText />
               <label>{{'walletSellerScreen.TransferValue' | translate}}</label>
             </span>
           </div>
@@ -184,7 +184,7 @@
       <div class="grid">
         <div class="col-12 mb-2 mb-lg-0">
           <span class="p-input-icon-left p-float-label" style="width: 100%">
-            <input type="text" class="w-full" [(ngModel)]="withDrawRequestInput.value" pInputText />
+            <input type="number" class="w-full" [(ngModel)]="withDrawRequestInput.value" pInputText />
             <label>{{'walletSellerScreen.WithdrawValue' | translate}}</label>
           </span>
         </div>

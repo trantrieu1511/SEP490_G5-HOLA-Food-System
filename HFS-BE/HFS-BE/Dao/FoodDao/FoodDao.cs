@@ -383,7 +383,10 @@ namespace HFS_BE.Dao.FoodDao
 
         public Food GetFoodById(GetFoodByFoodIdDaoInputDto inputDto)
         {
-            return context.Foods.FirstOrDefault(x => x.FoodId == inputDto.FoodId);
+            return context.Foods
+                .Include(x => x.Seller)
+                .FirstOrDefault(x => x.FoodId == inputDto.FoodId && x.Status == 1
+                && x.Seller.Status == 1 && !x.Seller.IsBanned.Value && x.Seller.ConfirmedEmail.Value && x.Seller.IsPhoneVerified.Value);
         }
 
         public FoodShopDaoOutputDto GetFoodByCategory(GetFoodByCategoryDaoInputDto inputDto)

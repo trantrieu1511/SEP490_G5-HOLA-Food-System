@@ -878,9 +878,10 @@ export class iServiceBase {
         if (response.errors.validationErrors && response.errors.validationErrors.length > 0) {
             const validationErrors = response.errors.validationErrors;
             validationErrors.forEach(element => {
-                message += element.field + "\n";
+                //message += element.field + "\n";
                 element.messages.forEach((mess, index) => {
-                    message += "\t" + mess + "\n";
+                    //message += "\t" + mess + "\n";
+                    message += mess + "\n";
                 });
             });
         }
