@@ -21,6 +21,7 @@ import { DashboardPostModStatistic } from '../../models/dashboard-postmod.model'
 import { DatePipe } from '@angular/common';
 import { ColorLineChart } from 'src/app/utils/colorLineChart';
 import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-dashboard-postmod',
@@ -41,6 +42,8 @@ export class DashboardPostmodComponent extends iComponentBase implements OnInit 
     currentDate: Date = new Date();
     isDisplaySystemChart: boolean = false;
     isDisplayMyChart: boolean = false;
+    Unbannote:string;
+    Bannote:string;
 
     constructor(
         private datePipe: DatePipe,
@@ -51,6 +54,7 @@ export class DashboardPostmodComponent extends iComponentBase implements OnInit 
         public router: Router,
         public authService: AuthService,
         public breadcrumbService: AppBreadcrumbService,
+        public translate: TranslateService
     ) {
         super(messageService, breadcrumbService);
 
@@ -58,6 +62,12 @@ export class DashboardPostmodComponent extends iComponentBase implements OnInit 
             {label: 'HFSBusiness'},
             {label: 'Dashboard', routerLink: ['/HFSBusiness/postmoderator/dashboard']}
         ]);
+
+        this.translate.get('adminPostManagementScreen').subscribe( (text: any) => {
+            this.Unbannote = text.Unbannote; 
+            this.Bannote = text.Bannote; 
+          });
+
         this.systemCalendarRangeDates = [];
         this.systemCalendarRangeDates[0] = this.systemCalendarRangeDates[1] = new Date();
         this.myCalendarRangeDates = [];
@@ -110,25 +120,7 @@ export class DashboardPostmodComponent extends iComponentBase implements OnInit 
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-        // this.data = {
-        //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        //     datasets: [
-        //         {
-        //             label: 'First Dataset',
-        //             data: [65, 59, 80, 81, 56, 55, 40],
-        //             fill: false,
-        //             borderColor: documentStyle.getPropertyValue('--blue-500'),
-        //             tension: 0.4
-        //         },
-        //         {
-        //             label: 'Second Dataset',
-        //             data: [28, 48, 40, 19, 86, 27, 90],
-        //             fill: false,
-        //             borderColor: documentStyle.getPropertyValue('--pink-500'),
-        //             tension: 0.4
-        //         }
-        //     ]
-        // };
+        
 
         this.options = {
             maintainAspectRatio: false,
