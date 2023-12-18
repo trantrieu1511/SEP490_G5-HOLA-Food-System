@@ -31,7 +31,7 @@ namespace HFS_BE.Dao.ShopDao
                     .ThenInclude(x => x.FoodImages)
                     .Include(x => x.Orders)
                     .ThenInclude(x => x.OrderDetails)
-                    .Where(x => x.Status == 1).ToList();
+                    .Where(x => x.Status == 1&&x.IsBanned==false).ToList();
 
                 DisplayShopDaoOutputDto outputDto = this.Output<DisplayShopDaoOutputDto>(Constants.ResultCdSuccess);
                 //output = this.Paginate(output, inputDto.Pagination);

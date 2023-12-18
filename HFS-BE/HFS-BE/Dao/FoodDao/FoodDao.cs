@@ -451,7 +451,7 @@ namespace HFS_BE.Dao.FoodDao
                     .Include(x => x.Category)
                     .Include(x => x.OrderDetails)
                     .Include(x => x.Feedbacks)
-                    .Where(x => x.Status == 1)
+                    .Where(x => x.Status == 1&& x.IsBanned == false)
                     .ToList();
 
                 var listfood = new List<FoodOutputDto>();
@@ -516,7 +516,7 @@ namespace HFS_BE.Dao.FoodDao
                     .Include(x => x.Category)
                     .Include(x => x.OrderDetails)
                     .Include(x => x.Feedbacks)
-                    .Where(x => x.Status == 1
+                    .Where(x => x.Status == 1 &&x.Seller.IsBanned==false
                             && (!inputDto.Category.Any() || inputDto.Category.Contains(x.CategoryId.Value)))
                     .ToList();
 
