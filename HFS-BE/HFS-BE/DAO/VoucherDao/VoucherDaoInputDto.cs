@@ -15,9 +15,10 @@ namespace HFS_BE.DAO.VoucherDao
         public decimal? MinimumOrderValue { get; set; }
         [Required]
         [DateNotInPast(ErrorMessage = "EffectiveDate cannot be in the past")]
+
         public DateTime EffectiveDate { get; set; }
         [Required]
-        [DateEndAfterDateFrom(ErrorMessage = "ExpireDate must be greater than or equal to EffectiveDate")]
+        [ExpireDateAfterExpireDate(ErrorMessage = "ExpireDate must be greater than or equal to EffectiveDate")]
         public DateTime ExpireDate { get; set; }
     }
 
