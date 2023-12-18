@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
 import { DashboardSeller } from '../../models/dashboard-seller.model';
 import { ColorLineChart } from 'src/app/utils/colorLineChart';
 import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'dashboard-seller',
@@ -31,11 +32,16 @@ export class DashboardSellerComponent extends iComponentBase implements OnInit{
 
   chooseDisplayLine: any = 0;
 
+  Order:string;
+  Amount:string;
+  Sold:string;
+
   constructor(
     private datePipe: DatePipe,
     public messageService: MessageService,
     private iServiceBase: iServiceBase,
     public breadcrumbService: AppBreadcrumbService,
+    public translate: TranslateService
   ){
     super(messageService, breadcrumbService);
     this.rangeDates = [];
@@ -45,6 +51,12 @@ export class DashboardSellerComponent extends iComponentBase implements OnInit{
       {label: 'HFSBusiness'},
       {label: 'Dashboard', routerLink: ['/HFSBusiness/seller/dashboard']}
     ]);
+
+    this.translate.get('CusAdminScreen').subscribe( (text: any) => {
+      this.Order = text.Order; 
+      this.Amount = text.Amount;  
+      this.Sold = text.Sold;   
+    });
   }
 
 
@@ -191,7 +203,8 @@ export class DashboardSellerComponent extends iComponentBase implements OnInit{
     // })
 
     this.dataDashboardPie = {
-      labels: ['Order', 'Amount', 'Sold'],
+      
+      labels: [this.Order, this.Amount, this.Sold],
       datasets: [
           {
               data: [this.dataDashboard.orderCount, this.dataDashboard.amountCount, this.dataDashboard.soldCount],

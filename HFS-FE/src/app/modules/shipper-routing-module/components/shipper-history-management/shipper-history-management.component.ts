@@ -37,6 +37,7 @@ export class ShipperHistoryManagementComponent extends iComponentBase implements
   rangeDates: Date[] | undefined;
   currentDate: Date = new Date();
   disabledIds = ['0', '1', '2', '3'];
+  header:string
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2, public messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -48,6 +49,10 @@ export class ShipperHistoryManagementComponent extends iComponentBase implements
       {label: 'HFSBusiness'},
       {label: 'History Management', routerLink: ['/HFSBusiness/shipper/history']}
     ]);
+
+    this.translate.get('shipperhistoryScreen').subscribe( (text: any) => {
+      this.header = text.detail; 
+    });
     this.rangeDates = [];
     this.rangeDates[0] = this.rangeDates[1] = new Date();
   }
@@ -111,7 +116,7 @@ export class ShipperHistoryManagementComponent extends iComponentBase implements
 
     this.orderDetails = orderFiltered.orderDetails;
     this.orderProgresses = orderFiltered.orderProgresses;
-    this.headerDialog = 'Detail';
+    this.headerDialog = this.header;
     this.displayDialogConfirm = true;
 
   }

@@ -61,7 +61,31 @@
     "image": "Image",
     "foodName": "FoodName",
     "unitPrice": "UnitPrice",
-    "quantity": "Quantity"
+    "quantity": "Quantity",
+    "Confirm":"Confirm",
+    "Complete":"Complete",
+    "InComplete":"InComplete",
+    "StartShipping":"Start Shipping",
+    "WALLET":"WALLET",
+    "COD":"COD",
+    "Customer":"Customer",
+    "Shop":"Shop",
+    "FullnameSeller":"Fullname Seller",
+    "Email":"Email",
+    "PhoneNumber":"PhoneNumber",
+    "Accept":"Accept",
+    "Action":"Action",
+    "Pending":"Pending",
+    "Accepted":"Accepted",
+    "Rejected":"Rejected",
+    "reportContent2":"The customer does not accept the order",
+    "reportContent3":"The order does not match the customer's requirements",
+    "reportContent4":"Delivery time is too long",
+    "Other":"Other",
+    "Reject":"Reject",
+    "listinvitationbyshipper":"listinvitationbyshipper",
+    "reportContent1":"Customers don't answer the phone",
+    "emptymessage1":"There are no order for this product yet."
   },
   "shipperhistoryScreen": {
     "allOrderhistory": "Delivery history",
@@ -154,7 +178,9 @@
     "emptymessage": "No voucher yet.",
     "total": "Total",
     "voucher": "vouchers",
-    "Voucherinformation": "Voucher information"
+    "Voucherinformation": "Voucher information",
+    "AddNewVoucher":"Add New Voucher",
+    "EditVoucher":"Edit Voucher: "
   },
   "shipperSellerScreen": {
     "ShipperManagementbySeller": "Shipper Management",
@@ -169,6 +195,7 @@
     "Action": "Action",
     "emptymessage": "No Shipper yet.",
     "total": "Total",
+    "ListInvitation":"List Invitation",
     "foods": "foods",
     "InvitationShipperbyEmail": "Invitation Shipper by Email",
     "Accept": "Accept",
@@ -217,11 +244,12 @@
     "Action": "Action",
     "foods": "foods",
     "Total": "Total",
-    "SearchFoodbyname": "Search Food by name",
+    "SearchFoodbyname": "Search by name",
     "emptymessage": "No food yet.",
     "Foodinformation": "Food information",
     "Name": "Name",
     "Size": "Size",
+    "AddNewFood": "Add New Food",
     "ListImage": "List Image",
     "ViewFoodDescription": "View Food Description"
   },
@@ -242,7 +270,9 @@
     "Size": "Size",
     "ListImage": "List Image",
     "ViewPostContent": "View Post Content",
-    "NoImage": "No Image"
+    "NoImage": "No Image",
+    "AddNewPost":"Add New Post",
+    "EditPostID":"Edit Post ID:"
   },
   "homePageScreen": {
     "Food": "Food",
@@ -516,7 +546,7 @@
     "Changepassword": "Change password",
     "foodreports": " reports",
     "Email": "Email",
-    "Verifyemail": "Verify email",
+    "Verifyemail": "Confirm email",
     "Emailhasbeenverified": "Email has been verified",
     "Manageby": "Manage by",
     "VerifiedPhoneNumber": "Verify phone number",
@@ -668,7 +698,8 @@
     "Recject": "Recject",
     "Verification": "Verification",
     "Note": "Note",
-    "ManageBy": "ManageBy"
+    "ManageBy": "ManageBy",
+    "Verified":"Verified"
   },
   "postAdminScreen": {
     "PostModeratorManagement": "Post Moderator Management",
@@ -854,5 +885,130 @@
     "CommentBtn": "Comment",
     "CommentDialogHeader": "Comment list",
     "NewsFeedFUFood": "Newsfeed Fu Food"
+  },
+
+  "dashSellerScreen": {
+    "Datatime":"Data time",
+    "Order":"Order",
+    "EstimatedAmount":"Estimated Amount",
+    "Numberofdishessold":"Number of dishes sold",
+    "Amount":"Amount",
+    "Sold":"Sold"
+  },
+
+  "feedBackSellerScreen": {
+    "FeedBackManagement":"FeedBack Management",
+    "Total":"Total",
+    "feedback":"feedback",
+    "Searchbyname":"Search by name",
+    "ID":"ID",
+    "FoodName":"FoodName",
+    "CustomerName":"CustomerName",
+    "Star":"Star",
+    "FeedBack":"FeedBack",
+    "CreateDate":"CreateDate",
+    "FeedBackImage":"FeedBackImage",
+    "Action":"ID",
+    "emptymessage":"No Feedback yet.",
+    "Reply":"Reply",
+    "ListImage":"List Image",
+    "Image":"Image",
+    "Name":"Name",
+    "Size":"Size",
+    "NoImage":"No Image"
+  },
+
+  "notiScreen": {
+    "LogintoviewNotifications":"Login to view Notifications",
+    "Login":"Login",
+    "listItem":"List Item",
+    "NotificationManagement":"Notification Management",
+    "YouhavenoNotifications":"You have no Notifications",
+    "ViewAllNotifications":"View All Notifications",
+    "Markallnotificationsasread":"Mark all notifications as read"
+  },
+  
+  "footerScreen": {
+    "Contactforcooperation":"Contact for cooperation",
+    "Connectwithus":"Connect with us"
+  },
+
+  "dashboadShipperScreen": {
+    "Datatime":"Data time",
+    "TotalOrder":"Total Order",
+    "OrderDay":"Data time",
+    "Complete":"Complete",
+    "InComplete":"InComplete",
+    "OrderMonth":"Order Month",
+    "AmoutMonth":"Amout Month",
+    "AmoutDay":"Amout Day"
+  },
+
+  "dashboadPostScreen": {
+    "Systemstatistics":"System statistics",
+    "Alltime":"All time",
+    "Totalpostsinthesystem":"Total posts in the system",
+    "Totalbannedpostsinthesystem":"Total banned posts in the system",
+    "Totalpostreportsinthesystem":"Total post reports in the system",
+    "Totalpendingpostreports":"Total pending post reports",
+    "Totalapprovedpostreports":"Total approved post reports",
+    "Mydata":"My data",
+    "Totalnotapprovedpostreports":"Total not approved post reports",
+    "Fromdatetodate":"From date to date",
+    "Approvedpostreports":"Approved post reports",
+    "Notapprovedpostreports":"Not approved post reports",
+    "Notapprovedpost":"Not approved post",
+    "Datatime":"Datatime",
+    "Mystatistics":"Mystatistics"
+  },
+
+  "adminPostManagementScreen": {
+    "PostManagement":"Post Management",
+    "Total":"Total",
+    "posts":"posts",
+    "SearchPostbycontent":"Search Post by content",
+    "ID":"ID",
+    "SellerID":"SellerID",
+    "PostContent":"Post Content",
+    "CreatedDate":"Created Date",
+    "Images":"Images",
+    "Status":"Status",
+    "Action":"Action",
+    "Ban":"Ban",
+    "Unban":"Unban",
+    "Bandetail":"Ban detail",
+    "emptymessage":"No post yet.",
+    "Viewdetail":"View detail",
+    "Bandate":"Ban date",
+    "Banby":"Ban by",
+    "Bannote":"Ban note",
+    "Enternoteforunbanning":"Enter note for unbanning",
+    "Enternoteforbanning":"Enter note for banning",
+    "Cancel":"Cancel",
+    "Image":"Image",
+    "Name":"Name",
+    "Size":"Size",
+    "NoImage":"No Image",
+    "ImageList":"Image List"
+  },
+
+  "adPostRpManagementScreen": {
+    "Postreportmanagement":"Post report management",
+    "Total":"Total",
+    "postreports":"post reports",
+    "Searchpostreport":"Search post report",
+    "PostId":"Post Id",
+    "ReportBy":"ReportBy",
+    "ReportContent":"ReportContent",
+    "CreatedDate":"CreatedDate",
+    "UpdatedDate":"UpdatedDate",
+    "UpdatedBy":"UpdatedBy",
+    "Status":"Status",
+    "Note":"Note",
+    "Action":"Action",
+    "emptymessage":"No post report yet.",
+    "Entersomenote":"Enter some note (Optional)",
+    "Save":"Save",
+    "Cancel":"Cancel"
   }
 }

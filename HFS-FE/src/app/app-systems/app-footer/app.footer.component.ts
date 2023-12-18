@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AppComponent} from '../../app.component';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-footer',
@@ -14,7 +15,7 @@ export class AppFooterComponent {
     currentYear: number = new Date().getFullYear();
     noCopyright: string;
 
-    constructor(public layoutService: LayoutService) {
+    constructor(public layoutService: LayoutService,public translate: TranslateService) {
         this.noCopyright = '© ' + this.currentYear + ' - ' + 'Bản quyền thuộc về anh em Nhóm 5-490 Đồ án Kỹ thuật phần mềm'
     }
 }

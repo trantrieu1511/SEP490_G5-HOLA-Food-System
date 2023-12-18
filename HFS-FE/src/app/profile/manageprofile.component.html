@@ -270,7 +270,7 @@
 
             <label>{{'profileScreen.EditLicenseImageSection' | translate}} <span style="color: red;">*</span></label>
             <span class="p-input-icon-left p-float-label" style="width: 100%">
-                <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="1000000" showUploadButton="false" style="width: 50%">
+                <!-- <p-fileUpload [multiple]="true" accept="image/*" maxFileSize="25000000 " showUploadButton="false" style="width: 50%">
                     <ng-template pTemplate="content">
                         <ul *ngIf="foodModel.images.length">
                         </ul>
@@ -278,7 +278,7 @@
                 </p-fileUpload> -->
                 <p-fileUpload class=" w-full" #fileUploader [files]="uploadedFiles" [customUpload]="true"
                     (onSelect)="handleLicenseFileSelection($event)" (onRemove)="handleFileRemoval($event)"
-                    (onClear)="handleAllFilesClear($event)" [multiple]="true" accept="image/*" [maxFileSize]="1000000"
+                    (onClear)="handleAllFilesClear($event)" [multiple]="true" accept="image/*" [maxFileSize]="25000000 "
                     [showUploadButton]="false">
                     <ng-template pTemplate="content">
                         <!-- <ul *ngIf="uploadedFiles.length > 0">
@@ -368,7 +368,7 @@
                             [files]="uploadedFilesShippper" [customUpload]="true"
                             (onSelect)="handleFileSelection1($event)" (onRemove)="handleFileRemoval1($event)"
                             (onClear)="handleAllFilesClear1($event)" [multiple]="false" accept="image/*"
-                            [maxFileSize]="1000000" [showUploadButton]="false">
+                            [maxFileSize]="25000000" [showUploadButton]="false">
                             <ng-template pTemplate="content">
                                 <!-- Nội dung tùy chỉnh (nếu cần) -->
                             </ng-template>
@@ -385,7 +385,7 @@
                             [files]="uploadedFilesShippper2" [customUpload]="true"
                             (onSelect)="handleFileSelection2($event)" (onRemove)="handleFileRemoval2($event)"
                             (onClear)="handleAllFilesClear2($event)" [multiple]="false" accept="image/*"
-                            [maxFileSize]="1000000" [showUploadButton]="false">
+                            [maxFileSize]="25000000" [showUploadButton]="false">
                             <ng-template pTemplate="content">
                                 <!-- Nội dung tùy chỉnh (nếu cần) -->
                             </ng-template>
@@ -461,7 +461,7 @@
                     <!-- <p-button >import img</p-button> -->
                     <p-fileUpload [files]="uploadedFiles" mode="basic"
                         [chooseLabel]="profileImage.imageBase64 == undefined ? addUpBtn : edtUpBtn" name="demo[]"
-                        [showUploadButton]="false" [customUpload]="true" accept="image/*" [maxFileSize]="1000000"
+                        [showUploadButton]="false" [customUpload]="true" accept="image/*" [maxFileSize]="25000000 "
                         (onSelect)="handleFileSelection($event);" [auto]="true"></p-fileUpload>
                     <!-- <br><br> -->
                 </div>

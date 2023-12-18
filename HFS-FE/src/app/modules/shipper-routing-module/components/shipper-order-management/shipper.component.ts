@@ -77,6 +77,7 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
   requestLabel: string;
   shippingLabel: string;
   visibleMapBox: boolean = false
+  header1:string;
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2, public messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -92,11 +93,16 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
       { label: 'Order Management', routerLink: ['/HFSBusiness/order-management'] }
     ]);
 
+    this.translate.get('shipperScreen').subscribe( (text: any) => {
+      this.header1 = text.Confirm; 
+    });
+
     this.items = [
       { label: "Request", id: '0' },
       { label: "Shipping", id: '1' },
     ];
 
+    
     this.activeItem = this.items[0];
 
     this.initTabMenuitem();
@@ -239,7 +245,7 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
   }
   Complete(orderId: number, type: number) {
 
-    this.headerDialog = 'Confirm';
+    this.headerDialog = this.header1;
 
     this.selectedOrderId = orderId;
     this.selectedtype = type;
@@ -252,7 +258,7 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
   }
   InComplete(orderId: number, type: number) {
 
-    this.headerDialog = 'Confirm';
+    this.headerDialog = this.header1;
 
     this.selectedOrderId = orderId;
     this.selectedtype = type;

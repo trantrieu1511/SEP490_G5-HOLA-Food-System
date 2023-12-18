@@ -61,7 +61,31 @@
     "image": "Ảnh",
     "foodName": "Tên",
     "unitPrice": "Giá",
-    "quantity": "Số Lượng"
+    "quantity": "Số Lượng",
+    "Confirm":"Xác nhận",
+    "Complete":"Thành công",
+    "InComplete":"Không thành công",
+    "StartShipping":"Bắt đầu vận chuyển",
+    "WALLET":"Ví",
+    "COD":"Thanh toán khi nhận hàng",
+    "Customer":"Khách hàng",
+    "Shop":"Cửa hàng",
+    "FullnameSeller":"Họ tên người bán",
+    "Email":"Email",
+    "PhoneNumber":"Số điện thoại",
+    "Accept":"Chấp nhận",
+    "Action":"Thao Tác",
+    "Pending":"Đang chờ xử lý",
+    "Accepted":"Đã chấp nhận",
+    "Rejected":"Bị từ chối",
+    "reportContent2":"Khách hàng không chấp nhận đơn hàng",
+    "reportContent3":"Đơn hàng không phù hợp với yêu cầu của khách hàng",
+    "reportContent4":"Thời gian giao hàng quá lâu",
+    "Other":"Khác",
+    "Reject":"Từ chối",
+    "listinvitationbyshipper":"Lời mời",
+    "reportContent1":"Khách hàng không trả lời điện thoại",
+    "emptymessage1":"Chưa có đơn đặt hàng nào cho sản phẩm này."
   },
   "shipperhistoryScreen": {
     "allOrderhistory": "Lịch Sử Giao Hàng",
@@ -154,7 +178,9 @@
     "emptymessage": "Chưa có mã giảm giá nào.",
     "total": "Total",
     "voucher": "mã giảm giá",
-    "Voucherinformation": "Thông tin mã giảm giá"
+    "AddNewVoucher":"Thêm mã giảm giá mới",
+    "Voucherinformation": "Thông tin mã giảm giá",
+    "EditVoucher":"Chỉnh sửa mã giảm giá: "
   },
   "shipperSellerScreen": {
     "ShipperManagementbySeller": "Quản lý người giao hàng",
@@ -176,7 +202,7 @@
     "Accepted": "Đã chấp nhận",
     "Rejected": "Bị từ chối",
     "Invitation": "Lời mời",
-    "ListInvitation": "List Invitation"
+    "ListInvitation": "Danh sách lời mời"
   },
   "walletSellerScreen": {
     "wallet": "Số dư trên ví",
@@ -218,6 +244,7 @@
     "Action": "Thao Tác",
     "foods": "đồ ăn",
     "Total": "Tổng",
+    "AddNewFood": "Thêm món ăn mới",
     "SearchFoodbyname": "Tìm kiếm món ăn theo tên",
     "emptymessage": "Chưa có đồ ăn.",
     "Foodinformation": "Thông tin đồ ăn",
@@ -242,8 +269,10 @@
     "Name": "Tên",
     "Size": "Kích thước",
     "ListImage": "Danh sách hình ảnh",
-    "ViewPostContent": "View Post Content",
-    "NoImage": "No Image"
+    "ViewPostContent": "Xem nội dung bài viết",
+    "NoImage": "Không có hình ảnh",
+    "AddNewPost":"Thêm bài đăng mới",
+    "EditPostID":"Chỉnh sửa bài đăng ID:"
   },
   "homePageScreen": {
     "Food": "Thức ăn",
@@ -668,7 +697,8 @@
     "Recject": "Từ chối",
     "Verification": "Xác minh",
     "Note": "Ghi chú",
-    "ManageBy": "Được quản lý"
+    "ManageBy": "Được quản lý",
+    "Verified":"Đã xác minh"
   },
   "postAdminScreen": {
     "PostModeratorManagement": "Quản lý người điều hành bài đăng",
@@ -854,5 +884,131 @@
     "CommentBtn": "Bình luận",
     "CommentDialogHeader": "Các bình luận",
     "NewsFeedFUFood": "Bảng tin đồ ăn FU"
+  },
+
+  "dashSellerScreen": {
+    "Datatime":"Thời gian",
+    "Order":"Đơn hàng",
+    "EstimatedAmount":"Số tiền ước tính",
+    "Numberofdishessold":"Số món ăn đã bán",
+    "Amount":"Số tiền",
+    "Sold":"Đã bán"
+  },
+
+  "feedBackSellerScreen": {
+    "FeedBackManagement":"Quản lý phản hồi",
+    "Total":"Tổng có",
+    "feedback":"Phản hồi",
+    "Searchbyname":"Tìm kiếm theo tên",
+    "ID":"ID",
+    "FoodName":"Tên món ăn",
+    "CustomerName":"Tên khách hàng",
+    "Star":"Ngôi sao",
+    "FeedBack":"Phản hồi",
+    "CreateDate":"Ngày tạo",
+    "FeedBackImage":"Hình ảnh đánh giá",
+    "Action":"Thao Tác",
+    "emptymessage":"Chưa có phản hồi.",
+    "Reply":"Trả lời",
+    "ListImage":"Danh sách hình ảnh",
+    "Image":"Hình ảnh",
+    "Name":"Tên",
+    "Size":"Kích thước",
+    "NoImage":"Không có hình ảnh"
+  },
+
+  "notiScreen": {
+    "LogintoviewNotifications":"Đăng nhập để xem Thông báo",
+    "Login":"Đăng nhập",
+    "listItem":"Danh sách sản phẩm",
+    "NotificationManagement":"Quản lý thông báo",
+    "YouhavenoNotifications":"Bạn không có thông báo",
+    "ViewAllNotifications":"Xem tất cả thông báo",
+    "Markallnotificationsasread":"Đánh dấu tất cả thông báo là đã đọc"
+  },
+
+  "footerScreen": {
+    "Contactforcooperation":"Liên hệ để hợp tác",
+    "Connectwithus":"Kết nối với chúng tôi"
+  },
+
+  "dashboadShipperScreen": {
+    "Datatime":"Thời gian",
+    "TotalOrder":"Tổng đơn hàng",
+    "OrderDay":"Đơn hàng theo ngày",
+    "Complete":"Thành công",
+    "InComplete":"Không thành công",
+    "OrderMonth":"Đơn hàng theo ngày",
+    "AmoutMonth":"Tổng tiền theo tháng",
+    "AmoutDay":"Tổng tiền theo ngày"
+  },
+
+  "dashboadPostScreen": {
+    "Systemstatistics":"Thống kê hệ thống",
+    "Alltime":"Mọi lúc",
+    "Totalpostsinthesystem":"Tổng số bài viết trong hệ thống",
+    "Totalbannedpostsinthesystem":"Tổng số bài viết bị cấm trong hệ thống",
+    "Totalpostreportsinthesystem":"Tổng số bài đăng được báo cáo trong hệ thống",
+    "Totalpendingpostreports":"Tổng số báo cáo bài viết đang chờ xử lý",
+    "Totalapprovedpostreports":"Tổng số báo cáo bài đăng được phê duyệt",
+    "Mydata":"Dữ liệu của tôi",
+    "Totalnotapprovedpostreports":"Tổng số báo cáo bài đăng không được phê duyệt",
+    "Fromdatetodate":"Từ ngày này sang ngày khác",
+    "Approvedpostreports":"Báo cáo bài đăng đã được phê duyệt",
+    "Notapprovedpostreports":"Báo cáo bài đăng không được phê duyệt",
+    "Notapprovedpost":"Bài đăng không được phê duyệt",
+    "Datatime":"Thời gian",
+    "Mystatistics":"Thống kê"
+  },
+
+  "adminPostManagementScreen": {
+    "PostManagement":"Quản lý bài viết",
+    "Total":"Tổng có",
+    "posts":"bài viết",
+    "SearchPostbycontent":"Tìm kiếm bài viết ",
+    "ID":"ID",
+    "SellerID":"ID người bán",
+    "PostContent":"Nội dung bài viết",
+    "CreatedDate":"Ngày tạo",
+    "Images":"Hình ảnh",
+    "Status":"Trạng thái",
+    "Action":"Thao Tác",
+    "Ban":"Cấm",
+    "Unban":"Bỏ cấm",
+    "Bandetail":"Chi tiết cấm",
+    "emptymessage":"Chưa có bài đăng nào.",
+    "Viewdetail":"Xem chi tiết",
+    "Bandate":"Ngày cấm",
+    "Banby":"Bị cấm bởi",
+    "Bannote":"Ghi chú cấm",
+    "Unbannote":"Ghi chú bỏ cấm",
+    "Enternoteforunbanning":"Nhập ghi chú để bỏ cấm",
+    "Enternoteforbanning":"Nhập ghi chú để cấm",
+    "Cancel":"Hủy",
+    "Image":"Hình ảnh",
+    "Name":"Tên ",
+    "Size":"Kích thước",
+    "NoImage":"Không có hình ảnh",
+    "ImageList":"Nhập ghi chú để cấm"
+  },
+
+  "adPostRpManagementScreen": {
+    "Postreportmanagement":"Đăng quản lý báo cáo",
+    "Total":"Tổng có",
+    "postreports":"đăng báo cáo",
+    "Searchpostreport":"Tìm kiếm báo cáo bài đăng",
+    "PostId":"Id bài đăng",
+    "ReportBy":"Báo cáo bởi",
+    "ReportContent":"Nội dung báo cáo",
+    "CreatedDate":"Ngày tạo",
+    "UpdatedDate":"Ngày cập nhật",
+    "UpdatedBy":"Cập nhật bởi",
+    "Status":"Trạng thái",
+    "Note":"Ghi chú",
+    "Action":"Thao Tác",
+    "emptymessage":"Chưa có báo cáo bài đăng nào.",
+    "Entersomenote":"Nhập một số ghi chú (Tùy chọn)",
+    "Save":"Lưu",
+    "Cancel":"Hủy"
   }
 }

@@ -10,9 +10,6 @@ using HFS_BE.DAO.UserDao;
 using HFS_BE.DAO.VoucherDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
-using HFS_BE.Utils.Enum;
-using Newtonsoft.Json.Linq;
-using Twilio.Rest.Api.V2010.Account;
 
 namespace HFS_BE.BusinessLogic.Cart
 {
@@ -60,6 +57,11 @@ namespace HFS_BE.BusinessLogic.Cart
                         if (voucher == null)
                         {
                             return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Voucher Invalid");
+                        }
+
+                        if (!item.ShopId.Equals(voucher.SellerId))
+                        {
+                            return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Can't use " + item.Voucher);
                         }
 
                         if (voucher.ExpireDate <= today || voucher.EffectiveDate >= today)

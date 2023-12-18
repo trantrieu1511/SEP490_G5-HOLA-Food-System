@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { ColorLineChart } from 'src/app/utils/colorLineChart';
 import { AppBreadcrumbService } from 'src/app/app-systems/app-breadcrumb/app.breadcrumb.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-dashboad-shipper-module',
   templateUrl: './dashboad-shipper-module.component.html',
@@ -24,20 +25,28 @@ export class DashboadShipperModuleComponent extends iComponentBase implements On
   rangeDates: Date[] | undefined;
   currentDate: Date = new Date();
   isDisplayChart: boolean = false;
+  complete:string;
+  incomplete:string;
 
   constructor(
     private datePipe: DatePipe,
     public messageService: MessageService,
     private iServiceBase: iServiceBase,
     public breadcrumbService: AppBreadcrumbService,
+    public translate: TranslateService
   ){
     super(messageService, breadcrumbService);
+    
 
     this.breadcrumbService.setItems([
       {label: 'HFSBusiness'},
       {label: 'Dashboard', routerLink: ['/HFSBusiness/shipper/dashboad']}
     ]);
 
+    this.translate.get('dashboadShipperScreen').subscribe( (text: any) => {
+      this.complete = text.Complete; 
+      this.incomplete = text.InComplete; 
+    });
     this.rangeDates = [];
     this.rangeDates[0] = this.rangeDates[1] = new Date();
 
@@ -45,6 +54,7 @@ export class DashboadShipperModuleComponent extends iComponentBase implements On
     this.rangeDates[0] = new Date(this.rangeDates[1]);
     this.rangeDates[0].setDate(this.rangeDates[0].getDate() - 1);
 
+    
   }
 
 
@@ -201,20 +211,22 @@ this.shippperdashboardTotal();
           param2
         );
         console.log(response);
+        
         const completedData = response.filter(item => item.status === 4).map(item => item.data);
         const incompletedData = response.filter(item => item.status === 5).map(item => item.data);
         this.data2 = {
+          
             labels:dateList.map(item => item),
             datasets: [
                 {
-                    label: 'Completed',
+                    label:  this.complete,
                     data: completedData,
                     fill: false,
                     tension: 0.4,
                     borderColor: documentStyle.getPropertyValue('--blue-500')
                 },
                 {
-                    label: 'InCompleted',
+                    label: this.incomplete,
                     data: incompletedData,
                     fill: false,
                     borderDash: [5, 5],

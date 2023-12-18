@@ -48,6 +48,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
 
   selectedCategory: Category = new Category();
 
+  header1:string;
   @ViewChild('dt') table: Table;
 
   foodForm: FormGroup;
@@ -71,6 +72,10 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
       unitPrice: ['', Validators.required],
       description: ['', Validators.required],
       categoryId: ['', Validators.required]
+    });
+
+    this.translate.get('foodSellerScreen').subscribe( (text: any) => {
+      this.header1 = text.AddNewFood;  
     });
   }
 
@@ -155,7 +160,7 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
   }
 
   onCreateFood() {
-    this.headerDialog = 'Add New Food';
+    this.headerDialog = this.header1;
 
     this.uploadedFiles = [];
 
