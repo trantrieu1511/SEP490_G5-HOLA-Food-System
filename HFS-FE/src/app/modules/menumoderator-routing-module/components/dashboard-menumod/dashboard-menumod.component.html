@@ -1,78 +1,78 @@
 <div class="grid table-demo">
     <div class="col-12">
         <div class="card">
-            <h2>System statistics</h2>
+            <h2>{{'dashboadMenuScreen.Systemstatistics' | translate}}</h2>
             <hr>
-            <div class="statistic-type">All time</div>
+            <div class="statistic-type">{{'dashboadMenuScreen.Alltime' | translate}}</div>
 
             <div class="overview-list">
                 <div class="overview-item">
                     <span>
-                        <div class="title">Total food in the system: </div>
+                        <div class="title">{{'dashboadMenuScreen.Totalfoodinthesystem' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{allTimeStatistics.totalFood}}</span>
-                        
+
                     </div>
                 </div>
                 <div class="overview-item">
                     <span>
-                        <div class="title">Total banned food in the system: </div>
+                        <div class="title">{{'dashboadMenuScreen.Totalbannedfoodinthesystem' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{allTimeStatistics.totalBannedFood}}</span>
-                        
+
                     </div>
                 </div>
                 <div class="overview-item">
                     <span>
-                        <div class="title">Total food reports in the system: </div>
+                        <div class="title">{{'dashboadMenuScreen.Totalfoodreportsinthesystem' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{allTimeStatistics.totalFoodReports}}</span>
-                        
+
                     </div>
                 </div>
                 <div class="overview-item">
                     <span>
-                        <div class="title">Total pending food reports: </div>
+                        <div class="title">{{'dashboadMenuScreen.Totalpendingfoodreports' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{allTimeStatistics.totalPendingFoodReports}}</span>
-                        
+
                     </div>
                 </div>
                 <div class="overview-item">
                     <span>
-                        <div class="title">Total approved food reports: </div>
+                        <div class="title">{{'dashboadMenuScreen.Totalapprovedfoodreports' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{allTimeStatistics.totalApprovedFoodReports}}</span>
-                        
+
                         <div class="data-percent">
-                            My data: {{myStatistics.totalApprovedFoodReports}}
+                            {{'dashboadMenuScreen.Mydata' | translate}}: {{myStatistics.totalApprovedFoodReports}}
                         </div>
                     </div>
                 </div>
                 <div class="overview-item">
                     <span>
-                        <div class="title">Total not approved food reports: </div>
+                        <div class="title">{{'dashboadMenuScreen.Totalnotapprovedfoodreports' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{allTimeStatistics.totalNotapprovedFoodReports}}</span>
-                        
+
                         <div class="data-percent">
-                            My data: {{myStatistics.totalNotapprovedFoodReports}}
+                            {{'dashboadMenuScreen.Mydata' | translate}}: {{myStatistics.totalNotapprovedFoodReports}}
                         </div>
                     </div>
                 </div>
             </div>
             <!-- <p-chart type="bar" [data]="data" [options]="options"></p-chart> -->
             <hr>
-            <div class="statistic-type">From date to date</div>
+            <div class="statistic-type">{{'dashboadMenuScreen.Fromdatetodate' | translate}}</div>
             <div class="col-12 md:col-12">
                 <div class="col-12 mb-2 lg:col-4 mb-lg-0">
-                    <label style="margin-right: 1rem">Data time: </label>
+                    <label style="margin-right: 1rem">{{'dashboadMenuScreen.Datatime' | translate}}: </label>
                     <p-calendar [(ngModel)]="systemCalendarRangeDates" selectionMode="range" [readonlyInput]="true"
                         [maxDate]="currentDate" (onClose)="onCloseCalendar(1,$event)"></p-calendar>
                 </div>
@@ -81,7 +81,7 @@
             <div class="overview-list">
                 <div class="overview-item">
                     <span>
-                        <div class="title">Total food in the system: </div>
+                        <div class="title">{{'dashboadMenuScreen.Totalfoodinthesystem' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{systemData.totalFood}}</span>
@@ -89,7 +89,7 @@
                 </div>
                 <div class="overview-item">
                     <span>
-                        <div class="title">Total banned food in the system: </div>
+                        <div class="title">{{'dashboadMenuScreen.Totalbannedfoodinthesystem' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{systemData.totalBannedFood}}</span>
@@ -97,7 +97,7 @@
                 </div>
                 <div class="overview-item">
                     <span>
-                        <div class="title">Total food reports in the system: </div>
+                        <div class="title">{{'dashboadMenuScreen.Totalfoodreportsinthesystem' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{systemData.totalFoodReports}}</span>
@@ -105,7 +105,7 @@
                 </div>
                 <div class="overview-item">
                     <span>
-                        <div class="title">Total pending food reports: </div>
+                        <div class="title">{{'dashboadMenuScreen.Totalpendingfoodreports' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{systemData.totalPendingFoodReports}}</span>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="overview-item">
                     <span>
-                        <div class="title">Total approved food reports: </div>
+                        <div class="title">{{'dashboadMenuScreen.Totalapprovedfoodreports' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{systemData.totalApprovedFoodReports}}</span>
@@ -121,7 +121,7 @@
                 </div>
                 <div class="overview-item">
                     <span>
-                        <div class="title">Total not approved food reports: </div>
+                        <div class="title">{{'dashboadMenuScreen.Totalnotapprovedfoodreports' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{systemData.totalNotApprovedFoodReports}}</span>
@@ -135,10 +135,10 @@
 
 
         <div class="card">
-            <h2>My statistics</h2>
+            <h2>{{'dashboadMenuScreen.Mystatistics' | translate}}</h2>
             <div class="col-12 md:col-12">
                 <div class="col-12 mb-2 lg:col-4 mb-lg-0">
-                    <label style="margin-right: 1rem">Data time: </label>
+                    <label style="margin-right: 1rem">{{'dashboadMenuScreen.Datatime' | translate}}: </label>
                     <p-calendar [(ngModel)]="myCalendarRangeDates" selectionMode="range" [readonlyInput]="true"
                         [maxDate]="currentDate" (onClose)="onCloseCalendar(2,$event)"></p-calendar>
                 </div>
@@ -147,7 +147,7 @@
             <div class="overview-list">
                 <div class="overview-item">
                     <span>
-                        <div class="title">Approved food reports: </div>
+                        <div class="title">{{'dashboadMenuScreen.Totalapprovedfoodreports' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{myData.totalApprovedFoodReports}}</span>
@@ -156,7 +156,7 @@
                 </div>
                 <div class="overview-item">
                     <span>
-                        <div class="title">Not approved food reports: </div>
+                        <div class="title">{{'dashboadMenuScreen.Totalnotapprovedfoodreports' | translate}}: </div>
                     </span>
                     <div class="data">
                         <span>{{myData.totalNotApprovedFoodReports}}</span>

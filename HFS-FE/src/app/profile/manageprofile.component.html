@@ -569,7 +569,7 @@
                             : profileDisplay.phoneNumber }}
                             <!-- <p-button [text]="true" (onClick)="verifyPhonenumber();">verify phonenumber</p-button> -->
                             <div *ngIf="role == 'CU' || role == 'SE' || role == 'SH'">
-                                <div *ngIf="!profileDisplay.isPhoneVerified">
+                                <div *ngIf="!profileDisplay.isPhoneVerified && profileDisplay.phoneNumber != undefined">
                                     <div>
                                         <a style="color: #6366F1;" class="edit-phonenumber-link" href="#"
                                             onClick="event.preventDefault();"

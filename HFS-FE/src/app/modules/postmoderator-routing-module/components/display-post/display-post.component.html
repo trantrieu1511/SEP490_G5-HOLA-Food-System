@@ -5,7 +5,8 @@
 
             <p-table #dt [value]="lstPost" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
                 [showCurrentPageReport]="true" [paginator]="lstPost.length > 5" [filterDelay]="0"
-                [rowsPerPageOptions]="[5,10,25,50]" currentPageReportTemplate="{{'adminPostManagementScreen.Total' | translate}}: {totalRecords} {{'adminPostManagementScreen.posts' | translate}}"
+                [rowsPerPageOptions]="[5,10,25,50]"
+                currentPageReportTemplate="{{'adminPostManagementScreen.Total' | translate}}: {totalRecords} {{'adminPostManagementScreen.posts' | translate}}"
                 [globalFilterFields]="['postContent']" responsiveLayout="scroll" [loading]="loading">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-row align-items-center flex-wrap justify-content-between ">
@@ -135,7 +136,8 @@
                         </td> -->
                         <td>
                             <span class="p-column-title">{{'adminPostManagementScreen.PostContent' | translate}}</span>
-                            <p class="post-content" (click)="viewContentDetail(post.postContent)">{{post.postContent}}</p>
+                            <p class="post-content" (click)="viewContentDetail(post.postContent)">{{post.postContent}}
+                            </p>
                         </td>
                         <td>
                             <span class="p-column-title"> {{'adminPostManagementScreen.Created' | translate}}</span>
@@ -148,7 +150,8 @@
                                     (click)="onDisplayImagesDialog(post, $event)"
                                     class="p-button-rounded p-button-text p-button-raised"></button>
                             </ng-container>
-                            <ng-template #noneImage><span class="no-image">{{'adminPostManagementScreen.NoImage' | translate}}</span></ng-template>
+                            <ng-template #noneImage><span class="no-image">{{'adminPostManagementScreen.NoImage' |
+                                    translate}}</span></ng-template>
                         </td>
                         <td>
                             <span class="p-column-title">{{'adminPostManagementScreen.Status' | translate}}</span>
@@ -175,15 +178,20 @@
                                 </div> -->
                                 <ng-container>
                                     <div *ngIf="post.status === 'Display' || post.status === 'Hidden'" class="">
-                                        <p-button [text]="true" (click)="onOpenBanNoteDialog(post)">{{'adminPostManagementScreen.Ban' | translate}}</p-button>
+                                        <p-button [text]="true"
+                                            (click)="onOpenBanNoteDialog(post)">{{'adminPostManagementScreen.Ban' |
+                                            translate}}</p-button>
                                     </div>
                                     <!-- <ng-template #statusUnban> -->
                                     <div *ngIf="post.status === 'Ban' && post.banBy === userId" class="">
-                                        <p-button [text]="true" (click)="onUnbanPost(post, $event)">{{'adminPostManagementScreen.Unban' | translate}}</p-button>
+                                        <p-button [text]="true"
+                                            (click)="onUnbanPost(post, $event)">{{'adminPostManagementScreen.Unban' |
+                                            translate}}</p-button>
                                     </div>
                                     <div *ngIf="post.status === 'Ban'" class="">
                                         <button pButton pRipple (click)="onOpenBanDetailDialog(post)"
-                                            class="p-button-rounded p-button-info">{{'adminPostManagementScreen.Bandetail' | translate}}</button>
+                                            class="p-button-rounded p-button-info">{{'adminPostManagementScreen.Bandetail'
+                                            | translate}}</button>
                                     </div>
                                     <!-- </ng-template> -->
                                 </ng-container>
@@ -201,14 +209,15 @@
     </div>
 </div>
 
-<p-dialog header="{{'adminPostManagementScreen.Viewdetail' | translate}}" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true">
+<p-dialog header="{{'adminPostManagementScreen.Viewdetail' | translate}}" [(visible)]="visibleContentDialog"
+    [style]="{width: '50vw'}" [maximizable]="true">
     <p class="dialog-content-detail">
         {{contentDialog}}
     </p>
 </p-dialog>
 
-<p-dialog header="{{'adminPostManagementScreen.Bandetail' | translate}}" [(visible)]="visibleBanDetailDialog" [style]="{width: '50vw'}" [maximizable]="true"
-    [modal]="true">
+<p-dialog header="{{'adminPostManagementScreen.Bandetail' | translate}}" [(visible)]="visibleBanDetailDialog"
+    [style]="{width: '50vw'}" [maximizable]="true" [modal]="true">
     <!-- <p class="dialog-content-detail">
         {{contentDialog.reportContent}}
     </p> -->
@@ -236,9 +245,9 @@
     </table>
 </p-dialog>
 
-<p-dialog [header]="postModel.status == 'Ban'? 'Unban note' : 'Ban note'" [(visible)]="visibleBanNoteDialog"
-    [modal]="true" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '500px' }" [draggable]="false"
-    [resizable]="false" [responsive]="true">
+<p-dialog header="{{'adminPostManagementScreen.Bannote' | translate}}" [(visible)]="visibleBanNoteDialog" [modal]="true"
+    [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '500px' }" [draggable]="false" [resizable]="false"
+    [responsive]="true">
     <div class="card">
         <span class="p-float-label">
             <textarea class="w-full" id="float-input" rows="5" cols="40" [(ngModel)]="postModel.banNote" pInputTextarea
@@ -247,26 +256,32 @@
             <small [style.display]="banUnbanInputValidation.isBanNoteValid ? 'none !important' : 'block !important'"
                 class="p-error block">{{banUnbanInputValidation.banNoteMessage}}
             </small>
-            <label *ngIf="postModel.status == 'Ban'" for="float-input">{{'adminPostManagementScreen.Enternoteforunbanning' | translate}}</label>
-            <label *ngIf="postModel.status != 'Ban'" for="float-input">{{'adminPostManagementScreen.Enternoteforbanning' | translate}}</label>
+            <label *ngIf="postModel.status == 'Ban'"
+                for="float-input">{{'adminPostManagementScreen.Enternoteforunbanning' | translate}}</label>
+            <label *ngIf="postModel.status != 'Ban'" for="float-input">{{'adminPostManagementScreen.Enternoteforbanning'
+                | translate}}</label>
         </span>
     </div>
 
     <div style="display: flex;">
         <p-button *ngIf="postModel.status == 'Ban'"
-            (click)="banUnbanPost(postModel, false)">{{'adminPostManagementScreen.Unban' | translate}}</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
+            (click)="banUnbanPost(postModel, false)">{{'adminPostManagementScreen.Unban' |
+            translate}}</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
         <p-button *ngIf="postModel.status != 'Ban'"
-        (click)="banUnbanPost(postModel, true)">{{'adminPostManagementScreen.Ban' | translate}}</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <p-button [text]="true" (onClick)="visibleBanNoteDialog = false">{{'adminPostManagementScreen.Cancel' | translate}}</p-button>
+            (click)="banUnbanPost(postModel, true)">{{'adminPostManagementScreen.Ban' |
+            translate}}</p-button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <p-button [text]="true" (onClick)="visibleBanNoteDialog = false">{{'adminPostManagementScreen.Cancel' |
+            translate}}</p-button>
     </div>
 </p-dialog>
 
-<p-dialog header="{{'adminPostManagementScreen.ImageList' | translate}}" [(visible)]="visibleImageDialog" [breakpoints]="{ '960px': '75vw' }"
-    [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+<p-dialog header="{{'adminPostManagementScreen.ImageList' | translate}}" [(visible)]="visibleImageDialog"
+    [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
     <p-table [value]="postImageDialog.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="imageId">{{'adminPostManagementScreen.ID' | translate}}<p-sortIcon field="imageId"></p-sortIcon></th>
+                <th pSortableColumn="imageId">{{'adminPostManagementScreen.ID' | translate}}<p-sortIcon
+                        field="imageId"></p-sortIcon></th>
                 <th>{{'adminPostManagementScreen.Image' | translate}}</th>
                 <th>{{'adminPostManagementScreen.Name' | translate}}</th>
                 <th>{{'adminPostManagementScreen.Size' | translate}}</th>

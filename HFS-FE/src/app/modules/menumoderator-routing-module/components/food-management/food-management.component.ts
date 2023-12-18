@@ -23,6 +23,7 @@ import { Router } from '@angular/router';
 import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { BanUnbanInputValidation } from 'src/app/modules/menumoderator-routing-module/models/food.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-food-management',
@@ -70,7 +71,8 @@ export class FoodManagementComponent extends iComponentBase implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private signalRService: DataRealTimeService,
-    private authService: AuthService
+    private authService: AuthService,
+    public translate: TranslateService
   ) {
     super(messageService, breadcrumbService);
 
