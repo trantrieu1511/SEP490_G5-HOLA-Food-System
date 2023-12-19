@@ -12,6 +12,10 @@ export const authGuard: CanActivateFn = async (route, state) => {
   const authService = inject(AuthService)
   //var token = sessionStorage.getItem('JWT');
   //var role = sessionStorage.getItem('role');
+  const requiredRole = route.data['requiredRole'];
+  if(authService.getUserInfor() == null && requiredRole.includes('Guest')){
+    return true;
+  }
 
   var refreshToken = _iFunction.getCookie('refreshToken')
 
@@ -46,7 +50,7 @@ export const authGuard: CanActivateFn = async (route, state) => {
   // Kiểm tra thời gian hết hạn của token
 
   // get data from Resolver
-  const requiredRole = route.data['requiredRole'];
+  
   // // get role from jwt
 
   //convert to role name

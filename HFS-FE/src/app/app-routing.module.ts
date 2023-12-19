@@ -102,7 +102,7 @@ const routes: Routes = [
   {
     path: '',
     canActivate: [authGuard],
-    data: { requiredRole: ['Customer'] },
+    data: { requiredRole: ['Customer', 'Guest'] },
     component: AppManageLayoutComponent,
     children: [
       // customer & guest role
@@ -142,6 +142,7 @@ const routes: Routes = [
     path: 'HFSBusiness',
     canActivate: [authGuard],
     data: { requiredRole: ['Admin', 'Shipper', 'Seller', 'PostModerator', 'MenuModerator',"Accountant"] },
+    component: AppManageLayoutComponent,
     children: [
       {
         path: 'profile',
