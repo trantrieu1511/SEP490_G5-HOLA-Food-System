@@ -278,7 +278,7 @@
                 </p-fileUpload> -->
                 <p-fileUpload class=" w-full" #fileUploader [files]="uploadedFiles" [customUpload]="true"
                     (onSelect)="handleLicenseFileSelection($event)" (onRemove)="handleFileRemoval($event)"
-                    (onClear)="handleAllFilesClear($event)" [multiple]="true" accept="image/*" [maxFileSize]="25000000 "
+                    (onClear)="handleAllFilesClear($event)" [multiple]="true" accept="image/*" [maxFileSize]="25000000"
                     [showUploadButton]="false">
                     <ng-template pTemplate="content">
                         <!-- <ul *ngIf="uploadedFiles.length > 0">
@@ -461,7 +461,7 @@
                     <!-- <p-button >import img</p-button> -->
                     <p-fileUpload [files]="uploadedFiles" mode="basic"
                         [chooseLabel]="profileImage.imageBase64 == undefined ? addUpBtn : edtUpBtn" name="demo[]"
-                        [showUploadButton]="false" [customUpload]="true" accept="image/*" [maxFileSize]="25000000 "
+                        [showUploadButton]="false" [customUpload]="true" accept="image/*" [maxFileSize]="25000000"
                         (onSelect)="handleFileSelection($event);" [auto]="true"></p-fileUpload>
                     <!-- <br><br> -->
                 </div>
