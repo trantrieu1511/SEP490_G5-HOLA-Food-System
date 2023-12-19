@@ -658,7 +658,8 @@
     "ListImage": "List Image",
     "DetailSeller": "Detail",
     "ListImageLicense": "List Image License",
-    "Note": "Note"
+    "Note": "Note",
+    "Reject": "Reject"
   },
   "shipAdminScreen": {
     "ShipperManagement": "Shipper Management",
