@@ -636,10 +636,11 @@ namespace HFS_BE.DAO.AuthDAO
 			//}
 
 			string subject = "Xác nhận thay đổi trạng thái";
-			string message = $"Vui lòng nhấp vào liên kết sau để xác nhận thay đổi trạng thái: {GetConfirmEmailLink("1", confirmationCode)}";
+			string message = $"Vui lòng nhấp vào liên kết sau để xác nhận thay đổi trạng thái: <a href='" + GetConfirmEmailLink("1", confirmationCode) + "'>tại đây</a>";
 
-			try
-			{
+
+            try
+            {
 				await SendEmail2Async(model.Email, subject, message);
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}
@@ -658,7 +659,8 @@ namespace HFS_BE.DAO.AuthDAO
 				MailMessage mail = new MailMessage();
 				SmtpClient smtp = new SmtpClient("smtp.gmail.com");
 
-				mail.To.Add(toEmail);
+                mail.IsBodyHtml = true;
+                mail.To.Add(toEmail);
 				mail.From = new MailAddress(from);
 				mail.Subject = subject;
 				mail.Body = "HOLA FOOD:" + content;
