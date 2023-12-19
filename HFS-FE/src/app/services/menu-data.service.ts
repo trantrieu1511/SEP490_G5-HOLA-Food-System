@@ -146,7 +146,7 @@ export class MenuDataService {
             badgeClass: 'p-badge-info',
           }
           , {
-            label: 'Port Moderator Management',
+            label: 'Post Moderator Management',
             icon: 'pi pi-fw pi-users',
             routerLink: ['/HFSBusiness/admin/post-moderator'],
             badgeClass: 'p-badge-info',

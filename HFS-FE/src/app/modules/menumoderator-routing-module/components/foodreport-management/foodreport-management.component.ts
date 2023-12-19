@@ -20,6 +20,7 @@ import { DataRealTimeService } from 'src/app/services/SignalR/data-real-time.ser
 import { Router } from '@angular/router';
 import { FoodReport } from '../../models/foodreport.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-foodreport-management',
@@ -54,7 +55,8 @@ export class FoodreportManagementComponent extends iComponentBase implements OnI
     private iFunction: iFunction,
     private signalRService: DataRealTimeService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private translate: TranslateService
   ) {
     super(messageService, breadcrumbService);
 

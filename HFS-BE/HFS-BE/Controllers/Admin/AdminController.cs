@@ -18,9 +18,10 @@ namespace HFS_BE.Controllers.Admin
 		public AdminController(SEP490_HFS_2Context context, IMapper mapper) : base(context, mapper)
 		{
 		}
-		[HttpPost("home/registeradmin")]
 
-		public BaseOutputDto RegisterAdmin(RegisterInputDto inputDto)
+		[HttpPost("home/registeradmin")]
+        [Authorize(Roles = "AD")]
+        public BaseOutputDto RegisterAdmin(RegisterInputDto inputDto)
 		{
 			try
 			{
@@ -64,7 +65,8 @@ namespace HFS_BE.Controllers.Admin
 			}
 		}
 		[HttpPost("users/dashboadadminline")]
-		public List<DashBoardAdminLineOutputDto> DashboardShipper(DashBoardAdminLineInputDto input)
+        [Authorize(Roles = "AD")]
+        public List<DashBoardAdminLineOutputDto> DashboardShipper(DashBoardAdminLineInputDto input)
 		{
 			try
 			{
