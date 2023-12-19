@@ -276,7 +276,7 @@ namespace HFS_BE.Dao.AuthDao
 			//}
 
 			string subject = "Xác nhận thay đổi trạng thái";
-			string message = $"Vui lòng nhấp vào liên kết sau để xác nhận thay đổi trạng thái: {GetForgotPasswordLink("1", confirmationCode)}";
+			string message = $"Vui lòng nhấp vào liên kết sau để xác nhận thay đổi trạng thái: <a href='" + GetForgotPasswordLink("1", confirmationCode) + "'>tại đây</a>";
 
 			try
 			{
@@ -326,7 +326,7 @@ namespace HFS_BE.Dao.AuthDao
 				string pass = "wqsq fqmv iwhu ablr";
 				MailMessage mail = new MailMessage();
 				SmtpClient smtp = new SmtpClient("smtp.gmail.com");
-
+				mail.IsBodyHtml = true
 				mail.To.Add(toEmail);
 				mail.From = new MailAddress(from);
 				mail.Subject = subject;
@@ -368,6 +368,7 @@ namespace HFS_BE.Dao.AuthDao
 		}
 		private string GetForgotPasswordLink(string userId, string confirmationCode)
 		{
+			//string baseUrl = "http://localhost:4200/forgot";
 			string baseUrl = "https://holafood.id.vn/forgot";
 			//	var query = new Dictionary<string, string>
 			//{
@@ -380,6 +381,7 @@ namespace HFS_BE.Dao.AuthDao
 
 		private string GetConfirmEmailLink(string userId, string confirmationCode)
 		{
+			//string baseUrl = "http://localhost:4200/confirm";
 			string baseUrl = "https://holafood.id.vn/confirm";
 			//	var query = new Dictionary<string, string>
 			//{

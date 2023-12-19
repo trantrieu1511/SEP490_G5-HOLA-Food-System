@@ -817,7 +817,7 @@
     "Register": "Register",
     "ShopName": "ShopName",
     "ShopNameisrequired": "ShopName is required",
-    "ShopAdress": "ShopAdress",
+    "ShopAdress": "ShopAddress",
     "ShopAddressisrequired": "ShopAddress is required",
     "SelectProvince": "Select Province",
     "Selectdistrict": "Select district",
