@@ -516,7 +516,7 @@
                     <div *ngIf="role != 'SE'">
                         <div style="display: flex;">
                             <p class="field-title">{{'profileScreen.Gender' | translate}}: </p>
-                            <p class="field-info">{{profileDisplay.gender == undefined ?
+                            <p class="field-info">{{profileDisplay.gender == undefined || profileDisplay.gender == '' || profileDisplay.gender == 'Null' ?
                                 None1
                                 : profileDisplay.gender}}</p>
                         </div>
@@ -525,7 +525,7 @@
                     <div *ngIf="role != 'SE'">
                         <div style="display: flex;">
                             <p class="field-title">{{'profileScreen.Birthdate' | translate}}: </p>
-                            <p class="field-info">{{profileDisplay.birthDate == undefined ?
+                            <p class="field-info">{{profileDisplay.birthDate == "" || profileDisplay.birthDate == undefined ?
                                 None2
                                 : profileDisplay.birthDate}}</p>
                         </div>
