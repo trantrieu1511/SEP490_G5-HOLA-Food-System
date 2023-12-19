@@ -29,8 +29,6 @@ namespace HFS_BE.Controllers.Search
                 return Ok(busi2.SearchShop(new SearchShopInputDto()
                 {
                     Key = inputDto.SearchKey,
-                    pageNum = inputDto.pageNum,
-                    pageSize = inputDto.pageSize,
                 }));
             }
             catch (Exception)

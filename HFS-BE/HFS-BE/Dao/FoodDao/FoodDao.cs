@@ -568,7 +568,7 @@ namespace HFS_BE.Dao.FoodDao
 
                 var output = this.Output<FoodShopDaoOutputDto>(Constants.ResultCdSuccess);
                 output.Total = listfood.Count();
-                output.ListFood = listfood.Skip(inputDto.pageSize.Value * inputDto.pageNum.Value).Take(inputDto.pageSize.Value).ToList();
+                output.ListFood = listfood.ToList();
                 return output;
             }
             catch (Exception)
