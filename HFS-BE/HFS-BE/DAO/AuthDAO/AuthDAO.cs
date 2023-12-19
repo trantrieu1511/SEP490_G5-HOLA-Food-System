@@ -327,6 +327,7 @@ namespace HFS_BE.Dao.AuthDao
 				MailMessage mail = new MailMessage();
 				SmtpClient smtp = new SmtpClient("smtp.gmail.com");
 
+				mail.IsBodyHtml = true;
 				mail.To.Add(toEmail);
 				mail.From = new MailAddress(from);
 				mail.Subject = subject;
