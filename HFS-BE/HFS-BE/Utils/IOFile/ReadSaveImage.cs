@@ -167,18 +167,18 @@ string fullPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.
 		}
 		public static string SaveIdCardImages(IFormFile? image, string userId, int type)
 		{
-			string basePath = $"Resources\\Images\\" +
-							$"{userId}\\" +
-							$"{GetFolderNameTypeImage(type)}";
+			string basePath = $"Resources/Images/" +
+					   $"{userId}/" +
+					   $"{GetFolderNameTypeImage(type)}";
 			// Đường dẫn cơ sở cho việc lưu hình ảnh
-			string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
-
+			//	string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
+			// product enviroment
+			string fullPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), basePath);
 			// Tạo thư mục nếu chưa tồn tại
 			if (!Directory.Exists(fullPath))
 			{
 				Directory.CreateDirectory(fullPath);
 			}
-
 			string insertTime = $"_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}";
 			string fileName = Path.GetFileNameWithoutExtension(image.FileName).Replace(" ", "")
 				+ insertTime
