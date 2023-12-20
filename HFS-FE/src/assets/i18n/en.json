@@ -697,7 +697,7 @@
     "FontIDCard": "Photo of the front of the ID card",
     "BackIDCard": "Photo of the back of the ID card",
     "Pending": "Pending",
-    "Recject": "Recject",
+    "Recject": "Reject",
     "Verification": "Verification",
     "Note": "Note",
     "ManageBy": "ManageBy",
@@ -852,7 +852,10 @@
     "SignUp": "Sign Up",
     "IdCard": "Id card number",
     "FontIDCard": "Id card front",
-    "BackIDCard": "Id card back"
+    "BackIDCard": "Id card back",
+    "Reset":"Reset password",
+    "ResetSuccess":"Password changed successfully! Please log in again!",
+    "SendSuccess":"Sent successfully! Please check your email"
   },
   "searchCusScreen": {
     "SortBy": "Sort By",

@@ -2,26 +2,29 @@
   <div class="flex align-items-center	justify-content-center	min-h-screen">
     <div class="surface-card p-4 shadow-2 border-round w-full lg:w-5">
         <div class="text-center mb-5">
-          <img src="assets/image/Logo.png" alt="Image" height="50" class="mb-3">
-            <div class="text-900 text-3xl font-medium mb-3">Welcome FU Food</div>
-            <div class="text-900 text-3xl font-medium mb-3">Forgot Password</div>
-
-            <span class="text-600 font-medium line-height-3">Don't have an account?</span>
-            <a href="register" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create today!</a>
-            <br>
-            <span class="text-600 font-medium line-height-3">You have an account?</span>
-            <a href="login" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Login!</a>
+          <a class="layout-topbar-logo" href="/">
+            <img src="assets/image/Logo.png" alt="Image" height="50" class="mb-3">
+          </a>
+          <div class="text-900 text-3xl font-medium mb-3">{{'loginScreen.welcomeToFUFood' | translate}}</div>
+          <span class="text-600 font-medium line-height-3">{{'loginScreen.doNotHaveAnAccount' | translate}}?</span>
+          <a href="register"
+            class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">{{'loginScreen.createToday' |
+            translate}}!</a>
+          <br>
+          <span class="text-600 font-medium line-height-3">{{'loginScreen.areYouBusinessMember' | translate}}? </span>
+          <a href="login-2" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">{{'loginScreen.clickHere'
+            | translate}}!</a>
         </div>
 
         <div *ngIf="showForgotForm === 1">
           <form [formGroup]="formforgot" (ngSubmit)="onSubmit()">
             <div class="flex items-center">
-              <label for="email1" class="block text-900 font-medium mb-2">Email*</label>
-              <div *ngIf="formforgot.get('email')!.hasError('email')" class="invalid-feedback">-Incorrect Email format!</div>
-
+              <label for="email1" class="block text-900 font-medium mb-2 flex-shrink-0">{{'loginScreen.email' |
+                translate}}*</label>
+              <div *ngIf="formforgot.get('email')!.hasError('email')" class="text-red-500 ml-2">{{'loginScreen.IncorrectEmailformat' | translate}}!</div>
             </div>
-
-            <input id="email1" type="text"  placeholder="Email address" formControlName="email" pInputText class="w-full mb-3">
+            <input id="email1" type="text" placeholder="{{'loginScreen.email' |  translate}}" formControlName="email" pInputText
+              class="w-full mb-3">
 
 
             <!-- <div  *ngIf="form.get('password')!.hasError('minlength')" class="invalid-feedback">Password minimum 3!</div> -->
@@ -35,29 +38,33 @@
           </form>
         </div>
 <div *ngIf="showForgotForm === 0">
-  <p>Gửi thành công!Vui lòng check Email</p>
+  <p>{{'loginRegisterScreen.SendSuccess' | translate}}</p>
 </div>
 <div *ngIf="showForgotForm === 2">
   <form [formGroup]="formpassword" (ngSubmit)="Submitpassword()">
-    <label for="password1" class="block text-900 font-medium mb-2">Password</label>
-    <input id="password1" type="password"  placeholder="Password" formControlName="password" pInputText class="w-full mb-3" >
-    <div *ngIf="formpassword.get('password')!.hasError('invalidPasswordLength')" class="invalid-feedback">Password minimum 8!</div>
-    <div *ngIf="formpassword.get('password')!.hasError('missingUppercaseLetter')" class="invalid-feedback">Password contains at least 1 uppercase character!</div>
-    <div *ngIf="formpassword.get('password')!.hasError('missingNumber')" class="invalid-feedback">Password contains at least 1 number character!</div>
-    <label for="password2" class="block text-900 font-medium mb-2">Confirm Password</label>
-    <input id="password2" type="password"  placeholder="Confirm Password" formControlName="confirmPassword" pInputText class="w-full mb-3">
+    <label for="password1" class="block text-900 font-medium mb-2">{{'loginRegisterScreen.Password' | translate}}*</label>
+    <input id="password1" type="password"  placeholder="{{'loginRegisterScreen.Password' | translate}}" formControlName="password" pInputText class="w-full mb-3" >
+    <div *ngIf="formpassword.get('password')!.hasError('invalidPasswordLength')" class="invalid-feedback">-{{'loginRegisterScreen.Passwordminimum8' | translate}}!</div>
+    <div *ngIf="formpassword.get('password')!.hasError('missingUppercaseLetter')" class="invalid-feedback">-{{'loginRegisterScreen.Passwordcontainsatleast1uppercasecharacter' | translate}}!</div>
+    <div *ngIf="formpassword.get('password')!.hasError('missingNumber')" class="invalid-feedback">-{{'loginRegisterScreen.Passwordcontainsatleast1numbercharacter' | translate}}!</div>
+    <div class="flex items-center">
+      <label for="password1" class="block text-900 font-medium mb-2">{{'loginRegisterScreen.ConfirmPassword' | translate}}*
+      </label>
+      <div *ngIf="formpassword.get('confirmPassword')!.hasError('passwordMismatch')" class="invalid-feedback">-{{'loginRegisterScreen.DoesnotmatchPassword' | translate}}</div>
+    </div>
+    <input id="password2" type="password"  placeholder="{{'loginRegisterScreen.ConfirmPassword' | translate}}" formControlName="confirmPassword" pInputText class="w-full mb-3">
     <!-- <div  *ngIf="form.get('password')!.hasError('minlength')" class="invalid-feedback">Password minimum 3!</div> -->
-    <div *ngIf="formpassword.get('confirmPassword')!.hasError('passwordMismatch')" class="invalid-feedback">Does not match Password</div>
+
     <!-- <div *ngIf="error" class="invalid-feedback">{{ error }}</div> -->
 
 
-    <button type="submit" pButton pRipple label="Reset" icon="pi pi-unlock" class="w-full" ></button>
+    <button type="submit" pButton pRipple label="{{'loginRegisterScreen.Reset' | translate}}" icon="pi pi-unlock" class="w-full" ></button>
 
 
   </form>
 </div>
-<div  *ngIf="showForgotForm === 3"><p>Thay đổi Password thành công!Vui lòng đăng nhập lại!</p>
-  <a href="login" class="font-medium no-underline ml-2 text-blue-1500 cursor-pointer">Login!</a>
+<div  *ngIf="showForgotForm === 3"><p>{{'loginRegisterScreen.ResetSuccess' | translate}}</p>
+  <a href="login" class="font-medium no-underline ml-2 text-blue-1500 cursor-pointer">{{'loginRegisterScreen.Login' | translate}}</a>
 </div>
     </div>
 </div>

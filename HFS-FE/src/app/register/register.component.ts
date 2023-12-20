@@ -393,7 +393,7 @@ export class RegisterComponent extends iComponentBase implements OnInit, AfterVi
               console.log(response);
 
             } else {
-              this.showMessage(mType.success, "Notification", response.message, 'app-register');
+              this.showMessage(mType.error, "Notification", response.message, 'app-register');
             }
           } catch (err) {
             this.showMessage(mType.error, "Notification", err, 'app-register');

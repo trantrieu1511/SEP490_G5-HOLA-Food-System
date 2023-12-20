@@ -31,7 +31,7 @@ namespace HFS_BE.Controllers.SendOTP
 		//private readonly string _accountSid = "AC07cc5d2950187dd5ba62b18cf58fa774";
 		//private readonly string _authToken = "31e539186dc5406e286c152f283e9e99";
 		private readonly string _accountSid = "ACa94af58875970c9219b70cb061ffac31";
-		private readonly string _authToken = "002c506cc69ac8a77361a4c0fedda1ae";
+		private readonly string _authToken = "43aa1d745bc950d57601d73f26ced8e9";
 
 		//private readonly string _twilioPhoneNumber = "+17274751881"; // Lu
 		private readonly string _twilioPhoneNumber = "+18177179100"; // Trieu
@@ -94,15 +94,15 @@ namespace HFS_BE.Controllers.SendOTP
 					
 				}
 
-				var phoneNumber = new Twilio.Types.PhoneNumber("+84868342491");
+				//var phoneNumber = new Twilio.Types.PhoneNumber("+84868342491");
 
-				var smsMessage = await MessageResource.CreateAsync(
-					body: "HOLAFOOD OTP:" + randomso.ToString(),
-					from: new Twilio.Types.PhoneNumber(_twilioPhoneNumber),
-					to: phoneNumber
-				);
+				//var smsMessage = await MessageResource.CreateAsync(
+				//	body: "HOLAFOOD OTP:" + randomso.ToString(),
+				//	from: new Twilio.Types.PhoneNumber(_twilioPhoneNumber),
+				//	to: phoneNumber
+				//);
 
-				Console.WriteLine($"Twilio Message SID: {smsMessage.Sid}");
+				//Console.WriteLine($"Twilio Message SID: {smsMessage.Sid}");
 				return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 			}
 			catch (Exception ex)

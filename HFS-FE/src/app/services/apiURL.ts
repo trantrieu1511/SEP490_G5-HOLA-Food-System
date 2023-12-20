@@ -67,7 +67,9 @@ export class API_USER {
      public static SEND_OTP = "sendotp";
      public static CHECK_OTP = "checkotp";
      public static MAP = "map";
-
+     public static FORGOT = "confirmforgot";
+     public static SENDFORGOT = "sendforgot";
+     public static CHANGEFORGOT = "changepassword";
 }
 
 // Service Role
