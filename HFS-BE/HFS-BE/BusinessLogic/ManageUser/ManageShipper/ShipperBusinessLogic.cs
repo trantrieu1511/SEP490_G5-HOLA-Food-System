@@ -31,9 +31,9 @@ namespace HFS_BE.BusinessLogic.ManageUser.ManageShipper
 						ImageFileConvert.ImageOutputDto? imageInforIdcard2 = null;
 						imageInforIdcard1 = ImageFileConvert.ConvertFileToBase64(ship.Email, ship.IdcardBackImage, 7);
 						imageInforIdcard2 = ImageFileConvert.ConvertFileToBase64(ship.Email, ship.IdcardFrontImage, 7);
-						//if (imageInforIdcard1 == null)
-						//	continue;
-						outputBL.Shippers[index].ImageBase64Id1 = imageInforIdcard1.ImageBase64;
+                        //if (imageInforIdcard1 == null || imageInforIdcard2 == null)
+                        //    continue;
+                        outputBL.Shippers[index].ImageBase64Id1 = imageInforIdcard1.ImageBase64;
 						outputBL.Shippers[index].ImageBase64Id2 = imageInforIdcard2.ImageBase64;
 					}
 					if (ship.Images == null || ship.Images.Count < 1)
