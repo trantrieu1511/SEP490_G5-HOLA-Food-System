@@ -325,9 +325,9 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       i++;
       console.log("element" + i + ": " + element);
       if (element == this.postReport.reportContents[this.postReport.reportContents.length - 1]) { //the last element in the array
-        rpContent += element;
+        rpContent += element; // Phan tu cuoi khong can cong them dau ", "
       } else {
-        rpContent += element + ", ";
+        rpContent += element + ", "; // Cong them dau ", "
       }
     });
     // rpContent += ", " + this.postReport.reportContent;
@@ -344,9 +344,9 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       }
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.POSTREPORT, API.API_POSTREPORT.CREATE_NEW_POSTREPORT, param);
       if (response && response.success === true) {
-        this.showMessage(mType.success, "Notification", `Report the food successfully`, 'notify');
+        this.showMessage(mType.success, "Notification", `Report the post successfully`, 'notify');
         console.log(response);
-        console.log('Create new food report successfully');
+        console.log('Create new post report successfully');
       }
       else {
         // this.showMessage(mType.warn, "Error", this.iServiceBase.formatMessageError(response.message), 'notify');
