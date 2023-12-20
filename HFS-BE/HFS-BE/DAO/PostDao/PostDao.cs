@@ -115,12 +115,14 @@ namespace HFS_BE.Dao.PostDao
                 List<PostOutputSellerDto> posts = context.Posts
                                         .Include(p => p.PostImages)
                                         .Include(p => p.Seller)
+                                        .Where(p => p.Seller.IsBanned == false)
+                                        .OrderByDescending(p => p.CreatedDate)
                                         .Select(p => new PostOutputSellerDto
                                         {
                                             PostId = p.PostId,
                                             SellerId = p.SellerId,
                                             SellerEmail = p.Seller.Email,
-                                            CreatedDate = p.CreatedDate.Value.ToString("MM/dd/yyyy"),
+                                            CreatedDate = p.CreatedDate.Value.ToString("dd/MM/yyyy hh:mm:ss tt"),
                                             PostContent = p.PostContent,
                                             Status = PostMenuStatusEnum.GetStatusString(p.Status),
                                             Images = p.PostImages.ToList(),

@@ -451,9 +451,9 @@
     <div class="card main-body">
         <h2 style="margin-bottom: 3%;">{{'profileScreen.Myprofile' | translate}}</h2>
         <!-- <hr> -->
-        <div class="grid grid-nogutter">
-            <div class="col-5 md:col-5">
-                <div class="card" style="width: 97%; text-align: center;">
+        <div class="profile-info">
+            <div class="profile-image">
+                <div class="card" style="text-align: center;">
                     <!-- <h5>Avatar</h5> -->
                     <img src="{{!isLoggedIn || profileImage.imageBase64 == undefined ? '../../../../../assets/image/user.png' : 'data:image/gif;base64,' + profileImage.imageBase64}}"
                         width="150" height="150" style="border-radius: 50%;" />
@@ -489,7 +489,7 @@
 
             </div>
 
-            <div class="col-7 md:col-7">
+            <div style="width: -webkit-fill-available;">
                 <div class="card">
                     <!-- <div *ngIf="role != 'SE'"> -->
                     <div style="display: flex;">

@@ -3,13 +3,22 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PasswordLengthValidator, PasswordMatch, PasswordNumberValidator, PasswordUpperValidator } from '../login/Restricted-login.directive';
-
+import * as API from "../services/apiURL";
+import {
+  iComponentBase,
+  iServiceBase, mType,
+  ShareData,
+  iFunction
+} from 'src/app/modules/shared-module/shared-module';
+import { MessageService } from 'primeng/api';
+import { environment } from 'src/environments/environment';
+import { RouterTestingHarness } from '@angular/router/testing';
 @Component({
   selector: 'app-forgot',
   templateUrl: './forgot.component.html',
   styleUrls: ['./forgot.component.scss']
 })
-export class ForgotComponent implements  OnInit {
+export class ForgotComponent extends iComponentBase implements  OnInit {
   formforgot:FormGroup;
   formpassword:FormGroup;
   formCofirmforgot:FormGroup;
@@ -18,11 +27,13 @@ code:string
 
   constructor(private router: Router,
     private acroute: ActivatedRoute,
-    private service: AuthService
+    public messageService: MessageService,
+    private service: AuthService,
+    private iServiceBase: iServiceBase,
    // private cdr: ChangeDetectorRef
   ){
-
-   }
+    super(messageService);
+  }
   ngOnInit(): void {
     this.acroute.queryParams.subscribe(params => {
       const userId = params['userId'];
@@ -31,30 +42,30 @@ code:string
       // Sử dụng userId và code theo nhu cầu của bạn
       console.log('userId:', userId);
       console.log('code:', code);
-      
+
 
       this.code=code;
       if (code === undefined || code === null) {
         console.log('Biến code là undefined hoặc null');
       } else {
         console.log('Biến code không phải là undefined hoặc null');
-
+           this.formcheck();
       }
   })
    this.FormFirst();
    this.FormPassword();
-   this.formCofirmforgot=new FormGroup({
-    confirm: new FormControl(this.code),
-    userId: new FormControl("1")
-  })
-  this.service.confirmforgot(this.formCofirmforgot.value).subscribe(res=>{
-    this.service.showforgot$.subscribe(showforgot => {
-      this.showForgotForm = showforgot;})
+  //  this.formCofirmforgot=new FormGroup({
+  //   confirm: new FormControl(this.code),
+  //   userId: new FormControl("1")
+  // })
+  // this.service.confirmforgot(this.formCofirmforgot.value).subscribe(res=>{
+  //   this.service.showforgot$.subscribe(showforgot => {
+  //     this.showForgotForm = showforgot;})
 
-  }, error=>{
-    console.log(error);
+  // }, error=>{
+  //   console.log(error);
 
-  })
+  // })
   }
   FormFirst(){
     this.formforgot = new FormGroup({
@@ -80,43 +91,76 @@ code:string
   }
   async onSubmit() {
     //this.formSubmitAttempt = false;
+
     if (this.formforgot.valid) {
-
-      try {
-        
-        this.service.sendforgot(this.formforgot.value).subscribe(res=>{
-          this.service.showforgot$.subscribe(showforgot => {
-            this.showForgotForm = showforgot;})
-
-        }, error=>{
-          console.log(error);
-
-        })
-
-      } catch (err) {
-
-      }
+     this.sendForgot();
     }
     }
 
     async Submitpassword() {
       if (this.formpassword.valid) {
+        try{
+          const param={
+            "confirm":  this.code,
+         "password":this.formpassword.value.password,
+         "confirmPassword":this.formpassword.value.confirmPassword
+           }
+          let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.HOME, API.API_USER.CHANGEFORGOT, param);
+          if (response && response.success === true) {
+           this.showForgotForm=3;
+            this.showMessage(mType.success, "Notification", `Change password successfully`, 'app-forgot');
+            console.log(response);
 
-        try {
-          
-          this.service.changeforgot(this.formpassword.value).subscribe(res=>{
-            this.service.showforgot$.subscribe(showforgot => {
-              this.showForgotForm = showforgot;})
-
-          }, error=>{
-            console.log(error);
-
-          })
-
+          } else {
+            this.showMessage(mType.error, "Notification", response.message, 'app-forgot');
+            this.showForgotForm=1;
+          }
         } catch (err) {
-
+          this.showMessage(mType.error, "Notification", err, 'app-forgot');
         }
       }
     }
-  }
+    async formcheck(){
+     const param={
+      "confirm":  this.code,
+      "userId":"1"
+     }
+       try{
+      let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.HOME, API.API_USER.FORGOT, param);
+      if (response && response.success === true) {
+        this.showForgotForm=2;
+        this.showMessage(mType.success, "Notification", `Check successfully`, 'app-forgot');
+        console.log(response);
 
+      } else {
+        this.showMessage(mType.error, "Notification", response.message, 'app-forgot');
+        this.showForgotForm=1;
+      }
+    } catch (err) {
+      this.showMessage(mType.error, "Notification", err, 'app-forgot');
+    }
+
+    }
+    async sendForgot(){
+      debugger
+      const param={
+        "email":  this.formforgot.value.email,
+
+       }
+        try{
+       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.HOME, API.API_USER.SENDFORGOT, param);
+       if (response && response.success === true) {
+        this.showForgotForm=0;
+         this.showMessage(mType.success, "Notification", `Send successfully`, 'app-forgot');
+         console.log(response);
+
+       } else {
+         this.showMessage(mType.error, "Notification", response.message, 'app-forgot');
+         this.showForgotForm=1;
+       }
+     } catch (err) {
+       this.showMessage(mType.error, "Notification", err, 'app-forgot');
+     }
+
+     }
+  }

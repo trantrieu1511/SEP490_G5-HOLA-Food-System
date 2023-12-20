@@ -91,7 +91,7 @@ namespace HFS_BE.Dao.ShopDao
 
                 var data = listshop.Where(x => x.FoodImages.Count >= 3).ToList();
                 outputDto.Total = data.Count();
-                outputDto.ListShop = data.Skip(inputDto.pageSize.Value *inputDto.pageNum.Value).Take(inputDto.pageSize.Value).ToList();
+                outputDto.ListShop = data.ToList();
 
                 return outputDto;
             }
@@ -234,7 +234,7 @@ namespace HFS_BE.Dao.ShopDao
                 }
 
                 outputDto.Total = listshop.Count();
-                outputDto.ListShop = listshop.Skip(inputDto.pageSize.Value * inputDto.pageNum.Value).Take(inputDto.pageSize.Value).ToList();
+                outputDto.ListShop = listshop.ToList();
 
                 return outputDto;
             }

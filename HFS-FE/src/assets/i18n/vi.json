@@ -850,7 +850,10 @@
     "Shipper": "Người giao hàng",
     "IdCard": "Số Căn Cước",
     "FontIDCard": "Ảnh mặt trước thẻ căn cước",
-    "BackIDCard": "Ảnh mặt sau thẻ căn cước"
+    "BackIDCard": "Ảnh mặt sau thẻ căn cước",
+    "Reset":"Đặt lại mật khẩu",
+    "ResetSuccess": "Mật khẩu đã được thay đổi thành công! Vui lòng đăng nhập lại!",
+    "SendSuccess":"Gửi thành công! Vui lòng kiểm tra email của bạn"
   },
   "searchCusScreen": {
     "SortBy": "Sắp xếp theo",
