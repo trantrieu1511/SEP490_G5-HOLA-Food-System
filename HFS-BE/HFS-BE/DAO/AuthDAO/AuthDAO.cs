@@ -264,18 +264,24 @@ namespace HFS_BE.Dao.AuthDao
         {
             string userid = "";
             string confirmationCode = GenerateConfirmationCode(model.Email);
-            //using (SEP490_HFS_2Context context = new SEP490_HFS_2Context())
-            //{
-            //	var user = context.Users.Where(s => s.Email.ToLower().Equals(toEmail.ToLower())).FirstOrDefault();
+			var data = context.Customers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data1 = context.Shippers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			//	var data5 = context.Admins.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data6 = context.Accountants.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			if (data != null || data1 != null || data2 != null || data3 != null || data4 != null || data6 != null)
+			{
 
-            //	if (user == null)
-            //	{
-            //		return BadRequest();
-            //	}
-            //	userid = user.UserId.ToString();
-            //}
+			}
+			else
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "This email is not in the system");
+			}
 
-            string subject = "Xác nhận thay đổi trạng thái";
+
+			string subject = "Xác nhận thay đổi trạng thái";
             string message = $"Vui lòng nhấp vào liên kết sau để xác nhận thay đổi trạng thái: <a href='" + GetForgotPasswordLink("1", confirmationCode) + "'>tại đây</a>";
 
             try
@@ -294,18 +300,23 @@ namespace HFS_BE.Dao.AuthDao
         {
             string userid = "";
             string confirmationCode = GenerateConfirmationCode(model.Email);
-            //using (SEP490_HFS_2Context context = new SEP490_HFS_2Context())
-            //{
-            //	var user = context.Users.Where(s => s.Email.ToLower().Equals(toEmail.ToLower())).FirstOrDefault();
+			var data = context.Customers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data1 = context.Shippers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data2 = context.Sellers.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data3 = context.PostModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data4 = context.MenuModerators.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			//	var data5 = context.Admins.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			var data6 = context.Accountants.Where(s => s.Email.ToLower() == model.Email.ToLower()).FirstOrDefault();
+			if (data != null || data1 != null || data2 != null || data3 != null || data4 != null || data6 != null)
+			{
 
-            //	if (user == null)
-            //	{
-            //		return BadRequest();
-            //	}
-            //	userid = user.UserId.ToString();
-            //}
+			}
+			else
+			{
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail, "This email is not in the system");
+			}
 
-            string subject = "Xác nhận thay đổi trạng thái";
+			string subject = "Xác nhận thay đổi trạng thái";
             string message = "Vui lòng nhấp vào liên kết sau để xác nhận thay đổi trạng thái: <a href=\"" + GetConfirmEmailLink("1", confirmationCode) + "\">tại đây</a>";
             try
             {
@@ -382,8 +393,8 @@ namespace HFS_BE.Dao.AuthDao
 
         private string GetConfirmEmailLink(string userId, string confirmationCode)
         {
-            //string baseUrl = "http://localhost:4200/confirm";
-            string baseUrl = "https://holafood.id.vn/confirm";
+            string baseUrl = "http://localhost:4200/confirm";
+            //string baseUrl = "https://holafood.id.vn/confirm";
             //	var query = new Dictionary<string, string>
             //{
             //	{ "userId", userId },
@@ -442,12 +453,12 @@ namespace HFS_BE.Dao.AuthDao
                     var data = context.Customers.Where(s => s.Email == email).FirstOrDefault();
                     var data1 = context.Sellers.Where(s => s.Email == email).FirstOrDefault();
                     var data2 = context.Shippers.Where(s => s.Email == email).FirstOrDefault();
-                    //var data3 = context.PostModerators.Where(s => s.Email == email).FirstOrDefault();
-                    //var data4 = context.MenuModerators.Where(s => s.Email == email).FirstOrDefault();
-                    if (data != null)
+                    var data3 = context.PostModerators.Where(s => s.Email == email).FirstOrDefault();
+                    var data4 = context.MenuModerators.Where(s => s.Email == email).FirstOrDefault();
+					var data5 = context.Accountants.Where(s => s.Email == email).FirstOrDefault();
+					if (data != null)
                     {
                         return email;
-
 
                     }
                     else if (data1 != null)
@@ -460,18 +471,23 @@ namespace HFS_BE.Dao.AuthDao
                         return email;
 
                     }
-                    //else if (data3 != null)
-                    //{
-                    //	return email;
+                    else if (data3 != null)
+                    {
+                        return email;
 
-                    //}
-                    //else if (data4 != null)
-                    //{
-                    //	return email;
+                    }
+                    else if (data4 != null)
+                    {
+                        return email;
 
-                    //}
+					}
+					else if (data5 != null)
+					{
+						return email;
 
-                }
+					}
+
+				}
                 return null;
             }
             catch
@@ -565,7 +581,8 @@ namespace HFS_BE.Dao.AuthDao
                 var data2 = context.Shippers.Where(s => s.Email == email).FirstOrDefault();
                 var data3 = context.PostModerators.Where(s => s.Email == email).FirstOrDefault();
                 var data4 = context.MenuModerators.Where(s => s.Email == email).FirstOrDefault();
-                if (data != null)
+				var data5 = context.MenuModerators.Where(s => s.Email == email).FirstOrDefault();
+				if (data != null)
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 
@@ -591,9 +608,14 @@ namespace HFS_BE.Dao.AuthDao
                     return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
 
                 }
+				else if (data5 != null)
+				{
+					return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+
+				}
 
 
-                return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+				return this.Output<BaseOutputDto>(Constants.ResultCdFail);
 
             }
             catch
