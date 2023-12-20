@@ -220,6 +220,8 @@ namespace HFS_BE.Dao.FoodDao
                                         .Include(f => f.FoodImages)
                                         .Include(f => f.Category)
                                         .Include(f => f.Feedbacks)
+                                        .Where(f => f.Seller.IsBanned == false)
+                                        .OrderByDescending(f => f.CreateDate)
                                         .Select(f => new FoodOutputSellerDto
                                         {
                                             FoodId = f.FoodId,
