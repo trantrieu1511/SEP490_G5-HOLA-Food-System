@@ -382,8 +382,7 @@ namespace HFS_BE.DAO.SellerDao
 
 				foreach (var seller in differentEmailSellers)
 				{
-					var img = await context.ProfileImages.Where(s => s.UserId == seller.SellerId && s.IsReplaced == false).FirstOrDefaultAsync();
-					Console.WriteLine(img.Path);
+					var img = await context.ProfileImages.FirstOrDefaultAsync(s => s.UserId == seller.SellerId && s.IsReplaced == false);
 					if (img == null)
 					{
 						break;
