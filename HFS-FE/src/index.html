@@ -16,9 +16,11 @@
     nonce="p8uWNvFd"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADFZsgkfl-RAhyQs4rTHeqtPb50ch878Y&callback=initMap" async defer></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <ng-container *ngFor="let path of cssService.getCssFilePaths(); let i = index">
+  <!-- <ng-container *ngFor="let path of cssService.getCssFilePaths(); let i = index">
     <link id="theme-css-{{i}}" rel="stylesheet" type="text/css" [href]="path">
-  </ng-container>
+  </ng-container> -->
+  <link id="theme-css" rel="stylesheet" type="text/css" href="assets/theme/indigo/theme-light.css">
+  <link id="layout-css" rel="stylesheet" type="text/css" href="assets/layout/css/layout-light.css">
 </head>
 
 <body>
