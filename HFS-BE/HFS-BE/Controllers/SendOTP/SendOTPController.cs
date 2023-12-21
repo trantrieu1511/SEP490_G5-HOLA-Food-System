@@ -41,7 +41,7 @@ namespace HFS_BE.Controllers.SendOTP
 		public SendOTPController(SEP490_HFS_2Context context, IMapper mapper, IConfiguration configuration) : base(context, mapper)
 		{
 			_configuration = configuration;
-			TwilioClient.Init(_configuration["Twilio:accountSid"], _configuration["Twilio:authToken"]);
+			TwilioClient.Init(_configuration["phoneotp:accountSid"], _configuration["phoneotp:authToken"]);
 			
 		}
 		[HttpPost("users/sendotp")]
@@ -103,7 +103,7 @@ namespace HFS_BE.Controllers.SendOTP
 
 				var smsMessage = await MessageResource.CreateAsync(
 					body: "HOLAFOOD OTP:" + randomso.ToString(),
-					from: new Twilio.Types.PhoneNumber(_configuration["Twilio:twilioPhoneNumber"]),
+					from: new Twilio.Types.PhoneNumber(_configuration["phoneotp:twilioPhoneNumber"]),
 					to: phoneNumber
 				);
 
