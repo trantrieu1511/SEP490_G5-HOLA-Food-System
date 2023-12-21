@@ -384,16 +384,47 @@ namespace HFS_BE.Controllers
 			.SetBasePath(Directory.GetCurrentDirectory())
 				.AddJsonFile("appsettings.json", true, true)
 				.Build();
-			string key = conf["ApplicationSettings:MapGoogle"];
+			string key = conf["ApplicationSettings:MapGoogle3"];
 			var encodedAddress = System.Uri.EscapeDataString(get.address);
 			var apiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={encodedAddress}&key={key}";
 
 			var response = await _httpClient.GetStringAsync(apiUrl);
+            var jsonObject = JsonConvert.DeserializeObject<CheckMap>(response);
+			if (jsonObject.status != "OK")
+			{
+				key = conf["ApplicationSettings:MapGoogle"];
+				encodedAddress = System.Uri.EscapeDataString(get.address);
+				apiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={encodedAddress}&key={key}";
 
+				response = await _httpClient.GetStringAsync(apiUrl);
+				jsonObject = JsonConvert.DeserializeObject<CheckMap>(response);
+				if (jsonObject.status != "OK")
+				{
+                    key = conf["ApplicationSettings:MapGoogle2"];
+                    encodedAddress = System.Uri.EscapeDataString(get.address);
+                    apiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={encodedAddress}&key={key}";
+
+                    response = await _httpClient.GetStringAsync(apiUrl);
+                    jsonObject = JsonConvert.DeserializeObject<CheckMap>(response);
+                    if (jsonObject.status != "OK")
+                    {
+                        key = conf["ApplicationSettings:MapGoogle1"];
+                        encodedAddress = System.Uri.EscapeDataString(get.address);
+                        apiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={encodedAddress}&key={key}";
+
+                        response = await _httpClient.GetStringAsync(apiUrl);
+                        jsonObject = JsonConvert.DeserializeObject<CheckMap>(response);
+                    }
+                }
+			}
 			return Content(response, "application/json");
 		}
-
-		public class GetMap
+        public class CheckMap
+        {
+            public string error_message { get; set; }
+            public string status { get; set; }
+        }
+        public class GetMap
 		{
 			public string address { get; set; }
 		}

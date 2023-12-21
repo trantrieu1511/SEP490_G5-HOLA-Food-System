@@ -1,140 +1,140 @@
 <div class="page-content">
-  <div class="card sidebar" *ngIf="this.authService.getUserInfor().role == 'CU'">
+  <div class="sidebar" *ngIf="this.authService.getUserInfor().role == 'CU'">
 
     <app-menu-myaccount></app-menu-myaccount>
 
   </div>
-
-  <div class="grid table-demo main-body">
-    <div class="col-12">
-      <div class="card">
-        <h5>{{'orderhistoryScreen.CustomerOrderManagement' | translate}}</h5>
-        <div class="col-12 md:col-12">
-          <div class="col-12 mb-2 lg:col-4 mb-lg-0">
-            <label style="margin-right: 1rem">{{'orderhistoryScreen.Datatime' | translate}}</label>
-            <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="false" [maxDate]="currentDate"
-              [disabled]="false" (onClose)="onCloseCalendar($event)"></p-calendar>
+  <div class="main-body">
+    <div class="card">
+      <div class="grid table-demo">
+        <div class="col-12">
+          <h5>{{'orderhistoryScreen.CustomerOrderManagement' | translate}}</h5>
+          <div class="col-12 md:col-12">
+            <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+              <label style="margin-right: 1rem">{{'orderhistoryScreen.Datatime' | translate}}</label>
+              <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="false" [maxDate]="currentDate"
+                [disabled]="false" (onClose)="onCloseCalendar($event)"></p-calendar>
+            </div>
           </div>
-        </div>
-        <p-tabView orientation="" (onChange)="onChangeTab($event)">
-          <p-tabPanel *ngFor="let item of items" class="line-height-3 m-0" [header]="item.label">
-          </p-tabPanel>
-        </p-tabView>
-        <p-table styleClass="p-datatable-orders" [value]="lstOrders" dataKey="orderId"
-          [tableStyle]="{ 'min-width': '60rem' }" [rows]="10" [paginator]="true" [filterDelay]="0"
-          [rowsPerPageOptions]="[5, 10, 25, 50]" responsiveLayout="scroll" [loading]="loading"
-          currentPageReportTemplate="{{'orderhistoryScreen.Total' | translate}} {totalRecords} {{'orderhistoryScreen.ordersonthisstatus' | translate}}"
-          [showCurrentPageReport]="showCurrentPageReport">
-          <ng-template pTemplate="header">
-            <tr class="tr-th_background-color">
-              <th style="width: 5rem"></th>
-              <th pSortableColumn="orderId">
-                {{'orderhistoryScreen.OrderId' | translate}} <p-sortIcon field="orderId"></p-sortIcon>
-              </th>
-              <th pSortableColumn="shopName">
-                {{'orderhistoryScreen.Shop' | translate}} <p-sortIcon field="shopName"></p-sortIcon>
-              </th>
-              <th pSortableColumn="orderDate">
-                {{'orderhistoryScreen.OrderDate' | translate}} <p-sortIcon field="orderDate"></p-sortIcon>
-              </th>
-              <th pSortableColumn="shipAddress">
-               {{'orderhistoryScreen.ShipAddress' | translate}} <p-sortIcon field="shipAddress"></p-sortIcon>
-              </th>
-              <th pSortableColumn="voucherId">
-                {{'orderhistoryScreen.Voucher' | translate}} <p-sortIcon field="voucher"></p-sortIcon>
-              </th>
-              <th pSortableColumn="inventoryStatus">
-                {{'orderhistoryScreen.Payment' | translate}} <p-sortIcon field="paymentMethod"></p-sortIcon>
-              </th>
-              <th pSortableColumn="inventoryStatus">
-                {{'orderhistoryScreen.TotalPrice' | translate}} <p-sortIcon field="totalPrice"></p-sortIcon>
-              </th>
-              <ng-container [ngSwitch]="activeItem.id">
-                <ng-container *ngSwitchCase="'2'">
-                  <th>{{'orderhistoryScreen.Shipper' | translate}}</th>
+          <p-tabView orientation="" (onChange)="onChangeTab($event)">
+            <p-tabPanel *ngFor="let item of items" class="line-height-3 m-0" [header]="item.label">
+            </p-tabPanel>
+          </p-tabView>
+          <p-table styleClass="p-datatable-orders" [value]="lstOrders" dataKey="orderId"
+            [tableStyle]="{ 'min-width': '60rem' }" [rows]="10" [paginator]="true" [filterDelay]="0"
+            [rowsPerPageOptions]="[5, 10, 25, 50]" responsiveLayout="scroll" [loading]="loading"
+            currentPageReportTemplate="{{'orderhistoryScreen.Total' | translate}} {totalRecords} {{'orderhistoryScreen.ordersonthisstatus' | translate}}"
+            [showCurrentPageReport]="showCurrentPageReport">
+            <ng-template pTemplate="header">
+              <tr class="tr-th_background-color">
+                <th style="width: 5rem"></th>
+                <th pSortableColumn="orderId">
+                  {{'orderhistoryScreen.OrderId' | translate}} <p-sortIcon field="orderId"></p-sortIcon>
+                </th>
+                <th pSortableColumn="shopName">
+                  {{'orderhistoryScreen.Shop' | translate}} <p-sortIcon field="shopName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="orderDate">
+                  {{'orderhistoryScreen.OrderDate' | translate}} <p-sortIcon field="orderDate"></p-sortIcon>
+                </th>
+                <th pSortableColumn="shipAddress">
+                  {{'orderhistoryScreen.ShipAddress' | translate}} <p-sortIcon field="shipAddress"></p-sortIcon>
+                </th>
+                <th pSortableColumn="voucherId">
+                  {{'orderhistoryScreen.Voucher' | translate}} <p-sortIcon field="voucher"></p-sortIcon>
+                </th>
+                <th pSortableColumn="inventoryStatus">
+                  {{'orderhistoryScreen.Payment' | translate}} <p-sortIcon field="paymentMethod"></p-sortIcon>
+                </th>
+                <th pSortableColumn="inventoryStatus">
+                  {{'orderhistoryScreen.TotalPrice' | translate}} <p-sortIcon field="totalPrice"></p-sortIcon>
+                </th>
+                <ng-container [ngSwitch]="activeItem.id">
+                  <ng-container *ngSwitchCase="'2'">
+                    <th>{{'orderhistoryScreen.Shipper' | translate}}</th>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'3'">
+                    <th>{{'orderhistoryScreen.Shipper' | translate}}</th>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'4'">
+                    <th>{{'orderhistoryScreen.Shipper' | translate}}</th>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'5'">
+                    <th>{{'orderhistoryScreen.Shipper' | translate}}</th>
+                  </ng-container>
+                  <ng-container *ngSwitchDefault></ng-container>
                 </ng-container>
-                <ng-container *ngSwitchCase="'3'">
-                  <th>{{'orderhistoryScreen.Shipper' | translate}}</th>
-                </ng-container>
-                <ng-container *ngSwitchCase="'4'">
-                  <th>{{'orderhistoryScreen.Shipper' | translate}}</th>
-                </ng-container>
-                <ng-container *ngSwitchCase="'5'">
-                  <th>{{'orderhistoryScreen.Shipper' | translate}}</th>
-                </ng-container>
-                <ng-container *ngSwitchDefault></ng-container>
-              </ng-container>
 
-              <ng-container [ngSwitch]="activeItem.id">
-                <ng-container *ngSwitchCase="'0'">
-                  <th>{{'orderhistoryScreen.Action' | translate}}</th>
-                </ng-container>
-                <ng-container *ngSwitchCase="'1'">
-                  <th>{{'orderhistoryScreen.Action' | translate}}</th>
-                </ng-container>
-                <!-- <ng-container *ngSwitchCase="'4'"
+                <ng-container [ngSwitch]="activeItem.id">
+                  <ng-container *ngSwitchCase="'0'">
+                    <th>{{'orderhistoryScreen.Action' | translate}}</th>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'1'">
+                    <th>{{'orderhistoryScreen.Action' | translate}}</th>
+                  </ng-container>
+                  <!-- <ng-container *ngSwitchCase="'4'"
                     ><th>Action</th></ng-container
                   > -->
-                <ng-container *ngSwitchCase="'5'">
-                  <th>{{'orderhistoryScreen.Reason' | translate}}</th>
+                  <ng-container *ngSwitchCase="'5'">
+                    <th>{{'orderhistoryScreen.Reason' | translate}}</th>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'6'">
+                    <th>{{'orderhistoryScreen.Reason' | translate}}</th>
+                  </ng-container>
+                  <ng-container *ngSwitchCase></ng-container>
                 </ng-container>
-                <ng-container *ngSwitchCase="'6'">
-                  <th>{{'orderhistoryScreen.Reason' | translate}}</th>
-                </ng-container>
-                <ng-container *ngSwitchCase></ng-container>
-              </ng-container>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-order let-expanded="expanded">
-            <tr>
-              <td>
-                <button type="button" pButton pRipple [pRowToggler]="order"
-                  class="p-button-text p-button-rounded p-button-plain"
-                  [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-              </td>
-              <td>{{ order.orderId }}</td>
-              <td>{{ order.shopName }}</td>
-              <td>{{ order.orderDate }}</td>
-              <td>{{ order.shipAddress }}</td>
-              <td>{{ order.voucherDisplay}}đ</td>
-              <td>{{ order.paymentMethod }}</td>
-              <td>{{ order.totalPrice | currency : "VND" }}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-order let-expanded="expanded">
+              <tr>
+                <td>
+                  <button type="button" pButton pRipple [pRowToggler]="order"
+                    class="p-button-text p-button-rounded p-button-plain"
+                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                </td>
+                <td>{{ order.orderId }}</td>
+                <td>{{ order.shopName }}</td>
+                <td>{{ order.orderDate }}</td>
+                <td>{{ order.shipAddress }}</td>
+                <td>{{ order.voucherDisplay}}đ</td>
+                <td>{{ order.paymentMethod }}</td>
+                <td>{{ order.totalPrice | currency : "VND" }}</td>
 
-              <ng-container [ngSwitch]="activeItem.id">
-                <ng-container *ngSwitchCase="'2'">
-                  <td><u (click)="onOpenShipper(order.shipperId)">{{ order.shipperId }}</u></td>
+                <ng-container [ngSwitch]="activeItem.id">
+                  <ng-container *ngSwitchCase="'2'">
+                    <td><u (click)="onOpenShipper(order.shipperId)">{{ order.shipperId }}</u></td>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'3'">
+                    <td><u (click)="onOpenShipper(order.shipperId)">{{ order.shipperId }}</u></td>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'4'">
+                    <td><u (click)="onOpenShipper(order.shipperId)">{{ order.shipperId }}</u></td>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'5'">
+                    <td><u (click)="onOpenShipper(order.shipperId)">{{ order.shipperId }}</u></td>
+                  </ng-container>
+                  <ng-container *ngSwitchDefault></ng-container>
                 </ng-container>
-                <ng-container *ngSwitchCase="'3'">
-                  <td><u (click)="onOpenShipper(order.shipperId)">{{ order.shipperId }}</u></td>
-                </ng-container>
-                <ng-container *ngSwitchCase="'4'">
-                  <td><u (click)="onOpenShipper(order.shipperId)">{{ order.shipperId }}</u></td>
-                </ng-container>
-                <ng-container *ngSwitchCase="'5'">
-                  <td><u (click)="onOpenShipper(order.shipperId)">{{ order.shipperId }}</u></td>
-                </ng-container>
-                <ng-container *ngSwitchDefault></ng-container>
-              </ng-container>
 
-              <ng-container [ngSwitch]="activeItem.id">
-                <ng-container *ngSwitchCase="'5'">
-                  <td>
-                    {{
-                    order.orderProgresses[order.orderProgresses.length - 1].note
-                    }}
-                  </td>
-                </ng-container>
-                <ng-container *ngSwitchCase="'6'">
-                  <td>
-                    {{
-                    order.orderProgresses[order.orderProgresses.length - 1].note
-                    }}
-                  </td>
-                </ng-container>
-                <ng-container *ngSwitchCase="0">
-                  <td style="text-align: center">
-                    <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
-                      <!-- <div class="flex align-items-center justify-content-center">
+                <ng-container [ngSwitch]="activeItem.id">
+                  <ng-container *ngSwitchCase="'5'">
+                    <td>
+                      {{
+                      order.orderProgresses[order.orderProgresses.length - 1].note
+                      }}
+                    </td>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'6'">
+                    <td>
+                      {{
+                      order.orderProgresses[order.orderProgresses.length - 1].note
+                      }}
+                    </td>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="0">
+                    <td style="text-align: center">
+                      <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+                        <!-- <div class="flex align-items-center justify-content-center">
                         <button
                           pButton
                           pRipple
@@ -143,16 +143,16 @@
                           class="p-button-rounded p-mr-2 p-button-outlined"
                         ></button>
                       </div> -->
-                      <div class="flex align-items-center justify-content-center">
-                        <p-button label="Cancel" severity="danger" (onClick)="onCancel(order, $event)"></p-button>
+                        <div class="flex align-items-center justify-content-center">
+                          <p-button label="Cancel" severity="danger" (onClick)="onCancel(order, $event)"></p-button>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                </ng-container>
-                <ng-container *ngSwitchCase="1">
-                  <td style="text-align: center">
-                    <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
-                      <!-- <div class="flex align-items-center justify-content-center">
+                    </td>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="1">
+                    <td style="text-align: center">
+                      <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+                        <!-- <div class="flex align-items-center justify-content-center">
                         <button
                           pButton
                           pRipple
@@ -172,13 +172,13 @@
                           External
                         </button>
                       </div> -->
-                      <div class="flex align-items-center justify-content-center">
-                        <p-button label="Cancel" severity="danger" (onClick)="onCancel(order, $event)"></p-button>
+                        <div class="flex align-items-center justify-content-center">
+                          <p-button label="Cancel" severity="danger" (onClick)="onCancel(order, $event)"></p-button>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                </ng-container>
-                <!-- <ng-container *ngSwitchCase="4">
+                    </td>
+                  </ng-container>
+                  <!-- <ng-container *ngSwitchCase="4">
                   <td style="text-align: center">
                     <div
                       class="flex justify-content-center flex-wrap"
@@ -194,44 +194,44 @@
                     </div>
                   </td>
                 </ng-container> -->
-                <ng-container *ngSwitchDefault></ng-container>
-              </ng-container>
-            </tr>
-          </ng-template>
-          <ng-template [ngSwitch]="activeItem.id" pTemplate="rowexpansion" let-order>
-            <tr>
-              <td colspan="9">
-                <div class="p-3 div-expand">
-                  <p-table [value]="order.orderDetails" dataKey="id">
-                    <ng-template pTemplate="header">
-            <tr class="tr-th_background-color">
-              <th pSortableColumn="id">
-                 {{'orderhistoryScreen.FoodId' | translate}}<p-sortIcon field="foodId"></p-sortIcon>
-              </th>
-              <th pSortableColumn="customer">
-                 {{'orderhistoryScreen.Name' | translate}}<p-sortIcon field="foodName"></p-sortIcon>
-              </th>
-              <th pSortableColumn="date">Image</th>
-              <th pSortableColumn="amount">
-                 {{'orderhistoryScreen.UnitPrice' | translate}}<p-sortIcon field="unitPrice"></p-sortIcon>
-              </th>
-              <th pSortableColumn="status">
-                {{'orderhistoryScreen.Quantity' | translate}} <p-sortIcon field="quantity"></p-sortIcon>
-              </th>
-              <th pSortableColumn="status">
-                 {{'orderhistoryScreen.Category' | translate}}<p-sortIcon field="categoryName"></p-sortIcon>
-              </th>
-              <th *ngSwitchCase="'4'">
-                {{'orderhistoryScreen.Action' | translate}}
-              </th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-food>
-            <tr>
-              <td>{{ food.foodId }}</td>
-              <td>{{ food.foodName }}</td>
-              <td>
-                <!-- <img
+                  <ng-container *ngSwitchDefault></ng-container>
+                </ng-container>
+              </tr>
+            </ng-template>
+            <ng-template [ngSwitch]="activeItem.id" pTemplate="rowexpansion" let-order>
+              <tr>
+                <td colspan="9">
+                  <div class="p-3 div-expand">
+                    <p-table [value]="order.orderDetails" dataKey="id">
+                      <ng-template pTemplate="header">
+              <tr class="tr-th_background-color">
+                <th pSortableColumn="id">
+                  {{'orderhistoryScreen.FoodId' | translate}}<p-sortIcon field="foodId"></p-sortIcon>
+                </th>
+                <th pSortableColumn="customer">
+                  {{'orderhistoryScreen.Name' | translate}}<p-sortIcon field="foodName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="date">Image</th>
+                <th pSortableColumn="amount">
+                  {{'orderhistoryScreen.UnitPrice' | translate}}<p-sortIcon field="unitPrice"></p-sortIcon>
+                </th>
+                <th pSortableColumn="status">
+                  {{'orderhistoryScreen.Quantity' | translate}} <p-sortIcon field="quantity"></p-sortIcon>
+                </th>
+                <th pSortableColumn="status">
+                  {{'orderhistoryScreen.Category' | translate}}<p-sortIcon field="categoryName"></p-sortIcon>
+                </th>
+                <th *ngSwitchCase="'4'">
+                  {{'orderhistoryScreen.Action' | translate}}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-food>
+              <tr>
+                <td>{{ food.foodId }}</td>
+                <td>{{ food.foodName }}</td>
+                <td>
+                  <!-- <img
                             src="data:image/gif;base64,{{
                               food.imageBase64.imageBase64
                             }}"
@@ -239,41 +239,41 @@
                             width="10rem"
                             class="shadow-4 image-food_expand"
                           /> -->
-                <img [src]="'data:image/png;base64,' + food.image" [alt]="food.foodName" width="10rem"
-                  class="shadow-4 image-food_expand" />
-              </td>
-              <td>{{ food.unitPrice }}</td>
-              <td>{{ food.quantity }}</td>
-              <td>{{ food.categoryName }}</td>
-              <td *ngSwitchCase="'4'" style="text-align: center">
-                <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
-                  <div class="flex align-items-center justify-content-center">
-                    <button pButton [disabled]="food.isRated ? true : false" [label]="food.isRated ? 'Rated' : 'Rate'"
-                      (click)="onRate(food, $event)"></button>
+                  <img [src]="'data:image/png;base64,' + food.image" [alt]="food.foodName" width="10rem"
+                    class="shadow-4 image-food_expand" />
+                </td>
+                <td>{{ food.unitPrice }}</td>
+                <td>{{ food.quantity }}</td>
+                <td>{{ food.categoryName }}</td>
+                <td *ngSwitchCase="'4'" style="text-align: center">
+                  <div class="flex justify-content-center flex-wrap" style="gap: 0.5rem">
+                    <div class="flex align-items-center justify-content-center">
+                      <button pButton [disabled]="food.isRated ? true : false" [label]="food.isRated ? 'Rated' : 'Rate'"
+                        (click)="onRate(food, $event)"></button>
+                    </div>
                   </div>
-                </div>
-              </td>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="emptymessage">
-            <tr>
-              <td colspan="6">{{'orderhistoryScreen.emptymessage' | translate}}</td>
-            </tr>
-          </ng-template>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="6">{{'orderhistoryScreen.emptymessage' | translate}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+        </td>
+        </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="8">{{'orderhistoryScreen.emptymessage1' | translate}}</td>
+          </tr>
+        </ng-template>
         </p-table>
       </div>
-      </td>
-      </tr>
-      </ng-template>
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td colspan="8">{{'orderhistoryScreen.emptymessage1' | translate}}</td>
-        </tr>
-      </ng-template>
-      </p-table>
     </div>
   </div>
-</div>
 
 </div>
 
@@ -330,8 +330,9 @@
     </div>
   </ng-template>
 </p-dialog>
-<p-dialog header="{{'button.Rate' | translate}}" [(visible)]="displayDialogRateOrder" [breakpoints]="{ '960px': '75vw' }"
-  [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false" [maximizable]="true" [modal]="true">
+<p-dialog header="{{'button.Rate' | translate}}" [(visible)]="displayDialogRateOrder"
+  [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false"
+  [maximizable]="true" [modal]="true">
   <div class="grid p-fluid">
     <div class="col-12 md:col-12">
       <div class="card">
@@ -384,7 +385,8 @@
   <ng-template pTemplate="footer">
     <div class="flex justify-content-center flex-wrap" style="text-align: center">
       <div class="flex align-items-center justify-content-center" style="text-align: center">
-        <button pButton type="button" label="{{'button.Rate' | translate}}" (click)="createFeedback(rateInput)" style="width: 100%"></button>
+        <button pButton type="button" label="{{'button.Rate' | translate}}" (click)="createFeedback(rateInput)"
+          style="width: 100%"></button>
       </div>
       <!-- <div
           class="flex align-items-center justify-content-center"
@@ -410,12 +412,12 @@
       <div class="card">
         <div class="grid">
           <div class="col-12 mb-2 mb-lg-0">
-            <span style="width: 100%">                           
+            <span style="width: 100%">
               <label>{{'orderhistoryScreen.ShipperName' | translate}}: {{shipperName}}</label>
             </span>
           </div>
-          <div class="col-12 mb-2 mb-lg-0">        
-              {{'orderhistoryScreen.Phone' | translate}}: <a href="tel:+{{shipperPhone}}"><u>{{shipperPhone}}</u></a> 
+          <div class="col-12 mb-2 mb-lg-0">
+            {{'orderhistoryScreen.Phone' | translate}}: <a href="tel:+{{shipperPhone}}"><u>{{shipperPhone}}</u></a>
           </div>
         </div>
       </div>
