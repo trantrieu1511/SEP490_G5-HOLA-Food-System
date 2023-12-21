@@ -218,17 +218,7 @@ namespace HFS_BE.DAO.SellerDao
 				.FirstOrDefaultAsync(x => x.Email == email && x.Status == 1 && x.IsBanned == false);
 			
 			var datmapper = mapper.Map<Seller, SellerMessageDtoOutput>(user);
-			var img = await context.ProfileImages.Where(s => s.UserId == datmapper.SellerId && s.IsReplaced == false).FirstOrDefaultAsync();
-			ImageFileConvert.ImageOutputDto? imageInfor = null;
-			if (img == null)
-			{
-				return datmapper;
 			
-			}
-			imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 3);
-			
-			//	var imageMapper = mapper.Map<ImageFileConvert.ImageOutputDto, SellerImageOutputDto>(imageInfor);
-			datmapper.Image = imageInfor.ImageBase64;
 			return datmapper;
 		}
 		//public async Task<List<SellerDtoOutput>> GetUsersOnlineAsync(string currentEmail, string[] userOnline)
@@ -393,7 +383,6 @@ namespace HFS_BE.DAO.SellerDao
 				foreach (var seller in differentEmailSellers)
 				{
 					var img = await context.ProfileImages.Where(s => s.UserId == seller.SellerId && s.IsReplaced == false).FirstOrDefaultAsync();
-					Console.WriteLine(img.Path);
 					if (img == null)
 					{
 						break;
