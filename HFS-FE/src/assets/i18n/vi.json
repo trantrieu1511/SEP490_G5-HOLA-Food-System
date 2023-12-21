@@ -928,7 +928,8 @@
     "NotificationManagement": "Quản lý thông báo",
     "YouhavenoNotifications": "Bạn không có thông báo",
     "ViewAllNotifications": "Xem tất cả thông báo",
-    "Markallnotificationsasread": "Đánh dấu tất cả thông báo là đã đọc"
+    "Markallnotificationsasread": "Đánh dấu tất cả thông báo là đã đọc",
+    "NoMessage": "Chưa có thông báo nào"
   },
   "footerScreen": {
     "Contactforcooperation": "Liên hệ để hợp tác",

@@ -280,7 +280,14 @@
 
 
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
-                        <span class="p-input-icon-left p-float-label" style="width: 100%" >
+                        <label>{{'foodSellerScreen.FoodDescription' | translate}}*</label>
+                        <p-editor [(ngModel)]="foodModel.description" 
+                            [style]="{ height: '15rem' }"
+                            [class.ng-invalid] = "!foodValidation.isDescriptionValid"
+                            [class.ng-dirty] = "!foodValidation.isDescriptionValid"
+                            >
+                        </p-editor>
+                        <!-- <span class="p-input-icon-left p-float-label" style="width: 100%" >
                             <textarea class="w-full" rows="10" cols="60" 
                                 pInputTextarea 
                                 [(ngModel)]="foodModel.description"
@@ -288,7 +295,7 @@
                                 [class.ng-dirty] = "!foodValidation.isDescriptionValid"
                                 ></textarea>
                             <label>{{'foodSellerScreen.FoodDescription' | translate}}*</label>
-                        </span>
+                        </span> -->
                         <small [style.display]="foodValidation.isDescriptionValid ? 'none !important' : 'block !important'" 
                             id="username2-help" class="p-error block">{{foodValidation.descriptionMessage}}</small>
                     </div>

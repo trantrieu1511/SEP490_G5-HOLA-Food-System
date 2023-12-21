@@ -141,7 +141,7 @@ namespace HFS_BE.Automapper
             CreateMap<Controllers.ManageFood.FoodUpdateInputDto, BusinessLogic.ManageFood.FoodUpdateInputDto>();
             //output
             CreateMap<Dao.FoodDao.FoodOutputSellerDto, BusinessLogic.ManageFood.FoodOutputSellerDto>()
-                .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.CreatedDate != null ? src.CreatedDate.Value.ToString("MM/dd/yyyy - HH:mm:ss:tt") : null));
+                .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.CreatedDate != null ? src.CreatedDate.Value.ToString("MM/dd/yyyy - HH:mm:ss") : null));
             //.ForMember(dest => dest.BanDate, opt => opt.MapFrom(src => src.BanDate != null ? src.BanDate.Value.ToString("dd/MM/yyyy HH:mm:ss") : null));
             CreateMap<Dao.FoodDao.ListFoodOutputSellerDto, BusinessLogic.ManageFood.ListFoodOutputSellerDto>();
 
@@ -479,7 +479,7 @@ namespace HFS_BE.Automapper
             CreateMap<NotificationAddNewInputDto, Notification>();
             CreateMap<Notification, NotificationDaoOutputDto>()
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => NotificationTypeEnum.GetNotifyString(src.Type)))
-                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("MM/dd/yyyy hh:mm:ss tt")));
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("MM/dd/yyyy hh:mm:ss")));
         }
         public void Chat()
         {
@@ -526,8 +526,8 @@ namespace HFS_BE.Automapper
         public void Transaction()
         {
             CreateMap<TransactionHistory, GetTransactionHistoryDaoDto>()
-                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate != null ? src.CreateDate.Value.ToString("dd/MM/yyyy hh:mm:ss") : ""))
-                .ForMember(dest => dest.ExpiredDate, opt => opt.MapFrom(src => src.ExpiredDate != null ? src.ExpiredDate.Value.ToString("dd/MM/yyyy hh:mm:ss") : ""));
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate != null ? src.CreateDate.Value.ToString("dd/MM/yyyy hh:mm:ss tt") : ""))
+                .ForMember(dest => dest.ExpiredDate, opt => opt.MapFrom(src => src.ExpiredDate != null ? src.ExpiredDate.Value.ToString("dd/MM/yyyy hh:mm:ss tt") : ""));
         }
 
         public void ReportSeller()
