@@ -468,7 +468,7 @@ GO
 CREATE TABLE [dbo].[Post](
 	[postId] [int] IDENTITY(1,1) NOT NULL,
 	[sellerId] [nvarchar](50) NOT NULL,
-	[postContent] [nvarchar](1500) NULL,
+	[postContent] [nvarchar](MAX) NULL,
 	[createdDate] [datetime] NULL,
 	[status] [tinyint] NULL,
 	--[reportedTimes] [int] default(0) NUll, -- Thể hiện cho số lần mà bài đăng này nhận phải tố cáo hợp lệ (Đã thông qua kiểm duyệt của post mod) đến từ khách hàng
