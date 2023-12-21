@@ -102,15 +102,40 @@ const routes: Routes = [
   {
     path: '',
     canActivate: [authGuard],
-    data: { requiredRole: ['Customer', 'Guest'] },
+    data: { requiredRole: ['Customer', 'Guest', 'Seller'] },
     component: AppManageLayoutComponent,
     children: [
       // customer & guest role
-      {path: 'homepage', component: HomepageComponent},
-      {path: "shopdetail", component: ShopdetailComponent},
-      {path: "fooddetail", component: FooddetailComponent},
-      {path: "newfeed", component : NewFeedModuleComponent},
-      {path: "search", component : SearchComponent},
+      {
+        path: 'homepage',
+        canActivate: [authGuard],
+        data: { requiredRole: ['Customer', 'Guest'] },
+        component: HomepageComponent
+      },
+      {
+        path: "shopdetail", 
+        canActivate: [authGuard],
+        data: { requiredRole: ['Customer', 'Guest'] },
+        component: ShopdetailComponent
+      },
+      {
+        path: "fooddetail", 
+        canActivate: [authGuard],
+        data: { requiredRole: ['Customer', 'Guest', 'Seller'] },
+        component: FooddetailComponent
+      },
+      {
+        path: "newfeed", 
+        canActivate: [authGuard],
+        data: { requiredRole: ['Customer', 'Guest', 'Seller'] },
+        component : NewFeedModuleComponent
+      },
+      {
+        path: "search", 
+        canActivate: [authGuard],
+        data: { requiredRole: ['Customer', 'Guest'] },
+        component : SearchComponent
+      },
       {
         path: '',
         canActivate: [authGuard],

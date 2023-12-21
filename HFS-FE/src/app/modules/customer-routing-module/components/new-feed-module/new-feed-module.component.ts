@@ -414,10 +414,10 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
       this.postContentRefs.forEach(ref => {
         if (ref.nativeElement.scrollHeight > ref.nativeElement.clientHeight) {
           //console.log(ref.nativeElement.scrollHeight + ': ' + ref.nativeElement.clientHeight)
+          ref.nativeElement.children[0].setAttribute("style", "max-height: 240px")
           ref.nativeElement.children[1].setAttribute("style", "display: block")
         }
-      }
-      )
+      })
     }
   }
 
@@ -461,15 +461,17 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
 
   onViewLess(index: any) {
     if (this.postContentRefs && this.postContentRefs.length > 0) {
+      console.log(this.postContentRefs.get(index).nativeElement.children[0])
       // reset max-height of parent
       this.postContentRefs.get(index)
         .nativeElement.children[0].parentElement
         .setAttribute("style", "max-height: 240px; ")
+
+      //add max-height again
       // change display this p content
       this.postContentRefs.get(index)
         .nativeElement.children[0]
-        .setAttribute("style", "display: -webkit-box; ")
-        ;
+        .setAttribute("style", "display: -webkit-box; max-height: 240px; ");
       // display view more button
       this.postContentRefs.get(index)
         .nativeElement.children[1].setAttribute("style", "display: block")

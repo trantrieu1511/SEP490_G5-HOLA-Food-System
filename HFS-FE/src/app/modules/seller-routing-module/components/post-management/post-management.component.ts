@@ -64,7 +64,8 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
     private iServiceBase: iServiceBase,
     private iFunction: iFunction,
     private signalRService: DataRealTimeService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private _route: Router,
   ) {
     super(messageService, breadcrumbService);
     this.translate.get('postSellerScreen').subscribe( (text: any) => {
@@ -427,5 +428,9 @@ export class PostManagementComponent extends iComponentBase implements OnInit {
 
   onHideDialogEditAdd() {
     this.uploadedFiles = [];
+  }
+
+  onViewPost(postId: number){
+    this._route.navigate(['/newfeed']);
   }
 }
