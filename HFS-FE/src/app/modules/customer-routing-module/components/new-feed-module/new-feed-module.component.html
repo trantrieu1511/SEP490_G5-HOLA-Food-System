@@ -60,7 +60,7 @@
       <p class="post-created-date">{{item.createdDate}}</p>
     </div>
     <div #postContent class="post-content">
-      <p class="post-content_con">{{item.postContent}}</p>
+      <p class="post-content_con" [innerHTML]="item.postContent"></p>
       <button pButton pRipple label="View More" (click)="onViewMore(j)" class="p-button-link view-more"></button>
       <button pButton pRipple label="View Less" (click)="onViewLess(j)" class="p-button-link view-more"></button>
     </div>

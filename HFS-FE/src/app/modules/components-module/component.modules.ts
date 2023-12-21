@@ -86,6 +86,8 @@ import {TooltipModule} from 'primeng/tooltip';
 import {TreeModule} from 'primeng/tree';
 import {TreeTableModule} from 'primeng/treetable';
 import {VirtualScrollerModule} from 'primeng/virtualscroller';
+import { EditorModule } from 'primeng/editor';
+
 
 // FullCalendarModule.registerPlugins([
 //     dayGridPlugin,
@@ -177,7 +179,8 @@ import {VirtualScrollerModule} from 'primeng/virtualscroller';
         TreeModule,
         TreeTableModule,
         ImageModule,
-        VirtualScrollerModule
+        VirtualScrollerModule,
+        EditorModule
     ],
     providers: [
         ConfirmationService, MessageService
@@ -266,7 +269,8 @@ import {VirtualScrollerModule} from 'primeng/virtualscroller';
         TreeModule,
         TreeTableModule,
         ImageModule,
-        VirtualScrollerModule
+        VirtualScrollerModule,
+        EditorModule
     ],
 })
 export class ComponentModule {

@@ -92,7 +92,7 @@
                         </td>
                         <td >
                             <span class="p-column-title">Post Content</span>
-                            <p class="post-content" (click)="viewContentDetail(post)">{{post.postContent}}</p>
+                            <p class="post-content" (click)="viewContentDetail(post)" [innerHTML]="post.postContent"></p>
                         </td>
                         <td>
                             <span class="p-column-title">Created Date</span>
@@ -171,7 +171,14 @@
                         </div>
                     </ng-template>
                     <div class="col-12 mb-2 lg:col-12 mb-lg-0">
-                        <span class="p-input-icon-left p-float-label" style="width: 100%" >
+                        <label>{{'postSellerScreen.PostContent' | translate}}*</label>
+                        <p-editor [(ngModel)]="postModel.postContent" 
+                            [style]="{ height: '15rem' }"
+                            [class.ng-invalid] = "!inputValidation.isPostContentValid"
+                            [class.ng-dirty] = "!inputValidation.isPostContentValid"  
+                            >
+                        </p-editor>
+                        <!-- <span class="p-input-icon-left p-float-label" style="width: 100%" >
                             <textarea class="w-full" rows="10" cols="60" 
                                 pInputTextarea 
                                 maxlength="1500"
@@ -179,8 +186,9 @@
                                 [class.ng-invalid] = "!inputValidation.isPostContentValid"
                                 [class.ng-dirty] = "!inputValidation.isPostContentValid"    
                             ></textarea>
+
                             <label>{{'postSellerScreen.PostContent' | translate}}*</label>
-                        </span>
+                        </span> -->
                         <small [style.display]="inputValidation.isPostContentValid ? 'none !important' : 'block !important'" 
                             id="username2-help" class="p-error block">{{inputValidation.postContentMessage}}</small>
                     </div>
@@ -233,8 +241,7 @@
     </ng-template>
 </p-dialog>
 <p-dialog header="{{'postSellerScreen.ViewPostContent' | translate}}" [(visible)]="visibleContentDialog" [style]="{width: '50vw'}" [maximizable]="true">
-    <p class="dialog-content-detail">
-        {{contentDialog}}
+    <p class="dialog-content-detail" [innerHTML]="contentDialog">
     </p>
 </p-dialog>
 

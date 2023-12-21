@@ -72,7 +72,7 @@ export class ManageNotificationComponent extends iComponentBase implements OnIni
     );
     if (response && response.message === 'Success') {
       this.lstNotification = response.notifies;
-
+      
       const hasUnreadNotification = this.lstNotification.some(notification => notification.isRead === false);
       // Đặt isNewNotify thành true if has isRead = true
       this.isNewNotify = hasUnreadNotification;

@@ -5,7 +5,7 @@
         public const bool ResultCdSuccess = true;
         public const bool ResultCdFail = false;
         //post
-        public const int PostContentMaxLength = 1500;
+        public const int PostContentMaxLength = 2500;
         // refresh token
         public const int RefreshTokenLength = 64;
         public const int DayExpiredRefreshToken = 7;

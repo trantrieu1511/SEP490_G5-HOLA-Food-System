@@ -930,7 +930,8 @@
     "NotificationManagement": "Notification Management",
     "YouhavenoNotifications": "You have no Notifications",
     "ViewAllNotifications": "View All Notifications",
-    "Markallnotificationsasread": "Mark all notifications as read"
+    "Markallnotificationsasread": "Mark all notifications as read",
+    "NoMessage": "No Message Yet"
   },
   "footerScreen": {
     "Contactforcooperation": "Contact for cooperation",
