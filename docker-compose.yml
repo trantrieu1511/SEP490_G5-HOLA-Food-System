@@ -42,6 +42,8 @@ services:
             - db
         volumes:
             - image-data:/app/Resources
+            - /etc/timezone:/etc/timezone:ro
+            - /etc/localtime:/etc/localtime:ro
     db:
         #image: mcr.microsoft.com/mssql/server:2019-latest
         container_name: mssql
