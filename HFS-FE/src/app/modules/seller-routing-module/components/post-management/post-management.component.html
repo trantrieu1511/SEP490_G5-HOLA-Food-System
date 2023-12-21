@@ -88,11 +88,11 @@
                         </td> -->
                         <td>
                             <span class="p-column-title">ID</span>
-                            <span class="post-id" style="cursor: pointer;" (click)="onViewPost(post.postId)">{{post.postId}}</span>
+                            <span class="post-id" style="cursor: pointer; color: green" (click)="onViewPost(post.postId)">{{post.postId}}</span>
                         </td>
                         <td >
                             <span class="p-column-title">Post Content</span>
-                            <p class="post-content" (click)="viewContentDetail(post)" [innerHTML]="post.postContent"></p>
+                            <p class="post-content" style="color: green"  (click)="viewContentDetail(post)" [innerHTML]="post.postContent"></p>
                         </td>
                         <td>
                             <span class="p-column-title">Created Date</span>

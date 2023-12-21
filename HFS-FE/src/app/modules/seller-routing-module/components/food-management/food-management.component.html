@@ -120,7 +120,7 @@
                         </td> -->
                         <td>
                             <span class="p-column-title">ID</span>
-                            <span class="post-id" style="cursor: pointer;" (click)="onViewFood(food.foodId)">{{food.foodId}}</span>
+                            <span class="post-id" style="cursor: pointer; color: green;" (click)="onViewFood(food.foodId)">{{food.foodId}}</span>
                         </td>
                         <td>
                             <span class="p-column-title">Category</span>
@@ -132,7 +132,7 @@
                         </td>
                         <td>
                             <span class="p-column-title">Description</span>
-                            <span class="post-content" (click)="viewContentDetail(food)">{{food.description}}</span>
+                            <span class="post-content" style="color: green" (click)="viewContentDetail(food)" [innerHTML]="food.description"></span>
                         </td>
                         <td >
                             <span class="p-column-title">UnitPrice</span>
@@ -353,8 +353,7 @@
     [style]="{width: '50vw'}" 
     [draggable]="false" [resizable]="false" [maximizable]="true"
     >
-    <p class="dialog-content-detail">
-        {{contentDialog}}
+    <p class="dialog-content-detail" [innerHTML]="contentDialog">
     </p>
 </p-dialog>
 

@@ -7,7 +7,7 @@ namespace HFS_BE.Utils
         public static int CalculateFoodStar(List<Feedback> feedbacks)
         {
             // no enough emount feedback -> no calculate
-            if(feedbacks.Count < 100)
+            if(feedbacks.Count < 5)
                 return 0;
 
             var starSum = feedbacks.Sum(feedback => feedback.Star ?? 0);
