@@ -18,6 +18,7 @@ namespace HFS_BE.BusinessLogic.Transaction
         {
             try
             {
+                var now = DateTime.Now;
                 var dao = this.CreateDao<TransactionDao>();
                 var dao2 = this.CreateDao<UserDao>();
                 var userInfor = dao2.GetUserInfo(new GetOrderInfoInputDto()
@@ -46,7 +47,7 @@ namespace HFS_BE.BusinessLogic.Transaction
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Code not exsit!");
                 }
 
-                if (output1.ExpiredDate < DateTime.Now)
+                if (output1.ExpiredDate < now)
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Code expired!");
                 }
@@ -74,7 +75,7 @@ namespace HFS_BE.BusinessLogic.Transaction
                     Value = inputDto.Value,
                     Note = "Send from " + inputDto.SenderId + " to " + inputDto.RecievierId,
                     Status = 1,
-                    CreateDate = DateTime.Now
+                    CreateDate = now
                 };
 
                 var output = dao.Create(transactionInput);

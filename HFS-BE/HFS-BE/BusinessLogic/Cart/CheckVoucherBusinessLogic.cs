@@ -17,6 +17,7 @@ namespace HFS_BE.BusinessLogic.Cart
         {
             try
             {
+                var now = DateTime.Now;
                 var dao = this.CreateDao<VoucherDao>();
                 var output = this.Output<VoucherDetailOutput>(Constants.ResultCdSuccess);
                 var voucher = dao.GetVoucherByCode(voucherCd);
@@ -25,8 +26,8 @@ namespace HFS_BE.BusinessLogic.Cart
                     return this.Output<VoucherDetailOutput>(Constants.ResultCdFail, "Voucher not Exsit!");
                 }
 
-                output.isEffective = voucher.EffectiveDate > DateTime.Now ? false : true;
-                output.isExpired = voucher.ExpireDate < DateTime.Now ? true : false;
+                output.isEffective = voucher.EffectiveDate > now ? false : true;
+                output.isExpired = voucher.ExpireDate < now ? true : false;
                 output.MinValue = voucher.MinimumOrderValue;
                 output.SellerId = voucher.SellerId;
                 output.Discount = voucher.DiscountAmount;

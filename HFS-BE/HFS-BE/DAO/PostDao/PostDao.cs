@@ -316,7 +316,7 @@ namespace HFS_BE.Dao.PostDao
                         PostImages = p.PostImages.ToList(),
                         Status = p.Status,
                         LikeCount = p.PostVotes.Where(x => x.IsLike == true).Count(),
-                        isLiked = p.PostVotes.Where(x => x.VoteBy.Equals(input.CustomerId)).Any(),
+                        isLiked = p.PostVotes.Where(x => x.VoteBy.Equals(input.CustomerId) && x.IsLike.Value).Any(),
                     }).Where(s => s.Status == input.status).OrderByDescending(x=>x.CreatedDate).ToList();
 
                 var totalPosts = data.Count();
