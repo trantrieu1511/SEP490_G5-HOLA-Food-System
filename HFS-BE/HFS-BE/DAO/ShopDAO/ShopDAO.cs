@@ -62,8 +62,12 @@ namespace HFS_BE.Dao.ShopDao
                             foreach (var img in food.FoodImages)
                             {
                                 if (imgCount == 3) break;
-                                shop.FoodImages.Add(ImageFileConvert.ConvertFileToBase64(item.SellerId, img.Path, 1).ImageBase64);
-                                imgCount++;
+                                var imgf = ImageFileConvert.ConvertFileToBase64(item.SellerId, img.Path, 1);
+                                if (imgf != null)
+                                {
+                                    shop.FoodImages.Add(imgf.ImageBase64);
+                                    imgCount++;
+                                }                                                           
                             }
 
                             foreach (var feedback in food.Feedbacks)
