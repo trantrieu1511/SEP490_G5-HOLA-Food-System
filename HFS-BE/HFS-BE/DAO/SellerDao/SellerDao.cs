@@ -385,7 +385,7 @@ namespace HFS_BE.DAO.SellerDao
 					var img = await context.ProfileImages.FirstOrDefaultAsync(s => s.UserId == seller.SellerId && s.IsReplaced == false);
 					if (img == null)
 					{
-						break;
+						continue;
 					}
 					ImageFileConvert.ImageOutputDto? imageInfor = null;
 					imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 3);
