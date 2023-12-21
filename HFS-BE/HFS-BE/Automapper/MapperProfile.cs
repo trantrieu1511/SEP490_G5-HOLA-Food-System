@@ -479,7 +479,7 @@ namespace HFS_BE.Automapper
             CreateMap<NotificationAddNewInputDto, Notification>();
             CreateMap<Notification, NotificationDaoOutputDto>()
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => NotificationTypeEnum.GetNotifyString(src.Type)))
-                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("MM/dd/yyyy hh:mm:ss tt")));
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDate.Value.ToString("MM/dd/yyyy hh:mm:ss")));
         }
         public void Chat()
         {

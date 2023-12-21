@@ -119,8 +119,7 @@
 
                 <div class="col-12 food-div_description">
                     <h4 class="line-height-3 m-0">{{'foodDetailScreen.Description' | translate}}</h4>
-                    <p class="food-description">
-                        {{fooddetail.description}}
+                    <p class="food-description" [innerHTML]="fooddetail.description">
                     </p>
                 </div>
             </div>
