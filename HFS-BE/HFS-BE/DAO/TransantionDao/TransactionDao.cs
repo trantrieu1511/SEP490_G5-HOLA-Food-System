@@ -142,6 +142,7 @@ namespace HFS_BE.DAO.TransantionDao
         {
             try
             {
+                var now = DateTime.Now;
                 var transactions = this.context.TransactionHistories
                                     .Where(x => (x.SenderId.Equals(inputDto.UserId) || x.RecieverId.Equals(inputDto.UserId))
                                                  && (x.CreateDate == null || (x.CreateDate.Value.Date >= inputDto.DateFrom && x.CreateDate.Value.Date <= inputDto.DateTo)))
@@ -149,12 +150,12 @@ namespace HFS_BE.DAO.TransantionDao
                                     .ToList();
                 foreach (var item in transactions)
                 {
-                    if (item.ExpiredDate != null && DateTime.Now > item.ExpiredDate && item.Status == 0)
+                    if (item.ExpiredDate != null && now > item.ExpiredDate && item.Status == 0)
                     {
                         item.Status = 2;
                         item.Note = item.Note + "\n- Expired";
                        
-                        item.UpdateDate = DateTime.Now;
+                        item.UpdateDate = now;
                     }
                 }
 
@@ -175,6 +176,7 @@ namespace HFS_BE.DAO.TransantionDao
         {
             try
             {
+                var now = DateTime.Now;
                 var transactions = this.context.TransactionHistories
                                     .Where(x => x.TransactionType.Equals("Withdraw")
                                                  && (x.CreateDate == null || (x.CreateDate.Value.Date >= inputDto.DateFrom && x.CreateDate.Value.Date <= inputDto.DateTo)))
@@ -182,11 +184,11 @@ namespace HFS_BE.DAO.TransantionDao
                                     .ToList();
                 foreach (var item in transactions)
                 {
-                    if (item.ExpiredDate != null && DateTime.Now > item.ExpiredDate)
+                    if (item.ExpiredDate != null && now > item.ExpiredDate)
                     {
                         item.Status = 2;
                         item.Note = item.Note + "\n- Expired";
-                        item.UpdateDate = DateTime.Now;
+                        item.UpdateDate = now;
                     }
                 }
 
@@ -207,6 +209,7 @@ namespace HFS_BE.DAO.TransantionDao
         {
             try
             {
+                var now = DateTime.Now;
                 var userCd = this.context.WalletTransferCodes.FirstOrDefault(x => x.UserId.Equals(inputDto.UserId));
                 var output = this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
                 if (userCd == null)
@@ -225,7 +228,7 @@ namespace HFS_BE.DAO.TransantionDao
                     return output;
                 }
 
-                if (userCd.ExpiredDate >= DateTime.Now && userCd.IsUsed == false)
+                if (userCd.ExpiredDate >= now && userCd.IsUsed == false)
                 {
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Your last code is not expired! Check your mail!");
                 }

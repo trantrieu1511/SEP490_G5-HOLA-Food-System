@@ -20,6 +20,8 @@ import { Router } from '@angular/router';
 import { AppCustomerTopBarComponent } from 'src/app/app-systems/app-topbar/customer/app.topbar-cus.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Breadcrumb } from 'primeng/breadcrumb';
+import { AppBreadcrumbService } from '../app-systems/app-breadcrumb/app.breadcrumb.service';
 
 @Component({
   selector: 'app-manageprofile',
@@ -84,7 +86,8 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     public authService: AuthService,
     private el: ElementRef,
     private iFunction: iFunction,
-    public translate: TranslateService
+    public translate: TranslateService,
+    public breadcrumbService: AppBreadcrumbService
     // private appCustomerTopBarComponent: AppCustomerTopBarComponent
   ) {
     super(messageService);
@@ -94,7 +97,12 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     //   console.log(myData.shopName);
     //   // Sử dụng myData tại đây
     // });
-
+    if (window.location.href.includes('HFSBusiness')) {
+      this.breadcrumbService.setItems([
+        { label: 'HFSBusiness' },
+        { label: 'Profile', routerLink: ['/HFSBusiness/profile'] }
+      ]);
+    }
   }
 
   initLabelLang() {

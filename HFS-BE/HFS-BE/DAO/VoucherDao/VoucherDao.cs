@@ -66,10 +66,11 @@ namespace HFS_BE.DAO.VoucherDao
         {
             try
             {
+                var now = DateTime.Now;
                 var data = this.context.Vouchers
-                    .Where(x => x.SellerId == inputDto.SellerId
-                                && x.EffectiveDate <= DateTime.Now
-                                && x.ExpireDate >= DateTime.Now
+                    .Where(x => x.SellerId.Equals(inputDto.SellerId)
+                                && x.EffectiveDate <= now
+                                && x.ExpireDate >= now
                                 && x.Status == 1)
                     .ToList();
 
