@@ -4,6 +4,7 @@ using HFS_BE.Dao.FoodDao;
 using HFS_BE.DAO.MenuReportDao;
 using HFS_BE.DAO.ModeratorDao;
 using HFS_BE.DAO.NotificationDao;
+using HFS_BE.DAO.UserDao;
 using HFS_BE.Models;
 using HFS_BE.Utils;
 
@@ -23,6 +24,13 @@ namespace HFS_BE.BusinessLogic.ManageMenuReport
                 var moderatorDao = CreateDao<ModeratorDao>();
                 var notifyDao = CreateDao<NotificationDao>();
                 var foodDao = CreateDao<FoodDao>();
+
+                // Get customer by customer id
+                var customer = context.Customers.SingleOrDefault(c => c.CustomerId == reportBy);
+                if (customer.ConfirmedEmail == false || customer.IsPhoneVerified == false)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Your phone and email must be verified before reporting");
+                }
 
                 var output = dao.CreateNewFoodReport(inputDto, reportBy);
                 if (!output.Success)
