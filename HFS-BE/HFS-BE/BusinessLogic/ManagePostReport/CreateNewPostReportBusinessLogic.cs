@@ -25,6 +25,13 @@ namespace HFS_BE.BusinessLogic.ManagePostReport
                 var notifyDao = CreateDao<NotificationDao>();
                 var postDao = CreateDao<PostDao>();
 
+                // Get customer by customer id
+                var customer = context.Customers.SingleOrDefault(c => c.CustomerId == reportBy);
+                if (customer.ConfirmedEmail == false || customer.IsPhoneVerified == false)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Your phone and email must be verified before reporting");
+                }
+
                 var output = dao.CreateNewPostReport(inputDto, reportBy);
                 if (!output.Success)
                 {
