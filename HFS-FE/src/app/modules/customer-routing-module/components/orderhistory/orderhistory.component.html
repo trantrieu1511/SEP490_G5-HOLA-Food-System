@@ -93,7 +93,7 @@
                     [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
                 </td>
                 <td>{{ order.orderId }}</td>
-                <td (click)="onShopDetail(order.shopId)">{{ order.shopName }}</td>
+                <td (click)="onShopDetail(order.sellerId)">{{ order.shopName }}</td>
                 <td>{{ order.orderDate }}</td>
                 <td>{{ order.shipAddress }}</td>
                 <td>{{ order.voucherDisplay}}đ</td>
