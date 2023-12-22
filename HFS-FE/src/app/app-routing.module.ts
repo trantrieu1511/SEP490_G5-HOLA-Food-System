@@ -30,6 +30,7 @@ import { FooddetailComponent,
 import { PostreportManagementComponent } from './modules/postmoderator-routing-module/components/postreport-management/postreport-management.component';
 import { FoodreportManagementComponent } from './modules/menumoderator-routing-module/components/foodreport-management/foodreport-management.component';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { bounaryGuard } from './services/Guard/bounary-guard.guard';
 
 const routes: Routes = [
   // {
@@ -101,14 +102,14 @@ const routes: Routes = [
   },
   {
     path: '',
-    canActivate: [authGuard],
+    canActivate: [bounaryGuard, authGuard],
     data: { requiredRole: ['Customer', 'Guest', 'Seller'] },
     component: AppManageLayoutComponent,
     children: [
       // customer & guest role
       {
         path: 'homepage',
-        canActivate: [authGuard],
+        canActivate: [bounaryGuard, authGuard],
         data: { requiredRole: ['Customer', 'Guest'] },
         component: HomepageComponent
       },
