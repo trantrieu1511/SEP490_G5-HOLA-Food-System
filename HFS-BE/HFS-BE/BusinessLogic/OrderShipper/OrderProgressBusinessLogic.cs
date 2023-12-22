@@ -122,7 +122,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
 
                         if (inputDto.Check == "1")
                         {
-                            refund = refund * (decimal)0.5;
+                            refund = refund * (decimal)1;
                         }
 
                         // create transaction:
