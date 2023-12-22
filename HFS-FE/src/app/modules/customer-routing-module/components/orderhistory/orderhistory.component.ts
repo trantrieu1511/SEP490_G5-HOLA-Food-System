@@ -23,6 +23,7 @@ import { RateInput } from '../../models/RateInput.model';
 import { FileRemoveEvent, FileSelectEvent, FileUpload } from 'primeng/fileupload';
 import { AuthService } from 'src/app/services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-orderhistory',
@@ -72,7 +73,8 @@ export class OrderhistoryComponent
     private iServiceBase: iServiceBase,
     private datePipe: DatePipe,
     public authService: AuthService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private _router: Router
   ) {
     super(messageService);
   }
@@ -336,6 +338,14 @@ export class OrderhistoryComponent
     } catch (e) {
       console.log(e);
     }
+  }
+
+  onFoodDetail(foodId : number){
+    this._router.navigate(['/fooddetail'], { queryParams: { foodId: foodId } });
+  }
+
+  onShopDetail(shop: string) {
+    this._router.navigate(['/shopdetail'], { queryParams: { shopid: shop } });
   }
 }
 

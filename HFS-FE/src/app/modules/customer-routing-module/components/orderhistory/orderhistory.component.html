@@ -93,7 +93,7 @@
                     [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
                 </td>
                 <td>{{ order.orderId }}</td>
-                <td>{{ order.shopName }}</td>
+                <td (click)="onShopDetail(order.sellerId)">{{ order.shopName }}</td>
                 <td>{{ order.orderDate }}</td>
                 <td>{{ order.shipAddress }}</td>
                 <td>{{ order.voucherDisplay}}đ</td>
@@ -228,8 +228,8 @@
             </ng-template>
             <ng-template pTemplate="body" let-food>
               <tr>
-                <td>{{ food.foodId }}</td>
-                <td>{{ food.foodName }}</td>
+                <td (click)="onFoodDetail(food.foodId)">{{ food.foodId }}</td>
+                <td (click)="onFoodDetail(food.foodId)">{{ food.foodName }}</td>
                 <td>
                   <!-- <img
                             src="data:image/gif;base64,{{
@@ -239,7 +239,7 @@
                             width="10rem"
                             class="shadow-4 image-food_expand"
                           /> -->
-                  <img [src]="'data:image/png;base64,' + food.image" [alt]="food.foodName" width="10rem"
+                  <img (click)="onFoodDetail(food.foodId)" [src]="'data:image/png;base64,' + food.image" [alt]="food.foodName" width="10rem"
                     class="shadow-4 image-food_expand" />
                 </td>
                 <td>{{ food.unitPrice }}</td>

@@ -126,33 +126,35 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
   }
 
   onPageChange(event: PageEvent, star: number) {
+    debugger
     this.first = event.first;
     this.rows = event.rows;
-    this.displayFeedback = this.feedbacks.filter(x => x.star === star).slice(event.page, event.rows);
+    if(event.page > 0){
+      this.displayFeedback = this.feedbacks.filter(x => x.star === star).slice(event.rows*event.page - 1, event.rows);
+    }
+    else{
+      this.displayFeedback = this.feedbacks.filter(x => x.star === star).slice(0, event.rows);
+    }
   }
 
   onTabChange(event: TabViewChangeEvent) {
     let index = event.index
-    
+    this.first = 0;
     switch (index) {
       case 0:
-        this.displayFeedback = this.feedbacks;
-        this.allCount=this.feedbacks.length;
+        this.displayFeedback = this.feedbacks.filter(x => x.star === 5).slice(0, this.rows);
         break;
       case 1:
-        this.displayFeedback = this.feedbacks.filter(x => x.star === 5);
+        this.displayFeedback = this.feedbacks.filter(x => x.star === 4).slice(0, this.rows);
         break;
       case 2:
-        this.displayFeedback = this.feedbacks.filter(x => x.star === 4);
+        this.displayFeedback = this.feedbacks.filter(x => x.star === 3).slice(0, this.rows);
         break;
       case 3:
-        this.displayFeedback = this.feedbacks.filter(x => x.star === 3);
-        break;
-      case 4:
-        this.displayFeedback = this.feedbacks.filter(x => x.star === 2);
+        this.displayFeedback = this.feedbacks.filter(x => x.star === 2).slice(0, this.rows);
         break;
       default:
-        this.displayFeedback = this.feedbacks.filter(x => x.star === 1);
+        this.displayFeedback = this.feedbacks.filter(x => x.star === 1).slice(0, this.rows);
         break;
     }
   }
@@ -187,8 +189,15 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
 
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODETAIL, API.API_FOODDETAIL.VOTE_FEEDBACK, vote);
       if (response && response.success === true) {
-
-        this.getFeedBack();
+        this.feedbacks.filter(e => e.feedbackId === feedbackId).forEach(x => {
+          if (x.isLiked === true){
+            x.likeCount--
+            x.isLiked = false
+          } else if (x.isLiked === false){
+            x.likeCount++
+            x.isLiked = true
+          }
+        })
       }
       this.loading = false;
     } catch (e) {
@@ -205,7 +214,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODETAIL, API.API_FOODDETAIL.GET_FEEDBACK, getfood);
       if (response && response.success === true) {
         this.feedbacks = response.feedBacks
-        this.displayFeedback = this.feedbacks.slice(this.first, this.rows);
+        this.displayFeedback = this.feedbacks.filter(x => x.star === 5).slice(0, this.rows);
       }
       this.loading = false;
     } catch (e) {

@@ -174,4 +174,12 @@ export class CartdetailComponent extends iComponentBase implements OnInit {
       this.loading = false;
     }
   }
+
+  onFoodDetail(foodId : number){
+    this.router.navigate(['/fooddetail'], { queryParams: { foodId: foodId } });
+  }
+
+  onShopDetail(shop: string) {
+    this.router.navigate(['/shopdetail'], { queryParams: { shopid: shop } });
+  }
 }
