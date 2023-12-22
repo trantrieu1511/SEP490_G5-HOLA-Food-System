@@ -3,18 +3,22 @@
     <p-table [value]="items" [paginator]="true" [rows]="10" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
+                <th><input type="checkbox" [checked]="isSelectAll" (change)="onSelectAll($event)"/></th>
                 <th pSortableColumn="id"> {{'cartDetailScreen.FoodId' | translate}}<p-sortIcon field="foodId"></p-sortIcon></th>
                 <th>{{'cartDetailScreen.Image' | translate}}</th>
                 <th pSortableColumn="name">{{'cartDetailScreen.Name' | translate}} <p-sortIcon field="name"></p-sortIcon></th>
                 <th pSortableColumn="unitPrice">{{'cartDetailScreen.Price' | translate}} <p-sortIcon field="unitPrice"></p-sortIcon></th>
                 <th pSortableColumn="amount">{{'cartDetailScreen.Amount' | translate}} <p-sortIcon field="amount"></p-sortIcon></th>
                 <th pSortableColumn="totalPrice">{{'cartDetailScreen.TotalPrice' | translate}} <p-sortIcon field="totalPrice"></p-sortIcon></th>
-                <th><input type="checkbox" [checked]="isSelectAll" (change)="onSelectAll($event)"/></th>
                 <th>{{'cartDetailScreen.Action' | translate}}</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-product>
             <tr>
+                <td style="width: 3%;">
+                    <!-- <button pButton pRipple type="button" icon="pi pi-search" class="p-button p-component p-button-text p-button-icon-only"></button> -->
+                    <input type="checkbox" [checked]="product.selected" (change)="onSelectFood(product.foodId, product.amount)"/>
+                </td>
                 <td (click)="onFoodDetail(product.foodId)" style="width: 10%; min-width: 7rem;">{{product.foodId}}</td>
                 <td style="width: 15%; min-width: 5rem;">
                     <img (click)="onFoodDetail(product.foodId)" [src]="'data:image/png;base64,' + product.foodImages" class="shadow-4" alt="{{product.name}}" width="50">
@@ -28,10 +32,6 @@
                     decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" [min]="1" [max]="100" [(ngModel)]="product.amount" (ngModelChange)="onChangeAmount(product.foodId, product.amount)"></p-inputNumber>
                 </td>
                 <td style="width: 18%; min-width: 8rem;">{{product.totalPrice | currency:'VND'}}</td>
-                <td style="width: 10%;">
-                    <!-- <button pButton pRipple type="button" icon="pi pi-search" class="p-button p-component p-button-text p-button-icon-only"></button> -->
-                    <input type="checkbox" [checked]="product.selected" (change)="onSelectFood(product.foodId, product.amount)"/>
-                </td>
                 <td style="width: 10%;">
                     <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-danger p-button-rounded" (click)="onDeleteCartItem(product.foodId)"></button>
                 </td>
