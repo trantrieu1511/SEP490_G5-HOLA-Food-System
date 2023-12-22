@@ -289,7 +289,7 @@ namespace HFS_BE.DAO.SellerDao
 					if (img == null)
 					{
 						listUserOnline.Add(datmapper);
-						break;
+						continue;
 					}
 					imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 3);
 					if (imageInfor == null)
@@ -392,10 +392,10 @@ namespace HFS_BE.DAO.SellerDao
 
 				foreach (var seller in differentEmailSellers)
 				{
-					var img = await context.ProfileImages.Where(s => s.UserId == seller.SellerId && s.IsReplaced == false).FirstOrDefaultAsync();
+					var img = await context.ProfileImages.FirstOrDefaultAsync(s => s.UserId == seller.SellerId && s.IsReplaced == false);
 					if (img == null)
 					{
-						break;
+						continue;
 					}
 					ImageFileConvert.ImageOutputDto? imageInfor = null;
 					imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 3);

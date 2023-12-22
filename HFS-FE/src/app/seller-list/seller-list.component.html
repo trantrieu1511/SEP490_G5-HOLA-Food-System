@@ -22,12 +22,12 @@
             <div *ngIf="(presence.emailcustomermessage$ | async)===item.email" class="label online">{{(presence.emailcustomermessage$ | async)}}</div>
           </div>
           <div *ngIf="(presence.emailcustomermessage$ | async)===item.email" class="message-preview">
-            <!-- <div class="unread-indicator">{{(presence.messageUsername$ | async)}}</div> -->
+            <div class="unread-indicator">{{(presence.messageUsername$ | async)}}</div>
           </div>
           <div *ngIf="(presence.emailcustomermessage$ | async)!==item.email " class="message-preview">
             <div [class]="item.countMessageNotIsRead > 0 ? 'unread-indicator':''"></div>
           </div>
-          
+
 
         </div>
       </li>
@@ -47,8 +47,8 @@
 
 
           <div class="message-preview">
-            <div *ngIf="readmessage !== 0"  [class]="item1.countMessageNotIsRead > 0 ? 'unread-indicator':''"></div>
-            <!-- <div *ngIf="readmessage===0" class="unread-indicator">0</div> -->
+            <div  [class]="item1.countMessageNotIsRead > 0 ? 'unread-indicator':''"></div>
+             <!-- <div  [class]="item1.countMessageNotIsRead > 0 ? 'unread-indicator':''"></div> -->
           </div>
         </div>
       </li>
