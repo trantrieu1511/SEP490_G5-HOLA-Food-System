@@ -667,7 +667,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       "userId": userId
     }
     try {
-      debugger;
+      ;
       // let response ;
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_USER.SEND_OTP, param);
 
@@ -709,7 +709,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
       "userId": this.usedIdOtp
     }
     try {
-      debugger;
+      ;
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.USER, API.API_USER.CHECK_OTP, param);
 
       if (response && response.message === 'Success') {
@@ -742,7 +742,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
   }
 
   async openEditIdcardDialog() {
-    debugger;
+    ;
     this.uploadedFilesShippper = [];
     this.uploadedFilesShippper2 = [];
     if (this.profile) {
@@ -764,7 +764,7 @@ export class ManageprofileComponent extends iComponentBase implements OnInit {
     this.isVisibleShipperEditIdDialog = true;
   }
   async editIdCard() {
-    debugger
+    
     try {
       const param = new FormData();
       param.append('idcardNumber', this.profile.idcardNumber);

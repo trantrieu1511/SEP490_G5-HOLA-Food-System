@@ -142,7 +142,7 @@ code:string
 
     }
     async sendForgot(){
-      debugger
+      
       const param={
         "email":  this.formforgot.value.email,
 
