@@ -50,6 +50,10 @@ namespace HFS_BE.DAO.TransantionDao
                 var transaction = this.context.TransactionHistories.FirstOrDefault(x => x.TransactionId == inputDto.TransactionId);
                 if (transaction != null)
                 {
+                    if (transaction.Status == 1 || transaction.Status == 2)
+                    {
+                        return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+                    }
                     transaction.Status = inputDto.Status;
                     if (inputDto.Status == 1) transaction.Note += "\n- Success";
                     if (inputDto.Status == 2) transaction.Note += "\n- Cancel";
