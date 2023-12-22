@@ -218,7 +218,7 @@ namespace HFS_BE.DAO.SellerDao
 				.FirstOrDefaultAsync(x => x.Email == email && x.Status == 1 && x.IsBanned == false);
 			
 			var datmapper = mapper.Map<Seller, SellerMessageDtoOutput>(user);
-			var img = await context.ProfileImages.Where(s => s.UserId == datmapper.SellerId && s.IsReplaced == false).FirstOrDefaultAsync();
+			var img = await context.ProfileImages.FirstOrDefaultAsync(s => s.UserId == datmapper.SellerId && s.IsReplaced == false);
 			ImageFileConvert.ImageOutputDto? imageInfor = null;
 			if (img == null)
 			{
