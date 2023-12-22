@@ -279,7 +279,7 @@ namespace HFS_BE.DAO.SellerDao
 					if (img == null)
 					{
 						listUserOnline.Add(datmapper);
-						break;
+						continue;
 					}
 					imageInfor = ImageFileConvert.ConvertFileToBase64(img.UserId, img.Path, 3);
 					if (imageInfor == null)

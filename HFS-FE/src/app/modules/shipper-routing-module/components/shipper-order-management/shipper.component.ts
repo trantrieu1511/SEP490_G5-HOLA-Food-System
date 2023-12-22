@@ -361,7 +361,7 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
       };
 
       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_SHIPPER.ACCEPT, param);
-      // debugger
+      // 
       if (response && response.message === "Success") {
 
         this.showMessage(mType.success, "Notification", response.message, 'notify');

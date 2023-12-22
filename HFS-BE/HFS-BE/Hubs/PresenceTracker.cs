@@ -87,6 +87,17 @@
 			return Task.FromResult(onlineUsers);
 		}
 
+		public Task<string[]> GetOnlineCustomer()
+		{
+			string[] onlineUsers;
+			lock (CustomerOnline)
+			{
+				onlineUsers = CustomerOnline.OrderBy(k => k.Key).Select(k => k.Key).ToArray();
+			}
+
+			return Task.FromResult(onlineUsers);
+		}
+
 		public Task<List<string>> GetConnectionsForUser(string email)
 		{
 			List<string> connectionIds;

@@ -17,6 +17,7 @@
       <span class="p-input-icon-left p-float-label">
         <p-dropdown [options]="provinces" (onChange)="onProvinceChange($event)"
                     [(ngModel)]="provinceSelected"
+                    [autoDisplayFirst]="false"
                     [showClear]="true"
                     optionLabel="name"
                     id="province" 
@@ -28,6 +29,7 @@
       <span class="p-input-icon-left p-float-label">
         <p-dropdown [options]="districts" (onChange)="onDistrictChange($event)"
                     [(ngModel)]="districtSelected"
+                    [autoDisplayFirst]="false"
                     [showClear]="true"
                     optionLabel="name"
                     id="district"
@@ -39,6 +41,7 @@
       <span class="p-input-icon-left p-float-label">
         <p-dropdown [options]="wards" (onChange)="onWardChange($event)"
                     [(ngModel)]="wardSelected"
+                    [autoDisplayFirst]="false"
                     [showClear]="true"
                     optionLabel="name"
                     id="ward" 

@@ -200,7 +200,8 @@ export class AppTopBarComponent extends iComponentBase implements OnInit {
 
     onClickLogo(event: any){
         event.preventDefault();
-        let urlHome = this.checkLink() ? '/homepage' : '/HFSBusiness';
+        //let urlHome = this.checkLink() ? '/homepage' : '/HFSBusiness';
+        let urlHome = this.checkRoleCus() ? '/homepage' : '/HFSBusiness';
         this.router.navigateByUrl(urlHome);
     }
 

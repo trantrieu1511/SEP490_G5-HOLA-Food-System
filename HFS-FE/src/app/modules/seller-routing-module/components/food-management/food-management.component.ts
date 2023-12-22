@@ -23,6 +23,7 @@ import { User } from 'src/app/services/auth.service';
 import { PresenceService } from 'src/app/services/presence.service';
 import { Category } from 'src/app/modules/admin-routing-module/models/Category';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'food-seller',
@@ -63,7 +64,8 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
               private iFunction: iFunction,
               private fb: FormBuilder,
               public presence: PresenceService,
-              public translate: TranslateService
+              public translate: TranslateService,
+              private _route: Router,
               ) {
     super(messageService, breadcrumbService);
     this.foodForm = this.fb.group({
@@ -445,5 +447,9 @@ export class FoodManagementComponent extends iComponentBase implements OnInit{
 
   onHideDialogEditAdd() {
     this.uploadedFiles = [];
+  }
+
+  onViewFood(foodId: number){
+    this._route.navigate(['/fooddetail'], { queryParams: { foodId: foodId } });
   }
 }

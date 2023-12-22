@@ -91,10 +91,11 @@ namespace HFS_BE.Dao.FoodDao
                 var data = this.context.Foods
                     .Include(x => x.FoodImages)
                     .Include(x => x.Category)
-                  
+                    .Include(x => x.Feedbacks)
                     .Where(x => x.FoodId == inputDto.FoodId && x.Status == 1)
                     .FirstOrDefault();
-                var data2 = context.OrderDetails.Include(s => s.Order).
+                var data2 = context.OrderDetails
+                    .Include(s => s.Order).
                     ThenInclude(s => s.OrderProgresses).Where(s => s.Order.OrderProgresses.Where(a => a.Status == 4).Any()&&s.FoodId==inputDto.FoodId);
                 if (data == null)
                 {
@@ -129,14 +130,18 @@ namespace HFS_BE.Dao.FoodDao
                 foreach (var img in output.foodImages)
                 {
                     var imageInfor = ImageFileConvert.ConvertFileToBase64(shopid, img.Name, 1);
-                    img.Size = imageInfor.Size;
-                    img.ImageBase64 = imageInfor.ImageBase64;
+                    if (imageInfor != null)
+                    {
+                        img.Size = imageInfor.Size;
+                        img.ImageBase64 = imageInfor.ImageBase64;
+                    }
+                    
                 }
                 return output;
             }
             catch (Exception)
             {
-                return this.Output<FoodOutputDto>(Constants.ResultCdFail);
+                 return this.Output<FoodOutputDto>(Constants.ResultCdFail);
             }
         }
 
@@ -431,8 +436,11 @@ namespace HFS_BE.Dao.FoodDao
                     foreach (var img in food.foodImages)
                     {
                         var imageInfor = ImageFileConvert.ConvertFileToBase64(item.SellerId, img.Name, 1);
-                        img.Size = imageInfor.Size;
-                        img.ImageBase64 = imageInfor.ImageBase64;
+                        if (imageInfor != null)
+                        {
+                            img.Size = imageInfor.Size;
+                            img.ImageBase64 = imageInfor.ImageBase64;
+                        }
                     }
 
                     listfood.Add(food);
@@ -491,8 +499,11 @@ namespace HFS_BE.Dao.FoodDao
                     foreach (var img in food.foodImages)
                     {
                         var imageInfor = ImageFileConvert.ConvertFileToBase64(item.SellerId, img.Name, 1);
-                        img.Size = imageInfor.Size;
-                        img.ImageBase64 = imageInfor.ImageBase64;
+                        if (imageInfor != null)
+                        {
+                            img.Size = imageInfor.Size;
+                            img.ImageBase64 = imageInfor.ImageBase64;
+                        }                       
                     }
 
                     listfood.Add(food);

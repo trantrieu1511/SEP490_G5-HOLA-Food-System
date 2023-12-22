@@ -159,7 +159,7 @@ console.log(this.banseller);
     //   "status": 1
     // }
     try{
-      debugger
+      
     let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.ACTIVE_SELLER,this.activeseller);
 
     if (response && response.message === "Success") {
@@ -200,9 +200,9 @@ console.log(this.banseller);
   }
 
   async onSaveReject(){
-debugger
+
     try{
-      debugger
+      
     let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.REJECT_SELLER,this.activeseller);
 
     if (response && response.message === "Success") {

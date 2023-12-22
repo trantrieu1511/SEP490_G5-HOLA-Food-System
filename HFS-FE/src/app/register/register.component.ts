@@ -116,22 +116,22 @@ export class RegisterComponent extends iComponentBase implements OnInit, AfterVi
     });
 
 
-    const cssFilePaths = ['assets/theme/indigo/theme-light.css',
-      'assets/layout/css/layout-light.css'];
+    // const cssFilePaths = ['assets/theme/indigo/theme-light.css',
+    //   'assets/layout/css/layout-light.css'];
 
-    // Xóa các liên kết CSS hiện có trong document.head
-    const existingLinks = document.head.querySelectorAll('link[rel="stylesheet"]');
-    existingLinks.forEach((link: HTMLLinkElement) => {
-      document.head.removeChild(link);
-    });
+    // // Xóa các liên kết CSS hiện có trong document.head
+    // const existingLinks = document.head.querySelectorAll('link[rel="stylesheet"]');
+    // existingLinks.forEach((link: HTMLLinkElement) => {
+    //   document.head.removeChild(link);
+    // });
 
-    cssFilePaths.forEach(link => {
-      const cssLink = this.renderer.createElement('link');
-      this.renderer.setAttribute(cssLink, 'rel', 'stylesheet');
-      this.renderer.setAttribute(cssLink, 'type', 'text/css');
-      this.renderer.setAttribute(cssLink, 'href', link);
-      this.renderer.appendChild(document.head, cssLink);
-    });
+    // cssFilePaths.forEach(link => {
+    //   const cssLink = this.renderer.createElement('link');
+    //   this.renderer.setAttribute(cssLink, 'rel', 'stylesheet');
+    //   this.renderer.setAttribute(cssLink, 'type', 'text/css');
+    //   this.renderer.setAttribute(cssLink, 'href', link);
+    //   this.renderer.appendChild(document.head, cssLink);
+    // });
   }
   showFirstnameError() {
     const firstnameControl = this.formregister.get('firstname');
@@ -251,7 +251,7 @@ export class RegisterComponent extends iComponentBase implements OnInit, AfterVi
   }
   async onSubmit() {
     console.log(this.formregister);
-    debugger
+    
     if (this.formregister.valid) {
 
       switch (this.formregister.value.roleId.toString()) {
