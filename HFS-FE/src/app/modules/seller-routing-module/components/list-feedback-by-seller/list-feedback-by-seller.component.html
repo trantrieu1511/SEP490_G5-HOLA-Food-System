@@ -39,10 +39,11 @@
                       </th> -->
                       <th pSortableColumn="feedbackId">
                           <div class="flex justify-content-between align-items-center">
-                              {{'feedBackSellerScreen.ID' | translate}}
+                              <!-- {{'feedBackSellerScreen.ID' | translate}}
                               <p-sortIcon field="feedbackId"></p-sortIcon>
                               <p-columnFilter type="numeric" field="feedbackId" display="menu"
-                                              class="ml-auto"></p-columnFilter>
+                                              class="ml-auto"></p-columnFilter> -->
+                                              #
                           </div>
                       </th>
                       <th pSortableColumn="foodName">
@@ -72,7 +73,7 @@
                     <th pSortableColumn="feedbackMessage">
                       <div class="flex justify-content-between align-items-center">
                         {{'feedBackSellerScreen.FeedBack' | translate}}
-                          <p-sortIcon field="gender"></p-sortIcon>
+                          <p-sortIcon field="feedbackMessage"></p-sortIcon>
                           <p-columnFilter type="text" field="feedbackMessage" display="menu"
                                           class="ml-auto"></p-columnFilter>
                       </div>
@@ -99,14 +100,16 @@
                       </th>
                   </tr>
               </ng-template>
-              <ng-template pTemplate="body" let-feed>
+              <ng-template pTemplate="body" let-feed let-rowIndex="rowIndex">
                   <tr class="p-selectable-row">
                       <!-- <td>
                           <p-tableCheckbox [value]="post"></p-tableCheckbox>
                       </td> -->
                       <td>
-                          <span class="p-column-title">{{'feedBackSellerScreen.ID' | translate}}</span>
-                            <span class="post-id">{{feed.feedbackId}}</span>
+                          <!-- <span class="p-column-title">{{'feedBackSellerScreen.ID' | translate}}</span>
+                            <span class="post-id">{{feed.feedbackId}}</span> -->
+                            <span class="p-column-title">#</span>
+                            <span class="post-id">{{rowIndex + 1}}</span>
                       </td>
                       <td >
                         <span class="p-column-title">{{'feedBackSellerScreen.FoodName' | translate}}</span>

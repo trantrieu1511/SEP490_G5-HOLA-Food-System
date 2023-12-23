@@ -1,8 +1,26 @@
-<div class="card">
-    <h1>Payment Verify</h1>
-    <h3 [style]="status ? 'color : green' : 'color : red'">{{resultText}}</h3>
-    <h4>VNPay TranId: {{tranId}}</h4>
-    <h4>Value: {{value | currency:'VND'}}</h4>
-    <h4>BankCode: {{bankcode}}</h4>
-    <p-button (onClick)="onBackToWallet()">Back To Wallet</p-button>
+<div class="pages-body notfound-page flex flex-column">
+    <div class="align-self-center mt-auto mb-auto">
+        <div class="pages-panel card flex flex-column">
+            <div class="pages-header px-3 py-1">
+                <h2>Payment Verify</h2>
+            </div>
+            <div class="pages-detail my-3">
+                <h3 [style]="status ? 'color : green' : 'color : red'">{{resultText}}</h3>
+                <div class="detail">
+                    <span class="detail_lb">VNPay TranId: </span>
+                    <span class="detail_value">{{tranId}}</span>
+                </div>
+                <div class="detail my-1">
+                    <span class="detail_lb">Value: </span>
+                    <span class="detail_value">{{value | currency:'VND'}}</span>
+                </div>
+                <div class="detail">
+                    <span class="detail_lb">BankCode: </span>
+                    <span class="detail_value">{{bankcode}}</span>
+                </div>
+            </div>
+            
+            <button pButton pRipple type="button" label="Back To Wallet" (click)="onBackToWallet()" class="p-button-text"></button>
+        </div>
+    </div>
 </div>

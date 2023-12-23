@@ -120,6 +120,15 @@
             <td>{{ order.totalPrice | currency : "VND" }}</td>
 
             <ng-container [ngSwitch]="activeItem.id">
+              <ng-container *jrSwitchCases="['2', '3', '4', '5']">
+                <td>{{ order.shipperId }}
+                  <p-tag [value]="order.shippingType" [severity]="getSeverity(order.shippingType)"></p-tag>
+                </td>
+              </ng-container>
+              <ng-container *ngSwitchDefault></ng-container>
+            </ng-container>
+            
+            <!-- <ng-container [ngSwitch]="activeItem.id">
               <ng-container *jrSwitchCases="['2']">
                 <td *ngIf="order.shipperId; else waitExternal">{{ order.shipperId }}</td>
                 <ng-template #waitExternal>
@@ -132,7 +141,7 @@
                 </td>
               </ng-container>
               <ng-container *ngSwitchDefault></ng-container>
-            </ng-container>
+            </ng-container> -->
 
             <ng-container [ngSwitch]="activeItem.id">
               <ng-container *jrSwitchCases="['5', '6']">

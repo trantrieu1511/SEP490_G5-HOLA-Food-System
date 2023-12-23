@@ -55,10 +55,10 @@ export class LoadingInterceptor implements HttpInterceptor {
                 //this.removeRequest(request);
                 return throwError(() => err);
             })
-            // ,
-            // finalize(() => {
-            //     this.removeRequest(request);
-            // })
+            ,
+            finalize(() => {
+                this.removeRequest(request);
+            })
         );
     }
 

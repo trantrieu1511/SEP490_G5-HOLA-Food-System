@@ -97,17 +97,17 @@
         <div class="shop_createdDate shop-infor_child">
           <i class="pi pi-gift"></i><span class="shop_createdDate-value">{{shopInfor.createDate}}</span>
         </div>
-        <div class="shop_online shop-infor_child" *ngFor="let item of (presence.onlineUserscus$ | async)">
-          <ng-container *ngIf="shopInfor.email===item.email;">
+        <div  *ngFor="let item of (presence.onlineUserscus$ | async)">
+          <div *ngIf="shopInfor.email===item.email;">
             <i class="pi pi-circle-fill" style="color: green"></i>
             <span class="shop_createdDate-value">{{'shopDetailScreen.Online' | translate}}</span>
-          </ng-container>
+          </div>
         </div>
-        <div class="shop_online shop-infor_child" *ngFor="let item of (presence.offlineUserscus$ | async)">
-          <ng-container *ngIf="shopInfor.email===item.email;">
+        <div *ngFor="let item of (presence.offlineUserscus$ | async)">
+          <div *ngIf="shopInfor.email===item.email;">
             <i class="pi pi-circle-fill" style="color: red"></i>
             <span class="shop_createdDate-value">{{'shopDetailScreen.Offline' | translate}}</span>
-          </ng-container>
+          </div>
         </div>
         <div class="shop-infor-name shop-infor_child">
           <h3 id="shop-name">{{shopInfor.shopName}}</h3>
@@ -135,11 +135,11 @@
                   </p>
                 <p class="fs-small voucher-attr">
                   <span class="voucher-content_lb">Discount: </span>
-                  {{voucher.discountAmount | currency : "VND"}} 
+                  {{voucher.discountAmount | currency : "VND"}}
                   </p>
                 <p class="fs-small voucher-attr">
                   <span class="voucher-content_lb">Minimum Order: </span>
-                  {{voucher.minimumOrderValue | currency : "VND"}} 
+                  {{voucher.minimumOrderValue | currency : "VND"}}
                 </p>
                 <p class="fs-small voucher-attr">
                   <span class="voucher-content_lb">From : </span>
@@ -147,7 +147,7 @@
                 </p>
                 <p class="fs-small voucher-attr">
                   <span class="voucher-content_lb">To : </span>
-                  {{voucher.expireDate | date:'dd-MM-yyyy HH:mm:ss' }} 
+                  {{voucher.expireDate | date:'dd-MM-yyyy HH:mm:ss' }}
                 </p>
               </div>
               <div class="copy_btn">

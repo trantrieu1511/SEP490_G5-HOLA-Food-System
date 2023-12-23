@@ -35,7 +35,7 @@ const routes: Routes = [
   { path: "checkout", component: CheckoutComponent },
   { path: "orderhistory", component: OrderhistoryComponent },
   { path: "wallet", component: WalletComponent },
-  { path: "paymentverify", component: PaymentverifyComponent },
+  
   { path: "newfeed", component: NewFeedModuleComponent },
   // -------------- My account page related routes -----------------
   { path: "profile", component: ManageprofileComponent },
@@ -67,6 +67,7 @@ const routes: Routes = [
     AddressSelectorComponent,
     CartPopupComponent,
     CartPopupItemComponent,
+    PaymentverifyComponent
   ],
   imports: [
     CommonModule,
@@ -77,7 +78,8 @@ const routes: Routes = [
   exports: [
     // AppMenuMyaccountComponent
     AddressSelectorComponent,
-    CartPopupComponent
+    CartPopupComponent,
+    PaymentverifyComponent
   ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }

@@ -57,8 +57,8 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     super(messageService, breadcrumbService);
 
     this.breadcrumbService.setItems([
-      {label: 'HFSBusiness'},
-      {label: 'Food Management', routerLink: ['/HFSBusiness/food-management']}
+      { label: 'HFSBusiness' },
+      { label: 'Food Management', routerLink: ['/HFSBusiness/food-management'] }
     ]);
   }
   allCount: number = 0;
@@ -67,7 +67,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
   baCount: number = 0;
   haiCount: number = 0;
   motCount: number = 0;
-  foodId : number
+  foodId: number
   loading: boolean;
   fooddetail: any;
   foodImages: any[]
@@ -78,8 +78,8 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
   category: number
   first: number = 0;
   rows: number = 10;
-  ImageDialog: any ;
-  visibleImageDialog:boolean =false;
+  ImageDialog: any;
+  visibleImageDialog: boolean = false;
   // ----------- Food report --------------
   isVisibleFoodReportModal = false; // Bien phuc vu cho viec bat tat modal
   foodReport: FoodReport = new FoodReport();
@@ -94,7 +94,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     //   this.isLoggedIn = true;
     // }
     const user = this.authService.getUserInfor();
-    if(!user){
+    if (!user) {
       this.isLoggedIn = false;
       return;
     }
@@ -108,19 +108,20 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
 
   async ngOnInit() {
     this._route.queryParams.subscribe(params => {
-      this.foodId = params['foodId'];})
+      this.foodId = params['foodId'];
+    })
     await this.getFoodDetail();
     await this.onGetSimilarFood();
     await this.getFeedBack();
 
     this.checkLoggedIn();
-    this.allCount=this.feedbacks.length;
-    this.namCount=this.feedbacks.filter(x => x.star === 5).length;
-    this.bonCount=this.feedbacks.filter(x => x.star === 4).length;
-    this.baCount=this.feedbacks.filter(x => x.star === 3).length;
-    this.haiCount=this.feedbacks.filter(x => x.star === 2).length;
-    this.motCount=this.feedbacks.filter(x => x.star === 1).length;
-    if(!this.hasAlreadyReported){ // Neu food nay chua bi report thi moi reset nut submit (Tiet kiem tai nguyen may tinh)
+    this.allCount = this.feedbacks.length;
+    this.namCount = this.feedbacks.filter(x => x.star === 5).length;
+    this.bonCount = this.feedbacks.filter(x => x.star === 4).length;
+    this.baCount = this.feedbacks.filter(x => x.star === 3).length;
+    this.haiCount = this.feedbacks.filter(x => x.star === 2).length;
+    this.motCount = this.feedbacks.filter(x => x.star === 1).length;
+    if (!this.hasAlreadyReported) { // Neu food nay chua bi report thi moi reset nut submit (Tiet kiem tai nguyen may tinh)
       this.enableDisableFoodReportButtonSubmit();
     }
   }
@@ -129,10 +130,10 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     debugger
     this.first = event.first;
     this.rows = event.rows;
-    if(event.page > 0){
-      this.displayFeedback = this.feedbacks.filter(x => x.star === star).slice(event.rows*event.page - 1, event.rows);
+    if (event.page > 0) {
+      this.displayFeedback = this.feedbacks.filter(x => x.star === star).slice(event.rows * event.page - 1, event.rows);
     }
-    else{
+    else {
       this.displayFeedback = this.feedbacks.filter(x => x.star === star).slice(0, event.rows);
     }
   }
@@ -190,10 +191,10 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.FOODETAIL, API.API_FOODDETAIL.VOTE_FEEDBACK, vote);
       if (response && response.success === true) {
         this.feedbacks.filter(e => e.feedbackId === feedbackId).forEach(x => {
-          if (x.isLiked === true){
+          if (x.isLiked === true) {
             x.likeCount--
             x.isLiked = false
-          } else if (x.isLiked === false){
+          } else if (x.isLiked === false) {
             x.likeCount++
             x.isLiked = true
           }
@@ -331,13 +332,14 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
         this.checkUsersReportFoodCapability();
       }
       else {
-        this.showMessage(mType.warn, "error", "Internal server error, please contact for admin help!", 'notify');
+        this.showMessage(mType.warn, "Error", response.message, 'notify');
         console.log(response);
-        console.log('Internal server error, please contact for admin help!');
+        // console.log('Internal server error, please contact for admin help!');
       }
       this.loading = false;
     } catch (e) {
       console.log(e);
+      this.showMessage(mType.warn, "error", "Internal server error, please contact for admin help!", 'notify');
       this.loading = false;
     }
 
@@ -404,7 +406,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
         // console.log("Danh sách các đồ ăn đã tố cáo của khách hàng: " + this.listFoodReport);
         // console.log(response.foodReports);
         this.listFoodReport.forEach(element => {
-          if(element.foodId == this.fooddetail.foodId){ // Da report
+          if (element.foodId == this.fooddetail.foodId) { // Da report
             this.hasAlreadyReported = true;
           }
         });
@@ -416,16 +418,16 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
     }
   }
 
-  onFoodDetail(foodId : number){
-      this._router.routeReuseStrategy.shouldReuseRoute = function () {
-        return false;
-      }
-      this._router.onSameUrlNavigation = 'reload';
-      this._router.navigate(['/fooddetail'], { queryParams: { foodId: foodId } });
-      this.ngOnInit();
+  onFoodDetail(foodId: number) {
+    this._router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    }
+    this._router.onSameUrlNavigation = 'reload';
+    this._router.navigate(['/fooddetail'], { queryParams: { foodId: foodId } });
+    this.ngOnInit();
   }
 
-  async onAddToCart2(foodId : number){
+  async onAddToCart2(foodId: number) {
     try {
       this.loading = true;
       let cartItem = new AddToCart();
@@ -434,18 +436,18 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.ADDTOCART, cartItem);
       if (response && response.message === "Success") {
         console.log(response)
-          this.showMessage(mType.success, "", "Add to cart success!", 'notify');
+        this.showMessage(mType.success, "", "Add to cart success!", 'notify');
       }
-      else{
+      else {
         this.showMessage(mType.warn, "", "You are not logged as customer!", 'notify');
         this._router.navigate(['/login']);
       }
 
       this.loading = false;
-  } catch (e) {
+    } catch (e) {
       console.log(e);
       this.loading = false;
-  }
+    }
   }
 
   galleriaResponsiveOptions: any[] = [

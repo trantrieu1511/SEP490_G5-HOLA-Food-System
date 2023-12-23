@@ -384,7 +384,7 @@ namespace HFS_BE.Controllers
 			.SetBasePath(Directory.GetCurrentDirectory())
 				.AddJsonFile("appsettings.json", true, true)
 				.Build();
-			string key = conf["ApplicationSettings:MapGoogle3"];
+			string key = conf["ApplicationSettings:MapGoogle"];
 			var encodedAddress = System.Uri.EscapeDataString(get.address);
 			var apiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={encodedAddress}&key={key}";
 
@@ -392,7 +392,7 @@ namespace HFS_BE.Controllers
             var jsonObject = JsonConvert.DeserializeObject<CheckMap>(response);
 			if (jsonObject.status != "OK")
 			{
-				key = conf["ApplicationSettings:MapGoogle"];
+				key = conf["ApplicationSettings:MapGoogle3"];
 				encodedAddress = System.Uri.EscapeDataString(get.address);
 				apiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={encodedAddress}&key={key}";
 
@@ -414,7 +414,16 @@ namespace HFS_BE.Controllers
 
                         response = await _httpClient.GetStringAsync(apiUrl);
                         jsonObject = JsonConvert.DeserializeObject<CheckMap>(response);
-                    }
+						if (jsonObject.status != "OK")
+						{
+							key = conf["ApplicationSettings:MapGoogle4"];
+							encodedAddress = System.Uri.EscapeDataString(get.address);
+							apiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={encodedAddress}&key={key}";
+
+							response = await _httpClient.GetStringAsync(apiUrl);
+							jsonObject = JsonConvert.DeserializeObject<CheckMap>(response);
+						}
+					}
                 }
 			}
 			return Content(response, "application/json");

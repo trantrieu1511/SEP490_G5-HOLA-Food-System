@@ -38,10 +38,11 @@
                         </th> -->
                         <th pSortableColumn="postId">
                             <div class="flex justify-content-between align-items-center">
-                                {{'postSellerScreen.id' | translate}}
+                                <!-- {{'postSellerScreen.id' | translate}}
                                 <p-sortIcon field="postId"></p-sortIcon>
                                 <p-columnFilter type="numeric" field="postId" display="menu"
-                                                class="ml-auto"></p-columnFilter>
+                                                class="ml-auto"></p-columnFilter> -->
+                                                #
                             </div>
                         </th>
                         <th pSortableColumn="postContent">
@@ -81,14 +82,15 @@
                         </th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-post>
+                <ng-template pTemplate="body" let-post let-rowIndex="rowIndex">
                     <tr class="p-selectable-row">
                         <!-- <td>
                             <p-tableCheckbox [value]="post"></p-tableCheckbox>
                         </td> -->
                         <td>
-                            <span class="p-column-title">ID</span>
-                            <span class="post-id" style="cursor: pointer; color: green" (click)="onViewPost(post.postId)">{{post.postId}}</span>
+                            <span class="p-column-title">#</span>
+                            <!-- <span class="post-id" style="cursor: pointer; color: green" (click)="onViewPost(post.postId)">{{post.postId}}</span> -->
+                            <span class="post-id" style="cursor: pointer; color: green" (click)="onViewPost(post.postId)">{{rowIndex + 1}}</span>
                         </td>
                         <td >
                             <span class="p-column-title">Post Content</span>
