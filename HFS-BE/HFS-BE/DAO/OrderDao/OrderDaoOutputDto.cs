@@ -19,6 +19,7 @@ namespace HFS_BE.Dao.OrderDao
         public string PaymentMethod { get; set; }
         public string? Status { get; set; }
 
+        public virtual Voucher? Voucher { get; set; }
         public virtual List<OrderDetailDto> OrderDetails { get; set; }
         public virtual List<OrderProgressDto> OrderProgresses { get; set; }
 

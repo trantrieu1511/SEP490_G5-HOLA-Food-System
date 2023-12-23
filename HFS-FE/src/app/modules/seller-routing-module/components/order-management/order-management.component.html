@@ -112,7 +112,7 @@
               <span class="pi pi-map" (click)="onClickMap(order)" style="cursor: pointer;"></span>
             </td>
             <td>{{ order.orderDate }}</td>
-            <td *ngIf="order.voucherId; else noneVoucher">(Id:{{order.voucherId}}) -{{ order.discountAmount | currency : "VND" }}</td>
+            <td *ngIf="order.voucherId; else noneVoucher">(Code:{{order.voucherId}}) <br>-{{ order.discountAmount | currency : "VND" }}</td>
             <ng-template #noneVoucher>
               <td class="no-voucher">{{'orderSellerScreen.none' | translate}}</td>
             </ng-template>

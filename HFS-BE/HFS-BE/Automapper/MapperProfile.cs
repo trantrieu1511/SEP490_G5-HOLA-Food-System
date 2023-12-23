@@ -217,6 +217,7 @@ namespace HFS_BE.Automapper
                 .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.OrderDetails.Select(
                         d => d.UnitPrice * d.Quantity
                     ).ToList().Sum() - (src.Voucher != null ? src.Voucher.DiscountAmount : 0))) //* them voucher))
+                .ForMember(dest => dest.DiscountAmount, opt => opt.MapFrom(src => src.Voucher != null ? src.Voucher.DiscountAmount : 0))
                 .ForMember(dest => dest.OrderProgresses, opt => opt.MapFrom(src => src.OrderProgresses.OrderBy(x => x.CreateDate).ToList()))
                 .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.OrderBy(x => x.UnitPrice).ToList()));
             /*.ForMember(dest => dest.Detail, opt => opt.MapFrom(src => new DetailProgress

@@ -105,6 +105,11 @@ export class ShipperHistoryManagementComponent extends iComponentBase implements
         value.orderDetails.forEach(value => {
           amount += value.unitPrice * value.quantity;
         });
+        
+        const voucher = value.voucher
+        if(voucher){
+          amount -= voucher.discountAmount
+        }
 
         value.total = amount;
       });
