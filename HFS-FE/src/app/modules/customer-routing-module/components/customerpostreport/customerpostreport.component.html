@@ -26,7 +26,7 @@
     <div class="card main-body">
         <h2>{{'postReportScreen.Mypostreport' | translate}}</h2>
         <p-table #dt [value]="lstPostReport" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
-            [rows]="10" [showCurrentPageReport]="true" [paginator]="lstPostReport.length > 5" [filterDelay]="0"
+            [rows]="10" [showCurrentPageReport]="true" [paginator]="lstPostReport.length > 0" [filterDelay]="0"
             [rowsPerPageOptions]="[5,10,25,50]" currentPageReportTemplate="{{'postReportScreen.Total' | translate}}: {totalRecords} {{'postReportScreen.postreports' | translate}}"
             [globalFilterFields]="['reportContent']" responsiveLayout="scroll" [loading]="loading">
             <ng-template pTemplate="caption">

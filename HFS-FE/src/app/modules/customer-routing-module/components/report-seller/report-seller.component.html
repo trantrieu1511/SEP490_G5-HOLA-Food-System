@@ -24,7 +24,7 @@
   <div class="card main-body">
       <h2>{{'shopReportScreen.Sellerreport' | translate}}</h2>
       <p-table #dt [value]="lstReport" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
-          [rows]="10" [showCurrentPageReport]="true" [paginator]="lstReport.length > 5" [filterDelay]="0"
+          [rows]="10" [showCurrentPageReport]="true" [paginator]="lstReport.length > 0" [filterDelay]="0"
           [rowsPerPageOptions]="[5,10,25,50]" currentPageReportTemplate="{{'shopReportScreen.Total' | translate}}: {totalRecords} {{'shopReportScreen.foodreports' | translate}}"
           [globalFilterFields]="['reportContent']" responsiveLayout="scroll" [loading]="loading">
           <ng-template pTemplate="caption">
