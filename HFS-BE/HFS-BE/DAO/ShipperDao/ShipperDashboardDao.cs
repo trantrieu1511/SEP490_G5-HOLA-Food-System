@@ -59,6 +59,7 @@ namespace HFS_BE.DAO.ShipperDao
 			var data7 = context.Orders
 				.Include(s=>s.OrderProgresses)
 				.Include(s => s.OrderDetails)
+				.Include(s => s.Voucher)
 				.Where(s => s.ShipperId==input.ShipperId&&s.ShippedDate.Value.Date==DateTime.Now.Date
                 && s.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 4
 
@@ -79,7 +80,8 @@ namespace HFS_BE.DAO.ShipperDao
 			var data8 = context.Orders
 				.Include(s => s.OrderProgresses)
 				.Include(s => s.OrderDetails)
-				.Where(s => s.ShipperId == input.ShipperId && s.ShippedDate.Value.Month == DateTime.Now.Month
+                .Include(s => s.Voucher)
+                .Where(s => s.ShipperId == input.ShipperId && s.ShippedDate.Value.Month == DateTime.Now.Month
                  && s.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == 4).ToList();
 			decimal summonth = 0;
 			foreach (var s in data8)
