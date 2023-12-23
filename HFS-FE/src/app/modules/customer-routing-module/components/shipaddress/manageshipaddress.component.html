@@ -238,7 +238,7 @@
             </ng-template>
         </p-toolbar>
 
-        <p-table #dt [value]="listShipAddress" [rows]="10" [paginator]="listShipAddress.length > 5"
+        <p-table #dt [value]="listShipAddress" [rows]="10" [paginator]="listShipAddress.length > 0"
             [rowsPerPageOptions]="[5,10,25,50]" [filterDelay]="0" styleClass="p-datatable-customers"
             [globalFilterFields]="['addressInfo']" [rowHover]="false" dataKey="id"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"

@@ -1,9 +1,26 @@
 .card {
-    width: 80%;
     max-width: 400px;
     margin: auto; /* Thêm vào để căn giữa */
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    text-align: center;}
+    text-align: center;
+
+    .detail{
+        display: flex;
+        .detail_lb{
+            min-width: 7rem;
+            text-align: left;
+            margin-right: 10px;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+    }
+}
+
+:host ::ng-deep {
+    .pages-header{
+        background-color: #2596be !important;
+    }
+}
