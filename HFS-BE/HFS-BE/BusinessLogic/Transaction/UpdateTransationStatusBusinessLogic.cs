@@ -24,6 +24,10 @@ namespace HFS_BE.BusinessLogic.Transaction
                 };
 
                 var output = dao.UpdateTransactionStatus(input1);
+                if (output.Message.Equals("Already updated!"))
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+                }
 
                 if (inputDto.Status == 1)
                 {
