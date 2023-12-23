@@ -1,5 +1,6 @@
 ﻿using HFS_BE.Base;
 using HFS_BE.Dao.OrderDao;
+using HFS_BE.Models;
 
 namespace HFS_BE.BusinessLogic.OrderShipper
 {
@@ -17,7 +18,7 @@ namespace HFS_BE.BusinessLogic.OrderShipper
         public int? VoucherId { get; set; }
         public string PaymentMethod { get; set; }
         public string? Status { get; set; }
-
+        public virtual Voucher? Voucher { get; set; }
         public List<OrderDetailBLDto>? OrderDetails { get; set; }
 
         public List<OrderProgressBLDto>? OrderProgresses { get; set; }

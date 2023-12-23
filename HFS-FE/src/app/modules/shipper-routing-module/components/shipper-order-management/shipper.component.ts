@@ -319,6 +319,11 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
           amount += value.unitPrice * value.quantity;
         });
 
+        const voucher = value.voucher
+        if(voucher){
+          amount -= voucher.discountAmount
+        }
+
         value.total = amount;
       });
     }

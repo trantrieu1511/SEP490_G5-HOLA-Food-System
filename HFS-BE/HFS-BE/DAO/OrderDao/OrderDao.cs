@@ -24,6 +24,7 @@ namespace HFS_BE.Dao.OrderDao
                 // where lấy bên progress 
                 var data = this.context.Orders
                     .Include(x => x.OrderDetails).ThenInclude(x => x.Food).ThenInclude(f => f.FoodImages)
+                    .Include(x => x.Voucher)
                     .Include(x => x.OrderProgresses)
                     .Where(x => x.ShipperId == inputDto.ShipperId && x.OrderProgresses.OrderBy(x => x.CreateDate).AsQueryable().Last().Status == status).OrderBy(x => x.OrderDate)
                     //.Select(x => mapper.Map<Order, OrderDaoOutputDto>(x))
@@ -81,7 +82,8 @@ namespace HFS_BE.Dao.OrderDao
                 // where lấy bên progress 
                 var query = this.context.Orders
                     .Include(x => x.OrderDetails).ThenInclude(x => x.Food).ThenInclude(f => f.FoodImages)
-                    .Include(x => x.OrderProgresses);
+                    .Include(x => x.OrderProgresses)
+                    .Include(x => x.Voucher);
 
                 var data = new List<Order>();
                 if (inputDto.DateFrom.Equals(inputDto.DateEnd))

@@ -15,6 +15,7 @@ export class OrderDaoOutputDto{
         total: number;  
         orderDetails:OrderDetailDtoOutput[];  
         orderProgresses:OrderProgressDtoOutput[];  
+        voucher: any;
 }
 export class OrderDetailDtoOutput{
     orderId :number;
