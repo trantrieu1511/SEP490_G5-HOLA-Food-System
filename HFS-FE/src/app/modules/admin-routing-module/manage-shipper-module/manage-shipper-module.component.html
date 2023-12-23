@@ -207,12 +207,12 @@
                                           class="p-button-rounded p-mr-2"></button>
                               </div> -->
                               <div class="flex align-items-center justify-content-center">
-                                <button *ngIf="!user.isVerified" pButton pRipple  label=" {{'shipAdminScreen.Verification' | translate}}"
+                                <button *ngIf="user.status != 1" pButton pRipple  label=" {{'shipAdminScreen.Verification' | translate}}"
                                 (click)="ActiveShipper(user,1)"
                                         class="p-button-rounded p-mr-2"></button>
                             </div>
                             <div class="flex align-items-center justify-content-center">
-                              <button *ngIf="!user.isVerified" pButton pRipple  label="  {{'shipAdminScreen.Recject' | translate}}"
+                              <button *ngIf="user.status != 1" pButton pRipple  label="  {{'shipAdminScreen.Recject' | translate}}"
                               (click)="RejectShipper(user,2)"
                                       class="p-button-rounded p-mr-2"></button>
                           </div>
