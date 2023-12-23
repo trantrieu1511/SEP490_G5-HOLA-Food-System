@@ -349,15 +349,16 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
         console.log('Create new post report successfully');
       }
       else {
-        // this.showMessage(mType.warn, "Error", this.iServiceBase.formatMessageError(response.message), 'notify');
-        this.showMessage(mType.warn, "Error", "Internal server error, please contact for admin help!", 'notify');
+        this.showMessage(mType.warn, "Info", response.message, 'notify');
+        // this.showMessage(mType.warn, "Error", "Internal server error, please contact for admin help!", 'notify');
         console.log(response);
-        console.log('Internal server error, please contact for admin help!');
+        // console.log('Internal server error, please contact for admin help!');
       }
       this.loading = false;
       this.checkUsersReportPostCapability();
     } catch (e) {
       console.log(e);
+      this.showMessage(mType.warn, "Error", "Internal server error, please contact for admin help!", 'notify');
       this.loading = false;
       this.checkUsersReportPostCapability();
     }

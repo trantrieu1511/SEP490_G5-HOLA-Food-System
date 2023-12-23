@@ -46,7 +46,7 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
   listShop: any[];
   listShop2: any[];
   haveVoucher: boolean = false;
-  totalPriceVoucher: number;
+  totalPriceVoucher: number = 0;
   balance : number;
 
   isDifferentAddress: boolean = false;
@@ -385,4 +385,11 @@ export class CheckoutComponent extends iComponentBase implements OnInit{
     this.router.navigate(['/orderhistory'])
   }
 
+  onFoodDetail(foodId : number){
+    this.router.navigate(['/fooddetail'], { queryParams: { foodId: foodId } });
+  }
+
+  onShopDetail(shop: string) {
+    this.router.navigate(['/shopdetail'], { queryParams: { shopid: shop } });
+  }
 }

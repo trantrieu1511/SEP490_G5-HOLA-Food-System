@@ -251,7 +251,7 @@ export class RegisterComponent extends iComponentBase implements OnInit, AfterVi
   }
   async onSubmit() {
     console.log(this.formregister);
-    debugger
+    
     if (this.formregister.valid) {
 
       switch (this.formregister.value.roleId.toString()) {

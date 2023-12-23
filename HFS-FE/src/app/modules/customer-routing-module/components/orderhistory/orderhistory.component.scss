@@ -1,26 +1,57 @@
+.sidebar {
+    margin-bottom: 15px;
+}
+
 @media only screen and (max-width: 1500px) {
-    .page-content {
-        width: 1500px;
+
+    // .page-content {
+    //     width: 1500px;
+    // }
+
+    .sidebar {
+        width: 250px;
+        height: 100%;
+    }
+
+    .main-body {
+        width: 100%;
+    }
+
+    @media only screen and (max-width: 500px) {
+        .sidebar {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .main-body {
+            width: 100%;
+        }
     }
 }
 
+@media only screen and (min-width: 1500px) {
+    .page-content {
+        // width: 45%;
+        display: flex;
+        // justify-content: center;
+        justify-content: flex-start;
+    }
+
+    .sidebar {
+        width: 250px;
+        height: 100%;
+    }
+
+    .main-body {
+        margin-left: 1%;
+        width: 80%;
+    }
+
+}
+
 u:hover {
-    cursor: pointer; /* Đổi con trỏ thành hình bàn tay */
-  }
-
-.page-content {
-    // width: 45%;
-    display: flex;
-    justify-content: center;
-}
-
-.sidebar {
-    width: 15%;
-    height: 100%;
-}
-
-.main-body {
-    width: 85%;
+    cursor: pointer;
+    /* Đổi con trỏ thành hình bàn tay */
 }
 
 .p-tabmenu-nav {

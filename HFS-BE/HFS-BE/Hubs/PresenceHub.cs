@@ -59,7 +59,12 @@ namespace HFS_BE.Hubs
 				{
 
 					var user = await sellerDao.GetSellersAsync(username);
-					user.CountMessageNotIsRead = await messageDao.CountMessageCustomerNotIsRead(username, user.Email);
+					var currentCustomer = await _tracker.GetOnlineCustomer();
+					foreach (var u in currentCustomer)
+					{
+						user.CountMessageNotIsRead = await messageDao.CountMessageCustomerNotIsRead(u, user.Email);
+					}
+					//user.CountMessageNotIsRead = await messageDao.CountMessageCustomerNotIsRead(username, user.Email);
 					await Clients.All.SendAsync("UserIsOnline", user);
 					var listcus = await customerDao.ListCustomersendSellerbySellerAsync(username);
 					foreach (var u in listcus)
@@ -67,12 +72,11 @@ namespace HFS_BE.Hubs
 						u.CountMessageNotIsRead = await messageDao.CountMessageSellerNotIsRead(u.Email, username);
 					}
 					await Clients.Client(Context.ConnectionId).SendAsync("ListCus", listcus);
-
 					var currentUsers = await _tracker.GetOnlineUsers();
-					usersOnline = await sellerDao.GetUsersOnlineAsync(username, currentUsers);
-					usersOffline = await sellerDao.GetUsersOfflineAsync(username, usersOnline);
-
-					await Clients.All.SendAsync("GetOnlineAndOfflineUsers", usersOnline, usersOffline);
+					usersOnline = await sellerDao.GetUsersOnlineCustomerAsync(currentUsers);
+					usersOffline = await sellerDao.GetUsersOfflineAsync(username, usersOnline);		
+						await Clients.All.SendAsync("GetOnlineAndOfflineUsers", usersOnline, usersOffline);
+					
 				}
 				else
 				{
@@ -98,13 +102,18 @@ namespace HFS_BE.Hubs
 				var isOffline = await _tracker.CustomerConnected(username, Context.ConnectionId);
 
 			}
-			else
+			if (role == "SE")
 			{
 				var isOffline = await _tracker.UserDisconnected(username, Context.ConnectionId);
+				var currentCustomer = await _tracker.GetOnlineCustomer();
 				if (isOffline)
 				{
 					var user = await sellerDao.GetSellersAsync(username);
-					user.CountMessageNotIsRead = await messageDao.CountMessageCustomerNotIsRead(username, user.Email);
+						foreach (var u in currentCustomer)
+					{
+						user.CountMessageNotIsRead = await messageDao.CountMessageCustomerNotIsRead(u, user.Email);
+					}
+						
 					await Clients.All.SendAsync("UserIsOffline", user);
 
 					usersOnline.Remove(user); // Xóa người dùng khỏi danh sách usersOnline

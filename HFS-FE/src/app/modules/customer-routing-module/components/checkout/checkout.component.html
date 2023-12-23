@@ -47,7 +47,7 @@
                           [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
                         ></button>
                       </td>
-                      <td class="shop-name">{{order.shopName}}</td>
+                      <td (click)="onShopDetail(order.shopId)" class="shop-name">{{order.shopName}}</td>
                       <td class="totalPrice_shop">
                         {{order.totalPrice | currency : "VND"}}
                         <span class="voucherPrice_shop" *ngIf="order.voucherPrice != 0">- {{order.voucherPrice | currency : "VND"}}</span>
@@ -76,7 +76,7 @@
                             <ng-template pTemplate="listItem" let-food>
                               <div class="food-item">
                                 <div class="food-image">
-                                  <img
+                                  <img (click)="onFoodDetail(food.foodId)"
                                     src="data:image/gif;base64,{{
                                       food.foodImage
                                     }}"
@@ -86,7 +86,7 @@
                                 </div>
                                 <div class="food-infor">
                                   <div class="food-infor_left">
-                                    <h3 class="food-infor_name">{{ food.foodName }}</h3>
+                                    <h3 (click)="onFoodDetail(food.foodId)" class="food-infor_name">{{ food.foodName }}</h3>
                                     <!-- <p class="food-infor_cate">{{ food.unitPrice }}</p> -->
                                   </div>
                                   <div class="food-infor_right">
@@ -204,6 +204,10 @@
                     <div class="col-12 mb-2 lg:col-9 mb-lg-0 total-price-order_all" style="text-align: end;">
                       {{totalPrice | currency : "VND"}}
                       <span *ngIf="haveVoucher">- {{totalPriceVoucher | currency : "VND"}}</span>
+                    <br>
+                    <div *ngIf="haveVoucher">
+                      {{totalPrice - totalPriceVoucher | currency : "VND"}}
+                    </div>                   
                     </div>
                   </div>
                   
@@ -227,6 +231,7 @@
     [resizable]="false"
     [maximizable]="true"
     [modal]="true"
+    (onHide)="onClose()"
   >
     <div class="grid p-fluid">
       <div class="col-12 md:col-12">
@@ -250,7 +255,7 @@
             pButton
             type="button"
             label="{{'button.GotoOrderManagementpage' | translate}}"
-            icon="pi pi-save"
+            icon="pi pi-shopping-bag"
             (click)="onClose()"
             style="width: 100%"
           ></button>

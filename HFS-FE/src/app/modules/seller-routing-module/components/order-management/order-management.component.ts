@@ -504,10 +504,11 @@ export class OrderManagementComponent
   onOpenMap(address : string){
     
     this.displayMap = true;
-    //this.geocodeAddress(address);
+    this.geocodeAddress(address);
   }
 
   async geocodeAddress(address : string) {
+    ;
     const param = {
       "address": address
     }
