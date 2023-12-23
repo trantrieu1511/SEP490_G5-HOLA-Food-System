@@ -20,6 +20,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { AddToCart } from '../../models/addToCart.model';
 import { async } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
+import { ShoppingCartPopupService } from 'src/app/services/shopping-cart-popup.service';
 
 @Component({
   selector: 'app-cartdetail',
@@ -41,7 +42,8 @@ export class CartdetailComponent extends iComponentBase implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private dataService: DataService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private shoppingCartService: ShoppingCartPopupService
   ) {
     super(messageService);
   }
@@ -120,7 +122,7 @@ export class CartdetailComponent extends iComponentBase implements OnInit {
 
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.UPDATE_AMOUNT, updateItem);
       if (response && response.success === true) {
-        console.log("abc")
+        this.shoppingCartService.onCheckOut();
       }
       else {
         // this.router.navigate(['/login']);
@@ -163,6 +165,7 @@ export class CartdetailComponent extends iComponentBase implements OnInit {
 
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.DELETE_ITEM, deleteitem);
       if (response && response.message === "Success") {
+        this.shoppingCartService.onCheckOut();
       }
       else {
         this.router.navigate(['/login']);
