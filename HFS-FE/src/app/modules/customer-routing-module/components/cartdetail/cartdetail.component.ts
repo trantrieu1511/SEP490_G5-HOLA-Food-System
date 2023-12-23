@@ -165,6 +165,7 @@ export class CartdetailComponent extends iComponentBase implements OnInit {
 
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CART, API.API_CART.DELETE_ITEM, deleteitem);
       if (response && response.message === "Success") {
+        this.shoppingCartService.onCheckOut();
       }
       else {
         this.router.navigate(['/login']);
