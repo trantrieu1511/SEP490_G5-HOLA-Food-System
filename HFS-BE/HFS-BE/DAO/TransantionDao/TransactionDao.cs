@@ -52,7 +52,7 @@ namespace HFS_BE.DAO.TransantionDao
                 {
                     if (transaction.Status == 1 || transaction.Status == 2)
                     {
-                        return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
+                        return this.Output<BaseOutputDto>(Constants.ResultCdSuccess, "Already updated!");
                     }
                     transaction.Status = inputDto.Status;
                     if (inputDto.Status == 1) transaction.Note += "\n- Success";
