@@ -198,7 +198,7 @@ string fullPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.
 		public static List<string> SaveLicenseImages(IReadOnlyList<IFormFile> images, UserDto user, int type)
         {
             string basePath = $"Resources/Images/" +
-                            $"{user.UserId}/" +
+                            $"{user.Email}/" +
                             $"{GetFolderNameTypeImage(type)}";
             // Đường dẫn cơ sở cho việc lưu hình ảnh
        //     string fullPath = Path.Combine(Directory.GetCurrentDirectory(), basePath);
