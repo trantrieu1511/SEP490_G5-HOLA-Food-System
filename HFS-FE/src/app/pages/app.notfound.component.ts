@@ -36,10 +36,15 @@ export class AppNotfoundComponent implements OnInit{
   }
   
   backClicked() {
+    
     //this.location.back();
-    const role = this.authService.getUserInfor().role;
-    if(role == null || 
-      RoleNames[role] == 'Customer'){
+    const user = this.authService.getUserInfor();
+    if(!user){
+      this.router.navigateByUrl('');
+      return
+    }
+    const role = user.role
+    if(RoleNames[role] == 'Customer'){
         this.router.navigateByUrl('');
     }else{
       this.router.navigateByUrl('HFSBusiness');

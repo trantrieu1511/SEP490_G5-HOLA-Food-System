@@ -5,7 +5,7 @@ import { JwtService } from '../app.jwt.service';
 import { RoleNames } from 'src/app/utils/roleName';
 
 export const bounaryGuard: CanActivateFn = (route, state) => {
-  debugger
+
   const _iFunction = inject(forwardRef(() => iFunction));
   const router = inject(forwardRef(() => Router));
   const jwtService = inject(forwardRef(() => JwtService));

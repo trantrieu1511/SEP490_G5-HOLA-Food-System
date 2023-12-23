@@ -24,6 +24,7 @@ import { ManageprofileComponent } from './profile/manageprofile.component';
 import { FooddetailComponent,
   HomepageComponent,
   NewFeedModuleComponent,
+  PaymentverifyComponent,
   SearchComponent,
   ShopdetailComponent
 } from './modules/customer-routing-module/customer-routing-module';
@@ -95,6 +96,12 @@ const routes: Routes = [
   //     },
   //   ]
   // },
+  { 
+    path: "paymentverify", 
+    canActivate: [authGuard],
+    data: { requiredRole: ['Customer'] },
+    component: PaymentverifyComponent
+  },
   {
     path: '',
     redirectTo: 'homepage',

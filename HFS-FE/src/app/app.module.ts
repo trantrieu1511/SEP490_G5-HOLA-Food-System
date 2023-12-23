@@ -99,7 +99,6 @@ import { AppManageLayoutModule } from './layout/manage/app.manage.module';
     ManageCategoryModuleComponent,
     // OrderhistoryComponent,
     // WalletComponent,
-    PaymentverifyComponent,
     AppNavbarComponent,
     ManageMenumoderatorModuleComponent,
     // ManageprofileComponent,

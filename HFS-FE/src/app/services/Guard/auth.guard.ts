@@ -6,7 +6,6 @@ import { iFunction } from 'src/app/modules/shared-module/shared-module';
 import { AuthService } from '../auth.service';
 
 export const authGuard: CanActivateFn = async (route, state) => {
-  debugger
   const router = inject(Router);
   const jwtService = inject(JwtService);
   const _iFunction = inject(iFunction);
