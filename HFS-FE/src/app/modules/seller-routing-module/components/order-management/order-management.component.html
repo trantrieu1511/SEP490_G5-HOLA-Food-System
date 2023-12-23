@@ -121,8 +121,10 @@
 
             <ng-container [ngSwitch]="activeItem.id">
               <ng-container *jrSwitchCases="['2', '3', '4', '5']">
-                <td>{{ order.shipperId }}
-                  <p-tag [value]="order.shippingType" [severity]="getSeverity(order.shippingType)"></p-tag>
+                <td>
+                  {{ order.shipperId }}
+                  <br>
+                  {{ order.shipperName }}
                 </td>
               </ng-container>
               <ng-container *ngSwitchDefault></ng-container>
