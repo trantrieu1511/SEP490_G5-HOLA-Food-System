@@ -92,7 +92,7 @@ namespace HFS_BE.BusinessLogic.Dashboard
                 foreach (var order in orders)
                 {
                     //amount_count
-                    output.amountCount = order.OrderDetails.Select(
+                    output.amountCount += order.OrderDetails.Select(
                             d => d.UnitPrice ?? 0m * d.Quantity ?? 0
                         ).ToList().Sum() - (order.Voucher?.DiscountAmount ?? 0m);
                     //sold_count 
@@ -111,7 +111,7 @@ namespace HFS_BE.BusinessLogic.Dashboard
                 foreach (var order in orders)
                 {
                     //amount_count
-                    output.amountCount = order.OrderDetails.Select(
+                    output.amountCount += order.OrderDetails.Select(
                             d => d.UnitPrice ?? 0m * d.Quantity ?? 0
                         ).ToList().Sum() - (order.Voucher?.DiscountAmount ?? 0m);
                     //sold_count 
