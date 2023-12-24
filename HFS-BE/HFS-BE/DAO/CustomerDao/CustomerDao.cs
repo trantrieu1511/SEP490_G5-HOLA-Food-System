@@ -22,6 +22,7 @@ namespace HFS_BE.DAO.CustomerDao
 		{
 			try
 			{
+
 				var user = context.Customers.Include(s => s.Orders).ThenInclude(s => s.OrderProgresses)
 						 .Select(p => new CustomerDtoOutput
 						 {
@@ -41,7 +42,7 @@ namespace HFS_BE.DAO.CustomerDao
 								 {
 									 OrderId = s.OrderId,
 									 OrderDate = s.OrderDate,
-									 Note = s.OrderProgresses.FirstOrDefault(s => s.Status == 5).Note,
+									 Note = GetNote(s.OrderProgresses.FirstOrDefault(s => s.Status == 5).Note),
 									 ShipAddress = s.ShipAddress,
 									 ShipperId = s.ShipperId
 								 }).ToList(),
@@ -69,8 +70,23 @@ namespace HFS_BE.DAO.CustomerDao
 				return this.Output<ListCustomerDtoOutput>(Constants.ResultCdFail);
 			}
 		}
-	
 
+		string GetNote(string note)
+		{
+			string[] notes = note.Split(",");
+			string result = "";
+			foreach (var n in notes)
+			{
+				result += InCompleteEnum.GetStatusString(n) + ", ";
+			}
+
+			if (!string.IsNullOrEmpty(result))
+			{
+				result = result.TrimEnd(',', ' ');
+			}
+
+			return result;
+		}
 		//public BaseOutputDto BanCustomer(BanCustomerDtoInput input)
 		//{
 		//	try
