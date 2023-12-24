@@ -154,11 +154,11 @@
                             <p-tableCheckbox [value]="post"></p-tableCheckbox>
                         </td> -->
                         <td>
-                            <span class="p-column-title">ID</span>
+                            <span class="p-column-title">{{'adminMenuManagementScreen.ID' | translate}}</span>
                             <span class="">{{food.foodId}}</span>
                         </td>
                         <td>
-                            <span class="p-column-title">SellerID</span>
+                            <span class="p-column-title">{{'adminMenuManagementScreen.SellerID' | translate}}</span>
                             <span class="sellerId" (click)="viewContentDetail(food.sellerEmail)">
                                 {{food.sellerId}}
                             </span>
@@ -168,34 +168,34 @@
                             {{food.sellerEmail}}
                         </td> -->
                         <td>
-                            <span class="p-column-title">Category</span>
+                            <span class="p-column-title">{{'adminMenuManagementScreen.categoryname' | translate}}</span>
                             {{food.categoryName}}
                         </td>
                         <td>
-                            <span class="p-column-title">Name</span>
+                            <span class="p-column-title">{{'adminMenuManagementScreen.foodname' | translate}}</span>
                             {{food.name}}
                         </td>
                         <td>
-                            <span class="p-column-title">Description</span>
+                            <span class="p-column-title">{{'adminMenuManagementScreen.fooddescription' | translate}}</span>
                             <span class="food-content"
                                 (click)="viewContentDetail(food.description)">{{food.description}}
                             </span>
                         </td>
                         <td>
-                            <span class="p-column-title">UnitPrice</span>
+                            <span class="p-column-title">{{'adminMenuManagementScreen.unitprice' | translate}}</span>
                             {{food.unitPrice}}
                         </td>
                         <td>
-                            <span class="p-column-title">Rating</span>
+                            <span class="p-column-title">{{'adminMenuManagementScreen.rating' | translate}}</span>
                             <p-rating [ngModel]="food.rating" [readonly]="true" [cancel]="false"></p-rating>
 
                         </td>
                         <td>
-                            <span class="p-column-title">CreatedDate</span>
+                            <span class="p-column-title">{{'adminMenuManagementScreen.CreatedDate' | translate}}</span>
                             {{food.createdDate}}
                         </td>
                         <td>
-                            <span class="p-column-title">Image</span>
+                            <span class="p-column-title">{{'adminMenuManagementScreen.Images' | translate}}</span>
                             <ng-container *ngIf="food.imagesBase64.length !== 0; else noneImage">
                                 <button pButton pRipple icon="pi pi-images"
                                     (click)="onDisplayImagesDialog(food, $event)"
@@ -204,11 +204,11 @@
                             <ng-template #noneImage><span class="no-image">No Image</span></ng-template>
                         </td>
                         <td>
-                            <span class="p-column-title">Status</span>
+                            <span class="p-column-title">{{'adminMenuManagementScreen.Status' | translate}}</span>
                             <p-tag [value]="food.status" [severity]="getSeverity(food.status)"></p-tag>
                         </td>
                         <td>
-                            <span class="p-column-title">ReportedTimes</span>
+                            <span class="p-column-title">{{'adminMenuManagementScreen.approvedReportedTimes' | translate}}</span>
                             {{food.reportedTimes}}
                         </td>
                         <!-- <td>

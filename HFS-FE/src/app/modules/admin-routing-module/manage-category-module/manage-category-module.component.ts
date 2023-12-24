@@ -126,14 +126,14 @@ export class ManageCategoryModuleComponent extends iComponentBase implements OnI
       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_MANAGE.ADD_CATE,param);
       if (response && response.message === "Success") {
         this.getAllCate();
-        this.showMessage(mType.success, "Notification", "Update successfully", 'notify');
+        this.showMessage(mType.success, "Notification", "Add successfully", 'notify');
         this.displayDialogEditAddCate = false;
       }else{
-        this.showMessage(mType.success, "Notification", "Update failure", 'notify');
+        this.showMessage(mType.success, "Notification", "Add failure", 'notify');
       }
     } catch (e) {
       console.log(e);
-        this.showMessage(mType.error, "Notification", "Update failure", 'notify');
+        this.showMessage(mType.error, "Notification", "Add failure", 'notify');
     }
   }
   onUpdateCate(cate:Category) {
