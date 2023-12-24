@@ -10,6 +10,8 @@ import { async } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { GetTransactionHistoryInput } from 'src/app/modules/customer-routing-module/models/GetTransactionHistoryInput.model';
 import { UpdateStatusWithdrawInput } from '../../models/UpdateStatusWithdrawInput.model';
+import { TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-withdraw-request',
@@ -40,6 +42,7 @@ export class WithdrawRequestComponent
     private route: ActivatedRoute,
     private router: Router,
     public authService: AuthService,
+    public translate: TranslateService
   ) {
     super(messageService, breadcrumbService);
 
@@ -50,9 +53,24 @@ export class WithdrawRequestComponent
   }
   
   ngOnInit(): void {
+    this.initTabMenuitem();
     this.setDefaultDate();
     this.onGetHistory();
   }
+
+  initTabMenuitem() {
+    this.translate.get('withDrawScreen').subscribe( (text: any) => {
+   
+
+      this.tabs = [
+        { label: text.Waiting, id: '0' },
+        { label: text.Success, id: '1' },
+        { label: text.Cancel, id: '2' },
+      ];
+
+    });
+  }
+
   setDefaultDate() {
     this.rangeDates = [];
     this.rangeDates[0] = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);

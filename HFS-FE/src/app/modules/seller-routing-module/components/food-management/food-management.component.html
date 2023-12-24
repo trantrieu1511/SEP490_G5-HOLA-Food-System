@@ -1,7 +1,7 @@
 <div class="grid table-demo">
     <div class="col-12">
         <div class="card">
-            <h5>{{'foodSellerScreen.Food Management' | translate}}</h5>
+            <h5>{{'foodSellerScreen.FoodManagement' | translate}}</h5>
 
             <p-table #dt [value]="lstFood" dataKey="id"
                      styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
@@ -39,7 +39,7 @@
                         <th pSortableColumn="foodId">
                             <div class="flex justify-content-between align-items-center">
                                 <!-- {{'foodSellerScreen.id' | translate}}  -->
-                                #
+                                {{'label.No' | translate}}
                                 <!-- <p-sortIcon field="foodId"></p-sortIcon>
                                 <p-columnFilter type="numeric" field="foodId" display="menu"
                                                 class="ml-auto"></p-columnFilter> -->
@@ -120,37 +120,37 @@
                             <p-tableCheckbox [value]="post"></p-tableCheckbox>
                         </td> -->
                         <td>
-                            <span class="p-column-title">#</span>
+                            <span class="p-column-title">{{'label.No' | translate}}</span>
                             <!-- <span class="post-id" style="cursor: pointer; color: green;" (click)="onViewFood(food.foodId)">{{food.foodId}} - {{rowIndex}}</span> -->
-                            <span class="post-id" style="cursor: pointer; color: green;" (click)="onViewFood(food.foodId)">{{rowIndex + 1}}</span>
+                            <span class="post-id" style="cursor: pointer; color: #0000ee;" (click)="onViewFood(food.foodId)">{{rowIndex + 1}}</span>
 
                         </td>
                         <td>
-                            <span class="p-column-title">Category</span>
+                            <span class="p-column-title">{{'foodSellerScreen.CategoryName' | translate}}</span>
                             {{food.categoryName}}
                         </td>
                         <td >
-                            <span class="p-column-title">Name</span>
+                            <span class="p-column-title">{{'foodSellerScreen.FoodName' | translate}}</span>
                             {{food.name}}
                         </td>
                         <td>
-                            <span class="p-column-title">Description</span>
-                            <span class="post-content" style="color: green" (click)="viewContentDetail(food)" [innerHTML]="food.description"></span>
+                            <span class="p-column-title">{{'foodSellerScreen.FoodDescription' | translate}}</span>
+                            <span class="post-content" style="color: #7b4741" (click)="viewContentDetail(food)" [innerHTML]="food.description"></span>
                         </td>
                         <td >
-                            <span class="p-column-title">UnitPrice</span>
+                            <span class="p-column-title">{{'foodSellerScreen.UnitPrice' | translate}}</span>
                             {{food.unitPrice | currency : "VND" }}
                         </td>
                         <td>
-                            <span class="p-column-title">Rating</span>
+                            <span class="p-column-title">{{'foodSellerScreen.Rating' | translate}}</span>
                             <p-rating [ngModel]="food.rating" [readonly]="true" [cancel]="false"></p-rating>
                         </td>
                         <td>
-                            <span class="p-column-title">CreatedDate</span>
+                            <span class="p-column-title">{{'foodSellerScreen.CreatedDate' | translate}}</span>
                             {{food.createdDate}}
                         </td>
                         <td>
-                            <span class="p-column-title">Image</span>
+                            <span class="p-column-title">{{'foodSellerScreen.Images' | translate}}</span>
                             <ng-container *ngIf="food.imagesBase64.length !== 0; else noneImage" >
                                 <button pButton pRipple icon="pi pi-images"
                                         (click)="onDisplayImagesDialog(food, $event)"
@@ -159,7 +159,7 @@
                             <ng-template #noneImage ><span class="no-image">No Image</span></ng-template>
                         </td>
                         <td>
-                            <span class="p-column-title">Status</span>
+                            <span class="p-column-title">{{'foodSellerScreen.Status' | translate}}</span>
                             <p-tag [value]="food.status" [severity]="getSeverity(food.status)"></p-tag>
                         </td>
                         <td style="text-align: center">
@@ -372,15 +372,15 @@
     <p-table [value]="foodImageDialog.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="ID">{{'foodSellerScreen.id' | translate}}<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>{{'label.No' | translate}}</th>
                 <th>{{'foodSellerScreen.Images' | translate}}</th>
                 <th>{{'foodSellerScreen.Name' | translate}}</th>
                 <th>{{'foodSellerScreen.Size' | translate}}</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-foodImage>
+        <ng-template pTemplate="body" let-foodImage let-rowIndex="rowIndex">
             <tr >
-                <td>{{foodImage.imageId}}</td>
+                <td>{{rowIndex + 1}}</td>
                 <td><p-image src="data:image/gif;base64,{{foodImage.imageBase64}}" [preview]="true"
                     [alt]="foodImage.imageId" class="dialogimages_image w-10rem shadow-2"
                     ></p-image></td>

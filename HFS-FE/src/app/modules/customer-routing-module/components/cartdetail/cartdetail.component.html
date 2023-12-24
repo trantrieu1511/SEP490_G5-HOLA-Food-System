@@ -4,7 +4,7 @@
         <ng-template pTemplate="header">
             <tr>
                 <th><input type="checkbox" [checked]="isSelectAll" (change)="onSelectAll($event)"/></th>
-                <th pSortableColumn="id"> {{'cartDetailScreen.FoodId' | translate}}<p-sortIcon field="foodId"></p-sortIcon></th>
+                <!-- <th pSortableColumn="id"> {{'cartDetailScreen.FoodId' | translate}}<p-sortIcon field="foodId"></p-sortIcon></th> -->
                 <th>{{'cartDetailScreen.Image' | translate}}</th>
                 <th pSortableColumn="name">{{'cartDetailScreen.Name' | translate}} <p-sortIcon field="name"></p-sortIcon></th>
                 <th pSortableColumn="unitPrice">{{'cartDetailScreen.Price' | translate}} <p-sortIcon field="unitPrice"></p-sortIcon></th>
@@ -13,17 +13,18 @@
                 <th>{{'cartDetailScreen.Action' | translate}}</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-product>
+        <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
             <tr>
                 <td style="width: 3%;">
                     <!-- <button pButton pRipple type="button" icon="pi pi-search" class="p-button p-component p-button-text p-button-icon-only"></button> -->
                     <input type="checkbox" [checked]="product.selected" (change)="onSelectFood(product.foodId, product.amount)"/>
                 </td>
-                <td (click)="onFoodDetail(product.foodId)" style="width: 10%; min-width: 7rem;">{{product.foodId}}</td>
+                <!-- <td (click)="onFoodDetail(product.foodId)" style="width: 10%; min-width: 7rem; cursor: pointer; color: green">{{ rowIndex + 1}}</td> -->
+                <!-- <td (click)="onFoodDetail(product.foodId)" style="width: 10%; min-width: 7rem; cursor: pointer; color: green">{{product.foodId}}</td> -->
                 <td style="width: 15%; min-width: 5rem;">
                     <img (click)="onFoodDetail(product.foodId)" [src]="'data:image/png;base64,' + product.foodImages" class="shadow-4" alt="{{product.name}}" width="50">
                 </td>
-                <td (click)="onFoodDetail(product.foodId)" style="width: 18%; min-width: 7rem; word-break: break-word;">{{product.name}}</td>
+                <td (click)="onFoodDetail(product.foodId)" style="width: 18%; min-width: 7rem; word-break: break-word; cursor: pointer; color: #7b4741">{{product.name}}</td>
                 <td style="width: 18%; min-width: 8rem;">{{product.unitPrice | currency:'VND'}}</td>
                 <td style="width: 10%; min-width: 8rem;">
                     <!-- <p-inputNumber mode="decimal" [showButtons]="true" [min]="1" [max]="100" [(ngModel)]="product.amount" (ngModelChange)="onChangeAmount(product.foodId, product.amount)">
@@ -39,7 +40,7 @@
         </ng-template>
         <ng-template pTemplate="emptymessage">
             <tr>
-              <td colspan="8">There is no item in your cart.</td>
+              <td colspan="8">{{'cartDetailScreen.NoItem' | translate}}</td>
             </tr>
           </ng-template>      
     </p-table>

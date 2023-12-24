@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -9,13 +10,23 @@ export class MenuDataService {
   orderManagement: string
 
 
-  constructor(public translate: TranslateService){
+  constructor(
+    public translate: TranslateService,
+    private http: HttpClient
+    ){
     // this.translate.get('menuLabel').subscribe( (text: any) => {
     //   this.dashboard = text.dashboard
 
     // });
+  }
 
-  
+  getJsonData(lang: any){
+
+    if(lang == 'en'){
+      return this.http.get('assets/config/enMenuData.json')
+    }
+
+    return this.http.get('assets/config/vnMenuData.json')
   }
 
   menusSeller() {

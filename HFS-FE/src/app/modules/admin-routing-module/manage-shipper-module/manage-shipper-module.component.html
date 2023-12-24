@@ -334,15 +334,15 @@
     <p-table [value]="shipperImg.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="ID">ID<p-sortIcon field="ID"></p-sortIcon></th>
+                <th>  {{'label.No' | translate}}  </th>
                 <th>  {{'shipAdminScreen.Image' | translate}}</th>
                 <th>  {{'shipAdminScreen.Name' | translate}}</th>
                 <th>  {{'shipAdminScreen.Size' | translate}}</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-image>
+        <ng-template pTemplate="body" let-image let-rowIndex="rowIndex">
             <tr >
-                <td>{{image.imageId}}</td>
+                <td>{{rowIndex + 1}}</td>
                 <td><p-image src="data:image/gif;base64,{{image.imageBase64}}" [preview]="true"
                     [alt]="image.imageId" class="dialogimages_image w-10rem shadow-2"
                     ></p-image></td>

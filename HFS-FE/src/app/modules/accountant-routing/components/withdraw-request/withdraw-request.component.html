@@ -1,11 +1,11 @@
 <div class="card">
-    <h5>Transaction History</h5>
+    <h5>{{'withDrawScreen.TransactionHistory' | translate}}</h5>
     <div class="grid table-demo">
         <div class="col-12">
             <div class="card">
                 <div class="col-12 md:col-12">
                     <div class="col-12 mb-2 lg:col-4 mb-lg-0">
-                        <label style="margin-right: 1rem">Data time</label>
+                        <label style="margin-right: 1rem">{{'withDrawScreen.Datatime' | translate}}</label>
                         <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
                             [maxDate]="currentDate" [disabled]="false" (onClose)="onCloseCalendar($event)"></p-calendar>
                     </div>
@@ -16,13 +16,13 @@
                     <p-table [value]="displayTransaction" [paginator]="true" [rows]="10" responsiveLayout="scroll">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th pSortableColumn="transactionId">TransactionId</th>
-                                <th pSortableColumn="senderId">SenderId</th>
-                                <th pSortableColumn="transactionType">TransactionType</th>
-                                <th pSortableColumn="note">Note</th>
-                                <th pSortableColumn="value">Value</th>
-                                <th pSortableColumn="createDate">CreateDate</th>
-                                <th *ngIf="tabIndex == 0">Action</th>
+                                <th pSortableColumn="transactionId">{{'withDrawScreen.TransactionId' | translate}}</th>
+                                <th pSortableColumn="senderId">{{'withDrawScreen.SenderId' | translate}}</th>
+                                <th pSortableColumn="transactionType">{{'withDrawScreen.TransactionType' | translate}}</th>
+                                <th pSortableColumn="note">{{'withDrawScreen.Note' | translate}}</th>
+                                <th pSortableColumn="value">{{'withDrawScreen.Value' | translate}}</th>
+                                <th pSortableColumn="createDate">{{'withDrawScreen.CreateDate' | translate}}</th>
+                                <th *ngIf="tabIndex == 0">{{'withDrawScreen.Action' | translate}}</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-item>

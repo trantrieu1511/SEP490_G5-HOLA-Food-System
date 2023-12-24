@@ -8,7 +8,7 @@ import * as API from "../../services/apiURL";
 import { MenuDataService } from 'src/app/services/menu-data.service';
 import { RoleNames } from '../../utils/roleName';
 import { AuthService } from 'src/app/services/auth.service';
-
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-menu',
@@ -25,7 +25,8 @@ export class AppMenuComponent implements OnInit {
 
   constructor(
     private menuService: MenuDataService,
-    private authService: AuthService
+    private authService: AuthService,
+    public translate: TranslateService
   ) {
     this.model = [];
   }
@@ -35,37 +36,64 @@ export class AppMenuComponent implements OnInit {
     // switch case and put data for model
     // each role has own model :
     // model được hiểu là menu bên trái nha
-
-
-    //this.getRole();
-    //var role = sessionStorage.getItem("role");
-    var role = this.authService.getUserInfor().role;
-    switch (RoleNames[role]) {
-        case null:
+    this.menuService.getJsonData(this.translate.currentLang).subscribe((res: any) => {
+      //console.log(res.shipper)
+      //this.model = res.shipper
+      var role = this.authService.getUserInfor().role;
+      switch (RoleNames[role]) {
+          case "Seller":
+              this.model = res.seller
+              break;
+          case "Admin":
+              this.model = res.admin
+              break;
+          case "Shipper":
+              this.model = res.shipper
+              break;
+          case "PostModerator":
+              this.model = res.postModerator
+              break;
+          case "MenuModerator":
+              this.model = res.menuModerator
+              break;
+          case "Accountant":
+              this.model = res.accountant
+              break;    
+          default:
+              this.model = [];
+              break;
+      }
+    })
+    
+    // //this.getRole();
+    // //var role = sessionStorage.getItem("role");
+    // var role = this.authService.getUserInfor().role;
+    // switch (RoleNames[role]) {
+    //     case null:
             
-            break;
-        case "Seller":
-            this.model = this.menuService.menusSeller();
-            break;
-        case "Admin":
-            this.model = this.menuService.menusAdmin();
-            break;
-        case "Shipper":
-            this.model = this.menuService.menusShipper();
-            break;
-        case "PostModerator":
-            this.model = this.menuService.menusPostModerator();
-            break;
-        case "MenuModerator":
-            this.model = this.menuService.menusMenuModerator();
-            break;
-        case "Accountant":
-            this.model = this.menuService.menuAccountant();
-            break;    
-        default:
-            this.model = [];
-            break;
-    }
+    //         break;
+    //     case "Seller":
+    //         this.model = this.menuService.menusSeller();
+    //         break;
+    //     case "Admin":
+    //         this.model = this.menuService.menusAdmin();
+    //         break;
+    //     case "Shipper":
+    //         this.model = this.menuService.menusShipper();
+    //         break;
+    //     case "PostModerator":
+    //         this.model = this.menuService.menusPostModerator();
+    //         break;
+    //     case "MenuModerator":
+    //         this.model = this.menuService.menusMenuModerator();
+    //         break;
+    //     case "Accountant":
+    //         this.model = this.menuService.menuAccountant();
+    //         break;    
+    //     default:
+    //         this.model = [];
+    //         break;
+    // }
   }
 
   // async getRole(){

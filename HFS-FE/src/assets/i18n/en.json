@@ -121,7 +121,8 @@
     "save": "Save",
     "cancal": "Cancel",
     "AddNewCategory": "Add New Category",
-    "EditCategory": "Edit Category :"
+    "EditCategory": "Edit Category :",
+    "searchName": "Search by name"
   },
   "orderSellerScreen": {
     "orderManagement": "Order Management",
@@ -168,7 +169,7 @@
   },
   "voucherScreen": {
     "voucherManagement": "Voucher Management",
-    "SearchVoucherbyname": "Search Voucher by name",
+    "SearchVoucherbyname": "Search Voucher by code",
     "code": "Code",
     "discountAmount": "Discount Amount",
     "minimumOrder": "Minimum Order",
@@ -232,7 +233,7 @@
     "BankInformation": "Bank Information*"
   },
   "foodSellerScreen": {
-    "Food Management": "Food Management",
+    "FoodManagement": "Food Management",
     "id": "ID",
     "CategoryName": "Category Name",
     "FoodName": "Food Name",
@@ -334,7 +335,8 @@
     "Other": "Other",
     "Content": "Enter other reasons/further description for your selected common reasons",
     "Images": "Images",
-    "Note": "Note: You will not be able to cancel after reporting"
+    "Note": "Note: You will not be able to cancel after reporting",
+    "NoFeedback": "There is no feedback here."
   },
   "cartDetailScreen": {
     "OnlinCartDetaile": "Cart Detail",
@@ -344,7 +346,8 @@
     "Price": "Price",
     "Amount": "Amount",
     "TotalPrice": "TotalPrice",
-    "Action": "Action"
+    "Action": "Action",
+    "NoItem": "There is no item in your cart."
   },
   "checkOutScreen": {
     "OrderInformation": "Order Information",
@@ -1089,5 +1092,23 @@
     "Save": "Save",
     "Cancel": "Cancel",
     "Viewdetail": "View detail"
+  },
+  "label": {
+    "No": "No"
+  },
+  "withDrawScreen": {
+    "TransactionHistory": "Transaction History",
+    "Datatime": "Data time",
+    "TransactionId": "TransactionId",
+    "SenderId": "SenderId",
+    "TransactionType": "TransactionType",
+    "Note": "Note",
+    "Value": "Value",
+    "CreateDate": "Create Date",
+    "Action": "Action",
+    "Waiting": "Waiting",
+    "Success": "Success",
+    "Cancel": "Cancel"
+
   }
 }

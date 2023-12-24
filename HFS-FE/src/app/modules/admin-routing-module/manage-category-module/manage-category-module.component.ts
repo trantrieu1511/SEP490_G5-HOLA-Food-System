@@ -216,4 +216,14 @@ export class ManageCategoryModuleComponent extends iComponentBase implements OnI
     this.displayDialogEditAddCate = false;
   }
   
+  getSeverity(status: string) {
+    switch (status) {
+      case 'Display':
+        return 'success';
+      case 'Hidden':
+        return 'secondary';
+      default:
+        return 'error';
+    }
+  }
 }

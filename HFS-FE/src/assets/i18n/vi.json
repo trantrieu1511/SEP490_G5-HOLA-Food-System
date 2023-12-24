@@ -121,7 +121,8 @@
     "save": "Lưu",
     "cancal": "Hủy",
     "AddNewCategory": "Thêm danh mục mới",
-    "EditCategory": "Chỉnh sửa danh mục :"
+    "EditCategory": "Chỉnh sửa danh mục :",
+    "searchName": "Tìm kiếm theo tên"
   },
   "orderSellerScreen": {
     "orderManagement": "Quản lý đơn hàng",
@@ -168,7 +169,7 @@
   },
   "voucherScreen": {
     "voucherManagement": "Quản lý mã giảm giá",
-    "SearchVoucherbyname": "Tìm mã giảm giá",
+    "SearchVoucherbyname": "Tìm mã giảm giá theo mã",
     "code": "Mã",
     "discountAmount": "Số tiền chiết khấu",
     "minimumOrder": "Đơn hàng tối thiểu",
@@ -334,7 +335,8 @@
     "Other": "Khác",
     "Content": "Điền lý do khác/Nội dung bổ sung cho các lý do bạn chọn ở trên",
     "Images": "Ảnh",
-    "Note": "Lưu ý: Bạn sẽ không thể hủy sau khi đã tố cáo"
+    "Note": "Lưu ý: Bạn sẽ không thể hủy sau khi đã tố cáo",
+    "NoFeedback": "Chưa có đánh giá nào."
   },
   "cartDetailScreen": {
     "OnlinCartDetaile": "Chi tiết giỏ hàng",
@@ -344,7 +346,8 @@
     "Price": "Giá tiền",
     "Amount": "Số lượng",
     "TotalPrice": "Tổng tiền",
-    "Action": "Thao tác"
+    "Action": "Thao tác",
+    "NoItem": "Chưa có sản phẩm nào trong giỏ hàng này."
   },
   "checkOutScreen": {
     "OrderInformation": "Thông tin đặt hàng",
@@ -404,7 +407,7 @@
     "transaction": "Lịch sử giao dịch",
     "All": "Tất Cả",
     "Waiting": "Đang chờ",
-    "Success": "Thàng công",
+    "Success": "Thành công",
     "MoneyIn": "Nhận tiền",
     "MoneyOut": "Chuyển tiền",
     "cancel": "Hủy",
@@ -862,13 +865,13 @@
     "Shop": "Cửa hàng",
     "SearchList": "Tìm kiếm theo danh sách",
     "SearchbyName": "Tìm kiếm theo tên",
-    "Ordered": "Lượng đặt hàng",
+    "Ordered": "Lượng mua hàng",
     "Address": "Địa chỉ",
     "ShopDetail": "Chi tiết cửa hàng",
-    "OderedHightoLow": "Sắp xếp từ Cao xuống Thấp",
-    "OderedLowtoHigh": "Sắp xếp từ Thấp đến Cao",
-    "StarLowtoHigh": "Sao thấp đến cao",
-    "StarHightoLow": "Sao cao đến thấp"
+    "OderedHightoLow": "Lượng mua hàng từ cao đến thấp",
+    "OderedLowtoHigh": "Lượng mua hàng từ thấp đến cao",
+    "StarLowtoHigh": "Số sao từ thấp đến cao",
+    "StarHightoLow": "Số sao từ cao đến thấp"
   },
   "AppTopBar": {
     "MyProfile": "Hồ sơ của tôi",
@@ -1089,5 +1092,23 @@
     "Save": "Lưu",
     "Cancel": "Hủy",
     "Viewdetail": "Xem chi tiết"
+  },
+  "label": {
+    "No": "STT"
+  },
+  "withDrawScreen": {
+    "TransactionHistory": "Lịch sử giao dịch",
+    "Datatime": "Thời gian dữ liệu",
+    "TransactionId": "Id giao dịch",
+    "SenderId": "Id Người gửi",
+    "TransactionType": "Loại giao dịch",
+    "Note": "Ghi chú",
+    "Value": "Giá trị",
+    "CreateDate": "Ngày tạo",
+    "Action": "Thao Tác",
+    "Waiting": "Đang chờ",
+    "Success": "Thành công",
+    "Cancel": "Hủy"
+
   }
 }
