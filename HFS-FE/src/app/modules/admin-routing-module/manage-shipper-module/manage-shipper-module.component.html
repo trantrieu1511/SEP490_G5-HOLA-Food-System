@@ -438,6 +438,13 @@
 
         </td>
     </tr>
+        <tr>
+            <th>  {{'shipAdminScreen.ManageBy' | translate}}: </th>
+            <td *ngIf="shipperDetail.manageBy; else noneManageBy">{{ shipperDetail.manageBy}}</td>
+            <ng-template #noneManageBy>
+                <td class="no-voucher">{{'orderSellerScreen.none' | translate}}</td>
+            </ng-template>
+        </tr>
 
 
           <tr>
