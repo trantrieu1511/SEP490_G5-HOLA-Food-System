@@ -118,44 +118,44 @@
                             <p-tableCheckbox [value]="food"></p-tableCheckbox>
                         </td> -->
                         <td>
-                            <span class="p-column-title">foodId</span>
+                            <span class="p-column-title">{{'adMenuRpManagementScreen.FoodId' | translate}}</span>
                             <span class="">{{foodrp.foodId}}</span>
                         </td>
                         <td>
-                            <span class="p-column-title">foodName</span>
+                            <span class="p-column-title">{{'adMenuRpManagementScreen.foodname' | translate}}</span>
                             {{foodrp.foodName}}
                         </td>
                         <td>
-                            <span class="p-column-title">sellerId</span>
+                            <span class="p-column-title">{{'adMenuRpManagementScreen.sellerid' | translate}}</span>
                             {{foodrp.sellerId}}
                         </td>
                         <td>
-                            <span class="p-column-title">reportBy</span>
+                            <span class="p-column-title">{{'adMenuRpManagementScreen.ReportBy' | translate}}</span>
                             {{foodrp.reportBy}}
                         </td>
                         <td>
-                            <span class="p-column-title">ReportContent</span>
+                            <span class="p-column-title">{{'adMenuRpManagementScreen.ReportContent' | translate}}</span>
                             <p class="report-content" (click)="viewContentDetail(foodrp.reportContent)">
                                 {{foodrp.reportContent}}</p>
                         </td>
                         <td>
-                            <span class="p-column-title">CreatedDate</span>
+                            <span class="p-column-title">{{'adMenuRpManagementScreen.CreatedDate' | translate}}</span>
                             {{foodrp.createDate}}
                         </td>
                         <td>
-                            <span class="p-column-title">UpdatedDate</span>
+                            <span class="p-column-title">{{'adMenuRpManagementScreen.UpdatedDate' | translate}}</span>
                             {{foodrp.updateDate}}
                         </td>
                         <td>
-                            <span class="p-column-title">UpdateBy</span>
+                            <span class="p-column-title">{{'adMenuRpManagementScreen.UpdatedBy' | translate}}</span>
                             {{foodrp.updateBy}}
                         </td>
                         <td>
-                            <span class="p-column-title">Status</span>
+                            <span class="p-column-title">{{'adMenuRpManagementScreen.Status' | translate}}</span>
                             <p-tag [value]="foodrp.status" [severity]="getSeverity(foodrp.status)"></p-tag>
                         </td>
                         <td>
-                            <span class="p-column-title">Note</span>
+                            <span class="p-column-title">{{'adMenuRpManagementScreen.Note' | translate}}</span>
                             {{foodrp.note}}
                         </td>
                         <td>
