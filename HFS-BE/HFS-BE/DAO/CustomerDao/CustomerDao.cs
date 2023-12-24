@@ -42,7 +42,7 @@ namespace HFS_BE.DAO.CustomerDao
 								 {
 									 OrderId = s.OrderId,
 									 OrderDate = s.OrderDate,
-									 Note = GetNote(s.OrderProgresses.FirstOrDefault(s => s.Status == 5).Note),
+									 Note = s.OrderProgresses.FirstOrDefault(s => s.Status == 5).Note,
 									 ShipAddress = s.ShipAddress,
 									 ShipperId = s.ShipperId
 								 }).ToList(),
@@ -60,6 +60,14 @@ namespace HFS_BE.DAO.CustomerDao
 						 })
 
 						.ToList();
+
+				foreach(var s in user)
+				{
+					foreach(var i in s.Orders)
+					{
+						i.Note = GetNote(i.Note);
+					}
+				}
 				var output = this.Output<ListCustomerDtoOutput>(Constants.ResultCdSuccess);
 				output.Customers = user;
 
