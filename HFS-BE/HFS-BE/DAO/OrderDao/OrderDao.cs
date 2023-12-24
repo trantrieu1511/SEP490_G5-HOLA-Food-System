@@ -300,6 +300,7 @@ namespace HFS_BE.Dao.OrderDao
                     .Include(x => x.Seller)
                     .Include(x => x.Voucher)
                     .Where(x => x.OrderProgresses.OrderByDescending(y => y.CreateDate).FirstOrDefault().Status == inputDto.Status
+                                && x.CustomerId.Equals(inputDto.CustomerId)
                                 && x.OrderDate.Value.Date >= inputDto.DateFrom
                                 && x.OrderDate.Value.Date <= inputDto.DateEnd);
 
@@ -310,7 +311,7 @@ namespace HFS_BE.Dao.OrderDao
                     {
                         var feedbacks = this.context.Feedbacks
                             .Where(x => x.FoodId == details.FoodId
-                                    && x.CustomerId == inputDto.CustomerId
+                                    && x.CustomerId.Equals(inputDto.CustomerId)
                                     && x.OrderId == details.OrderId)
                             .ToList();
 

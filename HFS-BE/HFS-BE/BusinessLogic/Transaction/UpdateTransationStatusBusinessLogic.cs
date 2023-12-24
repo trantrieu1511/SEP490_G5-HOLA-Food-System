@@ -29,6 +29,11 @@ namespace HFS_BE.BusinessLogic.Transaction
                     return this.Output<BaseOutputDto>(Constants.ResultCdSuccess);
                 }
 
+                if(output.Message.Equals("Fail"))
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail);
+                }
+
                 if (inputDto.Status == 1)
                 {
                     var input2 = new UpadateWalletBalanceDaoInputDto()
