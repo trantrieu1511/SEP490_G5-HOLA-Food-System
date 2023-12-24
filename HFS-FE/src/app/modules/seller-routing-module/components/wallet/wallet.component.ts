@@ -170,6 +170,13 @@ export class WalletComponentSeller
 
   }
 
+  checkType(x : string, recieverId : string){
+    if(x === "OrderPaid" 
+    || x === "Deposit"
+    || (x === "Transfer" && recieverId === this.sellerId)) return true
+    else return false
+  }
+
   async onGetHistory() {
     try {
       this.transactionHistoryInput.dateFrom = this.datePipe.transform(this.rangeDates[0], "yyyy-MM-dd");

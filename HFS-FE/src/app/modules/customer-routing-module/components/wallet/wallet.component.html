@@ -42,7 +42,7 @@
                     <td style="width: 18%; min-width: 7rem;">{{item.transactionId}}</td>
                     <td style="width: 18%; min-width: 7rem;">{{item.senderId}}</td>
                     <td style="width: 18%; min-width: 7rem;">{{item.recieverId}}</td>
-                    <td style="width: 18%; min-width: 7rem;">{{item.transactionType}}</td>
+                    <td style="width: 18%; min-width: 7rem;" [style]="checkType(item.transactionType, item.recieverId) ? {'color' : 'green'} : {'color' : 'red'}">{{item.transactionType}}</td>
                     <td style="width: 18%; min-width: 7rem;">{{item.note}}</td>
                     <td style="width: 18%; min-width: 8rem;">{{item.value | currency:'VND'}}</td>
                     <td style="width: 18%; min-width: 7rem;">{{item.createDate}}</td>

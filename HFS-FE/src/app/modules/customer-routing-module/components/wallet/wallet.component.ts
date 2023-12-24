@@ -150,7 +150,13 @@ export class WalletComponent
         || (x.transactionType == "Transfer" && x.senderId === this.userId));
         break;
     }
+  }
 
+  checkType(x : string, recieverId : string){
+    if(x === "Deposit"
+    || x === "OrderRefund"
+    || (x === "Transfer" && recieverId === this.userId)) return true
+    else return false
   }
 
   async onGetHistory() {
