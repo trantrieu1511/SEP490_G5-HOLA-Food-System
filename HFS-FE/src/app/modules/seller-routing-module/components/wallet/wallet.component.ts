@@ -230,6 +230,10 @@ export class WalletComponentSeller
         return
       }
 
+      if (this.tranferInput.recievierId.trim() === this.sellerId){
+        this.showMessage(mType.warn, "Notification", "Can't send money to yourself!", 'notify');
+        return
+      }
       
       let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.WALLET, API.API_WALLET.VERIFY, this.tranferInput);
       if (response.success) {
