@@ -556,6 +556,7 @@ namespace HFS_BE.DAO.UserDao
                     output.ConfirmEmail = user.ConfirmedEmail;
                     output.isPhoneVerify = user.IsPhoneVerified;
                     output.UserId = inputDto.UserId;
+                    output.NumberOfViolations = user.NumberOfViolations;
                     return output;
                 }
 

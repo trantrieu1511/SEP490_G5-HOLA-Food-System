@@ -47,6 +47,11 @@ namespace HFS_BE.BusinessLogic.Cart
                     return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Your phone is not Verified!");
                 }
 
+                if (user.NumberOfViolations >= 5 && inputDto.PaymentMethod.Equals("cod"))
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "You have to use your wallet to pay because you haven't picked up the order too many times!");
+                }
+
                 // voucher
                 List<Voucher> vouchers = new List<Voucher>();
                 foreach (var item in inputDto.ListShop)

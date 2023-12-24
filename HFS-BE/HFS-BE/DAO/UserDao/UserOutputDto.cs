@@ -45,6 +45,7 @@ namespace HFS_BE.DAO.UserDao
         public string? Address { get; set; }
         public bool? ConfirmEmail { get; set; }
         public bool? isPhoneVerify { get; set; }
+        public int? NumberOfViolations { get; set; }
     }
 
     public class GetUserAddressDaoOutputDto : BaseOutputDto
