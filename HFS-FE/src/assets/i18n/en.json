@@ -680,7 +680,7 @@
     "Action": "Action",
     "Confirmed": "Confirmed",
     "Notconfirmedyet": "Not confirmed yet",
-    "emptymessage": "No Customer yet.",
+    "emptymessage": "No Shipper yet.",
     "DeliveryUnsuccessful": "Delivery Unsuccessful",
     "OrderId": "OrderId",
     "Reason": "Reason",
