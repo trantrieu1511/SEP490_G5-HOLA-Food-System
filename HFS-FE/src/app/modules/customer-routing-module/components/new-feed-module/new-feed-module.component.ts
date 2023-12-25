@@ -170,6 +170,12 @@ export class NewFeedModuleComponent extends iComponentBase implements OnInit, Af
   }
 
   async onVote(item: Post) {
+    const user = this.authService.getUserInfor();
+    if(user == null){
+      this.router.navigate(['/login']);
+      return
+    }
+
     try {
       this.loading = true;
       let vote = new PostVote();

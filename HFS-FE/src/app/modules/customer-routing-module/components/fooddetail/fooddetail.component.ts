@@ -177,6 +177,11 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
   }
 
   async onLikeReview(feedbackId: number) {
+    const user = this.authService.getUserInfor();
+    if(user == null){
+      this._router.navigate(['/login']);
+      return
+    }
     try {
       this.loading = true;
       let vote = new VoteFeedBackInputDto();
@@ -203,6 +208,7 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
       this.loading = false;
     } catch (e) {
       this.showMessage(mType.warn, "", "There was some problem please try againg or contact for admin help!", 'notify');
+      this._router.navigate(['/login']);
       this.loading = false;
     }
   }
