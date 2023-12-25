@@ -442,7 +442,7 @@ namespace HFS_BE.DAO.AuthDAO
 			var token = new JwtSecurityToken(
 					issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddMinutes(15),
+					expires: DateTime.Now.AddMinutes(Constants.ExpiredToken),
 					claims: authClaims,
 					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
@@ -467,7 +467,7 @@ namespace HFS_BE.DAO.AuthDAO
 
 			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddMinutes(15),
+					expires: DateTime.Now.AddMinutes(Constants.ExpiredToken),
 					claims: authClaims,
 					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
@@ -505,7 +505,7 @@ namespace HFS_BE.DAO.AuthDAO
 
 			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddMinutes(15),
+					expires: DateTime.Now.AddMinutes(Constants.ExpiredToken),
                     claims: authClaims,
 					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
@@ -530,7 +530,7 @@ namespace HFS_BE.DAO.AuthDAO
 
 			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddMinutes(15),
+					expires: DateTime.Now.AddMinutes(Constants.ExpiredToken),
                     claims: authClaims,
 					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
@@ -555,7 +555,7 @@ namespace HFS_BE.DAO.AuthDAO
 
 			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddMinutes(15),
+					expires: DateTime.Now.AddMinutes(Constants.ExpiredToken),
 					claims: authClaims,
 					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
@@ -580,7 +580,7 @@ namespace HFS_BE.DAO.AuthDAO
 
 			var token = new JwtSecurityToken(issuer: conf["JWT:ValidIssuer"],
 					audience: conf["JWT:ValidAudience"],
-					expires: DateTime.Now.AddMinutes(15),
+					expires: DateTime.Now.AddMinutes(Constants.ExpiredToken),
                     claims: authClaims,
 					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
