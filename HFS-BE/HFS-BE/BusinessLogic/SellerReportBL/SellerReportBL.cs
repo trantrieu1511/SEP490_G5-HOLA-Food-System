@@ -29,7 +29,14 @@ namespace HFS_BE.BusinessLogic.SellerReportBL
 				var inputMapper = mapper.Map<SellerReportBLInputDto, SellerReportInputDto>(inputDto);
 				inputMapper.Images = fileNames;
 
-				var output = report.CreateReportSeller(inputMapper);
+                // Get customer by customer id ("ReportBy" field)
+                var customer = context.Customers.SingleOrDefault(c => c.CustomerId == inputDto.ReportBy);
+                if (customer.ConfirmedEmail == false || customer.IsPhoneVerified == false)
+                {
+                    return Output<BaseOutputDto>(Constants.ResultCdFail, "Your phone and email must be verified before reporting");
+                }
+
+                var output = report.CreateReportSeller(inputMapper);
 				if (!output.Success)
 					return Output<BaseOutputDto>(Constants.ResultCdFail,output.Message);
 
