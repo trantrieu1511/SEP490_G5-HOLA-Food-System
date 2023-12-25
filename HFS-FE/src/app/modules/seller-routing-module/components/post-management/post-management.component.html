@@ -42,7 +42,7 @@
                                 <p-sortIcon field="postId"></p-sortIcon>
                                 <p-columnFilter type="numeric" field="postId" display="menu"
                                                 class="ml-auto"></p-columnFilter> -->
-                                                #
+                                {{'label.No' | translate}}
                             </div>
                         </th>
                         <th pSortableColumn="postContent">
@@ -88,20 +88,20 @@
                             <p-tableCheckbox [value]="post"></p-tableCheckbox>
                         </td> -->
                         <td>
-                            <span class="p-column-title">#</span>
+                            <span class="p-column-title">{{'label.No' | translate}}</span>
                             <!-- <span class="post-id" style="cursor: pointer; color: green" (click)="onViewPost(post.postId)">{{post.postId}}</span> -->
-                            <span class="post-id" style="cursor: pointer; color: green" (click)="onViewPost(post.postId)">{{rowIndex + 1}}</span>
+                            <span class="post-id" style="cursor: pointer; color: #7b4741" (click)="onViewPost(post.postId)">{{rowIndex + 1}}</span>
                         </td>
                         <td >
-                            <span class="p-column-title">Post Content</span>
-                            <p class="post-content" style="color: green"  (click)="viewContentDetail(post)" [innerHTML]="post.postContent"></p>
+                            <span class="p-column-title">{{'postSellerScreen.PostContent' | translate}}</span>
+                            <p class="post-content" style="color: #7b4741"  (click)="viewContentDetail(post)" [innerHTML]="post.postContent"></p>
                         </td>
                         <td>
-                            <span class="p-column-title">Created Date</span>
+                            <span class="p-column-title">{{'postSellerScreen.CreatedDate' | translate}}</span>
                             {{post.createdDate}}
                         </td>
                         <td>
-                            <span class="p-column-title">Image</span>
+                            <span class="p-column-title">{{'postSellerScreen.Images' | translate}}</span>
                             <ng-container *ngIf="post.imagesBase64.length !== 0; else noneImage" >
                                 <button pButton pRipple icon="pi pi-images"
                                         (click)="onDisplayImagesDialog(post, $event)"
@@ -110,7 +110,7 @@
                             <ng-template #noneImage ><span class="no-image">{{'postSellerScreen.NoImage' | translate}}</span></ng-template>
                         </td>
                         <td>
-                            <span class="p-column-title">Status</span>
+                            <span class="p-column-title">{{'postSellerScreen.Status' | translate}}</span>
                             <p-tag [value]="post.status" [severity]="getSeverity(post.status)"></p-tag>
                         </td>
                         <td style="text-align: center">
@@ -251,15 +251,15 @@
     <p-table [value]="postImageDialog.imagesBase64" [paginator]="true" [rows]="5" responsiveLayout="scroll">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="imageId">{{'postSellerScreen.id' | translate}}<p-sortIcon field="imageId"></p-sortIcon></th>
+                <th>{{'label.No' | translate}}</th>
                 <th>{{'postSellerScreen.Images' | translate}}</th>
                 <th>{{'postSellerScreen.Name' | translate}}</th>
                 <th>{{'postSellerScreen.Size' | translate}}</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-postImage>
+        <ng-template pTemplate="body" let-postImage let-rowIndex="rowIndex">
             <tr >
-                <td>{{postImage.imageId}}</td>
+                <td>{{rowIndex + 1}}</td>
                 <td><p-image src="data:image/gif;base64,{{postImage.imageBase64}}" [preview]="true"
                     [alt]="postImage.imageId" class="dialogimages_image w-10rem shadow-2"
                     ></p-image></td>

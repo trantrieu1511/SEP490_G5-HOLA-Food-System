@@ -110,7 +110,7 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
   onDisplayVoucher(voucher: Voucher, event) {
     this.confirmationService.confirm({
       target: event.target,
-      message: `Are you sure to Display this post id: ${voucher.code} ?`,
+      message: `Are you sure to Display this Voucher id: ${voucher.code} ?`,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         //confirm action
@@ -252,13 +252,24 @@ export class VoucherManagementComponent extends iComponentBase implements OnInit
       }
     } catch (e) {
       console.log(e);
-        this.showMessage(mType.error, "Notification", "Create failure alo", 'notify');
+        this.showMessage(mType.error, "Notification", "Create failure", 'notify');
     }
   }
   
   
   onCancelVoucher(){
     this.displayDialogEditAddVoucher = false;
+  }
+
+  getSeverity(status: string) {
+    switch (status) {
+      case 'Display':
+        return 'success';
+      case 'Hidden':
+        return 'secondary';
+      default:
+        return 'error';
+    }
   }
 
   

@@ -95,6 +95,7 @@ namespace HFS_BE.DAO.VoucherDao
                 {
                     return Output<BaseOutputDto>(Constants.ResultCdFail, $"VoucherId: {inputDto.VoucherId} not exist!");
                 }
+                data.MinimumOrderValue = inputDto.MinimumOrderValue;
                 data.DiscountAmount = inputDto.DiscountAmount;
                 data.EffectiveDate = inputDto.EffectiveDate;
                 data.ExpireDate = inputDto.ExpireDate;

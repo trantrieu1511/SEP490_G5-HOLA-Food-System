@@ -35,10 +35,11 @@
                     <tr>
                         <th pSortableColumn="code">
                             <div class="flex justify-content-between align-items-center">
-                                {{'voucherScreen.code' | translate}}
+                                <!-- {{'voucherScreen.code' | translate}}
                                 <p-sortIcon field="code"></p-sortIcon>
                                 <p-columnFilter type="text" field="code" display="menu"
-                                                class="ml-auto"></p-columnFilter>
+                                                class="ml-auto"></p-columnFilter> -->
+                                {{'label.No' | translate}}
                             </div>
                         </th>
                         <th pSortableColumn="discountAmount">
@@ -90,32 +91,32 @@
                         </th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-voucher>
+                <ng-template pTemplate="body" let-voucher let-rowIndex="rowIndex">
                     <tr class="p-selectable-row">
                         
                         <td>
-                            <span class="p-column-title">CODE</span>
-                            <span class="post-id">{{voucher.code}}</span>
+                            <span class="p-column-title">{{'label.No' | translate}}</span>
+                            <span class="post-id">{{rowIndex + 1}}</span>
                         </td>
                         <td>
-                            <span class="p-column-title">Discount Amount</span>
+                            <span class="p-column-title">{{'voucherScreen.discountAmount' | translate}}</span>
                             {{voucher.discountAmount}}
                         </td>
                         <td >
-                            <span class="p-column-title">Minimum Order</span>
+                            <span class="p-column-title">{{'voucherScreen.minimumOrder' | translate}}</span>
                             {{voucher.minimumOrderValue}}
                         </td>
                         <td>
-                            <span class="p-column-title">Effective Date</span>
+                            <span class="p-column-title">{{'voucherScreen.effectiveDate' | translate}}</span>
                             {{voucher.effectiveDate | date:'dd/MM/yyyy hh:mm a'}}
                         </td>
                         <td >
-                            <span class="p-column-title">Expire Date</span>
+                            <span class="p-column-title">{{'voucherScreen.expireDate' | translate}}</span>
                             {{voucher.expireDate | date:'dd/MM/yyyy hh:mm a'}}
                         </td>
                         <td >
-                            <span class="p-column-title">Status</span>
-                            {{voucher.status}}
+                            <span class="p-column-title">{{'voucherScreen.status' | translate}}</span>
+                            <p-tag [value]="voucher.status" [severity]="getSeverity(voucher.status)"></p-tag>
                         </td>
                         
                         <td style="text-align: center">

@@ -231,7 +231,7 @@
                       <!-- Comment 1 end -->
                   </div>
                   <div *ngIf="namCount === 0">
-                    There is no feedback here.
+                    {{'foodDetailScreen.NoFeedback' | translate}}
                   </div>
                   <p-paginator (onPageChange)="onPageChange($event, 5)" [first]="first" [rows]="rows"
                       [totalRecords]="namCount" [rowsPerPageOptions]="[10, 20, 30]">
@@ -313,7 +313,7 @@
                             <!-- Comment 1 end -->
                         </div>
                         <div *ngIf="bonCount === 0">
-                            There is no feedback here.
+                            {{'foodDetailScreen.NoFeedback' | translate}}
                           </div>
                         <p-paginator (onPageChange)="onPageChange($event, 4)" [first]="first" [rows]="rows"
                             [totalRecords]="bonCount" [rowsPerPageOptions]="[10, 20, 30]">
@@ -395,7 +395,7 @@
                             <!-- Comment 1 end -->
                         </div>
                         <div *ngIf="baCount === 0">
-                            There is no feedback here.
+                            {{'foodDetailScreen.NoFeedback' | translate}}
                           </div>
                         <p-paginator (onPageChange)="onPageChange($event, 3)" [first]="first" [rows]="rows"
                             [totalRecords]="baCount" [rowsPerPageOptions]="[10, 20, 30]">
@@ -477,7 +477,7 @@
                             <!-- Comment 1 end -->
                         </div>
                         <div *ngIf="haiCount === 0">
-                            There is no feedback here.
+                            {{'foodDetailScreen.NoFeedback' | translate}}
                           </div>
                         <p-paginator (onPageChange)="onPageChange($event, 2)" [first]="first" [rows]="rows"
                             [totalRecords]="haiCount" [rowsPerPageOptions]="[10, 20, 30]">
@@ -559,7 +559,7 @@
                             <!-- Comment 1 end -->
                         </div>
                         <div *ngIf="motCount === 0">
-                            There is no feedback here.
+                            {{'foodDetailScreen.NoFeedback' | translate}}
                           </div>
                         <p-paginator (onPageChange)="onPageChange($event, 1)" [first]="first" [rows]="rows"
                             [totalRecords]="motCount" [rowsPerPageOptions]="[10, 20, 30]">
