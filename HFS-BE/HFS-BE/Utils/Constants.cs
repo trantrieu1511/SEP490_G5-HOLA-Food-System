@@ -21,6 +21,8 @@
         public const int InCompleted = 5;
         public const int Cancel = 6;
 
+        public const int ExpiredToken = 30;
+
         public static string GetConstantNameFromValue(int value)
         {
             Type constantsType = typeof(Constants);
