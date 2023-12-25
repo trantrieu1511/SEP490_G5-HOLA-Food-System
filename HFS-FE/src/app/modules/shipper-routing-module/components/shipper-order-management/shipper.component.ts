@@ -185,7 +185,7 @@ export class ShipperComponent extends iComponentBase implements OnInit, AfterVie
     //param.append('shipperId', this.userId);
     let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.SHIPPER, API.API_SHIPPER.CHANGE_STATUS, param);
     if (response && response.message === "Success") {
-      this.lstOrderOfShipper = response.orderList;
+      this.getAllOrder();
       this.calculatorTotalOrder();
     }
   }
