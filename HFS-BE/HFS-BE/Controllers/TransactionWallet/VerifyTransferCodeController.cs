@@ -24,6 +24,11 @@ namespace HFS_BE.Controllers.TransactionWallet
                 var user = this.GetUserInfor();
                 var busi = this.GetBusinessLogic<UpdateStatusTransferCdBusinessLogic>();
                 inputDto.SenderId = user.UserId;
+                if (inputDto.SenderId.Equals(inputDto.RecievierId))
+                {
+                    return this.Output<BaseOutputDto>(Constants.ResultCdFail, "Can't send money to yourself!");
+                }
+
                 inputDto.TransactionType = 2;
                 return busi.UpdateStatusCd(inputDto);
             }

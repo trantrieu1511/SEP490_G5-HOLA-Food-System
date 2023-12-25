@@ -18,7 +18,7 @@
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text"  #textInput
                                        (input)="dt.filterGlobal(textInput.value, 'contains')"
-                                       placeholder="Search Voucher by name"/>
+                                       placeholder="{{ 'categoryScreen.searchName' | translate }}"/>
                             </span>
                         </div>
   
@@ -35,10 +35,11 @@
                     <tr>
                         <th pSortableColumn="code">
                             <div class="flex justify-content-between align-items-center">
-                                {{ 'categoryScreen.id' | translate }}
+                                <!-- {{ 'categoryScreen.id' | translate }}
                                 <p-sortIcon field="categoryId"></p-sortIcon>
                                 <p-columnFilter type="text" field="categoryId" display="menu"
-                                                class="ml-auto"></p-columnFilter>
+                                                class="ml-auto"></p-columnFilter> -->
+                                    {{ 'label.No' | translate }}
                             </div>
                         </th>
                         <th pSortableColumn="discountAmount">
@@ -66,12 +67,13 @@
                         </th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-cate>
+                <ng-template pTemplate="body" let-cate let-rowIndex="rowIndex">
                     <tr class="p-selectable-row">
   
                         <td>
-                            <span class="p-column-title">{{ 'categoryScreen.id' | translate }}</span>
-                            <span class="post-id">{{cate.categoryId}}</span>
+                            <span class="p-column-title">{{ 'label.No' | translate }}</span>
+                            <!-- <span class="post-id">{{cate.categoryId}}</span> -->
+                            <span class="post-id">{{ rowIndex + 1 }}</span>
                         </td>
                         <td>
                             <span class="p-column-title">{{ 'categoryScreen.name' | translate }}</span>
@@ -79,7 +81,7 @@
                         </td>
                         <td >
                             <span class="p-column-title">{{ 'categoryScreen.status' | translate }}</span>
-                            {{cate.status}}
+                            <p-tag [value]="cate.status" [severity]="getSeverity(cate.status)"></p-tag>
                         </td>
   
   

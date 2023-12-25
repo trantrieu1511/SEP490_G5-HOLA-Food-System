@@ -1,0 +1,251 @@
+{
+  "shipper": [
+    {
+      "label": "Menu",
+      "icon": "pi pi-fw pi-home",
+      "items": [
+        {
+          "label": "Thống kê",
+          "icon": "pi pi-fw pi-chart-line",
+          "routerLink": ["/HFSBusiness/shipper/dashboard"],
+          "badgeClass": "p-badge-info"
+        },
+        {
+          "label": "Thông báo",
+          "icon": "pi pi-fw pi-bell",
+          "routerLink": ["/HFSBusiness/notify-management"],
+          "badgeClass": "p-badge-info"
+        },
+        {
+          "label": "Quản lý đơn hàng",
+          "icon": "pi pi-fw pi-book",
+          "routerLink": ["/HFSBusiness/order-management"],
+          "badgeClass": "p-badge-info"
+        },
+        {
+          "label": "Quản lý lịch sử",
+          "icon": "pi pi-fw pi-history",
+          "routerLink": ["/HFSBusiness/shipper/history"],
+          "badgeClass": "p-badge-info"
+        }
+      ]
+    }
+  ],
+  "seller": [ 
+    {
+      "label": "Menu",
+      "icon": "pi pi-fw pi-home",
+      "items": [
+        {
+          "label": "Thống kê",
+          "icon": "pi pi-fw pi-chart-line",
+          "routerLink": ["/HFSBusiness/seller/dashboard"],
+          "badgeClass": "p-badge-info"
+        },
+        {
+          "label": "Thông báo",
+          "icon": "pi pi-fw pi-bell",
+          "routerLink": ["/HFSBusiness/notify-management"],
+          "badgeClass": "p-badge-info"
+        },
+        {
+          "label": "Quản lý đơn hàng",
+          "icon": "pi pi-fw pi-book",
+          "routerLink": ["/HFSBusiness/order-management"],
+          "badgeClass": "p-badge-info"
+        },
+        {
+          "label": "Quản lý Món ăn/Đồ uống",
+          "icon": "pi pi-fw pi-list",
+          "routerLink": ["/HFSBusiness/menu-management"],
+          "badgeClass": "p-badge-success"
+        },
+        {
+          "label": "Quản lý bài đăng",
+          "icon": "pi pi-fw pi-list",
+          "routerLink": ["/HFSBusiness/post-management"],
+          "badgeClass": "p-badge-success"
+        },
+        {
+          "label": "Quản lý người giao hàng",
+          "icon": "pi pi-fw pi-users",
+          "routerLink": ["/HFSBusiness/seller/shipper-management"],
+          "badgeClass": "p-badge-success"
+        },
+        {
+          "label": "Quản lý mã giảm giá",
+          "icon": "pi pi-fw pi-ticket",
+          "routerLink": ["/HFSBusiness/seller/voucher-management"],
+          "badgeClass": "p-badge-success"
+        },
+        {
+          "label": "Quản lý ví",
+          "icon": "pi pi-fw pi-dollar",
+          "routerLink": ["/HFSBusiness/seller/wallet"],
+          "badgeClass": "p-badge-success"
+        },
+        {
+          "label": "Quản lý đánh giá",
+          "icon": "pi pi-fw pi-comments",
+          "routerLink": ["/HFSBusiness/seller/reply"],
+          "badgeClass": "p-badge-success"
+        }
+      ]
+    }
+  ],
+  "admin": [
+    {
+      "label": "Menu",
+      "icon": "pi pi-fw pi-home",
+      "items": [
+        {
+          "label": "Thống kê",
+          "icon": "pi pi-fw pi-chart-line",
+          "routerLink": ["/HFSBusiness/admin/dashboard"],
+          "badgeClass": "p-badge-info"
+        },
+        {
+          "label": "Thông báo",
+          "icon": "pi pi-fw pi-bell",
+          "routerLink": ["/HFSBusiness/notify-management"],
+          "badgeClass": "p-badge-info"
+        },
+        {
+          "label": "Quản lý khách hàng",
+          "icon": "pi pi-fw pi-users",
+          "routerLink": ["/HFSBusiness/admin/customer-management"],
+          "badgeClass": "p-badge-info"
+        },
+        {
+          "label": "Quản lý người bán",
+          "icon": "pi pi-fw pi-users",
+          "routerLink": ["/HFSBusiness/admin/seller-management"],
+          "badgeClass": "p-badge-info"
+        },
+        {
+          "label": "Quản lý danh mục",
+          "icon": "pi pi-chevron-circle-right",
+          "routerLink": ["/HFSBusiness/admin/category-management"],
+          "badgeClass": "p-badge-info"
+        }
+        , {
+          "label": "Quản lý người giao hàng",
+          "icon": "pi pi-fw pi-truck",
+          "routerLink": ["/HFSBusiness/admin/shipper-management"],
+          "badgeClass": "p-badge-info"
+        }
+        , {
+          "label": "Quản lý kiểm duyệt viên bài đăng",
+          "icon": "pi pi-fw pi-users",
+          "routerLink": ["/HFSBusiness/admin/post-moderator"],
+          "badgeClass": "p-badge-info"
+        }
+        , {
+          "label": "Quản lý kiểm duyệt viên thực phẩm",
+          "icon": "pi pi-fw pi-users",
+          "routerLink": ["/HFSBusiness/admin/menu-moderator"],
+          "badgeClass": "p-badge-info"
+        }
+
+        ,  {
+          "label": "Quản lý kế toán viên",
+          "icon": "pi pi-fw pi-users",
+          "routerLink": ["/HFSBusiness/admin/accountant"],
+          "badgeClass": "p-badge-info"
+        }
+
+        ,{
+          "label": "Quản lý báo cáo người bán",
+          "icon": "pi pi-fw pi-align-justify",
+          "class": "fa-solid fa-truck-fast",
+          "routerLink": ["/HFSBusiness/admin/report"],
+          "badgeClass": "p-badge-info"
+        }
+      ]
+    }
+  ],
+  "postModerator": [
+    {
+      "label": "Menu",
+      "icon": "pi pi-fw pi-home",
+      "items": [
+        {
+          "label": "Thống kê",
+          "icon": "pi pi-fw pi-chart-line",
+          "routerLink": ["/HFSBusiness/postmoderator/dashboard"],
+          "badgeClass": "p-badge-info"
+        },
+        {
+          "label": "Thông báo",
+          "icon": "pi pi-fw pi-bell",
+          "routerLink": ["/HFSBusiness/notify-management"],
+          "badgeClass": "p-badge-info"
+        },
+        {
+          "label": "Quản lý bài đăng",
+          "icon": "pi pi-fw pi-list",
+          "routerLink": ["/HFSBusiness/post-management"],
+          "badgeClass": "p-badge-success"
+        },
+        {
+          "label": "Quản lý báo cáo bài đăng",
+          "icon": "pi pi-fw pi-list",
+          "routerLink": ["/HFSBusiness/postreport-management"],
+          "badgeClass": "p-badge-success"
+        }
+      ]
+    }
+  ],
+  "menuModerator": [
+    {
+      "label": "Menu",
+      "icon": "pi pi-fw pi-home",
+      "items": [
+        {
+          "label": "Thống kê",
+          "icon": "pi pi-fw pi-chart-line",
+          "routerLink": ["/HFSBusiness/menumoderator/dashboard"],
+          "badgeClass": "p-badge-info"
+        },
+        {
+          "label": "Thông báo",
+          "icon": "pi pi-fw pi-bell",
+          "routerLink": ["/HFSBusiness/notify-management"],
+          "badgeClass": "p-badge-info"
+        },
+        {
+          "label": "Quản lý Món ăn/Đồ uống",
+          "icon": "pi pi-fw pi-list",
+          "routerLink": ["/HFSBusiness/menu-management"],
+          "badgeClass": "p-badge-success"
+        },
+        {
+          "label": "Quản lý Báo cáo Món ăn/Đồ uống",
+          "icon": "pi pi-fw pi-list",
+          "routerLink": ["/HFSBusiness/menureport-management"],
+          "badgeClass": "p-badge-success"
+        }
+      ]
+    }
+  ],
+  "accountant": [
+    {
+      "label": "Menu",
+      "icon": "pi pi-fw pi-home",
+      "items": [
+        {
+          "label": "Thống kê",
+          "icon": "pi pi-fw pi-chart-line",
+          "routerLink": ["/HFSBusiness/accountant/dashboard"],
+          "badgeClass": "p-badge-info"
+        },
+        {
+          "label": "Quản lý yêu cầu rút tiền",
+          "icon": "pi pi-fw pi-bell",
+          "routerLink": ["/HFSBusiness/accountant/withdraw-request"],
+          "badgeClass": "p-badge-info"
+        }
+      ]
+    }
+  ]
+}
