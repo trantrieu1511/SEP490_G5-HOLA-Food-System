@@ -252,6 +252,11 @@ export class FooddetailComponent extends iComponentBase implements OnInit {
   }
 
   async onAddToCart(foodId: number) {
+    const user = this.authService.getUserInfor();
+    if(user == null){
+      this._router.navigate(['/login']);
+      return
+    }
     try {
       this.loading = true;
       let cartItem = new AddToCart();

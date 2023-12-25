@@ -61,6 +61,7 @@ export class HomepageComponent extends iComponentBase implements OnInit {
     private _route: ActivatedRoute,
     private dataService: DataService,
     public presence: PresenceService,
+    private authService: AuthService,
     public translate: TranslateService,
     private shoppingCartService: ShoppingCartPopupService
   ) {
@@ -188,6 +189,11 @@ onFilter(dv: DataView, event: Event) {
 }
 
 async onAddToCart(food: any){
+  const user = this.authService.getUserInfor();
+    if(user == null){
+      this._router.navigate(['/login']);
+      return
+    }
   try {
     this.loading = true;
     let cartItem = new AddToCart();

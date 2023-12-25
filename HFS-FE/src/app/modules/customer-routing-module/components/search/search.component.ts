@@ -11,6 +11,7 @@ import { AddToCart } from '../../models/addToCart.model';
 import { Shop } from '../../models/shop.model';
 import { ShoppingCartPopupService } from 'src/app/services/shopping-cart-popup.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from 'src/app/services/auth.service';
 interface PageEvent {
   first?: number;
   rows?: number;
@@ -44,6 +45,7 @@ export class SearchComponent extends iComponentBase implements OnInit {
     private _router: Router,
     private _route: ActivatedRoute,
     private dataService: DataService,
+    private authService: AuthService,
     public presence: PresenceService,
     private shoppingCartService: ShoppingCartPopupService,
     public translate: TranslateService
@@ -170,6 +172,11 @@ export class SearchComponent extends iComponentBase implements OnInit {
   }
 
   async onAddToCart(foodId: number) {
+    const user = this.authService.getUserInfor();
+    if(user == null){
+      this._router.navigate(['/login']);
+      return
+    }
     try {
       this.loading = true;
       let cartItem = new AddToCart();
