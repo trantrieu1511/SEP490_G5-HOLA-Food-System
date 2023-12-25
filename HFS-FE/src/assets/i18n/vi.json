@@ -283,10 +283,10 @@
     "ShopList": "Danh sách cửa hàng",
     "Viewdetailofshop": "Chi tiết cửa hàng",
     "EntertoSearch": "Nhập để tìm kiếm",
-    "SortByPrice": "Sắp xếp theo giá",
+    "SortByPrice": "Sắp xếp",
     "SearchbyName": "Tìm kiếm theo tên",
-    "OderedHightoLow": "Sắp xếp từ Cao xuống Thấp",
-    "OderedLowtoHigh": "Sắp xếp từ Thấp đến Cao",
+    "OderedHightoLow": "Số lượng bán từ Cao xuống Thấp",
+    "OderedLowtoHigh": "Số lượng bán từ Thấp đến Cao",
     "StarLowtoHigh": "Sao thấp đến cao",
     "StarHightoLow": "Sao cao đến thấp",
     "NumberOrdered": "Lượng đặt hàng"
