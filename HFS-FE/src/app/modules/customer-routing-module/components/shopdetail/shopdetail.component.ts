@@ -310,10 +310,10 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
       //
       let response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.REPORT_SELLER, param22);
       if (response && response.success === true) {
-        this.showMessage(mType.success, "Notification", `Report the food successfully`, 'notify');
+        this.showMessage(mType.success, "Notification", `Report the shop successfully`, 'notify');
         console.log(response);
         this.uploadedFiles = [];
-        console.log('Create new food report successfully');
+        console.log('Create new shop report successfully');
       }
       else {
         // this.showMessage(mType.warn, "Error", this.iServiceBase.formatMessageError(response.message), 'notify');
