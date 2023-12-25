@@ -215,6 +215,12 @@ export class ShopdetailComponent extends iComponentBase implements OnInit, After
   }
 
   async onAddToCart(foodId: number) {
+    const user = this.authService.getUserInfor();
+    if(user == null){
+      this.router.navigate(['/login']);
+      return
+    }
+    
     try {
       this.loading = true;
       let cartItem = new AddToCart();
