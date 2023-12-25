@@ -24,7 +24,7 @@ namespace HFS_BE.Utils
             var notifyLst = GenNotificationBase(receiver, "System", "System");
             //english
             notifyLst[0].Title = "New Order";
-            notifyLst[0].Content = $"Order ID: {orderId} transferred to you";
+            notifyLst[0].Content = $"Order ID: {orderId} is commissioned to you";
             //vietnamese
             notifyLst[1].Title = "Đơn hàng mới";
             notifyLst[1].Content = $"Đơn hàng ID: {orderId} được uỷ thác cho bạn";
